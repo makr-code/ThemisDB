@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_result_stream" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::ResultStream</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_result_iterator" prot="public" virt="non-virtual">themis::query::ResultIterator&lt; T &gt;</basecompoundref>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_result_stream_1_1_statistics" prot="public">themis::query::ResultStream::Statistics</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1af68d6a43750f249d2a06ad1bfb32d4c9" prot="private" static="no" mutable="no">
+        <type>std::function&lt; Result&lt; std::vector&lt; T &gt; &gt;(const <ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref> &amp;, size_t)&gt;</type>
+        <definition>std::function&lt;Result&lt;std::vector&lt;T&gt; &gt;(const PaginationCursor&amp;, size_t)&gt; themis::query::ResultStream&lt; T &gt;::source_</definition>
+        <argsstring></argsstring>
+        <name>source_</name>
+        <qualifiedname>themis::query::ResultStream::source_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="120" column="21" bodyfile="include/query/result_stream.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a597c3701edd70dc08962b305ae86efd9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+        <definition>StreamConfig themis::query::ResultStream&lt; T &gt;::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::ResultStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="123" column="18" bodyfile="include/query/result_stream.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a9259cdbca3af74a4daf428d00f2047ff" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a885ba9566f02a79ca220b6561f4388b5" kindref="member">PaginationStrategy</ref></type>
+        <definition>PaginationStrategy themis::query::ResultStream&lt; T &gt;::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::query::ResultStream::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="124" column="24" bodyfile="include/query/result_stream.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a078fed5b3c1296db67d1609ee7431f47" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; themis::query::ResultStream&lt; T &gt;::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::query::ResultStream::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="127" column="17" bodyfile="include/query/result_stream.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a16da9ec8ce99b0bb82012769ebb69d51" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::buffer_pos_</definition>
+        <argsstring></argsstring>
+        <name>buffer_pos_</name>
+        <qualifiedname>themis::query::ResultStream::buffer_pos_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="128" column="12" bodyfile="include/query/result_stream.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a0a9f8a21f72e54b8c3ccf9c780f34013" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref></type>
+        <definition>PaginationCursor themis::query::ResultStream&lt; T &gt;::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>themis::query::ResultStream::cursor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="129" column="22" bodyfile="include/query/result_stream.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1a2c450ec6d126903719df008925be833e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ResultStream&lt; T &gt;::is_materialized_</definition>
+        <argsstring></argsstring>
+        <name>is_materialized_</name>
+        <qualifiedname>themis::query::ResultStream::is_materialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="130" column="10" bodyfile="include/query/result_stream.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1ae035851ec00722add2fcebb1a7ef1674" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; themis::query::ResultStream&lt; T &gt;::materialized_data_</definition>
+        <argsstring></argsstring>
+        <name>materialized_data_</name>
+        <qualifiedname>themis::query::ResultStream::materialized_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="131" column="17" bodyfile="include/query/result_stream.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_result_stream_1aec8a903be9e2b6adf01c0dceb179a2ef" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_result_stream_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::query::ResultStream&lt; T &gt;::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::ResultStream::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="134" column="16" bodyfile="include/query/result_stream.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1aefa937b670012381d0d850b86342cf21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ResultStream&lt; T &gt;::~ResultStream</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ResultStream</name>
+        <qualifiedname>themis::query::ResultStream::~ResultStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="81" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1aee85f219a8abff957b834dad54e65d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ResultStream&lt; T &gt;::ResultStream</definition>
+        <argsstring>(std::function&lt; Result&lt; std::vector&lt; T &gt; &gt;(const PaginationCursor &amp;, size_t)&gt; source, StreamConfig config=StreamConfig(), PaginationStrategy strategy=PaginationStrategy::CURSOR_BASED)</argsstring>
+        <name>ResultStream</name>
+        <qualifiedname>themis::query::ResultStream::ResultStream</qualifiedname>
+        <param>
+          <type>std::function&lt; Result&lt; std::vector&lt; T &gt; &gt;(const <ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref> &amp;, size_t)&gt;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1query_1_1_stream_config" kindref="compound">StreamConfig</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a885ba9566f02a79ca220b6561f4388b5" kindref="member">PaginationStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1query_1a885ba9566f02a79ca220b6561f4388b5a1343c775b054dd1aeeb515545daae62a" kindref="member">PaginationStrategy::CURSOR_BASED</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="82" column="5" bodyfile="src/query/result_stream.cpp" bodystart="28" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a9c10c33e4a1f185acb22a974deffdf5d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ResultStream&lt; T &gt;::ResultStream</definition>
+        <argsstring>(std::vector&lt; T &gt; data, StreamConfig config=StreamConfig())</argsstring>
+        <name>ResultStream</name>
+        <qualifiedname>themis::query::ResultStream::ResultStream</qualifiedname>
+        <param>
+          <type>std::vector&lt; T &gt;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1query_1_1_stream_config" kindref="compound">StreamConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="88" column="14" bodyfile="src/query/result_stream.cpp" bodystart="43" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a2ab33f9a8ea39699412e846d4a573aee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ResultStream&lt; T &gt;::hasNext</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::query::ResultStream::hasNext</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1ad5e603659cce3d7487da46aecec8a105">hasNext</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="94" column="10" bodyfile="src/query/result_stream.cpp" bodystart="58" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1aaa9ac42c181de4c0310a6446e86e95af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; T &gt;</type>
+        <definition>Result&lt; T &gt; themis::query::ResultStream&lt; T &gt;::next</definition>
+        <argsstring>() override</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::query::ResultStream::next</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1a7f01209f2e7692709aa4b138a347261c">next</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="95" column="12" bodyfile="src/query/result_stream.cpp" bodystart="73" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a393569e588f1ef1d4c53b1ed3f464ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_result_batch" kindref="compound">ResultBatch</ref>&lt; T &gt; &gt;</type>
+        <definition>Result&lt; ResultBatch&lt; T &gt; &gt; themis::query::ResultStream&lt; T &gt;::nextBatch</definition>
+        <argsstring>(size_t batch_size) override</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::query::ResultStream::nextBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1a042fdd96b10f190408aadc01f76b80c2">nextBatch</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="96" column="12" bodyfile="src/query/result_stream.cpp" bodystart="113" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a9f9779c52b676f0325f255a026fe2ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::ResultStream&lt; T &gt;::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::ResultStream::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1a670ae9120f750411d313faf935f16e32">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="97" column="10" bodyfile="src/query/result_stream.cpp" bodystart="144" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a466298a26a49861df27e040ff69ad6c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::position</definition>
+        <argsstring>() const override</argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::ResultStream::position</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1a450e547c7f7e8569da9cf2eb361bf637">position</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="98" column="12" bodyfile="src/query/result_stream.cpp" bodystart="165" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a00a3aebfad719a3cecd30360ef9c3fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::ResultStream&lt; T &gt;::skip</definition>
+        <argsstring>(size_t count) override</argsstring>
+        <name>skip</name>
+        <qualifiedname>themis::query::ResultStream::skip</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_result_iterator_1a8126069c233b90561a9d2a20595b86f9">skip</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="99" column="12" bodyfile="src/query/result_stream.cpp" bodystart="173" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a9efef2e84bd21d89824ea7c56840c11d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref></type>
+        <definition>PaginationCursor themis::query::ResultStream&lt; T &gt;::cursor</definition>
+        <argsstring>() const</argsstring>
+        <name>cursor</name>
+        <qualifiedname>themis::query::ResultStream::cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="101" column="22" bodyfile="include/query/result_stream.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a098485ac0d51dbaeb279ac38a92a592e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ResultStream&lt; T &gt;::setCursor</definition>
+        <argsstring>(const PaginationCursor &amp;cursor)</argsstring>
+        <name>setCursor</name>
+        <qualifiedname>themis::query::ResultStream::setCursor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref> &amp;</type>
+          <declname>cursor</declname>
+        </param>
+        <briefdescription>
+<para>Set Cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cursor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="107" column="10" bodyfile="src/query/result_stream.cpp" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1add90ab839a3ad50642aeadf696749b21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_result_stream_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::query::ResultStream&lt; T &gt;::statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::query::ResultStream::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="116" column="16" bodyfile="include/query/result_stream.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a7d96a6851c6f893d970d026518a80045" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::ResultStream&lt; T &gt;::fillBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>fillBuffer</name>
+        <qualifiedname>themis::query::ResultStream::fillBuffer</qualifiedname>
+        <briefdescription>
+<para>Fill Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="141" column="12" bodyfile="src/query/result_stream.cpp" bodystart="223" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a8fee8b567e841eddfeca9ed57c2b865c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ResultStream&lt; T &gt;::shouldFillBuffer</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldFillBuffer</name>
+        <qualifiedname>themis::query::ResultStream::shouldFillBuffer</qualifiedname>
+        <briefdescription>
+<para>Should Fill Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="146" column="10" bodyfile="src/query/result_stream.cpp" bodystart="256" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_stream_1a68da5bfd3b7472d813a511e6871de5f7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ResultStream&lt; T &gt;::updateCursor</definition>
+        <argsstring>(const T &amp;item)</argsstring>
+        <name>updateCursor</name>
+        <qualifiedname>themis::query::ResultStream::updateCursor</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Update Cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="151" column="10" bodyfile="src/query/result_stream.cpp" bodystart="261" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::ResultIterator&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_iterator"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ResultStream&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::ResultIterator&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_iterator"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ResultStream&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/result_stream.h" line="79" column="1" bodyfile="include/query/result_stream.h" bodystart="79" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a078fed5b3c1296db67d1609ee7431f47" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a16da9ec8ce99b0bb82012769ebb69d51" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>buffer_pos_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a597c3701edd70dc08962b305ae86efd9" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a9efef2e84bd21d89824ea7c56840c11d" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>cursor</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a0a9f8a21f72e54b8c3ccf9c780f34013" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>cursor_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a7d96a6851c6f893d970d026518a80045" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>fillBuffer</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a2ab33f9a8ea39699412e846d4a573aee" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a2c450ec6d126903719df008925be833e" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>is_materialized_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1ae035851ec00722add2fcebb1a7ef1674" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>materialized_data_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1aaa9ac42c181de4c0310a6446e86e95af" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>next</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a393569e588f1ef1d4c53b1ed3f464ded" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>nextBatch</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a466298a26a49861df27e040ff69ad6c4" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>position</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a9f9779c52b676f0325f255a026fe2ac5" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1aee85f219a8abff957b834dad54e65d7d" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>ResultStream</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a9c10c33e4a1f185acb22a974deffdf5d" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>ResultStream</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a098485ac0d51dbaeb279ac38a92a592e" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>setCursor</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a8fee8b567e841eddfeca9ed57c2b865c" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>shouldFillBuffer</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a00a3aebfad719a3cecd30360ef9c3fcf" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>skip</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1af68d6a43750f249d2a06ad1bfb32d4c9" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>source_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1add90ab839a3ad50642aeadf696749b21" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1aec8a903be9e2b6adf01c0dceb179a2ef" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a9259cdbca3af74a4daf428d00f2047ff" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1a68da5bfd3b7472d813a511e6871de5f7" prot="private" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>updateCursor</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1afc31e0fe932d419009198fd3b26542c1" prot="public" virt="virtual"><scope>themis::query::ResultStream</scope><name>~ResultIterator</name></member>
+      <member refid="classthemis_1_1query_1_1_result_stream_1aefa937b670012381d0d850b86342cf21" prot="public" virt="non-virtual"><scope>themis::query::ResultStream</scope><name>~ResultStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

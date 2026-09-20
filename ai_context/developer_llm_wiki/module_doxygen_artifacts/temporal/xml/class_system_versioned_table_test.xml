@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_system_versioned_table_test" kind="class" language="C++" prot="public">
+    <compoundname>SystemVersionedTableTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_system_versioned_table_test_1a22a38c9332c76bed9f5bf8df4e63b919" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref></type>
+        <definition>SystemVersionedTable SystemVersionedTableTest::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>SystemVersionedTableTest::table</qualifiedname>
+        <initializer>{&quot;employees&quot;, &quot;node_a&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="16" column="26" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="16" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SystemVersionedTableTest</label>
+        <link refid="class_system_versioned_table_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SystemVersionedTableTest</label>
+        <link refid="class_system_versioned_table_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>table</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::SystemVersionedTable</label>
+        <link refid="classthemisdb_1_1temporal_1_1_system_versioned_table"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_system_versioned_table.cpp" line="14" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="14" bodyend="17"/>
+    <listofallmembers>
+      <member refid="class_system_versioned_table_test_1a22a38c9332c76bed9f5bf8df4e63b919" prot="protected" virt="non-virtual"><scope>SystemVersionedTableTest</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

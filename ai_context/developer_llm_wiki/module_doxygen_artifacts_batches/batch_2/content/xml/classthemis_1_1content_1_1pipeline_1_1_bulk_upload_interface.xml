@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::BulkUploadInterface</compoundname>
+    <derivedcompoundref refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader" prot="public" virt="non-virtual">themis::content::pipeline::AsyncBulkUploader</derivedcompoundref>
+    <includes refid="bulk__upload__interface_8h" local="no">bulk_upload_interface.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" prot="public">themis::content::pipeline::BulkUploadInterface::ContentMetadata</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" prot="public">themis::content::pipeline::BulkUploadInterface::UploadResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UploadStatus</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::UploadStatus</qualifiedname>
+        <enumvalue id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbaca69f96c768067fbff6c911ca87bccc9" prot="public">
+          <name>IN_PROGRESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="28" column="5" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;content_id, size_t bytes_uploaded, size_t total_bytes)&gt;</type>
+        <definition>using themis::content::pipeline::BulkUploadInterface::ProgressCallback = std::function&lt;void(const std::string&amp; content_id,
+                                                size_t bytes_uploaded,
+                                                size_t total_bytes)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::ProgressCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="51" column="5" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themis::content::pipeline::BulkUploadInterface::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="102" column="22" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1affac1552599982f0aca08bad2f679a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::BulkUploadInterface::BulkUploadInterface</definition>
+        <argsstring>()=default</argsstring>
+        <name>BulkUploadInterface</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::BulkUploadInterface</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1af8876f7dcfe2be42660ea14017ee1d7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::pipeline::BulkUploadInterface::~BulkUploadInterface</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BulkUploadInterface</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::~BulkUploadInterface</qualifiedname>
+        <briefdescription>
+<para>Bulk Upload Interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="60" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref></type>
+        <definition>BulkUploadInterface::UploadResult themis::content::pipeline::BulkUploadInterface::upload</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;content, const ContentMetadata &amp;metadata)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::upload</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader_1a27a38e706b0a4e14550f460463c309af">upload</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" kindref="compound">ContentMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" kindref="member">progress_callback_()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="68" column="26" bodyfile="src/content/pipeline/bulk_upload_interface.cpp" bodystart="27" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a093e79ece6884bb2f268b376e718589f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref> &gt;</type>
+        <definition>std::vector&lt; BulkUploadInterface::UploadResult &gt; themis::content::pipeline::BulkUploadInterface::bulk_upload</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;contents, const std::vector&lt; ContentMetadata &gt; &amp;metadata_list)</argsstring>
+        <name>bulk_upload</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::bulk_upload</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader_1aaf22d086dbf2fd34b3c9b31f26222e6c">bulk_upload</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>contents</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" kindref="compound">ContentMetadata</ref> &gt; &amp;</type>
+          <declname>metadata_list</declname>
+        </param>
+        <briefdescription>
+<para>Bulk upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">contents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">contents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(), <ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" kindref="member">upload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="77" column="25" bodyfile="src/content/pipeline/bulk_upload_interface.cpp" bodystart="62" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a6e809b3c768aca588ee0b8697b655aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::pipeline::BulkUploadInterface::set_progress_callback</definition>
+        <argsstring>(ProgressCallback callback)</argsstring>
+        <name>set_progress_callback</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::set_progress_callback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" kindref="member">ProgressCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_progress_callback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="85" column="10" bodyfile="src/content/pipeline/bulk_upload_interface.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a14f9a15a9986da6509c4060c52603614" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::pipeline::BulkUploadInterface::cancel_upload</definition>
+        <argsstring>(const std::string &amp;content_id)</argsstring>
+        <name>cancel_upload</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::cancel_upload</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader_1a039ada5e9dbacbe6512c020e262f5992">cancel_upload</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements cancel_upload without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="92" column="18" bodyfile="src/content/pipeline/bulk_upload_interface.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a8147f7c7b9af70215284f58d0511afd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">UploadStatus</ref></type>
+        <definition>BulkUploadInterface::UploadStatus themis::content::pipeline::BulkUploadInterface::get_upload_status</definition>
+        <argsstring>(const std::string &amp;content_id) const</argsstring>
+        <name>get_upload_status</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::get_upload_status</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader_1a95d6e5a61e783bb34d4c655b7fd0a5d0">get_upload_status</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Get upload status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="99" column="26" bodyfile="src/content/pipeline/bulk_upload_interface.cpp" bodystart="120" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::pipeline::AsyncBulkUploader</label>
+        <link refid="classthemis_1_1content_1_1pipeline_1_1_async_bulk_uploader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::content::pipeline::BulkUploadInterface</label>
+        <link refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/content/pipeline/bulk_upload_interface.h" line="26" column="1" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="26" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a093e79ece6884bb2f268b376e718589f" prot="public" virt="virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>bulk_upload</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1affac1552599982f0aca08bad2f679a23" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>BulkUploadInterface</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a14f9a15a9986da6509c4060c52603614" prot="public" virt="virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>cancel_upload</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a8147f7c7b9af70215284f58d0511afd3" prot="public" virt="virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>get_upload_status</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" prot="protected" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>progress_callback_</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a6e809b3c768aca588ee0b8697b655aa3" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>set_progress_callback</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" prot="public" virt="virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>upload</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>UploadStatus</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1af8876f7dcfe2be42660ea14017ee1d7b" prot="public" virt="virtual"><scope>themis::content::pipeline::BulkUploadInterface</scope><name>~BulkUploadInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

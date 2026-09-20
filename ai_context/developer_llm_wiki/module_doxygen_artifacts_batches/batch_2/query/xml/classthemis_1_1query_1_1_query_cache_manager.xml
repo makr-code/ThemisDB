@@ -1,0 +1,1025 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_cache_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryCacheManager</compoundname>
+    <includes refid="query__cache__manager_8h" local="no">query_cache_manager.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" prot="public">themis::query::QueryCacheManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics" prot="public">themis::query::QueryCacheManager::CacheStatistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1a4474d47a60e1f429f77276a5db4d8e61" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::QueryCacheManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::QueryCacheManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="181" column="12" bodyfile="include/query/query_cache_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1a3e91d2006e1d6b25608993dc70437816" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_cache" kindref="compound">QueryCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryCache&gt; themis::query::QueryCacheManager::basic_cache_</definition>
+        <argsstring></argsstring>
+        <name>basic_cache_</name>
+        <qualifiedname>themis::query::QueryCacheManager::basic_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="184" column="21" bodyfile="include/query/query_cache_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1af2a3e233893e4b5c9466db5e96381859" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AdaptiveQueryCache &gt;</type>
+        <definition>std::unique_ptr&lt;AdaptiveQueryCache&gt; themis::query::QueryCacheManager::adaptive_cache_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_cache_</name>
+        <qualifiedname>themis::query::QueryCacheManager::adaptive_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="185" column="21" bodyfile="include/query/query_cache_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1a6d4c0616f248b563f0a2b7244eed50f1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_workload_cache_strategy" kindref="compound">WorkloadCacheStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WorkloadCacheStrategy&gt; themis::query::QueryCacheManager::workload_strategy_</definition>
+        <argsstring></argsstring>
+        <name>workload_strategy_</name>
+        <qualifiedname>themis::query::QueryCacheManager::workload_strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="188" column="21" bodyfile="include/query/query_cache_manager.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1aa9c18f910547d3e601ce21c6dfc17c07" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics" kindref="compound">CacheStatistics</ref></type>
+        <definition>CacheStatistics themis::query::QueryCacheManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::QueryCacheManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="191" column="29" bodyfile="include/query/query_cache_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1a783ab339d9fa12065bd6cf30f844e49d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryCacheManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::query::QueryCacheManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="192" column="24" bodyfile="include/query/query_cache_manager.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cache_manager_1ae0dc0b0c3f8d5377e54519c56c9e467a" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::QueryCacheManager::last_stats_report_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_report_</name>
+        <qualifiedname>themis::query::QueryCacheManager::last_stats_report_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="195" column="43" bodyfile="include/query/query_cache_manager.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCacheManager::QueryCacheManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>QueryCacheManager</name>
+        <qualifiedname>themis::query::QueryCacheManager::QueryCacheManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Cache Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="106" column="14" bodyfile="src/query/query_cache_manager.cpp" bodystart="60" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a3426b527056f2e70617b5ef34352e021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCacheManager::~QueryCacheManager</definition>
+        <argsstring>()</argsstring>
+        <name>~QueryCacheManager</name>
+        <qualifiedname>themis::query::QueryCacheManager::~QueryCacheManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="108" column="5" bodyfile="src/query/query_cache_manager.cpp" bodystart="109" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a4c1e4785da534b86a8d0264aac46c810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCacheManager::QueryCacheManager</definition>
+        <argsstring>(const QueryCacheManager &amp;)=delete</argsstring>
+        <name>QueryCacheManager</name>
+        <qualifiedname>themis::query::QueryCacheManager::QueryCacheManager</qualifiedname>
+        <param>
+          <type>const QueryCacheManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a9b3c154bb19d1e9aa02af0bab9600497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" kindref="member">QueryCacheManager</ref> &amp;</type>
+        <definition>QueryCacheManager &amp; themis::query::QueryCacheManager::operator=</definition>
+        <argsstring>(const QueryCacheManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryCacheManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" kindref="member">QueryCacheManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="112" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a60c8e89e0eef942a5895862a4b3c84d2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCacheManager::QueryCacheManager</definition>
+        <argsstring>(QueryCacheManager &amp;&amp;) noexcept=default</argsstring>
+        <name>QueryCacheManager</name>
+        <qualifiedname>themis::query::QueryCacheManager::QueryCacheManager</qualifiedname>
+        <param>
+          <type>QueryCacheManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="113" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1ad67d9f92bb272e9312744f216b117c24" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" kindref="member">QueryCacheManager</ref> &amp;</type>
+        <definition>QueryCacheManager &amp; themis::query::QueryCacheManager::operator=</definition>
+        <argsstring>(QueryCacheManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryCacheManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" kindref="member">QueryCacheManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="114" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a9902b5ca0a3382b1f324d8532ec1001d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::query::QueryCacheManager::get</definition>
+        <argsstring>(const std::string &amp;query, const nlohmann::json &amp;params=nlohmann::json::object())</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::query::QueryCacheManager::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), has_value(), value(), generateFingerprint(), count(), updateHitStats(), THEMIS_DEBUG(), reportStatsIfNeeded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="116" column="19" bodyfile="src/query/query_cache_manager.cpp" bodystart="127" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a91973953b7282a1a9d5e3c57fbf63dc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::put</definition>
+        <argsstring>(const std::string &amp;query, const nlohmann::json &amp;params, const nlohmann::json &amp;result, const QueryCharacteristics &amp;characteristics, const std::vector&lt; std::string &gt; &amp;dependencies={})</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::query::QueryCacheManager::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &amp;</type>
+          <declname>characteristics</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>dependencies</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependencies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: generateFingerprint(), recordQuery(), shouldCache(), THEMIS_DEBUG(), substr(), calculateTTL(), putInBasicCache(), putInAdaptiveCache(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="121" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="182" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a2c8e7fc94ac9c63d6576ccc5bc5c1fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::invalidateByDependency</definition>
+        <argsstring>(const std::string &amp;dependency)</argsstring>
+        <name>invalidateByDependency</name>
+        <qualifiedname>themis::query::QueryCacheManager::invalidateByDependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dependency</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate By Dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dependency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="134" column="12" bodyfile="src/query/query_cache_manager.cpp" bodystart="259" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1ab6fd96e2457e529ec752b919bbd9f60e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::invalidate</definition>
+        <argsstring>(const std::string &amp;query, const nlohmann::json &amp;params=nlohmann::json::object())</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::query::QueryCacheManager::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: has_value(), generateFingerprint(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="136" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="292" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a994e7cc103e8756567ad721b52f16bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::QueryCacheManager::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), lock(), CacheStatistics(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="144" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="323" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1aed6445c0d948f90753843fc374a60082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::warmCache</definition>
+        <argsstring>(const std::map&lt; std::string, nlohmann::json &gt; &amp;query_results)</argsstring>
+        <name>warmCache</name>
+        <qualifiedname>themis::query::QueryCacheManager::warmCache</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, nlohmann::json &gt; &amp;</type>
+          <declname>query_results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="146" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="346" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1adacc0c72dae3bafaf14ba33fe1c8c767" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics" kindref="compound">CacheStatistics</ref></type>
+        <definition>QueryCacheManager::CacheStatistics themis::query::QueryCacheManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::QueryCacheManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="152" column="21" bodyfile="src/query/query_cache_manager.cpp" bodystart="382" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a602d257849cafdaa66f8b18d35e2a49c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::QueryCacheManager::getHotQueries</definition>
+        <argsstring>(size_t limit=100) const</argsstring>
+        <name>getHotQueries</name>
+        <qualifiedname>themis::query::QueryCacheManager::getHotQueries</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="154" column="17" bodyfile="src/query/query_cache_manager.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1ac61cf061fe81afb7abf95dafcf382803" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::QueryCacheManager::getCurrentWorkload</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentWorkload</name>
+        <qualifiedname>themis::query::QueryCacheManager::getCurrentWorkload</qualifiedname>
+        <briefdescription>
+<para>Get Current Workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="160" column="18" bodyfile="src/query/query_cache_manager.cpp" bodystart="407" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1ad076d0beb30f77f29f0b56d110ca0fe6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryCacheManager::getMonitoringInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getMonitoringInfo</name>
+        <qualifiedname>themis::query::QueryCacheManager::getMonitoringInfo</qualifiedname>
+        <briefdescription>
+<para>Get Monitoring Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="166" column="20" bodyfile="src/query/query_cache_manager.cpp" bodystart="415" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a4764871e1dfc584a4faee29fff35dcdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::query::QueryCacheManager::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="172" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a4c7c7b28a65ba3f0d6f35a0c0de94004" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>QueryCacheManager::Config themis::query::QueryCacheManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::query::QueryCacheManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1query_1_1_query_cache_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="178" column="12" bodyfile="src/query/query_cache_manager.cpp" bodystart="448" bodyend="450"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a2268ff689e37b30cc99cc3e6eb55c5ad" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCacheManager::generateFingerprint</definition>
+        <argsstring>(const std::string &amp;query, const nlohmann::json &amp;params) const</argsstring>
+        <name>generateFingerprint</name>
+        <qualifiedname>themis::query::QueryCacheManager::generateFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Generate Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="204" column="17" bodyfile="src/query/query_cache_manager.cpp" bodystart="456" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a9d7a1aa353cc86dddb3f3edd33054ea5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::updateHitStats</definition>
+        <argsstring>(bool hit, int64_t lookup_time_us)</argsstring>
+        <name>updateHitStats</name>
+        <qualifiedname>themis::query::QueryCacheManager::updateHitStats</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>hit</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>lookup_time_us</declname>
+        </param>
+        <briefdescription>
+<para>Update Hit Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lookup_time_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lookup_time_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="214" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="488" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1ae5989544d8aa9e3a6a8e0d287753b75b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::updateMemoryStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateMemoryStats</name>
+        <qualifiedname>themis::query::QueryCacheManager::updateMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Update Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getStats(), getDetailedInfo(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="218" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="522" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a63bfbc7d2a1b5f44deca0b200df9f286" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCacheManager::reportStatsIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>reportStatsIfNeeded</name>
+        <qualifiedname>themis::query::QueryCacheManager::reportStatsIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Report Stats If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), <ref refid="classthemis_1_1query_1_1_query_cache_manager_1adacc0c72dae3bafaf14ba33fe1c8c767" kindref="member">getStatistics()</ref>, THEMIS_INFO(), hitRate(), memoryUtilization(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="222" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="547" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a9efc4d320208d22ace7426800269d98f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::putInBasicCache</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;query, const nlohmann::json &amp;params, const nlohmann::json &amp;result, const std::vector&lt; std::string &gt; &amp;dependencies, std::chrono::seconds ttl)</argsstring>
+        <name>putInBasicCache</name>
+        <qualifiedname>themis::query::QueryCacheManager::putInBasicCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>dependencies</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Cache operations on selected implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put In Basic Cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependencies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependencies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_query_cache_manager_1a91973953b7282a1a9d5e3c57fbf63dc8" kindref="member">put()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="234" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="591" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cache_manager_1a0d71518bbcb5f4c0ee0bfae1eb03564c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCacheManager::putInAdaptiveCache</definition>
+        <argsstring>(const std::string &amp;fingerprint, const nlohmann::json &amp;params, const nlohmann::json &amp;result, std::chrono::seconds ttl)</argsstring>
+        <name>putInAdaptiveCache</name>
+        <qualifiedname>themis::query::QueryCacheManager::putInAdaptiveCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Put In Adaptive Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_query_cache_manager_1a91973953b7282a1a9d5e3c57fbf63dc8" kindref="member">put()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="251" column="10" bodyfile="src/query/query_cache_manager.cpp" bodystart="612" bodyend="621"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache_manager.h" line="30" column="1" bodyfile="include/query/query_cache_manager.h" bodystart="30" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1af2a3e233893e4b5c9466db5e96381859" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>adaptive_cache_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a3e91d2006e1d6b25608993dc70437816" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>basic_cache_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a994e7cc103e8756567ad721b52f16bcd" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a4474d47a60e1f429f77276a5db4d8e61" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a2268ff689e37b30cc99cc3e6eb55c5ad" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>generateFingerprint</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a9902b5ca0a3382b1f324d8532ec1001d" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>get</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a4c7c7b28a65ba3f0d6f35a0c0de94004" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ac61cf061fe81afb7abf95dafcf382803" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>getCurrentWorkload</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a602d257849cafdaa66f8b18d35e2a49c" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>getHotQueries</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ad076d0beb30f77f29f0b56d110ca0fe6" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>getMonitoringInfo</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1adacc0c72dae3bafaf14ba33fe1c8c767" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ab6fd96e2457e529ec752b919bbd9f60e" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a2c8e7fc94ac9c63d6576ccc5bc5c1fa4" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>invalidateByDependency</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ae0dc0b0c3f8d5377e54519c56c9e467a" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>last_stats_report_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a9b3c154bb19d1e9aa02af0bab9600497" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ad67d9f92bb272e9312744f216b117c24" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a91973953b7282a1a9d5e3c57fbf63dc8" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>put</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a0d71518bbcb5f4c0ee0bfae1eb03564c" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>putInAdaptiveCache</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a9efc4d320208d22ace7426800269d98f" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>putInBasicCache</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a05b316f0c1ea546fe2be2dae80fd1833" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>QueryCacheManager</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a4c1e4785da534b86a8d0264aac46c810" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>QueryCacheManager</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a60c8e89e0eef942a5895862a4b3c84d2" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>QueryCacheManager</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a63bfbc7d2a1b5f44deca0b200df9f286" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>reportStatsIfNeeded</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a4764871e1dfc584a4faee29fff35dcdf" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1aa9c18f910547d3e601ce21c6dfc17c07" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a783ab339d9fa12065bd6cf30f844e49d" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a9d7a1aa353cc86dddb3f3edd33054ea5" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>updateHitStats</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1ae5989544d8aa9e3a6a8e0d287753b75b" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>updateMemoryStats</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1aed6445c0d948f90753843fc374a60082" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>warmCache</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a6d4c0616f248b563f0a2b7244eed50f1" prot="private" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>workload_strategy_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cache_manager_1a3426b527056f2e70617b5ef34352e021" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager</scope><name>~QueryCacheManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

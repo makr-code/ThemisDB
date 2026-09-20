@@ -1,0 +1,645 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_intent_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::IntentClassifier</compoundname>
+    <includes refid="intent__classifier_8h" local="no">intent_classifier.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" prot="public">themis::security::IntentClassifier::ClassificationResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert" prot="public">themis::security::IntentClassifier::IntentAlert</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IntentType</name>
+        <qualifiedname>themis::security::IntentClassifier::IntentType</qualifiedname>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a0acb5f66f3c0048d379123b63d65b412" prot="public">
+          <name>LEGITIMATE</name>
+          <briefdescription>
+<para>Normal, benign query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a4e7a5650f1879b7b49c6828b92b8a80c" prot="public">
+          <name>SQL_INJECTION</name>
+          <briefdescription>
+<para>SQL injection pattern detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a45ca97de89d961927618e379db60ad87" prot="public">
+          <name>DATA_EXFILTRATION</name>
+          <briefdescription>
+<para>Bulk data extraction attempt. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a744ca0bbe6b604bc462165f01338faeb" prot="public">
+          <name>PRIVILEGE_ESCALATION</name>
+          <briefdescription>
+<para>Attempt to access out-of-scope resources. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a8aeca29aea06a16a5fbbc11e0b5b584b" prot="public">
+          <name>ANOMALOUS_PATTERN</name>
+          <briefdescription>
+<para>Unusual structure not matching known patterns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9aac667deccd2981b241ee8adfa89663a7" prot="public">
+          <name>DATA_DESTRUCTION</name>
+          <briefdescription>
+<para>AQL REMOVE / DROP COLLECTION / TRUNCATE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a999ee975ff966e15de132acf76d25c68" prot="public">
+          <name>SCHEMA_MUTATION</name>
+          <briefdescription>
+<para>AQL DDL: DROP INDEX, CREATE COLLECTION, etc. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="30" column="5" bodyfile="include/security/intent_classifier.h" bodystart="30" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoraLoadResult</name>
+        <qualifiedname>themis::security::IntentClassifier::LoraLoadResult</qualifiedname>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <briefdescription>
+<para>Model loaded and active. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88ac2d7d194e973a7cbd33f73ce31ed880b" prot="public">
+          <name>kEmptyPath</name>
+          <briefdescription>
+<para>Empty path provided; graceful no-op. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a544e79580363066cbb337e559d036538" prot="public">
+          <name>kFileNotAccessible</name>
+          <briefdescription>
+<para>File not found or not readable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="101" column="5" bodyfile="include/security/intent_classifier.h" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref>(const std::string &amp;query, const <ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref> &amp;session_context)&gt;</type>
+        <definition>using themis::security::IntentClassifier::InferenceFn = std::function&lt;
+       ClassificationResult(const std::string&amp; query,
+                            const ZeroTrustContext&amp; session_context)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceFn</name>
+        <qualifiedname>themis::security::IntentClassifier::InferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="125" column="5" bodyfile="include/security/intent_classifier.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_intent_classifier_1a4b6395263f3482166c50c6694b7e4bbf" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::security::IntentClassifier::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="143" column="17" bodyfile="include/security/intent_classifier.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_intent_classifier_1a43b3963b74ede4b0573296b8aeb7c703" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::lora_model_path_</definition>
+        <argsstring></argsstring>
+        <name>lora_model_path_</name>
+        <qualifiedname>themis::security::IntentClassifier::lora_model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="146" column="18" bodyfile="include/security/intent_classifier.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_intent_classifier_1a7e7e189e2752b3640c7cf0040096a209" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::IntentClassifier::lora_active_</definition>
+        <argsstring></argsstring>
+        <name>lora_active_</name>
+        <qualifiedname>themis::security::IntentClassifier::lora_active_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="147" column="18" bodyfile="include/security/intent_classifier.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_intent_classifier_1aaad1185c1836f8b090a3f8474b4903ac" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" kindref="member">InferenceFn</ref></type>
+        <definition>InferenceFn themis::security::IntentClassifier::inference_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_fn_</name>
+        <qualifiedname>themis::security::IntentClassifier::inference_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="148" column="18" bodyfile="include/security/intent_classifier.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_intent_classifier_1a278320d10e24563e16e3845ef0cd6c52" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::security::IntentClassifier::kEmbeddingDim</definition>
+        <argsstring></argsstring>
+        <name>kEmbeddingDim</name>
+        <qualifiedname>themis::security::IntentClassifier::kEmbeddingDim</qualifiedname>
+        <initializer>= 384</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="150" column="34" bodyfile="include/security/intent_classifier.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::IntentClassifier::IntentClassifier</definition>
+        <argsstring>(std::string shard_id=&quot;shard-0&quot;)</argsstring>
+        <name>IntentClassifier</name>
+        <qualifiedname>themis::security::IntentClassifier::IntentClassifier</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>shard_id</declname>
+          <defval>&quot;shard-0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="61" column="14" bodyfile="src/security/intent_classifier.cpp" bodystart="182" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a347f329cbea5eb9355ab1ecb31f0ea2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::IntentClassifier::~IntentClassifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IntentClassifier</name>
+        <qualifiedname>themis::security::IntentClassifier::~IntentClassifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1ac3bb5aae3434f654126d0713ea00b10a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::IntentClassifier::IntentClassifier</definition>
+        <argsstring>(const IntentClassifier &amp;)=default</argsstring>
+        <name>IntentClassifier</name>
+        <qualifiedname>themis::security::IntentClassifier::IntentClassifier</qualifiedname>
+        <param>
+          <type>const <ref refid="class_intent_classifier" kindref="compound">IntentClassifier</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a0b8ebb124922cc6c1dc953f3e11e4641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_intent_classifier" kindref="compound">IntentClassifier</ref> &amp;</type>
+        <definition>IntentClassifier &amp; themis::security::IntentClassifier::operator=</definition>
+        <argsstring>(const IntentClassifier &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::IntentClassifier::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_intent_classifier" kindref="compound">IntentClassifier</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="66" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1aa4fd1e59ac17a74a2278c91251490405" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref></type>
+        <definition>IntentClassifier::ClassificationResult themis::security::IntentClassifier::classify</definition>
+        <argsstring>(const std::string &amp;query, const ZeroTrustContext &amp;session_context) const</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::security::IntentClassifier::classify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref> &amp;</type>
+          <declname>session_context</declname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw query string to classify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current zero-trust context for the query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="75" column="26" bodyfile="src/security/intent_classifier.cpp" bodystart="202" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1acc82a33607ac10354902641b65b68478" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert" kindref="compound">IntentAlert</ref> &gt;</type>
+        <definition>std::optional&lt; IntentClassifier::IntentAlert &gt; themis::security::IntentClassifier::maybeAlert</definition>
+        <argsstring>(const ClassificationResult &amp;result, const std::string &amp;session_id, double confidence_threshold=0.85) const</argsstring>
+        <name>maybeAlert</name>
+        <qualifiedname>themis::security::IntentClassifier::maybeAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>confidence_threshold</declname>
+          <defval>0.85</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="80" column="19" bodyfile="src/security/intent_classifier.cpp" bodystart="271" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a81b01266aec208088536e516c4f54471" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::security::IntentClassifier::shardId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shardId</name>
+        <qualifiedname>themis::security::IntentClassifier::shardId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="90" column="23" bodyfile="include/security/intent_classifier.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a9476aa71fba1f684a48bed5c1d21993a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::IntentClassifier::setLoraModelPath</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>setLoraModelPath</name>
+        <qualifiedname>themis::security::IntentClassifier::setLoraModelPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Set Lora Model Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_intent_classifier_1a7038d3e2e42b1c2df6252fcdcb64658b" kindref="member">loadLoraModel()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="107" column="11" bodyfile="src/security/intent_classifier.cpp" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a7038d3e2e42b1c2df6252fcdcb64658b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" kindref="member">LoraLoadResult</ref></type>
+        <definition>IntentClassifier::LoraLoadResult themis::security::IntentClassifier::loadLoraModel</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>loadLoraModel</name>
+        <qualifiedname>themis::security::IntentClassifier::loadLoraModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>── LoRA-Adapter API (ASL-13 / IMPL-A2) ───────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), probe(), is_open(), <ref refid="namespacespdlog_1a734e0e5b473dde09e3cea1da3df67ad5" kindref="member">spdlog::warn()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="108" column="21" bodyfile="src/security/intent_classifier.cpp" bodystart="376" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a1c50aefeff9ec68bf152db6fb37acb56" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::IntentClassifier::isLoraActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLoraActive</name>
+        <qualifiedname>themis::security::IntentClassifier::isLoraActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="109" column="11" bodyfile="src/security/intent_classifier.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a04b071440734134197e61d0368e2b8e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::security::IntentClassifier::loraModelPath</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>loraModelPath</name>
+        <qualifiedname>themis::security::IntentClassifier::loraModelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="110" column="24" bodyfile="src/security/intent_classifier.cpp" bodystart="411" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1aaafa7031b20b17d8d4907e438b6dec5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::IntentClassifier::setInferenceFn</definition>
+        <argsstring>(InferenceFn fn)</argsstring>
+        <name>setInferenceFn</name>
+        <qualifiedname>themis::security::IntentClassifier::setInferenceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" kindref="member">InferenceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an inference function used by <ref refid="classthemis_1_1security_1_1_intent_classifier_1aa4fd1e59ac17a74a2278c91251490405" kindref="member">classify()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference function to inject.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference function to inject.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="133" column="10" bodyfile="src/security/intent_classifier.cpp" bodystart="190" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a1a45f9e0a872dfc3bc27ac11336d32e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::intentName</definition>
+        <argsstring>(IntentType t)</argsstring>
+        <name>intentName</name>
+        <qualifiedname>themis::security::IntentClassifier::intentName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Return a human-readable name for an intent type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Intent type to render. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Intent type to render. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements intentName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="97" column="24" bodyfile="src/security/intent_classifier.cpp" bodystart="315" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a63a1ed6bb02e930b7a11f555bea8f63c" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::security::IntentClassifier::riskDelta</definition>
+        <argsstring>(IntentType t) noexcept</argsstring>
+        <name>riskDelta</name>
+        <qualifiedname>themis::security::IntentClassifier::riskDelta</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="152" column="20" bodyfile="src/security/intent_classifier.cpp" bodystart="294" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_intent_classifier_1a6e4beb57c11fc226755210207c14d8fc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::security::IntentClassifier::buildEmbedding</definition>
+        <argsstring>(IntentType intent, const std::string &amp;primary_indicator)</argsstring>
+        <name>buildEmbedding</name>
+        <qualifiedname>themis::security::IntentClassifier::buildEmbedding</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref></type>
+          <declname>intent</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_indicator</declname>
+        </param>
+        <briefdescription>
+<para>Build a deterministic anonymized embedding from an intent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">intent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Intent category to encode. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_indicator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary indicator token used for the embedding. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">intent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Intent category to encode. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_indicator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary indicator token used for the embedding. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: emb(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="160" column="24" bodyfile="src/security/intent_classifier.cpp" bodystart="335" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/intent_classifier.h" line="24" column="1" bodyfile="include/security/intent_classifier.h" bodystart="24" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a6e4beb57c11fc226755210207c14d8fc" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>buildEmbedding</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1aa4fd1e59ac17a74a2278c91251490405" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>classify</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1aaad1185c1836f8b090a3f8474b4903ac" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>inference_fn_</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>InferenceFn</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>IntentClassifier</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1ac3bb5aae3434f654126d0713ea00b10a" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>IntentClassifier</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a1a45f9e0a872dfc3bc27ac11336d32e8" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>intentName</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>IntentType</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a1c50aefeff9ec68bf152db6fb37acb56" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>isLoraActive</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a278320d10e24563e16e3845ef0cd6c52" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>kEmbeddingDim</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a7038d3e2e42b1c2df6252fcdcb64658b" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>loadLoraModel</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a7e7e189e2752b3640c7cf0040096a209" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>lora_active_</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a43b3963b74ede4b0573296b8aeb7c703" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>lora_model_path_</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>LoraLoadResult</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a04b071440734134197e61d0368e2b8e4" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>loraModelPath</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1acc82a33607ac10354902641b65b68478" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>maybeAlert</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a0b8ebb124922cc6c1dc953f3e11e4641" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a63a1ed6bb02e930b7a11f555bea8f63c" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>riskDelta</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1aaafa7031b20b17d8d4907e438b6dec5c" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>setInferenceFn</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a9476aa71fba1f684a48bed5c1d21993a" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>setLoraModelPath</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a4b6395263f3482166c50c6694b7e4bbf" prot="private" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a81b01266aec208088536e516c4f54471" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>shardId</name></member>
+      <member refid="classthemis_1_1security_1_1_intent_classifier_1a347f329cbea5eb9355ab1ecb31f0ea2b" prot="public" virt="non-virtual"><scope>themis::security::IntentClassifier</scope><name>~IntentClassifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

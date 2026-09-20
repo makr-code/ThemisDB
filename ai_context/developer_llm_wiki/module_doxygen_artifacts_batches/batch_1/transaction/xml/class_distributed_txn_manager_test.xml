@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_txn_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedTxnManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_txn_manager_test_1a4ae320f81c9157019e573add4e50cb92" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_participant" kindref="compound">MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockParticipant&gt; DistributedTxnManagerTest::p1</definition>
+        <argsstring></argsstring>
+        <name>p1</name>
+        <qualifiedname>DistributedTxnManagerTest::p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="185" column="37" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_txn_manager_test_1aeed9dca6d11b7fd15a5725d33ac15f9b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_participant" kindref="compound">MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockParticipant&gt; DistributedTxnManagerTest::p2</definition>
+        <argsstring></argsstring>
+        <name>p2</name>
+        <qualifiedname>DistributedTxnManagerTest::p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="185" column="40" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_txn_manager_test_1ad50a099d936fa054bbdcfa7d2ab9df1e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_participant" kindref="compound">MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockParticipant&gt; DistributedTxnManagerTest::p3</definition>
+        <argsstring></argsstring>
+        <name>p3</name>
+        <qualifiedname>DistributedTxnManagerTest::p3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="185" column="43" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_txn_manager_test_1a536dc57ca61d43fbdad77215d0974cbe" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedTransactionManager&gt; DistributedTxnManagerTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>DistributedTxnManagerTest::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="186" column="23" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_txn_manager_test_1a0af748b43661c1ef57dcc4ce2510a24e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedTxnManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedTxnManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="172" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedTxnManagerTest</label>
+        <link refid="class_distributed_txn_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedTxnManagerTest</label>
+        <link refid="class_distributed_txn_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="170" column="1" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="170" bodyend="187"/>
+    <listofallmembers>
+      <member refid="class_distributed_txn_manager_test_1a536dc57ca61d43fbdad77215d0974cbe" prot="protected" virt="non-virtual"><scope>DistributedTxnManagerTest</scope><name>mgr</name></member>
+      <member refid="class_distributed_txn_manager_test_1a4ae320f81c9157019e573add4e50cb92" prot="protected" virt="non-virtual"><scope>DistributedTxnManagerTest</scope><name>p1</name></member>
+      <member refid="class_distributed_txn_manager_test_1aeed9dca6d11b7fd15a5725d33ac15f9b" prot="protected" virt="non-virtual"><scope>DistributedTxnManagerTest</scope><name>p2</name></member>
+      <member refid="class_distributed_txn_manager_test_1ad50a099d936fa054bbdcfa7d2ab9df1e" prot="protected" virt="non-virtual"><scope>DistributedTxnManagerTest</scope><name>p3</name></member>
+      <member refid="class_distributed_txn_manager_test_1a0af748b43661c1ef57dcc4ce2510a24e" prot="protected" virt="non-virtual"><scope>DistributedTxnManagerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

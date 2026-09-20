@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::QuorumManager::Statistics</compoundname>
+    <includes refid="quorum__manager_8h" local="no">quorum_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a05123f40908a261af436ae755ab7d0d3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::total_writes</definition>
+        <argsstring></argsstring>
+        <name>total_writes</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::total_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of attempted write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="160" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1af1e753ea9dfb2ed779861bc599ce84a1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::successful_writes</definition>
+        <argsstring></argsstring>
+        <name>successful_writes</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::successful_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Writes that reached configured quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="161" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a46e080404ff2c79a4d7f7cd0d777c136" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::failed_writes</definition>
+        <argsstring></argsstring>
+        <name>failed_writes</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::failed_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Writes that did not reach quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="162" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a7758569c59836b83fc5cff0603fcc3e2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::total_reads</definition>
+        <argsstring></argsstring>
+        <name>total_reads</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::total_reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of attempted read operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="163" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a0b482840b317d3473b339aa5ed057931" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::successful_reads</definition>
+        <argsstring></argsstring>
+        <name>successful_reads</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::successful_reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Reads that reached configured quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="164" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1abf4252dc1a2eb94be06ba277720841c3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::failed_reads</definition>
+        <argsstring></argsstring>
+        <name>failed_reads</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::failed_reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Reads that did not reach quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="165" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1ad6129de6582f0b7a7bba1b0341fcac1c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::QuorumManager::Statistics::quorum_timeouts</definition>
+        <argsstring></argsstring>
+        <name>quorum_timeouts</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::Statistics::quorum_timeouts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of operations terminated due to timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="166" column="21" bodyfile="include/sharding/quorum_manager.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/quorum_manager.h" line="159" column="5" bodyfile="include/sharding/quorum_manager.h" bodystart="159" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1abf4252dc1a2eb94be06ba277720841c3" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>failed_reads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a46e080404ff2c79a4d7f7cd0d777c136" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>failed_writes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1ad6129de6582f0b7a7bba1b0341fcac1c" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>quorum_timeouts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a0b482840b317d3473b339aa5ed057931" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>successful_reads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1af1e753ea9dfb2ed779861bc599ce84a1" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>successful_writes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a7758569c59836b83fc5cff0603fcc3e2" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>total_reads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a05123f40908a261af436ae755ab7d0d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager::Statistics</scope><name>total_writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

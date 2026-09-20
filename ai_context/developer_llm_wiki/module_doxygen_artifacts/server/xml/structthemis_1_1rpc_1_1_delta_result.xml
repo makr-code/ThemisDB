@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_delta_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::DeltaResult</compoundname>
+    <includes refid="differential__update__engine_8h" local="no">differential_update_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_delta_result_1a371e5914fa8869750a5adba86784c0d8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::rpc::DeltaResult::unchanged_chunks</definition>
+        <argsstring></argsstring>
+        <name>unchanged_chunks</name>
+        <qualifiedname>themis::rpc::DeltaResult::unchanged_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="39" column="17" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_delta_result_1a227957323c9d51ca0d5847c637470d4e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::rpc::DeltaResult::changed_chunks</definition>
+        <argsstring></argsstring>
+        <name>changed_chunks</name>
+        <qualifiedname>themis::rpc::DeltaResult::changed_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="40" column="17" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_delta_result_1a5214ed57fdc32a4220e76a85b8e353f9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::DeltaResult::total_bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_saved</name>
+        <qualifiedname>themis::rpc::DeltaResult::total_bytes_saved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="41" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_delta_result_1a1e3c7e4dcab8f4f5483cb535b28c2dba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rpc::DeltaResult::savings_percentage</definition>
+        <argsstring></argsstring>
+        <name>savings_percentage</name>
+        <qualifiedname>themis::rpc::DeltaResult::savings_percentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="42" column="12" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/differential_update_engine.h" line="38" column="1" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="38" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_delta_result_1a227957323c9d51ca0d5847c637470d4e" prot="public" virt="non-virtual"><scope>themis::rpc::DeltaResult</scope><name>changed_chunks</name></member>
+      <member refid="structthemis_1_1rpc_1_1_delta_result_1a1e3c7e4dcab8f4f5483cb535b28c2dba" prot="public" virt="non-virtual"><scope>themis::rpc::DeltaResult</scope><name>savings_percentage</name></member>
+      <member refid="structthemis_1_1rpc_1_1_delta_result_1a5214ed57fdc32a4220e76a85b8e353f9" prot="public" virt="non-virtual"><scope>themis::rpc::DeltaResult</scope><name>total_bytes_saved</name></member>
+      <member refid="structthemis_1_1rpc_1_1_delta_result_1a371e5914fa8869750a5adba86784c0d8" prot="public" virt="non-virtual"><scope>themis::rpc::DeltaResult</scope><name>unchanged_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

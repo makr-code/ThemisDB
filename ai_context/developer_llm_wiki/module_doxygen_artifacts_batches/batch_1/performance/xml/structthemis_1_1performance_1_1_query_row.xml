@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_query_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::QueryRow</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_row_1af02fba0b8c662976bb0357072f5e5f1b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::performance::QueryRow::column_names</definition>
+        <argsstring></argsstring>
+        <name>column_names</name>
+        <qualifiedname>themis::performance::QueryRow::column_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="73" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_row_1aaaec578d91f3343e706191980d0a17a8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref> &gt;</type>
+        <definition>std::vector&lt;QueryValue&gt; themis::performance::QueryRow::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::performance::QueryRow::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="74" column="19" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_row_1a095d9f443c0277653d253cbca4a9c56b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryRow::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::QueryRow::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="76" column="12" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_row_1a3f3f527d025f3cef86731402613d458a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref> *</type>
+        <definition>const QueryValue * themis::performance::QueryRow::get</definition>
+        <argsstring>(const std::string &amp;col) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::QueryRow::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="78" column="22" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="78" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single result row returned by a compiled query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="72" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="72" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_query_row_1af02fba0b8c662976bb0357072f5e5f1b" prot="public" virt="non-virtual"><scope>themis::performance::QueryRow</scope><name>column_names</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_row_1a3f3f527d025f3cef86731402613d458a" prot="public" virt="non-virtual"><scope>themis::performance::QueryRow</scope><name>get</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_row_1a095d9f443c0277653d253cbca4a9c56b" prot="public" virt="non-virtual"><scope>themis::performance::QueryRow</scope><name>size</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_row_1aaaec578d91f3343e706191980d0a17a8" prot="public" virt="non-virtual"><scope>themis::performance::QueryRow</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

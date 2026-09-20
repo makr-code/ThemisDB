@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_redis_cache_coordinator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::RedisCacheCoordinatorConfig</compoundname>
+    <includes refid="distributed__cache__coordinator_8h" local="no">distributed_cache_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a50e6201d04dea921a3a9c3376b008f27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinatorConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::host</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="28" column="17" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1ac11521630923c395b43c51ed92c3ff1e" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::cache::RedisCacheCoordinatorConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::port</qualifiedname>
+        <initializer>= 6379</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="30" column="14" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a568ae5ad1a2a0208fd8558b418c6c4a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinatorConfig::channel_prefix</definition>
+        <argsstring></argsstring>
+        <name>channel_prefix</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::channel_prefix</qualifiedname>
+        <initializer>= &quot;themis:cache&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="32" column="17" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a97bc453fbd3920e4b282d7bbb38e7d75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinatorConfig::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="34" column="17" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a27e914c296b49f45538ebb0b3f9d6510" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::RedisCacheCoordinatorConfig::db_index</definition>
+        <argsstring></argsstring>
+        <name>db_index</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::db_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="36" column="9" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1adfc75f014811195c88970ca359affc7a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::RedisCacheCoordinatorConfig::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::connect_timeout_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="38" column="9" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a4784e0901d6b374c5e2568b0da27d6e7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::RedisCacheCoordinatorConfig::reconnect_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>reconnect_interval_ms</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::reconnect_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="40" column="9" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a87d15a8d19019f260f2e5b2f9ed88aa0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::RedisCacheCoordinatorConfig::max_message_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_message_bytes</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::max_message_bytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="42" column="12" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1ad4b8505ec703fe9ac7fe0ca32f9a08e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinatorConfig::hmac_secret</definition>
+        <argsstring></argsstring>
+        <name>hmac_secret</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinatorConfig::hmac_secret</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="44" column="17" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/distributed_cache_coordinator.h" line="27" column="1" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="27" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a568ae5ad1a2a0208fd8558b418c6c4a6" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>channel_prefix</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1adfc75f014811195c88970ca359affc7a" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a27e914c296b49f45538ebb0b3f9d6510" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>db_index</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1ad4b8505ec703fe9ac7fe0ca32f9a08e8" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>hmac_secret</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a50e6201d04dea921a3a9c3376b008f27" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a87d15a8d19019f260f2e5b2f9ed88aa0" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>max_message_bytes</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a97bc453fbd3920e4b282d7bbb38e7d75" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>password</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1ac11521630923c395b43c51ed92c3ff1e" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config_1a4784e0901d6b374c5e2568b0da27d6e7" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinatorConfig</scope><name>reconnect_interval_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

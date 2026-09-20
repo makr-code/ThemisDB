@@ -1,0 +1,999 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_graph_rag" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessGraphRag</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_process_knowledge_graph" prot="public">themis::process::ProcessGraphRag::ProcessKnowledgeGraph</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_compliance_check_result" prot="public">themis::process::ProcessGraphRag::ComplianceCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case" prot="public">themis::process::ProcessGraphRag::SimilarCase</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_alert" prot="public">themis::process::ProcessGraphRag::SlaAlert</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats" prot="public">themis::process::ProcessGraphRag::NodeDwellStats</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry" prot="private">themis::process::ProcessGraphRag::SlaRuleEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1process_1_1_process_graph_rag_1aa7cd440891b6d0fbc155c3a996254311" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_alert" kindref="compound">SlaAlert</ref> &amp;)&gt;</type>
+        <definition>using themis::process::ProcessGraphRag::SlaAlertCallback = std::function&lt;void(const SlaAlert&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SlaAlertCallback</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SlaAlertCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type invoked on SLA threshold crossing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="360" column="5" bodyfile="include/process/process_graph_rag.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1a45ed2cf3aa57d4244d23a3b8bdb113c4" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::process::ProcessGraphRag::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="410" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1a1909bc05659b36dc7f7a45294b67843a" prot="private" static="no" mutable="no">
+        <type>ProcessGraphManager &amp;</type>
+        <definition>ProcessGraphManager&amp; themis::process::ProcessGraphRag::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="411" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1a18c4d42dc5dce57d49a20fc754f86da9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+        <definition>ProcessModelManager&amp; themis::process::ProcessGraphRag::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="412" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1ab388c851415ba5daf0cc4dbc34b184c2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+        <definition>ProcessLinker&amp; themis::process::ProcessGraphRag::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="413" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1a61f52d49d4c7fb771e29728d3473008d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::ProcessGraphRag::sla_rules_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sla_rules_mutex_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::sla_rules_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="421" column="24" bodyfile="include/process/process_graph_rag.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_graph_rag_1aa4f58c04de2b7989dc009880994fcdbf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, SlaRuleEntry &gt;</type>
+        <definition>std::map&lt;std::string, SlaRuleEntry&gt; themis::process::ProcessGraphRag::sla_rules_</definition>
+        <argsstring></argsstring>
+        <name>sla_rules_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::sla_rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="422" column="14" bodyfile="include/process/process_graph_rag.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1aa73c42e1421c1bd505c86f33471564b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessGraphRag::ProcessGraphRag</definition>
+        <argsstring>(RocksDBWrapper &amp;db, ProcessGraphManager &amp;engine, ProcessModelManager &amp;models, ProcessLinker &amp;linker)</argsstring>
+        <name>ProcessGraphRag</name>
+        <qualifiedname>themis::process::ProcessGraphRag::ProcessGraphRag</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>ProcessGraphManager &amp;</type>
+          <declname>engine</declname>
+          <briefdescription><para>Execution engine (instance/token queries) </para>
+</briefdescription>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+          <declname>models</declname>
+          <briefdescription><para>Model definitions </para>
+</briefdescription>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+          <declname>linker</declname>
+          <briefdescription><para>Attachment layer </para>
+</briefdescription>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="151" column="5" bodyfile="src/process/process_graph_rag.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1ad0fea75fe4ff6855dba1bd2295123bc0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+        <definition>ProcessRagContext themis::process::ProcessGraphRag::retrieve</definition>
+        <argsstring>(std::string_view instance_id, std::string_view query, const ProcessRagConfig &amp;config={}) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::process::ProcessGraphRag::retrieve</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build the full retrieval context for a process instance and a free-text query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Orchestration sequence:<orderedlist>
+<listitem><para>Load instance state and active tokens.</para>
+</listitem><listitem><para>Extract subgraph around active nodes.</para>
+</listitem><listitem><para>Collect attachments.</para>
+</listitem><listitem><para>Check for missing required documents.</para>
+</listitem><listitem><para>Find similar historical cases.</para>
+</listitem><listitem><para>Assemble the LLM prompt. </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="172" column="24" bodyfile="src/process/process_graph_rag.cpp" bodystart="567" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1ad8de218c5631b89aae55bf26a77e0ee4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+        <definition>ProcessRagContext themis::process::ProcessGraphRag::retrieveForNode</definition>
+        <argsstring>(std::string_view instance_id, std::string_view node_id, std::string_view query, const ProcessRagConfig &amp;config={}) const</argsstring>
+        <name>retrieveForNode</name>
+        <qualifiedname>themis::process::ProcessGraphRag::retrieveForNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build retrieval context focused on a specific node within an instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used when the LLM needs to answer questions about a particular task step (e.g., &quot;Which documents are required at Schritt 3?&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="185" column="24" bodyfile="src/process/process_graph_rag.cpp" bodystart="731" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a235db68703fe195eba91011ed1f30447" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_process_knowledge_graph" kindref="compound">ProcessKnowledgeGraph</ref></type>
+        <definition>ProcessGraphRag::ProcessKnowledgeGraph themis::process::ProcessGraphRag::buildKnowledgeGraph</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>buildKnowledgeGraph</name>
+        <qualifiedname>themis::process::ProcessGraphRag::buildKnowledgeGraph</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Convert a stored process model definition into a <computeroutput>KnowledgeGraph-compatible</computeroutput> node/edge set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process nodes become <computeroutput>KGNode</computeroutput> objects (type <computeroutput>CONCEPT</computeroutput>). Sequence flows become <computeroutput>KGEdge</computeroutput> objects (relation <computeroutput>CAUSES</computeroutput> or <computeroutput>RELATED_TO</computeroutput>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="211" column="28" bodyfile="src/process/process_graph_rag.cpp" bodystart="151" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a9bcd93c12abfcebc049a43242b655693" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_process_knowledge_graph" kindref="compound">ProcessKnowledgeGraph</ref></type>
+        <definition>ProcessGraphRag::ProcessKnowledgeGraph themis::process::ProcessGraphRag::buildInstanceKnowledgeGraph</definition>
+        <argsstring>(std::string_view instance_id, const ProcessRagConfig &amp;config={}) const</argsstring>
+        <name>buildInstanceKnowledgeGraph</name>
+        <qualifiedname>themis::process::ProcessGraphRag::buildInstanceKnowledgeGraph</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build a <computeroutput>KnowledgeGraph</computeroutput> from a live process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes instance state nodes (active tasks, variables) and attachment nodes so the LLM can traverse relationships. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="221" column="28" bodyfile="src/process/process_graph_rag.cpp" bodystart="225" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a48d4d7e114bdce9cfe5bda1a3ff70df5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessGraphRag::extractSubgraph</definition>
+        <argsstring>(std::string_view model_id, const std::vector&lt; std::string &gt; &amp;seed_node_ids, int max_depth=2) const</argsstring>
+        <name>extractSubgraph</name>
+        <qualifiedname>themis::process::ProcessGraphRag::extractSubgraph</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>seed_node_ids</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+<para>Extract the subgraph around <computeroutput>seed_node_ids</computeroutput> using BFS up to <computeroutput>max_depth</computeroutput> hops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with keys <computeroutput>&quot;nodes&quot;</computeroutput> (array of node objects) and <computeroutput>&quot;edges&quot;</computeroutput> (array of edge objects). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="235" column="21" bodyfile="src/process/process_graph_rag.cpp" bodystart="318" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a82830ce3e681ce66a737610d5df5f2ce" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::process::ProcessGraphRag::computePpr</definition>
+        <argsstring>(const nlohmann::json &amp;normalized_graph, const std::vector&lt; std::string &gt; &amp;seed_node_ids, const PprConfig &amp;config={}) const</argsstring>
+        <name>computePpr</name>
+        <qualifiedname>themis::process::ProcessGraphRag::computePpr</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>normalized_graph</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>seed_node_ids</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_ppr_config" kindref="compound">PprConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compute Personalized PageRank (PPR) scores for all nodes in a process model graph, seeded from <computeroutput>seed_node_ids</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>PPR handles multi-hop queries better than BFS by propagating relevance across the entire graph with exponential distance decay.</para>
+<para>Uses power iteration: <programlisting><codeline><highlight class="normal">r<sp/>=<sp/>α<sp/>*<sp/>A^T<sp/>*<sp/>r<sp/>+<sp/>(1-α)<sp/>*<sp/>personalization</highlight></codeline>
+</programlisting> Terminates when ||r_new − r_old||₁ &lt; <computeroutput><ref refid="structthemis_1_1process_1_1_ppr_config_1a8cb91adab254347f2c82e675e5d2c6fa" kindref="member">PprConfig::convergence_epsilon</ref></computeroutput> or after <computeroutput><ref refid="structthemis_1_1process_1_1_ppr_config_1a58b1546b8f34d591317eaf7e50d8f15c" kindref="member">PprConfig::max_iterations</ref></computeroutput> steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>normalized_graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model normalized graph JSON ({<computeroutput>&quot;nodes&quot;</computeroutput>, <computeroutput>&quot;edges&quot;}</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seed_node_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting nodes (personalisation vector is uniform over these nodes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PPR tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Top-k (node_id, ppr_score) pairs sorted descending by score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build column-stochastic transition matrix stored as sparse out-degree lists transition[from] = [(to, weight)] (uniform weight over out-edges) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Power iteration: r = α * A^T * r + (1-α) * p <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">personal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="262" column="18" bodyfile="src/process/process_graph_rag.cpp" bodystart="393" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1ad8ae98078eb0626549d564c146c2c613" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::buildAdminProcessingPrompt</definition>
+        <argsstring>(const ProcessRagContext &amp;ctx) const</argsstring>
+        <name>buildAdminProcessingPrompt</name>
+        <qualifiedname>themis::process::ProcessGraphRag::buildAdminProcessingPrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Build a German (or English) system prompt for an LLM agent managing a Verwaltungsvorgang. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The prompt includes: process state, active tasks, attached documents, missing documents, compliance tags, SLA status, subgraph description, and similar historical cases. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="278" column="18" bodyfile="src/process/process_graph_rag.cpp" bodystart="1352" bodyend="1356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a2ee559d0a29018d6c79380193ad6d445" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::buildQueryPrompt</definition>
+        <argsstring>(const ProcessRagContext &amp;ctx) const</argsstring>
+        <name>buildQueryPrompt</name>
+        <qualifiedname>themis::process::ProcessGraphRag::buildQueryPrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Build a query-specific user prompt (e.g. for &quot;Was fehlt noch?&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="285" column="18" bodyfile="src/process/process_graph_rag.cpp" bodystart="1358" bodyend="1365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a993d73ca0378f6ebec02e1e7ea508f74" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessGraphRag::summarizeVerwaltungsvorgang</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>summarizeVerwaltungsvorgang</name>
+        <qualifiedname>themis::process::ProcessGraphRag::summarizeVerwaltungsvorgang</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Summarise a Verwaltungsvorgang for an officer or a case-management UI. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;instance_id&quot;:<sp/>&quot;…&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;process_name&quot;:<sp/>&quot;…&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;state&quot;:<sp/>&quot;RUNNING&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;current_tasks&quot;:<sp/>[&quot;…&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;progress_pct&quot;:<sp/>42.5,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;missing_documents&quot;:<sp/>[&quot;Bauzeichnung&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;compliance_status&quot;:<sp/>&quot;ok&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;sla_status&quot;:<sp/>&quot;on_time&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;attachments_count&quot;:<sp/>3,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;variables&quot;:<sp/>{<sp/>…<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="310" column="21" bodyfile="src/process/process_graph_rag.cpp" bodystart="770" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a20e71183436493c58b8fdfa1cc9e789a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref></type>
+        <definition>ProcessGraphRag::ComplianceCheckResult themis::process::ProcessGraphRag::checkCompliance</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>checkCompliance</name>
+        <qualifiedname>themis::process::ProcessGraphRag::checkCompliance</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="323" column="28" bodyfile="src/process/process_graph_rag.cpp" bodystart="871" bodyend="985"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a674aeee141f7294d47a40f88e2836c08" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case" kindref="compound">SimilarCase</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessGraphRag::SimilarCase &gt; themis::process::ProcessGraphRag::findSimilarCases</definition>
+        <argsstring>(std::string_view instance_id, int k=5, float min_similarity=0.6f) const</argsstring>
+        <name>findSimilarCases</name>
+        <qualifiedname>themis::process::ProcessGraphRag::findSimilarCases</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.6f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="342" column="18" bodyfile="src/process/process_graph_rag.cpp" bodystart="992" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1afd1f880a5c7bff78671c854ad06270ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessGraphRag::registerSlaRule</definition>
+        <argsstring>(std::string_view instance_id, int64_t sla_ms, std::string_view process_name, themisdb::analytics::CEPEngine &amp;cep, SlaAlertCallback on_alert=nullptr)</argsstring>
+        <name>registerSlaRule</name>
+        <qualifiedname>themis::process::ProcessGraphRag::registerSlaRule</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>sla_ms</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_name</declname>
+        </param>
+        <param>
+          <type>themisdb::analytics::CEPEngine &amp;</type>
+          <declname>cep</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_graph_rag_1aa7cd440891b6d0fbc155c3a996254311" kindref="member">SlaAlertCallback</ref></type>
+          <declname>on_alert</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Register Sla Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register an SLA CEP rule for <computeroutput>instance_id</computeroutput>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active process instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sla_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SLA deadline in milliseconds from process start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable name for alert messages. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CEP engine to register the rule with. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback invoked when alert fires (may be null).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sla_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">on_alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sla_rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="368" column="10" bodyfile="src/process/process_graph_rag.cpp" bodystart="1379" bodyend="1469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a9c6d5a9d6557912b7a2daba69c2810dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessGraphRag::deregisterSlaRule</definition>
+        <argsstring>(std::string_view instance_id, themisdb::analytics::CEPEngine &amp;cep)</argsstring>
+        <name>deregisterSlaRule</name>
+        <qualifiedname>themis::process::ProcessGraphRag::deregisterSlaRule</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>themisdb::analytics::CEPEngine &amp;</type>
+          <declname>cep</declname>
+        </param>
+        <briefdescription>
+<para>Deregister Sla Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deregister the SLA CEP rules for <computeroutput>instance_id</computeroutput>. Safe to call if no rule was registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sla_rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="376" column="10" bodyfile="src/process/process_graph_rag.cpp" bodystart="1476" bodyend="1502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1aca2023ffa9b2b3ec725a0f2b46da2505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessGraphRag::recordNodeCompletion</definition>
+        <argsstring>(std::string_view model_id, std::string_view node_id, std::string_view node_name, int64_t dwell_ms)</argsstring>
+        <name>recordNodeCompletion</name>
+        <qualifiedname>themis::process::ProcessGraphRag::recordNodeCompletion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>dwell_ms</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Cross-Case Bottleneck Analytics (Q4 2026) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record the completion of a node to update the cross-case aggregate. Call this after each task/activity completes in an instance. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier within the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable node name (for display). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dwell_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time spent at this node in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dwell_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="396" column="10" bodyfile="src/process/process_graph_rag.cpp" bodystart="1544" bodyend="1584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a8a4acc0ff850283cf002e85d7cbdd58a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats" kindref="compound">NodeDwellStats</ref> &gt;</type>
+        <definition>std::vector&lt; ProcessGraphRag::NodeDwellStats &gt; themis::process::ProcessGraphRag::analyzeBottlenecks</definition>
+        <argsstring>(std::string_view model_id, int top_n=5) const</argsstring>
+        <name>analyzeBottlenecks</name>
+        <qualifiedname>themis::process::ProcessGraphRag::analyzeBottlenecks</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_n</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the top-<computeroutput>top_n</computeroutput> bottleneck nodes for <computeroutput>model_id</computeroutput>, sorted descending by avg_dwell_ms. Returns empty vector if no data is available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="404" column="18" bodyfile="src/process/process_graph_rag.cpp" bodystart="1586" bodyend="1639"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1ab493e601cbb2e5d84b166d520efb054f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessGraphRag::fireSlaAlert_</definition>
+        <argsstring>(const std::string &amp;instance_id, const std::string &amp;process_name, int64_t sla_ms, int64_t elapsed_ms, const std::string &amp;status)</argsstring>
+        <name>fireSlaAlert_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::fireSlaAlert_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>process_name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>sla_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>elapsed_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Fire Sla Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fire an SLA alert to the registered callback (if any) for <computeroutput>instance_id</computeroutput>. Exceptions from the callback are caught and logged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sla_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sla_rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="426" column="10" bodyfile="src/process/process_graph_rag.cpp" bodystart="1512" bodyend="1534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1ae82b353cdaad8ff9a28d212f477551f0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::process::ProcessGraphRag::scoreNodeRelevance_</definition>
+        <argsstring>(const nlohmann::json &amp;node_doc, std::string_view query, const std::vector&lt; std::string &gt; &amp;active_nodes) const</argsstring>
+        <name>scoreNodeRelevance_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::scoreNodeRelevance_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>node_doc</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>active_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Score how relevant <computeroutput>node_doc</computeroutput> is to <computeroutput>query</computeroutput> given <computeroutput>active_nodes</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Qstr. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="433" column="11" bodyfile="src/process/process_graph_rag.cpp" bodystart="531" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_graph_rag_1a7df1d4df51436d876945b9ea7882c189" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::assemblePrompt_</definition>
+        <argsstring>(const ProcessRagContext &amp;ctx, const ProcessRagConfig &amp;config) const</argsstring>
+        <name>assemblePrompt_</name>
+        <qualifiedname>themis::process::ProcessGraphRag::assemblePrompt_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Assemble the final LLM prompt string from context and config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="440" column="17" bodyfile="src/process/process_graph_rag.cpp" bodystart="1163" bodyend="1346"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Core Graph-RAG engine for Verwaltungsvorgänge. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Orchestrates retrieval from the process execution engine (<computeroutput>ProcessGraphManager</computeroutput>), the process model store (<computeroutput><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref></computeroutput>), and the attachment layer (<computeroutput><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref></computeroutput>) to produce a rich context object that can be forwarded to a large language model.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_graph_rag_1aa73c42e1421c1bd505c86f33471564b0" kindref="member">ProcessGraphRag</ref><sp/>rag(db,<sp/>engine,<sp/>models,<sp/>linker);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>rag.retrieve(</highlight><highlight class="stringliteral">&quot;inst-42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Was<sp/>fehlt<sp/>noch<sp/>für<sp/>den<sp/>Bauantrag?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>ctx.llm_prompt<sp/>is<sp/>ready<sp/>to<sp/>send<sp/>to<sp/>the<sp/>LLM</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="149" column="1" bodyfile="include/process/process_graph_rag.h" bodystart="149" bodyend="444"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a8a4acc0ff850283cf002e85d7cbdd58a" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>analyzeBottlenecks</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a7df1d4df51436d876945b9ea7882c189" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>assemblePrompt_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ad8ae98078eb0626549d564c146c2c613" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>buildAdminProcessingPrompt</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a9bcd93c12abfcebc049a43242b655693" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>buildInstanceKnowledgeGraph</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a235db68703fe195eba91011ed1f30447" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>buildKnowledgeGraph</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a2ee559d0a29018d6c79380193ad6d445" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>buildQueryPrompt</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a20e71183436493c58b8fdfa1cc9e789a" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>checkCompliance</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a82830ce3e681ce66a737610d5df5f2ce" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>computePpr</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a45ed2cf3aa57d4244d23a3b8bdb113c4" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a9c6d5a9d6557912b7a2daba69c2810dc" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>deregisterSlaRule</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a1909bc05659b36dc7f7a45294b67843a" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a48d4d7e114bdce9cfe5bda1a3ff70df5" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>extractSubgraph</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a674aeee141f7294d47a40f88e2836c08" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>findSimilarCases</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ab493e601cbb2e5d84b166d520efb054f" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>fireSlaAlert_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ab388c851415ba5daf0cc4dbc34b184c2" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>linker_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a18c4d42dc5dce57d49a20fc754f86da9" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>models_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1aa73c42e1421c1bd505c86f33471564b0" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>ProcessGraphRag</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1aca2023ffa9b2b3ec725a0f2b46da2505" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>recordNodeCompletion</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1afd1f880a5c7bff78671c854ad06270ca" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>registerSlaRule</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ad0fea75fe4ff6855dba1bd2295123bc0" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ad8de218c5631b89aae55bf26a77e0ee4" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>retrieveForNode</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1ae82b353cdaad8ff9a28d212f477551f0" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>scoreNodeRelevance_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1aa4f58c04de2b7989dc009880994fcdbf" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>sla_rules_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a61f52d49d4c7fb771e29728d3473008d" prot="private" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>sla_rules_mutex_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1aa7cd440891b6d0fbc155c3a996254311" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>SlaAlertCallback</name></member>
+      <member refid="classthemis_1_1process_1_1_process_graph_rag_1a993d73ca0378f6ebec02e1e7ea508f74" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag</scope><name>summarizeVerwaltungsvorgang</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

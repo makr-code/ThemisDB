@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_i_approximate_aggregator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::IApproximateAggregator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_approximate_count_distinct" prot="public" virt="non-virtual">themis::query::ApproximateCountDistinct</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_approximate_percentile" prot="public" virt="non-virtual">themis::query::ApproximatePercentile</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_sampling_aggregator" prot="public" virt="non-virtual">themis::query::SamplingAggregator</derivedcompoundref>
+    <includes refid="approximate__aggregator_8h" local="no">approximate_aggregator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a94d61c4a77b22eef7b3f51452588978f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::IApproximateAggregator::~IApproximateAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IApproximateAggregator</name>
+        <qualifiedname>themis::query::IApproximateAggregator::~IApproximateAggregator</qualifiedname>
+        <briefdescription>
+<para>IApproximate Aggregator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a7ba1f4a7e5d64a0b5a40612402c9809a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::IApproximateAggregator::add</definition>
+        <argsstring>(const nlohmann::json &amp;value)=0</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::query::IApproximateAggregator::add</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_count_distinct_1a1515241558f3884589ef7b8936326d40">add</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_percentile_1a26ac529f8d3f7a5c06f8c38a6be96344">add</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_sampling_aggregator_1a3bc2e542212775ab9a821831de88cb4c">add</reimplementedby>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="37" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a4ce88665bce35a41d85cebec961c53f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::IApproximateAggregator::merge</definition>
+        <argsstring>(const IApproximateAggregator &amp;other)=0</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::query::IApproximateAggregator::merge</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_count_distinct_1a1a3890cdb9f43eb17991582426cc74e8">merge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_percentile_1a99a8f50975ab647c39aa1c3ff590789f">merge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_sampling_aggregator_1a65bd8433d48d844902243fe675b61f28">merge</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_i_approximate_aggregator" kindref="compound">IApproximateAggregator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a7a3ebe6ca0df0cf8a50c6dd380b97e33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::query::IApproximateAggregator::estimate</definition>
+        <argsstring>() const =0</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::query::IApproximateAggregator::estimate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_count_distinct_1a7813e1bf7077e3e74bcf14a7245a17f3">estimate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_percentile_1aa3855af7d5fcbd18fcfad9016a3c8bb7">estimate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_sampling_aggregator_1a795e3e9eef298d70eda61fc9b3e4e3a2">estimate</reimplementedby>
+        <briefdescription>
+<para>Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="49" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a8e960b8bf0a180e9d1a6588c0dbdbb97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::query::IApproximateAggregator::errorRate</definition>
+        <argsstring>() const =0</argsstring>
+        <name>errorRate</name>
+        <qualifiedname>themis::query::IApproximateAggregator::errorRate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_count_distinct_1aa884ad6facf47c876b3240882ff5b349">errorRate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_percentile_1a57c2b011772b39385cc840ea68cac883">errorRate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_sampling_aggregator_1aaf4d045b6a33c9a0d603012cff9cf601">errorRate</reimplementedby>
+        <briefdescription>
+<para>Error Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="55" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_approximate_aggregator_1a593255b733c4cb87cc5f7edfdfd90cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::IApproximateAggregator::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::IApproximateAggregator::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_count_distinct_1ace48ed8aae25d403f7c743d2955aa97e">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_approximate_percentile_1a028dbdc919d067529f72662dcfc4ed6f">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_sampling_aggregator_1a352cbf0e93264b7cbff36ae173166c53">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="60" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::ApproximateCountDistinct</label>
+        <link refid="classthemis_1_1query_1_1_approximate_count_distinct"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::ApproximatePercentile</label>
+        <link refid="classthemis_1_1query_1_1_approximate_percentile"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::IApproximateAggregator</label>
+        <link refid="classthemis_1_1query_1_1_i_approximate_aggregator"/>
+      </node>
+      <node id="4">
+        <label>themis::query::SamplingAggregator</label>
+        <link refid="classthemis_1_1query_1_1_sampling_aggregator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/approximate_aggregator.h" line="25" column="1" bodyfile="include/query/approximate_aggregator.h" bodystart="25" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a7ba1f4a7e5d64a0b5a40612402c9809a" prot="public" virt="pure-virtual"><scope>themis::query::IApproximateAggregator</scope><name>add</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a8e960b8bf0a180e9d1a6588c0dbdbb97" prot="public" virt="pure-virtual"><scope>themis::query::IApproximateAggregator</scope><name>errorRate</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a7a3ebe6ca0df0cf8a50c6dd380b97e33" prot="public" virt="pure-virtual"><scope>themis::query::IApproximateAggregator</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a4ce88665bce35a41d85cebec961c53f8" prot="public" virt="pure-virtual"><scope>themis::query::IApproximateAggregator</scope><name>merge</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a593255b733c4cb87cc5f7edfdfd90cf2" prot="public" virt="pure-virtual"><scope>themis::query::IApproximateAggregator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_i_approximate_aggregator_1a94d61c4a77b22eef7b3f51452588978f" prot="public" virt="virtual"><scope>themis::query::IApproximateAggregator</scope><name>~IApproximateAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

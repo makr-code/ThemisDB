@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_ocr_word" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::OcrWord</compoundname>
+    <includes refid="tesseract__ocr__plugin_8h" local="no">tesseract_ocr_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a7ceff29b1ab5d668ddac7561e476fce0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::OcrWord::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::plugins::image::OcrWord::text</qualifiedname>
+        <briefdescription>
+<para>Recognised word text (UTF-8). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="62" column="17" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a78a5231a3e4ae968a84f7fe408f3cc39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::OcrWord::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::image::OcrWord::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tesseract confidence 0–100 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="63" column="11" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1ac91d39e93690f32d42d125dd021961f1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::OcrWord::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::plugins::image::OcrWord::x</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Normalised bounding box [0, 1] in image coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="65" column="11" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2f8fead24f32d8e9ee9d455063cec201" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::OcrWord::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::plugins::image::OcrWord::y</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="66" column="11" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1aaef10aa8a91252b6d0785b6d9048dd4b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::OcrWord::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::plugins::image::OcrWord::width</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="67" column="11" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2bd4df70d7790810f81a775b650170b3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::OcrWord::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::plugins::image::OcrWord::height</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="68" column="11" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-word OCR result with confidence and bounding box. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/tesseract_ocr_plugin.h" line="61" column="1" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="61" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a78a5231a3e4ae968a84f7fe408f3cc39" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2bd4df70d7790810f81a775b650170b3" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>height</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a7ceff29b1ab5d668ddac7561e476fce0" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>text</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1aaef10aa8a91252b6d0785b6d9048dd4b" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>width</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1ac91d39e93690f32d42d125dd021961f1" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>x</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_word_1a2f8fead24f32d8e9ee9d455063cec201" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrWord</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

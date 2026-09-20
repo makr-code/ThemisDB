@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_import_wizard_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ImportWizardManager</compoundname>
+    <includes refid="gui__import__wizard_8h" local="no">gui_import_wizard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_wizard_manager_1a174797184c2aa3aa12bbb2199540884f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_import_wizard" kindref="compound">ImportWizard</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ImportWizard&gt; themis::importers::ImportWizardManager::wizard_</definition>
+        <argsstring></argsstring>
+        <name>wizard_</name>
+        <qualifiedname>themis::importers::ImportWizardManager::wizard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="253" column="21" bodyfile="include/importers/gui_import_wizard.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_wizard_manager_1aede2d3d68e85f8872156e751c62d3ee7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::ImportWizardManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::importers::ImportWizardManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="254" column="24" bodyfile="include/importers/gui_import_wizard.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_manager_1aa87bdaa4e0068a3aa775ef575cc830da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ImportWizardManager &amp;</type>
+        <definition>ImportWizardManager &amp; themis::importers::ImportWizardManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::importers::ImportWizardManager::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="238" column="32" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="433" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_manager_1a2cff0b91a8ced909f28ef875e7d8188e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportWizardManager::configure</definition>
+        <argsstring>(ImportWizard::Config config)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::importers::ImportWizardManager::configure</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">ImportWizard::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="244" column="10" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_manager_1a59cc62d488ceda166717e3f9c8ae3918" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_import_wizard" kindref="compound">ImportWizard</ref> &amp;</type>
+        <definition>ImportWizard &amp; themis::importers::ImportWizardManager::wizard</definition>
+        <argsstring>()</argsstring>
+        <name>wizard</name>
+        <qualifiedname>themis::importers::ImportWizardManager::wizard</qualifiedname>
+        <briefdescription>
+<para>Wizard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="249" column="18" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="453" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_manager_1a63e734c3457e96e0f01d9bc3c3d9e0e1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImportWizardManager::ImportWizardManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>ImportWizardManager</name>
+        <qualifiedname>themis::importers::ImportWizardManager::ImportWizardManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="252" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/gui_import_wizard.h" line="232" column="1" bodyfile="include/importers/gui_import_wizard.h" bodystart="232" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1a2cff0b91a8ced909f28ef875e7d8188e" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>configure</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1a63e734c3457e96e0f01d9bc3c3d9e0e1" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>ImportWizardManager</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1aa87bdaa4e0068a3aa775ef575cc830da" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1aede2d3d68e85f8872156e751c62d3ee7" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1a59cc62d488ceda166717e3f9c8ae3918" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>wizard</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_manager_1a174797184c2aa3aa12bbb2199540884f" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizardManager</scope><name>wizard_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KnowledgeGraphRetriever</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl" prot="public">themis::rag::kg::KnowledgeGraphRetriever::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a69d3c2bd2b4a149e085457413a3720d9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::kg::KnowledgeGraphRetriever::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="458" column="21" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</definition>
+        <argsstring>(const KnowledgeGraph &amp;graph, const KGRetrieverConfig &amp;config={})</argsstring>
+        <name>KnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a shared knowledge graph and configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Knowledge graph (must outlive this retriever). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="403" column="14" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="534" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a5e90d85b8e0f383fa3690e2592752e1a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</definition>
+        <argsstring>(std::shared_ptr&lt; IKnowledgeGraph &gt; graph, const KGRetrieverConfig &amp;config={})</argsstring>
+        <name>KnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="406" column="14" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="544" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1ab6171cd75b14ded6b0931bfd3adfd872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraphRetriever::~KnowledgeGraphRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>~KnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::~KnowledgeGraphRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="409" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2592c93cfbb64edc2bfc458156b72562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</definition>
+        <argsstring>(const KnowledgeGraphRetriever &amp;)=delete</argsstring>
+        <name>KnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</qualifiedname>
+        <param>
+          <type>const KnowledgeGraphRetriever &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="411" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a671c53152bacc116646c869322b03f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref> &amp;</type>
+        <definition>KnowledgeGraphRetriever &amp; themis::rag::kg::KnowledgeGraphRetriever::operator=</definition>
+        <argsstring>(const KnowledgeGraphRetriever &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="412" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1abfa847b804b7ac563c2c298d2b14952f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</definition>
+        <argsstring>(KnowledgeGraphRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>KnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::KnowledgeGraphRetriever</qualifiedname>
+        <param>
+          <type>KnowledgeGraphRetriever &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="413" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a9b4ec719f7ac33b019a791e80e295e41" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref> &amp;</type>
+        <definition>KnowledgeGraphRetriever &amp; themis::rag::kg::KnowledgeGraphRetriever::operator=</definition>
+        <argsstring>(KnowledgeGraphRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" kindref="member">KnowledgeGraphRetriever</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="414" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1aad2b15e4c14f83624bfcc2c192327117" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" kindref="compound">KGRetrievalResult</ref></type>
+        <definition>KGRetrievalResult themis::rag::kg::KnowledgeGraphRetriever::retrieve</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;candidates) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::retrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Augment <computeroutput>candidates</computeroutput> with knowledge graph signal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial retrieval results (e.g. from vector search). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>KG-augmented and re-ranked documents. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="423" column="23" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="579" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a19166fc8d7190a6a976b981e01f76183" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref> &amp;</type>
+        <definition>const KGRetrieverConfig &amp; themis::rag::kg::KnowledgeGraphRetriever::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::getConfig</qualifiedname>
+        <briefdescription>
+<para>Access current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="430" column="29" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="557" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2a5de06709ee405f4c38610a8fe08fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::kg::KnowledgeGraphRetriever::setConfig</definition>
+        <argsstring>(const KGRetrieverConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="435" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="566" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a7512f0a58ec90fb74ae9bffcc90cf0f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::kg::KnowledgeGraphRetriever::setReasoner</definition>
+        <argsstring>(graph::KnowledgeGraphReasoner *reasoner)</argsstring>
+        <name>setReasoner</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetriever::setReasoner</qualifiedname>
+        <param>
+          <type>graph::KnowledgeGraphReasoner *</type>
+          <declname>reasoner</declname>
+        </param>
+        <briefdescription>
+<para>Attach a KnowledgeGraphReasoner for multi-hop inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Reasoner.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1aad2b15e4c14f83624bfcc2c192327117" kindref="member">retrieve()</ref></computeroutput> calls <computeroutput>KnowledgeGraphReasoner::infer()</computeroutput> for each linked query entity and includes the resulting <computeroutput>InferenceChain</computeroutput> in the <computeroutput><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1adb28f561ab955699ec3479a062fd07a3" kindref="member">KGRetrievalResult::inference_chains</ref></computeroutput> list. When <computeroutput><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" kindref="member">KGRetrieverConfig::attach_reasoning_chain_to_metadata</ref></computeroutput> is true, the chain is also serialised into <computeroutput>RetrievedDocument::metadata["reasoning_chain"]</computeroutput>.</para>
+<para>Pass <computeroutput>nullptr</computeroutput> to detach the current reasoner.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reasoner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a fully configured <computeroutput>KnowledgeGraphReasoner</computeroutput> (must outlive this retriever or be detached first).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reasoner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setReasoner without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="454" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="575" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Augments a set of retrieved documents using a knowledge graph. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The retriever:<orderedlist>
+<listitem><para>Links query entities to KG nodes.</para>
+</listitem><listitem><para>Performs BFS traversal from linked nodes to collect a neighbourhood.</para>
+</listitem><listitem><para>For each candidate document, links its entities to the same KG.</para>
+</listitem><listitem><para>Computes a KG boost score = overlap between document entity neighbourhood and query neighbourhood (normalised Jaccard).</para>
+</listitem><listitem><para>Fuses the original similarity score with the KG boost using <computeroutput><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1a8e637a796e936604bbf2149008d5b6d9" kindref="member">KGRetrieverConfig::kg_score_weight</ref></computeroutput>.</para>
+</listitem><listitem><para>Returns documents sorted by final fused score.</para>
+</listitem></orderedlist>
+</para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>&lt;10 ms for 100 candidates with graph of 1 000 nodes / 5 000 edges.</para>
+</listitem><listitem><para>Linear in |candidates| × average entity count per document. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="396" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="396" bodyend="459"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a19166fc8d7190a6a976b981e01f76183" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a69d3c2bd2b4a149e085457413a3720d9" prot="private" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a0e1b9bcd80543213cb190a8eb4c2e1e2" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>KnowledgeGraphRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a5e90d85b8e0f383fa3690e2592752e1a" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>KnowledgeGraphRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2592c93cfbb64edc2bfc458156b72562" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>KnowledgeGraphRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1abfa847b804b7ac563c2c298d2b14952f" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>KnowledgeGraphRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a671c53152bacc116646c869322b03f4e" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a9b4ec719f7ac33b019a791e80e295e41" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1aad2b15e4c14f83624bfcc2c192327117" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a2a5de06709ee405f4c38610a8fe08fe7" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1a7512f0a58ec90fb74ae9bffcc90cf0f1" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>setReasoner</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_1ab6171cd75b14ded6b0931bfd3adfd872" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetriever</scope><name>~KnowledgeGraphRetriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

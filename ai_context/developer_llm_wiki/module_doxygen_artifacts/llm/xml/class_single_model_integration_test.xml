@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_single_model_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>SingleModelIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_single_model_integration_test_1ac93dae04d68fc6001ca30cfeccc7792c" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">AsyncInferenceEngine::Config</ref></type>
+        <definition>AsyncInferenceEngine::Config SingleModelIntegrationTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>SingleModelIntegrationTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="170" column="34" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_single_model_integration_test_1a16369b376a8d444a22e64d8b84ec15fa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SingleModelIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SingleModelIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="162" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="162" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SingleModelIntegrationTest</label>
+        <link refid="class_single_model_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SingleModelIntegrationTest</label>
+        <link refid="class_single_model_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::AsyncInferenceEngine::Config</label>
+        <link refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>dedup_cache_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_single_model_integration.cpp" line="160" column="1" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="160" bodyend="171"/>
+    <listofallmembers>
+      <member refid="class_single_model_integration_test_1ac93dae04d68fc6001ca30cfeccc7792c" prot="protected" virt="non-virtual"><scope>SingleModelIntegrationTest</scope><name>config_</name></member>
+      <member refid="class_single_model_integration_test_1a16369b376a8d444a22e64d8b84ec15fa" prot="protected" virt="non-virtual"><scope>SingleModelIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

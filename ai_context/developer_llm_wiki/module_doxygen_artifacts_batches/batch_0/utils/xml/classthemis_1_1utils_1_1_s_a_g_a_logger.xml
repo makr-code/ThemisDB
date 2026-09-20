@@ -1,0 +1,486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_s_a_g_a_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SAGALogger</compoundname>
+    <includes refid="saga__logger_8h" local="no">saga_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a99d43025e7c85bb9599140b8079a6cb7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::utils::SAGALogger::enc_</definition>
+        <argsstring></argsstring>
+        <name>enc_</name>
+        <qualifiedname>themis::utils::SAGALogger::enc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="150" column="21" bodyfile="include/utils/saga_logger.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1af11a713eea6c78f74a83ea1d39a07332" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VCCPKIClient&gt; themis::utils::SAGALogger::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::utils::SAGALogger::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="151" column="21" bodyfile="include/utils/saga_logger.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1b800dc03bebfff37f5d00ae6e1eae67" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref></type>
+        <definition>SAGALoggerConfig themis::utils::SAGALogger::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::SAGALogger::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="152" column="22" bodyfile="include/utils/saga_logger.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a294d60433519185adfd3a1f343ebda2d" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::SAGALogger::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::utils::SAGALogger::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="154" column="16" bodyfile="include/utils/saga_logger.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1ad8be37b9a24748eb695e00760ce1ac67" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &gt;</type>
+        <definition>std::vector&lt;SAGAStep&gt; themis::utils::SAGALogger::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::utils::SAGALogger::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="155" column="17" bodyfile="include/utils/saga_logger.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a0c6d894d9ae3c8c7254f23fe5a3844de" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SAGALogger::batch_start_time_</definition>
+        <argsstring></argsstring>
+        <name>batch_start_time_</name>
+        <qualifiedname>themis::utils::SAGALogger::batch_start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="156" column="43" bodyfile="include/utils/saga_logger.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1e867a91f1b769928127e2ec6597ad41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SAGALogger::SAGALogger</definition>
+        <argsstring>(std::shared_ptr&lt; FieldEncryption &gt; enc, std::shared_ptr&lt; VCCPKIClient &gt; pki, SAGALoggerConfig cfg)</argsstring>
+        <name>SAGALogger</name>
+        <qualifiedname>themis::utils::SAGALogger::SAGALogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>enc</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+          <declname>pki</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="90" column="5" bodyfile="src/utils/saga_logger.cpp" bodystart="131" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac823391c8f3ee0f4b73fb0b7626282a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SAGALogger::logStep</definition>
+        <argsstring>(const SAGAStep &amp;step)</argsstring>
+        <name>logStep</name>
+        <qualifiedname>themis::utils::SAGALogger::logStep</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Log a single SAGA step (buffered). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Step.</para>
+<para>Buffers the step for batch writing. When the batch size threshold is reached, <computeroutput>signAndFlushBatch()</computeroutput> is called automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SAGA step to record </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if log file unavailable or encryption fails (fail-closed)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="3" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Batch encryption fails (LEK unavailable)  </para>
+</entry><entry thead="no"><para>AUDIT_ENCRYPTION_FAILED (9015)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>batch_id, error  </para>
+</entry><entry thead="no"><para>Throw (fail-closed – no plaintext persisted)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Log file write fails (backend unavailable)  </para>
+</entry><entry thead="no"><para>AUDIT_PERSISTENCE_FAILED (9012)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>path, error  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-closed – encryption failure blocks persistence; no plaintext fallback <simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9010-9019 for audit error taxonomy</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), dump(), size(), ctx(), <ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1af7de7260a877e8ae2c76c9552cd82c32" kindref="member">logErrorContext()</ref>, fmt::format(), what(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="112" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="153" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1be44e8d56d7f955eab75f564bb665ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SAGALogger::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::utils::SAGALogger::flush</qualifiedname>
+        <briefdescription>
+<para>Force flush current batch (useful for shutdown). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if flush fails (propagated from signAndFlushBatch)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), signAndFlushBatch(), ctx(), fmt::format(), what(), <ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1af7de7260a877e8ae2c76c9552cd82c32" kindref="member">logErrorContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="119" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="237" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab67b89ec8b53a0e09885556635c3295b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::SAGALogger::verifyBatch</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>verifyBatch</name>
+        <qualifiedname>themis::utils::SAGALogger::verifyBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify a signed batch by batch_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Batch.</para>
+<para><simplesect kind="return"><para>true if signature valid and decryption successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains(), is_string(), <ref refid="structthemis_1_1utils_1_1_signed_batch_1a7ab3ee72141ebed53d2b8c2dba2daf0a" kindref="member">SignedBatch::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="125" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="414" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1abdba4b26680c926fe34586e5eecf4a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &gt;</type>
+        <definition>std::vector&lt; SAGAStep &gt; themis::utils::SAGALogger::loadBatch</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>loadBatch</name>
+        <qualifiedname>themis::utils::SAGALogger::loadBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Load and decrypt a batch&apos;s entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Batch.</para>
+<para><simplesect kind="return"><para>Decrypted SAGA steps or empty if verification fails</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab67b89ec8b53a0e09885556635c3295b" kindref="member">verifyBatch()</ref>, log_file(), sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="131" column="17" bodyfile="src/utils/saga_logger.cpp" bodystart="508" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac8985ba5bd59f1efea6eb77822c439e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::SAGALogger::listBatches</definition>
+        <argsstring>() const</argsstring>
+        <name>listBatches</name>
+        <qualifiedname>themis::utils::SAGALogger::listBatches</qualifiedname>
+        <briefdescription>
+<para>Get all batch IDs in chronological order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="136" column="17" bodyfile="src/utils/saga_logger.cpp" bodystart="586" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1af7de7260a877e8ae2c76c9552cd82c32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SAGALogger::logErrorContext</definition>
+        <argsstring>(const ErrorContext &amp;ctx)</argsstring>
+        <name>logErrorContext</name>
+        <qualifiedname>themis::utils::SAGALogger::logErrorContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Log error context for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> Context.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> context with details about the error</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="142" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="779" bodyend="790"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a87034a75aff70dec2df6cbfba31ef3f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SAGALogger::signAndFlushBatch</definition>
+        <argsstring>()</argsstring>
+        <name>signAndFlushBatch</name>
+        <qualifiedname>themis::utils::SAGALogger::signAndFlushBatch</qualifiedname>
+        <briefdescription>
+<para>Sign And Flush Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), generateBatchId(), std::chrono::system_clock::now(), nlohmann::json::array(), time_since_epoch(), count(), push_back(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="145" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="320" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab4a2e264083536d0968838742bb769da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::SAGALogger::sha256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::utils::SAGALogger::sha256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: out(), SHA256(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="146" column="17" bodyfile="src/utils/saga_logger.cpp" bodystart="276" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a0a0e3aa1cc98d9988df464d517bac0d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SAGALogger::appendJsonLine</definition>
+        <argsstring>(const std::string &amp;path, const nlohmann::json &amp;j)</argsstring>
+        <name>appendJsonLine</name>
+        <qualifiedname>themis::utils::SAGALogger::appendJsonLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Append Json Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ofs(), <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>, <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">themis::utils::logErrorWithContext()</ref>, dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="147" column="10" bodyfile="src/utils/saga_logger.cpp" bodystart="289" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_s_a_g_a_logger_1a12726ee323f0c81cea62c40d3141dddf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogger::generateBatchId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateBatchId</name>
+        <qualifiedname>themis::utils::SAGALogger::generateBatchId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="148" column="17" bodyfile="src/utils/saga_logger.cpp" bodystart="261" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SAGA <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> with PKI-signed batch encryption for tamper-proof audit trail. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Workflow:<orderedlist>
+<listitem><para>Collect SAGA steps in memory buffer</para>
+</listitem><listitem><para>When batch_size or batch_interval reached: a. Serialize batch to canonical JSON b. Encrypt with current LEK (AES-256-GCM) c. Compute SHA-256 hash over ciphertext d. Sign hash with PKI e. Persist ciphertext + signature metadata</para>
+</listitem><listitem><para>Verification: Load ciphertext → verify signature → decrypt → validate </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/saga_logger.h" line="88" column="1" bodyfile="include/utils/saga_logger.h" bodystart="88" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a0a0e3aa1cc98d9988df464d517bac0d5" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>appendJsonLine</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a0c6d894d9ae3c8c7254f23fe5a3844de" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>batch_start_time_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ad8be37b9a24748eb695e00760ce1ac67" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1b800dc03bebfff37f5d00ae6e1eae67" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a99d43025e7c85bb9599140b8079a6cb7" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>enc_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1be44e8d56d7f955eab75f564bb665ab" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a12726ee323f0c81cea62c40d3141dddf" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>generateBatchId</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac8985ba5bd59f1efea6eb77822c439e7" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>listBatches</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1abdba4b26680c926fe34586e5eecf4a22" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>loadBatch</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1af7de7260a877e8ae2c76c9552cd82c32" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>logErrorContext</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac823391c8f3ee0f4b73fb0b7626282a1" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>logStep</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a294d60433519185adfd3a1f343ebda2d" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1af11a713eea6c78f74a83ea1d39a07332" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1e867a91f1b769928127e2ec6597ad41" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>SAGALogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab4a2e264083536d0968838742bb769da" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>sha256</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a87034a75aff70dec2df6cbfba31ef3f4" prot="private" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>signAndFlushBatch</name></member>
+      <member refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab67b89ec8b53a0e09885556635c3295b" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogger</scope><name>verifyBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

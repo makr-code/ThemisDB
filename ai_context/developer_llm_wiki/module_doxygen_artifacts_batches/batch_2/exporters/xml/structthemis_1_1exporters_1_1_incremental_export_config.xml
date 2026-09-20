@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_incremental_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::IncrementalExportConfig</compoundname>
+    <includes refid="incremental__exporter_8h" local="no">incremental_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_incremental_export_config_1af915077d24e1431233380f553d94b37b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::IncrementalExportConfig::sequence_field</definition>
+        <argsstring></argsstring>
+        <name>sequence_field</name>
+        <qualifiedname>themis::exporters::IncrementalExportConfig::sequence_field</qualifiedname>
+        <initializer>= &quot;_seq&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/incremental_exporter.h" line="25" column="17" bodyfile="include/exporters/incremental_exporter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_incremental_export_config_1ab2ef080f77af227cdd80b18d9663b816" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::IncrementalExportConfig::watermark_path</definition>
+        <argsstring></argsstring>
+        <name>watermark_path</name>
+        <qualifiedname>themis::exporters::IncrementalExportConfig::watermark_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/incremental_exporter.h" line="27" column="17" bodyfile="include/exporters/incremental_exporter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_incremental_export_config_1a4fce5c56d2974818d0f938683654e6e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::IncrementalExportConfig::export_missing_sequence</definition>
+        <argsstring></argsstring>
+        <name>export_missing_sequence</name>
+        <qualifiedname>themis::exporters::IncrementalExportConfig::export_missing_sequence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/incremental_exporter.h" line="29" column="10" bodyfile="include/exporters/incremental_exporter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/incremental_exporter.h" line="24" column="1" bodyfile="include/exporters/incremental_exporter.h" bodystart="24" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_incremental_export_config_1a4fce5c56d2974818d0f938683654e6e1" prot="public" virt="non-virtual"><scope>themis::exporters::IncrementalExportConfig</scope><name>export_missing_sequence</name></member>
+      <member refid="structthemis_1_1exporters_1_1_incremental_export_config_1af915077d24e1431233380f553d94b37b" prot="public" virt="non-virtual"><scope>themis::exporters::IncrementalExportConfig</scope><name>sequence_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_incremental_export_config_1ab2ef080f77af227cdd80b18d9663b816" prot="public" virt="non-virtual"><scope>themis::exporters::IncrementalExportConfig</scope><name>watermark_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

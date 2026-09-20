@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_o_i_d_c_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::OIDCProvider</compoundname>
+    <includes refid="oidc__provider_8h" local="no">oidc_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1ab91f7a63c36b141b4f511889c24ba867" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref></type>
+        <definition>OIDCProviderConfig themis::auth::OIDCProvider::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::OIDCProvider::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="137" column="24" bodyfile="include/auth/oidc_provider.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad3371e1e65ed1d1933ebdf79bfb13a8a" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref> &gt;</type>
+        <definition>std::optional&lt;OIDCDiscoveryDocument&gt; themis::auth::OIDCProvider::discovery_doc_</definition>
+        <argsstring></argsstring>
+        <name>discovery_doc_</name>
+        <qualifiedname>themis::auth::OIDCProvider::discovery_doc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="140" column="19" bodyfile="include/auth/oidc_provider.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1afc4c11a47ad205bef36363caeb7616fb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; themis::auth::OIDCProvider::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::auth::OIDCProvider::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="143" column="21" bodyfile="include/auth/oidc_provider.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1abc272e03d2ca25328a26b939640ff1c4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url)&gt; themis::auth::OIDCProvider::http_get_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_get_fn_</name>
+        <qualifiedname>themis::auth::OIDCProvider::http_get_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="146" column="19" bodyfile="include/auth/oidc_provider.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::OIDCProvider::OIDCProvider</definition>
+        <argsstring>(const OIDCProviderConfig &amp;config)</argsstring>
+        <name>OIDCProvider</name>
+        <qualifiedname>themis::auth::OIDCProvider::OIDCProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider" kindref="compound">OIDCProvider</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="62" column="14" bodyfile="src/auth/oidc_provider.cpp" bodystart="48" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a4e8f9ce7d35a452975405e215c924210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::OIDCProvider::OIDCProvider</definition>
+        <argsstring>(const OIDCProvider &amp;)=delete</argsstring>
+        <name>OIDCProvider</name>
+        <qualifiedname>themis::auth::OIDCProvider::OIDCProvider</qualifiedname>
+        <param>
+          <type>const OIDCProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad61f7852dbe03ee2092d9c7f4f86c986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref> &amp;</type>
+        <definition>OIDCProvider &amp; themis::auth::OIDCProvider::operator=</definition>
+        <argsstring>(const OIDCProvider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::OIDCProvider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7e7d3a69c9dbb535cc95c0a3e6c9208a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::OIDCProvider::OIDCProvider</definition>
+        <argsstring>(OIDCProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>OIDCProvider</name>
+        <qualifiedname>themis::auth::OIDCProvider::OIDCProvider</qualifiedname>
+        <param>
+          <type>OIDCProvider &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1ae12a30434e56968a967f8d8b74af4a2c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref> &amp;</type>
+        <definition>OIDCProvider &amp; themis::auth::OIDCProvider::operator=</definition>
+        <argsstring>(OIDCProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::OIDCProvider::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="70" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OIDCProvider::discover</definition>
+        <argsstring>()</argsstring>
+        <name>discover</name>
+        <qualifiedname>themis::auth::OIDCProvider::discover</qualifiedname>
+        <briefdescription>
+<para>Discover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: has_value(), empty(), back(), pop_back(), spdlog::debug(), httpGet(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="79" column="10" bodyfile="src/auth/oidc_provider.cpp" bodystart="76" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a80dc792516a8dcf5ff22ada646c0a258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref> &amp;</type>
+        <definition>const OIDCDiscoveryDocument &amp; themis::auth::OIDCProvider::discoveryDocument</definition>
+        <argsstring>()</argsstring>
+        <name>discoveryDocument</name>
+        <qualifiedname>themis::auth::OIDCProvider::discoveryDocument</qualifiedname>
+        <briefdescription>
+<para>Discovery Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" kindref="member">discover()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="85" column="33" bodyfile="src/auth/oidc_provider.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1aa31d16da371a53711fe33c533b40edfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref></type>
+        <definition>JWTClaims themis::auth::OIDCProvider::validateToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>validateToken</name>
+        <qualifiedname>themis::auth::OIDCProvider::validateToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Validate Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" kindref="member">discover()</ref>, parseAndValidate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="96" column="15" bodyfile="src/auth/oidc_provider.cpp" bodystart="157" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a565b311a4bd4c10579e5e528e5557ee9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref> &amp;</type>
+        <definition>JWTValidator &amp; themis::auth::OIDCProvider::validator</definition>
+        <argsstring>()</argsstring>
+        <name>validator</name>
+        <qualifiedname>themis::auth::OIDCProvider::validator</qualifiedname>
+        <briefdescription>
+<para>Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" kindref="member">discover()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="102" column="18" bodyfile="src/auth/oidc_provider.cpp" bodystart="169" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7bcb65500bcfb66ac2f9b57ef05c0508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_o_auth_device_flow" kindref="compound">OAuthDeviceFlow</ref></type>
+        <definition>OAuthDeviceFlow themis::auth::OIDCProvider::createDeviceFlow</definition>
+        <argsstring>()</argsstring>
+        <name>createDeviceFlow</name>
+        <qualifiedname>themis::auth::OIDCProvider::createDeviceFlow</qualifiedname>
+        <briefdescription>
+<para>Create Device Flow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: has_value(), <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" kindref="member">discover()</ref>, empty(), AuthError(), OAuthDeviceFlow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="112" column="21" bodyfile="src/auth/oidc_provider.cpp" bodystart="186" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad705f0a2f6a4b8733a59dfce24e6321d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::auth::OIDCProvider::clientId</definition>
+        <argsstring>() const</argsstring>
+        <name>clientId</name>
+        <qualifiedname>themis::auth::OIDCProvider::clientId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="118" column="23" bodyfile="include/auth/oidc_provider.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a33d0160418ed74dadb143c901a7a387b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::auth::OIDCProvider::clientSecret</definition>
+        <argsstring>() const</argsstring>
+        <name>clientSecret</name>
+        <qualifiedname>themis::auth::OIDCProvider::clientSecret</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="120" column="23" bodyfile="include/auth/oidc_provider.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a804d40463aea5374516ffb7496fd03aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OIDCProvider::setDiscoveryDocumentForTesting</definition>
+        <argsstring>(const OIDCDiscoveryDocument &amp;doc)</argsstring>
+        <name>setDiscoveryDocumentForTesting</name>
+        <qualifiedname>themis::auth::OIDCProvider::setDiscoveryDocumentForTesting</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Set Discovery Document For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: buildValidatorConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="130" column="10" bodyfile="src/auth/oidc_provider.cpp" bodystart="222" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a8ef597a9dc7f6f80afe113836bcd113f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OIDCProvider::setHttpGetForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url)&gt; fn)</argsstring>
+        <name>setHttpGetForTesting</name>
+        <qualifiedname>themis::auth::OIDCProvider::setHttpGetForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="132" column="10" bodyfile="src/auth/oidc_provider.cpp" bodystart="227" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a61b51e29678e652fbac11ff1e110b3a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCProvider::httpGet</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::auth::OIDCProvider::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Fetch a URL and return the raw body (uses libcurl unless overridden). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="153" column="17" bodyfile="src/auth/oidc_provider.cpp" bodystart="237" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7ede0bf788d9242646c6526fce124830" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::OIDCProvider::buildValidatorConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>buildValidatorConfig</name>
+        <qualifiedname>themis::auth::OIDCProvider::buildValidatorConfig</qualifiedname>
+        <briefdescription>
+<para>Build <ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref> from the discovery document and provider config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="166" column="24" bodyfile="src/auth/oidc_provider.cpp" bodystart="416" bodyend="429"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_i_d_c_provider_1a6d3f1b28182d63c897c6ec7926a3e1f1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref></type>
+        <definition>OIDCDiscoveryDocument themis::auth::OIDCProvider::parseDiscovery</definition>
+        <argsstring>(const std::string &amp;json_body)</argsstring>
+        <name>parseDiscovery</name>
+        <qualifiedname>themis::auth::OIDCProvider::parseDiscovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_body</declname>
+        </param>
+        <briefdescription>
+<para>Parse raw JSON into <ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), is_object(), at(), contains(), is_string(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="160" column="34" bodyfile="src/auth/oidc_provider.cpp" bodystart="360" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oidc_provider.h" line="55" column="1" bodyfile="include/auth/oidc_provider.h" bodystart="55" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7ede0bf788d9242646c6526fce124830" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>buildValidatorConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad705f0a2f6a4b8733a59dfce24e6321d" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>clientId</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a33d0160418ed74dadb143c901a7a387b" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>clientSecret</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ab91f7a63c36b141b4f511889c24ba867" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7bcb65500bcfb66ac2f9b57ef05c0508" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>createDeviceFlow</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>discover</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad3371e1e65ed1d1933ebdf79bfb13a8a" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>discovery_doc_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a80dc792516a8dcf5ff22ada646c0a258" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>discoveryDocument</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1abc272e03d2ca25328a26b939640ff1c4" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>http_get_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a61b51e29678e652fbac11ff1e110b3a5" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>OIDCProvider</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a4e8f9ce7d35a452975405e215c924210" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>OIDCProvider</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7e7d3a69c9dbb535cc95c0a3e6c9208a" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>OIDCProvider</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad61f7852dbe03ee2092d9c7f4f86c986" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ae12a30434e56968a967f8d8b74af4a2c" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a6d3f1b28182d63c897c6ec7926a3e1f1" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>parseDiscovery</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a804d40463aea5374516ffb7496fd03aa" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>setDiscoveryDocumentForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a8ef597a9dc7f6f80afe113836bcd113f" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>setHttpGetForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aa31d16da371a53711fe33c533b40edfc" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>validateToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a565b311a4bd4c10579e5e528e5557ee9" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>validator</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1afc4c11a47ad205bef36363caeb7616fb" prot="private" virt="non-virtual"><scope>themis::auth::OIDCProvider</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

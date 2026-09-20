@@ -1,0 +1,1589 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1search_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::search::testing</compoundname>
+    <innerclass refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" prot="public">themis::search::testing::AnalyticsEdgeCasesTest</innerclass>
+    <innerclass refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" prot="public">themis::search::testing::DistributedSearchEdgeCasesTest</innerclass>
+    <innerclass refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" prot="public">themis::search::testing::SearchIntegrationPhase4Test</innerclass>
+    <innerclass refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" prot="public">themis::search::testing::UtilityComponentEdgeCasesTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_01_AllShardsSuccessful)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_01_AllShardsSuccessful</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-01: Basic merge with all shards successful Verifies degradation flags remain false when no failures occur. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="35" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="35" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a6670f24c0a290542c52419e680501ba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_02_MergeUnderflow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_02_MergeUnderflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-02: Merge underflow detection (insufficient candidates) Verifies merge_underflow flag when result count &lt; k. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="74" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="74" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a2c3ce813db5eb631b794cb7a89b6fda6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_03_HighOverlapVariance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_03_HighOverlapVariance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-03: High overlap variance detection Verifies detection when same document appears in most shards. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="108" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="108" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af57d89afb529c08ad7cc8c4f8a448bc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_04_ShardFailureReasons)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_04_ShardFailureReasons</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-04: Shard failure with failed_shard_reasons tracking Verifies failed_shard_reasons populated for operator diagnostics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="145" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="145" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ac564f8739a79be3e9e25e0bbbf42b7ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_05_ExactKCandidates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_05_ExactKCandidates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-05: K-limit edge case - exact k candidates Verifies no underflow when exactly k documents available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="198" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="198" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a8582b3cb50677f8f51fd6a5391f9fa00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_06_PartialResultDetection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_06_PartialResultDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-06: Partial result detection across degradation flags Verifies proper coordination of partial_result with failed shard reasons. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="232" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="232" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a478d49ac28659f003080985f2e07fab9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_07_BoundedResourceEnforcement)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_07_BoundedResourceEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-07: Bounded resource enforcement - large result set cap Verifies k-limit enforcement with large shard result sets. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="273" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="273" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a8da812f9aee8b8b602b3f3b5932bef58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(DistributedMergePhase2, P2_08_ConcurrentShardFailures)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>DistributedMergePhase2</type>
+        </param>
+        <param>
+          <type>P2_08_ConcurrentShardFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2-08: Deterministic stress - concurrent shard failures Verifies stable behavior under multiple concurrent shard failures. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_distributed_merge_phase2.cpp" line="313" column="1" bodyfile="tests/search/test_search_distributed_merge_phase2.cpp" bodystart="313" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_01_StreamBufferExhaustion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_01_StreamBufferExhaustion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="48" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="48" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a6fe8f0c20a50a3c8bfe500aca91d9fd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_02_StreamBufferOverflowDropOldest)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_02_StreamBufferOverflowDropOldest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="80" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="80" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a64a3fb73bcc479e65dbc2550c243b867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_03_OpenEndedStreamTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_03_OpenEndedStreamTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="112" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="112" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a5c5e31e3fa3a4bdb2bd941a97e542607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_04_StreamTimeoutRecoveryPreservesState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_04_StreamTimeoutRecoveryPreservesState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="138" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="138" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ab009b17c3cd0ed325a8693aae17e76c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_05_ConcurrentReaderSynchronization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_05_ConcurrentReaderSynchronization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="172" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="172" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ada5fb071f6c59140ba55f530d8b13800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_06_ConcurrentReaderDeadlockPrevention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_06_ConcurrentReaderDeadlockPrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="205" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="205" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a857693c9f3250c918872de59a2e5b259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_07_MetricAggregationBackpressure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_07_MetricAggregationBackpressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="237" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="237" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a3c9cf5786452a1d27835b6fa56a02a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_08_MetricAggregationOverflowDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_08_MetricAggregationOverflowDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="283" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="283" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a541de44512d0ab235298daf8694f0c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_09_EventBatchingWindowBoundaryRace)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_09_EventBatchingWindowBoundaryRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="311" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="311" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1aeebf9cddfcb45be070b5e514017aad4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_10_EventBatchingTimeoutFlush)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_10_EventBatchingTimeoutFlush</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="349" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="349" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ac27c8fa8408ba19522c0850c98d7bb21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_11_MetricCardinalityExplosion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_11_MetricCardinalityExplosion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="378" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="378" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ae82a0592dffd841102e1db8cf15dbc63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_12_MetricCardinalityAutoPruning)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_12_MetricCardinalityAutoPruning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="411" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="411" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a45026bd4daa63a2936fa4ec014e4ae79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_13_AnalyticsCorruptionChecksum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_13_AnalyticsCorruptionChecksum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="446" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="446" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1abb7b002468f6c695115f50bdb57d0230" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_14_AnalyticsSequenceNumberIntegrity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_14_AnalyticsSequenceNumberIntegrity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="481" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="481" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a72c63002c82c15d73bab561ab55e96b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_15_AnalyticsRecoveryPartialFlush)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_15_AnalyticsRecoveryPartialFlush</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="511" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="511" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ac12134f22e9a71d9418aa278c649eeda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(AnalyticsEdgeCasesTest, ANL_16_AnalyticsStateConsistencyRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kindref="compound">AnalyticsEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ANL_16_AnalyticsStateConsistencyRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="536" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="536" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a09a6c7cffa22e15373b95a6d9d3a4345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_01_PartialShardFailureFirstShard)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_01_PartialShardFailureFirstShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="33" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="33" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a7584ba2f6713ebd51260d61d59385035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_02_CascadingShardFailures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_02_CascadingShardFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="48" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="48" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a8bce106f731f0a742cec2bad467239ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_03_NetworkInducedUnderflow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_03_NetworkInducedUnderflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="64" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="64" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ac66186befe0570701930c8f02b589053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_04_NetworkDelayAccumulation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_04_NetworkDelayAccumulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="81" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1afd99808978c908a6fd87369b4dd1d7a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_05_ResponseReordering)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_05_ResponseReordering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="95" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="95" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a0e1136873954bb689e7d864a40438cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_06_DeduplicationAfterReordering)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_06_DeduplicationAfterReordering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="114" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="114" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1abf412b5156fed7b399dbd03ba9438998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_07_CascadingTimeoutPartialRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_07_CascadingTimeoutPartialRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="139" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="139" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a8d0f66d1d2a62705795227b24542ea93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_08_TimeoutRecoveryBackoff)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_08_TimeoutRecoveryBackoff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="154" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1addf66680a9890a28a4b173f35ff61961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_09_LoadBalancingUnevenLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_09_LoadBalancingUnevenLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="164" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="164" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a757d9d20e4d8df29787531425b52fe7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_10_AdaptiveTimeoutAdjustment)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_10_AdaptiveTimeoutAdjustment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="178" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="178" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1adbaac539117caafcc54cec081997cd46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_11_ShardStateCorruptionDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_11_ShardStateCorruptionDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="200" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="200" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a00857ac27525e1374027f83de9acc562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_12_ShardStateTransitionConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_12_ShardStateTransitionConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="219" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="219" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af252925291f7e6babe20eb5bfd1921f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_13_ConcurrentShardQueryIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_13_ConcurrentShardQueryIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="237" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="237" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a3b9cc371630410fce475f5af2103bc33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_14_ConcurrentRaceConditionPrevention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_14_ConcurrentRaceConditionPrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="259" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="259" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1adf94385c545c8e0ad870e39954bf8f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_15_ReplicaFailoverAutomatic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_15_ReplicaFailoverAutomatic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="275" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="275" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ae79b421d0acf9d5d5a69cde4e398115a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(DistributedSearchEdgeCasesTest, DIS_16_ReplicaConsistencyAfterFailover)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kindref="compound">DistributedSearchEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DIS_16_ReplicaConsistencyAfterFailover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="289" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="289" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a46f8ce93196414dfc928ebe1872e17dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_01_EmptyResultSetHybridFusion)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_01_EmptyResultSetHybridFusion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="18" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="18" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a1ed4d9386609fe26a52f560987696bf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_02_ShardTimeoutDegradation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_02_ShardTimeoutDegradation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="32" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="32" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ad5b04a2bc500fc56a1876bc44489e395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_03_KLimitUnderflowHighOverlap)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_03_KLimitUnderflowHighOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="46" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a55cd9ee107e69de31530b544a5414ff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_04_AllShardsFailed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_04_AllShardsFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="55" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a9964303df765c8c538ee4098cf0b82af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_05_RerankerFallback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_05_RerankerFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="67" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="67" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a2cde4d50bbcaa2e71db02c60e4d8928a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_06_ExpansionLimitExceeded)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_06_ExpansionLimitExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="79" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1aec16a205ee5d14921ab6aeeef4853ec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_07_FusionFailureWithFallback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_07_FusionFailureWithFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="89" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="89" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a4abbd4f697c0306b29036f26aa983e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, P3_08_ConcurrentLayerFailures)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>P3_08_ConcurrentLayerFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="105" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="105" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1aaf594408ee2394bfbe1d61b310c0138f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, SearchResultStreamTimeout)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>SearchResultStreamTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="121" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1afaa5aa94223893e06490a83720f0c839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, ErrorCodeRangeFiltering)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>ErrorCodeRangeFiltering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="128" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af5d6e7839bc491c4297d7ad02fb17e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(SearchEdgeCasesPhase3, DegradationFlagIndependence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>SearchEdgeCasesPhase3</type>
+        </param>
+        <param>
+          <type>DegradationFlagIndependence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_phase3.cpp" line="141" column="1" bodyfile="tests/search/test_search_edge_cases_phase3.cpp" bodystart="141" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a72074903822ad3969dea77d95c82e880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_01_QueryExpansionMaxLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_01_QueryExpansionMaxLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="20" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="20" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ad6d4b29bce241c0d6ed96904882af6af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_02_QueryExpansionOverflowProtection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_02_QueryExpansionOverflowProtection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="33" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="33" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a47bfac3e252d49160709ee263e44e0f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_05_FuzzyMatchingTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_05_FuzzyMatchingTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="63" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="63" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a34dd19e0c68f13e84b884d1a1bcfc0cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_09_FilterComplexityCompilationLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_09_FilterComplexityCompilationLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="86" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="86" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ae30cb15bfb9092edf898614ccfa72fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_10_FilterComplexityRejection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_10_FilterComplexityRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="109" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="109" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a02c796b514f9d93aadfba58e73422a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_11_TokenizationEmptyTokens)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_11_TokenizationEmptyTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="129" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="129" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a19e557bd4cbe6e38fa065fd054f22917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(UtilityComponentEdgeCasesTest, UTL_15_ErrorCodeAggregation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kindref="compound">UtilityComponentEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UTL_15_ErrorCodeAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_utility.cpp" line="145" column="1" bodyfile="tests/search/test_search_edge_cases_utility.cpp" bodystart="145" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a373d890680519fd6889607e4c623f4b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(HybridSearchDegradationPhase2, P2H_01_SearchStatsStructure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>HybridSearchDegradationPhase2</type>
+        </param>
+        <param>
+          <type>P2H_01_SearchStatsStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2H-01: SearchStats structure contains degradation flags Verifies that SearchStats has all Phase 2 fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_hybrid_degradation_phase2.cpp" line="27" column="1" bodyfile="tests/search/test_search_hybrid_degradation_phase2.cpp" bodystart="27" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ab8bf6a6fe44385f69312a603b8ac8b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(HybridSearchDegradationPhase2, P2H_02_ErrorCodeConstants)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>HybridSearchDegradationPhase2</type>
+        </param>
+        <param>
+          <type>P2H_02_ErrorCodeConstants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2H-02: Error code constants from <ref refid="search__error__codes_8h" kindref="compound">search_error_codes.h</ref> Verifies that common error codes are defined and accessible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_hybrid_degradation_phase2.cpp" line="47" column="1" bodyfile="tests/search/test_search_hybrid_degradation_phase2.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a7e2381ba819d5e73060d4ab20779b322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(HybridSearchDegradationPhase2, P2H_03_PrimaryErrorCodeTracking)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>HybridSearchDegradationPhase2</type>
+        </param>
+        <param>
+          <type>P2H_03_PrimaryErrorCodeTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2H-03: Primary error code tracking Verifies that primary_error_code field can hold meaningful error codes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_hybrid_degradation_phase2.cpp" line="64" column="1" bodyfile="tests/search/test_search_hybrid_degradation_phase2.cpp" bodystart="64" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a1c0e1df5cad06f480e47b31e6b3a3768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST</definition>
+        <argsstring>(HybridSearchDegradationPhase2, P2H_04_DegradationScenarios)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::search::testing::TEST</qualifiedname>
+        <param>
+          <type>HybridSearchDegradationPhase2</type>
+        </param>
+        <param>
+          <type>P2H_04_DegradationScenarios</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>P2H-04: Degradation flag scenarios Verifies distinct degradation flag combinations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_hybrid_degradation_phase2.cpp" line="88" column="1" bodyfile="tests/search/test_search_hybrid_degradation_phase2.cpp" bodystart="88" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a833a4b71fffe804aa73ccd29665f0eb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_01_DistributedHybridWithAnalytics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_01_DistributedHybridWithAnalytics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="62" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="62" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af4c6d161ab0fb2d1cf118cc2754ca101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_02_DistributedFailureAnalyticsReporting)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_02_DistributedFailureAnalyticsReporting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="95" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="95" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af44cf3f722f1dabfb185c5d901db3377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_03_FederatedSearchMultipleBackends)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_03_FederatedSearchMultipleBackends</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="128" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="128" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ace6b73c68657e654b718d9194b5c60c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_04_FederatedSearchPartialFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_04_FederatedSearchPartialFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="195" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="195" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ad1b657c1f79b94fdc04565514090884f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_05_ExpansionFacetRankingPipeline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_05_ExpansionFacetRankingPipeline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="231" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="231" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1af6b1eff71adabb06c6103f69d925ea80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_06_PipelineStageFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_06_PipelineStageFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="284" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="284" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a28e31012b7105de3c082b7114a4a2ac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_07_StreamingWithConcurrentHighlighting)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_07_StreamingWithConcurrentHighlighting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="323" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="323" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1ab994a98801c9e779d492e1a351004aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_08_StreamingBackpressureFlowControl)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_08_StreamingBackpressureFlowControl</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="364" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="364" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a2314b8a5e6429e15fecc8fa27a4f1210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_09_ErrorPropagationPipeline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_09_ErrorPropagationPipeline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="416" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="416" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1acc0bf149e3fc2a3c67500492b0b453de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_10_GracefulDegradationFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_10_GracefulDegradationFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="455" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="455" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a04692c2651fd5437470a3970e95e4226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_11_PerformanceRealisticLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_11_PerformanceRealisticLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="498" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="498" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1aa15d03ad03f256753eb70be53c404273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_12_PerformanceStressLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_12_PerformanceStressLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="533" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="533" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a92ac39c410a9d16b6499b189fefbbe66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_13_StateConsistencyAcrossStages)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_13_StateConsistencyAcrossStages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="561" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="561" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a61618d23d4d46cda826280ad29df8db9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_14_StateRollbackOnFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_14_StateRollbackOnFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="598" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="598" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1aec340eb431591263b8b70110b975c5c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_15_RecoveryReplicaFailover)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_15_RecoveryReplicaFailover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="636" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="636" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1_1testing_1a5f6af2723ec19b61c510e0ca2e186cca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::search::testing::TEST_F</definition>
+        <argsstring>(SearchIntegrationPhase4Test, INT_16_FullSystemRecoveryCascading)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::search::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kindref="compound">SearchIntegrationPhase4Test</ref></type>
+        </param>
+        <param>
+          <type>INT_16_FullSystemRecoveryCascading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="667" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="667" bodyend="709"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_layered_retrieval_integration_phase4.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

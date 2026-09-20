@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::MaintenanceScheduleDescriptor</compoundname>
+    <includes refid="maintenance__api__contract_8h" local="no">maintenance_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a14acec90a7eb14e8100ebae11b6696de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleDescriptor::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::schedule_id</qualifiedname>
+        <briefdescription>
+<para>Unique schedule identifier (non-empty, max kMaxScheduleIdBytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="121" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a221e2511bb5868fc4d869254bd47cca0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleDescriptor::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::task_type</qualifiedname>
+        <briefdescription>
+<para>Task type token used to look up the registered handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="124" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a1102218f593517f3beadf3336ae4d6bd" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::maintenance::MaintenanceScheduleDescriptor::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::interval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock interval between consecutive executions (must be &gt;= kMinRecurringIntervalSeconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="127" column="26" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a2b79a694945e92ad088e250083586738" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::MaintenanceScheduleDescriptor::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::enabled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether this schedule is currently active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="130" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1aa8ce645bafd0254ff465240ff7213e7e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::maintenance::MaintenanceScheduleDescriptor::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::timeout</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Maximum execution time budget before kExecutionTimeout is raised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="133" column="26" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a9b8c9be6b77b29dfeca46043e39224e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::MaintenanceScheduleDescriptor::max_schedule_changes_per_interval</definition>
+        <argsstring></argsstring>
+        <name>max_schedule_changes_per_interval</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleDescriptor::max_schedule_changes_per_interval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Maximum number of schedule changes (create/update/patch/delete) permitted per interval window. 0 means disabled (no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When &gt; 0 the orchestrator tracks mutations per schedule per rolling interval. Excess mutations are rejected with <ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba89eb04a7d77d4cd399ea2e4ee8cbd63e" kindref="member">MaintenanceError::kChurnLimitExceeded</ref>.</para>
+<para><simplesect kind="note"><para>The interval duration is controlled by DatabaseMaintenanceOrchestrator::kChurnIntervalMs (default 60 s). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_api_contract.h" line="146" column="19" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compact descriptor for a maintenance schedule entry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed across the orchestrator / persistence boundary. All fields must be populated before submission; zero-initialised fields are rejected with <ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baf9eda1609c7b45d5e676a071d930fe66" kindref="member">MaintenanceError::kInvalidSchedule</ref>. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_api_contract.h" line="119" column="1" bodyfile="include/maintenance/maintenance_api_contract.h" bodystart="119" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a2b79a694945e92ad088e250083586738" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a1102218f593517f3beadf3336ae4d6bd" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>interval</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a9b8c9be6b77b29dfeca46043e39224e0" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>max_schedule_changes_per_interval</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a14acec90a7eb14e8100ebae11b6696de" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>schedule_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a221e2511bb5868fc4d869254bd47cca0" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1aa8ce645bafd0254ff465240ff7213e7e" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleDescriptor</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

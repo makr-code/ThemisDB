@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_313caf1132e152dd9b58bea13a4052ca" kind="dir">
+    <compoundname>src/utils</compoundname>
+    <innerdir refid="dir_cd67b28c129a51abd62cf46228e8dd8d">src/utils/geo</innerdir>
+    <innerdir refid="dir_a936ab277b8de797478540af11eb05d8">src/utils/memory</innerdir>
+    <innerfile refid="audit__logger_8cpp">audit_logger.cpp</innerfile>
+    <innerfile refid="bloom__filter_8cpp">bloom_filter.cpp</innerfile>
+    <innerfile refid="boost__throw__exception_8cpp">boost_throw_exception.cpp</innerfile>
+    <innerfile refid="build__info_8cpp">build_info.cpp</innerfile>
+    <innerfile refid="capability__auto__generator_8cpp">capability_auto_generator.cpp</innerfile>
+    <innerfile refid="checksum__utils_8cpp">checksum_utils.cpp</innerfile>
+    <innerfile refid="compression__metrics_8cpp">compression_metrics.cpp</innerfile>
+    <innerfile refid="consistent__hash_8cpp">consistent_hash.cpp</innerfile>
+    <innerfile refid="cron__parser_8cpp">cron_parser.cpp</innerfile>
+    <innerfile refid="cursor_8cpp">cursor.cpp</innerfile>
+    <innerfile refid="error__contracts_8cpp">error_contracts.cpp</innerfile>
+    <innerfile refid="error__registry_8cpp">error_registry.cpp</innerfile>
+    <innerfile refid="file__utils_8cpp">file_utils.cpp</innerfile>
+    <innerfile refid="grpc__channel__pool_8cpp">grpc_channel_pool.cpp</innerfile>
+    <innerfile refid="hkdf__cache_8cpp">hkdf_cache.cpp</innerfile>
+    <innerfile refid="hkdf__helper_8cpp">hkdf_helper.cpp</innerfile>
+    <innerfile refid="http__client__pool_8cpp">http_client_pool.cpp</innerfile>
+    <innerfile refid="input__validator_8cpp">input_validator.cpp</innerfile>
+    <innerfile refid="lek__manager_8cpp">lek_manager.cpp</innerfile>
+    <innerfile refid="logger_8cpp">logger.cpp</innerfile>
+    <innerfile refid="lz4__codec_8cpp">lz4_codec.cpp</innerfile>
+    <innerfile refid="ner__detection__engine_8cpp">ner_detection_engine.cpp</innerfile>
+    <innerfile refid="normalizer_8cpp">normalizer.cpp</innerfile>
+    <innerfile refid="pii__detection__engine_8cpp">pii_detection_engine.cpp</innerfile>
+    <innerfile refid="pii__detector_8cpp">pii_detector.cpp</innerfile>
+    <innerfile refid="pii__pseudonymizer_8cpp">pii_pseudonymizer.cpp</innerfile>
+    <innerfile refid="pii__stream__scanner_8cpp">pii_stream_scanner.cpp</innerfile>
+    <innerfile refid="pki__client_8cpp">pki_client.cpp</innerfile>
+    <innerfile refid="rate__limiter_8cpp">rate_limiter.cpp</innerfile>
+    <innerfile refid="regex__detection__engine_8cpp">regex_detection_engine.cpp</innerfile>
+    <innerfile refid="retention__manager_8cpp">retention_manager.cpp</innerfile>
+    <innerfile refid="rocksdb__open__compat_8h">rocksdb_open_compat.h</innerfile>
+    <innerfile refid="runtime__license__gate_8cpp">runtime_license_gate.cpp</innerfile>
+    <innerfile refid="saga__logger_8cpp">saga_logger.cpp</innerfile>
+    <innerfile refid="sampled__logger_8cpp">sampled_logger.cpp</innerfile>
+    <innerfile refid="self__awareness_8cpp">self_awareness.cpp</innerfile>
+    <innerfile refid="serialization_8cpp">serialization.cpp</innerfile>
+    <innerfile refid="simd__distance_8cpp">simd_distance.cpp</innerfile>
+    <innerfile refid="stemmer_8cpp">stemmer.cpp</innerfile>
+    <innerfile refid="stopwords_8cpp">stopwords.cpp</innerfile>
+    <innerfile refid="thread__guard_8cpp">thread_guard.cpp</innerfile>
+    <innerfile refid="thread__pool__manager_8cpp">thread_pool_manager.cpp</innerfile>
+    <innerfile refid="timestamp__utils_8cpp">timestamp_utils.cpp</innerfile>
+    <innerfile refid="tracing_8cpp">tracing.cpp</innerfile>
+    <innerfile refid="update__checker_8cpp">update_checker.cpp</innerfile>
+    <innerfile refid="utils__adapters_8cpp">utils_adapters.cpp</innerfile>
+    <innerfile refid="zstd__codec_8cpp">zstd_codec.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/"/>
+  </compounddef>
+</doxygen>

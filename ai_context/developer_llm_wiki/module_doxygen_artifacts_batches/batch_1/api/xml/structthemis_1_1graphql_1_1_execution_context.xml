@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_execution_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::ExecutionContext</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;( const <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &amp;field, const std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &amp;parent, const <ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;ctx)&gt;</type>
+        <definition>using themis::graphql::ExecutionContext::Resolver = std::function&lt;std::shared_ptr&lt;Value&gt;(
+       const Field&amp; field,
+       const std::shared_ptr&lt;Value&gt;&amp; parent,
+       const ExecutionContext&amp; ctx
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>Resolver</name>
+        <qualifiedname>themis::graphql::ExecutionContext::Resolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="497" column="5" bodyfile="include/api/graphql.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_execution_context_1a84eb125a94869508c7f6539c358e94c1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;Value&gt; &gt; themis::graphql::ExecutionContext::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>themis::graphql::ExecutionContext::variables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="491" column="24" bodyfile="include/api/graphql.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_execution_context_1a003e8ea3d2f519f659b3d449dca6b5d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::ExecutionContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::graphql::ExecutionContext::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="492" column="17" bodyfile="include/api/graphql.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_execution_context_1aa8c36ff07e97f31f50f59672a6f9b7fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::ExecutionContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::graphql::ExecutionContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="493" column="17" bodyfile="include/api/graphql.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_execution_context_1a438e1df645d2195f876b93e5e8b1717c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::ExecutionContext::mask_errors</definition>
+        <argsstring></argsstring>
+        <name>mask_errors</name>
+        <qualifiedname>themis::graphql::ExecutionContext::mask_errors</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="494" column="10" bodyfile="include/api/graphql.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_execution_context_1a422947cb6e8b2a21aea0ee213d49d7c0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kindref="member">Resolver</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Resolver&gt; themis::graphql::ExecutionContext::resolvers</definition>
+        <argsstring></argsstring>
+        <name>resolvers</name>
+        <qualifiedname>themis::graphql::ExecutionContext::resolvers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="503" column="24" bodyfile="include/api/graphql.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="490" column="1" bodyfile="include/api/graphql.h" bodystart="490" bodyend="504"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1a438e1df645d2195f876b93e5e8b1717c" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>mask_errors</name></member>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>Resolver</name></member>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1a422947cb6e8b2a21aea0ee213d49d7c0" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>resolvers</name></member>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1a003e8ea3d2f519f659b3d449dca6b5d6" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1aa8c36ff07e97f31f50f59672a6f9b7fe" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1graphql_1_1_execution_context_1a84eb125a94869508c7f6539c358e94c1" prot="public" virt="non-virtual"><scope>themis::graphql::ExecutionContext</scope><name>variables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

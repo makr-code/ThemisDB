@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_rebalance_lock_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::RebalanceLockHandle</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ac17c9aef7fac5770359d7cb0b152ba18" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class IConsistentHashRing</definition>
+        <argsstring></argsstring>
+        <name>IConsistentHashRing</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::IConsistentHashRing</qualifiedname>
+        <param>
+          <type>IConsistentHashRing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="286" column="18" bodyfile="include/sharding/sharding_interfaces.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a55de8be2d1fb128cf7db48e6bb8393e4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::sharding::RebalanceLockHandle::release_fn_</definition>
+        <argsstring></argsstring>
+        <name>release_fn_</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::release_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="298" column="19" bodyfile="include/sharding/sharding_interfaces.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>RebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="263" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a727ac598b57a8000bc29b136ad00d813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</definition>
+        <argsstring>(const RebalanceLockHandle &amp;)=delete</argsstring>
+        <name>RebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</qualifiedname>
+        <param>
+          <type>const RebalanceLockHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="264" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a62208a5c343a50975913c75d0b80e61c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" kindref="member">RebalanceLockHandle</ref> &amp;</type>
+        <definition>RebalanceLockHandle &amp; themis::sharding::RebalanceLockHandle::operator=</definition>
+        <argsstring>(const RebalanceLockHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" kindref="member">RebalanceLockHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="265" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a15f011e4d99b8f156c4f1193f39a2873" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</definition>
+        <argsstring>(RebalanceLockHandle &amp;&amp;other) noexcept</argsstring>
+        <name>RebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</qualifiedname>
+        <param>
+          <type>RebalanceLockHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="267" column="5" bodyfile="include/sharding/sharding_interfaces.h" bodystart="267" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ac25261b3ee7d9dd6454ba50ac60f51d3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" kindref="member">RebalanceLockHandle</ref> &amp;</type>
+        <definition>RebalanceLockHandle &amp; themis::sharding::RebalanceLockHandle::operator=</definition>
+        <argsstring>(RebalanceLockHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" kindref="member">RebalanceLockHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="272" column="25" bodyfile="include/sharding/sharding_interfaces.h" bodystart="272" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a1575cf47a9e7de86240cc0fabc0e64b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceLockHandle::~RebalanceLockHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~RebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::~RebalanceLockHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="281" column="5" bodyfile="include/sharding/sharding_interfaces.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a251c08b4805c07e0df259bf488cc90d0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceLockHandle::isHeld</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHeld</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::isHeld</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="283" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1afb6c7d7abaca6d00d8e51e2febb74dd2" prot="private" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</definition>
+        <argsstring>(std::function&lt; void()&gt; release_fn) noexcept</argsstring>
+        <name>RebalanceLockHandle</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::RebalanceLockHandle</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>release_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="288" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="288" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_lock_handle_1adfcaa93bf23ecdacfe691bc873d38b19" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RebalanceLockHandle::releaseIfHeld</definition>
+        <argsstring>()</argsstring>
+        <name>releaseIfHeld</name>
+        <qualifiedname>themis::sharding::RebalanceLockHandle::releaseIfHeld</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="291" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="291" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII lock handle returned by <ref refid="classthemis_1_1sharding_1_1_i_consistent_hash_ring_1aa93a4cf990a56e4795a55d84c50f3fca" kindref="member">IConsistentHashRing::acquireRebalanceLock()</ref>.</para>
+<para>While any <ref refid="classthemis_1_1sharding_1_1_rebalance_lock_handle" kindref="compound">RebalanceLockHandle</ref> is alive the ring is immutable: callers observe the pre-rebalance ring until all handles are destroyed. </para>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="261" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="261" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ac17c9aef7fac5770359d7cb0b152ba18" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>IConsistentHashRing</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a251c08b4805c07e0df259bf488cc90d0" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>isHeld</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a62208a5c343a50975913c75d0b80e61c" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ac25261b3ee7d9dd6454ba50ac60f51d3" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1ab864d23d0644629fae2b89abc203580e" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>RebalanceLockHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a727ac598b57a8000bc29b136ad00d813" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>RebalanceLockHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a15f011e4d99b8f156c4f1193f39a2873" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>RebalanceLockHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1afb6c7d7abaca6d00d8e51e2febb74dd2" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>RebalanceLockHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a55de8be2d1fb128cf7db48e6bb8393e4" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>release_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1adfcaa93bf23ecdacfe691bc873d38b19" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>releaseIfHeld</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_lock_handle_1a1575cf47a9e7de86240cc0fabc0e64b2" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceLockHandle</scope><name>~RebalanceLockHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

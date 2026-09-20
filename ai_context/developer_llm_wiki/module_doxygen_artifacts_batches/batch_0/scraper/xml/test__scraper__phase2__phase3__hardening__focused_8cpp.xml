@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scraper__phase2__phase3__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_scraper_phase2_phase3_hardening_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="scraper__diagnostics_8h" local="yes">scraper/scraper_diagnostics.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>scraper/scraper_diagnostics.h</label>
+        <link refid="scraper__diagnostics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp</label>
+        <link refid="test__scraper__phase2__phase3__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1test">themis::scraper::test</innernamespace>
+    <briefdescription>
+<para>Phase 2+3 focused hardening tests for the scraper module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SCR-09 through SCR-16 No file I/O, no network, deterministic only.</para>
+<para>Coverage: SCR-09 faultClassOf() — all ScraperError codes map to expected fault class SCR-10 defaultSeverityOf() — fail-closed errors map to kFatal; others kError/kInfo SCR-11 makeDiagnosticEvent() — returned event fields match inputs SCR-12 ListeningScraperDiagnosticSink::emit() — records events and calls listeners SCR-13 ListeningScraperDiagnosticSink concurrency — two threads emit without data race SCR-14 NullScraperDiagnosticSink — silently accepts all events SCR-15 Diagnostics listener broadcast — multiple listeners all receive same event SCR-16 ScraperDiagnosticEvent timestamp monotonicity</para>
+<para><simplesect kind="see"><para><ref refid="scraper__diagnostics_8h" kindref="compound">include/scraper/scraper_diagnostics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/scraper/ROADMAP.md — Phase 2+3 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__diagnostics_8h" kindref="compound">scraper/scraper_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-09<sp/>—<sp/>faultClassOf()<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR09_FaultClassMapping)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" kindref="member">ScraperFaultClass::kFetchPath</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293af95a9f60e23d9fda6802b5e60a0af0d6" kindref="member">ScraperFaultClass::kRenderPath</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" kindref="member">ScraperFaultClass::kParsePath</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a822e3b9ac65ce73538ee1d1d656c01a6" kindref="member">ScraperFaultClass::kEvaluatorPath</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>),</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a3cb8c1bf2dc5c7050fce3f868e0844c9" kindref="member">ScraperFaultClass::kWritePath</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" kindref="member">ScraperError::kSourceNotFound</ref>),</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" kindref="member">ScraperFaultClass::kCrawlControl</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">ScraperError::kPaginationLimit</ref>),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" kindref="member">ScraperFaultClass::kCrawlControl</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" kindref="member">faultClassOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-10<sp/>—<sp/>defaultSeverityOf()<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR10_DefaultSeverityMapping)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kSuccess<sp/>→<sp/>kInfo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>),</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213a176a473e63c17ccdac91640c67f149bf" kindref="member">ScraperFaultSeverity::kInfo</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fail-closed<sp/>errors<sp/>→<sp/>kFatal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" kindref="member">ScraperFaultSeverity::kFatal</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" kindref="member">ScraperFaultSeverity::kFatal</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>),</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" kindref="member">ScraperFaultSeverity::kFatal</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>non-fail-closed<sp/>errors<sp/>→<sp/>kError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>),</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>),</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>),</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" kindref="member">ScraperError::kSourceNotFound</ref>),</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" kindref="member">defaultSeverityOf</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">ScraperError::kPaginationLimit</ref>),</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-11<sp/>—<sp/>makeDiagnosticEvent()<sp/>field<sp/>population</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR11_MakeDiagnosticEventFields)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://example.com/doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP<sp/>503<sp/>–<sp/>service<sp/>unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(err,<sp/>url,<sp/>msg);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.error,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>err);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.source_url,<sp/><sp/>url);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.message,<sp/><sp/><sp/><sp/><sp/>msg);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.fault_class,<sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" kindref="member">ScraperFaultClass::kFetchPath</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.severity,<sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.message.empty())</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;makeDiagnosticEvent<sp/>must<sp/>not<sp/>produce<sp/>an<sp/>event<sp/>with<sp/>empty<sp/>message&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-12<sp/>—<sp/>ListeningScraperDiagnosticSink<sp/>records<sp/>events<sp/>and<sp/>calls<sp/>listener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR12_ListeningSinkRecordsAndBroadcasts)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ListeningScraperDiagnosticSink<sp/>sink;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>listener_calls<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.addListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ScraperDiagnosticEvent&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++listener_calls;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(e.error,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://test.example/page&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Malformed<sp/>HTML:<sp/>unexpected<sp/>tag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.emit(ev);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sink.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(listener_calls,<sp/>1);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>sink.snapshot();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(snap.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap[0].error,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap[0].fault_class,<sp/><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" kindref="member">ScraperFaultClass::kParsePath</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-13<sp/>—<sp/>ListeningScraperDiagnosticSink<sp/>concurrency:<sp/>no<sp/>data<sp/>race</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR13_ListeningSinkConcurrentEmit)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ListeningScraperDiagnosticSink<sp/>sink;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>total{0};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.addListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ScraperDiagnosticEvent&amp;)<sp/>{<sp/>++total;<sp/>});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kPerThread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;](<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>err)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(err,<sp/></highlight><highlight class="stringliteral">&quot;https://bench.example/&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>emit<sp/>test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sink.emit(ev);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t1(worker,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t2(worker,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.join();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.join();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sink.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(2<sp/>*<sp/>kPerThread));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total.load(),<sp/>2<sp/>*<sp/>kPerThread);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-14<sp/>—<sp/>NullScraperDiagnosticSink<sp/>silently<sp/>absorbs<sp/>all<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR14_NullSinkAbsorbs)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>NullScraperDiagnosticSink<sp/>sink;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw<sp/>or<sp/>crash<sp/>for<sp/>any<sp/>error<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>:<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">ScraperError::kParseError</ref>,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" kindref="member">ScraperError::kSourceNotFound</ref>,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">ScraperError::kPaginationLimit</ref>,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(err,<sp/></highlight><highlight class="stringliteral">&quot;https://null.example/&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;null<sp/>sink<sp/>test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(sink.emit(ev));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-15<sp/>—<sp/>Multiple<sp/>listeners<sp/>all<sp/>receive<sp/>the<sp/>same<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR15_MultipleListenersBroadcast)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ListeningScraperDiagnosticSink<sp/>sink;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperError&gt;<sp/>received_a,<sp/>received_b;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.addListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ScraperDiagnosticEvent&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_a.push_back(e.error);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>sink.addListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ScraperDiagnosticEvent&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_b.push_back(e.error);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>errors[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref>,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>:<sp/>errors)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sink.emit(<ref refid="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" kindref="member">makeDiagnosticEvent</ref>(e,<sp/></highlight><highlight class="stringliteral">&quot;https://multi.example/&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;broadcast&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(received_a.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(received_b.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3u;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(received_a[i],<sp/>received_b[i])</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Listener<sp/>A<sp/>and<sp/>B<sp/>must<sp/>receive<sp/>identical<sp/>events<sp/>in<sp/>order&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-16<sp/>—<sp/>ScraperDiagnosticEvent<sp/>default<sp/>timestamp<sp/>is<sp/>not<sp/>epoch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperPhase23Hardening,<sp/>SCR16_EventTimestampInitialised)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">clk<sp/>=<sp/>std::chrono::system_clock;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>default-constructed<sp/>timestamp<sp/>must<sp/>be<sp/>close<sp/>to<sp/>now<sp/>(within<sp/>5<sp/>s).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>ScraperDiagnosticEvent<sp/>ev;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>clk::now();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delta<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now<sp/>-<sp/>ev.timestamp).count();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Positive:<sp/>timestamp<sp/>&lt;=<sp/>now.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(delta,<sp/>0)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>timestamp<sp/>must<sp/>not<sp/>be<sp/>in<sp/>the<sp/>future&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reasonable:<sp/>timestamp<sp/>is<sp/>within<sp/>5<sp/>seconds<sp/>of<sp/>construction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(delta,<sp/>5)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>timestamp<sp/>appears<sp/>to<sp/>be<sp/>uninitialised<sp/>(too<sp/>far<sp/>from<sp/>now)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1knowledge__base__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::knowledge_base_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1acfd716f5409df391a50e24dead71f6fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_01_parse_valid_config)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_01_parse_valid_config</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-01: Parse Valid YAML Config </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="600" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="600" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a52d3da790928e9d4c9bdf332af7a2c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_02_missing_file)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_02_missing_file</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-02: Missing Config File </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="609" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="609" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a2144669d5e61b130550223e58eb9a733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_03_load_templates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_03_load_templates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-03: Load Templates </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="618" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="618" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a6f7e221b384763bb2d101f34a054566d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_04_yaml_callback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_04_yaml_callback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-04: Custom YAML Callback </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="627" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="627" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a2f05bc46166857f7fea7d7f1e76b77d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_05_assert_fact)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_05_assert_fact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-05: Assert <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="636" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="636" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a96ae3b6e6cee8893b50a8423242f680c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_06_query_facts)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_06_query_facts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-06: Query Facts </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="648" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="648" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a2f1835d3447f7ae5be2bdeeae7771475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_07_pattern_matching)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_07_pattern_matching</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-07: Pattern Matching </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="670" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="670" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a74d3fbbec79e54e9b1541d1c0b7b4d29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_08_malformed_yaml)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_08_malformed_yaml</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-08: Malformed YAML </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="679" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="679" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1aa6f2765626544620b6fc8172e5af8acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_09_empty_templates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_09_empty_templates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-09: Empty Templates </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="688" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="688" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1knowledge__base__tests_1a5edfa55b2cced6d08ef1ae5d5c7e037d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::knowledge_base_tests::TEST</definition>
+        <argsstring>(KnowledgeBase, KB_10_callback_error_handling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::knowledge_base_tests::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref></type>
+        </param>
+        <param>
+          <type>KB_10_callback_error_handling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>KB-10: Callback Error Handling </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="697" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="697" bodyend="701"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="595" column="1"/>
+  </compounddef>
+</doxygen>

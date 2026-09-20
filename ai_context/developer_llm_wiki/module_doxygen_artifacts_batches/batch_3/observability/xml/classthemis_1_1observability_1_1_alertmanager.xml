@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_alertmanager" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::Alertmanager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_alerting_engine" prot="public" virt="non-virtual">themis::observability::AlertingEngine</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_default_alertmanager" prot="public" virt="non-virtual">themis::observability::DefaultAlertmanager</derivedcompoundref>
+    <includes refid="alertmanager_8h" local="no">alertmanager.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alertmanager_1a9fd107e09172b45a5e3e49f7c9dcc971" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_alertmanager_config" kindref="compound">AlertmanagerConfig</ref></type>
+        <definition>AlertmanagerConfig themis::observability::Alertmanager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::Alertmanager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="166" column="24" bodyfile="include/observability/alertmanager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alertmanager_1a7cd8d987198a8a0684e6c676c02fd85f" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::vector&lt;Alert&gt; themis::observability::Alertmanager::active_alerts_</definition>
+        <argsstring></argsstring>
+        <name>active_alerts_</name>
+        <qualifiedname>themis::observability::Alertmanager::active_alerts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="167" column="17" bodyfile="include/observability/alertmanager.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alertmanager_1aa8ed31ceeaa8b0c565eca83d17532009" prot="protected" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::Alertmanager::active_alerts_mutex_</definition>
+        <argsstring></argsstring>
+        <name>active_alerts_mutex_</name>
+        <qualifiedname>themis::observability::Alertmanager::active_alerts_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="168" column="24" bodyfile="include/observability/alertmanager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1ac8dbfa627bc29bfc7c6c3cc74af6bd48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::Alertmanager::Alertmanager</definition>
+        <argsstring>()=default</argsstring>
+        <name>Alertmanager</name>
+        <qualifiedname>themis::observability::Alertmanager::Alertmanager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a8dd1b3509f17168b98f2f15ce1fc6482" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::Alertmanager::Alertmanager</definition>
+        <argsstring>(const AlertmanagerConfig &amp;config)</argsstring>
+        <name>Alertmanager</name>
+        <qualifiedname>themis::observability::Alertmanager::Alertmanager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alertmanager_config" kindref="compound">AlertmanagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="109" column="14" bodyfile="include/observability/alertmanager.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1ac6f5f38e78ae205de696d8dd3a0f6504" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::Alertmanager::~Alertmanager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Alertmanager</name>
+        <qualifiedname>themis::observability::Alertmanager::~Alertmanager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="110" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a30d622ac5c40c75f5de5bed172dd4ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::Alertmanager::initialize</definition>
+        <argsstring>(const AlertmanagerConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::observability::Alertmanager::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1a69869d1fa8a69b8f60c3e50ceea55d82">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alertmanager_config" kindref="compound">AlertmanagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize alertmanager with configuration. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="117" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a5847532ebfbc7419583dea7822898c18" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::Alertmanager::sendAlert</definition>
+        <argsstring>(const Alert &amp;alert)</argsstring>
+        <name>sendAlert</name>
+        <qualifiedname>themis::observability::Alertmanager::sendAlert</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09">sendAlert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1a9841fda6bbb4ab66e087d10beaa7a2e9">sendAlert</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Send <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send an alert to the alertmanager backend. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> to send </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="124" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1add7bb4b67bd83d8a8ecfd132d39471c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::Alertmanager::resolveAlert</definition>
+        <argsstring>(const std::string &amp;alert_id)</argsstring>
+        <name>resolveAlert</name>
+        <qualifiedname>themis::observability::Alertmanager::resolveAlert</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_alerting_engine_1a3ebcf2e868a7bc0ef4d8c6e20924f866">resolveAlert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1a0cd0b651aaa000ae18691c851d0419fa">resolveAlert</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve a previously-fired alert. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of alert to resolve </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="131" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a1d00c842b4db92de70c8036405cb734c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::Alertmanager::silenceAlert</definition>
+        <argsstring>(const std::string &amp;alert_id, int duration_minutes)</argsstring>
+        <name>silenceAlert</name>
+        <qualifiedname>themis::observability::Alertmanager::silenceAlert</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_alerting_engine_1a010e86fdcc86bac39022258a3f1f708f">silenceAlert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1aa79668086438971b09fbc9114132082d">silenceAlert</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>duration_minutes</declname>
+        </param>
+        <briefdescription>
+<para>Silence <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Silence an alert for a given duration. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of alert to silence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_minutes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration to silence for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_minutes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="139" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="122" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a33ad1f0a824ae2bafdfb9485118ee242" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::vector&lt; Alert &gt; themis::observability::Alertmanager::getActiveAlerts</definition>
+        <argsstring>()</argsstring>
+        <name>getActiveAlerts</name>
+        <qualifiedname>themis::observability::Alertmanager::getActiveAlerts</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1a53ec44a1d8925c01127e3766f5aa1629">getActiveAlerts</reimplementedby>
+        <briefdescription>
+<para>Get Active Alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all currently active (firing or silenced) alerts. <simplesect kind="return"><para>Vector of active alerts</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="145" column="25" bodyfile="src/observability/alertmanager.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a79f80fa0c95a809e26bea46c7520cc3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::Alertmanager::testConnection</definition>
+        <argsstring>()</argsstring>
+        <name>testConnection</name>
+        <qualifiedname>themis::observability::Alertmanager::testConnection</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_alerting_engine_1a2b8c91c4d2385a56c79503442843aaa9">testConnection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_alertmanager_1a3fb5eb4bf1a762c44c49d0edc713aaa1">testConnection</reimplementedby>
+        <briefdescription>
+<para>Test Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test connectivity to the alertmanager backend. <simplesect kind="return"><para>Result&lt;void&gt; on success, Error on failure</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="151" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a5889048fa2b10033478bcdc36cb6a1f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::Alertmanager::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::observability::Alertmanager::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if alertmanager is enabled <simplesect kind="return"><para>true if enabled, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="157" column="10" bodyfile="include/observability/alertmanager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a0d65dec54b4f2979581ca9174abe2be2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1observability_1_1_alertmanager_config" kindref="compound">AlertmanagerConfig</ref> &amp;</type>
+        <definition>const AlertmanagerConfig &amp; themis::observability::Alertmanager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::Alertmanager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get alertmanager configuration <simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="163" column="30" bodyfile="include/observability/alertmanager.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a5094f96337bfac21cd40626181a01baa" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Alertmanager::severityToString</definition>
+        <argsstring>(AlertSeverity severity)</argsstring>
+        <name>severityToString</name>
+        <qualifiedname>themis::observability::Alertmanager::severityToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2f" kindref="member">AlertSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <briefdescription>
+<para>Severity To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements severityToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="171" column="24" bodyfile="src/observability/alertmanager.cpp" bodystart="213" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1abb0ced097b0289fad0a00d214e5a9486" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Alertmanager::statusToString</definition>
+        <argsstring>(AlertStatus status)</argsstring>
+        <name>statusToString</name>
+        <qualifiedname>themis::observability::Alertmanager::statusToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a4220c1ff0acfbc9d15fff7d84d33051d" kindref="member">AlertStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Status To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements statusToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="174" column="24" bodyfile="src/observability/alertmanager.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a92cc7b4b91256eefa266f6ccc6096afa" prot="protected" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &gt;</type>
+        <definition>std::optional&lt; Alert &gt; themis::observability::Alertmanager::findActiveAlertById</definition>
+        <argsstring>(const std::string &amp;alert_id) const</argsstring>
+        <name>findActiveAlertById</name>
+        <qualifiedname>themis::observability::Alertmanager::findActiveAlertById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">active_alerts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="176" column="20" bodyfile="src/observability/alertmanager.cpp" bodystart="155" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a3b647f1095611057deaee9307c8e8cdf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::Alertmanager::upsertActiveAlert</definition>
+        <argsstring>(const Alert &amp;alert)</argsstring>
+        <name>upsertActiveAlert</name>
+        <qualifiedname>themis::observability::Alertmanager::upsertActiveAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Upsert Active <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::find_if(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="177" column="10" bodyfile="src/observability/alertmanager.cpp" bodystart="175" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alertmanager_1a49e015e0d20ac44088d97087e17721d2" prot="protected" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::Alertmanager::removeActiveAlertById</definition>
+        <argsstring>(const std::string &amp;alert_id, Alert *removed=nullptr)</argsstring>
+        <name>removeActiveAlertById</name>
+        <qualifiedname>themis::observability::Alertmanager::removeActiveAlertById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> *</type>
+          <declname>removed</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Remove Active <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> By Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">removed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::find_if(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="178" column="11" bodyfile="src/observability/alertmanager.cpp" bodystart="193" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Base <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> interface for ThemisDB observability.</para>
+<para>Provides integration with Prometheus <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> or compatible systems:<itemizedlist>
+<listitem><para>Send alerts for critical system events</para>
+</listitem><listitem><para>Resolve alerts when issues are fixed</para>
+</listitem><listitem><para>Silence / acknowledge active alerts</para>
+</listitem></itemizedlist>
+</para>
+<para>Production use: instantiate <ref refid="classthemis_1_1observability_1_1_default_alertmanager" kindref="compound">DefaultAlertmanager</ref> which implements the Prometheus <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> v2 HTTP API with retry and auth-token support. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::AlertingEngine</label>
+        <link refid="classthemis_1_1observability_1_1_alerting_engine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::observability::Alertmanager</label>
+        <link refid="classthemis_1_1observability_1_1_alertmanager"/>
+      </node>
+      <node id="3">
+        <label>themis::observability::DefaultAlertmanager</label>
+        <link refid="classthemis_1_1observability_1_1_default_alertmanager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::Alertmanager</label>
+        <link refid="classthemis_1_1observability_1_1_alertmanager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::AlertmanagerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_alertmanager_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/alertmanager.h" line="106" column="1" bodyfile="include/observability/alertmanager.h" bodystart="106" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a7cd8d987198a8a0684e6c676c02fd85f" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>active_alerts_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1aa8ed31ceeaa8b0c565eca83d17532009" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>active_alerts_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1ac8dbfa627bc29bfc7c6c3cc74af6bd48" prot="public" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>Alertmanager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a8dd1b3509f17168b98f2f15ce1fc6482" prot="public" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>Alertmanager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a9fd107e09172b45a5e3e49f7c9dcc971" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a92cc7b4b91256eefa266f6ccc6096afa" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>findActiveAlertById</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a33ad1f0a824ae2bafdfb9485118ee242" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>getActiveAlerts</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a0d65dec54b4f2979581ca9174abe2be2" prot="public" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a30d622ac5c40c75f5de5bed172dd4ab3" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a5889048fa2b10033478bcdc36cb6a1f1" prot="public" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a49e015e0d20ac44088d97087e17721d2" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>removeActiveAlertById</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1add7bb4b67bd83d8a8ecfd132d39471c2" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>resolveAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a5847532ebfbc7419583dea7822898c18" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>sendAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a5094f96337bfac21cd40626181a01baa" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>severityToString</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a1d00c842b4db92de70c8036405cb734c" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>silenceAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1abb0ced097b0289fad0a00d214e5a9486" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>statusToString</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a79f80fa0c95a809e26bea46c7520cc3c" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>testConnection</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a3b647f1095611057deaee9307c8e8cdf" prot="protected" virt="non-virtual"><scope>themis::observability::Alertmanager</scope><name>upsertActiveAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1ac6f5f38e78ae205de696d8dd3a0f6504" prot="public" virt="virtual"><scope>themis::observability::Alertmanager</scope><name>~Alertmanager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

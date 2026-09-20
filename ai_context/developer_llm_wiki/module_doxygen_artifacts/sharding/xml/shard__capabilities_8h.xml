@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__capabilities_8h" kind="file" language="C++">
+    <compoundname>shard_capabilities.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includedby refid="capability__matcher_8h" local="yes">include/sharding/capability_matcher.h</includedby>
+    <includedby refid="shard__topology_8h" local="yes">include/sharding/shard_topology.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="39">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="7">
+        <label>benchmarks/sharding/bench_gossip_config.cpp</label>
+        <link refid="bench__gossip__config_8cpp"/>
+      </node>
+      <node id="46">
+        <label>benchmarks/sharding/bench_locality_aware_router.cpp</label>
+        <link refid="bench__locality__aware__router_8cpp"/>
+      </node>
+      <node id="8">
+        <label>benchmarks/sharding/bench_shard_resource_manager.cpp</label>
+        <link refid="bench__shard__resource__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="10">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/sharding/admin_operations.h</label>
+        <link refid="admin__operations_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/sharding/auto_recovery_manager.h</label>
+        <link refid="auto__recovery__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/capability_matcher.h</label>
+        <link refid="capability__matcher_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/sharding/hardware_migration_manager.h</label>
+        <link refid="hardware__migration__manager_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/sharding/locality_aware_router.h</label>
+        <link refid="locality__aware__router_8h"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/sharding/predictive_detector.h</label>
+        <link refid="predictive__detector_8h"/>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/sharding/raft_shard_manager.h</label>
+        <link refid="raft__shard__manager_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/sharding/remote_executor.h</label>
+        <link refid="remote__executor_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/sharding/shard_repair_engine.h</label>
+        <link refid="shard__repair__engine_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/sharding/sharding_manager.h</label>
+        <link refid="sharding__manager_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/sharding/urn_resolver.h</label>
+        <link refid="urn__resolver_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/admin_operations.cpp</label>
+        <link refid="admin__operations_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/sharding/auto_rebalancer.cpp</label>
+        <link refid="auto__rebalancer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/capability_matcher.cpp</label>
+        <link refid="capability__matcher_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/sharding/cloud_agent.cpp</label>
+        <link refid="cloud__agent_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/sharding/cloud_backup.cpp</label>
+        <link refid="cloud__backup_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/sharding/consistent_hash.cpp</label>
+        <link refid="consistent__hash_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/sharding/data_migrator.cpp</label>
+        <link refid="data__migrator_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/sharding/gossip_config_manager.cpp</label>
+        <link refid="gossip__config__manager_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/sharding/gossip_protocol.cpp</label>
+        <link refid="gossip__protocol_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/sharding/hardware_migration_manager.cpp</label>
+        <link refid="hardware__migration__manager_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/sharding/hot_spare_manager.cpp</label>
+        <link refid="hot__spare__manager_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/sharding/locality_aware_router.cpp</label>
+        <link refid="locality__aware__router_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/sharding/predictive_detector.cpp</label>
+        <link refid="predictive__detector_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/sharding/raft_shard_manager.cpp</label>
+        <link refid="raft__shard__manager_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/sharding/redundancy_strategy.cpp</label>
+        <link refid="redundancy__strategy_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/sharding/remote_executor.cpp</label>
+        <link refid="remote__executor_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/sharding/shard_load_detector.cpp</label>
+        <link refid="shard__load__detector_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/sharding/shard_repair_engine.cpp</label>
+        <link refid="shard__repair__engine_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/sharding/shard_topology.cpp</label>
+        <link refid="shard__topology_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/sharding/sharding_manager_edition.cpp</label>
+        <link refid="sharding__manager__edition_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/sharding/urn_resolver.cpp</label>
+        <link refid="urn__resolver_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/sharding/test_sharding_core.cpp</label>
+        <link refid="test__sharding__core_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_domain_capability" prot="public">themis::sharding::DomainCapability</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_capability_match_result" prot="public">themis::sharding::CapabilityMatchResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1sharding_1_1_domain_capability" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_domain_capability" kindref="compound">DomainCapability</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" kindref="member">domains</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" kindref="member">organizations</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" kindref="member">regions</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" kindref="member">data_types</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" kindref="member">keywords</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_domain_capability_1a00c89390559fccb07a9a7f8577ee56ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a00c89390559fccb07a9a7f8577ee56ca" kindref="member">embedding</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_domain_capability_1a446cd926d4115053c46709283b2f4de1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a446cd926d4115053c46709283b2f4de1" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_domain_capability_1af8d320781f25c2a5a8c85ef6cedca079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1af8d320781f25c2a5a8c85ef6cedca079" kindref="member">isEmpty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" kindref="member">domains</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" kindref="member">organizations</ref>.empty()<sp/>&amp;&amp;<sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" kindref="member">regions</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" kindref="member">data_types</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" kindref="member">keywords</ref>.empty();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_domain_capability_1a1309fd684b362977d702b53922ef6c83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a1309fd684b362977d702b53922ef6c83" kindref="member">getAllKeywords</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>all_keywords(<ref refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" kindref="member">keywords</ref>.begin(),<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a902070b44357df6963bd41cdcfdac820" kindref="member">keywords</ref>.end());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_keywords.insert(<ref refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" kindref="member">domains</ref>.begin(),<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a2f4ec09fd540024819266f437b187775" kindref="member">domains</ref>.end());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_keywords.insert(<ref refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" kindref="member">organizations</ref>.begin(),<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1ae528471707ce3efab963437c02cbfc63" kindref="member">organizations</ref>.end());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_keywords.insert(<ref refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" kindref="member">regions</ref>.begin(),<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1aeecde35388ff5422b4f9274394b56786" kindref="member">regions</ref>.end());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_keywords.insert(<ref refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" kindref="member">data_types</ref>.begin(),<sp/><ref refid="structthemis_1_1sharding_1_1_domain_capability_1a1b2c922f92954515279fd552fb7c48e8" kindref="member">data_types</ref>.end());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>all_keywords;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_capability_match_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_capability_match_result_1a6e4d79e9eee497b7a2c6edb039277440" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a6e4d79e9eee497b7a2c6edb039277440" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overall<sp/>relevance<sp/>score<sp/>[0.0,<sp/>1.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1sharding_1_1_capability_match_result_1ae68df37cf38155f1e957f8d072985314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1ae68df37cf38155f1e957f8d072985314" kindref="member">keyword_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keyword-based<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1sharding_1_1_capability_match_result_1a3065e4f28b534ffd54644595a382b3e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a3065e4f28b534ffd54644595a382b3e7" kindref="member">semantic_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedding-based<sp/>semantic<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1sharding_1_1_capability_match_result_1a9fbd90bd71b192abbe3f55f66e31473c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a9fbd90bd71b192abbe3f55f66e31473c" kindref="member">domain_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Domain<sp/>match<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1sharding_1_1_capability_match_result_1ab1598123a9b8e87ed42ba3a16faadc72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1ab1598123a9b8e87ed42ba3a16faadc72" kindref="member">organization_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>match<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1sharding_1_1_capability_match_result_1a678797cb3fcd85bc233136517fe8efb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a678797cb3fcd85bc233136517fe8efb6" kindref="member">region_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Region<sp/>match<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1sharding_1_1_capability_match_result_1aa67d32b7f856482482b9a58c20080aca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aa67d32b7f856482482b9a58c20080aca" kindref="member">data_type_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>type<sp/>match<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1sharding_1_1_capability_match_result_1a7cb0e03ddfd801fc9329078afe78ab6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a7cb0e03ddfd801fc9329078afe78ab6c" kindref="member">matched_keywords</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_capability_match_result_1a6fd1588b445b28403b8fc64b78c474b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a6fd1588b445b28403b8fc64b78c474b0" kindref="member">matched_domains</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_capability_match_result_1a591d29830263c528cab8f5127e9bb371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a591d29830263c528cab8f5127e9bb371" kindref="member">matched_organizations</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_capability_match_result_1a00286b87e44b86b96f790a425b68c59b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a00286b87e44b86b96f790a425b68c59b" kindref="member">matched_regions</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_capability_match_result_1a0d079bd36ac9735f3a53c2de87450bbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a0d079bd36ac9735f3a53c2de87450bbd" kindref="member">matched_data_types</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref>()<sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref>(0.0),<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1ae68df37cf38155f1e957f8d072985314" kindref="member">keyword_score</ref>(0.0),<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a3065e4f28b534ffd54644595a382b3e7" kindref="member">semantic_score</ref>(0.0),</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a9fbd90bd71b192abbe3f55f66e31473c" kindref="member">domain_score</ref>(0.0),<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1ab1598123a9b8e87ed42ba3a16faadc72" kindref="member">organization_score</ref>(0.0),<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a678797cb3fcd85bc233136517fe8efb6" kindref="member">region_score</ref>(0.0),<sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aa67d32b7f856482482b9a58c20080aca" kindref="member">data_type_score</ref>(0.0)<sp/>{}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1sharding_1_1_capability_match_result_1aea4e1ce623f3aee6566187572e304a44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aea4e1ce623f3aee6566187572e304a44" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref><sp/>&gt;<sp/>other.<ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Reversed<sp/>for<sp/>descending<sp/>sort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1sharding_1_1_capability_match_result_1addf5248d6516eb5858076c231ac261ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1addf5248d6516eb5858076c231ac261ea" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref><sp/>&lt;<sp/>other.<ref refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" kindref="member">score</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/shard_capabilities.h"/>
+  </compounddef>
+</doxygen>

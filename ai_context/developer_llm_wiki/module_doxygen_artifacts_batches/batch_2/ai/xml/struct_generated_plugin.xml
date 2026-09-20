@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_generated_plugin" kind="struct" language="C++" prot="public">
+    <compoundname>GeneratedPlugin</compoundname>
+    <includes refid="ai__plugin__generator_8h" local="no">ai_plugin_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_generated_plugin_1a7709e7fd6f19807807f916cec9b41010" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::GeneratedPlugin::header_code</definition>
+        <argsstring></argsstring>
+        <name>header_code</name>
+        <qualifiedname>GeneratedPlugin::header_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="58" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1af350ea1a89e5d88b2ca6084a04d087e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::GeneratedPlugin::implementation_code</definition>
+        <argsstring></argsstring>
+        <name>implementation_code</name>
+        <qualifiedname>GeneratedPlugin::implementation_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="59" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1a8bf75343c8da40bfcb10fa065100afad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::GeneratedPlugin::test_code</definition>
+        <argsstring></argsstring>
+        <name>test_code</name>
+        <qualifiedname>GeneratedPlugin::test_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="60" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1ae114cf7d881fc652929c829f38997625" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::GeneratedPlugin::cmake_code</definition>
+        <argsstring></argsstring>
+        <name>cmake_code</name>
+        <qualifiedname>GeneratedPlugin::cmake_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="61" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1a2b19b4195c80133615ddee933baf4a07" prot="public" static="no" mutable="no">
+        <type>PluginManifest</type>
+        <definition>PluginManifest themis::plugins::ai::GeneratedPlugin::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>GeneratedPlugin::manifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="62" column="20" bodyfile="include/ai/ai_plugin_generator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1a407a7e0cc7fc80119822ee1a41686ab6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ai::GeneratedPlugin::build_dependencies</definition>
+        <argsstring></argsstring>
+        <name>build_dependencies</name>
+        <qualifiedname>GeneratedPlugin::build_dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="63" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1a5d5087b2dfdef5c8d6417ed2544c6f0e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::GeneratedPlugin::passed_security_checks</definition>
+        <argsstring></argsstring>
+        <name>passed_security_checks</name>
+        <qualifiedname>GeneratedPlugin::passed_security_checks</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="64" column="10" bodyfile="include/ai/ai_plugin_generator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generated_plugin_1a404a569f0ba10165195b6cd497f156ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::GeneratedPlugin::security_report</definition>
+        <argsstring></argsstring>
+        <name>security_report</name>
+        <qualifiedname>GeneratedPlugin::security_report</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="65" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="57" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="57" bodyend="66"/>
+    <listofallmembers>
+      <member refid="struct_generated_plugin_1a407a7e0cc7fc80119822ee1a41686ab6" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>build_dependencies</name></member>
+      <member refid="struct_generated_plugin_1ae114cf7d881fc652929c829f38997625" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>cmake_code</name></member>
+      <member refid="struct_generated_plugin_1a7709e7fd6f19807807f916cec9b41010" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>header_code</name></member>
+      <member refid="struct_generated_plugin_1af350ea1a89e5d88b2ca6084a04d087e9" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>implementation_code</name></member>
+      <member refid="struct_generated_plugin_1a2b19b4195c80133615ddee933baf4a07" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>manifest</name></member>
+      <member refid="struct_generated_plugin_1a5d5087b2dfdef5c8d6417ed2544c6f0e" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>passed_security_checks</name></member>
+      <member refid="struct_generated_plugin_1a404a569f0ba10165195b6cd497f156ec" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>security_report</name></member>
+      <member refid="struct_generated_plugin_1a8bf75343c8da40bfcb10fa065100afad" prot="public" virt="non-virtual"><scope>GeneratedPlugin</scope><name>test_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

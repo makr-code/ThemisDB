@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_legal_hold" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::LegalHold</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1a2770e9b86ba77eea5587ff44a26e6956" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LegalHold::hold_id</definition>
+        <argsstring></argsstring>
+        <name>hold_id</name>
+        <qualifiedname>themis::governance::LegalHold::hold_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="344" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1a04c1921dd2a3179ea940d1761b8011d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LegalHold::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::LegalHold::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="345" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1acfcf60d9985b0f80bb50a45528a9ad53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LegalHold::initiated_by</definition>
+        <argsstring></argsstring>
+        <name>initiated_by</name>
+        <qualifiedname>themis::governance::LegalHold::initiated_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="346" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1a6ca3b7941b2094c593c255a5c7e1f5ea" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::LegalHold::initiated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>initiated_at_ms</name>
+        <qualifiedname>themis::governance::LegalHold::initiated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="347" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1a546d8c499e81bcac474600cf02605e53" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::LegalHold::expire_at_ms</definition>
+        <argsstring></argsstring>
+        <name>expire_at_ms</name>
+        <qualifiedname>themis::governance::LegalHold::expire_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="348" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1afd72974994782bfe679a209d97045cb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LegalHold::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::governance::LegalHold::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="349" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_legal_hold_1a9016cd4bafe40cc93b158ddbff273217" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LegalHold::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::governance::LegalHold::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="350" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_legal_hold_1af4114ec76afe06ed4d72adf111db8d55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::LegalHold::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::LegalHold::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="356" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="727" bodyend="737"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_legal_hold_1a821a8ec3c8ed3ca04eaccccf93d69444" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_legal_hold" kindref="compound">LegalHold</ref></type>
+        <definition>LegalHold themis::governance::LegalHold::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::LegalHold::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="362" column="22" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="745" bodyend="769"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="343" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="343" bodyend="363"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a546d8c499e81bcac474600cf02605e53" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>expire_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a821a8ec3c8ed3ca04eaccccf93d69444" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a2770e9b86ba77eea5587ff44a26e6956" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>hold_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a6ca3b7941b2094c593c255a5c7e1f5ea" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>initiated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1acfcf60d9985b0f80bb50a45528a9ad53" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>initiated_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1afd72974994782bfe679a209d97045cb2" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>reason</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a04c1921dd2a3179ea940d1761b8011d8" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1a9016cd4bafe40cc93b158ddbff273217" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>status</name></member>
+      <member refid="structthemis_1_1governance_1_1_legal_hold_1af4114ec76afe06ed4d72adf111db8d55" prot="public" virt="non-virtual"><scope>themis::governance::LegalHold</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

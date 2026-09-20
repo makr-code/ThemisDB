@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::UDPServer::Stats</compoundname>
+    <includes refid="udp__server_8h" local="no">udp_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1af771074ee84dac3508b43bead03b2bb8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::packets_received</definition>
+        <argsstring></argsstring>
+        <name>packets_received</name>
+        <qualifiedname>themis::network::UDPServer::Stats::packets_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total datagrams accepted by the OS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="193" column="18" bodyfile="include/network/udp_server.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1afb98c85e9a5c614b83f3a0798af30b55" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::packets_dropped</definition>
+        <argsstring></argsstring>
+        <name>packets_dropped</name>
+        <qualifiedname>themis::network::UDPServer::Stats::packets_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Malformed, oversized, or otherwise dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="194" column="18" bodyfile="include/network/udp_server.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1ac975e5ac9b059b13102fd621d5afb8f8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::network::UDPServer::Stats::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="195" column="18" bodyfile="include/network/udp_server.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a25c3b757f4fc3f18f9e9cd6cd484295b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::parse_errors</definition>
+        <argsstring></argsstring>
+        <name>parse_errors</name>
+        <qualifiedname>themis::network::UDPServer::Stats::parse_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Header validation failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="196" column="18" bodyfile="include/network/udp_server.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a6b3bc2477af7f18de12ba55845a2f24f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::rate_limit_drops</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_drops</name>
+        <qualifiedname>themis::network::UDPServer::Stats::rate_limit_drops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Packets dropped due to IP rate-limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="197" column="18" bodyfile="include/network/udp_server.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1af8e931f228c864724c29081280b8ee21" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::duplicate_drops</definition>
+        <argsstring></argsstring>
+        <name>duplicate_drops</name>
+        <qualifiedname>themis::network::UDPServer::Stats::duplicate_drops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Packets dropped due to seq-num dedup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="198" column="18" bodyfile="include/network/udp_server.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1ae720ac9d71424ef44db5277ff8ead886" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::acks_sent</definition>
+        <argsstring></argsstring>
+        <name>acks_sent</name>
+        <qualifiedname>themis::network::UDPServer::Stats::acks_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ACK datagrams dispatched to clients. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="199" column="18" bodyfile="include/network/udp_server.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a080655686fe2e86770ce57229a282151" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::metrics_ingested</definition>
+        <argsstring></argsstring>
+        <name>metrics_ingested</name>
+        <qualifiedname>themis::network::UDPServer::Stats::metrics_ingested</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>METRIC packets delivered to handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="200" column="18" bodyfile="include/network/udp_server.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a527f04dceeeff0527433369d1a48c5c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::logs_ingested</definition>
+        <argsstring></argsstring>
+        <name>logs_ingested</name>
+        <qualifiedname>themis::network::UDPServer::Stats::logs_ingested</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>LOG packets delivered to handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="201" column="18" bodyfile="include/network/udp_server.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a3d482d7e2d9b3e745c0b5f05ddc01996" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::events_ingested</definition>
+        <argsstring></argsstring>
+        <name>events_ingested</name>
+        <qualifiedname>themis::network::UDPServer::Stats::events_ingested</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>EVENT packets delivered to handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="202" column="18" bodyfile="include/network/udp_server.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a286b3aca68951ddc459c76de7dc672ca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::batches_ingested</definition>
+        <argsstring></argsstring>
+        <name>batches_ingested</name>
+        <qualifiedname>themis::network::UDPServer::Stats::batches_ingested</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>BATCH packets delivered to handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="203" column="18" bodyfile="include/network/udp_server.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1aceb15029514c841854db8e12089c36cc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::Stats::pings_answered</definition>
+        <argsstring></argsstring>
+        <name>pings_answered</name>
+        <qualifiedname>themis::network::UDPServer::Stats::pings_answered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>PING packets ACKed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="204" column="18" bodyfile="include/network/udp_server.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_server.h" line="192" column="5" bodyfile="include/network/udp_server.h" bodystart="192" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1ae720ac9d71424ef44db5277ff8ead886" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>acks_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a286b3aca68951ddc459c76de7dc672ca" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>batches_ingested</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1ac975e5ac9b059b13102fd621d5afb8f8" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1af8e931f228c864724c29081280b8ee21" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>duplicate_drops</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a3d482d7e2d9b3e745c0b5f05ddc01996" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>events_ingested</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a527f04dceeeff0527433369d1a48c5c1" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>logs_ingested</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a080655686fe2e86770ce57229a282151" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>metrics_ingested</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1afb98c85e9a5c614b83f3a0798af30b55" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>packets_dropped</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1af771074ee84dac3508b43bead03b2bb8" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>packets_received</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a25c3b757f4fc3f18f9e9cd6cd484295b" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>parse_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1aceb15029514c841854db8e12089c36cc" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>pings_answered</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats_1a6b3bc2477af7f18de12ba55845a2f24f" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::Stats</scope><name>rate_limit_drops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

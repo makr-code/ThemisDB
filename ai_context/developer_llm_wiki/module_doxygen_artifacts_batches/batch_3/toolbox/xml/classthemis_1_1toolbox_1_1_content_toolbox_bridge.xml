@@ -1,0 +1,592 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_content_toolbox_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::ContentToolboxBridge</compoundname>
+    <includes refid="content__toolbox__bridge_8h" local="no">content_toolbox_bridge.h</includes>
+    <innerclass refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" prot="public">themis::toolbox::ContentToolboxBridge::BridgeResult</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl" prot="public">themis::toolbox::ContentToolboxBridge::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a977aee5a45de516341e7a8711986d509" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::toolbox::ContentToolboxBridge::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="242" column="21" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</definition>
+        <argsstring>(std::shared_ptr&lt; IngestionToolbox &gt; toolbox, std::shared_ptr&lt; content::ContentManager &gt; content_manager, std::shared_ptr&lt; ingestion::IGraphWriter &gt; graph_writer=nullptr, std::shared_ptr&lt; ingestion::IVectorWriter &gt; vector_writer=nullptr)</argsstring>
+        <name>ContentToolboxBridge</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+          <declname>toolbox</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+          <declname>content_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+          <declname>graph_writer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+          <declname>vector_writer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct the bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configured <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> for enrichment. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initialised <computeroutput>ContentManager</computeroutput> for storage. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional sink for NER graph entities. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional sink for embedding vectors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="98" column="5" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="73" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a166372b2674c5cbb7bc69da0195676a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentToolboxBridge::~ContentToolboxBridge</definition>
+        <argsstring>()</argsstring>
+        <name>~ContentToolboxBridge</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::~ContentToolboxBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1aeb965fe7c1c65432e3d0c3f991caf1a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</definition>
+        <argsstring>(const ContentToolboxBridge &amp;)=delete</argsstring>
+        <name>ContentToolboxBridge</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</qualifiedname>
+        <param>
+          <type>const ContentToolboxBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1acd0b8bca12c5659e04601dd3a1fa1d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref> &amp;</type>
+        <definition>ContentToolboxBridge &amp; themis::toolbox::ContentToolboxBridge::operator=</definition>
+        <argsstring>(const ContentToolboxBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="109" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a36a371a3a645f288a43fcc6d368562b6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</definition>
+        <argsstring>(ContentToolboxBridge &amp;&amp;) noexcept</argsstring>
+        <name>ContentToolboxBridge</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::ContentToolboxBridge</qualifiedname>
+        <param>
+          <type>ContentToolboxBridge &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a84d91a3d8704097bcc945a2372340cab" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref> &amp;</type>
+        <definition>ContentToolboxBridge &amp; themis::toolbox::ContentToolboxBridge::operator=</definition>
+        <argsstring>(ContentToolboxBridge &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="111" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref></type>
+        <definition>ContentToolboxBridge::BridgeResult themis::toolbox::ContentToolboxBridge::ingest</definition>
+        <argsstring>(std::span&lt; const std::byte &gt; data, const std::string &amp;filename, const std::string &amp;mime_type=&quot;&quot;, const std::string &amp;collection=&quot;default&quot;, const std::string &amp;user_context=&quot;&quot;)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::ingest</qualifiedname>
+        <param>
+          <type>std::span&lt; const std::byte &gt;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Ingest raw bytes through both ContentManager and <ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>Steps performed in order:<orderedlist>
+<listitem><para><computeroutput>ContentManager::ingestRawBlob()</computeroutput> — security scan, dedup, store blob, generate chunks + embeddings.</para>
+</listitem><listitem><para>Retrieve extracted text from ContentManager result.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">IngestionToolbox::extractEntities()</ref></computeroutput> — NER/deontic/graph assembly.</para>
+</listitem><listitem><para>Write entities to <computeroutput>graph_writer</computeroutput> if set.</para>
+</listitem><listitem><para>Write vector records to <computeroutput>vector_writer</computeroutput> if set.</para>
+</listitem><listitem><para>Return combined <computeroutput><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref></computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw binary content to ingest (any format). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original filename hint (used for MIME detection and archive member naming), e.g. &quot;report.pdf&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional MIME type override. When empty, ContentManager auto-detects via magic bytes + extension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name for the document store sink. Default: &quot;default&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User context string forwarded to ContentManager for per-user encryption and access control. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref> with content_id, entities, vectors, and ok/error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="164" column="18" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="147" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a53a7e51f065f1d040536c976c95d710c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref></type>
+        <definition>ContentToolboxBridge::BridgeResult themis::toolbox::ContentToolboxBridge::enrichExisting</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;collection=&quot;default&quot;)</argsstring>
+        <name>enrichExisting</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::enrichExisting</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Run the enrichment pipeline for content already stored in ContentManager (re-enrichment path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enrich Existing.</para>
+<para>Retrieves the extracted text for <computeroutput>content_id</computeroutput> from ContentManager, runs the Toolbox enrichment pipeline, and writes to the sinks. Does NOT re-ingest the raw blob (no security re-scan, no dedup check).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID previously returned by <computeroutput><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kindref="member">ingest()</ref></computeroutput> or an earlier <computeroutput>ContentManager::ingestRawBlob()</computeroutput> call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection for the document store sink. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kindref="compound">BridgeResult</ref> with entities, vectors, and ok/error. <computeroutput>content_id</computeroutput> in the result is set to the input <computeroutput>content_id</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="186" column="18" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="275" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::ContentToolboxBridge::toolbox</definition>
+        <argsstring>() const</argsstring>
+        <name>toolbox</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::toolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="195" column="28" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="375" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af5326682453b301635796bf6ecc51b52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+        <definition>std::shared_ptr&lt; content::ContentManager &gt; themis::toolbox::ContentToolboxBridge::contentManager</definition>
+        <argsstring>() const</argsstring>
+        <name>contentManager</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::contentManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="196" column="21" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="379" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a00a12d5ac938836295979ee2c6ef5f97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IGraphWriter &gt; themis::toolbox::ContentToolboxBridge::graphWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>graphWriter</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::graphWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="197" column="21" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="383" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ac55b1c7e4a44b35a6424b89c1dca5688" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IVectorWriter &gt; themis::toolbox::ContentToolboxBridge::vectorWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>vectorWriter</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::vectorWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="198" column="21" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="387" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a74e40a08148bf06fc6705440a81a4bb9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::toolbox::ContentToolboxBridge::failuresTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>failuresTotal</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::failuresTotal</qualifiedname>
+        <briefdescription>
+<para>Return cumulative count of bridge ingest/enrichment failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for Prometheus metric <computeroutput>toolbox_bridge_failures_total</computeroutput>. Incremented on ContentManager failures, null checks, or other bridge-level errors. Does not count individual sink write failures (those are tracked separately). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="212" column="14" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="395" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a37508ed08675ed05c073ef865941cae9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::toolbox::ContentToolboxBridge::graphWriteFailuresTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>graphWriteFailuresTotal</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::graphWriteFailuresTotal</qualifiedname>
+        <briefdescription>
+<para>Return cumulative count of graph writer failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for Prometheus metric <computeroutput>toolbox_bridge_graph_write_failures_total</computeroutput>. Incremented when an entity write to the graph sink fails, but the bridge continues processing (soft-fail behavior). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="221" column="14" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="399" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a81e2bc0bd31a150c87658eec1a2ade29" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::toolbox::ContentToolboxBridge::vectorWriteFailuresTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>vectorWriteFailuresTotal</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::vectorWriteFailuresTotal</qualifiedname>
+        <briefdescription>
+<para>Return cumulative count of vector writer failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for Prometheus metric <computeroutput>toolbox_bridge_vector_write_failures_total</computeroutput>. Incremented when a vector record write to the vector sink fails, but the bridge continues processing (soft-fail behavior). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="230" column="14" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af8513ada9cb1d08adff146dd5c8d9b83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::ContentToolboxBridge::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Export all bridge metrics in Prometheus text format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns empty string if no operations have been recorded yet. Includes failure counters and latency histogram buckets. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="238" column="17" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="407" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1addbbd7882a10ba02a164467b16eeba30" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::ContentToolboxBridge::recordLatency</definition>
+        <argsstring>(uint64_t latency_ms) noexcept</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::recordLatency</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record operation latency for metrics histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used internally by <ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kindref="member">ingest()</ref> and <ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a53a7e51f065f1d040536c976c95d710c" kindref="member">enrichExisting()</ref> to populate latency buckets. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="250" column="10" bodyfile="src/toolbox/content_toolbox_bridge.cpp" bodystart="117" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified ingest entry-point that combines ContentManager&apos;s security/storage layer with the <ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> enrichment pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md0_1s1"><sect2 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md0">
+<title>Motivation</title><para><computeroutput>ContentManager</computeroutput> handles:<itemizedlist>
+<listitem><para>Malware scanning &amp; abuse detection (<computeroutput>ContentSecurity</computeroutput>)</para>
+</listitem><listitem><para>Deduplication (<computeroutput>DeduplicationChecker</computeroutput>)</para>
+</listitem><listitem><para>Blob storage to RocksDB with optional encryption</para>
+</listitem><listitem><para>Chunking, embedding generation, VectorIndex storage</para>
+</listitem></itemizedlist>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> handles:<itemizedlist>
+<listitem><para>NER (legal / generic)</para>
+</listitem><listitem><para>Deontic extraction</para>
+</listitem><listitem><para>Graph entity assembly</para>
+</listitem><listitem><para>Graph store sink (<computeroutput>IGraphWriter</computeroutput>)</para>
+</listitem><listitem><para>Vector store sink (<computeroutput>IVectorWriter</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para>A single <computeroutput><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kindref="member">ingest()</ref></computeroutput> call on this bridge runs both pipelines and returns a combined result so callers never need to coordinate them manually.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md1_1s1"><sect2 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md1">
+<title>Dependency direction</title><para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>/<ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref><sp/>→<sp/>content/ContentManager<sp/><sp/>(OK)</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>/<ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" kindref="member">ContentToolboxBridge</ref><sp/>→<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>/IngestionToolbox<sp/>(OK)</highlight></codeline>
+<codeline><highlight class="normal">content/<sp/>→<sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>/<sp/><sp/>(FORBIDDEN<sp/>—<sp/>never<sp/>introduce<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">)</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md2_1s1"><sect2 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md2">
+<title>Thread-safety</title><para><computeroutput><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" kindref="member">ingest()</ref></computeroutput> is thread-safe. All internal state is protected by a mutex. <computeroutput>ContentManager</computeroutput> and <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> must themselves be thread-safe (they are, as documented in their respective headers).</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md3_1s1"><sect2 id="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1autotoc_md3">
+<title>Usage — server bootstrap</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>std::make_shared&lt;ContentToolboxBridge&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" kindref="member">toolbox</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>configured<sp/>via<sp/>ToolboxBuilder</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>content_manager,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>initialised<sp/>with<sp/>storage<sp/>/<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>graph_writer,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optional<sp/>—<sp/>writes<sp/>NER<sp/>entities<sp/>to<sp/>graph<sp/>store</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>vector_writer<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optional<sp/>—<sp/>writes<sp/>embeddings<sp/>to<sp/>vector<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>bridge-&gt;ingest(raw_bytes,<sp/>meta,<sp/></highlight><highlight class="stringliteral">&quot;legal-docs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.ok)<sp/>{<sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;ingest<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.error);<sp/>}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/toolbox/content_toolbox_bridge.h" line="86" column="1" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="86" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af5326682453b301635796bf6ecc51b52" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>contentManager</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a2a0d37ff2e6c828aa38e7548ff3916b6" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>ContentToolboxBridge</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1aeb965fe7c1c65432e3d0c3f991caf1a3" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>ContentToolboxBridge</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a36a371a3a645f288a43fcc6d368562b6" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>ContentToolboxBridge</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a53a7e51f065f1d040536c976c95d710c" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>enrichExisting</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a74e40a08148bf06fc6705440a81a4bb9" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>failuresTotal</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1af8513ada9cb1d08adff146dd5c8d9b83" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>getMetricsText</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a37508ed08675ed05c073ef865941cae9" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>graphWriteFailuresTotal</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a00a12d5ac938836295979ee2c6ef5f97" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>graphWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a977aee5a45de516341e7a8711986d509" prot="private" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab6655f308acc9326eb9812e9034f1aee" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1acd0b8bca12c5659e04601dd3a1fa1d3f" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a84d91a3d8704097bcc945a2372340cab" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1addbbd7882a10ba02a164467b16eeba30" prot="private" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ab50358eb344815603e313a4d03a2d4e5" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>toolbox</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a81e2bc0bd31a150c87658eec1a2ade29" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>vectorWriteFailuresTotal</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1ac55b1c7e4a44b35a6424b89c1dca5688" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>vectorWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge_1a166372b2674c5cbb7bc69da0195676a0" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge</scope><name>~ContentToolboxBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

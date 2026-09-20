@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_result" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::Result</compoundname>
+    <includes refid="encryption__backend__interface_8hpp" local="no">encryption_backend_interface.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1ad6c29152d2d33998c79df91a9371ca7e" prot="private" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::plugins::user_storage::Result&lt; T &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::plugins::user_storage::Result::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="67" column="7" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a617030b4a66c4d55c286942e767ccc86" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::Result&lt; T &gt;::success_</definition>
+        <argsstring></argsstring>
+        <name>success_</name>
+        <qualifiedname>themis::plugins::user_storage::Result::success_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="68" column="10" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a815fd5160e3641d37f59a7af528069ba" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::Result&lt; T &gt;::error_</definition>
+        <argsstring></argsstring>
+        <name>error_</name>
+        <qualifiedname>themis::plugins::user_storage::Result::error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="69" column="17" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::Result&lt; T &gt;::Result</definition>
+        <argsstring>(T value)</argsstring>
+        <name>Result</name>
+        <qualifiedname>themis::plugins::user_storage::Result::Result</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="32" column="14" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1af1c87d42c06eb09af64dcc0f6dbe3c88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::Result&lt; T &gt;::isSuccess</definition>
+        <argsstring>() const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::plugins::user_storage::Result::isSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="45" column="10" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1aaee944223e926304879d26bca8d5e4e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::Result&lt; T &gt;::isError</definition>
+        <argsstring>() const</argsstring>
+        <name>isError</name>
+        <qualifiedname>themis::plugins::user_storage::Result::isError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="46" column="10" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::plugins::user_storage::Result&lt; T &gt;::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::plugins::user_storage::Result::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="48" column="13" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3bc30f194a09a3715f18de261c18e7bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::plugins::user_storage::Result&lt; T &gt;::value</definition>
+        <argsstring>()</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::plugins::user_storage::Result::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="55" column="7" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a92ed1fb1c18f5941363d6469688db72d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::plugins::user_storage::Result&lt; T &gt;::error</definition>
+        <argsstring>() const</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::plugins::user_storage::Result::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="62" column="23" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1abdc92ed0e932dd50cf2d80f32ef2bcd8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kindref="member">Result</ref></type>
+        <definition>static Result themis::plugins::user_storage::Result&lt; T &gt;::error</definition>
+        <argsstring>(const std::string &amp;error_msg)</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::plugins::user_storage::Result::error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="38" column="19" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_result_1a8321dff147befabdfa1da25618be3cc6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::Result&lt; T &gt;::Result</definition>
+        <argsstring>()</argsstring>
+        <name>Result</name>
+        <qualifiedname>themis::plugins::user_storage::Result::Result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="65" column="5" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> type for operations that can fail. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simple Result&lt;T&gt; implementation for plugin API </para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="29" column="1" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="29" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1abdc92ed0e932dd50cf2d80f32ef2bcd8" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>error</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a92ed1fb1c18f5941363d6469688db72d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>error</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a815fd5160e3641d37f59a7af528069ba" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>error_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1aaee944223e926304879d26bca8d5e4e8" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>isError</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1af1c87d42c06eb09af64dcc0f6dbe3c88" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>isSuccess</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>Result</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a8321dff147befabdfa1da25618be3cc6" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>Result</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a617030b4a66c4d55c286942e767ccc86" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>success_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>value</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3bc30f194a09a3715f18de261c18e7bf" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>value</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ad6c29152d2d33998c79df91a9371ca7e" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::Result</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

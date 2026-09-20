@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMAQLHandler::QueryConfidenceScore</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a2bad9d29e889087c925945431d093b0e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::LLMAQLHandler::QueryConfidenceScore::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::QueryConfidenceScore::score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0.0 (worst) to 1.0 (best); -1.0 = unavailable </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="377" column="34" bodyfile="include/aql/llm_aql_handler.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1ab31994f435b141156e17826630188c27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::QueryConfidenceScore::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::QueryConfidenceScore::explanation</qualifiedname>
+        <briefdescription>
+<para>Why this score was assigned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="378" column="34" bodyfile="include/aql/llm_aql_handler.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a775fc7df643e5f5ac05a4acfb02e1e2c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::LLMAQLHandler::QueryConfidenceScore::suggestions</definition>
+        <argsstring></argsstring>
+        <name>suggestions</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::QueryConfidenceScore::suggestions</qualifiedname>
+        <briefdescription>
+<para>Concrete improvement suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="379" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_aql_handler.h" line="376" column="5" bodyfile="include/aql/llm_aql_handler.h" bodystart="376" bodyend="380"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1ab31994f435b141156e17826630188c27" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::QueryConfidenceScore</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a2bad9d29e889087c925945431d093b0e" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::QueryConfidenceScore</scope><name>score</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a775fc7df643e5f5ac05a4acfb02e1e2c" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::QueryConfidenceScore</scope><name>suggestions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

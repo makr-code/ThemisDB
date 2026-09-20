@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_validation_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceValidationEngine</compoundname>
+    <includes refid="compliance__validator_8h" local="no">compliance_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a318c2486d82f785cc2cf25fba971e257" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_validator" kindref="compound">IComplianceValidator</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::unique_ptr&lt;IComplianceValidator&gt; &gt; themis::governance::ComplianceValidationEngine::validators_</definition>
+        <argsstring></argsstring>
+        <name>validators_</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validators_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="534" column="24" bodyfile="include/governance/compliance_validator.h" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a009bc0e02719dc3ba4d9b9b115880922" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ComplianceValidationEngine::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="535" column="24" bodyfile="include/governance/compliance_validator.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a38847c2b0209f3028a50825f4ddfcb05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceValidationEngine::ComplianceValidationEngine</definition>
+        <argsstring>()</argsstring>
+        <name>ComplianceValidationEngine</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::ComplianceValidationEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="449" column="5" bodyfile="src/governance/compliance_validator.cpp" bodystart="825" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1aa49c08fc9fbc05254a3c100362454b19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceValidationEngine::~ComplianceValidationEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ComplianceValidationEngine</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::~ComplianceValidationEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="450" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a345d11b2df54856a32b1a54630e9133e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceValidationEngine::registerValidator</definition>
+        <argsstring>(std::unique_ptr&lt; IComplianceValidator &gt; validator)</argsstring>
+        <name>registerValidator</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::registerValidator</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_validator" kindref="compound">IComplianceValidator</ref> &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Register Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getFramework(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="456" column="10" bodyfile="src/governance/compliance_validator.cpp" bodystart="841" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1abec7b42ec4410a422e8498b9b2f4eac4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::ComplianceValidationEngine::validateRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateRequirement</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validateRequirement</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getValidator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="464" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="854" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a26bef8d66b66b42693a54e99558dade9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::ComplianceValidationEngine::validateControl</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateControl</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validateControl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getValidator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="474" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="873" bodyend="883"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1ab30a432fb17de60aadb76f486db35874" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_status_report" kindref="compound">ComplianceStatusReport</ref></type>
+        <definition>ComplianceStatusReport themis::governance::ComplianceValidationEngine::validateFramework</definition>
+        <argsstring>(ComplianceFramework fw, const ComplianceFrameworkRegistry &amp;registry, const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateFramework</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validateFramework</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), getRequirements(), size(), <ref refid="classthemis_1_1governance_1_1_compliance_validation_engine_1abec7b42ec4410a422e8498b9b2f4eac4" kindref="member">validateRequirement()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="485" column="28" bodyfile="src/governance/compliance_validator.cpp" bodystart="893" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1aca283464b336ddd4a8dfbdbb4871b359" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_validation_result" kindref="compound">ComplianceValidationResult</ref></type>
+        <definition>ComplianceValidationResult themis::governance::ComplianceValidationEngine::validateAll</definition>
+        <argsstring>(const std::vector&lt; ComplianceFramework &gt; &amp;frameworks, const std::shared_ptr&lt; const ComplianceFrameworkRegistry &gt; &amp;registry, const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateAll</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validateAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref> &gt; &amp;</type>
+          <declname>frameworks</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; const <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt; &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frameworks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements validateAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="498" column="32" bodyfile="include/governance/compliance_validator.h" bodystart="498" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1ab253d49ee0e398dee51b651fe6a94a2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_validation_result" kindref="compound">ComplianceValidationResult</ref></type>
+        <definition>ComplianceValidationResult themis::governance::ComplianceValidationEngine::validateAll</definition>
+        <argsstring>(const std::vector&lt; ComplianceFramework &gt; &amp;frameworks, const ComplianceFrameworkRegistry &amp;registry, const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateAll</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::validateAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref> &gt; &amp;</type>
+          <declname>frameworks</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frameworks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frameworks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1governance_1_1_compliance_validation_engine_1ab30a432fb17de60aadb76f486db35874" kindref="member">validateFramework()</ref>, push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="512" column="32" bodyfile="src/governance/compliance_validator.cpp" bodystart="967" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a9ff698252454135a5aa78d85daafe2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_violation" kindref="compound">ComplianceViolation</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceViolation &gt; themis::governance::ComplianceValidationEngine::detectViolations</definition>
+        <argsstring>(const ComplianceValidationResult &amp;result)</argsstring>
+        <name>detectViolations</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::detectViolations</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_validation_result" kindref="compound">ComplianceValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Detect Violations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="522" column="17" bodyfile="src/governance/compliance_validator.cpp" bodystart="1002" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1a0b020a495f1fd1366ba8f28aae83c7ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceValidationEngine::generateRemediationGuidance</definition>
+        <argsstring>(const ComplianceViolation &amp;violation)</argsstring>
+        <name>generateRemediationGuidance</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::generateRemediationGuidance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_violation" kindref="compound">ComplianceViolation</ref> &amp;</type>
+          <declname>violation</declname>
+        </param>
+        <briefdescription>
+<para>Generate Remediation Guidance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">violation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">violation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="530" column="17" bodyfile="src/governance/compliance_validator.cpp" bodystart="1022" bodyend="1051"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_validation_engine_1aa6d01e994beb2cfbb2196315e0f014e8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_i_compliance_validator" kindref="compound">IComplianceValidator</ref> *</type>
+        <definition>IComplianceValidator * themis::governance::ComplianceValidationEngine::getValidator</definition>
+        <argsstring>(ComplianceFramework fw)</argsstring>
+        <name>getValidator</name>
+        <qualifiedname>themis::governance::ComplianceValidationEngine::getValidator</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw</declname>
+        </param>
+        <briefdescription>
+<para>Get Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="542" column="26" bodyfile="src/governance/compliance_validator.cpp" bodystart="1059" bodyend="1068"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_validator.h" line="447" column="1" bodyfile="include/governance/compliance_validator.h" bodystart="447" bodyend="543"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a38847c2b0209f3028a50825f4ddfcb05" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>ComplianceValidationEngine</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a9ff698252454135a5aa78d85daafe2ab" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>detectViolations</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a0b020a495f1fd1366ba8f28aae83c7ce" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>generateRemediationGuidance</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1aa6d01e994beb2cfbb2196315e0f014e8" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>getValidator</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a009bc0e02719dc3ba4d9b9b115880922" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a345d11b2df54856a32b1a54630e9133e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>registerValidator</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1aca283464b336ddd4a8dfbdbb4871b359" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validateAll</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1ab253d49ee0e398dee51b651fe6a94a2c" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validateAll</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a26bef8d66b66b42693a54e99558dade9" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validateControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1ab30a432fb17de60aadb76f486db35874" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validateFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1abec7b42ec4410a422e8498b9b2f4eac4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validateRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1a318c2486d82f785cc2cf25fba971e257" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>validators_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_validation_engine_1aa49c08fc9fbc05254a3c100362454b19" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceValidationEngine</scope><name>~ComplianceValidationEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

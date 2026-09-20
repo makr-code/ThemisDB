@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_batch_queue_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::BatchQueueEntry</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_batch_queue_entry_1ac6a2d73c424c1c634aeabceda49fd473" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1process_1_1_lock_free_link_entry" kindref="compound">LockFreeLinkEntry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LockFreeLinkEntry&gt; themis::process::BatchQueueEntry::link_entry</definition>
+        <argsstring></argsstring>
+        <name>link_entry</name>
+        <qualifiedname>themis::process::BatchQueueEntry::link_entry</qualifiedname>
+        <briefdescription>
+<para>Link entry to commit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="386" column="21" bodyfile="include/process/lock_free_linker_contract.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_batch_queue_entry_1a9ef9295887589f7636af13c0dff89187" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::BatchQueueEntry::created_at_ns</definition>
+        <argsstring></argsstring>
+        <name>created_at_ns</name>
+        <qualifiedname>themis::process::BatchQueueEntry::created_at_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of entry creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="389" column="13" bodyfile="include/process/lock_free_linker_contract.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_batch_queue_entry_1ad60ac385f5b5b27f72f206a28cc974b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::BatchQueueEntry::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::BatchQueueEntry::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="392" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock-free ring buffer for batching link commits. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Producers (link creators) append to buffer; consumer (background thread) batches commits. Allows amortizing commit overhead across multiple links. </para>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="384" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="384" bodyend="393"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_batch_queue_entry_1a9ef9295887589f7636af13c0dff89187" prot="public" virt="non-virtual"><scope>themis::process::BatchQueueEntry</scope><name>created_at_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_batch_queue_entry_1ac6a2d73c424c1c634aeabceda49fd473" prot="public" virt="non-virtual"><scope>themis::process::BatchQueueEntry</scope><name>link_entry</name></member>
+      <member refid="structthemis_1_1process_1_1_batch_queue_entry_1ad60ac385f5b5b27f72f206a28cc974b6" prot="public" virt="non-virtual"><scope>themis::process::BatchQueueEntry</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

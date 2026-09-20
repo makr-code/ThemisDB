@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scope__enforcer_8h" kind="file" language="C++">
+    <compoundname>scope_enforcer.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="materialized__view_8cpp" local="yes">src/query/materialized_view.cpp</includedby>
+    <includedby refid="query__federation_8cpp" local="yes">src/query/query_federation.cpp</includedby>
+    <includedby refid="scope__enforcer_8cpp" local="yes">src/query/scope_enforcer.cpp</includedby>
+    <includedby refid="test__materialized__view__scope__isolation_8cpp" local="yes">tests/query/test_materialized_view_scope_isolation.cpp</includedby>
+    <includedby refid="test__query__federation__scope__safety_8cpp" local="yes">tests/query/test_query_federation_scope_safety.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/scope_enforcer.h</label>
+        <link refid="scope__enforcer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/scope_enforcer.h</label>
+        <link refid="scope__enforcer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/materialized_view.cpp</label>
+        <link refid="materialized__view_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/query/query_federation.cpp</label>
+        <link refid="query__federation_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/scope_enforcer.cpp</label>
+        <link refid="scope__enforcer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_materialized_view_scope_isolation.cpp</label>
+        <link refid="test__materialized__view__scope__isolation_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_query_federation_scope_safety.cpp</label>
+        <link refid="test__query__federation__scope__safety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_query_scope" prot="public">themis::query::QueryScope</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_scope_accumulator" prot="public">themis::query::ScopeAccumulator</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_scope_enforcer" prot="public">themis::query::ScopeEnforcer</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_scope_enforcer_impl" prot="public">themis::query::ScopeEnforcerImpl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Scope enforcement and validation for query execution (Phase 2 Agent 3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 2 Executor Scope Enforcement </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1query_1_1_query_scope" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" kindref="member">collection_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" kindref="member">scope_generation</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" kindref="member">is_federated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1query_1_1_query_scope_1ae82a6c03d1a6c872a383959a73060e45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1ae82a6c03d1a6c872a383959a73060e45" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" kindref="member">collection_name</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" kindref="member">collection_name</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" kindref="member">shard_id</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" kindref="member">shard_id</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" kindref="member">scope_generation</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" kindref="member">scope_generation</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" kindref="member">is_federated</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" kindref="member">is_federated</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_scope_accumulator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_scope_accumulator" kindref="compound">ScopeAccumulator</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_scope_accumulator_1a89eab1cb2d85bff7f47ff0b5e970ebcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_scope_accumulator_1a89eab1cb2d85bff7f47ff0b5e970ebcb" kindref="member">scope_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_scope_accumulator_1a73cd13b4d741e8df1f0fd05d40b4d27b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1_scope_accumulator_1a73cd13b4d741e8df1f0fd05d40b4d27b" kindref="member">accumulated_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_scope_accumulator_1a0f37a6e47ec30f6cae0b7af8c2ed0cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_scope_accumulator_1a0f37a6e47ec30f6cae0b7af8c2ed0cdf" kindref="member">result_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1query_1_1_scope_enforcer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_scope_enforcer" kindref="compound">ScopeEnforcer</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1query_1_1_scope_enforcer_1a27a16973347c5782a11a43e3a9650709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a27a16973347c5782a11a43e3a9650709" kindref="member">~ScopeEnforcer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1query_1_1_scope_enforcer_1a56c083bd8842e44ce514e977d5307b9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a56c083bd8842e44ce514e977d5307b9f" kindref="member">validateResultScope</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>result_data,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref>&amp;<sp/>expected_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1query_1_1_scope_enforcer_1a2372d3f9a46062d5a0ce93df53b3232e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a2372d3f9a46062d5a0ce93df53b3232e" kindref="member">extractResultScope</ref>(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>result_data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1query_1_1_scope_enforcer_1a824cac73f66c3af3f4c72ec336f6bb77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a824cac73f66c3af3f4c72ec336f6bb77" kindref="member">enforceAccumulatedScopeBounds</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>new_bytes,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>max_bytes_per_scope)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1query_1_1_scope_enforcer_1a9db64a5652ee7220b6d1ea678a01819d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a9db64a5652ee7220b6d1ea678a01819d" kindref="member">resetScopeAccumulation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1query_1_1_scope_enforcer_1a26937187377bc5fcef26104b4d41fb64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1a26937187377bc5fcef26104b4d41fb64" kindref="member">getScopeAccumulatedBytes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1query_1_1_scope_enforcer_1aee8763cab99d3c9b0808df74fbc65247" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_1aee8763cab99d3c9b0808df74fbc65247" kindref="member">validatePageScope</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>begin_offset,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>end_offset,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_size,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref>&amp;<sp/>expected_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1query_1_1_scope_enforcer_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a3f9eb185e9a5a7f5d2b1496c269879f0" kindref="member">ScopeEnforcerImpl</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer" kindref="compound">ScopeEnforcer</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a3f9eb185e9a5a7f5d2b1496c269879f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a3f9eb185e9a5a7f5d2b1496c269879f0" kindref="member">ScopeEnforcerImpl</ref>();</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a087a70efa73fe2ed819d9c38bd410984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a087a70efa73fe2ed819d9c38bd410984" kindref="member">~ScopeEnforcerImpl</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a50964d2bdaeea88871d34dbdc88f4e91" kindref="member">validateResultScope</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>result_data,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref>&amp;<sp/>expected_scope)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1ab58abc5d5ced8309c400ad5d173b65d1" kindref="member">extractResultScope</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>result_data)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a473d0e18c3a5e5eb1b5dd4c46bce9f85" kindref="member">enforceAccumulatedScopeBounds</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>new_bytes,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>max_bytes_per_scope)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1aac0e3b0c65ef7d3ef2c208f358096ec3" kindref="member">resetScopeAccumulation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1a0d941897b1658b8721739d0ba46777c0" kindref="member">getScopeAccumulatedBytes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope_key)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1query_1_1_scope_enforcer_impl_1aebbd0433cadeb9dac67586a656331530" kindref="member">validatePageScope</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>begin_offset,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>end_offset,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_size,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref>&amp;<sp/>expected_scope)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint64_t&gt;<sp/>scope_accumulators_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>accumulators_mutex_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/scope_enforcer.h"/>
+  </compounddef>
+</doxygen>

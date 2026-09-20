@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_delta_apply_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DeltaApplyResult</compoundname>
+    <includes refid="delta__update__engine_8h" local="no">delta_update_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_delta_apply_result_1a5dc7a1d4cac8d47a3ff988f338540cb3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::DeltaApplyResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::DeltaApplyResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="111" column="10" bodyfile="include/updates/delta_update_engine.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_delta_apply_result_1aa7fff67408a1613b862a183660dada39" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DeltaApplyResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::DeltaApplyResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="112" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_delta_apply_result_1ab1ed8d7ceb246d5ef82d94969d52b392" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::DeltaApplyResult::files_patched</definition>
+        <argsstring></argsstring>
+        <name>files_patched</name>
+        <qualifiedname>themis::updates::DeltaApplyResult::files_patched</qualifiedname>
+        <briefdescription>
+<para>Files updated via delta patch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="113" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_delta_apply_result_1a995d03cda6bbd1f3696cd766adbc4300" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::DeltaApplyResult::files_fallback</definition>
+        <argsstring></argsstring>
+        <name>files_fallback</name>
+        <qualifiedname>themis::updates::DeltaApplyResult::files_fallback</qualifiedname>
+        <briefdescription>
+<para>Files that fell back to full download. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="114" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of applying a <ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref> to the installed files. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/delta_update_engine.h" line="110" column="1" bodyfile="include/updates/delta_update_engine.h" bodystart="110" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_delta_apply_result_1aa7fff67408a1613b862a183660dada39" prot="public" virt="non-virtual"><scope>themis::updates::DeltaApplyResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_delta_apply_result_1a995d03cda6bbd1f3696cd766adbc4300" prot="public" virt="non-virtual"><scope>themis::updates::DeltaApplyResult</scope><name>files_fallback</name></member>
+      <member refid="structthemis_1_1updates_1_1_delta_apply_result_1ab1ed8d7ceb246d5ef82d94969d52b392" prot="public" virt="non-virtual"><scope>themis::updates::DeltaApplyResult</scope><name>files_patched</name></member>
+      <member refid="structthemis_1_1updates_1_1_delta_apply_result_1a5dc7a1d4cac8d47a3ff988f338540cb3" prot="public" virt="non-virtual"><scope>themis::updates::DeltaApplyResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

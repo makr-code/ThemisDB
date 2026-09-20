@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1graph_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::graph::test</compoundname>
+    <innerclass refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" prot="public">themis::graph::test::GraphErrorTaxonomyTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1ae6a560c79b4999499b870222abbbf40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, DENIALCategoryClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>DENIALCategoryClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="34" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="34" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a757c38f665d99afcd6694a71d3919659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, FALLBACKCategoryClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>FALLBACKCategoryClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="55" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="55" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a80a1b653594e4c9d0307791e0f068aff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, REASONINGCONFLICTCategoryClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>REASONINGCONFLICTCategoryClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="77" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="77" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1abfcd2d30686a9c90053493481bed1b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, AllErrorCodesHaveDescriptions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>AllErrorCodesHaveDescriptions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="98" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="98" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a8086b242abb3329ec25fb2fbb7281801" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, ValidErrorCodesPass)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ValidErrorCodesPass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="155" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="155" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a8c2c4118dbfef0a089e480afa1473ce3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, InvalidErrorCodesFail)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidErrorCodesFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="170" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="170" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a3037165d8fde9f9d8630e1e082bd3e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, SuccessCodesValidate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>SuccessCodesValidate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="177" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1adc33321410c503478b3844248763c81d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, ClassificationDeterminism)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ClassificationDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="186" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="186" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1ac1a27a05ec3c550f21fe27088f78b494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, DescriptionDeterminism)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>DescriptionDeterminism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="204" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="204" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a37871e6ab4921c2b82224184e40b09bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, ErrorContextDiagnosticFormatting)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorContextDiagnosticFormatting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="220" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="220" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a4eddef37e58f8fdf4c7f203e5084d2b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, RecoveryRecommendationByCategory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>RecoveryRecommendationByCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="235" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="235" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a1360dfae679374f23b91904b09e87b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, ErrorCodeHexFormatting)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorCodeHexFormatting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="268" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="268" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1graph_1_1test_1a991abff7a5e50a7ac0d3c6cfde7f30cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::test::TEST_F</definition>
+        <argsstring>(GraphErrorTaxonomyTest, ComponentExtractionFromCode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::graph::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kindref="compound">GraphErrorTaxonomyTest</ref></type>
+        </param>
+        <param>
+          <type>ComponentExtractionFromCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="283" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="283" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llama_cpp_tokenizer_test" kind="class" language="C++" prot="public">
+    <compoundname>LlamaCppTokenizerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_llama_cpp_tokenizer_test_1a71b5a74f18c61e29d01b847723066bfa" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LlamaCppTokenizerTest::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>LlamaCppTokenizerTest::model_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_tokenizer.cpp" line="82" column="17" bodyfile="tests/llm/test_llama_cpp_tokenizer.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_tokenizer_test_1a23581669d01afca5633a723da3cf6451" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool LlamaCppTokenizerTest::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>LlamaCppTokenizerTest::model_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_tokenizer.cpp" line="83" column="10" bodyfile="tests/llm/test_llama_cpp_tokenizer.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_llama_cpp_tokenizer_test_1a7140a4575c6b033d5a6ca1157dfb251b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppTokenizerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LlamaCppTokenizerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_tokenizer.cpp" line="37" column="10" bodyfile="tests/llm/test_llama_cpp_tokenizer.cpp" bodystart="37" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_llama_cpp_tokenizer_test_1a86349fac87873a2bd4bcbb396f6c11da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppTokenizerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LlamaCppTokenizerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_tokenizer.cpp" line="78" column="10" bodyfile="tests/llm/test_llama_cpp_tokenizer.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlamaCppTokenizerTest</label>
+        <link refid="class_llama_cpp_tokenizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlamaCppTokenizerTest</label>
+        <link refid="class_llama_cpp_tokenizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llama_cpp_tokenizer.cpp" line="35" column="1" bodyfile="tests/llm/test_llama_cpp_tokenizer.cpp" bodystart="35" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_llama_cpp_tokenizer_test_1a23581669d01afca5633a723da3cf6451" prot="protected" virt="non-virtual"><scope>LlamaCppTokenizerTest</scope><name>model_available_</name></member>
+      <member refid="class_llama_cpp_tokenizer_test_1a71b5a74f18c61e29d01b847723066bfa" prot="protected" virt="non-virtual"><scope>LlamaCppTokenizerTest</scope><name>model_path_</name></member>
+      <member refid="class_llama_cpp_tokenizer_test_1a7140a4575c6b033d5a6ca1157dfb251b" prot="protected" virt="non-virtual"><scope>LlamaCppTokenizerTest</scope><name>SetUp</name></member>
+      <member refid="class_llama_cpp_tokenizer_test_1a86349fac87873a2bd4bcbb396f6c11da" prot="protected" virt="non-virtual"><scope>LlamaCppTokenizerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="paged__kv__cache_8h" kind="file" language="C++">
+    <compoundname>paged_kv_cache.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="inference__engine__enhanced_8cpp" local="yes">src/sharding/inference_engine_enhanced.cpp</includedby>
+    <includedby refid="paged__kv__cache_8cpp" local="yes">src/sharding/paged_kv_cache.cpp</includedby>
+    <includedby refid="test__paged__kv__cache__focused_8cpp" local="yes">tests/sharding/test_paged_kv_cache_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/paged_kv_cache.cpp</label>
+        <link refid="paged__kv__cache_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/sharding/test_paged_kv_cache_focused.cpp</label>
+        <link refid="test__paged__kv__cache__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" prot="public">themisdb::sharding::KVCacheConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" prot="public">themisdb::sharding::KVCacheBlock</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" prot="public">themisdb::sharding::KVCacheStats</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" prot="public">themisdb::sharding::PagedKVCache</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_paged_k_v_cache_1_1_request_state" prot="private">themisdb::sharding::PagedKVCache::RequestState</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Paged KV Cache for LLM Inference (vLLM-style). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.9.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Implements PagedAttention-style KV cache for memory-efficient inference </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>sizes<sp/>(from<sp/>vLLM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a9eef5cec6beebf1518cbb73e8246339d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a9eef5cec6beebf1518cbb73e8246339d" kindref="member">block_size</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>tokens<sp/>per<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a96ea3dd6e3a96ef8644de176995f22d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a96ea3dd6e3a96ef8644de176995f22d0" kindref="member">max_blocks_per_request</ref><sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>blocks<sp/>per<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8209629aad42c0489c204c32784012ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8209629aad42c0489c204c32784012ab" kindref="member">max_total_blocks</ref><sp/>=<sp/>100000;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>total<sp/>blocks<sp/>in<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a6febe042b83aadd77c84e9924f2a281e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a6febe042b83aadd77c84e9924f2a281e" kindref="member">max_cache_memory_bytes</ref><sp/>=<sp/>16ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8e39fdb5646783314ec355638ff2dbe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8e39fdb5646783314ec355638ff2dbe0" kindref="member">eviction_threshold</ref><sp/>=<sp/>0.85;<sp/><sp/></highlight><highlight class="comment">//<sp/>Evict<sp/>when<sp/>this<sp/>utilization<sp/>is<sp/>reached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ab2e5a9aca0cb7b043d44640607211dff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ab2e5a9aca0cb7b043d44640607211dff" kindref="member">preallocate_blocks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a35c0d649625cad21f43e786172460c71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a35c0d649625cad21f43e786172460c71" kindref="member">preallocation_batch_size</ref><sp/>=<sp/>64;<sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>blocks<sp/>to<sp/>preallocate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>allocation<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43" kindref="member">AllocationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a9d0643cb7bbbdbe8cae4ff52d622ab9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a9d0643cb7bbbdbe8cae4ff52d622ab9e" kindref="member">FIRST_FIT</ref>,</highlight></codeline>
+<codeline lineno="51" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a56d2ed79b9f1a8caa101404e957b9f01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a56d2ed79b9f1a8caa101404e957b9f01" kindref="member">BEST_FIT</ref>,</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a8f6327d81798d91a04330fa782aab853" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a8f6327d81798d91a04330fa782aab853" kindref="member">WORST_FIT</ref></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a75be46bb3492c0a1f8d22ed93c7ca167" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a75be46bb3492c0a1f8d22ed93c7ca167" kindref="member">allocation_strategy</ref><sp/>=<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ad3432eb9350c5e3393421f41384e7b43a9d0643cb7bbbdbe8cae4ff52d622ab9e" kindref="member">AllocationStrategy::FIRST_FIT</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a43628ce80b1598839338eb7e242ca423" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a43628ce80b1598839338eb7e242ca423" kindref="member">isValid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a9eef5cec6beebf1518cbb73e8246339d" kindref="member">block_size</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a96ea3dd6e3a96ef8644de176995f22d0" kindref="member">max_blocks_per_request</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8209629aad42c0489c204c32784012ab" kindref="member">max_total_blocks</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a6febe042b83aadd77c84e9924f2a281e" kindref="member">max_cache_memory_bytes</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8e39fdb5646783314ec355638ff2dbe0" kindref="member">eviction_threshold</ref><sp/>&gt;<sp/>0.0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8e39fdb5646783314ec355638ff2dbe0" kindref="member">eviction_threshold</ref><sp/>&lt;<sp/>1.0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a35c0d649625cad21f43e786172460c71" kindref="member">preallocation_batch_size</ref><sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1afbf40526b38698659e530b474e7ac68c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1afbf40526b38698659e530b474e7ac68c" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;block_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a9eef5cec6beebf1518cbb73e8246339d" kindref="member">block_size</ref>},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_blocks_per_request&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a96ea3dd6e3a96ef8644de176995f22d0" kindref="member">max_blocks_per_request</ref>},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_total_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8209629aad42c0489c204c32784012ab" kindref="member">max_total_blocks</ref>},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_cache_memory_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a6febe042b83aadd77c84e9924f2a281e" kindref="member">max_cache_memory_bytes</ref>},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;eviction_threshold&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a8e39fdb5646783314ec355638ff2dbe0" kindref="member">eviction_threshold</ref>},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;preallocate_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1ab2e5a9aca0cb7b043d44640607211dff" kindref="member">preallocate_blocks</ref>},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;preallocation_batch_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a35c0d649625cad21f43e786172460c71" kindref="member">preallocation_batch_size</ref>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allocation_strategy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config_1a75be46bb3492c0a1f8d22ed93c7ca167" kindref="member">allocation_strategy</ref>)}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" kindref="compound">KVCacheBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a502bb3ec0e1cef64a0d8cb13c7837f34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a502bb3ec0e1cef64a0d8cb13c7837f34" kindref="member">block_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1ab3f056e487a657cc178948c6fa2ab6d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1ab3f056e487a657cc178948c6fa2ab6d6" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8bceea2895c939b84f8891ab39047d15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8bceea2895c939b84f8891ab39047d15" kindref="member">sequence_number</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>number<sp/>within<sp/>the<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a997b7e3d802f651cfcd7b63a85c4d3f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a997b7e3d802f651cfcd7b63a85c4d3f3" kindref="member">token_start</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>token<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a002c2b5f4f520dfc9e7f9bb916924fd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a002c2b5f4f520dfc9e7f9bb916924fd0" kindref="member">token_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>tokens<sp/>in<sp/>this<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a40fd660cc0b2defe1a0f7dd60757c725" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a40fd660cc0b2defe1a0f7dd60757c725" kindref="member">is_active</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>pointers<sp/>(in<sp/>a<sp/>real<sp/>implementation,<sp/>these<sp/>would<sp/>point<sp/>to<sp/>GPU/CPU<sp/>memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a9b47b7c8d4f7295322b1d1969fca7141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a9b47b7c8d4f7295322b1d1969fca7141" kindref="member">key_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a4bac8266e00ebfd4e58d4591dfdd3b4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a4bac8266e00ebfd4e58d4591dfdd3b4d" kindref="member">value_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamps<sp/>for<sp/>LRU<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a072de8a43af344a0d1ef8aa6b568e7f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a072de8a43af344a0d1ef8aa6b568e7f2" kindref="member">last_accessed</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8be8a40b269fb9943db15b2aa3be380b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8be8a40b269fb9943db15b2aa3be380b" kindref="member">created</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1aca61bc56c918a5d8e1645519f459f825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1aca61bc56c918a5d8e1645519f459f825" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>age_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now<sp/>-<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8be8a40b269fb9943db15b2aa3be380b" kindref="member">created</ref>).count();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>last_access_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now<sp/>-<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a072de8a43af344a0d1ef8aa6b568e7f2" kindref="member">last_accessed</ref>).count();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;block_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a502bb3ec0e1cef64a0d8cb13c7837f34" kindref="member">block_id</ref>},</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;request_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1ab3f056e487a657cc178948c6fa2ab6d6" kindref="member">request_id</ref>},</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sequence_number&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a8bceea2895c939b84f8891ab39047d15" kindref="member">sequence_number</ref>},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;token_start&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a997b7e3d802f651cfcd7b63a85c4d3f3" kindref="member">token_start</ref>},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;token_count&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a002c2b5f4f520dfc9e7f9bb916924fd0" kindref="member">token_count</ref>},</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_active&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block_1a40fd660cc0b2defe1a0f7dd60757c725" kindref="member">is_active</ref>},</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;age_ms&quot;</highlight><highlight class="normal">,<sp/>age_ms},</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;last_access_ms&quot;</highlight><highlight class="normal">,<sp/>last_access_ms}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kindref="compound">KVCacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a910d1eef31afcaf2efeedaa3c0ea3d49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a910d1eef31afcaf2efeedaa3c0ea3d49" kindref="member">total_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a4d9edb7c8920388965c6904f76e9863e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a4d9edb7c8920388965c6904f76e9863e" kindref="member">used_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8519853fb27797416d8421cf85437281" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8519853fb27797416d8421cf85437281" kindref="member">free_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a9c633de4fa55f695a874ac52dd6feb5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a9c633de4fa55f695a874ac52dd6feb5a" kindref="member">reserved_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a38b605ee8fbf899a7d6e89f4812e0a0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a38b605ee8fbf899a7d6e89f4812e0a0d" kindref="member">total_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8b3b5984a3e8edb38d6b3104dc807bc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8b3b5984a3e8edb38d6b3104dc807bc8" kindref="member">used_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a3982864460ead518260be6680d29174d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a3982864460ead518260be6680d29174d" kindref="member">free_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a12d7c64621cee4eddcc61f595e1d4cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a12d7c64621cee4eddcc61f595e1d4cbb" kindref="member">utilization</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1aa803ac39926f06d254a9c3452a72d1b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1aa803ac39926f06d254a9c3452a72d1b3" kindref="member">active_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a37a14c53d600b04f7d4d1d8f58bb82a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a37a14c53d600b04f7d4d1d8f58bb82a4" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a0282f78fe505ef4650d9a946c673cd55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a0282f78fe505ef4650d9a946c673cd55" kindref="member">blocks_evicted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a95f0e01fc59c1e1426f67cdb58fcce44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a95f0e01fc59c1e1426f67cdb58fcce44" kindref="member">blocks_allocated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ad768823cde2b86054a6ca5af72cf259e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ad768823cde2b86054a6ca5af72cf259e" kindref="member">blocks_freed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac6a9fbcfb9fc867ca903784aa4dd1efc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac6a9fbcfb9fc867ca903784aa4dd1efc" kindref="member">allocation_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ab362798e4ff1d6452f53d0823868b3ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ab362798e4ff1d6452f53d0823868b3ce" kindref="member">eviction_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac94188d9a2438b262b0c9e1e1f34d199" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac94188d9a2438b262b0c9e1e1f34d199" kindref="member">cache_hit_rate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>total<sp/>=<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" kindref="member">cache_hits</ref><sp/>+<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" kindref="member">cache_misses</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" kindref="member">cache_hits</ref>)<sp/>/<sp/>total<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a1ac808e8687cffc79b8fa1d6358b8297" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a1ac808e8687cffc79b8fa1d6358b8297" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a910d1eef31afcaf2efeedaa3c0ea3d49" kindref="member">total_blocks</ref>},</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;used_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a4d9edb7c8920388965c6904f76e9863e" kindref="member">used_blocks</ref>},</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;free_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8519853fb27797416d8421cf85437281" kindref="member">free_blocks</ref>},</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;reserved_blocks&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a9c633de4fa55f695a874ac52dd6feb5a" kindref="member">reserved_blocks</ref>},</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_memory_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a38b605ee8fbf899a7d6e89f4812e0a0d" kindref="member">total_memory_bytes</ref>},</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;used_memory_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8b3b5984a3e8edb38d6b3104dc807bc8" kindref="member">used_memory_bytes</ref>},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;free_memory_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a3982864460ead518260be6680d29174d" kindref="member">free_memory_bytes</ref>},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;utilization&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a12d7c64621cee4eddcc61f595e1d4cbb" kindref="member">utilization</ref>},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;active_requests&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1aa803ac39926f06d254a9c3452a72d1b3" kindref="member">active_requests</ref>},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_requests&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a37a14c53d600b04f7d4d1d8f58bb82a4" kindref="member">total_requests</ref>},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cache_hits&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" kindref="member">cache_hits</ref>},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cache_misses&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" kindref="member">cache_misses</ref>},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;blocks_evicted&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a0282f78fe505ef4650d9a946c673cd55" kindref="member">blocks_evicted</ref>},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;blocks_allocated&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a95f0e01fc59c1e1426f67cdb58fcce44" kindref="member">blocks_allocated</ref>},</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;blocks_freed&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ad768823cde2b86054a6ca5af72cf259e" kindref="member">blocks_freed</ref>},</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allocation_failures&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac6a9fbcfb9fc867ca903784aa4dd1efc" kindref="member">allocation_failures</ref>},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;eviction_failures&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ab362798e4ff1d6452f53d0823868b3ce" kindref="member">eviction_failures</ref>},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cache_hit_rate&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac94188d9a2438b262b0c9e1e1f34d199" kindref="member">cache_hit_rate</ref>()}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" kindref="member">BlockAllocator</ref><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*(uint32_t<sp/>block_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)&gt;;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" kindref="member">BlockDeallocator</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr,<sp/>uint32_t<sp/>block_id)&gt;;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" kindref="member">EvictionCallback</ref><sp/>=<sp/>std::function&lt;void(uint32_t<sp/>request_id,<sp/>uint32_t<sp/>block_id)&gt;;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aec0d4933de00f38b848ef6991df05d02" kindref="member">~PagedKVCache</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>constructors<sp/>and<sp/>assignment<sp/>operators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3be145e1c6c500e736751c05a99ad608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3be145e1c6c500e736751c05a99ad608" kindref="member">PagedKVCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218" refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad859d384db64cdd1aed4ded04104d437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad859d384db64cdd1aed4ded04104d437" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>Management<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1af1c9a97101e9d84673b8559e4b2c60a4" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acbae3d7dd8da4bb9322c1d7f17cd44ae" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90896a91598c77f8979ae7e5a68d8c04" kindref="member">reserveRequest</ref>(int64_t<sp/>request_id,<sp/>uint32_t<sp/>initial_tokens);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90896a91598c77f8979ae7e5a68d8c04" kindref="member">reserveRequest</ref>(int64_t<sp/>request_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>initial_token_ids);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint32_t&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a5346b4a95e6bf7fcb0677444d86c9d0f" kindref="member">allocateBlock</ref>(int64_t<sp/>request_id,<sp/>uint32_t<sp/>token_count);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a8c462c4476311d7f73fc14c8fbf6b825" kindref="member">freeBlock</ref>(uint32_t<sp/>block_id);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab3d8addba2c41ddbf7a777d0d8ba9544" kindref="member">freeRequest</ref>(int64_t<sp/>request_id);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae5d92a6f5c38b502d0707678cc60a4ae" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>Access<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a7cf921ad3daa59a22016730840c99500" kindref="member">writeBlock</ref>(</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>block_id,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>token_offset,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>key_data,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>value_data,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>token_count</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a6f962df52404d9ee826178e111fe04c9" kindref="member">readBlock</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>block_id,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>token_offset,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>token_count,</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;&amp;<sp/>key_data,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;&amp;<sp/>value_data</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;KVCacheBlock&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac24605217fd4f69bd983c68c395ffbdd" kindref="member">getBlock</ref>(uint32_t<sp/>block_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a30ab6e967b64c76efc6771eacdf289e6" kindref="member">getRequestBlocks</ref>(int64_t<sp/>request_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefix<sp/>Sharing<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint32_t&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a81de10210359c4cdb516e1ef6fd53e46" kindref="member">findSharedPrefix</ref>(</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>request_id,</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>token_sequence</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae9692e041831242bad2601452920bc5e" kindref="member">sharePrefixBlock</ref>(</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>source_request_id,</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>target_request_id,</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>block_id</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>and<sp/>Monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kindref="compound">KVCacheStats</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aba88c97cc575eb6b81daa9aa25b142cd" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4d9d2ba3d49838c071be7b7847ed4495" kindref="member">getStatsJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aadf9a224a918f46db61193ab0c689883" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aff3b1175919f2e4e64b29aea8d808cfd" kindref="member">getMemoryUsage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aeb671291597f4c5721b609927f256adc" kindref="member">getUtilization</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a209e57b6572ceedada3437f8f8aaf5e3" kindref="member">needsEviction</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>and<sp/>Control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3cfdd6ef0e859fe5da4d209a3013a066" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a587503026c36aedc63b9f808067b7196" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad5a403d601413bf333d4e0c95df504f2" kindref="member">setBlockAllocator</ref>(<ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" kindref="member">BlockAllocator</ref><sp/>allocator);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a2869019d8c5345ca818e8f808a24d482" kindref="member">setBlockDeallocator</ref>(<ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" kindref="member">BlockDeallocator</ref><sp/>deallocator);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a1b6914cc230a232574a9273495333694" kindref="member">setEvictionCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" kindref="member">EvictionCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Integration<sp/>with<sp/>Scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4c22e44de8b9c9f33ea0f0b810c0a0e0" kindref="member">setScheduler</ref>(<ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>*<sp/>scheduler);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>*<sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1adfe9e4d9801d824f2d17275432a65786" kindref="member">getScheduler</ref>();</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a102567aa7090404650f1cc60cbec824f" kindref="member">clearRequestCache</ref>(int64_t<sp/>request_id);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RequestState<sp/>{</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>request_id;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>block_ids;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>total_tokens<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>token_sequence;</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_accessed;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref>*<sp/>scheduler_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint32_t,<sp/>KVCacheBlock&gt;<sp/>blocks_;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint32_t,<sp/>uint32_t&gt;<sp/>block_ref_counts_;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint32_t,<sp/>std::vector&lt;float&gt;&gt;<sp/>key_block_storage_;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint32_t,<sp/>std::vector&lt;float&gt;&gt;<sp/>value_block_storage_;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;uint32_t&gt;<sp/>free_blocks_;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>next_block_id_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int64_t,<sp/>RequestState&gt;<sp/>requests_;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kindref="compound">KVCacheStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" kindref="member">BlockAllocator</ref><sp/>block_allocator_;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" kindref="member">BlockDeallocator</ref><sp/>block_deallocator_;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" kindref="member">EvictionCallback</ref><sp/>eviction_callback_;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_memory_usage_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>block_memory_size_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Calculated<sp/>based<sp/>on<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Synchronization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>Methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>calculateBlockMemorySize()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>reserveRequestUnlocked(int64_t<sp/>request_id,</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>initial_tokens,</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;*<sp/>initial_token_ids);</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>allocateBlockId();</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>freeBlockId(uint32_t<sp/>block_id);</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>evictBlocks(uint32_t<sp/>needed_blocks);</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>releaseRequestBlockUnlocked(int64_t<sp/>request_id,<sp/>uint32_t<sp/>block_id);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>destroyBlockUnlocked(uint32_t<sp/>block_id);</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::pair&lt;uint32_t,<sp/>int64_t&gt;&gt;<sp/>findLRUBlock()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStats();</highlight></codeline>
+<codeline lineno="543"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/paged_kv_cache.h"/>
+  </compounddef>
+</doxygen>

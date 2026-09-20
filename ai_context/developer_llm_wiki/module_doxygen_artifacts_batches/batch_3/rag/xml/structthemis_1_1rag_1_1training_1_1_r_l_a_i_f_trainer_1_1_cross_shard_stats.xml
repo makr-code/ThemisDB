@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFTrainer::CrossShardStats</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1a27890e4608eae30969c4ef49f4f8a9b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainer::CrossShardStats::received_summaries</definition>
+        <argsstring></argsstring>
+        <name>received_summaries</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::CrossShardStats::received_summaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total inbound summaries accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="475" column="16" bodyfile="include/rag/rlaif_trainer.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1ac05b5525ff0e2a7455e46284fe61d5c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainer::CrossShardStats::applied_pairs</definition>
+        <argsstring></argsstring>
+        <name>applied_pairs</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::CrossShardStats::applied_pairs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Preference pairs added to dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="476" column="16" bodyfile="include/rag/rlaif_trainer.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1a9c742ea7f0c8afe5f1694a5f06cb1b79" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainer::CrossShardStats::skipped_summaries</definition>
+        <argsstring></argsstring>
+        <name>skipped_summaries</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::CrossShardStats::skipped_summaries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Summaries skipped (embedding lookup failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="477" column="16" bodyfile="include/rag/rlaif_trainer.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated stats for cross-shard preference pairs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Counters are updated by <computeroutput><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a900da45d34542ce1c8f36ef1f78019a4" kindref="member">addCrossShardSummary()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="474" column="5" bodyfile="include/rag/rlaif_trainer.h" bodystart="474" bodyend="478"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1ac05b5525ff0e2a7455e46284fe61d5c4" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer::CrossShardStats</scope><name>applied_pairs</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1a27890e4608eae30969c4ef49f4f8a9b4" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer::CrossShardStats</scope><name>received_summaries</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats_1a9c742ea7f0c8afe5f1694a5f06cb1b79" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer::CrossShardStats</scope><name>skipped_summaries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

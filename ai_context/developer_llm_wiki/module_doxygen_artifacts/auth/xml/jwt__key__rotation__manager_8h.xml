@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="jwt__key__rotation__manager_8h" kind="file" language="C++">
+    <compoundname>jwt_key_rotation_manager.h</compoundname>
+    <includes refid="jwt__validator_8h" local="yes">auth/jwt_validator.h</includes>
+    <includes refid="token__blacklist_8h" local="yes">auth/token_blacklist.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="jwt__key__rotation__manager_8cpp" local="yes">src/auth/jwt_key_rotation_manager.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening2_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening2.cpp</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/jwt_key_rotation_manager.h</label>
+        <link refid="jwt__key__rotation__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="23">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="25">
+        <label>tuple</label>
+      </node>
+      <node id="26">
+        <label>type_traits</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="19">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/jwt_key_rotation_manager.h</label>
+        <link refid="jwt__key__rotation__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/jwt_key_rotation_manager.cpp</label>
+        <link refid="jwt__key__rotation__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_wave4b_auth_hardening.cpp</label>
+        <link refid="test__wave4b__auth__hardening_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_wave4b_auth_hardening2.cpp</label>
+        <link refid="test__wave4b__auth__hardening2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_key_info" prot="public">themis::auth::JWKKeyInfo</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager" prot="public">themis::auth::JWTKeyRotationManager</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" prot="public">themis::auth::JWTKeyRotationManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" prot="public">themis::auth::JWTKeyRotationManager::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jwt__validator_8h" kindref="compound">auth/jwt_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__blacklist_8h" kindref="compound">auth/token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>to<sp/>avoid<sp/>pulling<sp/>the<sp/>full<sp/>AuditLogger<sp/>header<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1auth_1_1_j_w_k_key_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info" kindref="compound">JWKKeyInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a4425a2a46345c68afaa7b9417e5f5bc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a4425a2a46345c68afaa7b9417e5f5bc3" kindref="member">kid</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" kindref="member">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7ade1c70a20d797811b2fd32facf64bbd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7ade1c70a20d797811b2fd32facf64bbd4" kindref="member">PASSIVE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a727e10d767d9a626c3d8a6a921447323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a727e10d767d9a626c3d8a6a921447323" kindref="member">REVOKED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a3d399a9a0b5a60d79b194c8e69a38a26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" kindref="member">Status</ref><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a3d399a9a0b5a60d79b194c8e69a38a26" kindref="member">status</ref><sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" kindref="member">Status::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a0c600971b838a4f9663cf49e96565e7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a0c600971b838a4f9663cf49e96565e7f" kindref="member">activated_at</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a94fc1d86b068a020bb463e2c2aee7054" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a94fc1d86b068a020bb463e2c2aee7054" kindref="member">demoted_at</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1af18c83c31cddc4473fdcb6b44c2d159c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1af18c83c31cddc4473fdcb6b44c2d159c" kindref="member">max_age</ref>{86400<sp/>*<sp/>30};<sp/><sp/></highlight><highlight class="comment">//<sp/>default:<sp/>30<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a928639e05bbcedb9b14771ad18a6a9b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a928639e05bbcedb9b14771ad18a6a9b7" kindref="member">isExpired</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a3d399a9a0b5a60d79b194c8e69a38a26" kindref="member">status</ref><sp/>!=<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" kindref="member">Status::ACTIVE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>age<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a0c600971b838a4f9663cf49e96565e7f" kindref="member">activated_at</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>age<sp/>&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1af18c83c31cddc4473fdcb6b44c2d159c" kindref="member">max_age</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1a763cb1e8e440eadaf621568b644aad7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1a763cb1e8e440eadaf621568b644aad7e" kindref="member">passive_grace_period</ref>{86400};<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1acfed9c10da5d7b9c251a0d7687894c74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1acfed9c10da5d7b9c251a0d7687894c74" kindref="member">max_key_age</ref>{86400<sp/>*<sp/>30};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1aaf3976c4f8928df4a9c36e757c06b649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1aaf3976c4f8928df4a9c36e757c06b649" kindref="member">auto_revoke_expired_passive</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1ad15bf5ed44dfa83a01a71d70737e1349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1ad15bf5ed44dfa83a01a71d70737e1349" kindref="member">max_keys</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>&amp;<sp/>validator,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref>*<sp/>blacklist<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref>(</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>&amp;<sp/>validator,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref>*<sp/>blacklist,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a64a16d65cf43d0f58173fd173e22016b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a64a16d65cf43d0f58173fd173e22016b" kindref="member">JWTKeyRotationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3554dbdcf6e9bd84e343d7440f9af611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a3554dbdcf6e9bd84e343d7440f9af611" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a7b65d783b08e6031bbba2f4fe5e4214a" kindref="member">JWTKeyRotationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a880f48e9cac373118b41a127daa75b47" kindref="member">~JWTKeyRotationManager</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a227f6e751adaf2f23435ead3171c3517" kindref="member">rotateActiveKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_kid,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::seconds&gt;<sp/>max_age<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a61a47b7bb11dcbdb1daa7847a6bdcf4e" kindref="member">revokeKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a83d3c1fd6026acb50fcdac9af5efca2f" kindref="member">reactivateKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rotation<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ae9c83f6d20e74fa4deab1dbfb4d669ba" kindref="member">isRotationDue</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a41c74d683c773dd8af50c5ee649ef80a" kindref="member">checkAndRotate</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a9af85918efb5c505cc2893138a2e588b" kindref="member">activeKeyId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1ace03d6f2219f24d9c08014b4db01697b" kindref="member">passiveKeyIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a36e291f500423c6ce043bf332f59ca98" kindref="member">revokedKeyIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;JWKKeyInfo&gt;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a06e6a9e5d712866aeb3e652d68496024" kindref="member">getKeyInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad4fae37d0c4c4cbf234a0600c10a0e24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad4fae37d0c4c4cbf234a0600c10a0e24" kindref="member">total_keys</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad5fd22c94dfe166108952f34efc0ef37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1ad5fd22c94dfe166108952f34efc0ef37" kindref="member">active_keys</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>always<sp/>be<sp/>≤<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a4b1e77656bdadcb3e756b97e8f889a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a4b1e77656bdadcb3e756b97e8f889a95" kindref="member">passive_keys</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1adc9db1017dd231a71f56e8f3c783d6db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1adc9db1017dd231a71f56e8f3c783d6db" kindref="member">revoked_keys</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a8c0d5c49bab5021c3e432cff24d15efc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1a8c0d5c49bab5021c3e432cff24d15efc" kindref="member">total_rotations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1aefa3ae7b5c5a74faad1656b93ffecb20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics_1aefa3ae7b5c5a74faad1656b93ffecb20" kindref="member">total_revocations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1a5bf88a4e3a208f0b4020e2722a91aa24" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1accf72339d9a23be81f4658436a04bdd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1accf72339d9a23be81f4658436a04bdd8" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>&amp;<sp/><sp/><sp/><sp/>validator_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref>*<sp/><sp/>blacklist_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>non-owning,<sp/>optional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>JWKKeyInfo&gt;<sp/>keys_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rotation_count_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>revocation_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/jwt_key_rotation_manager.h"/>
+  </compounddef>
+</doxygen>

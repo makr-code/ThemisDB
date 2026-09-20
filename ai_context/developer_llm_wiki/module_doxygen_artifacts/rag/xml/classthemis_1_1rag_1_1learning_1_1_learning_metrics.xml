@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1learning_1_1_learning_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::learning::LearningMetrics</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" prot="public">themis::rag::learning::LearningMetrics::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl" prot="public">themis::rag::learning::LearningMetrics::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ad69ab292ab2721a4c824e47d9c916a6b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::learning::LearningMetrics::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="235" column="21" bodyfile="include/rag/learning_metrics.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a1931aba846b8be4bf20d1b3971273d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::LearningMetrics::LearningMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>LearningMetrics</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::LearningMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="205" column="5" bodyfile="src/rag/learning_metrics.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a40f8c33a9c6d27d8130c39f369a3a703" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::LearningMetrics::LearningMetrics</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LearningMetrics</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::LearningMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="206" column="14" bodyfile="src/rag/learning_metrics.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a25d4256b9ffb910b055847c5bd259233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::LearningMetrics::~LearningMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>~LearningMetrics</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::~LearningMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a6f2914b32a08ac78aa41b12592d394f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::LearningMetrics::recordEvaluation</definition>
+        <argsstring>(const EvaluationEntry &amp;entry)</argsstring>
+        <name>recordEvaluation</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::recordEvaluation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" kindref="compound">EvaluationEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record a new evaluation entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Evaluation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation scores to record</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="213" column="10" bodyfile="src/rag/learning_metrics.cpp" bodystart="51" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a3b19e98595243d33359517ee226bdd63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" kindref="compound">MetricsSnapshot</ref></type>
+        <definition>MetricsSnapshot themis::rag::learning::LearningMetrics::computeMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>computeMetrics</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::computeMetrics</qualifiedname>
+        <briefdescription>
+<para>Compute aggregated metrics over the current window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="219" column="21" bodyfile="src/rag/learning_metrics.cpp" bodystart="71" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ae19b3c9c10355c1ed9519f82bffc582d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::LearningMetrics::exportMetrics</definition>
+        <argsstring>(const std::string &amp;filepath) const</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::exportMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Export recorded entries to a CSV file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="225" column="10" bodyfile="src/rag/learning_metrics.cpp" bodystart="99" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1aade3744cd9cd731dc182c7a44e787b65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::LearningMetrics::printReport</definition>
+        <argsstring>(std::ostream &amp;os) const</argsstring>
+        <name>printReport</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::printReport</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <briefdescription>
+<para>Print a human-readable report to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>os</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output stream (default: std::cout) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="231" column="10" bodyfile="src/rag/learning_metrics.cpp" bodystart="125" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1aa07721c932365408407b71493a32e7e0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningMetrics::computeMean</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data) const</argsstring>
+        <name>computeMean</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::computeMean</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="237" column="12" bodyfile="src/rag/learning_metrics.cpp" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a3709d3a29ae782ffb4e73f45ffa1e635" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningMetrics::computeStdDev</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data, double mean) const</argsstring>
+        <name>computeStdDev</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::computeStdDev</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mean</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="238" column="12" bodyfile="src/rag/learning_metrics.cpp" bodystart="161" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ac84b7f64e9b7fe260bd6a7c8018ae90d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningMetrics::computeTrend</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data) const</argsstring>
+        <name>computeTrend</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::computeTrend</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="239" column="12" bodyfile="src/rag/learning_metrics.cpp" bodystart="177" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tracks RAG evaluation metrics over a sliding window. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe metrics accumulator that records evaluation results and computes aggregated statistics (mean, std-dev, trend) for monitoring and continuous-learning workflows. </para>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="196" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="196" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1aa07721c932365408407b71493a32e7e0" prot="private" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>computeMean</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a3b19e98595243d33359517ee226bdd63" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>computeMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a3709d3a29ae782ffb4e73f45ffa1e635" prot="private" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>computeStdDev</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ac84b7f64e9b7fe260bd6a7c8018ae90d" prot="private" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>computeTrend</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ae19b3c9c10355c1ed9519f82bffc582d" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ad69ab292ab2721a4c824e47d9c916a6b" prot="private" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a1931aba846b8be4bf20d1b3971273d20" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>LearningMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a40f8c33a9c6d27d8130c39f369a3a703" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>LearningMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1aade3744cd9cd731dc182c7a44e787b65" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>printReport</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a6f2914b32a08ac78aa41b12592d394f0" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>recordEvaluation</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a25d4256b9ffb910b055847c5bd259233" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics</scope><name>~LearningMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_server_state_machine" kind="class" language="C++" prot="public">
+    <compoundname>StubServerStateMachine</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_server_state_machine_1aa95aeb603974f88be69009cb330b27c9" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" kindref="member">ServerState</ref></type>
+        <definition>ServerState StubServerStateMachine::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>StubServerStateMachine::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="166" column="17" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_server_state_machine_1a4f221166fb9270dec14390f21214e7a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubServerStateMachine::StubServerStateMachine</definition>
+        <argsstring>()</argsstring>
+        <name>StubServerStateMachine</name>
+        <qualifiedname>StubServerStateMachine::StubServerStateMachine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="146" column="5" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1aa2c5c519269dd1fa9b408898a4f14eb2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubServerStateMachine::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>StubServerStateMachine::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="148" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1af9a77861f943d22f12fcdaf60db7bbea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubServerStateMachine::drain</definition>
+        <argsstring>()</argsstring>
+        <name>drain</name>
+        <qualifiedname>StubServerStateMachine::drain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="149" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1ae44dc328f344236dc62ab0d1b3f61c0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubServerStateMachine::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>StubServerStateMachine::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="150" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1afdc464fb77f74d8deb52fea70c539d67" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" kindref="member">ServerState</ref></type>
+        <definition>ServerState StubServerStateMachine::state</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>state</name>
+        <qualifiedname>StubServerStateMachine::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="152" column="17" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1a67940596383864c0b42b3fda97475543" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubServerStateMachine::canAcceptRequests</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>canAcceptRequests</name>
+        <qualifiedname>StubServerStateMachine::canAcceptRequests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="154" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_server_state_machine_1aeaa9c0a5c4626374aaf6157cf65923e7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubServerStateMachine::isDraining</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isDraining</name>
+        <qualifiedname>StubServerStateMachine::isDraining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="158" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_stub_server_state_machine_1afdc4a3378b55046ef6d0b678615be5b6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubServerStateMachine::transition</definition>
+        <argsstring>(ServerState next)</argsstring>
+        <name>transition</name>
+        <qualifiedname>StubServerStateMachine::transition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" kindref="member">ServerState</ref></type>
+          <declname>next</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="161" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="161" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub server state machine implementing §9 graceful shutdown ordering. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="144" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="144" bodyend="167"/>
+    <listofallmembers>
+      <member refid="class_stub_server_state_machine_1a67940596383864c0b42b3fda97475543" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>canAcceptRequests</name></member>
+      <member refid="class_stub_server_state_machine_1af9a77861f943d22f12fcdaf60db7bbea" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>drain</name></member>
+      <member refid="class_stub_server_state_machine_1aeaa9c0a5c4626374aaf6157cf65923e7" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>isDraining</name></member>
+      <member refid="class_stub_server_state_machine_1aa2c5c519269dd1fa9b408898a4f14eb2" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>start</name></member>
+      <member refid="class_stub_server_state_machine_1afdc464fb77f74d8deb52fea70c539d67" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>state</name></member>
+      <member refid="class_stub_server_state_machine_1aa95aeb603974f88be69009cb330b27c9" prot="private" virt="non-virtual"><scope>StubServerStateMachine</scope><name>state_</name></member>
+      <member refid="class_stub_server_state_machine_1ae44dc328f344236dc62ab0d1b3f61c0d" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>stop</name></member>
+      <member refid="class_stub_server_state_machine_1a4f221166fb9270dec14390f21214e7a4" prot="public" virt="non-virtual"><scope>StubServerStateMachine</scope><name>StubServerStateMachine</name></member>
+      <member refid="class_stub_server_state_machine_1afdc4a3378b55046ef6d0b678615be5b6" prot="private" virt="non-virtual"><scope>StubServerStateMachine</scope><name>transition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

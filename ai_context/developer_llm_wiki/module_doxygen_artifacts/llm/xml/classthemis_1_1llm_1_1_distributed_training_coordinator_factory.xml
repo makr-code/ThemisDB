@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_distributed_training_coordinator_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::DistributedTrainingCoordinatorFactory</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_factory_1a6783b306e707b0c24dc03041dc03df28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator" kindref="compound">DistributedTrainingCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DistributedTrainingCoordinator &gt; themis::llm::DistributedTrainingCoordinatorFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; ShardRouter &gt; shard_router, std::shared_ptr&lt; ShardTopology &gt; shard_topology, const DistributedTrainingConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinatorFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1a691d3f0683107eeb15c27082b50e9440" kindref="member">ShardRouter</ref> &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1add27dba3127de868ee641cb8d4a60c11" kindref="member">ShardTopology</ref> &gt;</type>
+          <declname>shard_topology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_distributed_training_config" kindref="compound">DistributedTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="629" column="28" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1811" bodyend="1819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_factory_1ab77d0e3c528b73c4593aae82cef7e9e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator" kindref="compound">DistributedTrainingCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DistributedTrainingCoordinator &gt; themis::llm::DistributedTrainingCoordinatorFactory::createWithAutoDiscovery</definition>
+        <argsstring>(std::shared_ptr&lt; ShardRouter &gt; shard_router, SyncStrategy strategy=SyncStrategy::ALL_REDUCE)</argsstring>
+        <name>createWithAutoDiscovery</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinatorFactory::createWithAutoDiscovery</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1a691d3f0683107eeb15c27082b50e9440" kindref="member">ShardRouter</ref> &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ac70931867bc98aa2ba9ac3ce1c5fa0de" kindref="member">SyncStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1ac70931867bc98aa2ba9ac3ce1c5fa0deae8427e5dbab5f0f3d943975dfe7c4c33" kindref="member">SyncStrategy::ALL_REDUCE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="636" column="28" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1822" bodyend="1840"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="620" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="620" bodyend="640"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_factory_1a6783b306e707b0c24dc03041dc03df28" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinatorFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_factory_1ab77d0e3c528b73c4593aae82cef7e9e2" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinatorFactory</scope><name>createWithAutoDiscovery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

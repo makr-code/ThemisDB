@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1org_1_1_bench_slo_window" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::org::BenchSloWindow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a302d58e4b208b4815c948806f6656329" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchSloWindow::good_count</definition>
+        <argsstring></argsstring>
+        <name>good_count</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::good_count</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="152" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchSloWindow::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::total_count</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="153" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1aa9e54173a1b796225a7cf4570dedf171" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchSloWindow::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::target</qualifiedname>
+        <initializer>= 0.99</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="154" column="13" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a5928887f805785c2e091cf8d1373dc97" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::org::BenchSloWindow::recordRequest</definition>
+        <argsstring>(bool good) noexcept</argsstring>
+        <name>recordRequest</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::recordRequest</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>good</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="156" column="10" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a35239eac7f4af930385cc5555698b0b3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchSloWindow::sli</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>sli</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::sli</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="163" column="12" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a69f2b6c14e265e70efee3daac52ea8d6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::org::BenchSloWindow::isBreach</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBreach</name>
+        <qualifiedname>themis::bench::org::BenchSloWindow::isBreach</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="167" column="10" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="151" column="1" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="151" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a302d58e4b208b4815c948806f6656329" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>good_count</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a69f2b6c14e265e70efee3daac52ea8d6" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>isBreach</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a5928887f805785c2e091cf8d1373dc97" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>recordRequest</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a35239eac7f4af930385cc5555698b0b3" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>sli</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1aa9e54173a1b796225a7cf4570dedf171" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>target</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSloWindow</scope><name>total_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

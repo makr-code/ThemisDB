@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_backend_dispatcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeoBackendDispatcher</compoundname>
+    <includes refid="geo__backend__dispatch_8h" local="no">geo_backend_dispatch.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" prot="public">themis::geo::GeoBackendDispatcher::Point</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" prot="public">themis::geo::GeoBackendDispatcher::Polygon</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" prot="public">themis::geo::GeoBackendDispatcher::HaversineResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" prot="public">themis::geo::GeoBackendDispatcher::VincentyResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" prot="public">themis::geo::GeoBackendDispatcher::PointInPolygonResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1acc4b5123621f55f3977c1db2e92d6e53" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoBackendDispatcher::cuda_available_</definition>
+        <argsstring></argsstring>
+        <name>cuda_available_</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::cuda_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="151" column="10" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a96f241c62038944d92d13fb967439e7a" prot="private" static="no" mutable="no">
+        <type>const themis::acceleration::GeoKernelDispatch *</type>
+        <definition>const themis::acceleration::GeoKernelDispatch* themis::geo::GeoBackendDispatcher::dispatch_table_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_table_</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::dispatch_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="152" column="51" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ad67198b0897bae1458f6b06c0260953a" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::geo::GeoBackendDispatcher::fallback_cpu_backend_</definition>
+        <argsstring></argsstring>
+        <name>fallback_cpu_backend_</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::fallback_cpu_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="153" column="10" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GeoBackendDispatcher</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="58" column="5" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a1c485e05b1aec3ea2990fea0cb3a862e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoBackendDispatcher::~GeoBackendDispatcher</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GeoBackendDispatcher</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::~GeoBackendDispatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="60" column="5" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a67abb9caf5917989ae46faff5362a36e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</definition>
+        <argsstring>(const GeoBackendDispatcher &amp;)=delete</argsstring>
+        <name>GeoBackendDispatcher</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</qualifiedname>
+        <param>
+          <type>const GeoBackendDispatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a7d6d2a3648963076041825f7e30d448a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref> &amp;</type>
+        <definition>GeoBackendDispatcher &amp; themis::geo::GeoBackendDispatcher::operator=</definition>
+        <argsstring>(const GeoBackendDispatcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="64" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1afbf71b9ad63527c787e2a8a983ac7f3e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</definition>
+        <argsstring>(GeoBackendDispatcher &amp;&amp;) noexcept=default</argsstring>
+        <name>GeoBackendDispatcher</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::GeoBackendDispatcher</qualifiedname>
+        <param>
+          <type>GeoBackendDispatcher &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a5dc60f99b357aa10e0f248e6739d124b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref> &amp;</type>
+        <definition>GeoBackendDispatcher &amp; themis::geo::GeoBackendDispatcher::operator=</definition>
+        <argsstring>(GeoBackendDispatcher &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="68" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1aba9fd2e73a771edbff249224acf8796d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoBackendDispatcher::isCudaAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCudaAvailable</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::isCudaAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Cuda Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="75" column="10" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ad9159b962bb72fe5cfc1393a959d4d02" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" kindref="compound">HaversineResult</ref></type>
+        <definition>GeoBackendDispatcher::HaversineResult themis::geo::GeoBackendDispatcher::computeHaversineBatch</definition>
+        <argsstring>(const std::vector&lt; Point &gt; &amp;points1, const std::vector&lt; Point &gt; &amp;points2, double earth_radius_km=6371.0) noexcept</argsstring>
+        <name>computeHaversineBatch</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::computeHaversineBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &gt; &amp;</type>
+          <declname>points1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &gt; &amp;</type>
+          <declname>points2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>earth_radius_km</declname>
+          <defval>6371.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="77" column="21" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="91" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae27d413cbc39d95071709a95e8060ae4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" kindref="compound">VincentyResult</ref></type>
+        <definition>GeoBackendDispatcher::VincentyResult themis::geo::GeoBackendDispatcher::computeVincentyBatch</definition>
+        <argsstring>(const std::vector&lt; Point &gt; &amp;points1, const std::vector&lt; Point &gt; &amp;points2) noexcept</argsstring>
+        <name>computeVincentyBatch</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::computeVincentyBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &gt; &amp;</type>
+          <declname>points1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &gt; &amp;</type>
+          <declname>points2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Vincenty Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">points2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="89" column="20" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="244" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae431a0b0c2fe952a6e315b2c20f9df2d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" kindref="compound">PointInPolygonResult</ref></type>
+        <definition>GeoBackendDispatcher::PointInPolygonResult themis::geo::GeoBackendDispatcher::computePointInPolygonBatch</definition>
+        <argsstring>(const std::vector&lt; Point &gt; &amp;test_points, const std::vector&lt; Polygon &gt; &amp;polygons, size_t num_test_points) noexcept</argsstring>
+        <name>computePointInPolygonBatch</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::computePointInPolygonBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &gt; &amp;</type>
+          <declname>test_points</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref> &gt; &amp;</type>
+          <declname>polygons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_test_points</declname>
+        </param>
+        <briefdescription>
+<para>Compute <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> In <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref> Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_test_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="101" column="26" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="168" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a46b881dd74afe2bb1b210b478f39e28f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoBackendDispatcher::detectCudaAvailability</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>detectCudaAvailability</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::detectCudaAvailability</qualifiedname>
+        <briefdescription>
+<para>Detect Cuda Availability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="112" column="10" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="50" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a3db4bdaffbcdacb93d3b7fb048f789cc" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoBackendDispatcher::shouldUseCuda</definition>
+        <argsstring>(size_t batch_size) const noexcept</argsstring>
+        <name>shouldUseCuda</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::shouldUseCuda</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Should Use Cuda. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="120" column="10" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="77" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a0ef7df17f22a69b7d4d43d742219ccef" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::geo::GeoBackendDispatcher::haversineDistance</definition>
+        <argsstring>(const Point &amp;p1, const Point &amp;p2, double earth_radius_km=6371.0) const noexcept</argsstring>
+        <name>haversineDistance</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::haversineDistance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &amp;</type>
+          <declname>p1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &amp;</type>
+          <declname>p2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>earth_radius_km</declname>
+          <defval>6371.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="123" column="12" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="289" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ac249f8db8a3b66ea12d7dc29c0aa7191" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::geo::GeoBackendDispatcher::vincentyDistance</definition>
+        <argsstring>(const Point &amp;p1, const Point &amp;p2) const noexcept</argsstring>
+        <name>vincentyDistance</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::vincentyDistance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &amp;</type>
+          <declname>p1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &amp;</type>
+          <declname>p2</declname>
+        </param>
+        <briefdescription>
+<para>Vincenty Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="135" column="12" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="313" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a4920cffad0aa19b2a21c37ddaa971b7a" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoBackendDispatcher::pointInPolygon</definition>
+        <argsstring>(const Point &amp;test_point, const Polygon &amp;polygon) const noexcept</argsstring>
+        <name>pointInPolygon</name>
+        <qualifiedname>themis::geo::GeoBackendDispatcher::pointInPolygon</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> &amp;</type>
+          <declname>test_point</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref> &amp;</type>
+          <declname>polygon</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref> In <ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_backend_dispatch.h" line="146" column="10" bodyfile="src/geo/geo_backend_dispatch.cpp" bodystart="417" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_backend_dispatch.h" line="29" column="1" bodyfile="include/geo/geo_backend_dispatch.h" bodystart="29" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ad9159b962bb72fe5cfc1393a959d4d02" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>computeHaversineBatch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae431a0b0c2fe952a6e315b2c20f9df2d" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>computePointInPolygonBatch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae27d413cbc39d95071709a95e8060ae4" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>computeVincentyBatch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1acc4b5123621f55f3977c1db2e92d6e53" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>cuda_available_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a46b881dd74afe2bb1b210b478f39e28f" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>detectCudaAvailability</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a96f241c62038944d92d13fb967439e7a" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>dispatch_table_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ad67198b0897bae1458f6b06c0260953a" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>fallback_cpu_backend_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>GeoBackendDispatcher</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a67abb9caf5917989ae46faff5362a36e" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>GeoBackendDispatcher</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1afbf71b9ad63527c787e2a8a983ac7f3e" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>GeoBackendDispatcher</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a0ef7df17f22a69b7d4d43d742219ccef" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>haversineDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1aba9fd2e73a771edbff249224acf8796d" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>isCudaAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a7d6d2a3648963076041825f7e30d448a" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a5dc60f99b357aa10e0f248e6739d124b" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a4920cffad0aa19b2a21c37ddaa971b7a" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>pointInPolygon</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a3db4bdaffbcdacb93d3b7fb048f789cc" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>shouldUseCuda</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ac249f8db8a3b66ea12d7dc29c0aa7191" prot="private" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>vincentyDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a1c485e05b1aec3ea2990fea0cb3a862e" prot="public" virt="non-virtual"><scope>themis::geo::GeoBackendDispatcher</scope><name>~GeoBackendDispatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

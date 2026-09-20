@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_retriever_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>RetrieverEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_retriever_edge_test_1_1_mock_retrieval_result" prot="protected">RetrieverEdgeTest::MockRetrievalResult</innerclass>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_retriever_edge_test_1aa569b7d4be1c64230ff2566305bed568" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t RetrieverEdgeTest::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>RetrieverEdgeTest::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="27" column="30" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_retriever_edge_test_1a13595d1fa6ca2d1fd042238d89d85640" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t RetrieverEdgeTest::kDefaultMaxContextBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxContextBytes</name>
+        <qualifiedname>RetrieverEdgeTest::kDefaultMaxContextBytes</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="28" column="29" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_retriever_edge_test_1ab7b63918b95351d3b7c23a8872f633ed" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t RetrieverEdgeTest::kDefaultMaxRetrievalTimeMs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxRetrievalTimeMs</name>
+        <qualifiedname>RetrieverEdgeTest::kDefaultMaxRetrievalTimeMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="29" column="30" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_retriever_edge_test_1a8842b209970c086e4c94e5dafafdbc45" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retriever_edge_test_1_1_mock_retrieval_result" kindref="compound">MockRetrievalResult</ref></type>
+        <definition>MockRetrievalResult RetrieverEdgeTest::mock_retrieve_empty_graph</definition>
+        <argsstring>()</argsstring>
+        <name>mock_retrieve_empty_graph</name>
+        <qualifiedname>RetrieverEdgeTest::mock_retrieve_empty_graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="43" column="25" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_edge_test_1af01cabea56aa920c88be42cb4f2c73ba" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retriever_edge_test_1_1_mock_retrieval_result" kindref="compound">MockRetrievalResult</ref></type>
+        <definition>MockRetrievalResult RetrieverEdgeTest::mock_retrieve_large_context</definition>
+        <argsstring>(size_t target_size)</argsstring>
+        <name>mock_retrieve_large_context</name>
+        <qualifiedname>RetrieverEdgeTest::mock_retrieve_large_context</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>target_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="52" column="25" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="52" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_edge_test_1ae721e719c00281bf5fdc231e06215b19" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retriever_edge_test_1_1_mock_retrieval_result" kindref="compound">MockRetrievalResult</ref></type>
+        <definition>MockRetrievalResult RetrieverEdgeTest::mock_retrieve_with_timeout</definition>
+        <argsstring>(int64_t simulated_latency)</argsstring>
+        <name>mock_retrieve_with_timeout</name>
+        <qualifiedname>RetrieverEdgeTest::mock_retrieve_with_timeout</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>simulated_latency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="68" column="25" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="68" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_edge_test_1a2ca534a1514c61cf4643e6e74529b2cc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retriever_edge_test_1_1_mock_retrieval_result" kindref="compound">MockRetrievalResult</ref></type>
+        <definition>MockRetrievalResult RetrieverEdgeTest::mock_retrieve_stale_link</definition>
+        <argsstring>()</argsstring>
+        <name>mock_retrieve_stale_link</name>
+        <qualifiedname>RetrieverEdgeTest::mock_retrieve_stale_link</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="86" column="25" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="86" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_edge_test_1a44dc2d95214ff1df24eb273833c672b2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_retriever_edge_test_1_1_mock_retrieval_result" kindref="compound">MockRetrievalResult</ref></type>
+        <definition>MockRetrievalResult RetrieverEdgeTest::mock_retrieve_malformed_context</definition>
+        <argsstring>()</argsstring>
+        <name>mock_retrieve_malformed_context</name>
+        <qualifiedname>RetrieverEdgeTest::mock_retrieve_malformed_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_edge_focused.cpp" line="96" column="25" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RetrieverEdgeTest</label>
+        <link refid="class_retriever_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RetrieverEdgeTest</label>
+        <link refid="class_retriever_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_retriever_edge_focused.cpp" line="25" column="1" bodyfile="tests/process/test_process_retriever_edge_focused.cpp" bodystart="25" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_retriever_edge_test_1aa569b7d4be1c64230ff2566305bed568" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="class_retriever_edge_test_1a13595d1fa6ca2d1fd042238d89d85640" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>kDefaultMaxContextBytes</name></member>
+      <member refid="class_retriever_edge_test_1ab7b63918b95351d3b7c23a8872f633ed" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>kDefaultMaxRetrievalTimeMs</name></member>
+      <member refid="class_retriever_edge_test_1a8842b209970c086e4c94e5dafafdbc45" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>mock_retrieve_empty_graph</name></member>
+      <member refid="class_retriever_edge_test_1af01cabea56aa920c88be42cb4f2c73ba" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>mock_retrieve_large_context</name></member>
+      <member refid="class_retriever_edge_test_1a44dc2d95214ff1df24eb273833c672b2" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>mock_retrieve_malformed_context</name></member>
+      <member refid="class_retriever_edge_test_1a2ca534a1514c61cf4643e6e74529b2cc" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>mock_retrieve_stale_link</name></member>
+      <member refid="class_retriever_edge_test_1ae721e719c00281bf5fdc231e06215b19" prot="protected" virt="non-virtual"><scope>RetrieverEdgeTest</scope><name>mock_retrieve_with_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

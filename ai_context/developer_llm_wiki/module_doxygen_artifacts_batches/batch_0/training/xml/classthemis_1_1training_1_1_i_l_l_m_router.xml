@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_l_l_m_router" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::ILLMRouter</compoundname>
+    <derivedcompoundref refid="class_mock_l_l_m_router" prot="public" virt="non-virtual">MockLLMRouter</derivedcompoundref>
+    <derivedcompoundref refid="class_unavailable_l_l_m_router" prot="public" virt="non-virtual">UnavailableLLMRouter</derivedcompoundref>
+    <includes refid="adapter__serving_8h" local="no">adapter_serving.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_l_l_m_router_1af4d95ab376b9dc4e9ca73c96af36723d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>themis::training::ILLMRouter::~ILLMRouter</definition>
+        <argsstring>()</argsstring>
+        <name>~ILLMRouter</name>
+        <qualifiedname>themis::training::ILLMRouter::~ILLMRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="39" column="13" bodyfile="src/training/adapter_serving.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_l_l_m_router_1ab0ae6f264b2b8c4c93b989cc89897cc9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::training::ILLMRouter::setAdapterWeight</definition>
+        <argsstring>(const std::string &amp;version, float weight)=0</argsstring>
+        <name>setAdapterWeight</name>
+        <qualifiedname>themis::training::ILLMRouter::setAdapterWeight</qualifiedname>
+        <reimplementedby refid="class_mock_l_l_m_router_1a8ab93e02d062551fbc47de1b5c49aa12">setAdapterWeight</reimplementedby>
+        <reimplementedby refid="class_unavailable_l_l_m_router_1ae1b6950337c2644e470ba94ab767815c">setAdapterWeight</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Update the traffic weight for the named adapter version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the fraction of incoming inference requests that should be routed to <computeroutput>version</computeroutput>. Implementations must normalise weights across all registered versions so that the total sums to 1.0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter version identifier (e.g., &quot;legal_v1.1&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired traffic fraction in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the version is unknown to the router (the caller may retry after loading the adapter). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="53" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_l_l_m_router_1a825941b31d3bd0a13cdd3faab7e3751d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::training::ILLMRouter::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::training::ILLMRouter::isAvailable</qualifiedname>
+        <reimplementedby refid="class_mock_l_l_m_router_1a56d859369c00963d70f2adda2299f42e">isAvailable</reimplementedby>
+        <reimplementedby refid="class_unavailable_l_l_m_router_1ae55b797bf0746b2ff967515a7cc95d55">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Whether the router is reachable and ready to accept weight updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="58" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_l_l_m_router_1a27b277568504e9bfa8b01deb31be55d4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::training::ILLMRouter::activeVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeVersion</name>
+        <qualifiedname>themis::training::ILLMRouter::activeVersion</qualifiedname>
+        <reimplementedby refid="class_mock_l_l_m_router_1aeeaa7f53b7512f5c7229e9d6ac532463">activeVersion</reimplementedby>
+        <reimplementedby refid="class_unavailable_l_l_m_router_1a8fbc9a0d9e92bdb3732ca2a3e9a38071">activeVersion</reimplementedby>
+        <briefdescription>
+<para>Return the version identifier that currently receives 100% of traffic, or an empty string if no version is fully active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="64" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for the LLM inference router. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The training module calls this interface to propagate adapter version weights to the live inference layer. Production callers inject a concrete implementation (e.g., backed by MultiLoRAManager); tests inject a mock.</para>
+<para>Threading contract: implementations must be thread-safe; calls may arrive from the deployment thread concurrently with ongoing inference requests. The routing weight update must be atomic from the request handler&apos;s perspective (no mid-request split change is observable). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockLLMRouter</label>
+        <link refid="class_mock_l_l_m_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>UnavailableLLMRouter</label>
+        <link refid="class_unavailable_l_l_m_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::training::ILLMRouter</label>
+        <link refid="classthemis_1_1training_1_1_i_l_l_m_router"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/training/adapter_serving.h" line="37" column="1" bodyfile="include/training/adapter_serving.h" bodystart="37" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_l_l_m_router_1a27b277568504e9bfa8b01deb31be55d4" prot="public" virt="pure-virtual"><scope>themis::training::ILLMRouter</scope><name>activeVersion</name></member>
+      <member refid="classthemis_1_1training_1_1_i_l_l_m_router_1a825941b31d3bd0a13cdd3faab7e3751d" prot="public" virt="pure-virtual"><scope>themis::training::ILLMRouter</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1training_1_1_i_l_l_m_router_1ab0ae6f264b2b8c4c93b989cc89897cc9" prot="public" virt="pure-virtual"><scope>themis::training::ILLMRouter</scope><name>setAdapterWeight</name></member>
+      <member refid="classthemis_1_1training_1_1_i_l_l_m_router_1af4d95ab376b9dc4e9ca73c96af36723d" prot="public" virt="virtual"><scope>themis::training::ILLMRouter</scope><name>~ILLMRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

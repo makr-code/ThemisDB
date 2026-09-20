@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ConsistencyCheckResult</compoundname>
+    <includes refid="adapter__consistency__checker_8h" local="no">adapter_consistency_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1aacc1ff8f19e6f0a4eb87cef74e4d545e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ConsistencyCheckResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="30" column="10" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1aa008c81617bfb5d253c54010595e5387" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ConsistencyCheckResult::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="31" column="17" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a3e7e9358b67351a9be092b0f8127ae7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ConsistencyCheckResult::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="32" column="17" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1abb90a545c9051ba92be9214cba84b741" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ConsistencyCheckResult::signature_valid</definition>
+        <argsstring></argsstring>
+        <name>signature_valid</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::signature_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="33" column="10" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a8a2f0230738f272104e120d095d226ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ConsistencyCheckResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="34" column="17" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a84c3d89fc206456670c5286770681f0b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ConsistencyCheckResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="37" column="17" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a8e7566ff8ba09c38313a5a6aa1912646" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::ConsistencyCheckResult::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="38" column="14" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1ad02ae47e160b2a242ec3230d64ee53a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::ConsistencyCheckResult::~ConsistencyCheckResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConsistencyCheckResult</name>
+        <qualifiedname>themis::llm::lora::ConsistencyCheckResult::~ConsistencyCheckResult</qualifiedname>
+        <briefdescription>
+<para>Consistency Check Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="29" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adapter_consistency_checker.h" line="24" column="1" bodyfile="include/llm/lora_framework/adapter_consistency_checker.h" bodystart="24" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1aa008c81617bfb5d253c54010595e5387" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a8a2f0230738f272104e120d095d226ff" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1aacc1ff8f19e6f0a4eb87cef74e4d545e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a3e7e9358b67351a9be092b0f8127ae7d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>signature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1abb90a545c9051ba92be9214cba84b741" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>signature_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a8e7566ff8ba09c38313a5a6aa1912646" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1a84c3d89fc206456670c5286770681f0b" prot="public" virt="non-virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_consistency_check_result_1ad02ae47e160b2a242ec3230d64ee53a6" prot="public" virt="virtual"><scope>themis::llm::lora::ConsistencyCheckResult</scope><name>~ConsistencyCheckResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

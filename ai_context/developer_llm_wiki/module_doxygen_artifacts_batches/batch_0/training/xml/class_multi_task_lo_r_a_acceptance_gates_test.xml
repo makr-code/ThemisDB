@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_task_lo_r_a_acceptance_gates_test" kind="class" language="C++" prot="public">
+    <compoundname>MultiTaskLoRAAcceptanceGatesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_task_lo_r_a_acceptance_gates_test_1a5c8d6f0120ebd005472c56048f5b55d4" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config" kindref="compound">MultiTaskLoRAConfig</ref></type>
+        <definition>MultiTaskLoRAConfig MultiTaskLoRAAcceptanceGatesTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>MultiTaskLoRAAcceptanceGatesTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multitask_lora_acceptance_gates.cpp" line="89" column="25" bodyfile="tests/training/test_multitask_lora_acceptance_gates.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_multi_task_lo_r_a_acceptance_gates_test_1ab815b338e16ce5e193f275705b08796e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiTaskLoRAAcceptanceGatesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MultiTaskLoRAAcceptanceGatesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multitask_lora_acceptance_gates.cpp" line="40" column="10" bodyfile="tests/training/test_multitask_lora_acceptance_gates.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_task_lo_r_a_acceptance_gates_test_1a1fc63642190287d2306f0fa51946e06b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_m_t_l_sample" kindref="compound">MTLSample</ref> &gt;</type>
+        <definition>std::vector&lt; MTLSample &gt; MultiTaskLoRAAcceptanceGatesTest::createSimpleSamples</definition>
+        <argsstring>(const std::string &amp;task_id, size_t num_samples, size_t input_dim=32, size_t seed=42)</argsstring>
+        <name>createSimpleSamples</name>
+        <qualifiedname>MultiTaskLoRAAcceptanceGatesTest::createSimpleSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_dim</declname>
+          <defval>32</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multitask_lora_acceptance_gates.cpp" line="50" column="17" bodyfile="tests/training/test_multitask_lora_acceptance_gates.cpp" bodystart="50" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_task_lo_r_a_acceptance_gates_test_1a93720f1e0c817fa9b07993999533343b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_m_t_l_sample" kindref="compound">MTLSample</ref> &gt;</type>
+        <definition>std::vector&lt; MTLSample &gt; MultiTaskLoRAAcceptanceGatesTest::createMultiTaskSamples</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;task_ids, size_t samples_per_task=50, size_t input_dim=32)</argsstring>
+        <name>createMultiTaskSamples</name>
+        <qualifiedname>MultiTaskLoRAAcceptanceGatesTest::createMultiTaskSamples</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>task_ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>samples_per_task</declname>
+          <defval>50</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_dim</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_multitask_lora_acceptance_gates.cpp" line="76" column="17" bodyfile="tests/training/test_multitask_lora_acceptance_gates.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiTaskLoRAAcceptanceGatesTest</label>
+        <link refid="class_multi_task_lo_r_a_acceptance_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiTaskLoRAAcceptanceGatesTest</label>
+        <link refid="class_multi_task_lo_r_a_acceptance_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::training::MultiTaskLoRAConfig</label>
+        <link refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_multitask_lora_acceptance_gates.cpp" line="38" column="1" bodyfile="tests/training/test_multitask_lora_acceptance_gates.cpp" bodystart="38" bodyend="90"/>
+    <listofallmembers>
+      <member refid="class_multi_task_lo_r_a_acceptance_gates_test_1a5c8d6f0120ebd005472c56048f5b55d4" prot="protected" virt="non-virtual"><scope>MultiTaskLoRAAcceptanceGatesTest</scope><name>cfg_</name></member>
+      <member refid="class_multi_task_lo_r_a_acceptance_gates_test_1a93720f1e0c817fa9b07993999533343b" prot="protected" virt="non-virtual"><scope>MultiTaskLoRAAcceptanceGatesTest</scope><name>createMultiTaskSamples</name></member>
+      <member refid="class_multi_task_lo_r_a_acceptance_gates_test_1a1fc63642190287d2306f0fa51946e06b" prot="protected" virt="non-virtual"><scope>MultiTaskLoRAAcceptanceGatesTest</scope><name>createSimpleSamples</name></member>
+      <member refid="class_multi_task_lo_r_a_acceptance_gates_test_1ab815b338e16ce5e193f275705b08796e" prot="protected" virt="non-virtual"><scope>MultiTaskLoRAAcceptanceGatesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

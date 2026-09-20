@@ -1,0 +1,1024 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_collaboration_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::CollaborationManager</compoundname>
+    <includes refid="collaboration__manager_8h" local="no">collaboration_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1ab2cf2be5433771a4ac116874a76f9526" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::projects::CollaborationManager::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::projects::CollaborationManager::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="266" column="21" bodyfile="include/projects/collaboration_manager.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a027dc9d3db5686e3494570133cd4faa2" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::CollaborationManager::audit_mutex_</definition>
+        <argsstring></argsstring>
+        <name>audit_mutex_</name>
+        <qualifiedname>themis::projects::CollaborationManager::audit_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="268" column="31" bodyfile="include/projects/collaboration_manager.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a5768b0390e76217a45efcade383b81a2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_i_project_audit_log" kindref="compound">IProjectAuditLog</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IProjectAuditLog&gt; themis::projects::CollaborationManager::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::projects::CollaborationManager::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="269" column="21" bodyfile="include/projects/collaboration_manager.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1ad2e723034e676c366bab9b515099d13f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::CollaborationManager::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::projects::CollaborationManager::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="271" column="31" bodyfile="include/projects/collaboration_manager.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1aa769e0864ce859b7b637e86e79bfbf47" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_project_metrics" kindref="compound">ProjectMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ProjectMetrics&gt; themis::projects::CollaborationManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::projects::CollaborationManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="272" column="21" bodyfile="include/projects/collaboration_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1af5adbde6854169c1829cbd764e773c22" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::CollaborationManager::subscribers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subscribers_mutex_</name>
+        <qualifiedname>themis::projects::CollaborationManager::subscribers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="274" column="31" bodyfile="include/projects/collaboration_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a3fff58f404bad3298f049636f2d36367" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1projects_1acea6781f2af81a373e5b08bbb576a93b" kindref="member">ProjectEventCallback</ref> &gt;</type>
+        <definition>std::vector&lt;ProjectEventCallback&gt; themis::projects::CollaborationManager::subscribers_</definition>
+        <argsstring></argsstring>
+        <name>subscribers_</name>
+        <qualifiedname>themis::projects::CollaborationManager::subscribers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="275" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a2e0238b057748a96c1b3ef1f26462510" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::CollaborationManager::locks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>locks_mutex_</name>
+        <qualifiedname>themis::projects::CollaborationManager::locks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="277" column="31" bodyfile="include/projects/collaboration_manager.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1addf95321160933e08e095a3096fad60b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::projects::CollaborationManager::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themis::projects::CollaborationManager::locks_</qualifiedname>
+        <briefdescription>
+<para>Composite key &quot;&lt;project_id&gt;:&lt;object_name&gt;&quot; → locker_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="279" column="24" bodyfile="include/projects/collaboration_manager.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a1be0c46b5254f04886eaed5d03b376e9" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::CollaborationManager::log_mutex_</definition>
+        <argsstring></argsstring>
+        <name>log_mutex_</name>
+        <qualifiedname>themis::projects::CollaborationManager::log_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="281" column="31" bodyfile="include/projects/collaboration_manager.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a7f42190bd1df707830abb64e5776d1a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt;Change&gt; themis::projects::CollaborationManager::change_log_</definition>
+        <argsstring></argsstring>
+        <name>change_log_</name>
+        <qualifiedname>themis::projects::CollaborationManager::change_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="282" column="17" bodyfile="include/projects/collaboration_manager.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1af4ce4bbc50f9887dafd8fa7e5c9faa73" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::CollaborationManager::kMaxLogEntries</definition>
+        <argsstring></argsstring>
+        <name>kMaxLogEntries</name>
+        <qualifiedname>themis::projects::CollaborationManager::kMaxLogEntries</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="283" column="29" bodyfile="include/projects/collaboration_manager.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a4debcf4090a1e79e58119ceeafd802c9" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::projects::CollaborationManager::kPermissionRead</definition>
+        <argsstring></argsstring>
+        <name>kPermissionRead</name>
+        <qualifiedname>themis::projects::CollaborationManager::kPermissionRead</qualifiedname>
+        <initializer>= &quot;read&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="285" column="33" bodyfile="include/projects/collaboration_manager.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1af42625e9b293f74b251b14ca8c667793" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::projects::CollaborationManager::kPermissionWrite</definition>
+        <argsstring></argsstring>
+        <name>kPermissionWrite</name>
+        <qualifiedname>themis::projects::CollaborationManager::kPermissionWrite</qualifiedname>
+        <initializer>= &quot;write&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="286" column="33" bodyfile="include/projects/collaboration_manager.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_collaboration_manager_1a5a86539b7d928a8e40f619cff84d4fd1" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::projects::CollaborationManager::kPermissionAdmin</definition>
+        <argsstring></argsstring>
+        <name>kPermissionAdmin</name>
+        <qualifiedname>themis::projects::CollaborationManager::kPermissionAdmin</qualifiedname>
+        <initializer>= &quot;admin&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="287" column="33" bodyfile="include/projects/collaboration_manager.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a0999eb428fbfa16cce7f849c7b5befd8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::CollaborationManager::CollaborationManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage)</argsstring>
+        <name>CollaborationManager</name>
+        <qualifiedname>themis::projects::CollaborationManager::CollaborationManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="106" column="14" bodyfile="src/projects/collaboration_manager.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a1bc819cad84399fdabd0ede188501880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::CollaborationManager::~CollaborationManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CollaborationManager</name>
+        <qualifiedname>themis::projects::CollaborationManager::~CollaborationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a1c628f7218d133f593cf07b87ba716bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::CollaborationManager::shareProject</definition>
+        <argsstring>(const std::string &amp;project_id, const std::vector&lt; User &gt; &amp;users, Permission permission)</argsstring>
+        <name>shareProject</name>
+        <qualifiedname>themis::projects::CollaborationManager::shareProject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1projects_1_1_user" kindref="compound">User</ref> &gt; &amp;</type>
+          <declname>users</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" kindref="member">Permission</ref></type>
+          <declname>permission</declname>
+        </param>
+        <briefdescription>
+<para>Share a project with one or more users. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Sharing ───────────────────────────────────────────────────────────────────</para>
+<para>Each user in <computeroutput>users</computeroutput> must have a non-empty <computeroutput><ref refid="structthemis_1_1projects_1_1_user_1afb664bfaaac2acbe97517a5ebf8db019" kindref="member">User::id</ref></computeroutput>. Sharing with an empty-id user returns <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{false, &quot;permission_denied&quot;}.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Users to grant access to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Access level granted to all listed users.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="121" column="12" bodyfile="src/projects/collaboration_manager.cpp" bodystart="92" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a885f6788a8e07caf800ff42f5f6e8c6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::CollaborationManager::revokeAccess</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;user_id)</argsstring>
+        <name>revokeAccess</name>
+        <qualifiedname>themis::projects::CollaborationManager::revokeAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke a user&apos;s access to a project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Revoke Access.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1projects_1_1_user" kindref="compound">User</ref> whose access should be revoked.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="133" column="12" bodyfile="src/projects/collaboration_manager.cpp" bodystart="122" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1ae9b006ee57af5a1ce1a4b6bb66e5b623" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" kindref="member">Permission</ref> &gt;</type>
+        <definition>std::optional&lt; Permission &gt; themis::projects::CollaborationManager::getUserPermission</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;user_id) const</argsstring>
+        <name>getUserPermission</name>
+        <qualifiedname>themis::projects::CollaborationManager::getUserPermission</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the permission level of a user for a project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" kindref="member">Permission</ref> level if the user has access, std::nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="142" column="19" bodyfile="src/projects/collaboration_manager.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a800f10e1665a9a27812e6d980e91ae38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::subscribe</definition>
+        <argsstring>(ProjectEventCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::projects::CollaborationManager::subscribe</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1projects_1acea6781f2af81a373e5b08bbb576a93b" kindref="member">ProjectEventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked for every change event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Event subscriptions ───────────────────────────────────────────────────────</para>
+<para>Callbacks are invoked synchronously inside <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">notifyChange()</ref></computeroutput>. Long-running callbacks will delay subsequent notifications. Callbacks must be non-blocking (hand off to a worker thread if needed).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable(const Change&amp;); must be copyable.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="158" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a1e33f214e806518875ee0ce8371f8332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::unsubscribeAll</definition>
+        <argsstring>()</argsstring>
+        <name>unsubscribeAll</name>
+        <qualifiedname>themis::projects::CollaborationManager::unsubscribeAll</qualifiedname>
+        <briefdescription>
+<para>Remove all registered event callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unsubscribe All.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="163" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a51c90da233fbcb348b8e6136d8a562c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::CollaborationManager::lockObject</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;object_name, const std::string &amp;locker_id)</argsstring>
+        <name>lockObject</name>
+        <qualifiedname>themis::projects::CollaborationManager::lockObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>locker_id</declname>
+        </param>
+        <briefdescription>
+<para>Acquire a lock on a named object within a project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Optimistic locking ────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object key to lock. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>locker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier of the lock holder. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{true} on success, <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{false, reason} if already locked.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">locker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the locker. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">locks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="175" column="12" bodyfile="src/projects/collaboration_manager.cpp" bodystart="174" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1ae6652bc930842be276556eba7ea6a89b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::CollaborationManager::unlockObject</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;object_name, const std::string &amp;locker_id)</argsstring>
+        <name>unlockObject</name>
+        <qualifiedname>themis::projects::CollaborationManager::unlockObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>locker_id</declname>
+        </param>
+        <briefdescription>
+<para>Release a previously acquired object lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unlock Object.</para>
+<para>Only the current lock holder (matching <computeroutput>locker_id</computeroutput>) may release the lock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object key to unlock. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>locker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must match the current lock holder. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{true} on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">locker_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the locker. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">locks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="191" column="12" bodyfile="src/projects/collaboration_manager.cpp" bodystart="212" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1aa0743cf428ab0fe7ef5871accf208baf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::projects::CollaborationManager::isLocked</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;object_name) const</argsstring>
+        <name>isLocked</name>
+        <qualifiedname>themis::projects::CollaborationManager::isLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an object is currently locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object key to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">locks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="203" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="244" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a35abfa734640df35f8c30da74d00b147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::setAuditLog</definition>
+        <argsstring>(std::shared_ptr&lt; IProjectAuditLog &gt; log)</argsstring>
+        <name>setAuditLog</name>
+        <qualifiedname>themis::projects::CollaborationManager::setAuditLog</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_i_project_audit_log" kindref="compound">IProjectAuditLog</ref> &gt;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+<para>Inject an audit log sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Audit log DI ─────────────────────────────────────────────────────────────</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">notifyChange()</ref></computeroutput> records a <computeroutput>DOCUMENT_UPDATED</computeroutput> entry for every change event. Pass <computeroutput>nullptr</computeroutput> to disable.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="218" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="262" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a8e6e3a8c927bc3d53922f746f691a0d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::clearAuditLog</definition>
+        <argsstring>()</argsstring>
+        <name>clearAuditLog</name>
+        <qualifiedname>themis::projects::CollaborationManager::clearAuditLog</qualifiedname>
+        <briefdescription>
+<para>Remove the audit log sink (no-op if not set). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Audit Log. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="223" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="276" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1abf6ab227f9ee8bd31cbf22cc96d69e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::setMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; ProjectMetrics &gt; metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::projects::CollaborationManager::setMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_project_metrics" kindref="compound">ProjectMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Inject a metrics sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">notifyChange()</ref></computeroutput> increments <computeroutput><ref refid="classthemis_1_1projects_1_1_project_metrics_1a0fbb38535d7942c53eaeae3f6f44f21a" kindref="member">ProjectMetrics::recordChange()</ref></computeroutput> for every committed event. Pass <computeroutput>nullptr</computeroutput> to disable.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="236" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="291" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1ad16d02ea45b9e18833d052a143685f61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref> &gt;</type>
+        <definition>std::vector&lt; Change &gt; themis::projects::CollaborationManager::getChanges</definition>
+        <argsstring>(const std::string &amp;project_id, int64_t since_timestamp) const</argsstring>
+        <name>getChanges</name>
+        <qualifiedname>themis::projects::CollaborationManager::getChanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>since_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Return all changes to a project recorded after <computeroutput>since_timestamp</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Changes are ordered chronologically. The in-memory log is bounded to the most recent 10 000 entries per <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager" kindref="compound">CollaborationManager</ref></computeroutput> instance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>since_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unix timestamp (seconds); 0 returns all entries. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="249" column="17" bodyfile="src/projects/collaboration_manager.cpp" bodystart="304" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::CollaborationManager::notifyChange</definition>
+        <argsstring>(const Change &amp;change)</argsstring>
+        <name>notifyChange</name>
+        <qualifiedname>themis::projects::CollaborationManager::notifyChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+<para>Record a change event and invoke all registered subscribers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref>.</para>
+<para>Called by writers after committing a mutation. Persists the change to RocksDB and appends it to the in-memory log before invoking callbacks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The change to record and broadcast.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), put(), toJson(), dump(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="263" column="10" bodyfile="src/projects/collaboration_manager.cpp" bodystart="331" bodyend="376"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1acfc4defef21926aef8fad9a352ea23db" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::projects::CollaborationManager::permissionToString</definition>
+        <argsstring>(Permission p) noexcept</argsstring>
+        <name>permissionToString</name>
+        <qualifiedname>themis::projects::CollaborationManager::permissionToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" kindref="member">Permission</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="289" column="23" bodyfile="src/projects/collaboration_manager.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_collaboration_manager_1aec5267245630ba624033b00a76f7ae20" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" kindref="member">Permission</ref> &gt;</type>
+        <definition>std::optional&lt; Permission &gt; themis::projects::CollaborationManager::permissionFromString</definition>
+        <argsstring>(const std::string &amp;s) noexcept</argsstring>
+        <name>permissionFromString</name>
+        <qualifiedname>themis::projects::CollaborationManager::permissionFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="290" column="26" bodyfile="src/projects/collaboration_manager.cpp" bodystart="69" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Real-time collaboration and optimistic locking for shared projects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features ─────────<itemizedlist>
+<listitem><para>Project sharing with per-user permission levels.</para>
+</listitem><listitem><para>In-process event callbacks (subscribers) invoked synchronously on each <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">notifyChange()</ref></computeroutput> call with latency ≤ 5 ms under normal load.</para>
+</listitem><listitem><para>Optimistic object locking: a lock is held by a single <computeroutput>locker_id</computeroutput> and must be explicitly released.</para>
+</listitem><listitem><para>Append-only in-memory change log queryable by timestamp.</para>
+</listitem></itemizedlist>
+</para>
+<para>Sharing model ───────────── Sharing requires an explicit user-consent grant. Calling <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a1c628f7218d133f593cf07b87ba716bf" kindref="member">shareProject()</ref></computeroutput> without a valid user <computeroutput><ref refid="structthemis_1_1projects_1_1_user_1afb664bfaaac2acbe97517a5ebf8db019" kindref="member">User::id</ref></computeroutput> results in <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{false, &quot;permission_denied&quot;}. Cross-project sharing permission delegation is planned for Q4 2026.</para>
+<para>Thread-safety ───────────── All methods are thread-safe. <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a800f10e1665a9a27812e6d980e91ae38" kindref="member">subscribe()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">notifyChange()</ref></computeroutput> use separate fine-grained locks so that long-running callbacks do not block incoming writes.</para>
+<para>RocksDB key layout (persistent entries) ──────────────────────────────────────── collab_share:&lt;project_id&gt;:&lt;user_id&gt; → permission string collab_change:&lt;project_id&gt;:&lt;ts_ns&gt; → <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref> JSON </para>
+    </detaileddescription>
+    <location file="include/projects/collaboration_manager.h" line="104" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="104" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a5768b0390e76217a45efcade383b81a2" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a027dc9d3db5686e3494570133cd4faa2" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>audit_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a7f42190bd1df707830abb64e5776d1a3" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>change_log_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a8e6e3a8c927bc3d53922f746f691a0d0" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>clearAuditLog</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a0999eb428fbfa16cce7f849c7b5befd8" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>CollaborationManager</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1ad16d02ea45b9e18833d052a143685f61" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>getChanges</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1ae9b006ee57af5a1ce1a4b6bb66e5b623" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>getUserPermission</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1aa0743cf428ab0fe7ef5871accf208baf" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>isLocked</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1af4ce4bbc50f9887dafd8fa7e5c9faa73" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>kMaxLogEntries</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a5a86539b7d928a8e40f619cff84d4fd1" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>kPermissionAdmin</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a4debcf4090a1e79e58119ceeafd802c9" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>kPermissionRead</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1af42625e9b293f74b251b14ca8c667793" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>kPermissionWrite</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a51c90da233fbcb348b8e6136d8a562c3" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>lockObject</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1addf95321160933e08e095a3096fad60b" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>locks_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a2e0238b057748a96c1b3ef1f26462510" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>locks_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a1be0c46b5254f04886eaed5d03b376e9" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>log_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1aa769e0864ce859b7b637e86e79bfbf47" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1ad2e723034e676c366bab9b515099d13f" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>notifyChange</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1aec5267245630ba624033b00a76f7ae20" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>permissionFromString</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1acfc4defef21926aef8fad9a352ea23db" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>permissionToString</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a885f6788a8e07caf800ff42f5f6e8c6e" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>revokeAccess</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a35abfa734640df35f8c30da74d00b147" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>setAuditLog</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1abf6ab227f9ee8bd31cbf22cc96d69e09" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a1c628f7218d133f593cf07b87ba716bf" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>shareProject</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1ab2cf2be5433771a4ac116874a76f9526" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a800f10e1665a9a27812e6d980e91ae38" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a3fff58f404bad3298f049636f2d36367" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>subscribers_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1af5adbde6854169c1829cbd764e773c22" prot="private" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>subscribers_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1ae6652bc930842be276556eba7ea6a89b" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>unlockObject</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a1e33f214e806518875ee0ce8371f8332" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>unsubscribeAll</name></member>
+      <member refid="classthemis_1_1projects_1_1_collaboration_manager_1a1bc819cad84399fdabd0ede188501880" prot="public" virt="non-virtual"><scope>themis::projects::CollaborationManager</scope><name>~CollaborationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

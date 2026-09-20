@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classwave1__nto_1_1_stub_timed_lock_operation" kind="class" language="C++" prot="public">
+    <compoundname>wave1_nto::StubTimedLockOperation</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classwave1__nto_1_1_stub_timed_lock_operation_1a3d561c85625e5877faa81f9e4640081c" prot="private" static="no" mutable="no">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex wave1_nto::StubTimedLockOperation::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>wave1_nto::StubTimedLockOperation::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="230" column="22" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classwave1__nto_1_1_stub_timed_lock_operation_1ae504a340e373d5448983620d45ea520f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool wave1_nto::StubTimedLockOperation::tryAcquireWithTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>tryAcquireWithTimeout</name>
+        <qualifiedname>wave1_nto::StubTimedLockOperation::tryAcquireWithTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false when the lock cannot be acquired within <computeroutput>timeout</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="218" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="218" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__nto_1_1_stub_timed_lock_operation_1a8fd7dd0a9c8fdcd260ea8a24a8a91c08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_nto::StubTimedLockOperation::holdLockFor</definition>
+        <argsstring>(std::chrono::milliseconds duration)</argsstring>
+        <name>holdLockFor</name>
+        <qualifiedname>wave1_nto::StubTimedLockOperation::holdLockFor</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Hold the lock for <computeroutput>duration</computeroutput> (used to manufacture a timeout scenario). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="224" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="224" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulates the timed-lock pattern that replaced bare std::mutex::lock(). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="215" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="215" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classwave1__nto_1_1_stub_timed_lock_operation_1a8fd7dd0a9c8fdcd260ea8a24a8a91c08" prot="public" virt="non-virtual"><scope>wave1_nto::StubTimedLockOperation</scope><name>holdLockFor</name></member>
+      <member refid="classwave1__nto_1_1_stub_timed_lock_operation_1a3d561c85625e5877faa81f9e4640081c" prot="private" virt="non-virtual"><scope>wave1_nto::StubTimedLockOperation</scope><name>mutex_</name></member>
+      <member refid="classwave1__nto_1_1_stub_timed_lock_operation_1ae504a340e373d5448983620d45ea520f" prot="public" virt="non-virtual"><scope>wave1_nto::StubTimedLockOperation</scope><name>tryAcquireWithTimeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

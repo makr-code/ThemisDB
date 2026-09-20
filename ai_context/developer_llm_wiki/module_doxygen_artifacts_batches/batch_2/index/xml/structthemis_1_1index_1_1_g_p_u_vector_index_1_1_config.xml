@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::GPUVectorIndex::Config</compoundname>
+    <includes refid="gpu__vector__index_8h" local="no">gpu_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">Backend</ref></type>
+        <definition>Backend themis::index::GPUVectorIndex::Config::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::backend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">Backend::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="42" column="17" bodyfile="include/index/gpu_vector_index.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a52f261886174807a8010ba14112cef69" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46da" kindref="member">DistanceMetric</ref></type>
+        <definition>DistanceMetric themis::index::GPUVectorIndex::Config::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::metric</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46daae66ba018ef96aa5c78c8fba787f43717" kindref="member">DistanceMetric::COSINE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="43" column="24" bodyfile="include/index/gpu_vector_index.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a8a414cf1ef5701fd555ae906a43d4dbc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::GPUVectorIndex::Config::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="46" column="13" bodyfile="include/index/gpu_vector_index.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1abe82290497994a6351ec6b3a2fe946a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::GPUVectorIndex::Config::efConstruction</definition>
+        <argsstring></argsstring>
+        <name>efConstruction</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::efConstruction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="47" column="13" bodyfile="include/index/gpu_vector_index.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a75853a863ba34672a7fd3faeb43e3724" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::GPUVectorIndex::Config::efSearch</definition>
+        <argsstring></argsstring>
+        <name>efSearch</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::efSearch</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="48" column="13" bodyfile="include/index/gpu_vector_index.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a90100b57d0b2aeb904024cdf7431c3dd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::GPUVectorIndex::Config::batchSize</definition>
+        <argsstring></argsstring>
+        <name>batchSize</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::batchSize</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="51" column="13" bodyfile="include/index/gpu_vector_index.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a59596e71eccf602c4ce469beeee78cf0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::GPUVectorIndex::Config::deviceId</definition>
+        <argsstring></argsstring>
+        <name>deviceId</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::deviceId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="54" column="13" bodyfile="include/index/gpu_vector_index.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae0ec42d033faa9d41ab98f2a32dd5aff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Config::enableValidation</definition>
+        <argsstring></argsstring>
+        <name>enableValidation</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::enableValidation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="55" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a39a011ca1209cd629692eaba3860fb37" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Config::maxVRAM_MB</definition>
+        <argsstring></argsstring>
+        <name>maxVRAM_MB</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::maxVRAM_MB</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="56" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a767c132bd514953099f7caff1f1ed27b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::index::GPUVectorIndex::Config::workgroupSize</definition>
+        <argsstring></argsstring>
+        <name>workgroupSize</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::workgroupSize</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="57" column="18" bodyfile="include/index/gpu_vector_index.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1aa69f9c069e4e147f80e945f501ac93a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Config::useMixedPrecision</definition>
+        <argsstring></argsstring>
+        <name>useMixedPrecision</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::useMixedPrecision</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="60" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ac677f11bcc9c7fc2b8a067b7815dad7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Config::enable_oversubscription</definition>
+        <argsstring></argsstring>
+        <name>enable_oversubscription</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::enable_oversubscription</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="65" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1abb01e3450c20f52e6468e645bfba33d2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Config::vram_budget_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_budget_mb</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::vram_budget_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="66" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1affc9478dbd51246f10732edb98a53379" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref></type>
+        <definition>PrefetchStrategy themis::index::GPUVectorIndex::Config::prefetch_strategy</definition>
+        <argsstring></argsstring>
+        <name>prefetch_strategy</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::prefetch_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">PrefetchStrategy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="67" column="26" bodyfile="include/index/gpu_vector_index.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ad5a0793edfa9deef2b5e28dc362b95a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUVectorIndex::Config::oversubscription_partition_vectors</definition>
+        <argsstring></argsstring>
+        <name>oversubscription_partition_vectors</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::oversubscription_partition_vectors</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="68" column="16" bodyfile="include/index/gpu_vector_index.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUVectorIndex::Config::allowCPUFallback</definition>
+        <argsstring></argsstring>
+        <name>allowCPUFallback</name>
+        <qualifiedname>themis::index::GPUVectorIndex::Config::allowCPUFallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="74" column="14" bodyfile="include/index/gpu_vector_index.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_vector_index.h" line="41" column="5" bodyfile="include/index/gpu_vector_index.h" bodystart="41" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>allowCPUFallback</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>backend</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a90100b57d0b2aeb904024cdf7431c3dd" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>batchSize</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a59596e71eccf602c4ce469beeee78cf0" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>deviceId</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1abe82290497994a6351ec6b3a2fe946a2" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>efConstruction</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a75853a863ba34672a7fd3faeb43e3724" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>efSearch</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ac677f11bcc9c7fc2b8a067b7815dad7e" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>enable_oversubscription</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae0ec42d033faa9d41ab98f2a32dd5aff" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>enableValidation</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a8a414cf1ef5701fd555ae906a43d4dbc" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>M</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a39a011ca1209cd629692eaba3860fb37" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>maxVRAM_MB</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a52f261886174807a8010ba14112cef69" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>metric</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ad5a0793edfa9deef2b5e28dc362b95a7" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>oversubscription_partition_vectors</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1affc9478dbd51246f10732edb98a53379" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>prefetch_strategy</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1aa69f9c069e4e147f80e945f501ac93a9" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>useMixedPrecision</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1abb01e3450c20f52e6468e645bfba33d2" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>vram_budget_mb</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a767c132bd514953099f7caff1f1ed27b" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::Config</scope><name>workgroupSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

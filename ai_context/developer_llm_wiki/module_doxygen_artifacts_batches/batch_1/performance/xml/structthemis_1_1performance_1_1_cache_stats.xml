@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::CacheStats</compoundname>
+    <includes refid="performance__api__contract_8h" local="no">performance_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::performance::CacheStats::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="100" column="14" bodyfile="include/performance/performance_api_contract.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::performance::CacheStats::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="101" column="14" bodyfile="include/performance/performance_api_contract.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_stats_1a9844554edb7d9eb674537690e8311510" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::performance::CacheStats::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="102" column="14" bodyfile="include/performance/performance_api_contract.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::CacheStats::hitRatePercent</definition>
+        <argsstring></argsstring>
+        <name>hitRatePercent</name>
+        <qualifiedname>themis::performance::CacheStats::hitRatePercent</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>[0, 100] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="103" column="14" bodyfile="include/performance/performance_api_contract.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache statistics snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/performance_api_contract.h" line="99" column="1" bodyfile="include/performance/performance_api_contract.h" bodystart="99" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_cache_stats_1a9844554edb7d9eb674537690e8311510" prot="public" virt="non-virtual"><scope>themis::performance::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_stats_1af243489de933735b388a3444dbabc95a" prot="public" virt="non-virtual"><scope>themis::performance::CacheStats</scope><name>hitRatePercent</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_stats_1aff24e9fd44b5971a89479563026bafcb" prot="public" virt="non-virtual"><scope>themis::performance::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_stats_1a06ece7997e850de2d88bb84a88985dc0" prot="public" virt="non-virtual"><scope>themis::performance::CacheStats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

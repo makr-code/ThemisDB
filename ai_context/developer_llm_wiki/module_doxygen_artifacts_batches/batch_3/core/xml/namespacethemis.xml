@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_index_manager_builder" prot="public">themis::IndexManagerBuilder</innerclass>
+    <innerclass refid="classthemis_1_1_query_engine_builder" prot="public">themis::QueryEngineBuilder</innerclass>
+    <innerclass refid="classthemis_1_1_security_layer_builder" prot="public">themis::SecurityLayerBuilder</innerclass>
+    <innerclass refid="classthemis_1_1_storage_engine_builder" prot="public">themis::StorageEngineBuilder</innerclass>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/config_hot_reloader.h" line="18" column="1"/>
+  </compounddef>
+</doxygen>

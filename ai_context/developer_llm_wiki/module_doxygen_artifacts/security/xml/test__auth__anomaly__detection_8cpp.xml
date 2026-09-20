@@ -1,0 +1,1279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__auth__anomaly__detection_8cpp" kind="file" language="C++">
+    <compoundname>test_auth_anomaly_detection.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/auth_rate_limiter.h</includes>
+    <includes local="yes">auth/auth_metrics.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_auth_anomaly_detection.cpp</label>
+        <link refid="test__auth__anomaly__detection_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>auth/auth_metrics.h</label>
+      </node>
+      <node id="3">
+        <label>auth/auth_rate_limiter.h</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_collected_auth_events" prot="public">CollectedAuthEvents</innerclass>
+    <innerclass refid="class_brute_force_anomaly_test" prot="public">BruteForceAnomalyTest</innerclass>
+    <innerclass refid="class_credential_stuffing_test" prot="public">CredentialStuffingTest</innerclass>
+    <innerclass refid="class_audit_logger_integration_test" prot="public">AuditLoggerIntegrationTest</innerclass>
+    <innerclass refid="class_credential_stuffing_escalation_test" prot="public">CredentialStuffingEscalationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, LockoutTriggersAccountLockoutEvent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>LockoutTriggersAccountLockoutEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="76" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="76" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a76c2f03dceeb579c1e98cd4f18309a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, LockoutTriggersBruteForceEvent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>LockoutTriggersBruteForceEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="93" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="93" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1ad6ca9fba280c87140287db1d010b2f3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, BruteForceEventContainsCorrectFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>BruteForceEventContainsCorrectFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="107" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="107" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1ad18813d37ef2642b27e9050e0b244356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, NoCallbackDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>NoCallbackDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="131" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="131" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a501071f177f089c72a5ab04fe7ea14f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, CallbackNotFiredBeforeLockoutThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>CallbackNotFiredBeforeLockoutThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="141" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="141" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1aa576a8a098822ea32fb7fb5d5c96d655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BruteForceAnomalyTest, CallbackCanBeDeregistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref></type>
+        </param>
+        <param>
+          <type>CallbackCanBeDeregistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="156" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="156" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1afa95aabf851a830e2af88399977bf7e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, AlertFiredWhenThresholdReached)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>AlertFiredWhenThresholdReached</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="194" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a6fce4ba3259983962164c55e4a641d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, AlertNotFiredBelowThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>AlertNotFiredBelowThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="210" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="210" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a8c345874037ceba950b73eaf354dfbc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, AlertContainsCorrectIP)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>AlertContainsCorrectIP</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="225" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="225" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1aab00ab35f59187ff73267c9cadba5bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, SameUserRepeatedDoesNotTriggerAlert)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>SameUserRepeatedDoesNotTriggerAlert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="244" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="244" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a7cfdbbe105e6d2921085d3ea406f96dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, AlertFiredOncePerEvent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>AlertFiredOncePerEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="260" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="260" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a5760828e073664c30ef3928df7bfc8cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, DetectionDisabledByConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>DetectionDisabledByConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="278" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="278" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a72809c62c6e0932b9b27fa7916b01600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingTest, AlertAlsoFiredFromFailedAuth)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref></type>
+        </param>
+        <param>
+          <type>AlertAlsoFiredFromFailedAuth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="296" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="296" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a143339c93a945b5d355baff2b5bc35b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthAnomalyThreadSafetyTest, ConcurrentRecordFailedAuthDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthAnomalyThreadSafetyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentRecordFailedAuthDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="315" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="315" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a7b17bf1731e211c3009f8f9186965672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthAnomalyThreadSafetyTest, ConcurrentCallbackReplacement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthAnomalyThreadSafetyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentCallbackReplacement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="349" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="349" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a27929a32e80be221f613c9b18de43317" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditLoggerIntegrationTest, SetAuditLoggerDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SetAuditLoggerDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="423" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="423" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a33736cee2375deedd751a0efe3ffe12e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditLoggerIntegrationTest, BruteForceTriggersAuditLog)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BruteForceTriggersAuditLog</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="436" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="436" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1af61fa0c7c2ffa43ceeb09b0b70214680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditLoggerIntegrationTest, CredentialStuffingTriggersAuditLog)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CredentialStuffingTriggersAuditLog</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="457" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="457" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1ad24a37a1c80055a080af37ffb98e15cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuditLoggerIntegrationTest, DetachAuditLoggerStopsLogging)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>DetachAuditLoggerStopsLogging</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="479" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="479" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1ad571ffbca6cf9b7079b6c25823452cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingEscalationTest, FirstBreachTriggersCaptcha)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref></type>
+        </param>
+        <param>
+          <type>FirstBreachTriggersCaptcha</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="566" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="566" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1ab7bcf00a74f2e388cf7be818cddb4242" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingEscalationTest, SecondBreachTriggersOTP)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref></type>
+        </param>
+        <param>
+          <type>SecondBreachTriggersOTP</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="573" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="573" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a5642eed5ee6f578032c423403e0ee08f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingEscalationTest, ThirdBreachLocksAccount24h)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref></type>
+        </param>
+        <param>
+          <type>ThirdBreachLocksAccount24h</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="580" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="580" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a1f92c02aaed519790179514d19f62b78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingEscalationTest, AnomalyEventCarriesUserIdOnFailedAuth)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref></type>
+        </param>
+        <param>
+          <type>AnomalyEventCarriesUserIdOnFailedAuth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="593" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="593" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1a44f1e70e77ff2d2b0ea284d1a223ce54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CredentialStuffingEscalationTest, InMemoryBreachCountClearedByReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref></type>
+        </param>
+        <param>
+          <type>InMemoryBreachCountClearedByReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="624" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="624" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1afe79e7d72123cce14bf52913ca9e9ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsCredentialStuffingTest, RecordIncreasesInternalCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsCredentialStuffingTest</type>
+        </param>
+        <param>
+          <type>RecordIncreasesInternalCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="662" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="662" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__anomaly__detection_8cpp_1aa6af441c586b985ff2944a6c60b79333" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsCredentialStuffingTest, MetricsWiredToRateLimiter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsCredentialStuffingTest</type>
+        </param>
+        <param>
+          <type>MetricsWiredToRateLimiter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="670" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="670" bodyend="691"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for authentication anomaly detection: brute-force and credential-stuffing pattern detection in AuthRateLimiter, and audit logger integration via setAuditLogger(). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_rate_limiter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="struct_collected_auth_events" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_collected_auth_events" kindref="compound">CollectedAuthEvents</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><ref refid="struct_collected_auth_events_1ab47563e05098c67a407813ad98cdca4a" kindref="member">mtx</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuthAnomalyEvent&gt;<sp/><ref refid="struct_collected_auth_events_1a3cd51590162de7608c13f6cb4cb3d3f8" kindref="member">events</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_collected_auth_events_1ae18db9a33df909087a74ee65c8a4f8a7" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="struct_collected_auth_events_1ab47563e05098c67a407813ad98cdca4a" kindref="member">mtx</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_collected_auth_events_1a3cd51590162de7608c13f6cb4cb3d3f8" kindref="member">events</ref>.clear();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_collected_auth_events_1aa64e1c6f177c39f17f747129822765f5" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="struct_collected_auth_events_1ab47563e05098c67a407813ad98cdca4a" kindref="member">mtx</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_collected_auth_events_1a3cd51590162de7608c13f6cb4cb3d3f8" kindref="member">events</ref>.size();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/><ref refid="struct_collected_auth_events_1a97ac04032bb0625d399ab4b72e4c3400" kindref="member">at</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="struct_collected_auth_events_1ab47563e05098c67a407813ad98cdca4a" kindref="member">mtx</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_collected_auth_events_1a3cd51590162de7608c13f6cb4cb3d3f8" kindref="member">events</ref>.at(i);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_collected_auth_events_1a01e8a2264128a60a22a4e03278c1d95e" kindref="member">hasType</ref>(AuthAnomalyEvent::Type<sp/>t)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="struct_collected_auth_events_1ab47563e05098c67a407813ad98cdca4a" kindref="member">mtx</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/><ref refid="struct_collected_auth_events_1a3cd51590162de7608c13f6cb4cb3d3f8" kindref="member">events</ref>)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.type<sp/>==<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Brute-force<sp/>/<sp/>account-lockout<sp/>anomaly<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="class_brute_force_anomaly_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_collected_auth_events" kindref="compound">CollectedAuthEvents</ref><sp/><ref refid="class_brute_force_anomaly_test_1a6c4eb1adc5e68ec7bf13ba8b133f5b87" kindref="member">collected</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_brute_force_anomaly_test_1a56d06c38550c9c8f45a14e73f63c0b63" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.lockout_failed_attempts<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.lockout_window<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::minutes(5);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.lockout_duration<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::minutes(10);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.enable_ip_rate_limiting<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.enable_user_rate_limiting<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_brute_force_anomaly_test_1a92ab2292c5f6dd8ead1baafa183703a3" kindref="member">cfg</ref>.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>LockoutTriggersAccountLockoutEvent)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(user,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;invalid_password&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(user,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;invalid_password&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(user,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;invalid_password&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>triggers<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(collected.hasType(AuthAnomalyEvent::Type::ACCOUNT_LOCKOUT_TRIGGERED));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>LockoutTriggersBruteForceEvent)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(collected.hasType(AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>BruteForceEventContainsCorrectFields)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5.5.5.5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_cred&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5.5.5.5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_cred&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5.5.5.5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_cred&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(collected.hasType(AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>collected.at(0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.ip,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;5.5.5.5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.user_id,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.detail.empty());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>age<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()<sp/>-<sp/>ev.timestamp).count();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(age,<sp/>5);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>NoCallbackDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>callback<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>CallbackNotFiredBeforeLockoutThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>2<sp/>failures<sp/>–<sp/>threshold<sp/>is<sp/>3,<sp/>so<sp/>no<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.2.2.2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.2.2.2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(collected.hasType(AuthAnomalyEvent::Type::ACCOUNT_LOCKOUT_TRIGGERED));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(collected.hasType(AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_brute_force_anomaly_test" kindref="compound">BruteForceAnomalyTest</ref>,<sp/>CallbackCanBeDeregistered)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;)<sp/>{<sp/>count++;<sp/>});</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;eve&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3.3.3.3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;eve&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3.3.3.3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;eve&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3.3.3.3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>lockout<sp/>fires<sp/>→<sp/>count<sp/>&gt;=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fired<sp/>=<sp/>count.load();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(fired,<sp/>0);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>deregister</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>a<sp/>different<sp/>account<sp/>–<sp/>callback<sp/>must<sp/>NOT<sp/>be<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;frank&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4.4.4.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;frank&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4.4.4.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;frank&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4.4.4.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>fired);<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>new<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Credential-stuffing<sp/>detection<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="class_credential_stuffing_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_collected_auth_events" kindref="compound">CollectedAuthEvents</ref><sp/><ref refid="class_credential_stuffing_test_1a562bd5ffa7c2e4cbf5d63aa336c401c7" kindref="member">collected</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_credential_stuffing_test_1af4cd579e08934509adbced53f9e62cea" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.enable_ip_rate_limiting<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.enable_user_rate_limiting<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.enable_account_lockout<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.credential_stuffing_user_threshold<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_test_1a50445fa48973e7e8e693656343808c22" kindref="member">cfg</ref>.credential_stuffing_window_seconds<sp/><sp/><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>AlertFiredWhenThresholdReached)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>authentication<sp/>as<sp/>5<sp/>distinct<sp/>users<sp/>from<sp/>the<sp/>same<sp/>IP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>AlertNotFiredBelowThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>threshold<sp/>is<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>AlertContainsCorrectIP)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;172.16.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;victim&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(collected.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(collected.at(0).ip,<sp/>ip);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(collected.at(0).detail.empty());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>SameUserRepeatedDoesNotTriggerAlert)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.10.10.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>attempts,<sp/>all<sp/>the<sp/>same<sp/>username<sp/>–<sp/>not<sp/>credential<sp/>stuffing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;singleuser&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>AlertFiredOncePerEvent)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count++;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.20.30.40&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>should<sp/>fire<sp/>exactly<sp/>once<sp/>(the<sp/>first<sp/>time<sp/>the<sp/>threshold<sp/>is<sp/>crossed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>DetectionDisabledByConfig)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count++;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_test" kindref="compound">CredentialStuffingTest</ref>,<sp/>AlertAlsoFiredFromFailedAuth)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;11.22.33.44&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;victim&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a143339c93a945b5d355baff2b5bc35b9" kindref="member">TEST</ref>(AuthAnomalyThreadSafetyTest,<sp/>ConcurrentRecordFailedAuthDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.lockout_failed_attempts<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.credential_stuffing_user_threshold<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;)<sp/>{<sp/>count++;<sp/>});</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOpsPerThread<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;rl,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOpsPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;user_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verify<sp/>no<sp/>crash;<sp/>count<sp/>may<sp/>be<sp/>&gt;<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a143339c93a945b5d355baff2b5bc35b9" kindref="member">TEST</ref>(AuthAnomalyThreadSafetyTest,<sp/>ConcurrentCallbackReplacement)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.lockout_failed_attempts<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>setter([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;)<sp/>{<sp/>count++;<sp/>});</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(50));</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.setAnomalyCallback(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>firer([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;9.9.9.9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;9.9.9.9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>setter.join();</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>firer.join();</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>crash<sp/>is<sp/>the<sp/>assertion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>logger<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">AuditLoggerConfig<sp/>makeAnomalyTestConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_path)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditLoggerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enabled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.encrypt_then_sign<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.log_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>log_path;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_hash_chain<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_siem<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>countLogLines(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(path);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(f,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty())<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++n;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407" refid="class_audit_logger_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_audit_logger_integration_test_1a2e76a30349292ccdf508d95b5f7e1b82" kindref="member">log_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audit_logger_integration_test_1a7f2788e350ee38dd445b933bc7fc1920" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" kindref="member">tmp_dir_</ref><sp/><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;auth_anomaly_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_audit_logger_integration_test_1a2e76a30349292ccdf508d95b5f7e1b82" kindref="member">log_path_</ref><sp/>=<sp/>(<ref refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" kindref="member">tmp_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;anomaly.jsonl&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_audit_logger_integration_test_1ada769b78a7ae801b3f6fe543eb01cc69" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref>,<sp/>SetAuditLoggerDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditLogger<sp/>audit_logger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>makeAnomalyTestConfig(log_path_));</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.lockout_failed_attempts<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(rl.setAuditLogger(&amp;audit_logger));</highlight></codeline>
+<codeline lineno="434"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref>,<sp/>BruteForceTriggersAuditLog)<sp/>{</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditLogger<sp/>audit_logger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>makeAnomalyTestConfig(log_path_));</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.lockout_failed_attempts<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAuditLogger(&amp;audit_logger);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;audit_user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;audit_user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;audit_user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>triggers<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>audit_logger.flush();</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>ACCOUNT_LOCKOUT_TRIGGERED<sp/>and<sp/>BRUTE_FORCE_DETECTED<sp/>events<sp/>are<sp/>emitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(countLogLines(log_path_),<sp/>2u);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref>,<sp/>CredentialStuffingTriggersAuditLog)<sp/>{</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditLogger<sp/>audit_logger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>makeAnomalyTestConfig(log_path_));</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_account_lockout<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.credential_stuffing_user_threshold<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAuditLogger(&amp;audit_logger);</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.99.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.allowAuthAttempt(ip,<sp/></highlight><highlight class="stringliteral">&quot;victim&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>audit_logger.flush();</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(countLogLines(log_path_),<sp/>1u);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_audit_logger_integration_test" kindref="compound">AuditLoggerIntegrationTest</ref>,<sp/>DetachAuditLoggerStopsLogging)<sp/>{</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditLogger<sp/>audit_logger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>makeAnomalyTestConfig(log_path_));</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.lockout_failed_attempts<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAuditLogger(&amp;audit_logger);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.1.1.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>triggers<sp/>lockout<sp/>+<sp/>log<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/>audit_logger.flush();</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lines_after_lockout<sp/>=<sp/>countLogLines(log_path_);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(lines_after_lockout,<sp/>1u);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detach<sp/>the<sp/>logger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAuditLogger(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>another<sp/>account<sp/>–<sp/>no<sp/>new<sp/>log<sp/>entries<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.2.2.2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.2.2.2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.2.2.2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>audit_logger.flush();</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(countLogLines(log_path_),<sp/>lines_after_lockout);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Credential-stuffing<sp/>escalation<sp/>(persistent<sp/>breach-count)<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515" refid="class_credential_stuffing_escalation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_collected_auth_events" kindref="compound">CollectedAuthEvents</ref><sp/><ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>;</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_credential_stuffing_escalation_test_1a75f8d6deca8b17740c623324fc93b7e9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.enable_account_lockout<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.credential_stuffing_user_threshold<sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.credential_stuffing_window_seconds<sp/><sp/><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>in-memory<sp/>(no<sp/>Redis)<sp/>persistent<sp/>backend<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.enable_cs_persistent_backend<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>trigger<sp/>credential<sp/>stuffing<sp/>threshold<sp/>from<sp/>a<sp/>unique<sp/>IP<sp/>by<sp/>sending</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>`threshold`<sp/>distinct<sp/>usernames.<sp/><sp/>Returns<sp/>the<sp/>resulting<sp/>anomaly<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>call<sp/>uses<sp/>its<sp/>own<sp/>`ip`<sp/>argument<sp/>so<sp/>IP-level<sp/>state<sp/>never<sp/>needs<sp/>to<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cleared<sp/>between<sp/>calls<sp/>—<sp/>the<sp/>breach<sp/>counter<sp/>for<sp/>`user_id`<sp/>accumulates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>across<sp/>calls<sp/>while<sp/>the<sp/>IP<sp/>windows<sp/>are<sp/>independent.<sp/><sp/>No<sp/>reset()<sp/>is<sp/>used,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>lets<sp/>the<sp/>per-user<sp/>breach<sp/>count<sp/>grow<sp/>naturally<sp/>across<sp/>successive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>calls<sp/>in<sp/>the<sp/>same<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/><ref refid="class_credential_stuffing_escalation_test_1a7fd733400935081b665854a7b9040859" kindref="member">triggerStuffingForUser</ref>(AuthRateLimiter&amp;<sp/>rl,</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip)</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.clear();</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED)<sp/>{</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.mtx);</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.events.push_back(ev);</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>threshold-1<sp/>filler<sp/>users<sp/>then<sp/>the<sp/>target<sp/>user<sp/>to<sp/>cross<sp/>the<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>attempts<sp/>come<sp/>from<sp/>the<sp/>same<sp/>`ip`<sp/>so<sp/>the<sp/>IP-level<sp/>window<sp/>fires.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/><ref refid="class_credential_stuffing_escalation_test_1aad855f0ed8b8e337ae4135f74edc175f" kindref="member">cfg</ref>.credential_stuffing_user_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;filler_&quot;</highlight><highlight class="normal"><sp/>+<sp/>ip<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(user_id,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad_pw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>anomaly<sp/>callback<sp/>is<sp/>invoked<sp/>synchronously<sp/>inside<sp/>recordFailedAuth,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>no<sp/>sleep<sp/>is<sp/>needed<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(<ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.mtx);</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.events.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>stuffing<sp/>event&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.events.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>AuthAnomalyEvent{};</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_credential_stuffing_escalation_test_1ac95e874c0bf5b3d1558c805c7fea7115" kindref="member">collected</ref>.events.back();</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="564"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref>,<sp/>FirstBreachTriggersCaptcha)<sp/>{</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/>ev<sp/>=<sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim_user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.cs_outcome,<sp/>CredentialStuffingOutcome::CAPTCHA_REQUIRED);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.user_id,<sp/></highlight><highlight class="stringliteral">&quot;victim_user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref>,<sp/>SecondBreachTriggersOTP)<sp/>{</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.1.0.1&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>breach<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/>ev<sp/>=<sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.1.0.2&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>breach<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.cs_outcome,<sp/>CredentialStuffingOutcome::OTP_REQUIRED);</highlight></codeline>
+<codeline lineno="578"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref>,<sp/>ThirdBreachLocksAccount24h)<sp/>{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>account<sp/>lockout<sp/>so<sp/>the<sp/>force-lock<sp/>can<sp/>be<sp/>verified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_account_lockout<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.2.0.1&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>breach<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.2.0.2&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>breach<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/>ev<sp/>=<sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;victim3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.2.0.3&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>breach<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.cs_outcome,<sp/>CredentialStuffingOutcome::ACCOUNT_LOCKED_24H);</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rl.isAccountLocked(</highlight><highlight class="stringliteral">&quot;victim3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="591"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref>,<sp/>AnomalyEventCarriesUserIdOnFailedAuth)<sp/>{</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.3.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>victim<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice_victim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>cfg.credential_stuffing_user_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;fill&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(victim,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"></highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>anomaly<sp/>event<sp/>must<sp/>carry<sp/>the<sp/>targeted<sp/>user_id<sp/>(not<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>collected.events)<sp/>{</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.user_id<sp/>==<sp/>victim)<sp/>{</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>anomaly<sp/>event<sp/>with<sp/>user_id=&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>victim<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="622"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"></highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a47a60049b293e89a82473d16ac0d9021" kindref="member">TEST_F</ref>(<ref refid="class_credential_stuffing_escalation_test" kindref="compound">CredentialStuffingEscalationTest</ref>,<sp/>InMemoryBreachCountClearedByReset)<sp/>{</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>enable_cs_persistent_backend=false<sp/>(in-memory),<sp/>the<sp/>breach<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>stored<sp/>in<sp/>the<sp/>in-process<sp/>map<sp/>and<sp/>is<sp/>cleared<sp/>by<sp/>reset().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>a<sp/>reset<sp/>the<sp/>breach<sp/>count<sp/>starts<sp/>fresh.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthAnomalyEvent<sp/>ev1<sp/>=<sp/>triggerStuffingForUser(rl,<sp/></highlight><highlight class="stringliteral">&quot;reset_victim&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.4.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev1.cs_outcome,<sp/>CredentialStuffingOutcome::CAPTCHA_REQUIRED);</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>full<sp/>reset<sp/>clears<sp/>the<sp/>in-memory<sp/>breach<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.reset();</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-register<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setAnomalyCallback([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthAnomalyEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.type<sp/>==<sp/>AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED)<sp/>{</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collected.events.push_back(ev);</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"></highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>stuffing<sp/>again<sp/>–<sp/>count<sp/>should<sp/>restart<sp/>from<sp/>1<sp/>→<sp/>CAPTCHA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.4.0.2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>cfg.credential_stuffing_user_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;f_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;reset_victim&quot;</highlight><highlight class="normal">,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>l(collected.mtx);</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(collected.events.empty());</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(collected.events.back().cs_outcome,</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CredentialStuffingOutcome::CAPTCHA_REQUIRED);</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="656"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight></codeline>
+<codeline lineno="658"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="659"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AuthMetrics:<sp/>credential_stuffing_attempts_total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="661"><highlight class="normal"></highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a143339c93a945b5d355baff2b5bc35b9" kindref="member">TEST</ref>(AuthMetricsCredentialStuffingTest,<sp/>RecordIncreasesInternalCounter)<sp/>{</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCredentialStuffingAttempt(</highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;captcha_required&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCredentialStuffingAttempt(</highlight><highlight class="stringliteral">&quot;user2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;otp_required&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCredentialStuffingAttempt(</highlight><highlight class="stringliteral">&quot;user3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.2.3.6&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;account_locked_24h&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getCredentialStuffingTotal(),<sp/>3u);</highlight></codeline>
+<codeline lineno="668"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal"><ref refid="test__auth__anomaly__detection_8cpp_1a143339c93a945b5d355baff2b5bc35b9" kindref="member">TEST</ref>(AuthMetricsCredentialStuffingTest,<sp/>MetricsWiredToRateLimiter)<sp/>{</highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimitConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_ip_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_user_rate_limiting<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_account_lockout<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_credential_stuffing_detection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.credential_stuffing_user_threshold<sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"></highlight></codeline>
+<codeline lineno="678"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthRateLimiter<sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.setMetrics(&amp;metrics);</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"></highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before_total<sp/>=<sp/>metrics.getCredentialStuffingTotal();</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"></highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.9.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>cfg.credential_stuffing_user_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="686"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;fill&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;wired_victim&quot;</highlight><highlight class="normal">,<sp/>ip,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>crosses<sp/>threshold<sp/>→<sp/>metric<sp/>recorded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="689"><highlight class="normal"></highlight></codeline>
+<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics.getCredentialStuffingTotal(),<sp/>before_total);</highlight></codeline>
+<codeline lineno="691"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_auth_anomaly_detection.cpp"/>
+  </compounddef>
+</doxygen>

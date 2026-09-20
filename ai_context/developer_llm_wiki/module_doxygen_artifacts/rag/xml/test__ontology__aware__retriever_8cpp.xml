@@ -1,0 +1,520 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ontology__aware__retriever_8cpp" kind="file" language="C++">
+    <compoundname>test_ontology_aware_retriever.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ontology__aware__retriever_8h" local="yes">rag/ontology_aware_retriever.h</includes>
+    <includes refid="knowledge__graph__retriever_8h" local="yes">rag/knowledge_graph_retriever.h</includes>
+    <includes local="yes">graph/ontology_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>rag/knowledge_graph_retriever.h</label>
+        <link refid="knowledge__graph__retriever_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/ontology_aware_retriever.h</label>
+        <link refid="ontology__aware__retriever_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_ontology_aware_retriever.cpp</label>
+        <link refid="test__ontology__aware__retriever_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>graph/knowledge_graph_reasoner.h</label>
+      </node>
+      <node id="17">
+        <label>graph/ontology_manager.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>themis/rag/kg/knowledge_graph_interface.h</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a4f4b5a7119b33cabd7a2bdd2556d2b31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref></type>
+        <definition>static KnowledgeGraph makeGraph</definition>
+        <argsstring>()</argsstring>
+        <name>makeGraph</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="30" column="23" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1acde4113a4d2435e8b9c3bf52774256a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void configureOntology</definition>
+        <argsstring>(themis::graph::OntologyManager &amp;om)</argsstring>
+        <name>configureOntology</name>
+        <param>
+          <type>themis::graph::OntologyManager &amp;</type>
+          <declname>om</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="38" column="13" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a0b5637ac03cd993e4f67d0b0d4475256" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref></type>
+        <definition>static RetrievedDocument makeDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score=0.8)</argsstring>
+        <name>makeDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+          <defval>0.8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="46" column="26" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR01_DefaultConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR01_DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="55" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a2298669e798ced39043a22b1bd4a162f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR02_FactoryShallow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR02_FactoryShallow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="66" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1ab00ded977a6bbaa6925d6656041a85ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR03_FactoryBalanced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR03_FactoryBalanced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="79" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1aacde545b5193a14a30a13b5aa6b46ff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR04_FactoryDeep)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR04_FactoryDeep</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="92" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="92" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a61542637de5c487f0c0c46eed9d8bcd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR05_EmptyCandidates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR05_EmptyCandidates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="105" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a31d6524517f3164f5196832ebd3b7855" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR06_UnknownEntityDegradation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR06_UnknownEntityDegradation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="118" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="118" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a02cbe3950b9df3becefc868e099b1eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR07_ConceptExpansion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR07_ConceptExpansion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="136" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="136" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ontology__aware__retriever_8cpp_1a07ee5aa995f1e99f497126c6ae7ea9f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OntologyAwareRetrieverTests, OAR08_FilterDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OntologyAwareRetrieverTests</type>
+        </param>
+        <param>
+          <type>OAR08_FilterDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_ontology_aware_retriever.cpp" line="162" column="1" bodyfile="tests/rag/test_ontology_aware_retriever.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test<sp/>suite:<sp/>OntologyAwareRetrieverTests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-01<sp/><sp/>OntologyRetrieverConfig<sp/>default<sp/>values<sp/>are<sp/>sensible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-02<sp/><sp/>Factory::createShallow<sp/>produces<sp/>expected<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-03<sp/><sp/>Factory::createBalanced<sp/>produces<sp/>expected<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-04<sp/><sp/>Factory::createDeep<sp/>produces<sp/>expected<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-05<sp/><sp/>retrieve()<sp/>returns<sp/>empty<sp/>when<sp/>no<sp/>candidates<sp/>supplied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-06<sp/><sp/>retrieve()<sp/>with<sp/>no<sp/>ontology<sp/>concept<sp/>hits<sp/>degrades<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-07<sp/><sp/>Entity<sp/>expansion<sp/>adds<sp/>superclass<sp/>concept<sp/>IDs<sp/>for<sp/>known<sp/>concepts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-08<sp/><sp/>Edge-type<sp/>filtering<sp/>flag<sp/>disables<sp/>ontology<sp/>checks<sp/>when<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ontology__aware__retriever_8h" kindref="compound">rag/ontology_aware_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__graph__retriever_8h" kindref="compound">rag/knowledge_graph_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/ontology_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1kg" kindref="compound">themis::rag::kg</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref><sp/>makeGraph()<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref><sp/>g;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" kindref="member">addNode</ref>({</highlight><highlight class="stringliteral">&quot;ent-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HNSW<sp/>Algorithm&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;HNSW&quot;</highlight><highlight class="normal">},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">EntityType::CONCEPT</ref>});</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" kindref="member">addNode</ref>({</highlight><highlight class="stringliteral">&quot;ent-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Vector<sp/>Index&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">EntityType::CONCEPT</ref>});</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1ae218468cc394c68eda007e3f2ae1402d" kindref="member">addEdge</ref>({</highlight><highlight class="stringliteral">&quot;ent-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ent-2&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7af37175f0a7b09454894406e66c907588" kindref="member">RelationType::RELATED_TO</ref>,<sp/>0.9});</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>configureOntology(themis::graph::OntologyManager&amp;<sp/>om)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;TechConcept&quot;</highlight><highlight class="normal">,<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addAxiom(</highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RELATED_TO&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>om.build();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>makeDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>0.8)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{id,<sp/>content,<sp/>score,<sp/>{}};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-01<sp/><sp/>OntologyRetrieverConfig<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR01_DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a06e8d098d142586f5078375a2c4f6dcf" kindref="member">max_traversal_depth</ref>,<sp/><sp/><sp/><sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a530d94fc5101c472aa132588b7953326" kindref="member">kg_score_weight</ref>,<sp/><sp/><sp/>0.3);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a7809f7085e8a7b313f16b00809cb22d9" kindref="member">max_superclass_expansion</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a1280f5fe650a0ddd44631b7d1f36752f" kindref="member">filter_by_allowed_edge_types</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-02<sp/><sp/>Factory::createShallow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR02_FactoryShallow)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>o;<sp/>configureOntology(o);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a605313bc06874ae899047c8dadeb1ea0" kindref="member">OntologyAwareRetrieverFactory::createShallow</ref>(g,<sp/>o);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;config().max_traversal_depth,<sp/>1u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(r-&gt;config().kg_score_weight,<sp/>0.25);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r-&gt;config().filter_by_allowed_edge_types);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-03<sp/><sp/>Factory::createBalanced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR03_FactoryBalanced)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>o;<sp/>configureOntology(o);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a856491a10fb26dcfed76dd051e1c3888" kindref="member">OntologyAwareRetrieverFactory::createBalanced</ref>(g,<sp/>o);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r-&gt;config().max_traversal_depth,<sp/>2u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(r-&gt;config().kg_score_weight,<sp/>0.3);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r-&gt;config().filter_by_allowed_edge_types);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-04<sp/><sp/>Factory::createDeep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR04_FactoryDeep)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>o;<sp/>configureOntology(o);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a85ef2178cdabd486493a5c7810b91fbb" kindref="member">OntologyAwareRetrieverFactory::createDeep</ref>(g,<sp/>o);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(r-&gt;config().max_traversal_depth,<sp/>3u);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(r-&gt;config().kg_score_weight,<sp/>0.3);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r-&gt;config().filter_by_allowed_edge_types);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-05<sp/><sp/>retrieve()<sp/>with<sp/>no<sp/>candidates<sp/>returns<sp/>empty<sp/>document<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR05_EmptyCandidates)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>o;<sp/>configureOntology(o);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref><sp/>r(g,<sp/>o);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;HNSW<sp/>search&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.documents.empty());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(res.elapsed_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-06<sp/><sp/>retrieve()<sp/>with<sp/>unlinked<sp/>query<sp/>degrades<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR06_UnknownEntityDegradation)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>o;<sp/>configureOntology(o);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref><sp/>r(g,<sp/>o);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unrelated<sp/>document&quot;</highlight><highlight class="normal">,<sp/>0.5)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;zzz_no_entity_match_xyz&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.documents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graceful<sp/>fallback:<sp/>document<sp/>is<sp/>still<sp/>returned<sp/>(possibly<sp/>with<sp/>reduced<sp/>score).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(res.documents[0].final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-07<sp/><sp/>expanded_concepts<sp/>includes<sp/>superclass<sp/>ancestors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR07_ConceptExpansion)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>graph<sp/>where<sp/>the<sp/>linked<sp/>node<sp/>has<sp/>type<sp/>CONCEPT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref><sp/>g;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>g.<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" kindref="member">addNode</ref>({</highlight><highlight class="stringliteral">&quot;tech-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HNSW&quot;</highlight><highlight class="normal">,<sp/>{},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">EntityType::CONCEPT</ref>});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>om;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>om.addConcept(</highlight><highlight class="stringliteral">&quot;TechConcept&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Concept&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>om.build();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a7809f7085e8a7b313f16b00809cb22d9" kindref="member">max_superclass_expansion</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref><sp/>r(g,<sp/>om,<sp/>cfg);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HNSW<sp/>vector<sp/>index&quot;</highlight><highlight class="normal">,<sp/>0.9)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;HNSW<sp/>vector<sp/>index&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>expanded_concepts<sp/>should<sp/>contain<sp/>at<sp/>least<sp/>the<sp/>entity<sp/>type<sp/>name<sp/>of<sp/>CONCEPT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.expanded_concepts.empty());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAR-08<sp/><sp/>filter_by_allowed_edge_types<sp/>=<sp/>false<sp/>→<sp/>edges<sp/>always<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__ontology__aware__retriever_8cpp_1ae6632205e1f93e32ce6fed466e9d054c" kindref="member">TEST</ref>(OntologyAwareRetrieverTests,<sp/>OAR08_FilterDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::graph::OntologyManager<sp/>om;<sp/></highlight><highlight class="comment">//<sp/>Not<sp/>built<sp/>—<sp/>no<sp/>axioms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a1280f5fe650a0ddd44631b7d1f36752f" kindref="member">filter_by_allowed_edge_types</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref><sp/>r(g,<sp/>om,<sp/>cfg);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HNSW<sp/>vector<sp/>search&quot;</highlight><highlight class="normal">,<sp/>0.8)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw<sp/>even<sp/>with<sp/>an<sp/>unbuilt<sp/>ontology.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;HNSW&quot;</highlight><highlight class="normal">,<sp/>cands);<sp/>});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_ontology_aware_retriever.cpp"/>
+  </compounddef>
+</doxygen>

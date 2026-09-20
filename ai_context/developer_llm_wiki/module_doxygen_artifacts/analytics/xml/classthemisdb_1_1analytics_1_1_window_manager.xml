@@ -1,0 +1,734 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_window_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowManager</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats" prot="public">themisdb::analytics::WindowManager::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_window_callback_batch" prot="public">themisdb::analytics::WindowManager::WindowCallbackBatch</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_window" prot="private">themisdb::analytics::WindowManager::Window</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_window_manager_1aa2498efae9f6e5b6ce3653ebcb4ae780" prot="public" static="no">
+        <type>std::function&lt; void(const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt; &amp;, std::chrono::system_clock::time_point start, std::chrono::system_clock::time_point end)&gt;</type>
+        <definition>using themisdb::analytics::WindowManager::WindowCallback = std::function&lt;void(const std::vector&lt;Event&gt;&amp;, 
+                                              std::chrono::system_clock::time_point start,
+                                              std::chrono::system_clock::time_point end)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WindowCallback</name>
+        <qualifiedname>themisdb::analytics::WindowManager::WindowCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="650" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="650" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a835cb07c9fd877bd3ac17c0d9e9b1f90" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref></type>
+        <definition>WindowConfig themisdb::analytics::WindowManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="684" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="684" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1ac0f0c6ccbc5da322661aca97a7551e2c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_window_manager_1aa2498efae9f6e5b6ce3653ebcb4ae780" kindref="member">WindowCallback</ref></type>
+        <definition>WindowCallback themisdb::analytics::WindowManager::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="685" column="20" bodyfile="include/analytics/cep_engine.h" bodystart="685" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1ad0be0a69f4483cd59021749f08fe135c" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; Window &gt;</type>
+        <definition>std::deque&lt;Window&gt; themisdb::analytics::WindowManager::windows_</definition>
+        <argsstring></argsstring>
+        <name>windows_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="694" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a9311e2d617edba01967ee543a59d1d15" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::WindowManager::windows_mutex_</definition>
+        <argsstring></argsstring>
+        <name>windows_mutex_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::windows_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="695" column="24" bodyfile="include/analytics/cep_engine.h" bodystart="695" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1aac5855ecd2fb83d4fb4467616eda23a5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, Window &gt;</type>
+        <definition>std::map&lt;std::string, Window&gt; themisdb::analytics::WindowManager::session_windows_</definition>
+        <argsstring></argsstring>
+        <name>session_windows_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::session_windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="698" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="698" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a96bd9a0ec6d1a60dfe4c0447f30938ab" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::WindowManager::watermark_</definition>
+        <argsstring></argsstring>
+        <name>watermark_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::watermark_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="701" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="701" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1af044643e0c00ebc6c0b945887c23b824" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::WindowManager::windows_created_</definition>
+        <argsstring></argsstring>
+        <name>windows_created_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::windows_created_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="704" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="704" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a7c916dcfc4fd8d729b5b04840d4a4dab" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::WindowManager::windows_closed_</definition>
+        <argsstring></argsstring>
+        <name>windows_closed_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::windows_closed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="705" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="705" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a87797f6472a9df24b5a51bcaf4794082" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::WindowManager::late_events_</definition>
+        <argsstring></argsstring>
+        <name>late_events_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::late_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="706" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="706" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a043a254436d1a032ffede80a1099ab40" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::WindowManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="709" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="709" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1a520f0bbb7c0c1b537f8becf02b335f51" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::analytics::WindowManager::timer_thread_</definition>
+        <argsstring></argsstring>
+        <name>timer_thread_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::timer_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="710" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="710" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1ace8af9afc746f18a9d40376334d9a396" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::analytics::WindowManager::timer_cv_</definition>
+        <argsstring></argsstring>
+        <name>timer_cv_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::timer_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="711" column="29" bodyfile="include/analytics/cep_engine.h" bodystart="711" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_window_manager_1afc48554126b5fe45a07a913e43acb594" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::WindowManager::timer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>timer_mutex_</name>
+        <qualifiedname>themisdb::analytics::WindowManager::timer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="712" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="712" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1aeb28a334511e32748dec27ef8dbb3fa6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowManager::WindowManager</definition>
+        <argsstring>(const WindowConfig &amp;config)</argsstring>
+        <name>WindowManager</name>
+        <qualifiedname>themisdb::analytics::WindowManager::WindowManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Window Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="625" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="1188" bodyend="1195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a8f11da2569b91bb12f9cf3f7067eb87a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowManager::~WindowManager</definition>
+        <argsstring>()</argsstring>
+        <name>~WindowManager</name>
+        <qualifiedname>themisdb::analytics::WindowManager::~WindowManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="626" column="5" bodyfile="src/analytics/cep_engine.cpp" bodystart="1197" bodyend="1203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1af2d3ec4d083a6d4533b2e3cab983b358" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::addEvent</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>addEvent</name>
+        <qualifiedname>themisdb::analytics::WindowManager::addEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: handleTumblingWindow(), handleSlidingWindow(), handleSessionWindow(), handleCountWindow(), lk(), empty(), std::chrono::system_clock::time_point::max(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="632" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1230" bodyend="1260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1aa0a1b1367e8c142b4e6a631d4c62aa13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt; Event &gt; themisdb::analytics::WindowManager::getWindowEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getWindowEvents</name>
+        <qualifiedname>themisdb::analytics::WindowManager::getWindowEvents</qualifiedname>
+        <briefdescription>
+<para>Get Window Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">windows_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="638" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="1470" bodyend="1487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a6bef8dcddd1d600981d56fc071df0de9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt; Event &gt; themisdb::analytics::WindowManager::getEvents</definition>
+        <argsstring>(std::chrono::system_clock::time_point start, std::chrono::system_clock::time_point end) const</argsstring>
+        <name>getEvents</name>
+        <qualifiedname>themisdb::analytics::WindowManager::getEvents</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Get Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">windows_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="646" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="1489" bodyend="1515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a234039159ea11374ed4c7a1ccb55e28a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::setWindowCallback</definition>
+        <argsstring>(WindowCallback callback)</argsstring>
+        <name>setWindowCallback</name>
+        <qualifiedname>themisdb::analytics::WindowManager::setWindowCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_window_manager_1aa2498efae9f6e5b6ce3653ebcb4ae780" kindref="member">WindowCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Window Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="657" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1210" bodyend="1212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a5462a991da00f515d10efe96f5b53535" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::advanceWatermark</definition>
+        <argsstring>(std::chrono::system_clock::time_point watermark)</argsstring>
+        <name>advanceWatermark</name>
+        <qualifiedname>themisdb::analytics::WindowManager::advanceWatermark</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>watermark</declname>
+          <defname>wm</defname>
+        </param>
+        <briefdescription>
+<para>Advance Watermark. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements advanceWatermark without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="663" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1219" bodyend="1223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a275ece5d378f3079e2aead3a9f2e5255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>WindowManager::Stats themisdb::analytics::WindowManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::WindowManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">windows_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="675" column="11" bodyfile="src/analytics/cep_engine.cpp" bodystart="1517" bodyend="1538"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1afd636a717fd10b44d7ac04f82e1ee73e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::timerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>timerLoop</name>
+        <qualifiedname>themisdb::analytics::WindowManager::timerLoop</qualifiedname>
+        <briefdescription>
+<para>Timer Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait_for(), load(), std::chrono::system_clock::now(), wlk(), empty(), push_back(), callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="717" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1544" bodyend="1606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1af208270e178a80459616395393f3cd48" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_window_callback_batch" kindref="compound">WindowCallbackBatch</ref> &gt;</type>
+        <definition>std::optional&lt; WindowManager::WindowCallbackBatch &gt; themisdb::analytics::WindowManager::closeWindow</definition>
+        <argsstring>(Window &amp;window)</argsstring>
+        <name>closeWindow</name>
+        <qualifiedname>themisdb::analytics::WindowManager::closeWindow</qualifiedname>
+        <param>
+          <type>Window &amp;</type>
+          <declname>window</declname>
+          <defname>w</defname>
+        </param>
+        <briefdescription>
+<para>Close Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="723" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="1458" bodyend="1468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1aff636d9ceb993d2d187f84af649b9e58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::handleTumblingWindow</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>handleTumblingWindow</name>
+        <qualifiedname>themisdb::analytics::WindowManager::handleTumblingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Handle Tumbling Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), push_back(), std::move(), back(), closeWindow(), count(), callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="728" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1267" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1a10ae8f5b3b8cda00fd14573e0d5b6026" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::handleSlidingWindow</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>handleSlidingWindow</name>
+        <qualifiedname>themisdb::analytics::WindowManager::handleSlidingWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Handle Sliding Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), count(), empty(), back(), push_back(), std::move(), closeWindow(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="733" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1311" bodyend="1358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1acce997d74c9ebc0bf3655e77da8b29fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::handleSessionWindow</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>handleSessionWindow</name>
+        <qualifiedname>themisdb::analytics::WindowManager::handleSessionWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Handle Session Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), push_back(), insert(), std::move(), closeWindow(), callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="738" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1365" bodyend="1411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_window_manager_1aace2249f9500064eb415c81255506973" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::WindowManager::handleCountWindow</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>handleCountWindow</name>
+        <qualifiedname>themisdb::analytics::WindowManager::handleCountWindow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Handle Count Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), push_back(), std::move(), back(), size(), closeWindow(), callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="743" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1418" bodyend="1450"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="618" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="618" bodyend="744"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1af2d3ec4d083a6d4533b2e3cab983b358" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>addEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a5462a991da00f515d10efe96f5b53535" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>advanceWatermark</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1ac0f0c6ccbc5da322661aca97a7551e2c" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>callback_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1af208270e178a80459616395393f3cd48" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>closeWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a835cb07c9fd877bd3ac17c0d9e9b1f90" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a6bef8dcddd1d600981d56fc071df0de9" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>getEvents</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a275ece5d378f3079e2aead3a9f2e5255" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aa0a1b1367e8c142b4e6a631d4c62aa13" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>getWindowEvents</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aace2249f9500064eb415c81255506973" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>handleCountWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1acce997d74c9ebc0bf3655e77da8b29fa" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>handleSessionWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a10ae8f5b3b8cda00fd14573e0d5b6026" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>handleSlidingWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aff636d9ceb993d2d187f84af649b9e58" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>handleTumblingWindow</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a87797f6472a9df24b5a51bcaf4794082" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>late_events_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a043a254436d1a032ffede80a1099ab40" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aac5855ecd2fb83d4fb4467616eda23a5" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>session_windows_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a234039159ea11374ed4c7a1ccb55e28a" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>setWindowCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1ace8af9afc746f18a9d40376334d9a396" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>timer_cv_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1afc48554126b5fe45a07a913e43acb594" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>timer_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a520f0bbb7c0c1b537f8becf02b335f51" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>timer_thread_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1afd636a717fd10b44d7ac04f82e1ee73e" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>timerLoop</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a96bd9a0ec6d1a60dfe4c0447f30938ab" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>watermark_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aa2498efae9f6e5b6ce3653ebcb4ae780" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>WindowCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1aeb28a334511e32748dec27ef8dbb3fa6" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>WindowManager</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1ad0be0a69f4483cd59021749f08fe135c" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>windows_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a7c916dcfc4fd8d729b5b04840d4a4dab" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>windows_closed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1af044643e0c00ebc6c0b945887c23b824" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>windows_created_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a9311e2d617edba01967ee543a59d1d15" prot="private" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>windows_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_window_manager_1a8f11da2569b91bb12f9cf3f7067eb87a" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager</scope><name>~WindowManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

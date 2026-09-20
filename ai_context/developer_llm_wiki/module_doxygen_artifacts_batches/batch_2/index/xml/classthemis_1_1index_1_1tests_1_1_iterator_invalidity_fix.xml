@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::tests::IteratorInvalidityFix</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1_1_simple_partition_container" prot="protected">themis::index::tests::IteratorInvalidityFix::SimplePartitionContainer</innerclass>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1af58e253d171f6f7946e1125bd1977886" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::IteratorInvalidityFix::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="31" column="10" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1a9f3b5d478a9ff816cf1791be37d34252" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::IteratorInvalidityFix::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::index::tests::IteratorInvalidityFix::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="35" column="10" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::IteratorInvalidityFix</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::IteratorInvalidityFix</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_iterator_validity.cpp" line="29" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="29" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1af58e253d171f6f7946e1125bd1977886" prot="protected" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix_1a9f3b5d478a9ff816cf1791be37d34252" prot="protected" virt="non-virtual"><scope>themis::index::tests::IteratorInvalidityFix</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

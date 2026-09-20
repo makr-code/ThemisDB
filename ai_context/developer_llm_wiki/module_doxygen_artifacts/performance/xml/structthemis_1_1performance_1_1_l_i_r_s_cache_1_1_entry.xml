@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::LIRSCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a04898d369a9ce3683d89a8181c8c02c5" prot="public" static="no" mutable="no">
+        <type>Value</type>
+        <definition>Value themis::performance::LIRSCache&lt; Key, Value &gt;::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::performance::LIRSCache::Entry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="222" column="15" bodyfile="include/performance/lirs_cache.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a6302cb904806bad286c504ceb4b9e208" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::LIRSCache&lt; Key, Value &gt;::Entry::is_lir</definition>
+        <argsstring></argsstring>
+        <name>is_lir</name>
+        <qualifiedname>themis::performance::LIRSCache::Entry::is_lir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="223" column="14" bodyfile="include/performance/lirs_cache.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a913b9aeb1172ee77187c1685b85285d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::LIRSCache&lt; Key, Value &gt;::Entry::in_stack</definition>
+        <argsstring></argsstring>
+        <name>in_stack</name>
+        <qualifiedname>themis::performance::LIRSCache::Entry::in_stack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="224" column="14" bodyfile="include/performance/lirs_cache.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a0991517532e942350b7a051a604fe8f0" prot="public" static="no" mutable="no">
+        <type>std::list&lt; Key &gt;::iterator</type>
+        <definition>std::list&lt;Key&gt;::iterator themis::performance::LIRSCache&lt; Key, Value &gt;::Entry::stack_iter</definition>
+        <argsstring></argsstring>
+        <name>stack_iter</name>
+        <qualifiedname>themis::performance::LIRSCache::Entry::stack_iter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="225" column="39" bodyfile="include/performance/lirs_cache.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1aa2c7de789fc301b1909e2fe40cd0fa06" prot="public" static="no" mutable="no">
+        <type>std::list&lt; Key &gt;::iterator</type>
+        <definition>std::list&lt;Key&gt;::iterator themis::performance::LIRSCache&lt; Key, Value &gt;::Entry::hir_iter</definition>
+        <argsstring></argsstring>
+        <name>hir_iter</name>
+        <qualifiedname>themis::performance::LIRSCache::Entry::hir_iter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="226" column="39" bodyfile="include/performance/lirs_cache.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/lirs_cache.h" line="221" column="5" bodyfile="include/performance/lirs_cache.h" bodystart="221" bodyend="227"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1aa2c7de789fc301b1909e2fe40cd0fa06" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache::Entry</scope><name>hir_iter</name></member>
+      <member refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a913b9aeb1172ee77187c1685b85285d3" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache::Entry</scope><name>in_stack</name></member>
+      <member refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a6302cb904806bad286c504ceb4b9e208" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache::Entry</scope><name>is_lir</name></member>
+      <member refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a0991517532e942350b7a051a604fe8f0" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache::Entry</scope><name>stack_iter</name></member>
+      <member refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry_1a04898d369a9ce3683d89a8181c8c02c5" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

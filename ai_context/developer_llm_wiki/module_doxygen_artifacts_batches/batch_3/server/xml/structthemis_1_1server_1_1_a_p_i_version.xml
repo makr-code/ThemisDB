@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_a_p_i_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::APIVersion</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_1a71a8117cd915d5581aee23e1c2c202d7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersion::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>themis::server::APIVersion::major</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="24" column="14" bodyfile="include/server/api_version.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_1aadb3bbd872f8338afae410de3e93ef62" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersion::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>themis::server::APIVersion::minor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="25" column="14" bodyfile="include/server/api_version.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_1a2107545ec4cb8987140ebf5f96a53b6b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersion::patch</definition>
+        <argsstring></argsstring>
+        <name>patch</name>
+        <qualifiedname>themis::server::APIVersion::patch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="26" column="14" bodyfile="include/server/api_version.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a20854fb10e3153397983224141bbe96e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &gt;</type>
+        <definition>std::optional&lt; APIVersion &gt; themis::server::APIVersion::parse</definition>
+        <argsstring>(const std::string &amp;version_str)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::server::APIVersion::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), substr(), version_regex(), std::regex_match(), std::stoul(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="33" column="26" bodyfile="src/server/api_version.cpp" bodystart="28" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a4974247bf818d67135b9ce28bbb70b90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIVersion::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::server::APIVersion::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="39" column="17" bodyfile="src/server/api_version.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1ac48b1eedfcee335617aad39cf87fd9f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator==</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::server::APIVersion::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="41" column="10" bodyfile="src/server/api_version.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a4787bc5b886846e81d5184cde998d78c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator!=</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::server::APIVersion::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="42" column="10" bodyfile="src/server/api_version.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a65787b5b03c9a67b06145899403c5226" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator&lt;</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::server::APIVersion::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="43" column="5" bodyfile="src/server/api_version.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a380d9e2ce5fc863f3e2d9203edbb0b84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator&lt;=</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>themis::server::APIVersion::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="44" column="5" bodyfile="src/server/api_version.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a326b78fbca8691b216559668b7aec033" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator&gt;</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themis::server::APIVersion::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="45" column="10" bodyfile="src/server/api_version.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_a_p_i_version_1a390a674f9368f142a5e49fdc362dbacd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersion::operator&gt;=</definition>
+        <argsstring>(const APIVersion &amp;other) const</argsstring>
+        <name>operator&gt;=</name>
+        <qualifiedname>themis::server::APIVersion::operator&gt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="46" column="10" bodyfile="src/server/api_version.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="23" column="1" bodyfile="include/server/api_version.h" bodystart="23" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a71a8117cd915d5581aee23e1c2c202d7" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>major</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1aadb3bbd872f8338afae410de3e93ef62" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>minor</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a4787bc5b886846e81d5184cde998d78c" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a65787b5b03c9a67b06145899403c5226" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a380d9e2ce5fc863f3e2d9203edbb0b84" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator&lt;=</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1ac48b1eedfcee335617aad39cf87fd9f3" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a326b78fbca8691b216559668b7aec033" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator&gt;</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a390a674f9368f142a5e49fdc362dbacd" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>operator&gt;=</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a20854fb10e3153397983224141bbe96e" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>parse</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a2107545ec4cb8987140ebf5f96a53b6b" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>patch</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_1a4974247bf818d67135b9ce28bbb70b90" prot="public" virt="non-virtual"><scope>themis::server::APIVersion</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

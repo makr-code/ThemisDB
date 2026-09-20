@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_relation_builder_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::RelationBuilderConfig</compoundname>
+    <includes refid="entity__assembler_8h" local="no">entity_assembler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_relation_builder_config_1ad8873edf9bccd8b43dfeebbb42303cd9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::RelationBuilderConfig::relation_types</definition>
+        <argsstring></argsstring>
+        <name>relation_types</name>
+        <qualifiedname>themis::ingestion::RelationBuilderConfig::relation_types</qualifiedname>
+        <briefdescription>
+<para>Relation types to extract; empty = all supported types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="127" column="17" bodyfile="include/ingestion/entity_assembler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_relation_builder_config_1a58b6e8de5b46a7a325df281f36ce859d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::RelationBuilderConfig::min_entity_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_entity_confidence</name>
+        <qualifiedname>themis::ingestion::RelationBuilderConfig::min_entity_confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Minimum entity confidence for participating in relations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="129" column="12" bodyfile="include/ingestion/entity_assembler.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_relation_builder_config_1a10bd4c9c56df378373caef8cc132c434" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::RelationBuilderConfig::build_co_occurrence</definition>
+        <argsstring></argsstring>
+        <name>build_co_occurrence</name>
+        <qualifiedname>themis::ingestion::RelationBuilderConfig::build_co_occurrence</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>When true, build CO_OCCURS edges for entity pairs in the same chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="131" column="10" bodyfile="include/ingestion/entity_assembler.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1ingestion_1_1_relation_builder" kindref="compound">RelationBuilder</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/entity_assembler.h" line="125" column="1" bodyfile="include/ingestion/entity_assembler.h" bodystart="125" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_relation_builder_config_1a10bd4c9c56df378373caef8cc132c434" prot="public" virt="non-virtual"><scope>themis::ingestion::RelationBuilderConfig</scope><name>build_co_occurrence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_relation_builder_config_1a58b6e8de5b46a7a325df281f36ce859d" prot="public" virt="non-virtual"><scope>themis::ingestion::RelationBuilderConfig</scope><name>min_entity_confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_relation_builder_config_1ad8873edf9bccd8b43dfeebbb42303cd9" prot="public" virt="non-virtual"><scope>themis::ingestion::RelationBuilderConfig</scope><name>relation_types</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

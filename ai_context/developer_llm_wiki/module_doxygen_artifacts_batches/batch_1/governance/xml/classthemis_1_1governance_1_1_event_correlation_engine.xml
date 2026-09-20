@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_event_correlation_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::EventCorrelationEngine</compoundname>
+    <includes refid="operational__audit_8h" local="no">operational_audit.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_event_correlation_engine_1aa51a23659a2116eb32528331336e060d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::EventCorrelationEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="444" column="24" bodyfile="include/governance/operational_audit.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_event_correlation_engine_1aec5819cc3938b36dcaf90fadd702fa1d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;OperationalAuditLogger&gt; themis::governance::EventCorrelationEngine::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="445" column="21" bodyfile="include/governance/operational_audit.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_event_correlation_engine_1a6847966ffd3d56c071bdb1f7bd761ef9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_correlation_group" kindref="compound">CorrelationGroup</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CorrelationGroup&gt; themis::governance::EventCorrelationEngine::correlations_</definition>
+        <argsstring></argsstring>
+        <name>correlations_</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::correlations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="448" column="24" bodyfile="include/governance/operational_audit.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_event_correlation_engine_1af084a1a0fdf10c9cd33a1d3965919a5e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::governance::EventCorrelationEngine::actor_correlations_</definition>
+        <argsstring></argsstring>
+        <name>actor_correlations_</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::actor_correlations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="451" column="24" bodyfile="include/governance/operational_audit.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_event_correlation_engine_1a2ea3fd34c2a7a33401179561d1cd9a69" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;int64_t, std::string&gt; &gt; themis::governance::EventCorrelationEngine::timeline_</definition>
+        <argsstring></argsstring>
+        <name>timeline_</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::timeline_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="454" column="17" bodyfile="include/governance/operational_audit.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1a34e397e40b1e8f8f1f6b45a5acb210f4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::EventCorrelationEngine::EventCorrelationEngine</definition>
+        <argsstring>(std::shared_ptr&lt; OperationalAuditLogger &gt; audit_logger)</argsstring>
+        <name>EventCorrelationEngine</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::EventCorrelationEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> &gt;</type>
+          <declname>audit_logger</declname>
+        </param>
+        <briefdescription>
+<para>Event Correlation Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="381" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1ab4e386cd316ba8c8b387ff87cf2a0c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::EventCorrelationEngine::~EventCorrelationEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~EventCorrelationEngine</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::~EventCorrelationEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="385" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1a372d5b69512007046d42002017a53d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::EventCorrelationEngine::EventCorrelationEngine</definition>
+        <argsstring>(const EventCorrelationEngine &amp;)=delete</argsstring>
+        <name>EventCorrelationEngine</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::EventCorrelationEngine</qualifiedname>
+        <param>
+          <type>const EventCorrelationEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="388" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1affd41da75eb25ec9ff2ef9fa7d3aea96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_event_correlation_engine_1a34e397e40b1e8f8f1f6b45a5acb210f4" kindref="member">EventCorrelationEngine</ref> &amp;</type>
+        <definition>EventCorrelationEngine &amp; themis::governance::EventCorrelationEngine::operator=</definition>
+        <argsstring>(const EventCorrelationEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_event_correlation_engine_1a34e397e40b1e8f8f1f6b45a5acb210f4" kindref="member">EventCorrelationEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="389" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1aefcfe7b67b25302ff712b04a1f5203e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>void themis::governance::EventCorrelationEngine::createCorrelation</definition>
+        <argsstring>(const std::string &amp;operation_name, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;initial_context={})</argsstring>
+        <name>createCorrelation</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::createCorrelation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>initial_context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create Correlation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="391" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="905" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1a8ef30acd66639f183b61baa7b9432e91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_correlation_group" kindref="compound">CorrelationGroup</ref> &gt;</type>
+        <definition>CorrelationGroup * themis::governance::EventCorrelationEngine::getCorrelationGroup</definition>
+        <argsstring>(const std::string &amp;correlation_id) const</argsstring>
+        <name>getCorrelationGroup</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::getCorrelationGroup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Correlation Group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="402" column="19" bodyfile="src/governance/operational_audit.cpp" bodystart="961" bodyend="972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1a87c6e6db93576c3b7d45200d68939abb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_correlation_group" kindref="compound">CorrelationGroup</ref> &gt;</type>
+        <definition>std::vector&lt; CorrelationGroup &gt; themis::governance::EventCorrelationEngine::queryCorrelationsByTimeRange</definition>
+        <argsstring>(int64_t start_ms, int64_t end_ms) const</argsstring>
+        <name>queryCorrelationsByTimeRange</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::queryCorrelationsByTimeRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+        </param>
+        <briefdescription>
+<para>Query Correlations By Time Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="412" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="974" bodyend="1004"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1ac85ab72c7985b1fbeb1ebcd75c30dadc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_correlation_group" kindref="compound">CorrelationGroup</ref> &gt;</type>
+        <definition>std::vector&lt; CorrelationGroup &gt; themis::governance::EventCorrelationEngine::queryCorrelationsByActor</definition>
+        <argsstring>(const std::string &amp;actor_id) const</argsstring>
+        <name>queryCorrelationsByActor</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::queryCorrelationsByActor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <briefdescription>
+<para>Query Correlations By Actor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the actor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="422" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="1006" bodyend="1028"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1a80d9ac89b55bca919cdc4645f12b9dcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::EventCorrelationEngine::getCorrelationLatency</definition>
+        <argsstring>(const std::string &amp;correlation_id) const</argsstring>
+        <name>getCorrelationLatency</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::getCorrelationLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Correlation Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the correlation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="431" column="13" bodyfile="src/governance/operational_audit.cpp" bodystart="1030" bodyend="1046"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1affbb9158929ab22b124dce4a1b7ac705" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::EventCorrelationEngine::getCorrelationLatencyStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCorrelationLatencyStats</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::getCorrelationLatencyStats</qualifiedname>
+        <briefdescription>
+<para>Get Correlation Latency Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="437" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="1048" bodyend="1080"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1ac67199b650661250d8c7723366e77cbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::EventCorrelationEngine::exportCorrelations</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;correlation_id=std::nullopt) const</argsstring>
+        <name>exportCorrelations</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::exportCorrelations</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="439" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="1082" bodyend="1108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_event_correlation_engine_1acb9a716f97407e45ca0761a7f2049536" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::EventCorrelationEngine::generateCorrelationId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateCorrelationId</name>
+        <qualifiedname>themis::governance::EventCorrelationEngine::generateCorrelationId</qualifiedname>
+        <briefdescription>
+<para>Generate Correlation Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="460" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/operational_audit.h" line="374" column="1" bodyfile="include/governance/operational_audit.h" bodystart="374" bodyend="461"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1af084a1a0fdf10c9cd33a1d3965919a5e" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>actor_correlations_</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1aec5819cc3938b36dcaf90fadd702fa1d" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a6847966ffd3d56c071bdb1f7bd761ef9" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>correlations_</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1aefcfe7b67b25302ff712b04a1f5203e9" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>createCorrelation</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a34e397e40b1e8f8f1f6b45a5acb210f4" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>EventCorrelationEngine</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a372d5b69512007046d42002017a53d9b" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>EventCorrelationEngine</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1ac67199b650661250d8c7723366e77cbc" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>exportCorrelations</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1acb9a716f97407e45ca0761a7f2049536" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>generateCorrelationId</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a8ef30acd66639f183b61baa7b9432e91" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>getCorrelationGroup</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a80d9ac89b55bca919cdc4645f12b9dcc" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>getCorrelationLatency</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1affbb9158929ab22b124dce4a1b7ac705" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>getCorrelationLatencyStats</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1aa51a23659a2116eb32528331336e060d" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1affd41da75eb25ec9ff2ef9fa7d3aea96" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1ac85ab72c7985b1fbeb1ebcd75c30dadc" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>queryCorrelationsByActor</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a87c6e6db93576c3b7d45200d68939abb" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>queryCorrelationsByTimeRange</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1a2ea3fd34c2a7a33401179561d1cd9a69" prot="private" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>timeline_</name></member>
+      <member refid="classthemis_1_1governance_1_1_event_correlation_engine_1ab4e386cd316ba8c8b387ff87cf2a0c13" prot="public" virt="non-virtual"><scope>themis::governance::EventCorrelationEngine</scope><name>~EventCorrelationEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_inference_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentInferenceResult</compoundname>
+    <includes refid="subagent_8h" local="no">subagent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1aeaca6476c7f71a60cd2459cbfc6b06f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentInferenceResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="58" column="10" bodyfile="include/llm/subagent.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1aed5efe78286d7d79ba3940d43938abdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentInferenceResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="59" column="17" bodyfile="include/llm/subagent.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1a54cdb4e066122905cb1bb8631694a64e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentInferenceResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="60" column="17" bodyfile="include/llm/subagent.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1a2de626e252b65a3fd8348ad43061499c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentInferenceResult::tokens_consumed</definition>
+        <argsstring></argsstring>
+        <name>tokens_consumed</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::tokens_consumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="61" column="12" bodyfile="include/llm/subagent.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1aaac76b1dfe262a30d9dbfbf77410f12d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentInferenceResult::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="62" column="9" bodyfile="include/llm/subagent.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_inference_result_1acdfa53d90432586bfa3c6e20c20b31df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentInferenceResult::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::llm::SubagentInferenceResult::trace_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent.h" line="63" column="17" bodyfile="include/llm/subagent.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent.h" line="57" column="1" bodyfile="include/llm/subagent.h" bodystart="57" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1a54cdb4e066122905cb1bb8631694a64e" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1aaac76b1dfe262a30d9dbfbf77410f12d" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1aed5efe78286d7d79ba3940d43938abdc" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1aeaca6476c7f71a60cd2459cbfc6b06f5" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1a2de626e252b65a3fd8348ad43061499c" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>tokens_consumed</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_inference_result_1acdfa53d90432586bfa3c6e20c20b31df" prot="public" virt="non-virtual"><scope>themis::llm::SubagentInferenceResult</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

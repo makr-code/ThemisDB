@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::AdvancedIndexConfig</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012a04cd88138aa0e2bda283d7f6c9fecbeb" prot="public">
+          <name>IVF_FLAT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012a024a07775560847f41dcb5aa52c37418" prot="public">
+          <name>IVF_PQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012a74fff60bf1308a987daba73f672c0934" prot="public">
+          <name>HNSW_FLAT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012af4efb08d58c9b959182e4c6e91441536" prot="public">
+          <name>IVF_HNSW_PQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012a385de3137cb58d1ee721f975dfd81b33" prot="public">
+          <name>SCANN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012aa254198e98bc183414ff01924b04343a" prot="public">
+          <name>DISKANN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="116" column="9" bodyfile="include/index/vector_index.h" bodystart="116" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a12e919c69434f3646be956b7349a46f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::AdvancedIndexConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="107" column="14" bodyfile="include/index/vector_index.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ac87d1b6d971f10b6176564c823afa72d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::nlist</definition>
+        <argsstring></argsstring>
+        <name>nlist</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::nlist</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="108" column="16" bodyfile="include/index/vector_index.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a06a402de24fd6e649c9a38ce00fd91e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::nprobe</definition>
+        <argsstring></argsstring>
+        <name>nprobe</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::nprobe</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="109" column="16" bodyfile="include/index/vector_index.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a53411f284960d03b6153c8ff6ca034ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::AdvancedIndexConfig::use_pq</definition>
+        <argsstring></argsstring>
+        <name>use_pq</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::use_pq</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="110" column="14" bodyfile="include/index/vector_index.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a076282564b088625b232384c584f900e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::pq_m</definition>
+        <argsstring></argsstring>
+        <name>pq_m</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::pq_m</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="111" column="16" bodyfile="include/index/vector_index.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a6fad0a630de2030966a909881a93bc02" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::pq_nbits</definition>
+        <argsstring></argsstring>
+        <name>pq_nbits</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::pq_nbits</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="112" column="16" bodyfile="include/index/vector_index.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ab74cdeb7c590a0aa82f49ff6445299c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::AdvancedIndexConfig::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="113" column="14" bodyfile="include/index/vector_index.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a8cb9393473c8687e637cbaadeb4d7627" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VectorIndexManager::AdvancedIndexConfig::gpu_device</definition>
+        <argsstring></argsstring>
+        <name>gpu_device</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::gpu_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="114" column="13" bodyfile="include/index/vector_index.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a8d0e1c2066c65d1043e14eb5db6bef64" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::train_size</definition>
+        <argsstring></argsstring>
+        <name>train_size</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::train_size</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="115" column="16" bodyfile="include/index/vector_index.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1aa9a9eadd059fd570dce3a50f53953056" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012" kindref="member">themis::VectorIndexManager::AdvancedIndexConfig::Type</ref></type>
+        <definition>enum themis::VectorIndexManager::AdvancedIndexConfig::Type themis::VectorIndexManager::AdvancedIndexConfig::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::index_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012a024a07775560847f41dcb5aa52c37418" kindref="member">Type::IVF_PQ</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="123" column="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a7be70a05d5f36b1afd0660e3cf8284be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::scann_num_leaves</definition>
+        <argsstring></argsstring>
+        <name>scann_num_leaves</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::scann_num_leaves</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="126" column="16" bodyfile="include/index/vector_index.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ae21221f9ce27a6ea08b110200845d128" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::scann_leaves_to_search</definition>
+        <argsstring></argsstring>
+        <name>scann_leaves_to_search</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::scann_leaves_to_search</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="127" column="16" bodyfile="include/index/vector_index.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a120a507458e3e05e8f7da43eb84fbf1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::scann_reorder_num_neighbors</definition>
+        <argsstring></argsstring>
+        <name>scann_reorder_num_neighbors</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::scann_reorder_num_neighbors</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="128" column="16" bodyfile="include/index/vector_index.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1adad364e3d83dd8a7e13ad10bbfbe726f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::AdvancedIndexConfig::diskann_index_path</definition>
+        <argsstring></argsstring>
+        <name>diskann_index_path</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::diskann_index_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="131" column="21" bodyfile="include/index/vector_index.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ace843a099c9c580dd27c158ac2cb777e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::AdvancedIndexConfig::diskann_cache_mb</definition>
+        <argsstring></argsstring>
+        <name>diskann_cache_mb</name>
+        <qualifiedname>themis::VectorIndexManager::AdvancedIndexConfig::diskann_cache_mb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="132" column="21" bodyfile="include/index/vector_index.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the optional advanced (FAISS/DiskANN/ScaNN) index backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets. <simplesect kind="note"><para>Requires THEMIS_GPU_ENABLED for FAISS/DiskANN support. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="106" column="5" bodyfile="include/index/vector_index.h" bodystart="106" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ace843a099c9c580dd27c158ac2cb777e" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>diskann_cache_mb</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1adad364e3d83dd8a7e13ad10bbfbe726f" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>diskann_index_path</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a12e919c69434f3646be956b7349a46f4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a8cb9393473c8687e637cbaadeb4d7627" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>gpu_device</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1aa9a9eadd059fd570dce3a50f53953056" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ac87d1b6d971f10b6176564c823afa72d" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>nlist</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a06a402de24fd6e649c9a38ce00fd91e8" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>nprobe</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a076282564b088625b232384c584f900e" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>pq_m</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a6fad0a630de2030966a909881a93bc02" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>pq_nbits</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ae21221f9ce27a6ea08b110200845d128" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>scann_leaves_to_search</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a7be70a05d5f36b1afd0660e3cf8284be" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>scann_num_leaves</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a120a507458e3e05e8f7da43eb84fbf1a" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>scann_reorder_num_neighbors</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a8d0e1c2066c65d1043e14eb5db6bef64" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>train_size</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a9a0b820bb367bbff2b7d2eb03d220012" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>Type</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1ab74cdeb7c590a0aa82f49ff6445299c5" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>use_gpu</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_advanced_index_config_1a53411f284960d03b6153c8ff6ca034ee" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::AdvancedIndexConfig</scope><name>use_pq</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

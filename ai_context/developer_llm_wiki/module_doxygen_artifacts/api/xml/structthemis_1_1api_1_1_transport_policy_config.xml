@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_transport_policy_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::TransportPolicyConfig</compoundname>
+    <includes refid="api__transport__policy_8h" local="no">api_transport_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::TransportPolicyConfig::max_payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_payload_bytes</name>
+        <qualifiedname>themis::api::TransportPolicyConfig::max_payload_bytes</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kindref="member">kMaxPayloadBytes</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="54" column="17" bodyfile="include/api/api_transport_policy.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::TransportPolicyConfig::max_path_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_path_bytes</name>
+        <qualifiedname>themis::api::TransportPolicyConfig::max_path_bytes</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" kindref="member">kMaxPathBytes</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="56" column="17" bodyfile="include/api/api_transport_policy.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_transport_policy_config_1aefaec0f29db11bfa35fae2e89843be60" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::api::TransportPolicyConfig::enforce_content_type</definition>
+        <argsstring></argsstring>
+        <name>enforce_content_type</name>
+        <qualifiedname>themis::api::TransportPolicyConfig::enforce_content_type</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="58" column="10" bodyfile="include/api/api_transport_policy.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_transport_policy_config_1a87ad6ef374ee80d1ec64cb26e63e1454" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::api::TransportPolicyConfig::enforce_api_version</definition>
+        <argsstring></argsstring>
+        <name>enforce_api_version</name>
+        <qualifiedname>themis::api::TransportPolicyConfig::enforce_api_version</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="60" column="10" bodyfile="include/api/api_transport_policy.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1api_1_1_transport_policy_config_1ae5de10e8d2e87ba320d526a10fef07d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref></type>
+        <definition>TransportPolicyConfig themis::api::TransportPolicyConfig::normalized</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>normalized</name>
+        <qualifiedname>themis::api::TransportPolicyConfig::normalized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_policy.h" line="62" column="28" bodyfile="include/api/api_transport_policy.h" bodystart="62" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_transport_policy.h" line="53" column="1" bodyfile="include/api/api_transport_policy.h" bodystart="53" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_transport_policy_config_1a87ad6ef374ee80d1ec64cb26e63e1454" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyConfig</scope><name>enforce_api_version</name></member>
+      <member refid="structthemis_1_1api_1_1_transport_policy_config_1aefaec0f29db11bfa35fae2e89843be60" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyConfig</scope><name>enforce_content_type</name></member>
+      <member refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyConfig</scope><name>max_path_bytes</name></member>
+      <member refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyConfig</scope><name>max_payload_bytes</name></member>
+      <member refid="structthemis_1_1api_1_1_transport_policy_config_1ae5de10e8d2e87ba320d526a10fef07d9" prot="public" virt="non-virtual"><scope>themis::api::TransportPolicyConfig</scope><name>normalized</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

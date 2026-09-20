@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ts__edge__case__handler_8cpp" kind="file" language="C++">
+    <compoundname>ts_edge_case_handler.cpp</compoundname>
+    <includes refid="ts__edge__case__handler_8h" local="yes">timeseries/ts_edge_case_handler.h</includes>
+    <includes local="no">algorithm</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>timeseries/timeseries_api_contract.h</label>
+        <link refid="timeseries__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>timeseries/ts_edge_case_handler.h</label>
+        <link refid="ts__edge__case__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/timeseries/ts_edge_case_handler.cpp</label>
+        <link refid="ts__edge__case__handler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>climits</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <briefdescription>
+<para>Implementation of TsEdgeCaseHandler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="ts__edge__case__handler_8h" kindref="compound">include/timeseries/ts_edge_case_handler.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2/3 Q4 2026 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ts__edge__case__handler_8h" kindref="compound">timeseries/ts_edge_case_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries" kindref="compound">timeseries</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" kindref="member">TsEdgeCaseHandler::TsEdgeCaseHandler</ref>(IncidentCallback<sp/>on_incident)<sp/>noexcept</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>on_incident_(std::move(on_incident))<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Remote-Write<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a358cdcb1b6db66cbb629a7eefadcba61" kindref="member">TsEdgeCaseHandler::validateRemoteWriteEndpoint</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>endpoint)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(endpoint.empty())<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-EMPTY&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>endpoint<sp/>URL<sp/>is<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(endpoint.size()<sp/>&gt;<sp/>kMaxEndpointLength)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-TOOLONG&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>endpoint<sp/>URL<sp/>exceeds<sp/>maximum<sp/>length&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>http<sp/><sp/>=<sp/>endpoint.size()<sp/>&gt;=<sp/>7<sp/>&amp;&amp;<sp/>endpoint.substr(0,<sp/>7)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;http://&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>https<sp/>=<sp/>endpoint.size()<sp/>&gt;=<sp/>8<sp/>&amp;&amp;<sp/>endpoint.substr(0,<sp/>8)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;https://&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!http<sp/>&amp;&amp;<sp/>!https)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-PROTOCOL&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>endpoint<sp/>must<sp/>use<sp/>http://<sp/>or<sp/>https://&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>endpoint)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>&lt;<sp/>0x20<sp/>||<sp/>c<sp/>==<sp/>0x7F)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-CONTROL&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>endpoint<sp/>URL<sp/>contains<sp/>control<sp/>characters&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;<sp/></highlight><highlight class="comment">//<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ae87420bf12824fbb084c760f2b09f0f5" kindref="member">TsEdgeCaseHandler::handleRemoteWriteTimeout</ref>(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>endpoint,<sp/>uint32_t<sp/>timeout_ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>remote_write_timeout_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>desc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Remote-write<sp/>timeout<sp/>after<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>desc<sp/>+=<sp/>std::to_string(timeout_ms);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>desc<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>for<sp/>endpoint:<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>desc<sp/>+=<sp/>std::string(endpoint.substr(0,<sp/>std::min(endpoint.size(),</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(80))));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-TIMEOUT&quot;</highlight><highlight class="normal">,<sp/>desc);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Encrypted<sp/>Chunk<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1acb2ede27b0566782d431afe67bce2bbf" kindref="member">TsEdgeCaseHandler::validateEncryptionKey</ref>(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>key_bytes,<sp/>std::size_t<sp/>key_len)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!key_bytes<sp/>||<sp/>key_len<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-NULL&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Encryption<sp/>key<sp/>is<sp/>null<sp/>or<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key_len<sp/>!=<sp/>16<sp/>&amp;&amp;<sp/>key_len<sp/>!=<sp/>24<sp/>&amp;&amp;<sp/>key_len<sp/>!=<sp/>32)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-KEYLEN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Encryption<sp/>key<sp/>length<sp/>must<sp/>be<sp/>16,<sp/>24,<sp/>or<sp/>32<sp/>bytes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_failure_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;<sp/></highlight><highlight class="comment">//<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a3611862cdded5ac7eedc54bef62c6f96" kindref="member">TsEdgeCaseHandler::handleKeyRotationDuringWrite</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>new_key_bytes,<sp/>std::size_t<sp/>new_key_len)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>validateEncryptionKey(new_key_bytes,<sp/>new_key_len);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-ROTATION-INVALID&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Key<sp/>rotation<sp/>rejected:<sp/>new<sp/>key<sp/>is<sp/>invalid&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" kindref="member">TimeseriesErrorCode::ENCRYPTION_KEY_NOT_FOUND</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>key_rotation_count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" kindref="member">emitIncident</ref>(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-ROTATION-QUEUED&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Encryption<sp/>key<sp/>rotation<sp/>queued;<sp/>active<sp/>write<sp/>completes<sp/>with<sp/>old<sp/>key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;<sp/></highlight><highlight class="comment">//<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Buffer<sp/>Pressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a172dd3330f21f8910e3c2f596cab44b1" kindref="member">TsEdgeCaseHandler::isOutOfOrderFlushRequired</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>current_buffer_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_buffer_size<sp/>&gt;=<sp/><ref refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" kindref="member">kMaxOutOfOrderBuffer</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Diagnostic<sp/>Counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">uint64_t<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a34264dc29e4b761f452eadfc2f528619" kindref="member">TsEdgeCaseHandler::remoteWriteTimeoutCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>remote_write_timeout_count_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">uint64_t<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ab7db72534af227287b4efdc5546c7bc4" kindref="member">TsEdgeCaseHandler::keyRotationCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key_rotation_count_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">uint64_t<sp/><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a1b7b897d23dfde7ad1fbc713c8e41d81" kindref="member">TsEdgeCaseHandler::validationFailureCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>validation_failure_count_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Internal<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TsEdgeCaseHandler::emitIncident(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::string_view<sp/>desc)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(on_incident_)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>on_incident_(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>desc);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>timeseries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/timeseries/ts_edge_case_handler.cpp"/>
+  </compounddef>
+</doxygen>

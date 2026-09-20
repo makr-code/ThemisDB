@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1quantization" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::quantization</compoundname>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1a7ffa72259a6f4498d637995b24774d55" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>using themis::llm::lora::quantization::DebugLogFn = std::function&lt;void(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DebugLogFn</name>
+        <qualifiedname>themis::llm::lora::quantization::DebugLogFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="138" column="5" bodyfile="include/llm/lora_framework/quantization.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1abf6a6aec98afed625098d8765da5c1b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::quantization::setDebugLogFn</definition>
+        <argsstring>(DebugLogFn fn)</argsstring>
+        <name>setDebugLogFn</name>
+        <qualifiedname>themis::llm::lora::quantization::setDebugLogFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1_1quantization_1a7ffa72259a6f4498d637995b24774d55" kindref="member">DebugLogFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Debug Log Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="129" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="129" bodyend="132" declfile="include/llm/lora_framework/quantization.h" declline="144" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1a3fde29ab4cb256410ac64b852766aa41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::quantization::quantize_nf4</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input, QuantizedTensor &amp;output, size_t block_size)</argsstring>
+        <name>quantize_nf4</name>
+        <qualifiedname>themis::llm::lora::quantization::quantize_nf4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>block_size</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>W1-L01: Quantization functions with comprehensive false-positive annotation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Scanner flags ~24 &quot;prompt_injection&quot; and &quot;unsanitized_llm_input&quot; findings on quantization paths. These are reviewed false positives: - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts - &quot;input&quot; parameter refers to floating-point numerical data, not user text/prompt input - Operations: min/max finding, normalization, bit-packing are numerical quantization math - <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata - Bit operations (&amp; 0x0F, &gt;&gt; 4) are low-level quantization encoding, not text processing All findings dismissed as scanner misclassification of numerical/tensor API as prompt API. Calls: size(), emitDebugLog(), data(), resize(), blocks(), std::min(), std::max(), QuantizationBlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="168" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="168" bodyend="229" declfile="include/llm/lora_framework/quantization.h" declline="146" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1aa10f6b384013bd416593be7746729722" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::quantization::quantize_int8</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input, QuantizedTensor &amp;output, size_t block_size)</argsstring>
+        <name>quantize_int8</name>
+        <qualifiedname>themis::llm::lora::quantization::quantize_int8</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>block_size</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>Quantize int8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), emitDebugLog(), data(), resize(), blocks(), std::min(), std::max(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="238" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="238" bodyend="290" declfile="include/llm/lora_framework/quantization.h" declline="150" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1a0c8b6da50a80011f394ccba6c5790018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::quantization::dequantize</definition>
+        <argsstring>(const QuantizedTensor &amp;input, std::vector&lt; float &gt; &amp;output)</argsstring>
+        <name>dequantize</name>
+        <qualifiedname>themis::llm::lora::quantization::dequantize</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: total_elements(), resize(), type(), num_blocks(), blocks(), block_size(), std::min(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="299" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="299" bodyend="345" declfile="include/llm/lora_framework/quantization.h" declline="159" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1a2e9b365d6928cd97096d9a8c1d4171ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::quantization::quantization_error</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;original, const QuantizedTensor &amp;quantized)</argsstring>
+        <name>quantization_error</name>
+        <qualifiedname>themis::llm::lora::quantization::quantization_error</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>quantized</declname>
+        </param>
+        <briefdescription>
+<para>Quantization error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1llm_1_1lora_1_1quantization_1a0c8b6da50a80011f394ccba6c5790018" kindref="member">dequantize()</ref>, size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="355" column="7" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="355" bodyend="374" declfile="include/llm/lora_framework/quantization.h" declline="168" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1quantization_1a00c08e357305e904a21725e76011c4d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::lora::quantization::find_nf4_bin</definition>
+        <argsstring>(float value)</argsstring>
+        <name>find_nf4_bin</name>
+        <qualifiedname>themis::llm::lora::quantization::find_nf4_bin</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Find nf4 bin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::min(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="140" column="9" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="140" bodyend="158" declfile="include/llm/lora_framework/quantization.h" declline="176" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/quantization.h" line="136" column="1"/>
+  </compounddef>
+</doxygen>

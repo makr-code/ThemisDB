@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_principal_validator_1_1_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PrincipalValidator::Rule</compoundname>
+    <includes refid="principal__validator_8h" local="no">principal_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1ae0c3203560a4b535e477bd66bad8f871" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_principal_validator_1a989633042074143a15f64a0763d80d88" kindref="member">RuleType</ref></type>
+        <definition>RuleType themis::auth::PrincipalValidator::Rule::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="38" column="18" bodyfile="include/auth/principal_validator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a5ed57f69a4b57ed6683ecd85bb2cd327" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::Rule::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="39" column="21" bodyfile="include/auth/principal_validator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a8bda27928d382238fd05cbcf2e0de65c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::PrincipalValidator::Rule::is_regex</definition>
+        <argsstring></argsstring>
+        <name>is_regex</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::is_regex</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="40" column="14" bodyfile="include/auth/principal_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aaad067b37324241650e824684275ed0c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::PrincipalValidator::Rule::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="41" column="13" bodyfile="include/auth/principal_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aa4c1f81deb1f23c54c04660dc71c2785" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::Rule::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="42" column="21" bodyfile="include/auth/principal_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a6cda2fea2efa999b55212eba5ab19e6f" prot="public" static="no" mutable="yes">
+        <type>std::optional&lt; std::regex &gt;</type>
+        <definition>std::optional&lt;std::regex&gt; themis::auth::PrincipalValidator::Rule::compiled_regex</definition>
+        <argsstring></argsstring>
+        <name>compiled_regex</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Rule::compiled_regex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="45" column="31" bodyfile="include/auth/principal_validator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/principal_validator.h" line="37" column="5" bodyfile="include/auth/principal_validator.h" bodystart="37" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a6cda2fea2efa999b55212eba5ab19e6f" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>compiled_regex</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aa4c1f81deb1f23c54c04660dc71c2785" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>description</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a8bda27928d382238fd05cbcf2e0de65c" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>is_regex</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1a5ed57f69a4b57ed6683ecd85bb2cd327" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1aaad067b37324241650e824684275ed0c" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>priority</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_rule_1ae0c3203560a4b535e477bd66bad8f871" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Rule</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

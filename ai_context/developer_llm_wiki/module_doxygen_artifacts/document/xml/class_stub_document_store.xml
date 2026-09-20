@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_document_store" kind="class" language="C++" prot="public">
+    <compoundname>StubDocumentStore</compoundname>
+    <innerclass refid="struct_stub_document_store_1_1_entry" prot="public">StubDocumentStore::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_document_store_1a55e54abc25357c18ec10f397003a4584" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubDocumentStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubDocumentStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="96" column="46" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_document_store_1a7f98bb62510dfa17db56d22bb684ec1f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="struct_stub_document_store_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; StubDocumentStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>StubDocumentStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="97" column="26" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_document_store_1a2cb7e192198937556608ab2fe8617be7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubDocumentStore::write_count_</definition>
+        <argsstring></argsstring>
+        <name>write_count_</name>
+        <qualifiedname>StubDocumentStore::write_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="98" column="36" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_document_store_1a772758d842247ac17e0930786998499a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubDocumentStore::read_count_</definition>
+        <argsstring></argsstring>
+        <name>read_count_</name>
+        <qualifiedname>StubDocumentStore::read_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="99" column="36" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_document_store_1a4afdd98b3175072a13f2655f73b1dd63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubDocumentStore::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;content, uint32_t schema_ver=1)</argsstring>
+        <name>write</name>
+        <qualifiedname>StubDocumentStore::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>schema_ver</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_document_store_1a78b2a9d06abac9d116f3306241e171d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubDocumentStore::read</definition>
+        <argsstring>(const std::string &amp;key, Entry &amp;out) const</argsstring>
+        <name>read</name>
+        <qualifiedname>StubDocumentStore::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_stub_document_store_1_1_entry" kindref="compound">Entry</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="73" column="10" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_document_store_1a39ff3c81005c0b20e764594d971f5665" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubDocumentStore::remove</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>StubDocumentStore::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="82" column="10" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_document_store_1af31db408392a5ed22cd125763c9a9fe1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubDocumentStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubDocumentStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="87" column="17" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_document_store_1afd431f5619b0f1cd5867b095bee3f39e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubDocumentStore::writeCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>writeCount</name>
+        <qualifiedname>StubDocumentStore::writeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="92" column="14" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_document_store_1abd886a4be106fd1e94a6d27e706b1527" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubDocumentStore::readCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>readCount</name>
+        <qualifiedname>StubDocumentStore::readCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="93" column="14" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/document/test_document_highcardinality_stress.cpp" line="58" column="1" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="58" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_stub_document_store_1a55e54abc25357c18ec10f397003a4584" prot="private" virt="non-virtual"><scope>StubDocumentStore</scope><name>mu_</name></member>
+      <member refid="class_stub_document_store_1a78b2a9d06abac9d116f3306241e171d6" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>read</name></member>
+      <member refid="class_stub_document_store_1a772758d842247ac17e0930786998499a" prot="private" virt="non-virtual"><scope>StubDocumentStore</scope><name>read_count_</name></member>
+      <member refid="class_stub_document_store_1abd886a4be106fd1e94a6d27e706b1527" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>readCount</name></member>
+      <member refid="class_stub_document_store_1a39ff3c81005c0b20e764594d971f5665" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>remove</name></member>
+      <member refid="class_stub_document_store_1af31db408392a5ed22cd125763c9a9fe1" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>size</name></member>
+      <member refid="class_stub_document_store_1a7f98bb62510dfa17db56d22bb684ec1f" prot="private" virt="non-virtual"><scope>StubDocumentStore</scope><name>store_</name></member>
+      <member refid="class_stub_document_store_1a4afdd98b3175072a13f2655f73b1dd63" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>write</name></member>
+      <member refid="class_stub_document_store_1a2cb7e192198937556608ab2fe8617be7" prot="private" virt="non-virtual"><scope>StubDocumentStore</scope><name>write_count_</name></member>
+      <member refid="class_stub_document_store_1afd431f5619b0f1cd5867b095bee3f39e" prot="public" virt="non-virtual"><scope>StubDocumentStore</scope><name>writeCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__template__validator_8h" kind="file" language="C++">
+    <compoundname>prompt_template_validator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="prompt__template__validator_8cpp" local="yes">src/prompt_engineering/prompt_template_validator.cpp</includedby>
+    <includedby refid="test__prompt__engineering__validation__hardening_8cpp" local="yes">tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_template_validator.h</label>
+        <link refid="prompt__template__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_template_validator.h</label>
+        <link refid="prompt__template__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/prompt_engineering/prompt_template_validator.cpp</label>
+        <link refid="prompt__template__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp</label>
+        <link refid="test__prompt__engineering__validation__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" prot="public">themis::prompt_engineering::TemplateValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" prot="public">themis::prompt_engineering::PromptTemplateValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemplateValidationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1aa5fe025ac95068c0bc6f1accfb8e5b53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1aa5fe025ac95068c0bc6f1accfb8e5b53" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1a369a4d4a8c140b62eb810bbc3760fe9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1a369a4d4a8c140b62eb810bbc3760fe9d" kindref="member">errors</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1ae3a38df5a95d31510eb0a2cfdb784d42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1ae3a38df5a95d31510eb0a2cfdb784d42" kindref="member">warnings</ref>;<sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptTemplateValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6641944fe76ce8017a9b98af24f6cb6c" kindref="member">PromptTemplateValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6641944fe76ce8017a9b98af24f6cb6c" kindref="member">PromptTemplateValidator</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_id<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1aeb91242db7fd6986e7d70427ae2925ba" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>templateJson)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1aeb91242db7fd6986e7d70427ae2925ba" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_str)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref><sp/>detectInjectionPatterns(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_id_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a00a82d3d5754eb6ab8d650dd78fb4c4a" kindref="member">hasSQLInjectionPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1afa61e1ae6936cb9d22cb674901ff3cd0" kindref="member">hasCommandInjectionPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a6804560ffc44ac43f2e279118f94d90a" kindref="member">hasPathTraversalPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1a8839e078ed842a006dd1952cbb808dd5" kindref="member">hasTemplateInjectionPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_template_validator.h"/>
+  </compounddef>
+</doxygen>

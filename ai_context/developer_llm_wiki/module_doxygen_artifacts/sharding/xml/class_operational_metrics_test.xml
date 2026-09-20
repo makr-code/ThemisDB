@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_operational_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>OperationalMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_operational_metrics_test_1abf0e2c9c595ca7863c576f0810066d35" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">OperationalMetrics</ref></type>
+        <definition>OperationalMetrics OperationalMetricsTest::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>OperationalMetricsTest::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="31" column="24" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OperationalMetricsTest</label>
+        <link refid="class_operational_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OperationalMetricsTest</label>
+        <link refid="class_operational_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metrics_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::sharding::OperationalMetrics</label>
+        <link refid="classthemisdb_1_1sharding_1_1_operational_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="29" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="29" bodyend="32"/>
+    <listofallmembers>
+      <member refid="class_operational_metrics_test_1abf0e2c9c595ca7863c576f0810066d35" prot="protected" virt="non-virtual"><scope>OperationalMetricsTest</scope><name>metrics_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

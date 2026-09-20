@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ethics__ai__eu__artifact__norms__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ethics_ai_eu_artifact_norms_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes refid="meta__verdict__builder_8h" local="yes">ethics_ai/meta_verdict_builder.h</includes>
+    <includes refid="discourse__engine_8h" local="yes">ethics_ai/discourse_engine.h</includes>
+    <includes refid="philosophy__loader_8h" local="yes">ethics_ai/philosophy_loader.h</includes>
+    <includes refid="argument__store_8h" local="yes">ethics_ai/argument_store.h</includes>
+    <includes refid="rag__context__engine_8h" local="yes">ethics_ai/rag_context_engine.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ethics_ai/meta_verdict_builder.h</label>
+        <link refid="meta__verdict__builder_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>argument_store.h</label>
+        <link refid="argument__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ethics_ai/discourse_engine.h</label>
+        <link refid="discourse__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>philosophy_loader.h</label>
+        <link refid="philosophy__loader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>rag_context_engine.h</label>
+        <link refid="rag__context__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp</label>
+        <link refid="test__ethics__ai__eu__artifact__norms__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="20">
+        <label>filesystem</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EthicsAiComplianceFocused, EuArtifactNorms_SkippedForCurrentBuild)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EthicsAiComplianceFocused</type>
+        </param>
+        <param>
+          <type>EuArtifactNorms_SkippedForCurrentBuild</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp" line="21" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused EU AI Act compliance tests for norm retrieval and artifacts. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="meta__verdict__builder_8h" kindref="compound">ethics_ai/meta_verdict_builder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="discourse__engine_8h" kindref="compound">ethics_ai/discourse_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="philosophy__loader_8h" kindref="compound">ethics_ai/philosophy_loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="argument__store_8h" kindref="compound">ethics_ai/argument_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__context__engine_8h" kindref="compound">ethics_ai/rag_context_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>EuArtifactNorms_SkippedForCurrentBuild)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Legacy<sp/>artifact-norms<sp/>test<sp/>disabled<sp/>until<sp/>it<sp/>is<sp/>rewritten<sp/>for<sp/>the<sp/>current<sp/>ethics_ai<sp/>API&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">themis::plugins::ethics</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref><sp/>makeProfile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref><sp/>p;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5b224d641cc4902d3b33695905994dcf" kindref="member">school_id</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a08eaaeed392de429d7ff4c4ea61c3dd1" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a99bcd5a5d6fd09de99724db1ddf0df5c" kindref="member">main_theses</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;thesis-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;thesis-b&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1ac6caff7df8b73f13f38864bbc83bffc3" kindref="member">secondary_theses</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;thesis-c&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a6f2acc3de03733e584e859b09e96574a" kindref="member">decision_framework</ref>[</highlight><highlight class="stringliteral">&quot;primary&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;framework&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>EUNorms01_LegalDbRetrieval_ReturnsCanonicalNorms)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>std::make_shared&lt;ArgumentStore&gt;();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store-&gt;initialize(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">).isOK());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rag<sp/>=<sp/>std::make_shared&lt;RAGContextEngine&gt;(store);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>grounding<sp/>=<sp/>rag-&gt;retrieveLegalGrounding(</highlight><highlight class="stringliteral">&quot;dilemma&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(grounding.grounding_available);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(grounding.legal_db_unavailable);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(grounding.norm_refs.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(grounding.norm_refs.begin(),<sp/>grounding.norm_refs.end(),<sp/></highlight><highlight class="stringliteral">&quot;GG<sp/>Art.<sp/>1&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grounding.norm_refs.end());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(grounding.norm_refs.begin(),<sp/>grounding.norm_refs.end(),<sp/></highlight><highlight class="stringliteral">&quot;DSGVO<sp/>Art.<sp/>5&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grounding.norm_refs.end());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(grounding.norm_refs.begin(),<sp/>grounding.norm_refs.end(),<sp/></highlight><highlight class="stringliteral">&quot;EU<sp/>AI<sp/>Act<sp/>Art.<sp/>22&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grounding.norm_refs.end());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>EUNorms02_LegalDbUnavailable_FlagAndEmptyGrounding)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>std::make_shared&lt;ArgumentStore&gt;();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store-&gt;initialize(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">).isOK());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rag<sp/>=<sp/>std::make_shared&lt;RAGContextEngine&gt;(store);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>rag-&gt;setLegalDbAvailable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>grounding<sp/>=<sp/>rag-&gt;retrieveLegalGrounding(</highlight><highlight class="stringliteral">&quot;dilemma&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(grounding.grounding_available);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(grounding.legal_db_unavailable);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(grounding.citation_ids.empty());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(grounding.norm_refs.empty());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>EUArt13_ExplicitAbstainSchoolVote_AndNormEvidencePresent)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DiscourseRoundOutput&gt;<sp/>ebene1;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref><sp/>available;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>available.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ae7e3a945a75cd7a49a37bf21afe39f5b" kindref="member">school_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>available.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6fa9e9151819c62341a9133f233ea4da" kindref="member">ldm_verdict</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eabb1096c7b0ccea0a98e61a492dc58e1b" kindref="member">DiscourseVerdict::PROHIBIT</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>available.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a43b3a92181a10cb9dabe8bbdfa47482c" kindref="member">verdict</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;PROHIBIT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>available.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a98c2cb3d6e682c77cf15053d4a48c9c3" kindref="member">initial_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>available.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1aea42094e3ef7de47ed28f40dd43d7fc5" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ebene1.push_back(available);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref><sp/>unavailable;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>unavailable.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ae7e3a945a75cd7a49a37bf21afe39f5b" kindref="member">school_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rawls&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>unavailable.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6fa9e9151819c62341a9133f233ea4da" kindref="member">ldm_verdict</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>unavailable.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a43b3a92181a10cb9dabe8bbdfa47482c" kindref="member">verdict</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ABSTAIN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>unavailable.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a98c2cb3d6e682c77cf15053d4a48c9c3" kindref="member">initial_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>unavailable.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1aea42094e3ef7de47ed28f40dd43d7fc5" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ebene1.push_back(unavailable);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref><sp/>grounding;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>grounding.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a18182b110e5e96ba3f5d2b54620ca842" kindref="member">grounding_available</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>grounding.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a877908bb67aade7e0458a50ae76ffb4e" kindref="member">legal_db_unavailable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>grounding.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ac9a9d401e1c8790e350044cdebaf3042" kindref="member">retrieval_timestamp_utc</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-08-10T00:00:00Z&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>grounding.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ab4c04336fc0d3d280e26d11b4f788281" kindref="member">citation_ids</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;gg-art-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dsgvo-art-5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eu-ai-act-art-22&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>grounding.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ad08abfa307442aa219ec900acbbb2690" kindref="member">norm_refs</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;GG<sp/>Art.<sp/>1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DSGVO<sp/>Art.<sp/>5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EU<sp/>AI<sp/>Act<sp/>Art.<sp/>22&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" kindref="compound">MetaVerdictBuilder</ref><sp/>builder;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mv<sp/>=<sp/>builder.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ad83b4e01134da9bbe29788e50d351d36" kindref="member">buildMetaVerdict</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ebene1,<sp/>{},<sp/>grounding,<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1aebdb3aa847ab672c277e9005782de104" kindref="member">DiscourseMode::LAYERED_FULL</ref>,<sp/>{});</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(mv.participating_school_votes.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mv.participating_school_votes[1].school_id,<sp/></highlight><highlight class="stringliteral">&quot;rawls&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mv.participating_school_votes[1].vote,<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mv.participating_school_votes[1].reason,<sp/></highlight><highlight class="stringliteral">&quot;unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(mv.norm_evidence.citations.empty());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>has_eu_ai_act<sp/>=<sp/>std::any_of(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mv.norm_evidence.citations.begin(),<sp/>mv.norm_evidence.citations.end(),</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation" kindref="compound">NormCitation</ref>&amp;<sp/>c)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>c.article_ref.find(</highlight><highlight class="stringliteral">&quot;EU<sp/>AI<sp/>Act<sp/>Art.<sp/>22&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_eu_ai_act);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>EUArt22_ChainVisualizerArtifacts_WrittenToConfiguredPath)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loader<sp/>=<sp/>std::make_shared&lt;PhilosophyLoader&gt;();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>loader-&gt;addProfile(makeProfile(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Kant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>loader-&gt;addProfile(makeProfile(</highlight><highlight class="stringliteral">&quot;rawls&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Rawls&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>std::make_shared&lt;ArgumentStore&gt;();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store-&gt;initialize(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">).isOK());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rag<sp/>=<sp/>std::make_shared&lt;RAGContextEngine&gt;(store);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine" kindref="compound">EthicalDiscourseEngine</ref><sp/>engine(loader,<sp/>store,<sp/>rag);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out_dir<sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_ethics_artifacts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove_all(out_dir,<sp/>ec);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.setChainVisualizerOutputPath(out_dir.string());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision_result<sp/>=<sp/>engine.makeDecision(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;High-risk<sp/>AI<sp/>triage<sp/>decision&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rawls&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;healthcare&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;EthicalDecision&gt;(decision_result));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>decision<sp/>=<sp/>std::get&lt;EthicalDecision&gt;(decision_result);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dot_it<sp/>=<sp/>decision.metadata.find(</highlight><highlight class="stringliteral">&quot;chain_visualizer_dot_path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mmd_it<sp/>=<sp/>decision.metadata.find(</highlight><highlight class="stringliteral">&quot;chain_visualizer_mermaid_path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(dot_it,<sp/>decision.metadata.end());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(mmd_it,<sp/>decision.metadata.end());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::filesystem::exists(dot_it-&gt;second));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::filesystem::exists(mmd_it-&gt;second));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kindref="member">TEST</ref>(EthicsAiComplianceFocused,<sp/>CommunitySeparability_WITH_PRIVATE_ETHICS_AI_OffByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(WITH_PRIVATE_ETHICS_AI)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(WITH_PRIVATE_ETHICS_AI)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Built<sp/>with<sp/>WITH_PRIVATE_ETHICS_AI=ON;<sp/>OFF-separability<sp/>check<sp/>skipped.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp"/>
+  </compounddef>
+</doxygen>

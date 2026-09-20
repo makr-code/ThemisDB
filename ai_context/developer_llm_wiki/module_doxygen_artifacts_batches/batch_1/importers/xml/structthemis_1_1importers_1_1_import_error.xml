@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_import_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ImportError</compoundname>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_error_1a5ddd702af2af91146f2841a99ba5b765" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+        <definition>ImportErrorCode themis::importers::ImportError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::importers::ImportError::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739fa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ImportErrorCode::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="95" column="23" bodyfile="include/importers/importer_interface.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_error_1a57045c3ce3b19cf68080f1d4dee63212" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+        <definition>ImportErrorSeverity themis::importers::ImportError::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::importers::ImportError::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ImportErrorSeverity::ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="96" column="25" bodyfile="include/importers/importer_interface.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_error_1a5e1ad86e7f174e09d0d3001aa8038ccf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::importers::ImportError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="97" column="23" bodyfile="include/importers/importer_interface.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_error_1af2776dbffe33edee0c99c9b60e6d3331" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportError::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>themis::importers::ImportError::location</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;line 42&quot; or &quot;table users, row 7&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="98" column="23" bodyfile="include/importers/importer_interface.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_error_1ad5cff6a35bb6076ce42f509c8b886341" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportError::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::ImportError::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="100" column="10" bodyfile="include/importers/importer_interface.h" bodystart="100" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interface.h" line="94" column="1" bodyfile="include/importers/importer_interface.h" bodystart="94" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_import_error_1a5ddd702af2af91146f2841a99ba5b765" prot="public" virt="non-virtual"><scope>themis::importers::ImportError</scope><name>code</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_error_1af2776dbffe33edee0c99c9b60e6d3331" prot="public" virt="non-virtual"><scope>themis::importers::ImportError</scope><name>location</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_error_1a5e1ad86e7f174e09d0d3001aa8038ccf" prot="public" virt="non-virtual"><scope>themis::importers::ImportError</scope><name>message</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_error_1a57045c3ce3b19cf68080f1d4dee63212" prot="public" virt="non-virtual"><scope>themis::importers::ImportError</scope><name>severity</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_error_1ad5cff6a35bb6076ce42f509c8b886341" prot="public" virt="non-virtual"><scope>themis::importers::ImportError</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

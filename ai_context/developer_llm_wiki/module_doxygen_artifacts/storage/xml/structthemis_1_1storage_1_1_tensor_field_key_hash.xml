@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_field_key_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorFieldKeyHash</compoundname>
+    <includes refid="tensor__network__storage__engine_8h" local="no">tensor_network_storage_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_tensor_field_key_hash_1a4e681dd0c29497a18e8b2483cafb50b4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorFieldKeyHash::operator()</definition>
+        <argsstring>(const TensorFieldKey &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::storage::TensorFieldKeyHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="51" column="17" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="68" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_network_storage_engine.h" line="50" column="1" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="50" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_field_key_hash_1a4e681dd0c29497a18e8b2483cafb50b4" prot="public" virt="non-virtual"><scope>themis::storage::TensorFieldKeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

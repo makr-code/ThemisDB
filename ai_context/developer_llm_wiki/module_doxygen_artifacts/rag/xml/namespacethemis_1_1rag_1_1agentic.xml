@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1agentic" kind="namespace" language="C++">
+    <compoundname>themis::rag::agentic</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record" prot="public">themis::rag::agentic::IterationRecord</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" prot="public">themis::rag::agentic::AgenticRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" prot="public">themis::rag::agentic::AgenticRAGConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g" prot="public">themis::rag::agentic::AgenticRAG</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory" prot="public">themis::rag::agentic::AgenticRAGFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StopReason</name>
+        <qualifiedname>themis::rag::agentic::StopReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ab4c383027492eeb8c7d749c1f8267347" prot="public">
+          <name>QUALITY_SATISFIED</name>
+          <briefdescription>
+<para>Overall score met the quality threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a447b7f31011e2e430b002ca26c06ae51" prot="public">
+          <name>MAX_ITERATIONS</name>
+          <briefdescription>
+<para>Maximum number of iterations reached. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ad838b565671b0bc90c1aea616c98d239" prot="public">
+          <name>NO_GAP_DETECTED</name>
+          <briefdescription>
+<para>KnowledgeGapDetector found no gap. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a948590573e7619a1a3bc297a941d1f06" prot="public">
+          <name>NO_NEW_DOCUMENTS</name>
+          <briefdescription>
+<para>Retrieval returned no additional documents. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+<para>Externally cancelled via <ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1ad38dce8cbad3e4cfb8c34753886b1de8" kindref="member">AgenticRAG::cancel()</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a70d0ec1955c6bc7e6686692afbb3ee12" prot="public">
+          <name>BUDGET_EXCEEDED</name>
+          <briefdescription>
+<para>Session token budget cap reached (Gap 4). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Reason the iterative loop terminated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="33" column="1" bodyfile="include/rag/agentic_rag.h" bodystart="33" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1agentic_1a6dc37d7e980eec531d803a416e7b5e8c" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;( const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, const std::vector&lt; std::string &gt; &amp;seen_ids)&gt;</type>
+        <definition>using themis::rag::agentic::RetrievalFn = std::function&lt;
+   std::vector&lt;judge::RetrievedDocument&gt;(
+       const std::string&amp; query,
+       const std::vector&lt;std::string&gt;&amp; seen_ids)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetrievalFn</name>
+        <qualifiedname>themis::rag::agentic::RetrievalFn</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied retrieval function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives the current query string and a list of document IDs that have already been retrieved (so the caller can avoid returning duplicates). It must return a vector of newly retrieved documents; an empty vector signals that no more documents are available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current (possibly reformulated) query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seen_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IDs of documents already in the context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New candidate documents (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="117" column="1" bodyfile="include/rag/agentic_rag.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/agentic_rag.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

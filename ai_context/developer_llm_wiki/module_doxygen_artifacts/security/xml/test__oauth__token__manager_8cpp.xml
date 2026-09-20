@@ -1,0 +1,594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__oauth__token__manager_8cpp" kind="file" language="C++">
+    <compoundname>test_oauth_token_manager.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">ingestion/oauth_token_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_oauth_token_manager.cpp</label>
+        <link refid="test__oauth__token__manager_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>ingestion/oauth_token_manager.h</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__oauth__token__manager_8cpp_1a49fb12e4c69734ecab4dce82b77c08cc" prot="public" static="no">
+        <type>std::chrono::system_clock</type>
+        <definition>using Clock = std::chrono::system_clock</definition>
+        <argsstring></argsstring>
+        <name>Clock</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="22" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a034dfdc2b7f2c5c94f4ced4e989c82a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>OAuthHttpPostFn</type>
+        <definition>static OAuthHttpPostFn make_mock_post</definition>
+        <argsstring>(int http_code, const std::string &amp;body)</argsstring>
+        <name>make_mock_post</name>
+        <param>
+          <type>int</type>
+          <declname>http_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Build a mock HTTP POST function that returns a fixed response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="27" column="24" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a3bdfd6c70c9b9736481078d31036792e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string make_token_response</definition>
+        <argsstring>(const std::string &amp;access_token=&quot;new_access_token&quot;, const std::string &amp;refresh_token=&quot;new_refresh_token&quot;, int expires_in=3600)</argsstring>
+        <name>make_token_response</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>access_token</declname>
+          <defval>&quot;new_access_token&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>refresh_token</declname>
+          <defval>&quot;new_refresh_token&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>expires_in</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Build a valid token response JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="35" column="20" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a82ed82a48f7877b35ae17aba5e25c455" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>OAuthConfig</type>
+        <definition>static OAuthConfig make_config</definition>
+        <argsstring>(const std::string &amp;access_token=&quot;initial_access_token&quot;, const std::string &amp;refresh_token=&quot;initial_refresh_token&quot;)</argsstring>
+        <name>make_config</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>access_token</declname>
+          <defval>&quot;initial_access_token&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>refresh_token</declname>
+          <defval>&quot;initial_refresh_token&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a basic OAuthConfig for testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="46" column="20" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="46" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, InitialValidToken_ReturnedWithoutRefresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>InitialValidToken_ReturnedWithoutRefresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="62" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="62" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a506a2d677e719222feb3d8985052f29a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, NearExpiry_ProactiveRefresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>NearExpiry_ProactiveRefresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="83" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="83" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1ae656f20eae534c14bc345b90afd68eb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, ConcurrentGetAccessToken_OnlyOneRefresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>ConcurrentGetAccessToken_OnlyOneRefresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="104" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="104" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a5d229ee929b7175c3b34c39f08b059c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, Http429_BackoffAndRetry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>Http429_BackoffAndRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="147" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="147" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1ab140e66660709a61c4c729c7a6b6ef1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, Http503_BackoffAndRetry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>Http503_BackoffAndRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="170" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="170" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1aa84ae3cb1165b58075d1d1b5cebd99cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, Http401_ThrowsRefreshExpiredError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>Http401_ThrowsRefreshExpiredError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="193" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a6de037bf4f18307b5e3d2d8708dbe95c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NullTokenManagerTest, GetAccessToken_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NullTokenManagerTest</type>
+        </param>
+        <param>
+          <type>GetAccessToken_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="205" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a3b1ffbf05f736e6f673a33aa5ceb68cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NullTokenManagerTest, RefreshToken_IsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NullTokenManagerTest</type>
+        </param>
+        <param>
+          <type>RefreshToken_IsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="213" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a6ae287bc6da1636f462784a77be9bd15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, TokenUpdatedAfterRefresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>TokenUpdatedAfterRefresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="222" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="222" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__token__manager_8cpp_1a9cd287e2ea406ac2c2279b84081bd8e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthTokenManager, BearerHeader_ContainsAccessToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthTokenManager</type>
+        </param>
+        <param>
+          <type>BearerHeader_ContainsAccessToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_token_manager.cpp" line="237" column="1" bodyfile="tests/security/test_oauth_token_manager.cpp" bodystart="237" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for OAuthTokenManager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2.3: OAuthTokenManager 10 tests covering: valid token, proactive refresh, concurrency, backoff, refresh expiry, NullTokenManager, token update, bearer header. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/oauth_token_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::ingestion;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a49fb12e4c69734ecab4dce82b77c08cc" kindref="member">Clock</ref><sp/>=<sp/>std::chrono::system_clock;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Helpers<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>OAuthHttpPostFn<sp/>make_mock_post(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>http_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[http_code,<sp/>body](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{http_code,<sp/>body};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>make_token_response(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>access_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;new_access_token&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>refresh_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;new_refresh_token&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expires_in<sp/>=<sp/>3600)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;access_token&quot;:&quot;)&quot;<sp/>+<sp/>access_token<sp/>+</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&quot;,&quot;refresh_token&quot;:&quot;)&quot;<sp/>+<sp/>refresh_token<sp/>+</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&quot;,&quot;expires_in&quot;:)&quot;<sp/>+<sp/>std::to_string(expires_in)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>OAuthConfig<sp/>make_config(</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>access_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;initial_access_token&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>refresh_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;initial_refresh_token&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.token_endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/token&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.client_id<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;client_id_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.client_secret<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;client_secret_abc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.access_token<sp/><sp/><sp/>=<sp/>access_token;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.refresh_token<sp/><sp/>=<sp/>refresh_token;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>1<sp/>—<sp/>Initial<sp/>getAccessToken<sp/>with<sp/>valid<sp/>(non-expiring)<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>InitialValidToken_ReturnedWithoutRefresh)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>refresh_call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>[&amp;refresh_call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++refresh_call_count;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;refreshed_token&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>a<sp/>far-future<sp/>expiry<sp/>—<sp/>no<sp/>refresh<sp/>should<sp/>happen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;initial_access_token&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial_refresh_token&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now()<sp/>+<sp/>std::chrono::hours(1));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>mgr.getAccessToken();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token,<sp/></highlight><highlight class="stringliteral">&quot;initial_access_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(refresh_call_count,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>HTTP<sp/>call<sp/>when<sp/>token<sp/>is<sp/>not<sp/>near<sp/>expiry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>2<sp/>—<sp/>Proactive<sp/>refresh<sp/>when<sp/>near<sp/>expiry<sp/>(&lt;<sp/>60s)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>NearExpiry_ProactiveRefresh)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>refresh_call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>[&amp;refresh_call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++refresh_call_count;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;refreshed_access_token&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>expiry<sp/>to<sp/>30s<sp/>from<sp/>now<sp/>—<sp/>within<sp/>60s<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old_token&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_refresh&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now()<sp/>+<sp/>std::chrono::seconds(30));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>mgr.getAccessToken();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token,<sp/></highlight><highlight class="stringliteral">&quot;refreshed_access_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(refresh_call_count,<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HTTP<sp/>refresh<sp/>called<sp/>when<sp/>token<sp/>near<sp/>expiry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>3<sp/>—<sp/>Concurrent<sp/>calls:<sp/>only<sp/>one<sp/>refresh<sp/>runs<sp/>(mutex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>ConcurrentGetAccessToken_OnlyOneRefresh)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>[&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;concurrent_token&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expire<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_refresh&quot;</highlight><highlight class="normal">,<sp/>Clock::now()<sp/>-<sp/>std::chrono::seconds(1));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Launch<sp/>multiple<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokens(kThreads);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kThreads;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;tokens,<sp/>i]()<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokens[i]<sp/>=<sp/>mgr.getAccessToken();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokens[i]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>threads<sp/>should<sp/>get<sp/>the<sp/>same<sp/>(refreshed)<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>tok<sp/>:<sp/>tokens)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(tok,<sp/></highlight><highlight class="stringliteral">&quot;concurrent_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>mutex<sp/>ensures<sp/>at<sp/>most<sp/>one<sp/>HTTP<sp/>call<sp/>per<sp/>refresh<sp/>cycle;<sp/>exact<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>depends<sp/>on<sp/>timing<sp/>but<sp/>the<sp/>result<sp/>must<sp/>be<sp/>consistent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(call_count.load(),<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;At<sp/>least<sp/>one<sp/>refresh<sp/>must<sp/>have<sp/>occurred&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>4<sp/>—<sp/>429<sp/>response<sp/>triggers<sp/>backoff<sp/>and<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>Http429_BackoffAndRetry)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>[&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_count<sp/>&lt;<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{429,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;error&quot;:&quot;rate_limited&quot;})&quot;};</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;retry_token&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_refresh&quot;</highlight><highlight class="normal">,<sp/>Clock::now()<sp/>-<sp/>std::chrono::seconds(1));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(token<sp/>=<sp/>mgr.getAccessToken());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token,<sp/></highlight><highlight class="stringliteral">&quot;retry_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(call_count,<sp/>2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>after<sp/>429<sp/>must<sp/>occur&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>5<sp/>—<sp/>503<sp/>triggers<sp/>backoff<sp/>and<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>Http503_BackoffAndRetry)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>[&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_count<sp/>&lt;<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{503,<sp/></highlight><highlight class="stringliteral">&quot;service<sp/>unavailable&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;retry_token_503&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_refresh&quot;</highlight><highlight class="normal">,<sp/>Clock::now()<sp/>-<sp/>std::chrono::seconds(1));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(token<sp/>=<sp/>mgr.getAccessToken());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token,<sp/></highlight><highlight class="stringliteral">&quot;retry_token_503&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(call_count,<sp/>2);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>6<sp/>—<sp/>Refresh<sp/>token<sp/>expiry<sp/>(401<sp/>from<sp/>endpoint)<sp/>throws<sp/>ERR_OAUTH_REFRESH_EXPIRED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>Http401_ThrowsRefreshExpiredError)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>make_mock_post(401,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;error&quot;:&quot;invalid_grant&quot;})&quot;);</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_refresh&quot;</highlight><highlight class="normal">,<sp/>Clock::now()<sp/>-<sp/>std::chrono::seconds(1));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(mgr.getAccessToken(),<sp/>OAuthRefreshExpiredError);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>7<sp/>—<sp/>NullTokenManager<sp/>getAccessToken<sp/>returns<sp/>empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(NullTokenManagerTest,<sp/>GetAccessToken_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>NullTokenManager<sp/>null_mgr;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(null_mgr.getAccessToken(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>8<sp/>—<sp/>NullTokenManager<sp/>is<sp/>a<sp/>no-op<sp/>(refreshToken<sp/>does<sp/>nothing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(NullTokenManagerTest,<sp/>RefreshToken_IsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>NullTokenManager<sp/>null_mgr;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(null_mgr.refreshToken());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(null_mgr.getAccessToken(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>9<sp/>—<sp/>Token<sp/>updated<sp/>after<sp/>successful<sp/>refresh</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>TokenUpdatedAfterRefresh)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>make_mock_post(200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;brand_new_token&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(</highlight><highlight class="stringliteral">&quot;old_token&quot;</highlight><highlight class="normal">),<sp/>mock);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;old_token&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some_refresh&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now()<sp/>-<sp/>std::chrono::seconds(1));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>mgr.getAccessToken();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token,<sp/></highlight><highlight class="stringliteral">&quot;brand_new_token&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Access<sp/>token<sp/>must<sp/>be<sp/>updated<sp/>after<sp/>successful<sp/>refresh&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>10<sp/>—<sp/>Access<sp/>token<sp/>used<sp/>as<sp/>Bearer<sp/>in<sp/>authorization<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__oauth__token__manager_8cpp_1a407eaf621891b844186269fa8b756d6e" kindref="member">TEST</ref>(OAuthTokenManager,<sp/>BearerHeader_ContainsAccessToken)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mock<sp/>=<sp/>make_mock_post(200,<sp/>make_token_response(</highlight><highlight class="stringliteral">&quot;bearer_test_token&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthTokenManager<sp/>mgr(make_config(),<sp/>mock);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTokenForTesting(</highlight><highlight class="stringliteral">&quot;bearer_test_token&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bearer_refresh&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now()<sp/>+<sp/>std::chrono::hours(1));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>header<sp/>=<sp/>mgr.getBearerAuthorizationHeader();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(header,<sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>bearer_test_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_oauth_token_manager.cpp"/>
+  </compounddef>
+</doxygen>

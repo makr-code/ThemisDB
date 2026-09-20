@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_file_delta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::FileDelta</compoundname>
+    <includes refid="delta__update__engine_8h" local="no">delta_update_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a02972393f84911c50f641d8cbf35f495" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::FileDelta::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::updates::FileDelta::path</qualifiedname>
+        <briefdescription>
+<para>Relative file path (e.g. &quot;bin/themis_server&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="43" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a299786b3dce5945f022d677d6df4385d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::FileDelta::base_hash</definition>
+        <argsstring></argsstring>
+        <name>base_hash</name>
+        <qualifiedname>themis::updates::FileDelta::base_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the base (from) file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="44" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a786d33c25acd9b9ce721a31c1b5ba88d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::FileDelta::target_hash</definition>
+        <argsstring></argsstring>
+        <name>target_hash</name>
+        <qualifiedname>themis::updates::FileDelta::target_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the reconstructed target file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="45" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1abcf7c1e4e051825f23faa5d141775920" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::FileDelta::patch_url</definition>
+        <argsstring></argsstring>
+        <name>patch_url</name>
+        <qualifiedname>themis::updates::FileDelta::patch_url</qualifiedname>
+        <briefdescription>
+<para>URL to download the binary patch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="46" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1ae6dabbea3dbc2aba9bc53467b625af1d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::FileDelta::patch_size</definition>
+        <argsstring></argsstring>
+        <name>patch_size</name>
+        <qualifiedname>themis::updates::FileDelta::patch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Compressed patch size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="47" column="14" bodyfile="include/updates/delta_update_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a5ed09bd622765dfddbbf016fe5c217f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::FileDelta::target_size</definition>
+        <argsstring></argsstring>
+        <name>target_size</name>
+        <qualifiedname>themis::updates::FileDelta::target_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Expected size of the reconstructed file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="48" column="14" bodyfile="include/updates/delta_update_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1ab7f7bc2be1141f5c70e3bcb0bcc72b68" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref></type>
+        <definition>PatchAlgorithm themis::updates::FileDelta::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::updates::FileDelta::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" kindref="member">PatchAlgorithm::ZSTD_DICT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="49" column="20" bodyfile="include/updates/delta_update_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a65550b18252d0041e1277b847fe7ebce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::FileDelta::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::updates::FileDelta::depends_on</qualifiedname>
+        <briefdescription>
+<para>Paths this file depends on (other <ref refid="structthemis_1_1updates_1_1_file_delta_1a02972393f84911c50f641d8cbf35f495" kindref="member">FileDelta::path</ref> values). Empty means no ordering dependencies. Used only if <ref refid="structthemis_1_1updates_1_1_delta_manifest_1aedde73207a9877aafdd915d7f9a86cb4" kindref="member">DeltaManifest::enforce_order</ref> is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="54" column="17" bodyfile="include/updates/delta_update_engine.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_file_delta_1a0d09bb5a51eec06aa6500fd4e089f705" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::FileDelta::apply_order</definition>
+        <argsstring></argsstring>
+        <name>apply_order</name>
+        <qualifiedname>themis::updates::FileDelta::apply_order</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Explicit ordering hint: lower values applied first. 0 (default) = no preference; ties broken by manifest order. Used only if <ref refid="structthemis_1_1updates_1_1_delta_manifest_1aedde73207a9877aafdd915d7f9a86cb4" kindref="member">DeltaManifest::enforce_order</ref> is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="59" column="14" bodyfile="include/updates/delta_update_engine.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_file_delta_1a7de86bec0b23a3400511bb800c445d5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::FileDelta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::FileDelta::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="61" column="10" bodyfile="src/updates/delta_update_engine.cpp" bodystart="297" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_file_delta_1a31afe04ca133d2e5fdf6ba029d55beb7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_file_delta" kindref="compound">FileDelta</ref> &gt;</type>
+        <definition>std::optional&lt; FileDelta &gt; themis::updates::FileDelta::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::FileDelta::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1updates_1a103f0caebc6d93e77ef788a5ce6acb00" kindref="member">patchAlgorithmFromString()</ref>, value_or(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="62" column="26" bodyfile="src/updates/delta_update_engine.cpp" bodystart="324" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Delta descriptor for a single file in a release. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports optional patch ordering constraints via depends_on and apply_order. When a manifest has enforce_order=true, patches are applied in dependency order as determined by topological sort (see <ref refid="structthemis_1_1updates_1_1_delta_manifest_1aedde73207a9877aafdd915d7f9a86cb4" kindref="member">DeltaManifest::enforce_order</ref>). </para>
+    </detaileddescription>
+    <location file="include/updates/delta_update_engine.h" line="42" column="1" bodyfile="include/updates/delta_update_engine.h" bodystart="42" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1ab7f7bc2be1141f5c70e3bcb0bcc72b68" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a0d09bb5a51eec06aa6500fd4e089f705" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>apply_order</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a299786b3dce5945f022d677d6df4385d" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>base_hash</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a65550b18252d0041e1277b847fe7ebce" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a31afe04ca133d2e5fdf6ba029d55beb7" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1ae6dabbea3dbc2aba9bc53467b625af1d" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>patch_size</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1abcf7c1e4e051825f23faa5d141775920" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>patch_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a02972393f84911c50f641d8cbf35f495" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>path</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a786d33c25acd9b9ce721a31c1b5ba88d" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>target_hash</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a5ed09bd622765dfddbbf016fe5c217f6" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>target_size</name></member>
+      <member refid="structthemis_1_1updates_1_1_file_delta_1a7de86bec0b23a3400511bb800c445d5e" prot="public" virt="non-virtual"><scope>themis::updates::FileDelta</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

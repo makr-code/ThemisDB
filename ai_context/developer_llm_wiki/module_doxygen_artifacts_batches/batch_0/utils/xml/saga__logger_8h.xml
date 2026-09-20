@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="saga__logger_8h" kind="file" language="C++">
+    <compoundname>saga_logger.h</compoundname>
+    <includes local="yes">security/encryption.h</includes>
+    <includes refid="error__contracts_8h" local="yes">utils/error_contracts.h</includes>
+    <includes refid="pki__client_8h" local="yes">utils/pki_client.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="utils__adapters_8h" local="yes">include/utils/utils_adapters.h</includedby>
+    <includedby refid="saga__logger_8cpp" local="yes">src/utils/saga_logger.cpp</includedby>
+    <includedby refid="test__utils__interfaces_8cpp" local="yes">tests/utils/test_utils_interfaces.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>utils/pki_client.h</label>
+        <link refid="pki__client_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/saga_logger.h</label>
+        <link refid="saga__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="8">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/saga_logger.h</label>
+        <link refid="saga__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/utils/utils_adapters.h</label>
+        <link refid="utils__adapters_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/utils/saga_logger.cpp</label>
+        <link refid="saga__logger_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/utils/utils_adapters.cpp</label>
+        <link refid="utils__adapters_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/utils/test_utils_interfaces.cpp</label>
+        <link refid="test__utils__interfaces_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" prot="public">themis::utils::SAGALoggerConfig</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_s_a_g_a_step" prot="public">themis::utils::SAGAStep</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_signed_batch" prot="public">themis::utils::SignedBatch</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_s_a_g_a_logger" prot="public">themis::utils::SAGALogger</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor" prot="public">themis::utils::SAGALogCompactor</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer" prot="public">themis::utils::SAGALogReplayer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__contracts_8h" kindref="compound">utils/error_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pki__client_8h" kindref="compound">utils/pki_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__contracts_8h" kindref="compound">utils/error_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a4c3706fdd8b161ad6c254634c296aefe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a4c3706fdd8b161ad6c254634c296aefe" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a63efffea8cc0b543c5869d83833d7459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a63efffea8cc0b543c5869d83833d7459" kindref="member">encrypt_then_sign</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a251036a26073dabbce8b84c77f5bea3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a251036a26073dabbce8b84c77f5bea3e" kindref="member">batch_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>every<sp/>N<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a09aeefa5f901de99e88388c4ad28ff8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a09aeefa5f901de99e88388c4ad28ff8a" kindref="member">batch_interval</ref>{5};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Or<sp/>every<sp/>X<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1ae9a5fb113c06a29a7592109650493d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1ae9a5fb113c06a29a7592109650493d5f" kindref="member">log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/logs/saga.jsonl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a30b83d1155555f154a8f5156488bded4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a30b83d1155555f154a8f5156488bded4" kindref="member">signature_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/logs/saga_signatures.jsonl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a580efc7fb500cd5ffe966b27fcba8600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config_1a580efc7fb500cd5ffe966b27fcba8600" kindref="member">key_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;saga_lek&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>Encryption<sp/>Key<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1utils_1_1_s_a_g_a_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ab57a1b9c329b2ba07c41daa41b6f60c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ab57a1b9c329b2ba07c41daa41b6f60c0" kindref="member">saga_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a33089fe7dfaa9e3af4782b15dc14c46d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a33089fe7dfaa9e3af4782b15dc14c46d" kindref="member">step_name</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a4acb7a27ea7a58879b2899c49bd23b5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a4acb7a27ea7a58879b2899c49bd23b5e" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;forward&quot;<sp/>|<sp/>&quot;compensate&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a5d1869952b15086cb5263dbf56319d12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a5d1869952b15086cb5263dbf56319d12" kindref="member">entity_id</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a29d92949212d0030abebd273a52a9630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a29d92949212d0030abebd273a52a9630" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step-specific<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ad025097d5a60f0b195daff815c634ec7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ad025097d5a60f0b195daff815c634ec7" kindref="member">status</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;success&quot;<sp/>|<sp/>&quot;failed&quot;<sp/>|<sp/>&quot;pending&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a9cafd8de6e82a7fd7d65e3ae160a5724" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a9cafd8de6e82a7fd7d65e3ae160a5724" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1utils_1_1_signed_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_signed_batch" kindref="compound">SignedBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1utils_1_1_signed_batch_1a4840869917d2fb04d7becba6ba026f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a4840869917d2fb04d7becba6ba026f0d" kindref="member">batch_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1utils_1_1_signed_batch_1ac728c24ddd74649cf8b3913ea9a5ee0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1ac728c24ddd74649cf8b3913ea9a5ee0c" kindref="member">entry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1utils_1_1_signed_batch_1a83f53e92a9b7e93b49131d0387f82a05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a83f53e92a9b7e93b49131d0387f82a05" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1utils_1_1_signed_batch_1a81adc027aee64393cad80fc99f8fdffa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a81adc027aee64393cad80fc99f8fdffa" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1utils_1_1_signed_batch_1a80bf09dad15064907028aa976c051a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a80bf09dad15064907028aa976c051a90" kindref="member">lek_id</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1utils_1_1_signed_batch_1a7c234620e664bedf6be12bcb2cc7844d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a7c234620e664bedf6be12bcb2cc7844d" kindref="member">key_version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1utils_1_1_signed_batch_1a857d33f289f0b1502846123d0d2cc644" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a857d33f289f0b1502846123d0d2cc644" kindref="member">iv</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1utils_1_1_signed_batch_1adec12b1d2f499392a45ec6aae1214c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1adec12b1d2f499392a45ec6aae1214c1c" kindref="member">tag</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1utils_1_1_signed_batch_1a2727ec88f461f5d331a6fba276248fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a2727ec88f461f5d331a6fba276248fe5" kindref="member">ciphertext_hash</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>over<sp/>encrypted<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1utils_1_1_signed_batch_1a5ae805678853796cd870031a4e8d5a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref><sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a5ae805678853796cd870031a4e8d5a7f" kindref="member">signature</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1ab90b533e846de0dfbfc5810a786b8cbd" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_signed_batch" kindref="compound">SignedBatch</ref><sp/><ref refid="structthemis_1_1utils_1_1_signed_batch_1a7ab3ee72141ebed53d2b8c2dba2daf0a" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1utils_1_1_s_a_g_a_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1e867a91f1b769928127e2ec6597ad41" kindref="member">SAGALogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1e867a91f1b769928127e2ec6597ad41" kindref="member">SAGALogger</ref>(std::shared_ptr&lt;FieldEncryption&gt;<sp/>enc,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VCCPKIClient&gt;<sp/>pki,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref><sp/>cfg);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac823391c8f3ee0f4b73fb0b7626282a1" kindref="member">logStep</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>&amp;<sp/>step);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1a1be44e8d56d7f955eab75f564bb665ab" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ab67b89ec8b53a0e09885556635c3295b" kindref="member">verifyBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>batch_id);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SAGAStep&gt;<sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1abdba4b26680c926fe34586e5eecf4a22" kindref="member">loadBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>batch_id);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1ac8985ba5bd59f1efea6eb77822c439e7" kindref="member">listBatches</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_logger_1af7de7260a877e8ae2c76c9552cd82c32" kindref="member">logErrorContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>signAndFlushBatch();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sha256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>appendJsonLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateBatchId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FieldEncryption&gt;<sp/>enc_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VCCPKIClient&gt;<sp/>pki_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SAGAStep&gt;<sp/>buffer_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>batch_start_time_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGALogCompactor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_1a5f96cd83156bc628abc371b74ecd32a3" kindref="member">SAGALogCompactor</ref><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_1a5f96cd83156bc628abc371b74ecd32a3" kindref="member">SAGALogCompactor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_1a49af2686e5fac8cd0b8f8ee690df6d3c" kindref="member">compact</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>before_txn_id);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_compactor_1a18b4652beff8b3a00455a9eeaadd90e7" kindref="member">archivePath</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>archive_path_;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SAGALogReplayer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1a6b5454ce0694fb0787f582d10c6041e5" kindref="member">SAGALogReplayer</ref><sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1a6b5454ce0694fb0787f582d10c6041e5" kindref="member">SAGALogReplayer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1aaa33ec97db48f7ead6b7b5f95e9564fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1aaa33ec97db48f7ead6b7b5f95e9564fa" kindref="member">RecoveryHandler</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1a69ad42b8bc82f764de68505f3ab824ff" kindref="member">replay_incomplete</ref>(<ref refid="classthemis_1_1utils_1_1_s_a_g_a_log_replayer_1aaa33ec97db48f7ead6b7b5f95e9564fa" kindref="member">RecoveryHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_s_a_g_a_logger_config" kindref="compound">SAGALoggerConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/saga_logger.h"/>
+  </compounddef>
+</doxygen>

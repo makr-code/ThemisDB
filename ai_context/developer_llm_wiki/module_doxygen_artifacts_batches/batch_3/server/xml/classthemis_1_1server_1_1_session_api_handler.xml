@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_session_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SessionApiHandler</compoundname>
+    <includes refid="session__api__handler_8h" local="no">session_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_session_api_handler_1a506e496f65cc561dc7d38a6a7d4b94d4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::SessionApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::SessionApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="90" column="21" bodyfile="include/server/session_api_handler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_session_api_handler_1abdd8b013459c77ebb559bae3fb4cb924" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; auth::SessionManager &gt;</type>
+        <definition>std::shared_ptr&lt;auth::SessionManager&gt; themis::server::SessionApiHandler::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::server::SessionApiHandler::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="91" column="21" bodyfile="include/server/session_api_handler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_session_api_handler_1ab851aad9e15fc311d687ad67746cfd79" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;utils::AuditLogger&gt; themis::server::SessionApiHandler::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::server::SessionApiHandler::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="92" column="21" bodyfile="include/server/session_api_handler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1ad4be5886acaddba14f1e80f195665507" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SessionApiHandler::SessionApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; AuthMiddleware &gt; auth, std::shared_ptr&lt; auth::SessionManager &gt; manager, std::shared_ptr&lt; utils::AuditLogger &gt; audit_logger=nullptr)</argsstring>
+        <name>SessionApiHandler</name>
+        <qualifiedname>themis::server::SessionApiHandler::SessionApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; auth::SessionManager &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="29" column="14" bodyfile="src/server/session_api_handler.cpp" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1a83c62cbd71dccc08b4ea9f61fb9b205f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::createSession</definition>
+        <argsstring>(const std::string &amp;bearer_token, const nlohmann::json &amp;body, const std::string &amp;client_ip={})</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themis::server::SessionApiHandler::createSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer_token</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a session for an authenticated user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bearer_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Session token.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), authorize(), auditAuthorizationDecision(), THEMIS_WARN(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="35" column="20" bodyfile="src/server/session_api_handler.cpp" bodystart="190" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1a1c639c1a7c53ea5f9ff20b9aa669dc9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::listSessions</definition>
+        <argsstring>(const std::string &amp;bearer_token, const std::string &amp;current_session={})</argsstring>
+        <name>listSessions</name>
+        <qualifiedname>themis::server::SessionApiHandler::listSessions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_session</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>List Sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bearer_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="41" column="20" bodyfile="src/server/session_api_handler.cpp" bodystart="261" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1ad4131b004b9728bf25ec14ca60dd2b9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::revokeSession</definition>
+        <argsstring>(const std::string &amp;bearer_token, const std::string &amp;session_id)</argsstring>
+        <name>revokeSession</name>
+        <qualifiedname>themis::server::SessionApiHandler::revokeSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bearer_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bearer_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="52" column="20" bodyfile="src/server/session_api_handler.cpp" bodystart="307" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1a8c038b1a27142f004cc0f257d9ef9410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::revokeAllOtherSessions</definition>
+        <argsstring>(const std::string &amp;bearer_token, const std::string &amp;current_session={})</argsstring>
+        <name>revokeAllOtherSessions</name>
+        <qualifiedname>themis::server::SessionApiHandler::revokeAllOtherSessions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_session</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Revoke All Other Sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bearer_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="57" column="20" bodyfile="src/server/session_api_handler.cpp" bodystart="371" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1abd892b05afad2a84745367a2ac0d56b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SessionApiHandler::auditAuthorizationDecision</definition>
+        <argsstring>(const std::string &amp;scope, const std::string &amp;endpoint, const AuthMiddleware::AuthResult &amp;auth_result)</argsstring>
+        <name>auditAuthorizationDecision</name>
+        <qualifiedname>themis::server::SessionApiHandler::auditAuthorizationDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthMiddleware::AuthResult</ref> &amp;</type>
+          <declname>auth_result</declname>
+        </param>
+        <briefdescription>
+<para>Audit Authorization Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), logSecurityEvent(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="69" column="10" bodyfile="src/server/session_api_handler.cpp" bodystart="146" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1aab7692a3eee16305e66a59e6b194b779" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::makeError</definition>
+        <argsstring>(int status_code, const std::string &amp;message)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::server::SessionApiHandler::makeError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="81" column="27" bodyfile="src/server/session_api_handler.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_session_api_handler_1a0137d3fef4658ccae1c74c1fad53e564" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SessionApiHandler::sessionToJson</definition>
+        <argsstring>(const auth::SessionManager::SessionInfo &amp;s)</argsstring>
+        <name>sessionToJson</name>
+        <qualifiedname>themis::server::SessionApiHandler::sessionToJson</qualifiedname>
+        <param>
+          <type>const auth::SessionManager::SessionInfo &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Session To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: timePointToISO8601(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/session_api_handler.h" line="88" column="27" bodyfile="src/server/session_api_handler.cpp" bodystart="123" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/session_api_handler.h" line="27" column="1" bodyfile="include/server/session_api_handler.h" bodystart="27" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1ab851aad9e15fc311d687ad67746cfd79" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1abd892b05afad2a84745367a2ac0d56b6" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>auditAuthorizationDecision</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1a506e496f65cc561dc7d38a6a7d4b94d4" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1a83c62cbd71dccc08b4ea9f61fb9b205f" prot="public" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>createSession</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1a1c639c1a7c53ea5f9ff20b9aa669dc9f" prot="public" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>listSessions</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1aab7692a3eee16305e66a59e6b194b779" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>makeError</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1abdd8b013459c77ebb559bae3fb4cb924" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1a8c038b1a27142f004cc0f257d9ef9410" prot="public" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>revokeAllOtherSessions</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1ad4131b004b9728bf25ec14ca60dd2b9b" prot="public" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>revokeSession</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1ad4be5886acaddba14f1e80f195665507" prot="public" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>SessionApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_session_api_handler_1a0137d3fef4658ccae1c74c1fad53e564" prot="private" virt="non-virtual"><scope>themis::server::SessionApiHandler</scope><name>sessionToJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

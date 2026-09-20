@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</compoundname>
+    <includes refid="webauthn__authenticator_8h" local="no">webauthn_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a487bd60eea8d8e49fe4c4f22137297a8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::authenticator_attachment</definition>
+        <argsstring></argsstring>
+        <name>authenticator_attachment</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::authenticator_attachment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="49" column="23" bodyfile="include/auth/webauthn_authenticator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a954320f8f02c7dbebc340ca4e216e529" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::require_resident_key</definition>
+        <argsstring></argsstring>
+        <name>require_resident_key</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::require_resident_key</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="50" column="14" bodyfile="include/auth/webauthn_authenticator.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1aee0a1f19640b25fc0cdd52df298c8826" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::user_verification</definition>
+        <argsstring></argsstring>
+        <name>user_verification</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection::user_verification</qualifiedname>
+        <initializer>{&quot;preferred&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="51" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/webauthn_authenticator.h" line="48" column="5" bodyfile="include/auth/webauthn_authenticator.h" bodystart="48" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a487bd60eea8d8e49fe4c4f22137297a8" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</scope><name>authenticator_attachment</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a954320f8f02c7dbebc340ca4e216e529" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</scope><name>require_resident_key</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1aee0a1f19640b25fc0cdd52df298c8826" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</scope><name>user_verification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

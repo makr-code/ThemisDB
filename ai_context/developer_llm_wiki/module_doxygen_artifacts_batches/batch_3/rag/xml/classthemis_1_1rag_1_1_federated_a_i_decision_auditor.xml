@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::FederatedAIDecisionAuditor</compoundname>
+    <includes refid="explainability__reason__builder_8h" local="no">explainability_reason_builder.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &gt;(const std::string &amp;shard_id)&gt;</type>
+        <definition>using themis::rag::FederatedAIDecisionAuditor::ShardRecordFetcher = 
+std::function&lt;std::vector&lt;AIDecisionRecord&gt;(const std::string&amp; shard_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ShardRecordFetcher</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::ShardRecordFetcher</qualifiedname>
+        <briefdescription>
+<para>Type alias for a remote shard record fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When injected, called by <computeroutput><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" kindref="member">mergeTimeline()</ref></computeroutput> for each registered shard to supplement locally cached records with records retrieved from the remote shard via GossipProtocol or FederatedRAGMerger.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shard identifier to fetch records for. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Records fetched from the remote shard (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="248" column="5" bodyfile="include/rag/explainability_reason_builder.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a5ed647614638efcc06e5c1b84218d79c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;AIDecisionRecord&gt; &gt; themis::rag::FederatedAIDecisionAuditor::shard_records_</definition>
+        <argsstring></argsstring>
+        <name>shard_records_</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::shard_records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="294" column="14" bodyfile="include/rag/explainability_reason_builder.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a1bdb1cb935b4948dc8832fc9eefb1b6c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref></type>
+        <definition>ShardRecordFetcher themis::rag::FederatedAIDecisionAuditor::shard_fetcher_</definition>
+        <argsstring></argsstring>
+        <name>shard_fetcher_</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::shard_fetcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="295" column="24" bodyfile="include/rag/explainability_reason_builder.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4c6c6e8256cde2bf3e7c561a3901efdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::FederatedAIDecisionAuditor::FederatedAIDecisionAuditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>FederatedAIDecisionAuditor</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::FederatedAIDecisionAuditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="251" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a847f39568c01c952c35a108b5c8ffd34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::FederatedAIDecisionAuditor::~FederatedAIDecisionAuditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FederatedAIDecisionAuditor</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::~FederatedAIDecisionAuditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="252" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a18d89c8fe06ad3c7f4f459e24c01d15c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::FederatedAIDecisionAuditor::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id, std::vector&lt; AIDecisionRecord &gt; records)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &gt;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Register the decision records of one shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Records from that shard (copied in).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="260" column="10" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &gt;</type>
+        <definition>std::vector&lt; AIDecisionRecord &gt; themis::rag::FederatedAIDecisionAuditor::mergeTimeline</definition>
+        <argsstring>() const</argsstring>
+        <name>mergeTimeline</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::mergeTimeline</qualifiedname>
+        <briefdescription>
+<para>Return all records from all registered shards sorted by timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If a <computeroutput><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref></computeroutput> has been injected, it is called for each registered shard to fetch additional records from the remote node. Fetched records are merged alongside locally cached records and deduplicated by (shard_id, timestamp, decision_type) before sorting.</para>
+<para><simplesect kind="return"><para>Chronologically ordered decision timeline (oldest first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="273" column="17" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="370" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ad08120bd4f3cfe5e445099c682a916f0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::FederatedAIDecisionAuditor::shardCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::shardCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="276" column="12" bodyfile="include/rag/explainability_reason_builder.h" bodystart="276" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4262de26ba5a3584f4f7371b45763bd1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::FederatedAIDecisionAuditor::totalRecords</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalRecords</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::totalRecords</qualifiedname>
+        <briefdescription>
+<para>Return the total number of locally cached records across all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="279" column="12" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="396" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ab461218eb258fdac3b6d667f90efb7a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::FederatedAIDecisionAuditor::setShardRecordFetcher</definition>
+        <argsstring>(ShardRecordFetcher fn)</argsstring>
+        <name>setShardRecordFetcher</name>
+        <qualifiedname>themis::rag::FederatedAIDecisionAuditor::setShardRecordFetcher</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a remote shard record fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Shard Record Fetcher.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" kindref="member">mergeTimeline()</ref></computeroutput> calls this function for each registered shard and merges the returned records into the timeline alongside any locally cached records. Pass an empty (default-constructed) function to clear.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that fetches remote records for a given shard_id.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="291" column="10" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="352" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cross-shard autonomous-decision timeline merger. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Accepts per-shard <computeroutput><ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref></computeroutput> collections and produces a chronologically merged timeline for DBA inspection. When a <computeroutput><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref></computeroutput> is injected, <computeroutput><ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" kindref="member">mergeTimeline()</ref></computeroutput> also fetches records from remote shards (e.g. via GossipProtocol / FederatedRAGMerger) and merges them into the returned timeline.</para>
+<para>// STUB/SIMULATION NOTE: // Purpose: In-memory fallback until DK-4 (Federated RAG Merge) wires the // real cross-shard record propagation via FederatedRAGMerger. // Activation: In-memory path always active; remote-fetch path active only // when a <ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref> is injected via <ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ab461218eb258fdac3b6d667f90efb7a7" kindref="member">setShardRecordFetcher()</ref>. // Production Delta: Without a fetcher, <ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" kindref="member">mergeTimeline()</ref> uses locally // registered records only; remote-shard records are absent. // Removal Plan: Replace in-memory shard_records_ with FederatedRAGMerger // integration in DK-4; <ref refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" kindref="member">ShardRecordFetcher</ref> becomes permanent API. </para>
+    </detaileddescription>
+    <location file="include/rag/explainability_reason_builder.h" line="236" column="1" bodyfile="include/rag/explainability_reason_builder.h" bodystart="236" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a18d89c8fe06ad3c7f4f459e24c01d15c" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4c6c6e8256cde2bf3e7c561a3901efdb" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>FederatedAIDecisionAuditor</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1aa726b413f7a4271bd46df2ba1a14bace" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>mergeTimeline</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ab461218eb258fdac3b6d667f90efb7a7" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>setShardRecordFetcher</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a1bdb1cb935b4948dc8832fc9eefb1b6c" prot="private" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>shard_fetcher_</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a5ed647614638efcc06e5c1b84218d79c" prot="private" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>shard_records_</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1ad08120bd4f3cfe5e445099c682a916f0" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>shardCount</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a721843b2edc8ddadb7ae18446218cedf" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>ShardRecordFetcher</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a4262de26ba5a3584f4f7371b45763bd1" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>totalRecords</name></member>
+      <member refid="classthemis_1_1rag_1_1_federated_a_i_decision_auditor_1a847f39568c01c952c35a108b5c8ffd34" prot="public" virt="non-virtual"><scope>themis::rag::FederatedAIDecisionAuditor</scope><name>~FederatedAIDecisionAuditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

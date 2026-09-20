@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::AqlSafetyValidator::Violation</compoundname>
+    <includes refid="aql__safety__validator_8h" local="no">aql_safety_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1ae51835a156e8e0a5871b8e5f02e5ed98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AqlSafetyValidator::Violation::keyword</definition>
+        <argsstring></argsstring>
+        <name>keyword</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::Violation::keyword</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="42" column="21" bodyfile="include/query/aql_safety_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a4e90e6b4bb887eb42f9e8d29b61f1541" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::AqlSafetyValidator::Violation::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::Violation::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="43" column="21" bodyfile="include/query/aql_safety_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a64c7e9d73748a44ec93486a1ff4127a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AqlSafetyValidator::Violation::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::Violation::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="44" column="21" bodyfile="include/query/aql_safety_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_safety_validator.h" line="41" column="5" bodyfile="include/query/aql_safety_validator.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1ae51835a156e8e0a5871b8e5f02e5ed98" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator::Violation</scope><name>keyword</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a64c7e9d73748a44ec93486a1ff4127a2" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator::Violation</scope><name>message</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a4e90e6b4bb887eb42f9e8d29b61f1541" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator::Violation</scope><name>position</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

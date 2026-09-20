@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_checkpoint_recovery_test" kind="class" language="C++" prot="public">
+    <compoundname>CheckpointRecoveryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path CheckpointRecoveryTest::tmpdir_</definition>
+        <argsstring></argsstring>
+        <name>tmpdir_</name>
+        <qualifiedname>CheckpointRecoveryTest::tmpdir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="88" column="14" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_checkpoint_recovery_test_1a9345e89eff58275a7a8cbf4379ff3129" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CheckpointRecoveryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CheckpointRecoveryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="38" column="10" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_recovery_test_1a3b45025fdfdf06abf4a4c4fd0fc5d268" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CheckpointRecoveryTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CheckpointRecoveryTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="47" column="10" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_recovery_test_1ae87dc9527b7438489774e9f89a868fe9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref></type>
+        <definition>CheckpointManagerConfig CheckpointRecoveryTest::makeConfig</definition>
+        <argsstring>()</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>CheckpointRecoveryTest::makeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="53" column="29" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_recovery_test_1a2a6d433c92fc28ffd1edfcfd02831054" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; CheckpointRecoveryTest::createDummyCheckpoint</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>createDummyCheckpoint</name>
+        <qualifiedname>CheckpointRecoveryTest::createDummyCheckpoint</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="65" column="17" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_recovery_test_1a44a5852dacb6d6eeed9cbd3d2558a52c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string CheckpointRecoveryTest::writeCheckpointFile</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;filename)</argsstring>
+        <name>writeCheckpointFile</name>
+        <qualifiedname>CheckpointRecoveryTest::writeCheckpointFile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_recovery.cpp" line="75" column="17" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="75" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CheckpointRecoveryTest</label>
+        <link refid="class_checkpoint_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CheckpointRecoveryTest</label>
+        <link refid="class_checkpoint_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_checkpoint_recovery.cpp" line="36" column="1" bodyfile="tests/training/test_checkpoint_recovery.cpp" bodystart="36" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_checkpoint_recovery_test_1a2a6d433c92fc28ffd1edfcfd02831054" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>createDummyCheckpoint</name></member>
+      <member refid="class_checkpoint_recovery_test_1ae87dc9527b7438489774e9f89a868fe9" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>makeConfig</name></member>
+      <member refid="class_checkpoint_recovery_test_1a9345e89eff58275a7a8cbf4379ff3129" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>SetUp</name></member>
+      <member refid="class_checkpoint_recovery_test_1a3b45025fdfdf06abf4a4c4fd0fc5d268" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>TearDown</name></member>
+      <member refid="class_checkpoint_recovery_test_1a1f9be00a4fd76552eeeced8a419f20e8" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>tmpdir_</name></member>
+      <member refid="class_checkpoint_recovery_test_1a44a5852dacb6d6eeed9cbd3d2558a52c" prot="protected" virt="non-virtual"><scope>CheckpointRecoveryTest</scope><name>writeCheckpointFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

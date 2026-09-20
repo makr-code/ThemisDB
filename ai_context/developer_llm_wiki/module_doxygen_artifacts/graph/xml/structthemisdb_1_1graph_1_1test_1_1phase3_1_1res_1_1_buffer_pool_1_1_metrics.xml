@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::res::BufferPool::Metrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a8bd0ad6fe0ee4d6a765b6aadfc1d0005" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::res::BufferPool::Metrics::allocations</definition>
+        <argsstring></argsstring>
+        <name>allocations</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::Metrics::allocations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1439" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1439" bodyend="1439"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a80b41b3e014b1ce63e910b54538d5873" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::res::BufferPool::Metrics::reuses</definition>
+        <argsstring></argsstring>
+        <name>reuses</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::Metrics::reuses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1440" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1440" bodyend="1440"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a4e896854a48e8ddbb39a82fc8bf6c90d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::res::BufferPool::Metrics::frees</definition>
+        <argsstring></argsstring>
+        <name>frees</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::BufferPool::Metrics::frees</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1441" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1441" bodyend="1441"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1438" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1438" bodyend="1442"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a8bd0ad6fe0ee4d6a765b6aadfc1d0005" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool::Metrics</scope><name>allocations</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a4e896854a48e8ddbb39a82fc8bf6c90d" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool::Metrics</scope><name>frees</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_buffer_pool_1_1_metrics_1a80b41b3e014b1ce63e910b54538d5873" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::BufferPool::Metrics</scope><name>reuses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

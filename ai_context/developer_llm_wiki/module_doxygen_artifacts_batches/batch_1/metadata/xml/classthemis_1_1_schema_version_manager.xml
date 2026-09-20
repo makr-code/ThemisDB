@@ -1,0 +1,859 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_schema_version_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::SchemaVersionManager</compoundname>
+    <includes refid="schema__version__manager_8h" local="no">schema_version_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_schema_version_manager_1a2a07a340dc4604dc077079cb59efba1c" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::SchemaVersionManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::SchemaVersionManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="299" column="20" bodyfile="include/metadata/schema_version_manager.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_schema_version_manager_1a56bb9f15b78dbce9425e1a1169fbee9f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &amp;</type>
+        <definition>SchemaManager&amp; themis::SchemaVersionManager::schema_mgr_</definition>
+        <argsstring></argsstring>
+        <name>schema_mgr_</name>
+        <qualifiedname>themis::SchemaVersionManager::schema_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="300" column="20" bodyfile="include/metadata/schema_version_manager.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_schema_version_manager_1ad9bb335e03b2cb4ad30a4db3a2896589" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref> *</type>
+        <definition>SchemaAuditLog* themis::SchemaVersionManager::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::SchemaVersionManager::audit_log_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional audit log (non-owning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="301" column="20" bodyfile="include/metadata/schema_version_manager.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaVersionManager::SchemaVersionManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db, SchemaManager &amp;schema_mgr)</argsstring>
+        <name>SchemaVersionManager</name>
+        <qualifiedname>themis::SchemaVersionManager::SchemaVersionManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper used for persistence </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> whose schema is being versioned </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="139" column="5" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a62b31fdcbcc10bcaf3b2b30db6c7e9e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaVersionManager::~SchemaVersionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaVersionManager</name>
+        <qualifiedname>themis::SchemaVersionManager::~SchemaVersionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a3f0558edce6687dfb78cba938172ac63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaVersionManager::SchemaVersionManager</definition>
+        <argsstring>(const SchemaVersionManager &amp;)=delete</argsstring>
+        <name>SchemaVersionManager</name>
+        <qualifiedname>themis::SchemaVersionManager::SchemaVersionManager</qualifiedname>
+        <param>
+          <type>const SchemaVersionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a84f0d3f8dbf9d0946f5a493ef8d360a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" kindref="member">SchemaVersionManager</ref> &amp;</type>
+        <definition>SchemaVersionManager &amp; themis::SchemaVersionManager::operator=</definition>
+        <argsstring>(const SchemaVersionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SchemaVersionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" kindref="member">SchemaVersionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="145" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a357a98cb050a2b1571f0a25e6c9003d5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaVersionManager::SchemaVersionManager</definition>
+        <argsstring>(SchemaVersionManager &amp;&amp;) noexcept=delete</argsstring>
+        <name>SchemaVersionManager</name>
+        <qualifiedname>themis::SchemaVersionManager::SchemaVersionManager</qualifiedname>
+        <param>
+          <type>SchemaVersionManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1ad57889a308d94a16a7ea3f25765222a5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" kindref="member">SchemaVersionManager</ref> &amp;</type>
+        <definition>SchemaVersionManager &amp; themis::SchemaVersionManager::operator=</definition>
+        <argsstring>(SchemaVersionManager &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SchemaVersionManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" kindref="member">SchemaVersionManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="147" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a7eebc6b3b48e231c81cda6bead33875e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; uint64_t &gt;</type>
+        <definition>VersionResult&lt; uint64_t &gt; themis::SchemaVersionManager::createSchemaVersion</definition>
+        <argsstring>(std::string_view table_name, std::string_view author=&quot;&quot;, std::string_view description=&quot;&quot;)</argsstring>
+        <name>createSchemaVersion</name>
+        <qualifiedname>themis::SchemaVersionManager::createSchemaVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Schema Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot the current schema for <computeroutput>table_name</computeroutput> and store it as a new version. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose schema should be versioned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity of the change author (may be empty) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description of the change </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The newly assigned version number, or an error result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="158" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="97" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1ac21d738a38acdfdbe9d698c2f706c261" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; uint64_t &gt;</type>
+        <definition>VersionResult&lt; uint64_t &gt; themis::SchemaVersionManager::getCurrentVersion</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>getCurrentVersion</name>
+        <qualifiedname>themis::SchemaVersionManager::getCurrentVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the current highest schema version for a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose current version should be queried. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Latest version number, or <ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">VersionErrorCode::TABLE_NOT_FOUND</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="169" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="144" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1abcb358b3359137388c71d48c9aa027ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> &gt; &gt;</type>
+        <definition>VersionResult&lt; std::vector&lt; SchemaChange &gt; &gt; themis::SchemaVersionManager::getChangeHistory</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>getChangeHistory</name>
+        <qualifiedname>themis::SchemaVersionManager::getChangeHistory</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the full schema-change history for a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose version history should be loaded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered list of schema changes in ascending version order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="176" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="162" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a4e384e1a49758cc42a87bc846f002c7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> &gt;</type>
+        <definition>VersionResult&lt; SchemaChange &gt; themis::SchemaVersionManager::getVersion</definition>
+        <argsstring>(std::string_view table_name, uint64_t version) const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::SchemaVersionManager::getVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Return one schema version snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose version should be read. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version number to retrieve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> snapshot, or an error result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="186" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="189" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a9f6ce199cbe84c3f7756c0e246c013b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; bool &gt;</type>
+        <definition>VersionResult&lt; bool &gt; themis::SchemaVersionManager::rollbackToVersion</definition>
+        <argsstring>(std::string_view table_name, uint64_t version, std::string_view author=&quot;&quot;)</argsstring>
+        <name>rollbackToVersion</name>
+        <qualifiedname>themis::SchemaVersionManager::rollbackToVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Rollback To Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Roll the live schema back to a specific version. Applies the schema snapshot stored at <computeroutput>version</computeroutput> via <ref refid="classthemis_1_1_schema_manager_1a56b30cbacce28d540cbd22b751ad5fdc" kindref="member">SchemaManager::setTableSchema</ref>. Records the rollback itself as a new version entry so history is preserved. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to roll back </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity of who initiated the rollback</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="197" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="220" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a3e84c55229540c924c42cda0359c4445" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &gt;</type>
+        <definition>VersionResult&lt; json &gt; themis::SchemaVersionManager::diffVersions</definition>
+        <argsstring>(std::string_view table_name, uint64_t version_a, uint64_t version_b) const</argsstring>
+        <name>diffVersions</name>
+        <qualifiedname>themis::SchemaVersionManager::diffVersions</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version_a</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version_b</declname>
+        </param>
+        <briefdescription>
+<para>Compute a JSON diff between two schema versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose versions should be compared. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Older or left-hand version to compare. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Newer or right-hand version to compare. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON diff object with <computeroutput>added</computeroutput>, <computeroutput>removed</computeroutput>, and <computeroutput>modified</computeroutput> arrays. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="210" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="275" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1af55d300f0201ec13f531290a3a7201d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaVersionManager::historyToJSON</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>historyToJSON</name>
+        <qualifiedname>themis::SchemaVersionManager::historyToJSON</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Export all schema versions for a table as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose history should be exported. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array of <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> records. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="221" column="10" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="340" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1abc8e5a18255b247344558a90d307839b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; std::string &gt;</type>
+        <definition>VersionResult&lt; std::string &gt; themis::SchemaVersionManager::generateMigrationScript</definition>
+        <argsstring>(std::string_view table_name, uint64_t version_from, uint64_t version_to) const</argsstring>
+        <name>generateMigrationScript</name>
+        <qualifiedname>themis::SchemaVersionManager::generateMigrationScript</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version_from</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version_to</declname>
+        </param>
+        <briefdescription>
+<para>Generate a DDL migration script between two schema versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces a sequence of ALTER TABLE statements that, when executed in order, transform <computeroutput>table_name</computeroutput> from the schema at <computeroutput>version_from</computeroutput> to the schema at <computeroutput>version_to</computeroutput>.</para>
+<para>Generated statement types:<itemizedlist>
+<listitem><para>ADD COLUMN – for columns present in <computeroutput>version_to</computeroutput> but not in <computeroutput>version_from</computeroutput> </para>
+</listitem><listitem><para>DROP COLUMN – for columns present in <computeroutput>version_from</computeroutput> but not in <computeroutput>version_to</computeroutput> </para>
+</listitem><listitem><para>ALTER COLUMN – for columns whose type or nullability changed</para>
+</listitem></itemizedlist>
+</para>
+<para>Type mapping (ThemisDB → SQL): string → VARCHAR, integer → INTEGER, double → DOUBLE PRECISION, boolean → BOOLEAN, vector → VECTOR, binary → BYTEA, * → TEXT</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose versions to compare. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source version (the &quot;before&quot; state). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target version (the &quot;after&quot; state). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult&lt;std::string&gt;</ref> containing the script on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="244" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="555" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a23a5f1dcdd075ee7c2a98d09f84598ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; bool &gt;</type>
+        <definition>VersionResult&lt; bool &gt; themis::SchemaVersionManager::validateMigration</definition>
+        <argsstring>(std::string_view table_name, const SchemaManager::TableSchema &amp;new_schema) const</argsstring>
+        <name>validateMigration</name>
+        <qualifiedname>themis::SchemaVersionManager::validateMigration</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>new_schema</declname>
+        </param>
+        <briefdescription>
+<para>Dry-run whether a new schema can be applied to a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks performed:<itemizedlist>
+<listitem><para>The new schema has a non-empty <computeroutput>name</computeroutput> field.</para>
+</listitem><listitem><para>The new schema has a <computeroutput>columns</computeroutput> or <computeroutput>properties</computeroutput> array.</para>
+</listitem><listitem><para>No column appears more than once in the new schema.</para>
+</listitem><listitem><para>If the table already has a versioned schema the new schema is not identical.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to validate against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Proposed new schema. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult&lt;bool&gt;</ref> where <computeroutput>ok=true</computeroutput> means the migration is valid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="263" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="458" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1afbe1f19a9ab0f2f3777ebe896d42dbf5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SchemaVersionManager::setAuditLog</definition>
+        <argsstring>(SchemaAuditLog *audit_log) noexcept</argsstring>
+        <name>setAuditLog</name>
+        <qualifiedname>themis::SchemaVersionManager::setAuditLog</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref> *</type>
+          <declname>audit_log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach an audit log. If set, every schema change is also recorded there. The pointer is non-owning; caller manages the lifetime. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="270" column="10" bodyfile="include/metadata/schema_version_manager.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1afad4ad85c7e0e34a1150890edee41214" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaVersionManager::versionKey</definition>
+        <argsstring>(std::string_view table_name, uint64_t version)</argsstring>
+        <name>versionKey</name>
+        <qualifiedname>themis::SchemaVersionManager::versionKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Build the RocksDB key for a specific version entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Version Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="278" column="24" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="362" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1aee1731577b8b1e2815c10436aa107834" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaVersionManager::currentVersionKey</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>currentVersionKey</name>
+        <qualifiedname>themis::SchemaVersionManager::currentVersionKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Build the RocksDB key for the &quot;current version&quot; counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Current Version Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="281" column="24" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="379" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a1f11b46ef85781333089d6d061514c5c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SchemaVersionManager::readCurrentVersion</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>readCurrentVersion</name>
+        <qualifiedname>themis::SchemaVersionManager::readCurrentVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Read the raw &quot;current version&quot; counter from RocksDB (0 = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="284" column="14" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="383" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1ad50ea8774f93dfb948d5555332af7e95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SchemaVersionManager::persistChange</definition>
+        <argsstring>(const SchemaChange &amp;change)</argsstring>
+        <name>persistChange</name>
+        <qualifiedname>themis::SchemaVersionManager::persistChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+<para>Persist a <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> record to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Change.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: versionKey(), toJSON(), dump(), data(), begin(), end(), put(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="287" column="10" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="403" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_version_manager_1a4f0c49aea1cd10676ee45dac6e6664fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> &gt;</type>
+        <definition>std::optional&lt; SchemaChange &gt; themis::SchemaVersionManager::loadChange</definition>
+        <argsstring>(std::string_view table_name, uint64_t version) const</argsstring>
+        <name>loadChange</name>
+        <qualifiedname>themis::SchemaVersionManager::loadChange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Load a <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> record from RocksDB by (table, version). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="290" column="19" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="432" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref> – schema versioning, change history and rollback</para>
+<para>Tracks every schema change for every table. Each change is stored as a <computeroutput><ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref></computeroutput> record in RocksDB under the key prefix <computeroutput>config:schema_version:&lt;table&gt;:&lt;version&gt;</computeroutput> (zero-padded 10-digit version).</para>
+<para>The current version for a table is kept at <computeroutput>config:schema_version:&lt;table&gt;:current</computeroutput>.</para>
+<para>Usage: <ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref> svm(db, schema_mgr);</para>
+<para>// Record the current schema as version 1 svm.createSchemaVersion(&quot;users&quot;, &quot;admin&quot;, &quot;initial schema&quot;);</para>
+<para>// … schema changes are made via <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> …</para>
+<para>// Record version 2 svm.createSchemaVersion(&quot;users&quot;, &quot;admin&quot;, &quot;added email column&quot;);</para>
+<para>// List history auto history = svm.getChangeHistory(&quot;users&quot;);</para>
+<para>// Roll back svm.rollbackToVersion(&quot;users&quot;, 1, &quot;admin&quot;);</para>
+<para>Thread-safety: NOT thread-safe. External synchronization required. </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_version_manager.h" line="134" column="1" bodyfile="include/metadata/schema_version_manager.h" bodystart="134" bodyend="302"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_schema_version_manager_1ad9bb335e03b2cb4ad30a4db3a2896589" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a7eebc6b3b48e231c81cda6bead33875e" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>createSchemaVersion</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1aee1731577b8b1e2815c10436aa107834" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>currentVersionKey</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a2a07a340dc4604dc077079cb59efba1c" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a3e84c55229540c924c42cda0359c4445" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>diffVersions</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1abc8e5a18255b247344558a90d307839b" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>generateMigrationScript</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1abcb358b3359137388c71d48c9aa027ae" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>getChangeHistory</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1ac21d738a38acdfdbe9d698c2f706c261" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a4e384e1a49758cc42a87bc846f002c7a" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1af55d300f0201ec13f531290a3a7201d3" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>historyToJSON</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a4f0c49aea1cd10676ee45dac6e6664fe" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>loadChange</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a84f0d3f8dbf9d0946f5a493ef8d360a5" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1ad57889a308d94a16a7ea3f25765222a5" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1ad50ea8774f93dfb948d5555332af7e95" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>persistChange</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a1f11b46ef85781333089d6d061514c5c" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>readCurrentVersion</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a9f6ce199cbe84c3f7756c0e246c013b1" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>rollbackToVersion</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a56bb9f15b78dbce9425e1a1169fbee9f" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>schema_mgr_</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a3c1f703988f255eba4217b3f5c2a4c00" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>SchemaVersionManager</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a3f0558edce6687dfb78cba938172ac63" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>SchemaVersionManager</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a357a98cb050a2b1571f0a25e6c9003d5" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>SchemaVersionManager</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1afbe1f19a9ab0f2f3777ebe896d42dbf5" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>setAuditLog</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a23a5f1dcdd075ee7c2a98d09f84598ed" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>validateMigration</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1afad4ad85c7e0e34a1150890edee41214" prot="private" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>versionKey</name></member>
+      <member refid="classthemis_1_1_schema_version_manager_1a62b31fdcbcc10bcaf3b2b30db6c7e9e0" prot="public" virt="non-virtual"><scope>themis::SchemaVersionManager</scope><name>~SchemaVersionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

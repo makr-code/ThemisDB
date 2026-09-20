@@ -1,0 +1,969 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wire__protocol__performance_8cpp" kind="file" language="C++">
+    <compoundname>test_wire_protocol_performance.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wire__protocol__performance_8h" local="yes">network/wire_protocol_performance.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/wire_protocol_performance.h</label>
+        <link refid="wire__protocol__performance_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_wire_protocol_performance.cpp</label>
+        <link refid="test__wire__protocol__performance_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>array</label>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>queue</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, DefaultConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="18" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="18" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1ae3050a88c515f02378420528e46a21b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordSingleLatency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordSingleLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="24" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="24" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1aea24c2119828056e1d3fbe242a6281ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, PercentilesMonotonicallyIncrease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>PercentilesMonotonicallyIncrease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="34" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="34" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1aff7a8b5a4b27ed19c4f6737be5362a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordLatencyFromTimePoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordLatencyFromTimePoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="48" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a2a7c28cec8a6544e02a3d00f2ebb027c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="59" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="59" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a9d356325f849baeb193b1587c10a491e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordCompression)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordCompression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="69" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a1a6de32c963d3cfd27251ef4e59140ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="78" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="78" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a7cb5530bc5545a5747edeec0293916bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, RecordUnknownErrorKind)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>RecordUnknownErrorKind</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="96" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a70069e2a8967bedc95797c630a1bab93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, HistogramPopulated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>HistogramPopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="103" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="103" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a963b9737b239af1d56060e3a623a0a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, Reset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>Reset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="119" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="119" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a70f1a48702bb324a6acf19a75497abc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolMetrics, SlidingWindowEvictsOldSamples)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref></type>
+        </param>
+        <param>
+          <type>SlidingWindowEvictsOldSamples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="135" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="135" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a75060655cd45aa0b3022d9ee3ccfbec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, DefaultConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="158" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="158" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a5ffafa2bcf137ac5cd91babe89e51d0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, AcquireReturnsClearedBuffer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>AcquireReturnsClearedBuffer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="165" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="165" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1ab9750ad59a033138511d13e43e02d0d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, FirstAcquireIsMiss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>FirstAcquireIsMiss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="173" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="173" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1aac76f11f8ff5cbcc9024898ae350d067" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, SecondAcquireIsHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>SecondAcquireIsHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="180" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="180" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1acaceae71d4a41f2d982daff93a26b3be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, HitRateAfterReturnAndReuse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>HitRateAfterReturnAndReuse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="192" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="192" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1ad6b1289c5bdf4ba1e67187ecabb4af6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, BufferCanBeResized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>BufferCanBeResized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="207" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="207" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a5fa1c4acb6dadcf329de52544fbcc941" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, HandleMoveSemantics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>HandleMoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="214" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a58742d0d8bf052df39d55bcebe38c443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PayloadBufferPool, PoolDepthBounded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref></type>
+        </param>
+        <param>
+          <type>PoolDepthBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="222" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="222" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a09dc097004719beccfe5f3fb0b9d5030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, SmallPayloadSkipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>SmallPayloadSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="243" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="243" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a8c570965c4e522e9903eeeaf4332e922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, MediumPayloadFast)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>MediumPayloadFast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="249" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="249" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1aa8753fe1c44fe897903213562bbd3352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, LargePayloadHC)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>LargePayloadHC</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="256" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="256" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1afe1b06026bc76c1faf07a5e933b1d82c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, SpeedModeSelectsFastX)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>SpeedModeSelectsFastX</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="262" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="262" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1ad318bf4386105576e4c74f2d81e227aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, Lz4AccelerationFastPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>Lz4AccelerationFastPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="273" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="273" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a3c0d1ec3e928fc8c599104b95aeed250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, Lz4AccelerationFastXHigherThanFast)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>Lz4AccelerationFastXHigherThanFast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="279" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="279" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a4717109ea4fa400bff541fe1ded8884a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, Lz4AccelerationHcIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>Lz4AccelerationHcIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="286" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="286" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a1a3a3025998cd5aed566bc33213beb01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, HcLevelPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>HcLevelPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="293" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="293" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a787ac25603fe8367fd6e7694a8db3b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, CustomThresholds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>CustomThresholds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="298" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="298" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__performance_8cpp_1a20a89567e4278618ef9a0da87e218d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CompressionAdvisor, BoundaryAtThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref></type>
+        </param>
+        <param>
+          <type>BoundaryAtThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_performance.cpp" line="309" column="1" bodyfile="tests/network/test_wire_protocol_performance.cpp" bodystart="309" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for Wire Protocol v1 performance components: <ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>, <ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>, <ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire__protocol__performance_8h" kindref="compound">network/wire_protocol_performance.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WireProtocolMetrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1af9a8cf49950293ca30d8290d8f9325f5" kindref="member">totalRequests</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" kindref="member">totalErrors</ref>(),<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordSingleLatency)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(5.0);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.latency.sample_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(snap.latency.p50_ms,<sp/>5.0);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(snap.latency.max_ms,<sp/>5.0);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>PercentilesMonotonicallyIncrease)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>100<sp/>samples:<sp/>1<sp/>ms,<sp/>2<sp/>ms,<sp/>…<sp/>100<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>100;<sp/>++i)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.p50_ms,<sp/><sp/>snap.latency.p75_ms);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.p75_ms,<sp/><sp/>snap.latency.p95_ms);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.p95_ms,<sp/><sp/>snap.latency.p99_ms);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.p99_ms,<sp/><sp/>snap.latency.p999_ms);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.p999_ms,<sp/>snap.latency.max_ms);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordLatencyFromTimePoint)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a1b83a26a8c7a70be81f6f37ebda9280d" kindref="member">recordLatency</ref>(t0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.latency.sample_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(snap.latency.max_ms,<sp/>5.0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordBytes)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" kindref="member">recordBytes</ref>(100,<sp/>200);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" kindref="member">recordBytes</ref>(300,<sp/>400);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.throughput.bytes_received_total,<sp/>400u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.throughput.bytes_sent_total,<sp/><sp/><sp/><sp/><sp/>600u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordCompression)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a7d80877255c9fb1439c70c28f3e7fd86" kindref="member">recordCompression</ref>(1000,<sp/>400);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.throughput.compressed_payloads,<sp/>1u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(snap.throughput.compression_ratio,<sp/>0.4,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordErrors)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(1.0);<sp/></highlight><highlight class="comment">//<sp/>register<sp/>one<sp/>request<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;parse&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;auth&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.errors.connection_errors,<sp/>1u);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.errors.timeout_errors,<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.errors.parse_errors,<sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.errors.auth_errors,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" kindref="member">totalErrors</ref>(),<sp/>4u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(snap.errors.error_rate,<sp/>0.0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.errors.error_rate,<sp/>1.0);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>RecordUnknownErrorKind)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>kinds<sp/>increment<sp/>total<sp/>but<sp/>not<sp/>any<sp/>specific<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;unknown_kind&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" kindref="member">totalErrors</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>HistogramPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(3.0);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(10.0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(100.0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(snap.latency_histogram.empty());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sum<sp/>of<sp/>histogram<sp/>counts<sp/>should<sp/>equal<sp/>sample<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[bucket,<sp/>count]<sp/>:<sp/>snap.latency_histogram)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/>count;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total,<sp/>snap.latency.sample_count);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>Reset)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(5.0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aa8fb8748cfe3e7c41110631070eec6d2" kindref="member">recordBytes</ref>(100,<sp/>200);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a8929655f248d6ef185373cdab8d7e8c9" kindref="member">recordError</ref>(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1aaade86d8f79b7da489ca5ebdf1902efa" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1af9a8cf49950293ca30d8290d8f9325f5" kindref="member">totalRequests</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a55ddd5e783eabf29e4e149d2a9cde28b" kindref="member">totalErrors</ref>(),<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.latency.sample_count,<sp/>0u);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.throughput.bytes_received_total,<sp/>0u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.errors.connection_errors,<sp/>0u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref>,<sp/>SlidingWindowEvictsOldSamples)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config" kindref="compound">WireProtocolMetrics::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_config_1a46738c266403d56a83da5c0fc3d2f6c9" kindref="member">max_samples</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_metrics" kindref="compound">WireProtocolMetrics</ref><sp/>m(cfg);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>5<sp/>samples:<sp/>100<sp/>ms<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(100.0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overwrite<sp/>with<sp/>1<sp/>ms<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a616249ded87080bfeefcf95c70817e5a" kindref="member">recordLatencyMs</ref>(1.0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>m.<ref refid="classthemis_1_1network_1_1_wire_protocol_metrics_1a77f291661c690deed00f7ede70922c07" kindref="member">snapshot</ref>();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.latency.sample_count,<sp/>5u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(snap.latency.max_ms,<sp/>2.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Old<sp/>high<sp/>samples<sp/>should<sp/>be<sp/>evicted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PayloadBufferPool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.<ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a6bd4a8f11df77b2dd6b981fca3f1c816" kindref="member">slabSize</ref>(),<sp/><sp/>64u<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.<ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a899e96ffcd30d523e86dba2395517bb5" kindref="member">hitCount</ref>(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.<ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a33fae745cdeaf3065166539b12c6d419" kindref="member">missCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>AcquireReturnsClearedBuffer)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(1024,<sp/>4);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buf-&gt;empty());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(buf-&gt;capacity(),<sp/>1024u);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>FirstAcquireIsMiss)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(256,<sp/>4);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.missCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.hitCount(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>SecondAcquireIsHit)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(256,<sp/>4);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();<sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)buf;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">//<sp/>returned<sp/>to<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf2<sp/>=<sp/>pool.acquire();<sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.hitCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>HitRateAfterReturnAndReuse)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(256,<sp/>4);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acquire<sp/>and<sp/>return<sp/>4<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)buf;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-acquire<sp/>4<sp/>times<sp/>(should<sp/>all<sp/>be<sp/>hits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)buf;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(pool.hitRate(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>BufferCanBeResized)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(512,<sp/>4);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>buf-&gt;resize(128);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf-&gt;size(),<sp/>128u);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>HandleMoveSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(128,<sp/>2);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h1<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h2<sp/>=<sp/>std::move(h1);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h1));<sp/></highlight><highlight class="comment">//<sp/>h1<sp/>should<sp/>be<sp/>empty<sp/>after<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h2));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref>,<sp/>PoolDepthBounded)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>depth<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_payload_buffer_pool" kindref="compound">PayloadBufferPool</ref><sp/>pool(128,<sp/>depth);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acquire<sp/>5<sp/>buffers;<sp/>all<sp/>returned<sp/>on<sp/>scope<sp/>exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b3<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b4<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b5<sp/>=<sp/>pool.acquire();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)b1;<sp/>(void)b2;<sp/>(void)b3;<sp/>(void)b4;<sp/>(void)b5;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pool<sp/>should<sp/>hold<sp/>at<sp/>most<sp/>`depth`<sp/>slabs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(pool.poolDepth(),<sp/>depth);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CompressionAdvisor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>SmallPayloadSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(100);<sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>512<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d,<sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7cab85df04e922fe1dd3c1f0692faeaacef" kindref="member">CompressionAdvisor::Decision::SKIP</ref>);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>MediumPayloadFast)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>KiB,<sp/>above<sp/>512<sp/>B<sp/>threshold,<sp/>below<sp/>64<sp/>KiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(1024);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d,<sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" kindref="member">CompressionAdvisor::Decision::LZ4_FAST</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>LargePayloadHC)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(128<sp/>*<sp/>1024);<sp/></highlight><highlight class="comment">//<sp/>&gt;<sp/>64<sp/>KiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d,<sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca9cad032456bf4193bf91b1d8fba6fdb0" kindref="member">CompressionAdvisor::Decision::LZ4_HC</ref>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>SpeedModeSelectsFastX)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config" kindref="compound">CompressionAdvisor::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1aa67ea35b569b329e7e01097be6c1701a" kindref="member">prefer_speed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor(cfg);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d_med<sp/><sp/><sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(1024);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d_large<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(128<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d_med,<sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7caadaa5cc5151323430c71e77b91bed9bf" kindref="member">CompressionAdvisor::Decision::LZ4_FAST_X</ref>);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d_large,<sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7caadaa5cc5151323430c71e77b91bed9bf" kindref="member">CompressionAdvisor::Decision::LZ4_FAST_X</ref>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>Lz4AccelerationFastPositive)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>acc<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" kindref="member">lz4Acceleration</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" kindref="member">CompressionAdvisor::Decision::LZ4_FAST</ref>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(acc,<sp/>0);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>Lz4AccelerationFastXHigherThanFast)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fast<sp/><sp/><sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" kindref="member">lz4Acceleration</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" kindref="member">CompressionAdvisor::Decision::LZ4_FAST</ref>);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fast_x<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" kindref="member">lz4Acceleration</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7caadaa5cc5151323430c71e77b91bed9bf" kindref="member">CompressionAdvisor::Decision::LZ4_FAST_X</ref>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(fast_x,<sp/>fast);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>Lz4AccelerationHcIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HC<sp/>uses<sp/>level,<sp/>not<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" kindref="member">lz4Acceleration</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca9cad032456bf4193bf91b1d8fba6fdb0" kindref="member">CompressionAdvisor::Decision::LZ4_HC</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" kindref="member">lz4Acceleration</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7cab85df04e922fe1dd3c1f0692faeaacef" kindref="member">CompressionAdvisor::Decision::SKIP</ref>),<sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>HcLevelPositive)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1a5141d813796772064939c89964dc3032" kindref="member">lz4HcLevel</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>CustomThresholds)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config" kindref="compound">CompressionAdvisor::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ab8ba9d8a59f3bb7960250cc66ffc881c" kindref="member">min_compressible_bytes</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a5ad183935d44e11ec17990a344879ec6" kindref="member">lz4_fast_threshold</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor(cfg);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(1000),<sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7cab85df04e922fe1dd3c1f0692faeaacef" kindref="member">CompressionAdvisor::Decision::SKIP</ref>);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(4096),<sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" kindref="member">CompressionAdvisor::Decision::LZ4_FAST</ref>);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(2<sp/>*<sp/>1024<sp/>*<sp/>1024),<sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca9cad032456bf4193bf91b1d8fba6fdb0" kindref="member">CompressionAdvisor::Decision::LZ4_HC</ref>);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__wire__protocol__performance_8cpp_1aaa722708b0bde6f3ba0e7070e412f39a" kindref="member">TEST</ref>(<ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref>,<sp/>BoundaryAtThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exactly<sp/>at<sp/>min_compressible_bytes<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor" kindref="compound">CompressionAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cfg<sp/>=<sp/>advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1a240c3af9a6fc37cc006c2c1e11537f31" kindref="member">config</ref>();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(cfg.<ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ab8ba9d8a59f3bb7960250cc66ffc881c" kindref="member">min_compressible_bytes</ref><sp/>-<sp/>1),</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7cab85df04e922fe1dd3c1f0692faeaacef" kindref="member">CompressionAdvisor::Decision::SKIP</ref>);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(advisor.<ref refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" kindref="member">advise</ref>(cfg.<ref refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ab8ba9d8a59f3bb7960250cc66ffc881c" kindref="member">min_compressible_bytes</ref>),</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" kindref="member">CompressionAdvisor::Decision::LZ4_FAST</ref>);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_wire_protocol_performance.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_column_batch" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ColumnBatch</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1a074e20c59b76f87638ffa765387b9598" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnBatch::kDefaultBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultBatchSize</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::kDefaultBatchSize</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="212" column="29" bodyfile="include/analytics/columnar_execution.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1a503f46326ef54a840cea75e1d2246adc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Column&gt; &gt; themisdb::analytics::ColumnBatch::columns_</definition>
+        <argsstring></argsstring>
+        <name>columns_</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="295" column="24" bodyfile="include/analytics/columnar_execution.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1aa056e9aa49723ec36b2e16526150da74" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themisdb::analytics::ColumnBatch::column_index_</definition>
+        <argsstring></argsstring>
+        <name>column_index_</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::column_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="296" column="28" bodyfile="include/analytics/columnar_execution.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1a797408c9a0b304aaa8a192e50b9e2f64" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnBatch::row_count_</definition>
+        <argsstring></argsstring>
+        <name>row_count_</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::row_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="297" column="49" bodyfile="include/analytics/columnar_execution.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1a9acafc42eeb26eb47a2d16e9591c09a3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_selection_vector" kindref="compound">SelectionVector</ref></type>
+        <definition>SelectionVector themisdb::analytics::ColumnBatch::selection_</definition>
+        <argsstring></argsstring>
+        <name>selection_</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::selection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="298" column="49" bodyfile="include/analytics/columnar_execution.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_column_batch_1ae922d6f2e60bea7ba4d10c9fed696bd2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ColumnBatch::has_selection_</definition>
+        <argsstring></argsstring>
+        <name>has_selection_</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::has_selection_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="299" column="49" bodyfile="include/analytics/columnar_execution.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1aae0ac0ec80a44d5535dfeb20e840850d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ColumnBatch::ColumnBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>ColumnBatch</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::ColumnBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="214" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a19eae8076dfb32a34207709ce4278d70" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ColumnBatch::ColumnBatch</definition>
+        <argsstring>(size_t row_count)</argsstring>
+        <name>ColumnBatch</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::ColumnBatch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>row_count</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="220" column="14" bodyfile="src/analytics/columnar_execution.cpp" bodystart="369" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a54cf1bfe916fe6eefffffb1c6a5b0f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ColumnBatch::addColumn</definition>
+        <argsstring>(std::shared_ptr&lt; Column &gt; col)</argsstring>
+        <name>addColumn</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::addColumn</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt;</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), name(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="227" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="376" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1ac689442072e8ff9eb9f07d290ddaf265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ColumnBatch::hasColumn</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasColumn</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::hasColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="233" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="388" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1aca91ceca21716af5d58d123cfb714f62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Column &gt; themisdb::analytics::ColumnBatch::getColumn</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getColumn</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::getColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="239" column="21" bodyfile="src/analytics/columnar_execution.cpp" bodystart="392" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1af1eaea6099b0d80be79ef311ac5b2e0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Column &gt; themisdb::analytics::ColumnBatch::getColumnAt</definition>
+        <argsstring>(size_t idx) const</argsstring>
+        <name>getColumnAt</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::getColumnAt</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> At. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="245" column="21" bodyfile="src/analytics/columnar_execution.cpp" bodystart="400" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a5e7b2c0e716b464f3c8929912ff2a8d2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnBatch::columnCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>columnCount</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::columnCount</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="251" column="12" bodyfile="src/analytics/columnar_execution.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a1788d0b0ee14d47508f3565206b7b151" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; Column &gt; &gt; &amp; themisdb::analytics::ColumnBatch::columns</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>columns</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::columns</qualifiedname>
+        <briefdescription>
+<para>Columns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="257" column="23" bodyfile="src/analytics/columnar_execution.cpp" bodystart="411" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1afdcbe946f599d1ff33fbd12693180375" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnBatch::rowCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::rowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="260" column="12" bodyfile="include/analytics/columnar_execution.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1ade1c99430d10014674697e3bdfe826c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ColumnBatch::setSelection</definition>
+        <argsstring>(const SelectionVector &amp;sel)</argsstring>
+        <name>setSelection</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::setSelection</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_selection_vector" kindref="compound">SelectionVector</ref> &amp;</type>
+          <declname>sel</declname>
+        </param>
+        <briefdescription>
+<para>Set Selection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSelection without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="266" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="420" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1ad784aa954427e205612110b361c2fd28" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemisdb_1_1analytics_1_1_selection_vector" kindref="compound">SelectionVector</ref> &amp;</type>
+        <definition>const SelectionVector &amp; themisdb::analytics::ColumnBatch::selection</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>selection</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::selection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="267" column="27" bodyfile="include/analytics/columnar_execution.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1ab9bc2ea453eba191a7f368343b049617" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ColumnBatch::hasSelection</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasSelection</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::hasSelection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="268" column="12" bodyfile="include/analytics/columnar_execution.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a62278f6d054a27bc4c4ad66d6824d796" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnBatch::selectedRowCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>selectedRowCount</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::selectedRowCount</qualifiedname>
+        <briefdescription>
+<para>Selected Row Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="274" column="12" bodyfile="src/analytics/columnar_execution.cpp" bodystart="425" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a79cd3028d9aa6ba8e296099b51835dae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch_1aae0ac0ec80a44d5535dfeb20e840850d" kindref="member">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::ColumnBatch::materialize</definition>
+        <argsstring>() const</argsstring>
+        <name>materialize</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::materialize</qualifiedname>
+        <briefdescription>
+<para>Materialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="280" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="432" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a667a5a903e0873e417a7457ae6b78a62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1analytics_1_1_column_batch_1aae0ac0ec80a44d5535dfeb20e840850d" kindref="member">ColumnBatch</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnBatch &gt; themisdb::analytics::ColumnBatch::split</definition>
+        <argsstring>(size_t max_rows_per_batch) const</argsstring>
+        <name>split</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::split</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_rows_per_batch</declname>
+        </param>
+        <briefdescription>
+<para>Split. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rows_per_batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="287" column="17" bodyfile="src/analytics/columnar_execution.cpp" bodystart="445" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_column_batch_1a77b9d1c19b134cf90c6619dccb417fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ColumnBatch::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::analytics::ColumnBatch::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="292" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="471" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="210" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="210" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a54cf1bfe916fe6eefffffb1c6a5b0f83" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>addColumn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a77b9d1c19b134cf90c6619dccb417fb8" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1aa056e9aa49723ec36b2e16526150da74" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>column_index_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1aae0ac0ec80a44d5535dfeb20e840850d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>ColumnBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a19eae8076dfb32a34207709ce4278d70" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>ColumnBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a5e7b2c0e716b464f3c8929912ff2a8d2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>columnCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a1788d0b0ee14d47508f3565206b7b151" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>columns</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a503f46326ef54a840cea75e1d2246adc" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>columns_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1aca91ceca21716af5d58d123cfb714f62" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>getColumn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1af1eaea6099b0d80be79ef311ac5b2e0d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>getColumnAt</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1ae922d6f2e60bea7ba4d10c9fed696bd2" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>has_selection_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1ac689442072e8ff9eb9f07d290ddaf265" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>hasColumn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1ab9bc2ea453eba191a7f368343b049617" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>hasSelection</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a074e20c59b76f87638ffa765387b9598" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>kDefaultBatchSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a79cd3028d9aa6ba8e296099b51835dae" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>materialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a797408c9a0b304aaa8a192e50b9e2f64" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>row_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1afdcbe946f599d1ff33fbd12693180375" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>rowCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a62278f6d054a27bc4c4ad66d6824d796" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>selectedRowCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1ad784aa954427e205612110b361c2fd28" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>selection</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a9acafc42eeb26eb47a2d16e9591c09a3" prot="private" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>selection_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1ade1c99430d10014674697e3bdfe826c2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>setSelection</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_column_batch_1a667a5a903e0873e417a7457ae6b78a62" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnBatch</scope><name>split</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

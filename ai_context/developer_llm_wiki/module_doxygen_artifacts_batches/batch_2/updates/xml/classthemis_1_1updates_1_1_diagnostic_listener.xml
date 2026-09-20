@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_diagnostic_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::DiagnosticListener</compoundname>
+    <includes refid="updates__diagnostic__emitter_8h" local="no">updates_diagnostic_emitter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_listener_1a41d16329acfa8c218a3cfd92d2ffe75f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::DiagnosticListener::~DiagnosticListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiagnosticListener</name>
+        <qualifiedname>themis::updates::DiagnosticListener::~DiagnosticListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_diagnostic_listener_1a92a7546dc4fdeec214590d61ed9c8c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::updates::DiagnosticListener::onDiagnosticEvent</definition>
+        <argsstring>(const ErrorContext &amp;context, bool is_error)=0</argsstring>
+        <name>onDiagnosticEvent</name>
+        <qualifiedname>themis::updates::DiagnosticListener::onDiagnosticEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_error</declname>
+        </param>
+        <briefdescription>
+<para>Called when a diagnostic event is emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error or progress context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if this is an error event; false if informational </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostic_emitter.h" line="48" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for receiving diagnostic events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations can:<itemizedlist>
+<listitem><para>Write to structured logs (JSON lines, binary, etc.)</para>
+</listitem><listitem><para>Send to telemetry backends</para>
+</listitem><listitem><para>Trigger alerts or automated remediation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/updates_diagnostic_emitter.h" line="38" column="1" bodyfile="include/updates/updates_diagnostic_emitter.h" bodystart="38" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_listener_1a92a7546dc4fdeec214590d61ed9c8c53" prot="public" virt="pure-virtual"><scope>themis::updates::DiagnosticListener</scope><name>onDiagnosticEvent</name></member>
+      <member refid="classthemis_1_1updates_1_1_diagnostic_listener_1a41d16329acfa8c218a3cfd92d2ffe75f" prot="public" virt="virtual"><scope>themis::updates::DiagnosticListener</scope><name>~DiagnosticListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

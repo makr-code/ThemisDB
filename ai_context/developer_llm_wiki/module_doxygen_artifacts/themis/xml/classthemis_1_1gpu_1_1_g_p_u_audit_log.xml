@@ -1,0 +1,568 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAuditLog</compoundname>
+    <includes refid="audit__log_8h" local="no">audit_log.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" prot="public">themis::gpu::GPUAuditLog::Event</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::EventType</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da0add549dbe8b6d79f39b12ee2454b1ef" prot="public">
+          <name>ALLOC_SUCCESS</name>
+          <briefdescription>
+<para>TryAllocateGPU returned true. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da8625c8dc9c5379ba05010139b3f78ff4" prot="public">
+          <name>ALLOC_FAIL_GLOBAL_LIMIT</name>
+          <briefdescription>
+<para>Rejected by edition VRAM cap. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da2e3f5785a49afc65f89dc6c96c295d52" prot="public">
+          <name>ALLOC_FAIL_TENANT_QUOTA</name>
+          <briefdescription>
+<para>Rejected by per-tenant quota. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dad6872c9b460f3d2ba3139f4b58aa69cc" prot="public">
+          <name>DEALLOC</name>
+          <briefdescription>
+<para>DeallocateGPU called. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da767a13aa2a2869385dbd25fbce0dc834" prot="public">
+          <name>FALLBACK_TO_CPU</name>
+          <briefdescription>
+<para>Operation fell back to CPU path. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dae05dbc8cfe9626ae56e78bde5ba196a6" prot="public">
+          <name>DEVICE_UNAVAILABLE</name>
+          <briefdescription>
+<para>Device discovery found no healthy GPU. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da227a89190b37053a8bf5abca4326a0a3" prot="public">
+          <name>CIRCUIT_OPENED</name>
+          <briefdescription>
+<para>Circuit breaker tripped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42daf7f045a2676c3f0491162bf0fc5612a9" prot="public">
+          <name>CIRCUIT_RESET</name>
+          <briefdescription>
+<para>Circuit breaker reset to DEGRADED/HEALTHY. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="37" column="5" bodyfile="include/themis/gpu/audit_log.h" bodystart="37" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a761a1581213db13b3ab64b84f71713af" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAuditLog::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="116" column="34" bodyfile="include/themis/gpu/audit_log.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a474ee616f284a41afcef750f8eb1f80c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUAuditLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="117" column="34" bodyfile="include/themis/gpu/audit_log.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ab17a86a3e9efd892b4dc591ee0c15012" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt;Event&gt; themis::gpu::GPUAuditLog::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="118" column="27" bodyfile="include/themis/gpu/audit_log.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a36d20c5377215394f5fbf0279fac06c5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAuditLog::head_</definition>
+        <argsstring></argsstring>
+        <name>head_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::head_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Next write position. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="119" column="34" bodyfile="include/themis/gpu/audit_log.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aae615166631317447a0f4688b446db7a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAuditLog::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events currently in buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="120" column="34" bodyfile="include/themis/gpu/audit_log.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a6306646a5eca37c280b54050ea44c1f7" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUAuditLog::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::total_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime event count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="121" column="34" bodyfile="include/themis/gpu/audit_log.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUAuditLog::GPUAuditLog</definition>
+        <argsstring>(size_t capacity=1024)</argsstring>
+        <name>GPUAuditLog</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::GPUAuditLog</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+          <defval>1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum events kept. When the buffer is full the oldest event is overwritten (ring buffer semantics). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="67" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1af50c9c0c8b5f22e2e16d9fbc7689df01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUAuditLog::GPUAuditLog</definition>
+        <argsstring>(const GPUAuditLog &amp;)=delete</argsstring>
+        <name>GPUAuditLog</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::GPUAuditLog</qualifiedname>
+        <param>
+          <type>const GPUAuditLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a9d418fc36bafe35cdaa620f4d60c4ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref> &amp;</type>
+        <definition>GPUAuditLog &amp; themis::gpu::GPUAuditLog::operator=</definition>
+        <argsstring>(const GPUAuditLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="71" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a70c05e11b4d90a788804a4062e3f99c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::record</definition>
+        <argsstring>(EventType type, uint64_t size_bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;, const std::string &amp;message=&quot;&quot;)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::record</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" kindref="member">EventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="76" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4ca16de7d8ab92ad0fca817d81bc7e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordAllocSuccess</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordAllocSuccess</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordAllocSuccess</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="83" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ad1753770089f96dbfb2eed9d21479a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordAllocFailGlobalLimit</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordAllocFailGlobalLimit</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordAllocFailGlobalLimit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="85" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a25843b530e4e8221bb9d430a2f179d2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordAllocFailTenantQuota</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tag, const std::string &amp;tenant_id)</argsstring>
+        <name>recordAllocFailTenantQuota</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordAllocFailTenantQuota</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="87" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aab5ae104592ea3eb7d447f34a7faebbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordDealloc</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordDealloc</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordDealloc</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="89" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f5b29dea11d520ec6e3518a8ff1a09c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordFallbackToCPU</definition>
+        <argsstring>(const std::string &amp;reason, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordFallbackToCPU</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordFallbackToCPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="91" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f48da7a0f00c12bcf1647a1c0e9a635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordDeviceUnavailable</definition>
+        <argsstring>(const std::string &amp;detail)</argsstring>
+        <name>recordDeviceUnavailable</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordDeviceUnavailable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="93" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a440952058c12a9f3a8e0a97adc01e283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordCircuitOpened</definition>
+        <argsstring>(const std::string &amp;detail)</argsstring>
+        <name>recordCircuitOpened</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordCircuitOpened</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="94" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4b6ebc34bc1f2c9e45ff53d50d1a9814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::recordCircuitReset</definition>
+        <argsstring>()</argsstring>
+        <name>recordCircuitReset</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::recordCircuitReset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="95" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a1b30f5d8458e67384e8cb07289c1e7d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt; Event &gt; themis::gpu::GPUAuditLog::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::snapshot</qualifiedname>
+        <briefdescription>
+<para>Snapshot of all events currently in the ring buffer (oldest-first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="101" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7b6fcc75387471f958b892a77c7367b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAuditLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::size</qualifiedname>
+        <briefdescription>
+<para>Number of events currently stored (≤ capacity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="104" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aefefd75930c5785cc7049f9f19827b45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAuditLog::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::capacity</qualifiedname>
+        <briefdescription>
+<para>Capacity of the ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="107" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a695bd47f0dbe1266ebabe070a5849679" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUAuditLog::totalRecorded</definition>
+        <argsstring>() const</argsstring>
+        <name>totalRecorded</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::totalRecorded</qualifiedname>
+        <briefdescription>
+<para>Total events recorded since construction (may exceed capacity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="110" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a55cfc33ca8f62d3734546ff71d8b2809" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAuditLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="113" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured audit event log for GPU operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records alloc/free/failure/fallback events in an in-process ring buffer. Designed for lightweight compliance tracing: no I/O dependency, no heap allocation per event (the ring buffer is pre-allocated).</para>
+<para>Thread safety: all methods are protected by an internal mutex. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/audit_log.h" line="32" column="1" bodyfile="include/themis/gpu/audit_log.h" bodystart="32" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aefefd75930c5785cc7049f9f19827b45" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a761a1581213db13b3ab64b84f71713af" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a55cfc33ca8f62d3734546ff71d8b2809" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>clear</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aae615166631317447a0f4688b446db7a" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>EventType</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>GPUAuditLog</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1af50c9c0c8b5f22e2e16d9fbc7689df01" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>GPUAuditLog</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a36d20c5377215394f5fbf0279fac06c5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>head_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a474ee616f284a41afcef750f8eb1f80c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a9d418fc36bafe35cdaa620f4d60c4ead" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a70c05e11b4d90a788804a4062e3f99c3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ad1753770089f96dbfb2eed9d21479a2d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordAllocFailGlobalLimit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a25843b530e4e8221bb9d430a2f179d2c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordAllocFailTenantQuota</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4ca16de7d8ab92ad0fca817d81bc7e91" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordAllocSuccess</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a440952058c12a9f3a8e0a97adc01e283" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordCircuitOpened</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4b6ebc34bc1f2c9e45ff53d50d1a9814" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordCircuitReset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aab5ae104592ea3eb7d447f34a7faebbb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordDealloc</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f48da7a0f00c12bcf1647a1c0e9a635" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordDeviceUnavailable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f5b29dea11d520ec6e3518a8ff1a09c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>recordFallbackToCPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ab17a86a3e9efd892b4dc591ee0c15012" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7b6fcc75387471f958b892a77c7367b9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a1b30f5d8458e67384e8cb07289c1e7d5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a6306646a5eca37c280b54050ea44c1f7" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>total_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a695bd47f0dbe1266ebabe070a5849679" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog</scope><name>totalRecorded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

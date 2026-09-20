@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classtesting_1_1_test" kind="class" language="C++" prot="public">
+    <compoundname>testing::Test</compoundname>
+    <derivedcompoundref refid="class_arrow_export_test" prot="public" virt="non-virtual">ArrowExportTest</derivedcompoundref>
+    <derivedcompoundref refid="class_binary_class_test" prot="public" virt="non-virtual">BinaryClassTest</derivedcompoundref>
+    <derivedcompoundref refid="class_c_e_p_engine_test" prot="public" virt="non-virtual">CEPEngineTest</derivedcompoundref>
+    <derivedcompoundref refid="class_distributed_analytics_safety_test" prot="public" virt="non-virtual">DistributedAnalyticsSafetyTest</derivedcompoundref>
+    <derivedcompoundref refid="class_event_stream_test" prot="public" virt="non-virtual">EventStreamTest</derivedcompoundref>
+    <derivedcompoundref refid="class_hopping_window_test" prot="public" virt="non-virtual">HoppingWindowTest</derivedcompoundref>
+    <derivedcompoundref refid="class_l_l_m_process_analyzer_no_cache_test" prot="public" virt="non-virtual">LLMProcessAnalyzerNoCacheTest</derivedcompoundref>
+    <derivedcompoundref refid="class_l_l_m_process_analyzer_test" prot="public" virt="non-virtual">LLMProcessAnalyzerTest</derivedcompoundref>
+    <derivedcompoundref refid="class_pattern_matcher_test" prot="public" virt="non-virtual">PatternMatcherTest</derivedcompoundref>
+    <derivedcompoundref refid="class_process_pattern_matcher_algo_test" prot="public" virt="non-virtual">ProcessPatternMatcherAlgoTest</derivedcompoundref>
+    <derivedcompoundref refid="class_process_pattern_matcher_d_b_test" prot="public" virt="non-virtual">ProcessPatternMatcherDBTest</derivedcompoundref>
+    <derivedcompoundref refid="class_regression_test" prot="public" virt="non-virtual">RegressionTest</derivedcompoundref>
+    <derivedcompoundref refid="class_rule_engine_test" prot="public" virt="non-virtual">RuleEngineTest</derivedcompoundref>
+    <derivedcompoundref refid="class_session_window_test" prot="public" virt="non-virtual">SessionWindowTest</derivedcompoundref>
+    <derivedcompoundref refid="class_sliding_window_test" prot="public" virt="non-virtual">SlidingWindowTest</derivedcompoundref>
+    <derivedcompoundref refid="class_streaming_test" prot="public" virt="non-virtual">StreamingTest</derivedcompoundref>
+    <derivedcompoundref refid="class_tumbling_window_test" prot="public" virt="non-virtual">TumblingWindowTest</derivedcompoundref>
+    <derivedcompoundref refid="class_window_manager_test" prot="public" virt="non-virtual">WindowManagerTest</derivedcompoundref>
+    <derivedcompoundref refid="class_z_score_test" prot="public" virt="non-virtual">ZScoreTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" prot="public" virt="non-virtual">themis::analytics::test::ConcurrencySafetyTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" prot="public" virt="non-virtual">themis::analytics::test::ErrorHandlingTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" prot="public" virt="non-virtual">themis::analytics::test::MemorySafetyTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" prot="public" virt="non-virtual">themis::analytics::test::ResourcePoolingTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_alignment_conformance_test" prot="public" virt="non-virtual">themis::test::AlignmentConformanceTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_inductive_miner_test" prot="public" virt="non-virtual">themis::test::InductiveMinerTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" prot="public" virt="non-virtual">themis::test::ProcessMiningLLMTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" prot="public" virt="non-virtual">themisdb::analytics::AN1RetryTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test" prot="public" virt="non-virtual">themisdb::analytics::CircuitBreakerTransitionTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test" prot="public" virt="non-virtual">themisdb::analytics::ConcurrencyGuardTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test" prot="public" virt="non-virtual">themisdb::analytics::SafetyControlsIntegrationTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test" prot="public" virt="non-virtual">themisdb::analytics::TimeoutRecoveryTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" prot="public" virt="non-virtual">themisdb::analytics::test::AnalyticsPhase2A2Test</derivedcompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void testing::Test::SetUp</definition>
+        <argsstring>()</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>testing::Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/basic_compile_check.cpp" line="3" column="43" bodyfile="tests/analytics/basic_compile_check.cpp" bodystart="3" bodyend="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void testing::Test::TearDown</definition>
+        <argsstring>()</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>testing::Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/basic_compile_check.cpp" line="3" column="55" bodyfile="tests/analytics/basic_compile_check.cpp" bodystart="3" bodyend="3"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ArrowExportTest</label>
+        <link refid="class_arrow_export_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BinaryClassTest</label>
+        <link refid="class_binary_class_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>CEPEngineTest</label>
+        <link refid="class_c_e_p_engine_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>DistributedAnalyticsSafetyTest</label>
+        <link refid="class_distributed_analytics_safety_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>EventStreamTest</label>
+        <link refid="class_event_stream_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>HoppingWindowTest</label>
+        <link refid="class_hopping_window_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>LLMProcessAnalyzerNoCacheTest</label>
+        <link refid="class_l_l_m_process_analyzer_no_cache_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>LLMProcessAnalyzerTest</label>
+        <link refid="class_l_l_m_process_analyzer_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>PatternMatcherTest</label>
+        <link refid="class_pattern_matcher_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ProcessPatternMatcherAlgoTest</label>
+        <link refid="class_process_pattern_matcher_algo_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ProcessPatternMatcherDBTest</label>
+        <link refid="class_process_pattern_matcher_d_b_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>RegressionTest</label>
+        <link refid="class_regression_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>RuleEngineTest</label>
+        <link refid="class_rule_engine_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>SessionWindowTest</label>
+        <link refid="class_session_window_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>SlidingWindowTest</label>
+        <link refid="class_sliding_window_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>StreamingTest</label>
+        <link refid="class_streaming_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>TumblingWindowTest</label>
+        <link refid="class_tumbling_window_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>WindowManagerTest</label>
+        <link refid="class_window_manager_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>ZScoreTest</label>
+        <link refid="class_z_score_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="21">
+        <label>themis::analytics::test::ConcurrencySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>themis::analytics::test::ErrorHandlingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>themis::analytics::test::MemorySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>themis::analytics::test::ResourcePoolingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>themis::test::AlignmentConformanceTest</label>
+        <link refid="classthemis_1_1test_1_1_alignment_conformance_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>themis::test::InductiveMinerTest</label>
+        <link refid="classthemis_1_1test_1_1_inductive_miner_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>themis::test::ProcessMiningLLMTest</label>
+        <link refid="classthemis_1_1test_1_1_process_mining_l_l_m_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>themisdb::analytics::AN1RetryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>themisdb::analytics::CircuitBreakerTransitionTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_circuit_breaker_transition_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>themisdb::analytics::ConcurrencyGuardTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_concurrency_guard_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>themisdb::analytics::SafetyControlsIntegrationTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>themisdb::analytics::TimeoutRecoveryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>themisdb::analytics::test::AnalyticsPhase2A2Test</label>
+        <link refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="tests/analytics/basic_compile_check.cpp" line="3" column="17" bodyfile="tests/analytics/basic_compile_check.cpp" bodystart="3" bodyend="3"/>
+    <listofallmembers>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>testing::Test</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>testing::Test</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

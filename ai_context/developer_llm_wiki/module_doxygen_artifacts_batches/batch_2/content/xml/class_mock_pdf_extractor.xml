@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_pdf_extractor" kind="class" language="C++" prot="public">
+    <compoundname>MockPdfExtractor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFormatExtractor</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_pdf_extractor_1ad78f76180cdfac603caddfa676f89023" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockPdfExtractor::mimes_</definition>
+        <argsstring></argsstring>
+        <name>mimes_</name>
+        <qualifiedname>MockPdfExtractor::mimes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="144" column="17" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_pdf_extractor_1af656a604a81feaf163cff018d424645a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockPdfExtractor::MockPdfExtractor</definition>
+        <argsstring>(std::vector&lt; std::string &gt; mimes={&quot;application/pdf&quot;})</argsstring>
+        <name>MockPdfExtractor</name>
+        <qualifiedname>MockPdfExtractor::MockPdfExtractor</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>mimes</declname>
+          <defval>{&quot;application/pdf&quot;}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="126" column="14" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="126" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_pdf_extractor_1a2e0204767d4b7303d7af3b58e5eb26f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>FormatExtractResult</type>
+        <definition>FormatExtractResult MockPdfExtractor::extract</definition>
+        <argsstring>(std::span&lt; const std::byte &gt;, const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>MockPdfExtractor::extract</qualifiedname>
+        <param>
+          <type>std::span&lt; const std::byte &gt;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="129" column="25" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_pdf_extractor_1a34dc6e63494dd1d1eac86f83828f5c33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockPdfExtractor::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>MockPdfExtractor::supportedMimeTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="140" column="17" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_pdf_extractor_1a879705e37d4109ef19df846208f9f76e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * MockPdfExtractor::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>MockPdfExtractor::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_toolbox_bridge.cpp" line="141" column="16" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFormatExtractor</label>
+      </node>
+      <node id="1">
+        <label>MockPdfExtractor</label>
+        <link refid="class_mock_pdf_extractor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFormatExtractor</label>
+      </node>
+      <node id="1">
+        <label>MockPdfExtractor</label>
+        <link refid="class_mock_pdf_extractor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_toolbox_bridge.cpp" line="124" column="1" bodyfile="tests/content/test_content_toolbox_bridge.cpp" bodystart="124" bodyend="145"/>
+    <listofallmembers>
+      <member refid="class_mock_pdf_extractor_1a2e0204767d4b7303d7af3b58e5eb26f1" prot="public" virt="non-virtual"><scope>MockPdfExtractor</scope><name>extract</name></member>
+      <member refid="class_mock_pdf_extractor_1ad78f76180cdfac603caddfa676f89023" prot="private" virt="non-virtual"><scope>MockPdfExtractor</scope><name>mimes_</name></member>
+      <member refid="class_mock_pdf_extractor_1af656a604a81feaf163cff018d424645a" prot="public" virt="non-virtual"><scope>MockPdfExtractor</scope><name>MockPdfExtractor</name></member>
+      <member refid="class_mock_pdf_extractor_1a879705e37d4109ef19df846208f9f76e" prot="public" virt="non-virtual"><scope>MockPdfExtractor</scope><name>name</name></member>
+      <member refid="class_mock_pdf_extractor_1a34dc6e63494dd1d1eac86f83828f5c33" prot="public" virt="non-virtual"><scope>MockPdfExtractor</scope><name>supportedMimeTypes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::SessionConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1a85d726375aaddff639d8b1d592a6052b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::AccessControl::Config::SessionConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::security::AccessControl::Config::SessionConfig::timeout</qualifiedname>
+        <initializer>= std::chrono::hours(8)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="65" column="34" bodyfile="include/security/access_control.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1aa9e5b5c2c87feb83a5fea9a120965d37" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::AccessControl::Config::SessionConfig::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::security::AccessControl::Config::SessionConfig::idle_timeout</qualifiedname>
+        <initializer>= std::chrono::minutes(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="66" column="34" bodyfile="include/security/access_control.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ae5f4102ae7361beead3734ffc0e83f0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::SessionConfig::require_mfa</definition>
+        <argsstring></argsstring>
+        <name>require_mfa</name>
+        <qualifiedname>themis::security::AccessControl::Config::SessionConfig::require_mfa</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="67" column="18" bodyfile="include/security/access_control.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ad1689760c590a2ae06f201152bd1c2ab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AccessControl::Config::SessionConfig::max_concurrent_sessions</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_sessions</name>
+        <qualifiedname>themis::security::AccessControl::Config::SessionConfig::max_concurrent_sessions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="68" column="17" bodyfile="include/security/access_control.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ac6d81a02e1cced16965d3ba638837824" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AccessControl::Config::SessionConfig::mfa_required_roles</definition>
+        <argsstring></argsstring>
+        <name>mfa_required_roles</name>
+        <qualifiedname>themis::security::AccessControl::Config::SessionConfig::mfa_required_roles</qualifiedname>
+        <initializer>= {&quot;admin&quot;, &quot;operator&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="76" column="25" bodyfile="include/security/access_control.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="64" column="9" bodyfile="include/security/access_control.h" bodystart="64" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1aa9e5b5c2c87feb83a5fea9a120965d37" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::SessionConfig</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ad1689760c590a2ae06f201152bd1c2ab" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::SessionConfig</scope><name>max_concurrent_sessions</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ac6d81a02e1cced16965d3ba638837824" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::SessionConfig</scope><name>mfa_required_roles</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1ae5f4102ae7361beead3734ffc0e83f0d" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::SessionConfig</scope><name>require_mfa</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config_1a85d726375aaddff639d8b1d592a6052b" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::SessionConfig</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

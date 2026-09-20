@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wasm__kernel__sandbox_8h" kind="file" language="C++">
+    <compoundname>wasm_kernel_sandbox.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="kernel__validator_8h" local="yes">themis/gpu/kernel_validator.h</includes>
+    <includes refid="launcher_8h" local="yes">themis/gpu/launcher.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>themis/gpu/kernel_validator.h</label>
+        <link refid="kernel__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis/gpu/launcher.h</label>
+        <link refid="launcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/wasm_kernel_sandbox.h</label>
+        <link refid="wasm__kernel__sandbox_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox" prot="public">themis::gpu::WASMKernelSandbox</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" prot="public">themis::gpu::WASMKernelSandbox::SandboxConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" prot="public">themis::gpu::WASMKernelSandbox::ExecutionResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats" prot="public">themis::gpu::WASMKernelSandbox::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__validator_8h" kindref="compound">themis/gpu/kernel_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="launcher_8h" kindref="compound">themis/gpu/launcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sandbox<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kindref="compound">SandboxConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a07abc5c1682bbe462b2b51959fdd1f21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a07abc5c1682bbe462b2b51959fdd1f21" kindref="member">memory_limit_bytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>MiB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1ab3bd0d6bce419740614e399209c1b211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1ab3bd0d6bce419740614e399209c1b211" kindref="member">max_execution_ms</ref><sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>s<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a40b0daf8ed80648d991cf74e382bbf1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config_1a40b0daf8ed80648d991cf74e382bbf1d" kindref="member">allow_host_calls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9e" kindref="member">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eaec6ad1bf2dbcdf53194755202487d3a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eaec6ad1bf2dbcdf53194755202487d3a7" kindref="member">REJECTED_NOT_WHITELISTED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eacd281c95b067f464a8b8fcf1fd461d62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eacd281c95b067f464a8b8fcf1fd461d62" kindref="member">REJECTED_CHECKSUM_MISMATCH</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ea9d4a1121e62299d0697cd34f786274b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ea9d4a1121e62299d0697cd34f786274b1" kindref="member">REJECTED_EMPTY_BLOB</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eaa9d5e64aedb7f6d7d5c4d7ab286573ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eaa9d5e64aedb7f6d7d5c4d7ab286573ce" kindref="member">REJECTED_FEATURE_DISABLED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eac4c5167695223fbb1b78b422201b963c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eac4c5167695223fbb1b78b422201b963c" kindref="member">REJECTED_MEMORY_LIMIT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ea3743cc9e7969694aecec5e7760c3ea58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ea3743cc9e7969694aecec5e7760c3ea58" kindref="member">REJECTED_TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ead070f907ce6fbe460b8644bc4e240f6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ead070f907ce6fbe460b8644bc4e240f6c" kindref="member">EXECUTION_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" kindref="compound">ExecutionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1aada6cc221e7c4d6a1e65bfeb9ef7a2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9e" kindref="member">Status</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1aada6cc221e7c4d6a1e65bfeb9ef7a2dc" kindref="member">status</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ead070f907ce6fbe460b8644bc4e240f6c" kindref="member">Status::EXECUTION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1abbcdcce39c127ec4c04cb854b5a33faa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1abbcdcce39c127ec4c04cb854b5a33faa" kindref="member">kernel_id</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a534a79a28c560153d27c8d06ba635b0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a534a79a28c560153d27c8d06ba635b0b" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1ac6eb3974894cb83c3e5a566bdb26c285" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1ac6eb3974894cb83c3e5a566bdb26c285" kindref="member">elapsed</ref>{0};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a6ddd28a16023410fc470fa128cc4790e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a6ddd28a16023410fc470fa128cc4790e" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1aada6cc221e7c4d6a1e65bfeb9ef7a2dc" kindref="member">status</ref><sp/>==<sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9eae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">Status::OK</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a7e41a319221b49642a6464dc959700e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a7e41a319221b49642a6464dc959700e2" kindref="member">total_submitted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a6da01ad54f160af6a98b7f0d1a44f95a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a6da01ad54f160af6a98b7f0d1a44f95a" kindref="member">ok_count</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1aa9a1b565fb5c6932ad560ff05b4e62c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1aa9a1b565fb5c6932ad560ff05b4e62c9" kindref="member">rejected_not_whitelisted</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a257a0bada397fc7d000be444cd9df0bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a257a0bada397fc7d000be444cd9df0bd" kindref="member">rejected_checksum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a37538886dd6bcd2f769ffe6c1f62a83d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a37538886dd6bcd2f769ffe6c1f62a83d" kindref="member">rejected_empty</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1ac566288b2686fd6246308f79a59a7d28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1ac566288b2686fd6246308f79a59a7d28" kindref="member">rejected_feature_disabled</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a09b3b7f614f9745346e6f5e8ce10aa16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a09b3b7f614f9745346e6f5e8ce10aa16" kindref="member">rejected_memory_limit</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1aeb03034e9f32a565db4030ab53506ad3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1aeb03034e9f32a565db4030ab53506ad3" kindref="member">rejected_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a2867e07c91c86fd9ff20a04b61fdf1de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a2867e07c91c86fd9ff20a04b61fdf1de" kindref="member">execution_errors</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a9e6c96571755a2a4f936125957b1488b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats_1a9e6c96571755a2a4f936125957b1488b" kindref="member">total_elapsed_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a24ceb0595da71bbae42d6e8d99b6ff6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a24ceb0595da71bbae42d6e8d99b6ff6c" kindref="member">GetInstance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a6d50105679912e5d6ecc1095524b0c9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a6d50105679912e5d6ecc1095524b0c9a" kindref="member">WASMKernelSandbox</ref>(<ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kindref="compound">SandboxConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a214b353a4249d437ffa035878fa487cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a214b353a4249d437ffa035878fa487cd" kindref="member">WASMKernelSandbox</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a165114847a5f59006f7cfe7ed295e238" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a165114847a5f59006f7cfe7ed295e238" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a5390a8784245af856c43fbe3d6c6bec6" kindref="member">WASMKernelSandbox</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a48fc281c2297a273f15ac1ddb0530fea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a48fc281c2297a273f15ac1ddb0530fea" kindref="member">setConfig</ref>(<ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kindref="compound">SandboxConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a24dad8ff9c241b9cef594564c129bc60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kindref="compound">SandboxConfig</ref><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a24dad8ff9c241b9cef594564c129bc60" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab46e501e6d894f5bed1491c42a29f8d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab46e501e6d894f5bed1491c42a29f8d8" kindref="member">isWASMSupported</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab62b8b48ebc6f2d281ee0044e0217960" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" kindref="compound">ExecutionResult</ref><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab62b8b48ebc6f2d281ee0044e0217960" kindref="member">execute</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kernel_id,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref>::BackendFn<sp/><sp/><sp/><sp/><sp/><sp/>backend<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab222a776c16bf9f1f4cb60a912f905d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1ab222a776c16bf9f1f4cb60a912f905d3" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a3c028a98278673e73005895e07f619a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a3c028a98278673e73005895e07f619a7" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_sandbox_config" kindref="compound">SandboxConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutable<sp/>counters<sp/>(updated<sp/>under<sp/>mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>total_submitted_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>ok_count_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_not_whitelisted_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_checksum_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_empty_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_feature_disabled_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_memory_limit_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>rejected_timeout_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>execution_errors_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>uint64_t<sp/>total_elapsed_ms_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helper:<sp/>execute<sp/>the<sp/>kernel<sp/>payload<sp/>under<sp/>CPU<sp/>simulation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assumes<sp/>the<sp/>mutex<sp/>is<sp/>NOT<sp/>held.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" kindref="compound">ExecutionResult</ref><sp/>runInSandbox(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kernel_id,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref>::BackendFn<sp/><sp/><sp/><sp/><sp/><sp/>backend);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordResult(const<sp/><ref refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" kindref="compound">ExecutionResult</ref>&amp;<sp/>r);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="namespacethemis_1_1gpu_1a1b5f70fccc072c16db28bf5e86036ab4" refkind="member"><highlight class="normal">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1gpu_1a1b5f70fccc072c16db28bf5e86036ab4" kindref="member">sandboxStatusName</ref>(<ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox" kindref="compound">WASMKernelSandbox</ref>::<ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9e" kindref="member">Status</ref><sp/>s)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/wasm_kernel_sandbox.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_optimized_config" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchOptimizedConfig</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_optimized_config_1a19678cb114e3340c671e03ba44f266c7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; ParallelityBenchOptimizedConfig::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ParallelityBenchOptimizedConfig::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2550" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_optimized_config_1a3ae37fdbdf266b04c1867d1ceae07b72" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ParallelityBenchOptimizedConfig::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>ParallelityBenchOptimizedConfig::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2551" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2551" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_optimized_config_1a38249bc86fc9d6e4d799268c0783fd5a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchOptimizedConfig::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchOptimizedConfig::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2538" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2538" bodyend="2542"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_optimized_config_1acc8466bed69cd710824455aa1deb9fb4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchOptimizedConfig::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchOptimizedConfig::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2544" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2544" bodyend="2547"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 3: Test RocksDB configuration tuning for parallel workloads</para>
+<para>Strategy: Use optimized RocksDB settings to improve parallel write throughput</para>
+<para>Key optimizations:<itemizedlist>
+<listitem><para>max_background_jobs = 16 (more compaction/flush threads)</para>
+</listitem><listitem><para>max_write_buffer_number = 8 (more memtables for concurrent writes)</para>
+</listitem><listitem><para>memtable_size_mb = 128 (larger buffers reduce flush frequency)</para>
+</listitem><listitem><para>enable_wal = false (remove WAL overhead for benchmarks) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchOptimizedConfig</label>
+        <link refid="class_parallelity_bench_optimized_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchOptimizedConfig</label>
+        <link refid="class_parallelity_bench_optimized_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2536" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2536" bodyend="2552"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_optimized_config_1a19678cb114e3340c671e03ba44f266c7" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimizedConfig</scope><name>fixture_</name></member>
+      <member refid="class_parallelity_bench_optimized_config_1a38249bc86fc9d6e4d799268c0783fd5a" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimizedConfig</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_optimized_config_1a3ae37fdbdf266b04c1867d1ceae07b72" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimizedConfig</scope><name>sim_</name></member>
+      <member refid="class_parallelity_bench_optimized_config_1acc8466bed69cd710824455aa1deb9fb4" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimizedConfig</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

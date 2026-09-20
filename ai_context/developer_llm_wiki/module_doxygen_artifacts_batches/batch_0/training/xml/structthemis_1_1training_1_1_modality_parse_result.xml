@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_modality_parse_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ModalityParseResult</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_result_1aa2c3be2d01fe09652a3bd5f092fc0c5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ModalityParseResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::training::ModalityParseResult::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="83" column="17" bodyfile="include/training/modality_parser.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_result_1afcf8f1aefd82163242bb735f7fa564f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt;TrainingSample&gt; themis::training::ModalityParseResult::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::training::ModalityParseResult::samples</qualifiedname>
+        <briefdescription>
+<para>All extracted samples (all modalities). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="84" column="17" bodyfile="include/training/modality_parser.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_result_1a1858b8fe27b4824accb9cdc20ed57d04" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parse_stats" kindref="compound">ModalityParseStats</ref></type>
+        <definition>ModalityParseStats themis::training::ModalityParseResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::training::ModalityParseResult::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="85" column="24" bodyfile="include/training/modality_parser.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_result_1a056cf2f48c07d2680d8136540c860373" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ModalityParseResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::ModalityParseResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="86" column="10" bodyfile="include/training/modality_parser.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_result_1a0d59374735a01a40a3c3256a185bc0b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ModalityParseResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::ModalityParseResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="87" column="17" bodyfile="include/training/modality_parser.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_modality_parse_result_1a5ed20652b689e3224d1dcc89bd1fbd01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityParseResult::ModalityParseResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModalityParseResult</name>
+        <qualifiedname>themis::training::ModalityParseResult::ModalityParseResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="89" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extraction result for a single document. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::ModalityParseResult</label>
+        <link refid="structthemis_1_1training_1_1_modality_parse_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::ModalityParseStats</label>
+        <link refid="structthemis_1_1training_1_1_modality_parse_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/modality_parser.h" line="82" column="1" bodyfile="include/training/modality_parser.h" bodystart="82" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1aa2c3be2d01fe09652a3bd5f092fc0c5e" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1a0d59374735a01a40a3c3256a185bc0b8" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1a5ed20652b689e3224d1dcc89bd1fbd01" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>ModalityParseResult</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1afcf8f1aefd82163242bb735f7fa564f2" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>samples</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1a1858b8fe27b4824accb9cdc20ed57d04" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>stats</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_result_1a056cf2f48c07d2680d8136540c860373" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_export_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ExportResult</compoundname>
+    <includes refid="analytics__export_8h" local="no">analytics_export.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7" kindref="member">ExportStatus</ref></type>
+        <definition>ExportStatus themis::analytics::ExportResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::analytics::ExportResult::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="54" column="18" bodyfile="include/analytics/analytics_export.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1a0a49b28cf4d76ba38e90759be1371d1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ExportResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::analytics::ExportResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="55" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1ab840075ff91e93678f08dd72e63063b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ExportResult::rows_exported</definition>
+        <argsstring></argsstring>
+        <name>rows_exported</name>
+        <qualifiedname>themis::analytics::ExportResult::rows_exported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="56" column="12" bodyfile="include/analytics/analytics_export.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1a4f97358a65fb75300f95b73b898a2712" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ExportResult::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::analytics::ExportResult::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="57" column="12" bodyfile="include/analytics/analytics_export.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1a11fd73f5953a5656f8c21695b5f1af3f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::ExportResult::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::analytics::ExportResult::duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="58" column="12" bodyfile="include/analytics/analytics_export.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ExportResult::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themis::analytics::ExportResult::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="59" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ExportResult::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::analytics::ExportResult::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="60" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ExportResult::failure_class</definition>
+        <argsstring></argsstring>
+        <name>failure_class</name>
+        <qualifiedname>themis::analytics::ExportResult::failure_class</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="61" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::ExportResult::operator_hints</definition>
+        <argsstring></argsstring>
+        <name>operator_hints</name>
+        <qualifiedname>themis::analytics::ExportResult::operator_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="62" column="17" bodyfile="include/analytics/analytics_export.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_export.h" line="53" column="1" bodyfile="include/analytics/analytics_export.h" bodystart="53" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1a4f97358a65fb75300f95b73b898a2712" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1a11fd73f5953a5656f8c21695b5f1af3f" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>failure_class</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1a0a49b28cf4d76ba38e90759be1371d1d" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>operation_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>operator_hints</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1ab840075ff91e93678f08dd72e63063b5" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>rows_exported</name></member>
+      <member refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" prot="public" virt="non-virtual"><scope>themis::analytics::ExportResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

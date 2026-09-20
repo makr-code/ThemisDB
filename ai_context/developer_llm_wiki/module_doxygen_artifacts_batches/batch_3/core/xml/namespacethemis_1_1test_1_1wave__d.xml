@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_config_store" prot="public">themis::test::wave_d::StubConfigStore</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle" prot="public">themis::test::wave_d::StubModuleLifecycle</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter" prot="public">themis::test::wave_d::StubSpanExporter</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a08a1ba743d3e17e3b8a7105578f3d2dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_CoreStress, HighCardinalityConfigUpdate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_CoreStress</type>
+        </param>
+        <param>
+          <type>HighCardinalityConfigUpdate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="120" column="1" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="120" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1afee71f8ba27c04abd35a5ecfd68322dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_CoreStress, ConcurrentModuleInitStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_CoreStress</type>
+        </param>
+        <param>
+          <type>ConcurrentModuleInitStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="152" column="1" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="152" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1aeddcf89942b9a6ca9c687a91c9a1adf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_CoreStress, TracingExporterHighLoad)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_CoreStress</type>
+        </param>
+        <param>
+          <type>TracingExporterHighLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="185" column="1" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="185" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/core/test_core_highcardinality_stress.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_planner_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::PlannerDecision</compoundname>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a987886017f10b55e5c6b532a1007d44e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adc" kindref="member">ExecutionPath</ref></type>
+        <definition>ExecutionPath themis::evaluation::PlannerDecision::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::path</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcadefc5c9258471d12484c76a1b8ec77f5" kindref="member">ExecutionPath::DirectExactGraph</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="214" column="19" bodyfile="src/evaluation/include/query_planner.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a1e937e11ad0828d2a86d7a68756b8ac0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" kindref="member">FallbackReason</ref></type>
+        <definition>FallbackReason themis::evaluation::PlannerDecision::fallback_reason</definition>
+        <argsstring></argsstring>
+        <name>fallback_reason</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::fallback_reason</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">FallbackReason::None</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="216" column="20" bodyfile="src/evaluation/include/query_planner.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a99f4d89d8ba0edc3a23f2fe032029741" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::PlannerDecision::decision_note</definition>
+        <argsstring></argsstring>
+        <name>decision_note</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::decision_note</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="218" column="17" bodyfile="src/evaluation/include/query_planner.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1aa22a82ad838d8002d1c6410760a9f918" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::PlannerDecision::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="220" column="17" bodyfile="src/evaluation/include/query_planner.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a75811c7c5d4b5c9ff5a6930c67745ef8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::PlannerDecision::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="222" column="17" bodyfile="src/evaluation/include/query_planner.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a5935521a08c76afebe1a194e5ff31f9e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::PlannerDecision::uses_gpu</definition>
+        <argsstring></argsstring>
+        <name>uses_gpu</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::uses_gpu</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="224" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a2bad19f8f4b0024bfe3b340ae5acbb1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::PlannerDecision::uses_tensor</definition>
+        <argsstring></argsstring>
+        <name>uses_tensor</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::uses_tensor</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="226" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_decision_1a43c79fdaa1d2c9150f68d94870037beb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::PlannerDecision::uses_exact_graph</definition>
+        <argsstring></argsstring>
+        <name>uses_exact_graph</name>
+        <qualifiedname>themis::evaluation::PlannerDecision::uses_exact_graph</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="228" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/query_planner.h" line="213" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="213" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1aa22a82ad838d8002d1c6410760a9f918" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a75811c7c5d4b5c9ff5a6930c67745ef8" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a99f4d89d8ba0edc3a23f2fe032029741" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>decision_note</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a1e937e11ad0828d2a86d7a68756b8ac0" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>fallback_reason</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a987886017f10b55e5c6b532a1007d44e" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>path</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a43c79fdaa1d2c9150f68d94870037beb" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>uses_exact_graph</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a5935521a08c76afebe1a194e5ff31f9e" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>uses_gpu</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a2bad19f8f4b0024bfe3b340ae5acbb1d" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerDecision</scope><name>uses_tensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

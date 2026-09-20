@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1multimodal" kind="namespace" language="C++">
+    <compoundname>themis::rag::multimodal</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" prot="public">themis::rag::multimodal::ImageDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" prot="public">themis::rag::multimodal::MultiModalQuery</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" prot="public">themis::rag::multimodal::MultiModalSource</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" prot="public">themis::rag::multimodal::MultiModalRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" prot="public">themis::rag::multimodal::MultiModalRAGConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" prot="public">themis::rag::multimodal::MultiModalRAG</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory" prot="public">themis::rag::multimodal::MultiModalRAGFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Modality</name>
+        <qualifiedname>themis::rag::multimodal::Modality</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+<para>Textual passage from a document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda23a12f67f614b5518c7f1c2465bf95e3" prot="public">
+          <name>IMAGE</name>
+          <briefdescription>
+<para>Image or chart retrieved via embedding similarity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda34bbae0aee41ddd6a73697584a20afc6" prot="public">
+          <name>TABLE</name>
+          <briefdescription>
+<para>Structured table extracted from a document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Data modality of a retrieved source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="30" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="30" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;(const std::string &amp;<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>, size_t top_k)&gt;</type>
+        <definition>using themis::rag::multimodal::TextRetrievalFn = std::function&lt;
+   std::vector&lt;judge::RetrievedDocument&gt;(const std::string&amp; query, size_t top_k)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TextRetrievalFn</name>
+        <qualifiedname>themis::rag::multimodal::TextRetrievalFn</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied text retrieval function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of documents to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Retrieved text documents; may be empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="174" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" kindref="compound">ImageDocument</ref> &gt;(const std::vector&lt; float &gt; &amp;embedding, size_t top_k)&gt;</type>
+        <definition>using themis::rag::multimodal::ImageRetrievalFn = std::function&lt;
+   std::vector&lt;ImageDocument&gt;(const std::vector&lt;float&gt;&amp; embedding, size_t top_k)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImageRetrievalFn</name>
+        <qualifiedname>themis::rag::multimodal::ImageRetrievalFn</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied image retrieval function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed query embedding (e.g. CLIP). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of images to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Retrieved image documents; may be empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="184" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" prot="public" static="no">
+        <type>std::function&lt; std::string(const <ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" kindref="compound">ImageDocument</ref> &amp;img)&gt;</type>
+        <definition>using themis::rag::multimodal::ImageCaptionFn = std::function&lt;std::string(const ImageDocument&amp; img)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImageCaptionFn</name>
+        <qualifiedname>themis::rag::multimodal::ImageCaptionFn</qualifiedname>
+        <briefdescription>
+<para>Optional caller-supplied image caption generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called for each image source that has no pre-computed caption.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>img</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The image document to caption. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A natural-language caption for the image. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="195" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

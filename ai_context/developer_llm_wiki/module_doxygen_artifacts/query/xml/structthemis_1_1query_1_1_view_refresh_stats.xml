@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_view_refresh_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ViewRefreshStats</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1a1f15a9350588781de985345b3b96e1b4" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::ViewRefreshStats::last_refresh</definition>
+        <argsstring></argsstring>
+        <name>last_refresh</name>
+        <qualifiedname>themis::query::ViewRefreshStats::last_refresh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="36" column="43" bodyfile="include/query/incremental_view.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1acd6c9a7ab517debc8b5927b4d30659e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ViewRefreshStats::last_refresh_ms</definition>
+        <argsstring></argsstring>
+        <name>last_refresh_ms</name>
+        <qualifiedname>themis::query::ViewRefreshStats::last_refresh_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="37" column="12" bodyfile="include/query/incremental_view.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1ab39a8be7084ccd808c16153a26bd6e96" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ViewRefreshStats::rows_updated</definition>
+        <argsstring></argsstring>
+        <name>rows_updated</name>
+        <qualifiedname>themis::query::ViewRefreshStats::rows_updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="38" column="12" bodyfile="include/query/incremental_view.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1ab93baebb0814125a874390481e815a08" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ViewRefreshStats::rows_deleted</definition>
+        <argsstring></argsstring>
+        <name>rows_deleted</name>
+        <qualifiedname>themis::query::ViewRefreshStats::rows_deleted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="39" column="12" bodyfile="include/query/incremental_view.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1a228a0eacee56a7d55192a89451f11f0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ViewRefreshStats::rows_inserted</definition>
+        <argsstring></argsstring>
+        <name>rows_inserted</name>
+        <qualifiedname>themis::query::ViewRefreshStats::rows_inserted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="40" column="12" bodyfile="include/query/incremental_view.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_refresh_stats_1a9fe5da50782ba62bd5644c2b58d49860" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ViewRefreshStats::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themis::query::ViewRefreshStats::is_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="41" column="10" bodyfile="include/query/incremental_view.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/incremental_view.h" line="35" column="1" bodyfile="include/query/incremental_view.h" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1a9fe5da50782ba62bd5644c2b58d49860" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>is_stale</name></member>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1a1f15a9350588781de985345b3b96e1b4" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>last_refresh</name></member>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1acd6c9a7ab517debc8b5927b4d30659e9" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>last_refresh_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1ab93baebb0814125a874390481e815a08" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>rows_deleted</name></member>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1a228a0eacee56a7d55192a89451f11f0b" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>rows_inserted</name></member>
+      <member refid="structthemis_1_1query_1_1_view_refresh_stats_1ab39a8be7084ccd808c16153a26bd6e96" prot="public" virt="non-virtual"><scope>themis::query::ViewRefreshStats</scope><name>rows_updated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

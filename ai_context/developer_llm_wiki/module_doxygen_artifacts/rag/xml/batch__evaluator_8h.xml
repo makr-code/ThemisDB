@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="batch__evaluator_8h" kind="file" language="C++">
+    <compoundname>batch_evaluator.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">future</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="batch__evaluator_8cpp" local="yes">src/rag/batch_evaluator.cpp</includedby>
+    <includedby refid="test__rag__batch__evaluator_8cpp" local="yes">tests/rag/test_rag_batch_evaluator.cpp</includedby>
+    <includedby refid="test__rag__pipeline__integration_8cpp" local="yes">tests/rag/test_rag_pipeline_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/batch_evaluator.h</label>
+        <link refid="batch__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>queue</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/batch_evaluator.h</label>
+        <link refid="batch__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/batch_evaluator.cpp</label>
+        <link refid="batch__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_batch_evaluator.cpp</label>
+        <link refid="test__rag__batch__evaluator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_pipeline_integration.cpp</label>
+        <link refid="test__rag__pipeline__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" prot="public">themis::rag::judge::BatchProgress</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" prot="public">themis::rag::judge::BatchEvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" prot="public">themis::rag::judge::BatchEvaluatorConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" prot="public">themis::rag::judge::AsyncEvaluationHandle</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" prot="public">themis::rag::judge::BatchEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_1_1_queued_evaluation" prot="private">themis::rag::judge::BatchEvaluator::QueuedEvaluation</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1rag_1_1judge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" kindref="compound">BatchProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a738038eb0a02643647ff02669791b5c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a738038eb0a02643647ff02669791b5c5" kindref="member">total_items</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a69b646e1eb65658d6d4d350235c0c22a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a69b646e1eb65658d6d4d350235c0c22a" kindref="member">completed_items</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a12554727db3b3c00233bc3d536f0dbcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a12554727db3b3c00233bc3d536f0dbcb" kindref="member">failed_items</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1afb20fa22abcfea38c9b40b4cc8b8d040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1afb20fa22abcfea38c9b40b4cc8b8d040" kindref="member">progress_percentage</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a6f1dc74b76ea855a2981589531fb4db0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a6f1dc74b76ea855a2981589531fb4db0" kindref="member">elapsed_time</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a43702be3768e19b406d7df9f8cdd12f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a43702be3768e19b406d7df9f8cdd12f4" kindref="member">estimated_time_remaining</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a53b313a9527fe8c53e380fe0633a1563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EvaluationResult&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a53b313a9527fe8c53e380fe0633a1563" kindref="member">results</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1af2f02d5e7a7b13a2341f1c63d518ce80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" kindref="compound">BatchProgress</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1af2f02d5e7a7b13a2341f1c63d518ce80" kindref="member">progress</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregated<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8c86508fdcb7ad157b830bd63ad6f09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8c86508fdcb7ad157b830bd63ad6f09" kindref="member">average_faithfulness</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a2e8ef29707413194736275ce9f9a00b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a2e8ef29707413194736275ce9f9a00b4" kindref="member">average_relevance</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a3fc3bf60825c5351c653a34bae3903ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a3fc3bf60825c5351c653a34bae3903ed" kindref="member">average_completeness</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a1914857ce6c0cb5d432165c86e653801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a1914857ce6c0cb5d432165c86e653801" kindref="member">average_coherence</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a0b36801737be1616bd7702e30e00a762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a0b36801737be1616bd7702e30e00a762" kindref="member">average_overall_score</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a50ac5b2874ffcd95d891003fa9d8a667" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a50ac5b2874ffcd95d891003fa9d8a667" kindref="member">passed_quality_threshold</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afadd22bc19208ebcfe869fe79b2162f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afadd22bc19208ebcfe869fe79b2162f2" kindref="member">failed_quality_threshold</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AI<sp/>Reliability<sp/>&amp;<sp/>Safety<sp/>scorecard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a6c0a33c087d989c3633ad246aab3669f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a6c0a33c087d989c3633ad246aab3669f" kindref="member">traceable_decisions</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ab684dadbbe4dc538ff8f96c80af0011d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ab684dadbbe4dc538ff8f96c80af0011d" kindref="member">untraceable_decisions</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ac791ac6b9ea99278c7d06904752b12d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ac791ac6b9ea99278c7d06904752b12d2" kindref="member">prompt_injection_cases</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8512dd7d8022977eec06c2f38cc438b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8512dd7d8022977eec06c2f38cc438b" kindref="member">prompt_injection_successes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae6f900f83f5efed2a40ebae87a2606a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae6f900f83f5efed2a40ebae87a2606a9" kindref="member">hallucination_rate</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a718e39b99c08a9c2e9a958b64367560f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a718e39b99c08a9c2e9a958b64367560f" kindref="member">groundedness_rate</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1acd0e543d075e0a26dc289f0d4fe255a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1acd0e543d075e0a26dc289f0d4fe255a0" kindref="member">prompt_injection_success_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a7222602db0b2d9e4821e8642ad8b4f1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a7222602db0b2d9e4821e8642ad8b4f1c" kindref="member">bias_fairness_drift_rate</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a248c7f133146beb71a2b37891cf742a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a248c7f133146beb71a2b37891cf742a8" kindref="member">cost_to_quality_efficiency</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a8334cadb47aa3db721b10fad35d730dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a8334cadb47aa3db721b10fad35d730dd" kindref="member">p95_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afb205526b5c668d059700336df7767c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afb205526b5c668d059700336df7767c9" kindref="member">release_gates_passed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a521c6a0191651c3b400beb2e015d633c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a521c6a0191651c3b400beb2e015d633c" kindref="member">failed_release_gates</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1abb7709f3295186fd8e7ae4874ed93bf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1abb7709f3295186fd8e7ae4874ed93bf4" kindref="member">total_time</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a939424eb59907f9a57bf39e79bceb7d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a939424eb59907f9a57bf39e79bceb7d2" kindref="member">batch_size</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a95b4a8c7b46b9092d857fdba9797e34a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a95b4a8c7b46b9092d857fdba9797e34a" kindref="member">num_workers</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8ceb4b9e8cba3e170dba3538e5d2ced4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8ceb4b9e8cba3e170dba3538e5d2ced4" kindref="member">enable_progress_tracking</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a1d5736330eaafea721a49866bcea6f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a1d5736330eaafea721a49866bcea6f6a" kindref="member">fail_fast</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8a2d6bbc70c75966c3cdecc1a5775b72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8a2d6bbc70c75966c3cdecc1a5775b72" kindref="member">timeout_per_item</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AI<sp/>Reliability<sp/>&amp;<sp/>Safety<sp/>gate<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8a78ca737d4b9fbd298498dbd431cca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a8a78ca737d4b9fbd298498dbd431cca9" kindref="member">hallucination_threshold</ref><sp/>=<sp/>0.20;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ac160e34a43df1fe9e4ec168ecfc5b11f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ac160e34a43df1fe9e4ec168ecfc5b11f" kindref="member">min_groundedness_rate</ref><sp/>=<sp/>0.95;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a75bcc4c0cf04a59074a2584e7ca983da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a75bcc4c0cf04a59074a2584e7ca983da" kindref="member">max_prompt_injection_success_rate</ref><sp/>=<sp/>0.10;<sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ae53908133304f21ceebb5cf2f506f1f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ae53908133304f21ceebb5cf2f506f1f2" kindref="member">max_bias_fairness_drift_rate</ref><sp/>=<sp/>0.20;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a318da7c333444f0094a0706142002248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a318da7c333444f0094a0706142002248" kindref="member">max_cost_to_quality_efficiency</ref><sp/>=<sp/>2.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a4f0105cfbce69616dbe00f42d4a58607" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a4f0105cfbce69616dbe00f42d4a58607" kindref="member">max_p95_latency_ms</ref><sp/>=<sp/>2000.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ab60f78bee815b6a71f240a97bc069b13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1ab60f78bee815b6a71f240a97bc069b13" kindref="member">min_traceability_rate</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a32bcb5751072ec390750437a91ccbb27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a32bcb5751072ec390750437a91ccbb27" kindref="member">faithfulness_hallucination_threshold</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a82ee4a0e1727ca732585c0a7b31056ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a82ee4a0e1727ca732585c0a7b31056ee" kindref="member">enforce_release_gates</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>for<sp/>progress<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a9970b0bfbb1a5fb415b871db4cd4520e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" kindref="compound">BatchProgress</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config_1a9970b0bfbb1a5fb415b871db4cd4520e" kindref="member">progress_callback</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" kindref="compound">AsyncEvaluationHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1af31b78177826fc1c2b7e904802802dd8" kindref="member">isDone</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad02025e87c9452e670916852c46e19e7" kindref="member">wait</ref>(std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds::max());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a55ca816ddbb96f91ed44881e7333cea4" kindref="member">get</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1aee3d1f70fed030e969a88df9b938765d" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad1634b592085b404bbe730b18a2b58f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad1634b592085b404bbe730b18a2b58f3" kindref="member">BatchEvaluator</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;EvaluationResult&gt;<sp/>future_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>cancelled_;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ae3e7c49edc99c13845d6b5ad259ade60" kindref="member">BatchEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ae3e7c49edc99c13845d6b5ad259ade60" kindref="member">BatchEvaluator</ref>(std::shared_ptr&lt;RAGJudge&gt;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1ae3e7c49edc99c13845d6b5ad259ade60" kindref="member">BatchEvaluator</ref>(std::shared_ptr&lt;RAGJudge&gt;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1abe66ed960634cd9ed946c19f3b990219" kindref="member">~BatchEvaluator</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aeeb2493d8270abaf290f4d7d194e3bcf" kindref="member">evaluateBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RAGTestCase&gt;&amp;<sp/>test_cases);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aeeb2493d8270abaf290f4d7d194e3bcf" kindref="member">evaluateBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvaluationInput&gt;&amp;<sp/>inputs);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AsyncEvaluationHandle&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aaafaf788f7ced3244c75a681ed66b52d" kindref="member">evaluateAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref>&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;AsyncEvaluationHandle&gt;&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aaafaf788f7ced3244c75a681ed66b52d" kindref="member">evaluateAsync</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvaluationInput&gt;&amp;<sp/>inputs</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aa4d87b4d5fb427243619784bf03251fd" kindref="member">submit</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref>&amp;<sp/>input,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a911829c6d9e8a67ef4ff773e5bcd6114" kindref="member">getQueueSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a731d0199846600063670869fd82c7064" kindref="member">waitForAll</ref>(std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds::max());</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a20acd3008bfda0f31f6aa46bde42a8c2" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1a168f3046b40f07f0b257973b48a1ce17" kindref="member">resume</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1aed8c4289cd00bad2ea6d3cd19dc71f22" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator_1acbc9d0d38923867b8eaca77c68c18ff9" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RAGJudge&gt;<sp/>judge_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" kindref="compound">BatchEvaluatorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worker<sp/>thread<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop_requested_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>paused_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue<sp/>for<sp/>async<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QueuedEvaluation<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref><sp/>input;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::promise&lt;EvaluationResult&gt;<sp/>promise;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_promise<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;)&gt;<sp/>callback;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;QueuedEvaluation&gt;<sp/>eval_queue_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_processed_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_failed_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worker<sp/>thread<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>workerThread();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>process<sp/>single<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/>processEvaluation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref>&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>batch<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kindref="compound">BatchEvaluationResult</ref><sp/>aggregateResults(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvaluationResult&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>total_time</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/batch_evaluator.h"/>
+  </compounddef>
+</doxygen>

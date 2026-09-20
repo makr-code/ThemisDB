@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="edition__policy__plugin_8h" kind="file" language="C++">
+    <compoundname>edition_policy_plugin.h</compoundname>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="yes">themis/gpu/ivram_policy.h</includes>
+    <includes local="yes">themis/sharding/ishard_limit_policy.h</includes>
+    <includes local="yes">themis/llm/illm_resource_policy.h</includes>
+    <includes local="yes">themis/tenant/itenant_quota_policy.h</includes>
+    <includes local="yes">themis/query/iquery_limit_policy.h</includes>
+    <includes local="yes">themis/network/iconnection_policy.h</includes>
+    <includes local="yes">themis/storage/istorage_ops_policy.h</includes>
+    <includes local="yes">themis/ratelimit/irate_limit_policy.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/edition_policy_plugin.h</label>
+        <link refid="edition__policy__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>cstdio</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>themis/gpu/ivram_policy.h</label>
+      </node>
+      <node id="14">
+        <label>themis/llm/illm_resource_policy.h</label>
+      </node>
+      <node id="17">
+        <label>themis/network/iconnection_policy.h</label>
+      </node>
+      <node id="16">
+        <label>themis/query/iquery_limit_policy.h</label>
+      </node>
+      <node id="19">
+        <label>themis/ratelimit/irate_limit_policy.h</label>
+      </node>
+      <node id="13">
+        <label>themis/sharding/ishard_limit_policy.h</label>
+      </node>
+      <node id="18">
+        <label>themis/storage/istorage_ops_policy.h</label>
+      </node>
+      <node id="15">
+        <label>themis/tenant/itenant_quota_policy.h</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" prot="public">themis::plugins::IEditionPolicyPlugin</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Plugin interface for signed edition-upgrade resource-limit policies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>An IEditionPolicyPlugin carries signed license claims and factory methods for IVRAMPolicy, IShardLimitPolicy, ILLMResourcePolicy, ITenantQuotaPolicy, IQueryLimitPolicy, IConnectionPolicy, IStorageOpsPolicy, and IRateLimitPolicy implementations. The <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> activates the policies into EditionManager after verifying the plugin&apos;s signature against the SignedPluginRepository and confirming that the claimed limits do not exceed the compile-time edition ceilings.</para>
+<para>Activation flow: <programlisting><codeline><highlight class="normal">PluginManager::activatePolicyPlugin(name,<sp/>repo)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>verify<sp/>entry<sp/>in<sp/>SignedPluginRepository</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>validate<sp/>license<sp/>claim<sp/>via<sp/>RuntimeLicenseGate</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installVRAMPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installShardPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installLLMResourcePolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installTenantQuotaPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installQueryLimitPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installConnectionPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installStorageOpsPolicy(...)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/>EditionManager::installRateLimitPolicy(...)</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Group 6 (WASM sandbox memory) is a Security-Boundary and is intentionally absent from this interface. WASM memory limits are enforced at the compile-time/kernel level and must not receive a plugin-policy override. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/ivram_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/sharding/ishard_limit_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/llm/illm_resource_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/tenant/itenant_quota_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/query/iquery_limit_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/network/iconnection_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/storage/istorage_ops_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/ratelimit/irate_limit_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1plugins" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" kindref="compound">IEditionPolicyPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VRAM<sp/>and<sp/>sharding<sp/>(existing<sp/>axes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2f6ae451be131991c8c6bfbfb72431c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;gpu::IVRAMPolicy&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2f6ae451be131991c8c6bfbfb72431c5" kindref="member">createVRAMPolicy</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6ad4d5fb108a3fa64498e9aa88fa1731" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;sharding::IShardLimitPolicy&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6ad4d5fb108a3fa64498e9aa88fa1731" kindref="member">createShardPolicy</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af77f22ffad5c4362dd3d87baf9a7c6e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af77f22ffad5c4362dd3d87baf9a7c6e6" kindref="member">getLicenseClaim</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a5857a1bb64194f7fb43127095656a87e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a5857a1bb64194f7fb43127095656a87e" kindref="member">claimedMaxVRAMGB</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aaee83a5b917d58051b3865d2806e63ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aaee83a5b917d58051b3865d2806e63ab" kindref="member">claimedMaxNodes</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>4:<sp/>LLM<sp/>resource<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::shared_ptr&lt;llm::ILLMResourcePolicy&gt;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a20190a7e41a7bfa0b952e606f77499db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a20190a7e41a7bfa0b952e606f77499db" kindref="member">createLLMResourcePolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1afba5fd06d115bce0c3b6cfdd3d254784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1afba5fd06d115bce0c3b6cfdd3d254784" kindref="member">claimedMaxContextTokens</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a4e3fe47e0c362a7ae5567e3a96b2f429" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a4e3fe47e0c362a7ae5567e3a96b2f429" kindref="member">claimedMaxModelInstances</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae315fe20ee41c52ce8297493068fea68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae315fe20ee41c52ce8297493068fea68" kindref="member">claimedMaxVRAMPerModelMB</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>1+3:<sp/>Tenant<sp/>quota<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;tenant::ITenantQuotaPolicy&gt;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1acdb23e3cb0b3b68807eee52729f5bbe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1acdb23e3cb0b3b68807eee52729f5bbe3" kindref="member">createTenantQuotaPolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3c995367adf24302dec114db5dfd0af9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3c995367adf24302dec114db5dfd0af9" kindref="member">claimedTenantMaxStorageBytes</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a090f43963a7fa56244c660e6cd8951e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a090f43963a7fa56244c660e6cd8951e6" kindref="member">claimedTenantMaxDocuments</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9ebcfd8cf2ff17732a4a44f55cafa3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9ebcfd8cf2ff17732a4a44f55cafa3f5" kindref="member">claimedTenantMaxCollections</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae4405fe5516fc40299e5f811ea2635e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae4405fe5516fc40299e5f811ea2635e0" kindref="member">claimedTenantMaxConcurrentQueries</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af9b974a3f5a851e294b31275aeb6aa48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af9b974a3f5a851e294b31275aeb6aa48" kindref="member">claimedTenantMaxRPS</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>2:<sp/>Query<sp/>limit<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;query::IQueryLimitPolicy&gt;</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1efbb857fab33651427fb03d4b9b16db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1efbb857fab33651427fb03d4b9b16db" kindref="member">createQueryLimitPolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aa62a90f82465d4af0af05d49ed279ddd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aa62a90f82465d4af0af05d49ed279ddd" kindref="member">claimedMaxGraphQLDepth</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a25a0c7bd930f621dda228e7dfb2a860d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a25a0c7bd930f621dda228e7dfb2a860d" kindref="member">claimedMaxGraphQLComplexity</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6da51c4c380a90d3fb7d229b6c6220e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6da51c4c380a90d3fb7d229b6c6220e4" kindref="member">claimedMaxPayloadBytes</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3ccb4766c90aead5f6894af0ad99ca0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3ccb4766c90aead5f6894af0ad99ca0b" kindref="member">claimedMaxResultRows</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>2+3:<sp/>Connection<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;network::IConnectionPolicy&gt;</highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a667335140a968a2664ce9caef5425ccb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a667335140a968a2664ce9caef5425ccb" kindref="member">createConnectionPolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9487edf0e69a5ebea9c9650933aed417" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9487edf0e69a5ebea9c9650933aed417" kindref="member">claimedMaxHttp2Streams</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1c12779155e917ff93b5c5d873dbd51a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1c12779155e917ff93b5c5d873dbd51a" kindref="member">claimedMaxSSEConnections</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a57295a938534d95ae93a1990122dad0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a57295a938534d95ae93a1990122dad0d" kindref="member">claimedMaxTotalConnections</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2a97eef50779cdeb5df80494ede755da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2a97eef50779cdeb5df80494ede755da" kindref="member">claimedMaxSSEEventsPerSec</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>5:<sp/>Storage<sp/>operations<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;storage::IStorageOpsPolicy&gt;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ad876f7ed8b62127954f227dce1e0c44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ad876f7ed8b62127954f227dce1e0c44e" kindref="member">createStorageOpsPolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a027340184154128315f07555f7fd9591" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a027340184154128315f07555f7fd9591" kindref="member">claimedMaxBackgroundJobs</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9e11ddd4d8095e243d3f61dd832ab3cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9e11ddd4d8095e243d3f61dd832ab3cb" kindref="member">claimedMaxCompactionBytesPerSec</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ab6acaabd536ed7976fa8aca318060e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ab6acaabd536ed7976fa8aca318060e3c" kindref="member">claimedMaxConcurrentSnapshots</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>3:<sp/>Global<sp/>rate-limit<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;ratelimit::IRateLimitPolicy&gt;</highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a038d8b29c7b353ab5dfbc8a93e4704c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a038d8b29c7b353ab5dfbc8a93e4704c7" kindref="member">createRateLimitPolicy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a8e9a470106dda9949ace2abac626e457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a8e9a470106dda9949ace2abac626e457" kindref="member">claimedMaxGlobalRPS</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/edition_policy_plugin.h"/>
+  </compounddef>
+</doxygen>

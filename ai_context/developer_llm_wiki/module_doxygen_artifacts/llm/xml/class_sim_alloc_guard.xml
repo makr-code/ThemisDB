@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sim_alloc_guard" kind="class" language="C++" prot="public">
+    <compoundname>SimAllocGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_sim_alloc_guard_1ad2481c7efd64492dde5b78fc184a14d2" prot="private" static="no" mutable="no">
+        <type>std::ptrdiff_t</type>
+        <definition>std::ptrdiff_t SimAllocGuard::units_</definition>
+        <argsstring></argsstring>
+        <name>units_</name>
+        <qualifiedname>SimAllocGuard::units_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="79" column="20" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sim_alloc_guard_1a443a3cd77e6a83c71d772461bd1bd205" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimAllocGuard::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>SimAllocGuard::active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="80" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(std::ptrdiff_t units=1)</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>std::ptrdiff_t</type>
+          <declname>units</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="48" column="14" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::~SimAllocGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::~SimAllocGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="52" column="5" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1afba0a663e0359251fab844d48c3772db" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;other) noexcept</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="58" column="5" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a21bf2178afa07e11a994f4d35e9d75d9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="63" column="19" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="76" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(std::ptrdiff_t units=1)</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>std::ptrdiff_t</type>
+          <declname>units</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="52" column="14" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::~SimAllocGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::~SimAllocGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="55" column="5" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1af5cf786d2515a9393598ec2ee041cd23" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;o) noexcept</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="60" column="5" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a5e921efa6b3125d4c76b898b641ee043" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="63" column="19" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="75" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a94fe8b6abcab8840617c81ea328c08aa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimAllocGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>SimAllocGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="76" column="10" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(std::ptrdiff_t units=1)</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>std::ptrdiff_t</type>
+          <declname>units</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="75" column="14" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::~SimAllocGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::~SimAllocGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="79" column="5" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1afba0a663e0359251fab844d48c3772db" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;other) noexcept</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="86" column="5" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a21bf2178afa07e11a994f4d35e9d75d9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(SimAllocGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="90" column="19" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SimAllocGuard::SimAllocGuard</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>SimAllocGuard</name>
+        <qualifiedname>SimAllocGuard::SimAllocGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        <definition>SimAllocGuard &amp; SimAllocGuard::operator=</definition>
+        <argsstring>(const SimAllocGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>SimAllocGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="102" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_alloc_guard_1a4f87cd75585d60cd85944e812aacd476" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimAllocGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>SimAllocGuard::release</qualifiedname>
+        <briefdescription>
+<para>Explicit early release (mirrors manual dealloc before scope exit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="105" column="10" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="105" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII allocation guard that increments g_sim_alloc_net on construction and decrements it on destruction (simulating a tracked allocation). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used throughout MEM-* tests to verify RAII cleanup without Valgrind. </para>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_phase1_hardening.cpp" line="46" column="1" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="46" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_sim_alloc_guard_1a443a3cd77e6a83c71d772461bd1bd205" prot="private" virt="non-virtual"><scope>SimAllocGuard</scope><name>active_</name></member>
+      <member refid="class_sim_alloc_guard_1a21bf2178afa07e11a994f4d35e9d75d9" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a5e921efa6b3125d4c76b898b641ee043" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a21bf2178afa07e11a994f4d35e9d75d9" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a087ec2237f14c63c079b3a6ec7f0e638" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>operator=</name></member>
+      <member refid="class_sim_alloc_guard_1a94fe8b6abcab8840617c81ea328c08aa" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>release</name></member>
+      <member refid="class_sim_alloc_guard_1a4f87cd75585d60cd85944e812aacd476" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>release</name></member>
+      <member refid="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1afba0a663e0359251fab844d48c3772db" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1af5cf786d2515a9393598ec2ee041cd23" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1a4c6ddb80eacffde93924c9505769c62c" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1afba0a663e0359251fab844d48c3772db" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1a01be2fb6dbf4b9e0e0bc0e32b32180f4" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1ad2481c7efd64492dde5b78fc184a14d2" prot="private" virt="non-virtual"><scope>SimAllocGuard</scope><name>units_</name></member>
+      <member refid="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>~SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>~SimAllocGuard</name></member>
+      <member refid="class_sim_alloc_guard_1afccb3fb68f33258dbaf8f0647fea7963" prot="public" virt="non-virtual"><scope>SimAllocGuard</scope><name>~SimAllocGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

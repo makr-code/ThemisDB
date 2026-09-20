@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_cuda_hnsw_traversal_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::CudaHnswTraversalEngine</compoundname>
+    <includes refid="cuda__hnsw__graph__traversal_8h" local="no">cuda_hnsw_graph_traversal.h</includes>
+    <innerclass refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl" prot="public">themis::CudaHnswTraversalEngine::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a3866807e1dc6495e3cf4be69ab88be55" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_cuda_hnsw_traversal_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::CudaHnswTraversalEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="142" column="21" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a3ecf5b1d3fc9befe19778b7ffb2845cc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref></type>
+        <definition>CudaHnswConfig themis::CudaHnswTraversalEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="143" column="27" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</definition>
+        <argsstring>(CudaHnswConfig config={})</argsstring>
+        <name>CudaHnswTraversalEngine</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="52" column="14" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="354" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1aa369dff52dc42f371a7fd65f9a844254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CudaHnswTraversalEngine::~CudaHnswTraversalEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~CudaHnswTraversalEngine</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::~CudaHnswTraversalEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a28f14b69d22a81e0110bcbee5c294f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</definition>
+        <argsstring>(const CudaHnswTraversalEngine &amp;)=delete</argsstring>
+        <name>CudaHnswTraversalEngine</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</qualifiedname>
+        <param>
+          <type>const CudaHnswTraversalEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1aca1736aa8ee90167340c2a8a252c8483" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref> &amp;</type>
+        <definition>CudaHnswTraversalEngine &amp; themis::CudaHnswTraversalEngine::operator=</definition>
+        <argsstring>(const CudaHnswTraversalEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="57" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1acf8408057e126976ca01e33c1b45a30d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</definition>
+        <argsstring>(CudaHnswTraversalEngine &amp;&amp;) noexcept</argsstring>
+        <name>CudaHnswTraversalEngine</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::CudaHnswTraversalEngine</qualifiedname>
+        <param>
+          <type>CudaHnswTraversalEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1ad00e37c97adcb8347df7be4a3e7a6301" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref> &amp;</type>
+        <definition>CudaHnswTraversalEngine &amp; themis::CudaHnswTraversalEngine::operator=</definition>
+        <argsstring>(CudaHnswTraversalEngine &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" kindref="member">CudaHnswTraversalEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="59" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a7465d6772aa2ca4ae06dbef20d201e90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::buildIndex</definition>
+        <argsstring>(const std::vector&lt; HnswLayerGraph &gt; &amp;layers, const float *vectors, size_t num_vectors)</argsstring>
+        <name>buildIndex</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::buildIndex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref> &gt; &amp;</type>
+          <declname>layers</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_vectors</declname>
+        </param>
+        <briefdescription>
+<para>── Index management ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), clear(), assign(), freeDevice(), THEMIS_ERROR(), cudaMemcpy(), get(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="69" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="394" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a2934741fd642886a279e73dba2f8ad09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::addNode</definition>
+        <argsstring>(int64_t new_id, const float *vector, const std::vector&lt; HnswLayerGraph &gt; &amp;updated_layers)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::addNode</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>new_id</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_hnsw_layer_graph" kindref="compound">HnswLayerGraph</ref> &gt; &amp;</type>
+          <declname>updated_layers</declname>
+        </param>
+        <briefdescription>
+<para>Add Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">updated_layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="80" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="507" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a3261f75d426235fb736c4fb41ba13a8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hnsw_traversal_result" kindref="compound">HnswTraversalResult</ref> &gt;</type>
+        <definition>std::vector&lt; HnswTraversalResult &gt; themis::CudaHnswTraversalEngine::search</definition>
+        <argsstring>(const float *query, uint32_t k, uint32_t ef=0) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::search</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ef</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="86" column="17" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="532" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a868d3d77cbc59af4e78e8728aed48360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1_hnsw_traversal_result" kindref="compound">HnswTraversalResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; HnswTraversalResult &gt; &gt; themis::CudaHnswTraversalEngine::batchSearch</definition>
+        <argsstring>(const float *queries, size_t num_queries, uint32_t k, uint32_t ef=0) const</argsstring>
+        <name>batchSearch</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::batchSearch</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_queries</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ef</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Results. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="91" column="5" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="566" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a6fe555f327d1eb42c92eb131b578dfe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CudaHnswTraversalEngine::setMaxBatchSize</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>setMaxBatchSize</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::setMaxBatchSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>── Visited bitset pool tuning ──────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="101" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="960" bodyend="968"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1af672ca25b71103782720f981d22be94b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::CudaHnswTraversalEngine::maxBatchSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxBatchSize</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::maxBatchSize</qualifiedname>
+        <briefdescription>
+<para>Max Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="108" column="12" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="970" bodyend="972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1aafd79f028e4d0e424f1f7ba0325c0bf6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::hasVisitedPool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasVisitedPool</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::hasVisitedPool</qualifiedname>
+        <briefdescription>
+<para>Has Visited Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="115" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="974" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a240f0c941ecb43edd502465d8d712dfe" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::isBuilt</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBuilt</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::isBuilt</qualifiedname>
+        <briefdescription>
+<para>── Diagnostics ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="123" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="931" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1a5030fe47ed525fa7b57655f3ff914aac" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswTraversalEngine::isCudaAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCudaAvailable</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::isCudaAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Cuda Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="130" column="10" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="935" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1acc02c26f1d6e5e61fd6e82bc923bb097" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::CudaHnswTraversalEngine::deviceInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>deviceInfo</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::deviceInfo</qualifiedname>
+        <briefdescription>
+<para>Device Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="136" column="17" bodyfile="src/index/cuda_hnsw_graph_traversal.cpp" bodystart="939" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cuda_hnsw_traversal_engine_1abf99e74afb5166eb722d8b336db686bf" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_cuda_hnsw_config" kindref="compound">CudaHnswConfig</ref> &amp;</type>
+        <definition>const CudaHnswConfig &amp; themis::CudaHnswTraversalEngine::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::CudaHnswTraversalEngine::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="138" column="26" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/cuda_hnsw_graph_traversal.h" line="50" column="1" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="50" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a2934741fd642886a279e73dba2f8ad09" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a868d3d77cbc59af4e78e8728aed48360" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>batchSearch</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a7465d6772aa2ca4ae06dbef20d201e90" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>buildIndex</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf99e74afb5166eb722d8b336db686bf" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>config</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a3ecf5b1d3fc9befe19778b7ffb2845cc" prot="private" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1abf7bb12558f2ee178cfa03e4c3a07142" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>CudaHnswTraversalEngine</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a28f14b69d22a81e0110bcbee5c294f63" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>CudaHnswTraversalEngine</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1acf8408057e126976ca01e33c1b45a30d" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>CudaHnswTraversalEngine</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1acc02c26f1d6e5e61fd6e82bc923bb097" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>deviceInfo</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aafd79f028e4d0e424f1f7ba0325c0bf6" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>hasVisitedPool</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a3866807e1dc6495e3cf4be69ab88be55" prot="private" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a240f0c941ecb43edd502465d8d712dfe" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>isBuilt</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a5030fe47ed525fa7b57655f3ff914aac" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>isCudaAvailable</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1af672ca25b71103782720f981d22be94b" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>maxBatchSize</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aca1736aa8ee90167340c2a8a252c8483" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1ad00e37c97adcb8347df7be4a3e7a6301" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a3261f75d426235fb736c4fb41ba13a8b" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>search</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1a6fe555f327d1eb42c92eb131b578dfe1" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>setMaxBatchSize</name></member>
+      <member refid="classthemis_1_1_cuda_hnsw_traversal_engine_1aa369dff52dc42f371a7fd65f9a844254" prot="public" virt="non-virtual"><scope>themis::CudaHnswTraversalEngine</scope><name>~CudaHnswTraversalEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

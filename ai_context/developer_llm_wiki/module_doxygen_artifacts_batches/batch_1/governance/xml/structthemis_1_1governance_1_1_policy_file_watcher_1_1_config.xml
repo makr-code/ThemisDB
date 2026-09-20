@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyFileWatcher::Config</compoundname>
+    <includes refid="policy__file__watcher_8h" local="no">policy_file_watcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a28e64c0372e7d7daa9871dcd32a7169d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::governance::PolicyFileWatcher::Config::poll_interval</definition>
+        <argsstring></argsstring>
+        <name>poll_interval</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::Config::poll_interval</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="29" column="35" bodyfile="include/governance/policy_file_watcher.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a6661b82ca80e8fdff7043cc8153a4324" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::governance::PolicyFileWatcher::Config::debounce</definition>
+        <argsstring></argsstring>
+        <name>debounce</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::Config::debounce</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="30" column="35" bodyfile="include/governance/policy_file_watcher.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a1170259ed65510d682276b0da934c31a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(bool, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(bool, const std::string&amp;)&gt; themis::governance::PolicyFileWatcher::Config::reload_cb</definition>
+        <argsstring></argsstring>
+        <name>reload_cb</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::Config::reload_cb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="31" column="23" bodyfile="include/governance/policy_file_watcher.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_file_watcher.h" line="28" column="5" bodyfile="include/governance/policy_file_watcher.h" bodystart="28" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a6661b82ca80e8fdff7043cc8153a4324" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher::Config</scope><name>debounce</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a28e64c0372e7d7daa9871dcd32a7169d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher::Config</scope><name>poll_interval</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config_1a1170259ed65510d682276b0da934c31a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher::Config</scope><name>reload_cb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

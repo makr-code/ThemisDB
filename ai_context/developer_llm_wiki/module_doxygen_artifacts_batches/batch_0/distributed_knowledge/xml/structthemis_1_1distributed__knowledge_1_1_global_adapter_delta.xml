@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::GlobalAdapterDelta</compoundname>
+    <includes refid="lora__federation__coordinator_8h" local="no">lora_federation_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::GlobalAdapterDelta::round</definition>
+        <argsstring></argsstring>
+        <name>round</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Federated round that produced this delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="61" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::GlobalAdapterDelta::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::version</qualifiedname>
+        <briefdescription>
+<para>Monotonic version string, e.g. &quot;global-v42&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="62" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::GlobalAdapterDelta::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::participants</qualifiedname>
+        <briefdescription>
+<para>Number of shards that contributed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="63" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::GlobalAdapterDelta::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::algorithm</qualifiedname>
+        <briefdescription>
+<para>Aggregation algorithm used (&quot;FedAvg&quot; etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="64" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::GlobalAdapterDelta::epsilon_spent</definition>
+        <argsstring></argsstring>
+        <name>epsilon_spent</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::epsilon_spent</qualifiedname>
+        <briefdescription>
+<para>DP privacy budget spent this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="65" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a618aca5bc6817a5f9924434ae114e197" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::GlobalAdapterDelta::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::delta</qualifiedname>
+        <briefdescription>
+<para>Aggregated weight delta (key→float map). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="66" column="20" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a8196ebc5aaa34ac93483281c170208ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::GlobalAdapterDelta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="68" column="21" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="68" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a479ba76bb165fd7922d3994af98e7f3f" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref></type>
+        <definition>static GlobalAdapterDelta themis::distributed_knowledge::GlobalAdapterDelta::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::distributed_knowledge::GlobalAdapterDelta::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="77" column="32" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="77" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="60" column="1" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="60" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a618aca5bc6817a5f9924434ae114e197" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>delta</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>epsilon_spent</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a479ba76bb165fd7922d3994af98e7f3f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>participants</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>round</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a8196ebc5aaa34ac93483281c170208ed" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::GlobalAdapterDelta</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

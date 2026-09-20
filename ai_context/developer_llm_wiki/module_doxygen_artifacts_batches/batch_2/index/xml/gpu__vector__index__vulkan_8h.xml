@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__vector__index__vulkan_8h" kind="file" language="C++">
+    <compoundname>gpu_vector_index_vulkan.h</compoundname>
+    <includes refid="gpu__vector__index_8h" local="yes">index/gpu_vector_index.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>index/gpu_memory_oversubscription.h</label>
+        <link refid="gpu__memory__oversubscription_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>index/gpu_vector_index.h</label>
+        <link refid="gpu__vector__index_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/index/gpu_vector_index_vulkan.h</label>
+        <link refid="gpu__vector__index__vulkan_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>index/vector_index.h</label>
+        <link refid="vector__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="21">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>string_view</label>
+      </node>
+      <node id="19">
+        <label>themis/gpu/unified_memory.h</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_vulkan_vector_index_backend" prot="public">themis::index::VulkanVectorIndexBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="gpu__vector__index__vulkan_8h_1a8a9a420f90263926baa0a9f693d9e13d" prot="public" static="no">
+        <name>THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="26" column="9" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__vector__index_8h" kindref="compound">index/gpu_vector_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="gpu__vector__index__vulkan_8h_1a8a9a420f90263926baa0a9f693d9e13d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" kindref="member">VulkanVectorIndexBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" kindref="member">VulkanVectorIndexBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" kindref="member">~VulkanVectorIndexBackend</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7cfb19b1ceab9192ed34c7d775526a6a" kindref="member">initialize</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dimension);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a3c8b69716ea40447820185d79e429e68" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a4dc211999a2fd48dafd9f7e1789fa19d" kindref="member">uploadVectors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>vectors);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;float,<sp/>size_t&gt;&gt;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a5dc2d01e57fa6d5addd2d3772e3eaafa" kindref="member">searchIndices</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::pair&lt;float,<sp/>size_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1af4373a6818636b2939873b67fd7a8fe3" kindref="member">searchBatchIndices</ref>(</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>queries,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GPUVectorIndex::SearchResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8d8d3d3732e6a862f167418548815723" kindref="member">search</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;&gt;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a49cc4272d02ff28bd8c7f665e5e1e28e" kindref="member">searchBatch</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>queries,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" kindref="compound">GPUVectorIndex::Statistics</ref><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ac662094849c8e60a7536de6c95c01ab9" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abfbf3ab2559ea12df01bc2973c3ee236" kindref="member">isInitialized</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;&gt;(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;,<sp/>size_t)&gt;;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" kindref="member">setInitializeFn</ref>(<ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" kindref="member">setUploadFn</ref>(<ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" kindref="member">setSearchFn</ref>(<ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" kindref="member">setSearchBatchFn</ref>(<ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" kindref="member">initializeFnMutex</ref>();</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" kindref="member">initializeFnStorage</ref>();</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" kindref="member">uploadFnMutex</ref>();</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" kindref="member">uploadFnStorage</ref>();</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" kindref="member">searchFnMutex</ref>();</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" kindref="member">searchFnStorage</ref>();</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" kindref="member">searchBatchFnMutex</ref>();</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" kindref="member">searchBatchFnStorage</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>pImpl;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/gpu_vector_index_vulkan.h"/>
+  </compounddef>
+</doxygen>

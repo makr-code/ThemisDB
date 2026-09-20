@@ -1,0 +1,589 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="async__inference__engine_8h" kind="file" language="C++">
+    <compoundname>async_inference_engine.h</compoundname>
+    <includes refid="inference__handle_8h" local="yes">llm/inference_handle.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="llm__response__cache_8h" local="yes">llm/llm_response_cache.h</includes>
+    <includes refid="prompt__policy_8h" local="yes">llm/prompt_policy.h</includes>
+    <includes refid="shared__worker__pool_8h" local="yes">llm/shared_worker_pool.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="llm__bench_8cpp" local="yes">benchmarks/llm/llm_bench.cpp</includedby>
+    <includedby refid="async__inference__engine_8cpp" local="yes">src/llm/async_inference_engine.cpp</includedby>
+    <includedby refid="subagent__factory__impl_8cpp" local="yes">src/llm/subagent_factory_impl.cpp</includedby>
+    <includedby refid="test__llm__hardening__phase4_8cpp" local="yes">tests/llm/test_llm_hardening_phase4.cpp</includedby>
+    <includedby refid="test__llm__multi__model__integration_8cpp" local="yes">tests/llm/test_llm_multi_model_integration.cpp</includedby>
+    <includedby refid="test__llm__phase5__hardening_8cpp" local="yes">tests/llm/test_llm_phase5_hardening.cpp</includedby>
+    <includedby refid="test__llm__plugin_8cpp" local="yes">tests/llm/test_llm_plugin.cpp</includedby>
+    <includedby refid="test__llm__security__audit_8cpp" local="yes">tests/llm/test_llm_security_audit.cpp</includedby>
+    <includedby refid="test__llm__single__model__integration_8cpp" local="yes">tests/llm/test_llm_single_model_integration.cpp</includedby>
+    <includedby refid="test__llm__timeout__cancellation_8cpp" local="yes">tests/llm/test_llm_timeout_cancellation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/async_inference_engine.h</label>
+        <link refid="async__inference__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/inference_handle.h</label>
+        <link refid="inference__handle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/llm_response_cache.h</label>
+        <link refid="llm__response__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/prompt_policy.h</label>
+        <link refid="prompt__policy_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>condition_variable</label>
+      </node>
+      <node id="27">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="25">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>future</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="24">
+        <label>queue</label>
+      </node>
+      <node id="21">
+        <label>regex</label>
+      </node>
+      <node id="28">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/async_inference_engine.h</label>
+        <link refid="async__inference__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/async_inference_engine.cpp</label>
+        <link refid="async__inference__engine_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/subagent_factory_impl.cpp</label>
+        <link refid="subagent__factory__impl_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_llm_hardening_phase4.cpp</label>
+        <link refid="test__llm__hardening__phase4_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/llm/test_llm_security_audit.cpp</label>
+        <link refid="test__llm__security__audit_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/llm/test_llm_single_model_integration.cpp</label>
+        <link refid="test__llm__single__model__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_async_inference_request" prot="public">themis::llm::AsyncInferenceRequest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_async_inference_engine" prot="public">themis::llm::AsyncInferenceEngine</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" prot="public">themis::llm::AsyncInferenceEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_request_queue_item" prot="private">themis::llm::AsyncInferenceEngine::RequestQueueItem</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_stats" prot="private">themis::llm::AsyncInferenceEngine::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__handle_8h" kindref="compound">llm/inference_handle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__response__cache_8h" kindref="compound">llm/llm_response_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__policy_8h" kindref="compound">llm/prompt_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shared__worker__pool_8h" kindref="compound">llm/shared_worker_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_async_inference_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_async_inference_request" kindref="compound">AsyncInferenceRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_async_inference_request_1a71ea76845f3d024f9e60c34bd7a40ee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1a71ea76845f3d024f9e60c34bd7a40ee8" kindref="member">~AsyncInferenceRequest</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_async_inference_request_1a5a702099d69b95634a9570f3705fb44a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1a5a702099d69b95634a9570f3705fb44a" kindref="member">request</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_async_inference_request_1a192c4b2f7041ba47f8eb612c8e35393b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1a192c4b2f7041ba47f8eb612c8e35393b" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>=<sp/>more<sp/>urgent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_async_inference_request_1adbcc310c270abb5f5e488dc39a939df4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1adbcc310c270abb5f5e488dc39a939df4" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>request<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>for<sp/>async<sp/>result<sp/>delivery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_async_inference_request_1aa700d6de1ff6f5271b5996969e576580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1aa700d6de1ff6f5271b5996969e576580" kindref="member">callback</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>cancellation<sp/>token<sp/>—<sp/>also<sp/>held<sp/>by<sp/>the<sp/>InferenceHandle<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>calling<sp/>InferenceHandle::cancel()<sp/>propagates<sp/>here<sp/>immediately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_async_inference_request_1a3c0495e10991aaca87b3610ac2956376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::atomic&lt;bool&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1a3c0495e10991aaca87b3610ac2956376" kindref="member">cancel_token</ref><sp/>=</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-request<sp/>deadline<sp/>(steady_clock);<sp/>zero()<sp/>means<sp/>no<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_async_inference_request_1a487b46714f22c5a2cfb68f61ce86d4a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1a487b46714f22c5a2cfb68f61ce86d4a1" kindref="member">deadline</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>promise<sp/>—<sp/>owned<sp/>jointly<sp/>by<sp/>the<sp/>queue<sp/>item<sp/>(or<sp/>pool<sp/>task<sp/>lambda)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>the<sp/>timeout<sp/>monitor<sp/>so<sp/>that<sp/>the<sp/>monitor<sp/>can<sp/>resolve<sp/>the<sp/>future</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>immediately<sp/>when<sp/>the<sp/>deadline<sp/>expires,<sp/>even<sp/>while<sp/>the<sp/>worker<sp/>is<sp/>still</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>executing<sp/>the<sp/>plugin<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_async_inference_request_1ab1b30d488c49fbbeea85c4d2fd92ee9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::promise&lt;InferenceResponse&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_request_1ab1b30d488c49fbbeea85c4d2fd92ee9c" kindref="member">shared_promise</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1llm_1_1_async_inference_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5f639d34497d83d89df9a9e5b3901fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5f639d34497d83d89df9a9e5b3901fd5" kindref="member">num_worker_threads</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>inference<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1aa13cbbae42dd04750368fcb5f890626d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1aa13cbbae42dd04750368fcb5f890626d" kindref="member">max_queue_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>pending<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a0f4fb17a8c12fb5b7c6434e41621f4b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a0f4fb17a8c12fb5b7c6434e41621f4b8" kindref="member">enable_priorities</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure:<sp/>what<sp/>to<sp/>do<sp/>when<sp/>queue<sp/>is<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" kindref="member">BackpressurePolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a4d34f53389ed7f28ca91fc31ea360a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BLOCK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>until<sp/>space<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a0768201691a979ef7cee36b722fa99ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a0768201691a979ef7cee36b722fa99ce" kindref="member">DROP_OLDEST</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drop<sp/>oldest<sp/>low-priority<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a59b228d9fec9b88833bfe5d812ed8ad4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">REJECT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reject<sp/>new<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5d118b41433810c7d29d79a60a21d989" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472" kindref="member">BackpressurePolicy</ref><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1a5d118b41433810c7d29d79a60a21d989" kindref="member">backpressure</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae1fcae40b7eb1ddf0f619044a6adf472a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackpressurePolicy::BLOCK</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deduplication<sp/>cache:<sp/>return<sp/>cached<sp/>response<sp/>for<sp/>identical<sp/>prompts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ad6f30407cfe2c91caf69d9d34f8ed09a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ad6f30407cfe2c91caf69d9d34f8ed09a" kindref="member">enable_dedup_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae33628002c26d0420231e8a68b040ee5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kindref="compound">LLMResponseCache::Config</ref><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config_1ae33628002c26d0420231e8a68b040ee5" kindref="member">dedup_cache_config</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>config<sp/>(set<sp/>cache_dir<sp/>before<sp/>use)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>(<ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>*<sp/>plugin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>(std::shared_ptr&lt;ILLMPlugin&gt;<sp/>plugin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>(<ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>*<sp/>plugin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SharedWorkerPool&gt;<sp/>pool);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>(std::shared_ptr&lt;ILLMPlugin&gt;<sp/>plugin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SharedWorkerPool&gt;<sp/>pool);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1ad2b67f10048e7fd94d223477b8b57cb4" kindref="member">~AsyncInferenceEngine</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1llm_1_1_async_inference_engine_1a97f318f04871d3eaa69cc91b7c733361" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a97f318f04871d3eaa69cc91b7c733361" kindref="member">AsyncInferenceEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1llm_1_1_async_inference_engine_1a82ffa97b3dfedc8def755295e5f3c290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a82ffa97b3dfedc8def755295e5f3c290" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a18a8d93b6503ab88751b16e7a2946522" kindref="member">AsyncInferenceEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_handle" kindref="compound">InferenceHandle</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a952ca70943dd08b8822c45a82c7152d1" kindref="member">submit</ref>(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(0)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a2db2e6797e672d8e14b313b14cd22b75" kindref="member">submitAsync</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>&amp;)&gt;<sp/>callback,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(0)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1llm_1_1_async_inference_engine_1a392e780376eb773eda0641d70a7c9176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a392e780376eb773eda0641d70a7c9176" kindref="member">TokenCallback</ref><sp/>=<sp/>std::function&lt;void(std::string_view<sp/>token,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_final)&gt;;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_handle" kindref="compound">InferenceHandle</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a2fa11ab7b6fb63e7a19ca2cb21f988f6" kindref="member">submitStreaming</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a392e780376eb773eda0641d70a7c9176" kindref="member">TokenCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>priority<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(0)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_handle" kindref="compound">InferenceHandle</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a01415a2fd8587e412327cf24c0a094af" kindref="member">submitRAG</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref>&amp;<sp/>rag_context,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1ae4921d69e34258253b22fc96f7d183f4" kindref="member">cancel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a3088bc6fc44c73a84dfc3c41b86c3269" kindref="member">getQueueStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1ab758156ac05fabf4fbabe7cc8ca432c2" kindref="member">getWorkerStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1aeb06add11eb5d07c5ec61de14c94278b" kindref="member">waitForCompletion</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a6d780b56539710d0e6478605a2e9fc45" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1abf79f4e5e23bcdf75e50959949c114b1" kindref="member">setDedupCache</ref>(std::shared_ptr&lt;LLMResponseCache&gt;<sp/>cache);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cache_statistics" kindref="compound">LLMResponseCache::CacheStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1aaf723038d218e259e984db27f6653023" kindref="member">getDedupCacheStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a7a37e1308e961883264b54dc97caa9f5" kindref="member">swapPlugin</ref>(std::shared_ptr&lt;ILLMPlugin&gt;<sp/>new_plugin);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_async_inference_engine_1a0e1edb623e6153d054a7c8a73b5dffe0" kindref="member">setPromptPolicy</ref>(std::shared_ptr&lt;PromptPolicy&gt;<sp/>policy);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>ORDERING<sp/>INVARIANTS<sp/>(prevent<sp/>circular<sp/>waits<sp/>and<sp/>deadlocks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>multiple<sp/>locks<sp/>must<sp/>be<sp/>held,<sp/>acquire<sp/>them<sp/>in<sp/>this<sp/>order:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>plugin_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(R/W<sp/>lock<sp/>for<sp/>hot-swap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>queue_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(protects<sp/>request_queue_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>tracking_mutex_<sp/><sp/><sp/><sp/><sp/>(protects<sp/>active_requests_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>latency_mutex_<sp/><sp/><sp/><sp/><sp/><sp/>(protects<sp/>latency_samples_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>cache_meta_mutex_<sp/><sp/><sp/>(protects<sp/>cache<sp/>metadata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6.<sp/>policy_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(protects<sp/>prompt_policy_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>7.<sp/>stats_time_mutex_<sp/><sp/><sp/>(protects<sp/>engine_start_time_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NEVER<sp/>acquire<sp/>mutexes<sp/>in<sp/>reverse<sp/>order.<sp/>If<sp/>you<sp/>need<sp/>multiple<sp/>locks,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>always<sp/>follow<sp/>this<sp/>sequence<sp/>to<sp/>prevent<sp/>deadlock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>*<sp/>plugin_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMPlugin&gt;<sp/>owned_plugin_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read-write<sp/>lock<sp/>protecting<sp/>active_plugin_<sp/>for<sp/>hot-swap<sp/>support.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worker<sp/>threads<sp/>take<sp/>shared<sp/>(read)<sp/>locks;<sp/>swapPlugin()<sp/>takes<sp/>an<sp/>exclusive<sp/>lock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>plugin_mutex_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>currently<sp/>active<sp/>plugin<sp/>snapshot<sp/>—<sp/>swapped<sp/>atomically<sp/>by<sp/>swapPlugin().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMPlugin&gt;<sp/>active_plugin_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>shared<sp/>worker<sp/>pool<sp/>(nullptr<sp/>→<sp/>private<sp/>workers<sp/>used<sp/>instead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SharedWorkerPool&gt;<sp/>shared_pool_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>deduplication<sp/>cache<sp/>(nullptr<sp/>if<sp/>disabled)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LLMResponseCache&gt;<sp/>dedup_cache_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cache_meta_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>metadata<sp/>access<sp/>on<sp/>cached<sp/>responses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>prompt<sp/>safety<sp/>policy<sp/>(nullptr<sp/>→<sp/>no<sp/>prompt<sp/>validation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PromptPolicy&gt;<sp/>prompt_policy_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>policy_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>prompt_policy_<sp/>for<sp/>thread-safe<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worker<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>queue<sp/>(priority-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RequestQueueItem<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AsyncInferenceRequest&gt;<sp/>request;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>with<sp/>async_req-&gt;shared_promise<sp/>so<sp/>the<sp/>timeout<sp/>monitor<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resolve<sp/>the<sp/>future<sp/>early<sp/>even<sp/>while<sp/>this<sp/>item<sp/>is<sp/>being<sp/>processed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::promise&lt;InferenceResponse&gt;&gt;<sp/>promise;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>priority<sp/>queue<sp/>ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RequestQueueItem&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request-&gt;priority<sp/>&lt;<sp/>other.request-&gt;priority;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RequestQueueItem&gt;<sp/>request_queue_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>tracking<sp/>(for<sp/>cancellation<sp/>and<sp/>timeout)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;AsyncInferenceRequest&gt;&gt;<sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_requests_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>tracking_mutex_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>monitor<sp/>thread<sp/>—<sp/>fires<sp/>deadline-based<sp/>cancellation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>timeout_thread_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Stats<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_submitted{0};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_completed{0};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_cancelled{0};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_rejected{0};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_timed_out{0};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>total_inference_time_ms{0.0};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>total_queue_time_ms{0.0};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_dedup_cache_hits{0};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_dedup_cache_misses{0};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_tokens_generated{0};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Engine<sp/>start<sp/>time<sp/>for<sp/>tokens/sec<sp/>wall-clock<sp/>calculation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>stats_mutex_<sp/>to<sp/>avoid<sp/>data<sp/>races<sp/>when<sp/>read<sp/>from<sp/>getQueueStats().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>engine_start_time_{std::chrono::steady_clock::now()};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_time_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>engine_start_time_<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-request<sp/>latency<sp/>samples<sp/>for<sp/>p99<sp/>computation<sp/>(protected<sp/>by<sp/>latency_mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Using<sp/>deque<sp/>for<sp/>O(1)<sp/>front-removal<sp/>when<sp/>the<sp/>window<sp/>exceeds<sp/>10<sp/>000<sp/>samples.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/>latency_samples_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>latency_mutex_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worker<sp/>thread<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>workerLoop(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>worker_id);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>timeoutMonitorLoop();</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkAndHandleTimeouts();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>single<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceResponse<sp/>processRequest(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AsyncInferenceRequest&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>submit_time</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateRequestId();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handleBackpressure(std::unique_lock&lt;std::mutex&gt;&amp;<sp/>lock);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/async_inference_engine.h"/>
+  </compounddef>
+</doxygen>

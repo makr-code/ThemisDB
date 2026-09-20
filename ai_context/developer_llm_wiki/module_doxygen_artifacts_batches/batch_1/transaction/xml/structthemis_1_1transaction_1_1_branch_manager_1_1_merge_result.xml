@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::BranchManager::MergeResult</compoundname>
+    <includes refid="branch__manager_8h" local="no">branch_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a1817b074e8ebb441bacc62740890839e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::BranchManager::MergeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::transaction::BranchManager::MergeResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="83" column="14" bodyfile="include/transaction/branch_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adb7a7dcde9e97b210b907d87923059c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::BranchManager::MergeResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::transaction::BranchManager::MergeResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="84" column="21" bodyfile="include/transaction/branch_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a8356f9de125f3af12e6722ff86e2e3be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::transaction::BranchManager::MergeResult::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::transaction::BranchManager::MergeResult::conflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="85" column="21" bodyfile="include/transaction/branch_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a699cae51095b43e6e1a21f44d6d760f1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::BranchManager::MergeResult::merged_sequence</definition>
+        <argsstring></argsstring>
+        <name>merged_sequence</name>
+        <qualifiedname>themis::transaction::BranchManager::MergeResult::merged_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="86" column="18" bodyfile="include/transaction/branch_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adbb3fc4ce2fef9499d4fb81c4311b102" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref></type>
+        <definition>json themis::transaction::BranchManager::MergeResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::transaction::BranchManager::MergeResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="92" column="14" bodyfile="src/transaction/branch_manager.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/branch_manager.h" line="82" column="5" bodyfile="include/transaction/branch_manager.h" bodystart="82" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a8356f9de125f3af12e6722ff86e2e3be" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::MergeResult</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a699cae51095b43e6e1a21f44d6d760f1" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::MergeResult</scope><name>merged_sequence</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adb7a7dcde9e97b210b907d87923059c9" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::MergeResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a1817b074e8ebb441bacc62740890839e" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::MergeResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adbb3fc4ce2fef9499d4fb81c4311b102" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::MergeResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_p_k_i_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::PKIKeyProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_key_provider" prot="public" virt="non-virtual">themis::KeyProvider</basecompoundref>
+    <includes refid="pki__key__provider_8h" local="no">pki_key_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a32f19be8bb53875b8bcb3c17eb1ba658" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::VCCPKIClient &gt;</type>
+        <definition>std::shared_ptr&lt;utils::VCCPKIClient&gt; themis::security::PKIKeyProvider::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="134" column="21" bodyfile="include/security/pki_key_provider.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1acf726717b996a05746f0d5f3660486a0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; themis::security::PKIKeyProvider::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="135" column="21" bodyfile="include/security/pki_key_provider.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a3037102055d0b86f39ecdb85a14479c5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::PKIKeyProvider::service_id_</definition>
+        <argsstring></argsstring>
+        <name>service_id_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::service_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="136" column="17" bodyfile="include/security/pki_key_provider.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a0c256ab6497f08788c4bf2708ec01359" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::PKIKeyProvider::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="138" column="24" bodyfile="include/security/pki_key_provider.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a5c99fd2321ce4cbe1cdfd143ec772831" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::PKIKeyProvider::kek_</definition>
+        <argsstring></argsstring>
+        <name>kek_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::kek_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="139" column="17" bodyfile="include/security/pki_key_provider.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ae03a5042a28781a061ff959d39a88f5e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, std::vector&lt;uint8_t&gt; &gt; themis::security::PKIKeyProvider::dek_cache_</definition>
+        <argsstring></argsstring>
+        <name>dek_cache_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::dek_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="140" column="24" bodyfile="include/security/pki_key_provider.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a63d88db79b3f0c57f1f765e6e62b807c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;uint8_t&gt; &gt; themis::security::PKIKeyProvider::field_key_cache_</definition>
+        <argsstring></argsstring>
+        <name>field_key_cache_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::field_key_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="141" column="24" bodyfile="include/security/pki_key_provider.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a5890353e45c051996aa399131dd6a8f7" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::current_dek_version_</definition>
+        <argsstring></argsstring>
+        <name>current_dek_version_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::current_dek_version_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="142" column="14" bodyfile="include/security/pki_key_provider.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a98eda6c03b335d8eb4f9cd1a2e230b0a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;uint32_t, std::vector&lt;uint8_t&gt; &gt; &gt; themis::security::PKIKeyProvider::group_dek_cache_</definition>
+        <argsstring></argsstring>
+        <name>group_dek_cache_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::group_dek_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="145" column="24" bodyfile="include/security/pki_key_provider.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a720fdda672f9ca38c842475a32271265" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::security::PKIKeyProvider::group_versions_</definition>
+        <argsstring></argsstring>
+        <name>group_versions_</name>
+        <qualifiedname>themis::security::PKIKeyProvider::group_versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="146" column="24" bodyfile="include/security/pki_key_provider.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ad6c10068e92de189a2adfc593cb6450c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::PKIKeyProvider::PKIKeyProvider</definition>
+        <argsstring>(std::shared_ptr&lt; utils::VCCPKIClient &gt; pki, std::shared_ptr&lt; themis::RocksDBWrapper &gt; db, const std::string &amp;service_id)</argsstring>
+        <name>PKIKeyProvider</name>
+        <qualifiedname>themis::security::PKIKeyProvider::PKIKeyProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; utils::VCCPKIClient &gt;</type>
+          <declname>pki</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="26" column="5" bodyfile="src/security/pki_key_provider.cpp" bodystart="58" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a9c38e3ab9f9ba9870f3bafab361324eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::PKIKeyProvider::PKIKeyProvider</definition>
+        <argsstring>(const std::string &amp;cert_path, const std::string &amp;private_key_path, std::shared_ptr&lt; themis::RocksDBWrapper &gt; db, const std::string &amp;service_id, bool validate_cert=true)</argsstring>
+        <name>PKIKeyProvider</name>
+        <qualifiedname>themis::security::PKIKeyProvider::PKIKeyProvider</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>private_key_path</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>validate_cert</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Load and validate certificate <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Wrap DER pointer for automatic cleanup <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pubkey_der</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="30" column="5" bodyfile="src/security/pki_key_provider.cpp" bodystart="73" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a856cd7ea0e210a7a047562e5b5dc5fe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="37" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1abb3c0b53d1446ca548b4fb245ba9e2cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), rfind(), loadOrCreateDEK(), deriveFieldKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="38" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="414" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a57bca4245d32c176e7d7d339b88d1bd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_p_k_i_key_provider_1af1830c2cbacf25fdcf3be2f91df28093" kindref="member">rotateDEK()</ref>, lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="39" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="433" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a90e93140db1b65817c5187b478f7f1af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; themis::security::PKIKeyProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::security::PKIKeyProvider::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="40" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="449" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a83ec2b4e7901aeff4eef3e7c5d6733d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::security::PKIKeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get Key Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="41" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="484" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a84919c6c9829bb7b5ebc8a991ad57f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::security::PKIKeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="42" column="10" bodyfile="src/security/pki_key_provider.cpp" bodystart="503" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1aff99fc25d0986296d8f9d351583d5b06" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::PKIKeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Has Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="43" column="10" bodyfile="src/security/pki_key_provider.cpp" bodystart="521" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1af3a84e85b11d5ba8b9c39e2f2f7b03d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::security::PKIKeyProvider::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create Key From Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="44" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="542" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1af1830c2cbacf25fdcf3be2f91df28093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::rotateDEK</definition>
+        <argsstring>()</argsstring>
+        <name>rotateDEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::rotateDEK</qualifiedname>
+        <briefdescription>
+<para>Rotate DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), loadOrCreateDEK(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="53" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="558" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a8be4653fe25552e7bca2269334488a67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::getCurrentDEKVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentDEKVersion</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getCurrentDEKVersion</qualifiedname>
+        <briefdescription>
+<para>Get Current DEKVersion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="59" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="570" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a5337d4a4f3e7e628b71a719a023e52a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::getGroupDEK</definition>
+        <argsstring>(const std::string &amp;group_name)</argsstring>
+        <name>getGroupDEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getGroupDEK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Group DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), groupMetadataDbKey(), get(), has_value(), meta_str(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="66" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="711" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a263273c0cd96434e3db11152f73af347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::rotateGroupDEK</definition>
+        <argsstring>(const std::string &amp;group_name)</argsstring>
+        <name>rotateGroupDEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::rotateGroupDEK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Group DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), loadOrCreateGroupDEK(), groupMetadataDbKey(), std::to_string(), std::time(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="73" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="753" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a5f2165501ef85ba71f0e655182762962" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PKIKeyProvider::getGroupDEKVersion</definition>
+        <argsstring>(const std::string &amp;group_name) const</argsstring>
+        <name>getGroupDEKVersion</name>
+        <qualifiedname>themis::security::PKIKeyProvider::getGroupDEKVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Group DEKVersion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="80" column="14" bodyfile="src/security/pki_key_provider.cpp" bodystart="779" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a3278ce58141117201adaa0ffd80e06e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::PKIKeyProvider::listGroups</definition>
+        <argsstring>() const</argsstring>
+        <name>listGroups</name>
+        <qualifiedname>themis::security::PKIKeyProvider::listGroups</qualifiedname>
+        <briefdescription>
+<para>List Groups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="86" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="806" bodyend="823"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ad5d3d4ef2e91b7e92a5cb7536590ffb9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::deriveKEK</definition>
+        <argsstring>()</argsstring>
+        <name>deriveKEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::deriveKEK</qualifiedname>
+        <briefdescription>
+<para>Derive KEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), has_value(), hex(), begin(), end(), size(), std::to_string(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="93" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="174" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ad9388b5e82625e85e8a08913ef1a5509" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::loadOrCreateDEK</definition>
+        <argsstring>(uint32_t version)</argsstring>
+        <name>loadOrCreateDEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::loadOrCreateDEK</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Load Or Create DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), dekDbKey(), get(), nlohmann::json::parse(), <ref refid="structthemis_1_1_encrypted_blob_1ac632c6cc2a4e9441f26d630a19b7e3ae" kindref="member">themis::EncryptedBlob::fromJson()</ref>, size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="99" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="231" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ae08dd79746685093a28fb0ac576df385" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::deriveFieldKey</definition>
+        <argsstring>(const std::string &amp;field_context)</argsstring>
+        <name>deriveFieldKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::deriveFieldKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_context</declname>
+        </param>
+        <briefdescription>
+<para>Derive Field Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), loadOrCreateDEK(), utils::HKDFHelper::derive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="105" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="373" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1aaa31e0a1b420631c8721cf68bd67b0c4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::PKIKeyProvider::dekDbKey</definition>
+        <argsstring>(uint32_t version) const</argsstring>
+        <name>dekDbKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::dekDbKey</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Dek Db Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="111" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a6980a435a20303bd320f3a147f88983f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::PKIKeyProvider::loadOrCreateGroupDEK</definition>
+        <argsstring>(const std::string &amp;group_name, uint32_t version)</argsstring>
+        <name>loadOrCreateGroupDEK</name>
+        <qualifiedname>themis::security::PKIKeyProvider::loadOrCreateGroupDEK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Load Or Create Group DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: groupDekDbKey(), get(), has_value(), size(), nonce(), begin(), ciphertext(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="119" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="600" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1ab7570852657e6fc78373400cd192e86c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::PKIKeyProvider::groupDekDbKey</definition>
+        <argsstring>(const std::string &amp;group_name, uint32_t version) const</argsstring>
+        <name>groupDekDbKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::groupDekDbKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Group Dek Db Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="126" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="584" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_p_k_i_key_provider_1a59c85cb868d84f3cfffd78e9a9d1cbab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::PKIKeyProvider::groupMetadataDbKey</definition>
+        <argsstring>(const std::string &amp;group_name) const</argsstring>
+        <name>groupMetadataDbKey</name>
+        <qualifiedname>themis::security::PKIKeyProvider::groupMetadataDbKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_name</declname>
+        </param>
+        <briefdescription>
+<para>Group Metadata Db Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pki_key_provider.h" line="132" column="17" bodyfile="src/security/pki_key_provider.cpp" bodystart="588" bodyend="590"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::PKIKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_p_k_i_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::PKIKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_p_k_i_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/pki_key_provider.h" line="24" column="1" bodyfile="include/security/pki_key_provider.h" bodystart="24" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1af3a84e85b11d5ba8b9c39e2f2f7b03d2" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a5890353e45c051996aa399131dd6a8f7" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>current_dek_version_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1acf726717b996a05746f0d5f3660486a0" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>db_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ae03a5042a28781a061ff959d39a88f5e" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>dek_cache_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1aaa31e0a1b420631c8721cf68bd67b0c4" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>dekDbKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a84919c6c9829bb7b5ebc8a991ad57f70" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ae08dd79746685093a28fb0ac576df385" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>deriveFieldKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ad5d3d4ef2e91b7e92a5cb7536590ffb9" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>deriveKEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a63d88db79b3f0c57f1f765e6e62b807c" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>field_key_cache_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a8be4653fe25552e7bca2269334488a67" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>getCurrentDEKVersion</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a5337d4a4f3e7e628b71a719a023e52a9" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>getGroupDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a5f2165501ef85ba71f0e655182762962" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>getGroupDEKVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a856cd7ea0e210a7a047562e5b5dc5fe8" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1abb3c0b53d1446ca548b4fb245ba9e2cf" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a83ec2b4e7901aeff4eef3e7c5d6733d7" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a98eda6c03b335d8eb4f9cd1a2e230b0a" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>group_dek_cache_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a720fdda672f9ca38c842475a32271265" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>group_versions_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ab7570852657e6fc78373400cd192e86c" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>groupDekDbKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a59c85cb868d84f3cfffd78e9a9d1cbab" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>groupMetadataDbKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1aff99fc25d0986296d8f9d351583d5b06" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a5c99fd2321ce4cbe1cdfd143ec772831" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>kek_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a3278ce58141117201adaa0ffd80e06e0" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>listGroups</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a90e93140db1b65817c5187b478f7f1af" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ad9388b5e82625e85e8a08913ef1a5509" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>loadOrCreateDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a6980a435a20303bd320f3a147f88983f" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>loadOrCreateGroupDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a0c256ab6497f08788c4bf2708ec01359" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a32f19be8bb53875b8bcb3c17eb1ba658" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1ad6c10068e92de189a2adfc593cb6450c" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>PKIKeyProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a9c38e3ab9f9ba9870f3bafab361324eb" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>PKIKeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1af1830c2cbacf25fdcf3be2f91df28093" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>rotateDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a263273c0cd96434e3db11152f73af347" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>rotateGroupDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a57bca4245d32c176e7d7d339b88d1bd3" prot="public" virt="virtual"><scope>themis::security::PKIKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a3037102055d0b86f39ecdb85a14479c5" prot="private" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>service_id_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::security::PKIKeyProvider</scope><name>~KeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

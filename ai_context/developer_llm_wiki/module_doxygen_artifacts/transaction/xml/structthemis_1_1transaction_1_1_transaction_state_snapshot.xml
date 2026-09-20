@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_transaction_state_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::TransactionStateSnapshot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ab725a5e3eda6147c654b86150d3ad4c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TransactionStateSnapshot::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::txn_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="45" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1a35ece74641cfd74e9af4f178751ecd89" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398" kindref="member">DistributedTxnState</ref></type>
+        <definition>DistributedTxnState themis::transaction::TransactionStateSnapshot::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="46" column="25" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ae3183aaf286077a083127aa7568c8ed6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::transaction::TransactionStateSnapshot::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="47" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ad35aa01dd26f7e9d9fd7c90dba64e379" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::transaction::TransactionStateSnapshot::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="48" column="43" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1a2b9134089105bcf3b7a29407d11c848c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::transaction::TransactionStateSnapshot::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::timeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="49" column="43" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1aec71345baab3dd30d33aed2930819029" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TransactionStateSnapshot::error_detail</definition>
+        <argsstring></argsstring>
+        <name>error_detail</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::error_detail</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="50" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ac38470af8655897c116e4731a35620e9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionStateSnapshot::TransactionStateSnapshot</definition>
+        <argsstring>(const DistributedTransaction &amp;txn)</argsstring>
+        <name>TransactionStateSnapshot</name>
+        <qualifiedname>themis::transaction::TransactionStateSnapshot::TransactionStateSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Transaction State Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/distributed_transaction_manager.cpp" line="57" column="14" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/transaction/distributed_transaction_manager.cpp" line="44" column="1" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="44" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ad35aa01dd26f7e9d9fd7c90dba64e379" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1aec71345baab3dd30d33aed2930819029" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>error_detail</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ae3183aaf286077a083127aa7568c8ed6" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>participants</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1a35ece74641cfd74e9af4f178751ecd89" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>state</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1a2b9134089105bcf3b7a29407d11c848c" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>timeout</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ac38470af8655897c116e4731a35620e9" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>TransactionStateSnapshot</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_state_snapshot_1ab725a5e3eda6147c654b86150d3ad4c0" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionStateSnapshot</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

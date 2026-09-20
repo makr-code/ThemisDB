@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_checkpoint_manager_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointManagerConfig</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManagerConfig::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::checkpoint_dir</qualifiedname>
+        <briefdescription>
+<para>Directory to store checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="53" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CheckpointManagerConfig::max_checkpoints</definition>
+        <argsstring></argsstring>
+        <name>max_checkpoints</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::max_checkpoints</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Rolling window size (oldest pruned). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="54" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointManagerConfig::validate_on_load</definition>
+        <argsstring></argsstring>
+        <name>validate_on_load</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::validate_on_load</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Validate SHA-256 on resume(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="55" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointManagerConfig::auto_rollback</definition>
+        <argsstring></argsstring>
+        <name>auto_rollback</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::auto_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Fall back to previous on corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="56" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a628b8cc6fdaf5e3723da5a38fa92c26b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManagerConfig::manifest_filename</definition>
+        <argsstring></argsstring>
+        <name>manifest_filename</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::manifest_filename</qualifiedname>
+        <initializer>= &quot;checkpoint_manifest.json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="57" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1ab0f4dd57b039a1e538aea0e920c4032f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::CheckpointManagerConfig::io_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>io_timeout_ms</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::io_timeout_ms</qualifiedname>
+        <initializer>= 300000</initializer>
+        <briefdescription>
+<para>Timeout for I/O ops (SHA-256, file copy). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="60" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a465f39a8284ca3e12d0979bcc2da0513" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointManagerConfig::cleanup_partial</definition>
+        <argsstring></argsstring>
+        <name>cleanup_partial</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::cleanup_partial</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Remove partial/corrupted checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="61" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manager_config_1ae9805f792e1954cb3b587de954e2ee68" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CheckpointManagerConfig::min_checkpoint_size</definition>
+        <argsstring></argsstring>
+        <name>min_checkpoint_size</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::min_checkpoint_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Minimum valid checkpoint size (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="62" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_checkpoint_manager_config_1a1291c739d36ef263a0815f9c25c7e07e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CheckpointManagerConfig::CheckpointManagerConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>CheckpointManagerConfig</name>
+        <qualifiedname>themis::training::CheckpointManagerConfig::CheckpointManagerConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="64" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the LoRA checkpoint manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2 hardening: Added timeout support for I/O operations, explicit recovery configuration, and diagnostics control. </para>
+    </detaileddescription>
+    <location file="include/training/lora_checkpoint_manager.h" line="52" column="1" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="52" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>auto_rollback</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a1291c739d36ef263a0815f9c25c7e07e" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>CheckpointManagerConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a465f39a8284ca3e12d0979bcc2da0513" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>cleanup_partial</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ab0f4dd57b039a1e538aea0e920c4032f" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>io_timeout_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a628b8cc6fdaf5e3723da5a38fa92c26b" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>manifest_filename</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>max_checkpoints</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ae9805f792e1954cb3b587de954e2ee68" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>min_checkpoint_size</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManagerConfig</scope><name>validate_on_load</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

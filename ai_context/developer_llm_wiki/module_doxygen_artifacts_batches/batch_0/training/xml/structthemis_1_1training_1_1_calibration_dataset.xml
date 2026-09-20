@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_calibration_dataset" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CalibrationDataset</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_dataset_1a5e749ae26e008e9108b7451ba9232c96" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_calibration_sample" kindref="compound">CalibrationSample</ref> &gt;</type>
+        <definition>std::vector&lt;CalibrationSample&gt; themis::training::CalibrationDataset::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::training::CalibrationDataset::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="138" column="17" bodyfile="include/training/training_interfaces.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_calibration_dataset_1a2660fa01e89236a6df8e11b07261bef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CalibrationDataset::CalibrationDataset</definition>
+        <argsstring>()=default</argsstring>
+        <name>CalibrationDataset</name>
+        <qualifiedname>themis::training::CalibrationDataset::CalibrationDataset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="140" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dataset fed into <ref refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a7478cd7bf652bb090ba4bdf70b59fddb" kindref="member">IConfidenceCalibrator::calibrate()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="137" column="1" bodyfile="include/training/training_interfaces.h" bodystart="137" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_calibration_dataset_1a2660fa01e89236a6df8e11b07261bef3" prot="public" virt="non-virtual"><scope>themis::training::CalibrationDataset</scope><name>CalibrationDataset</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_dataset_1a5e749ae26e008e9108b7451ba9232c96" prot="public" virt="non-virtual"><scope>themis::training::CalibrationDataset</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

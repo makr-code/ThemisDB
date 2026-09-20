@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d264243307215374074313316314103303153025205122110" kind="namespace" language="C++">
+    <compoundname>@264243307215374074313316314103303153025205122110</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="57" column="1"/>
+  </compounddef>
+</doxygen>

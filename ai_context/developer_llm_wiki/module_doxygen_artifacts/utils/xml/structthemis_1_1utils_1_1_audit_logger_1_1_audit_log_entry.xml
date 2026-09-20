@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLogger::AuditLogEntry</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1aee7cf9a6f2e442a1944617dffc74b2a8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::AuditLogEntry::entry_number</definition>
+        <argsstring></argsstring>
+        <name>entry_number</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogEntry::entry_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="381" column="18" bodyfile="include/utils/audit_logger.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1a50e4c072eebe4e00ffa7329fb09ad4e2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditLogger::AuditLogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="382" column="47" bodyfile="include/utils/audit_logger.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1ad0a2535ddb796e90b280b11c63486019" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::AuditLogger::AuditLogEntry::record</definition>
+        <argsstring></argsstring>
+        <name>record</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogEntry::record</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="383" column="24" bodyfile="include/utils/audit_logger.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structure representing an audit log entry with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="380" column="5" bodyfile="include/utils/audit_logger.h" bodystart="380" bodyend="384"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1aee7cf9a6f2e442a1944617dffc74b2a8" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::AuditLogEntry</scope><name>entry_number</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1ad0a2535ddb796e90b280b11c63486019" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::AuditLogEntry</scope><name>record</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry_1a50e4c072eebe4e00ffa7329fb09ad4e2" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger::AuditLogEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

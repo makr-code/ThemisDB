@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_erasure_coding_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ErasureCodingConfig</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_erasure_coding_config_1aa694c058e17fc062b7da9dc4568cc47e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ErasureCodingConfig::data_shards</definition>
+        <argsstring></argsstring>
+        <name>data_shards</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::data_shards</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="102" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_erasure_coding_config_1a368cdfc886c70137bfff4f4fa6c57d91" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ErasureCodingConfig::parity_shards</definition>
+        <argsstring></argsstring>
+        <name>parity_shards</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::parity_shards</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="103" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_erasure_coding_config_1adec2f28e44e7ce3a084f79ff777b1b86" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06a" kindref="member">ErasureCodingAlgorithm</ref></type>
+        <definition>ErasureCodingAlgorithm themis::sharding::ErasureCodingConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06aa5655e05ab6bf36148ebb3f9a12837992" kindref="member">ErasureCodingAlgorithm::REED_SOLOMON</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="104" column="28" bodyfile="include/sharding/redundancy_strategy.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_erasure_coding_config_1a65a9ac96dd88714d353bf7bc52e55234" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ErasureCodingConfig::min_document_size_kb</definition>
+        <argsstring></argsstring>
+        <name>min_document_size_kb</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::min_document_size_kb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="105" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_erasure_coding_config_1a23b50ff131694ae6824bd1e34e81d9e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ErasureCodingConfig::totalShards</definition>
+        <argsstring>() const</argsstring>
+        <name>totalShards</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::totalShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="108" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_erasure_coding_config_1a343f7824fdfa409314b56e6e417566d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::ErasureCodingConfig::storageEfficiency</definition>
+        <argsstring>() const</argsstring>
+        <name>storageEfficiency</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::storageEfficiency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="111" column="12" bodyfile="include/sharding/redundancy_strategy.h" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_erasure_coding_config_1a1844d6eff2a07663d7f9aa329bbfa9e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ErasureCodingConfig::faultTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>faultTolerance</name>
+        <qualifiedname>themis::sharding::ErasureCodingConfig::faultTolerance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="116" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration parameters for erasure-coded redundancy modes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="101" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="101" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1adec2f28e44e7ce3a084f79ff777b1b86" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1aa694c058e17fc062b7da9dc4568cc47e" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>data_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1a1844d6eff2a07663d7f9aa329bbfa9e4" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>faultTolerance</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1a65a9ac96dd88714d353bf7bc52e55234" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>min_document_size_kb</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1a368cdfc886c70137bfff4f4fa6c57d91" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>parity_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1a343f7824fdfa409314b56e6e417566d0" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>storageEfficiency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_erasure_coding_config_1a23b50ff131694ae6824bd1e34e81d9e2" prot="public" virt="non-virtual"><scope>themis::sharding::ErasureCodingConfig</scope><name>totalShards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

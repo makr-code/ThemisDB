@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1analytics_1_1test" kind="namespace" language="C++">
+    <compoundname>themisdb::analytics::test</compoundname>
+    <innerclass refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" prot="public">themisdb::analytics::test::AnalyticsPhase2A2Test</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector" prot="public">themisdb::analytics::test::TrivialWithVector</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a9f6cfbdf21f1db5523e7b831cf377e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, ConnectionGuardReleasesOnNormalExit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>ConnectionGuardReleasesOnNormalExit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="96" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1ab36eff7190553ec2aa718d11e0e7e826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, MultipleConnectionGuardsSequential)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>MultipleConnectionGuardsSequential</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="116" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="116" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a0082de9c808cfa1e834b9f738bcfe63d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, ConnectionGuardReleasesOnException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>ConnectionGuardReleasesOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="137" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="137" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a908feeaddbaa382462fb026ea9ca5821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, ConnectionGuardReleasesOnAnyException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>ConnectionGuardReleasesOnAnyException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="160" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="160" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1abbd7b9a40719bbf0cb45a8e6e469c869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, QueryExecutionReleaseConnection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>QueryExecutionReleaseConnection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="180" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="180" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a777a94e4284442ddf9aba841f09c3e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, FailedQueryExecutionReleaseConnection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>FailedQueryExecutionReleaseConnection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="211" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="211" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a2be0ec8df26bdbe6c3899424222a65a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, PoolExhaustionDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>PoolExhaustionDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="245" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="245" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a0bec24eaaa538ae3af549800007abea0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, PoolRecoveryAfterExhaustion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>PoolRecoveryAfterExhaustion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="264" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="264" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a11318d28544912f7a8cb0b0383194fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, TransactionSafeWrite)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>TransactionSafeWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="289" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="289" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1af949a56c55bd86b6839e0619a1207a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, TransactionRollbackOnException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>TransactionRollbackOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="321" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="321" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a4d606ac2e4b517fe481bcf3aa4b7e782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, RetryLogicWithFreshConnection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>RetryLogicWithFreshConnection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="354" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="354" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1ac599e96aa313f2e1058000a11cdb2318" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, BatchProcessingWithRetry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>BatchProcessingWithRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="384" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="384" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a6ef0ae314dd875f952466a248f061ccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, ConnectionHealthCheck)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>ConnectionHealthCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="410" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="410" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1ac2f044b4618263a362f4700965a4cdf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, PoolStatistics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>PoolStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="436" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="436" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1ade36401e416e1362218d7c42c8ca25a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, NoMemoryLeakWithRepeatedGuards)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>NoMemoryLeakWithRepeatedGuards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="467" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="467" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a27cef961eaaeb2ba9789cca0f8aabad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST_F</definition>
+        <argsstring>(AnalyticsPhase2A2Test, StressTestConcurrentConnections)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test" kindref="compound">AnalyticsPhase2A2Test</ref></type>
+        </param>
+        <param>
+          <type>StressTestConcurrentConnections</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="496" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="496" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1af2ffa0614bf92ec4b3b61ebd5a228d4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2MissingDtorTest, ExplicitDefaultDtorReleasesVector)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2MissingDtorTest</type>
+        </param>
+        <param>
+          <type>ExplicitDefaultDtorReleasesVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="537" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="537" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a40ae0369ed17bde1ae338f14ab45c891" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2MissingDtorTest, ExplicitDefaultDtorInCollection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2MissingDtorTest</type>
+        </param>
+        <param>
+          <type>ExplicitDefaultDtorInCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="559" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="559" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a048e2ef427f55e289d8de9c86da391bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2MissingDtorTest, ExplicitDefaultDtorViaUniquePtr)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2MissingDtorTest</type>
+        </param>
+        <param>
+          <type>ExplicitDefaultDtorViaUniquePtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="579" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="579" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a4f76bb73833fd1ad2b6527637b5b567e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2IteratorSafetyTest, UnorderedMapRehashDoesNotBreakRefetch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2IteratorSafetyTest</type>
+        </param>
+        <param>
+          <type>UnorderedMapRehashDoesNotBreakRefetch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="610" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="610" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1a91fd7363b432c1e476bff4b7826c6423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2IteratorSafetyTest, EraseWhileIteratingCollectThenErase)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2IteratorSafetyTest</type>
+        </param>
+        <param>
+          <type>EraseWhileIteratingCollectThenErase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="642" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="642" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1analytics_1_1test_1acc4fa609ff0de17716474d6e4ba00796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TEST</definition>
+        <argsstring>(Phase2A2ExceptionInDtorTest, CallbackExceptionDoesNotEscapeFlush)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>Phase2A2ExceptionInDtorTest</type>
+        </param>
+        <param>
+          <type>CallbackExceptionDoesNotEscapeFlush</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="676" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="676" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

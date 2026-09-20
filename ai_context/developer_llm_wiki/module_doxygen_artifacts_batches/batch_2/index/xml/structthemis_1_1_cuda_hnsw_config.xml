@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cuda_hnsw_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CudaHnswConfig</compoundname>
+    <includes refid="cuda__hnsw__graph__traversal_8h" local="no">cuda_hnsw_graph_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1af1dae8278c482657cf2ffefb61b53ace" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::CudaHnswConfig::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::CudaHnswConfig::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CUDA device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="40" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1ad03fe2194edca45bb7997a576941cdbd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::CudaHnswConfig::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::CudaHnswConfig::dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Vector dimensionality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="41" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1a9226b000c3386b0df84d7bb3ac068cc2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::CudaHnswConfig::ef_search</definition>
+        <argsstring></argsstring>
+        <name>ef_search</name>
+        <qualifiedname>themis::CudaHnswConfig::ef_search</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Search-time candidate list size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="42" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1a66086ab7b7c263287c04c3e87d00ffee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::CudaHnswConfig::max_layers</definition>
+        <argsstring></argsstring>
+        <name>max_layers</name>
+        <qualifiedname>themis::CudaHnswConfig::max_layers</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum number of HNSW layers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="43" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1a2a65cced88c4d9d9786b2270caf5ffa8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cad" kindref="member">HnswDistanceMetric</ref></type>
+        <definition>HnswDistanceMetric themis::CudaHnswConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::CudaHnswConfig::metric</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">HnswDistanceMetric::L2</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="44" column="24" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1acbda45b9b0c6c734c6c334853532713c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CudaHnswConfig::device_memory_cap</definition>
+        <argsstring></argsstring>
+        <name>device_memory_cap</name>
+        <qualifiedname>themis::CudaHnswConfig::device_memory_cap</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hard cap in bytes (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="45" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1a1ad55a9996b84d6d2600e6c000bc9d96" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswConfig::use_fp16</definition>
+        <argsstring></argsstring>
+        <name>use_fp16</name>
+        <qualifiedname>themis::CudaHnswConfig::use_fp16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Use half-precision for distance kernels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="46" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cuda_hnsw_config_1ad737dbb0430ec8240fa1455ed96d9540" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CudaHnswConfig::enable_graph_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_graph_cache</name>
+        <qualifiedname>themis::CudaHnswConfig::enable_graph_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Cache CUDA graph capture for ef_search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="47" column="14" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/cuda_hnsw_graph_traversal.h" line="39" column="1" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="39" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1af1dae8278c482657cf2ffefb61b53ace" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1acbda45b9b0c6c734c6c334853532713c" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>device_memory_cap</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1ad03fe2194edca45bb7997a576941cdbd" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>dim</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1a9226b000c3386b0df84d7bb3ac068cc2" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>ef_search</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1ad737dbb0430ec8240fa1455ed96d9540" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>enable_graph_cache</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1a66086ab7b7c263287c04c3e87d00ffee" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>max_layers</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1a2a65cced88c4d9d9786b2270caf5ffa8" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_cuda_hnsw_config_1a1ad55a9996b84d6d2600e6c000bc9d96" prot="public" virt="non-virtual"><scope>themis::CudaHnswConfig</scope><name>use_fp16</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

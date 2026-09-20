@@ -1,0 +1,1069 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_ethical_guidelines_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::EthicalGuidelinesManager</compoundname>
+    <includes refid="ethical__guidelines__manager_8h" local="no">ethical_guidelines_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_principle" prot="public">themis::llm::EthicalGuidelinesManager::Principle</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_augmentation_template" prot="public">themis::llm::EthicalGuidelinesManager::AugmentationTemplate</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline" prot="public">themis::llm::EthicalGuidelinesManager::DomainGuideline</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" prot="public">themis::llm::EthicalGuidelinesManager::DetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" prot="public">themis::llm::EthicalGuidelinesManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics" prot="public">themis::llm::EthicalGuidelinesManager::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a4d6ba2437c2351e2da5914d1a3caaae2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::EthicalGuidelinesManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="216" column="12" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1af238a06165b94928bcfa4677261627dc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::config_path_</definition>
+        <argsstring></argsstring>
+        <name>config_path_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::config_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="217" column="17" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a3d417da41a85df72552df0eb7f496f5a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_principle" kindref="compound">Principle</ref> &gt;</type>
+        <definition>std::vector&lt;Principle&gt; themis::llm::EthicalGuidelinesManager::principles_</definition>
+        <argsstring></argsstring>
+        <name>principles_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::principles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="220" column="17" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1af6aa4e81d4afabaa537425334a34ef87" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicalGuidelinesManager::ethical_keywords_de_</definition>
+        <argsstring></argsstring>
+        <name>ethical_keywords_de_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::ethical_keywords_de_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="223" column="17" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a176b1c8797356adf2aa92508251b7a5b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicalGuidelinesManager::ethical_keywords_en_</definition>
+        <argsstring></argsstring>
+        <name>ethical_keywords_en_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::ethical_keywords_en_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="224" column="17" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a3bcc704e1911f163c7bb151b69366e6e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicalGuidelinesManager::high_autonomy_contexts_</definition>
+        <argsstring></argsstring>
+        <name>high_autonomy_contexts_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::high_autonomy_contexts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="225" column="17" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a25a80e1f8546c908da3ae2d5e8e8c4d1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_augmentation_template" kindref="compound">AugmentationTemplate</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AugmentationTemplate&gt; themis::llm::EthicalGuidelinesManager::augmentation_templates_</definition>
+        <argsstring></argsstring>
+        <name>augmentation_templates_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::augmentation_templates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="228" column="24" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ab349aa03458f8bc241e697599fac2195" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline" kindref="compound">DomainGuideline</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DomainGuideline&gt; themis::llm::EthicalGuidelinesManager::domain_guidelines_</definition>
+        <argsstring></argsstring>
+        <name>domain_guidelines_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::domain_guidelines_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="231" column="24" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a154f5220432a118628555bad99db3716" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, themis::plugins::ethics::PhilosophyProfile &gt;</type>
+        <definition>std::map&lt;std::string, themis::plugins::ethics::PhilosophyProfile&gt; themis::llm::EthicalGuidelinesManager::philosophy_profiles_</definition>
+        <argsstring></argsstring>
+        <name>philosophy_profiles_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::philosophy_profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="234" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9fd78723eb5710fde83261850d38d461" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::llm::EthicalGuidelinesManager::statistics_</definition>
+        <argsstring></argsstring>
+        <name>statistics_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::statistics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="237" column="24" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a1b72b775ca1006c68f74860f9952f31e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::EthicalGuidelinesManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="240" column="24" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a94aa0a40705e41d78cf8704142c10016" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EthicalGuidelinesManager::EthicalGuidelinesManager</definition>
+        <argsstring>(const std::string &amp;config_path=&quot;config/ethical_guidelines.yaml&quot;)</argsstring>
+        <name>EthicalGuidelinesManager</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::EthicalGuidelinesManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;config/ethical_guidelines.yaml&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="74" column="14" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="32" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a91b86811f11fbec04e90476ebe39d9bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EthicalGuidelinesManager::~EthicalGuidelinesManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EthicalGuidelinesManager</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::~EthicalGuidelinesManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9f9537d111427d2679e12d3461b2616f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>EthicalGuidelinesManager::DetectionResult themis::llm::EthicalGuidelinesManager::detectEthicalContext</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;language=&quot;&quot;)</argsstring>
+        <name>detectEthicalContext</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::detectEthicalContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="82" column="21" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="245" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a502658a7421215f52ddfa3758bf2be33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>EthicalGuidelinesManager::DetectionResult themis::llm::EthicalGuidelinesManager::detectEthicalContextInRAG</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;documents, const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;conversation_history={})</argsstring>
+        <name>detectEthicalContextInRAG</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::detectEthicalContextInRAG</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>conversation_history</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="87" column="21" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="323" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9b218fa119992716afcff90d7181c266" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>EthicalGuidelinesManager::DetectionResult themis::llm::EthicalGuidelinesManager::detectWithLLMJudge</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;conversation_context, void *llm_wrapper)</argsstring>
+        <name>detectWithLLMJudge</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::detectWithLLMJudge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>conversation_context</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>llm_wrapper</declname>
+        </param>
+        <briefdescription>
+<para>Detect With LLMJudge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conversation_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="100" column="21" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="614" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a5c0f47babef7fe0c797341c0e1f880a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::augmentPrompt</definition>
+        <argsstring>(const std::string &amp;original_prompt, const DetectionResult &amp;detection_result)</argsstring>
+        <name>augmentPrompt</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::augmentPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>detection_result</declname>
+        </param>
+        <briefdescription>
+<para>Augment Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detection_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detection_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a47e3cc1f9dc8dd2b48bb13470990ba7c" kindref="member">getAugmentationTemplate()</ref>, <ref refid="ethical__guidelines__manager_8cpp_1a9edd5c6bd7bab3436bc9bb8fe051171d" kindref="member">LogWarning()</ref>, <ref refid="ethical__guidelines__manager_8cpp_1a7e52ff2aeb95ae5e329b016e3c974552" kindref="member">LogError()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="112" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="394" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a5ca11633ec8e0c01ce94cb2a5f95a0e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::augmentResponse</definition>
+        <argsstring>(const std::string &amp;response, const DetectionResult &amp;detection_result)</argsstring>
+        <name>augmentResponse</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::augmentResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>detection_result</declname>
+        </param>
+        <briefdescription>
+<para>Augment Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detection_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detection_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a47e3cc1f9dc8dd2b48bb13470990ba7c" kindref="member">getAugmentationTemplate()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="123" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="444" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a47e3cc1f9dc8dd2b48bb13470990ba7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_augmentation_template" kindref="compound">AugmentationTemplate</ref> *</type>
+        <definition>const EthicalGuidelinesManager::AugmentationTemplate * themis::llm::EthicalGuidelinesManager::getAugmentationTemplate</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getAugmentationTemplate</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getAugmentationTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Augmentation Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="133" column="32" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="471" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1aa281a79cca739eb73bddfde2ee895634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::loadConfig</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>loadConfig</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::loadConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Configuration management ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), YAML::LoadFile(), <ref refid="ethical__guidelines__manager_8cpp_1a7e52ff2aeb95ae5e329b016e3c974552" kindref="member">LogError()</ref>, clear(), push_back(), <ref refid="ethical__guidelines__manager_8cpp_1a0765c057bd1fd48b4836fed5c5a2c506" kindref="member">LogInfo()</ref>, size(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="141" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="56" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a915acf824d7afbab19309fb12aa278e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::reloadConfig</definition>
+        <argsstring>()</argsstring>
+        <name>reloadConfig</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::reloadConfig</qualifiedname>
+        <briefdescription>
+<para>Reload <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1aa281a79cca739eb73bddfde2ee895634" kindref="member">loadConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="147" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a28b2d59e8238fbdd2cfc647e1b30f5ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::llm::EthicalGuidelinesManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="149" column="18" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a8bba0f76438af0acf345803fc03ff14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicalGuidelinesManager::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="155" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a33f77b3f28b04af9d3a99b8bd9652af2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="157" column="10" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a862a6a058b9f44200cacf75790b9a32d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicalGuidelinesManager::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="163" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9e3a6481f1f1a2d4ee2d7e01868b59a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_principle" kindref="compound">Principle</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Principle &gt; &amp; themis::llm::EthicalGuidelinesManager::getPrinciples</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrinciples</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getPrinciples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="169" column="23" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ae3bc532c7d99f14c0075ae8ba14befff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline" kindref="compound">DomainGuideline</ref> &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, DomainGuideline &gt; &amp; themis::llm::EthicalGuidelinesManager::getDomainGuidelines</definition>
+        <argsstring>() const</argsstring>
+        <name>getDomainGuidelines</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getDomainGuidelines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="171" column="30" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ac242afacecd4ddca328274268745c58d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>EthicalGuidelinesManager::Statistics themis::llm::EthicalGuidelinesManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="186" column="16" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="594" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a6292291e7d452e6ba1a480e0ebd0f2ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicalGuidelinesManager::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="190" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="608" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a64f54df74cb520e68506e11727f21b1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::registerPhilosophy</definition>
+        <argsstring>(const std::string &amp;school_id, const themis::plugins::ethics::PhilosophyProfile &amp;profile)</argsstring>
+        <name>registerPhilosophy</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::registerPhilosophy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <param>
+          <type>const themis::plugins::ethics::PhilosophyProfile &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Plugin Integration API ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Plugin Integration API Implementation ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), <ref refid="ethical__guidelines__manager_8cpp_1a9edd5c6bd7bab3436bc9bb8fe051171d" kindref="member">LogWarning()</ref>, find(), end(), <ref refid="ethical__guidelines__manager_8cpp_1a0765c057bd1fd48b4836fed5c5a2c506" kindref="member">LogInfo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="199" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="704" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1abaf5dbce3dac623c102c563b72cf0780" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::EthicalGuidelinesManager::mergePhilosophies</definition>
+        <argsstring>(const std::map&lt; std::string, themis::plugins::ethics::PhilosophyProfile &gt; &amp;profiles)</argsstring>
+        <name>mergePhilosophies</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::mergePhilosophies</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, themis::plugins::ethics::PhilosophyProfile &gt; &amp;</type>
+          <declname>profiles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="204" column="12" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="733" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a4ed6565613693f570d64dac7907215c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::EthicalGuidelinesManager::getRegisteredPhilosophies</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegisteredPhilosophies</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::getRegisteredPhilosophies</qualifiedname>
+        <briefdescription>
+<para>Get Registered Philosophies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="212" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="748" bodyend="765"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ab2ccd06489d023a0ffa2621236a5a945" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_content)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_content</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="248" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a99f1d53e71d42e6d536becc43a6d9cf8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicalGuidelinesManager::calculateConfidence</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;detected_keywords) const</argsstring>
+        <name>calculateConfidence</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::calculateConfidence</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>detected_keywords</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detected_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="254" column="11" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="478" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a932fcd4d9901fd394f07ebc66fc254fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::detectLanguage</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Language. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="260" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="494" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a2707ab5a131c657dd3b0fc6b5eba0fb1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::EthicalGuidelinesManager::detectDomains</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>detectDomains</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::detectDomains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Domains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="266" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="529" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a6bb95b3c560c2f8013a7ef3ef3ce9aa4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::selectAugmentation</definition>
+        <argsstring>(const DetectionResult &amp;result) const</argsstring>
+        <name>selectAugmentation</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::selectAugmentation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Select Augmentation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="272" column="17" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="548" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a0aaf6190293eb5a233dc442ad531ddb2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicalGuidelinesManager::logDetection</definition>
+        <argsstring>(const DetectionResult &amp;result, const std::string &amp;context) const</argsstring>
+        <name>logDetection</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::logDetection</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Log Detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="278" column="10" bodyfile="src/llm/ethical_guidelines_manager.cpp" bodystart="585" bodyend="592"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethical_guidelines_manager.h" line="25" column="1" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="25" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a25a80e1f8546c908da3ae2d5e8e8c4d1" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>augmentation_templates_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a5c0f47babef7fe0c797341c0e1f880a1" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>augmentPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a5ca11633ec8e0c01ce94cb2a5f95a0e0" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>augmentResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a99f1d53e71d42e6d536becc43a6d9cf8" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>calculateConfidence</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a4d6ba2437c2351e2da5914d1a3caaae2" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1af238a06165b94928bcfa4677261627dc" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>config_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a2707ab5a131c657dd3b0fc6b5eba0fb1" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>detectDomains</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9f9537d111427d2679e12d3461b2616f" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>detectEthicalContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a502658a7421215f52ddfa3758bf2be33" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>detectEthicalContextInRAG</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a932fcd4d9901fd394f07ebc66fc254fe" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9b218fa119992716afcff90d7181c266" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>detectWithLLMJudge</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ab349aa03458f8bc241e697599fac2195" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>domain_guidelines_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1af6aa4e81d4afabaa537425334a34ef87" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>ethical_keywords_de_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a176b1c8797356adf2aa92508251b7a5b" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>ethical_keywords_en_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a94aa0a40705e41d78cf8704142c10016" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>EthicalGuidelinesManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a47e3cc1f9dc8dd2b48bb13470990ba7c" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getAugmentationTemplate</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a28b2d59e8238fbdd2cfc647e1b30f5ca" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ae3bc532c7d99f14c0075ae8ba14befff" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getDomainGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9e3a6481f1f1a2d4ee2d7e01868b59a4" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getPrinciples</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a4ed6565613693f570d64dac7907215c5" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getRegisteredPhilosophies</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ac242afacecd4ddca328274268745c58d" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a3bcc704e1911f163c7bb151b69366e6e" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>high_autonomy_contexts_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a33f77b3f28b04af9d3a99b8bd9652af2" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1aa281a79cca739eb73bddfde2ee895634" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>loadConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1ab2ccd06489d023a0ffa2621236a5a945" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>loadFromYAML</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a0aaf6190293eb5a233dc442ad531ddb2" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>logDetection</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1abaf5dbce3dac623c102c563b72cf0780" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>mergePhilosophies</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a1b72b775ca1006c68f74860f9952f31e" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a154f5220432a118628555bad99db3716" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>philosophy_profiles_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a3d417da41a85df72552df0eb7f496f5a" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>principles_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a64f54df74cb520e68506e11727f21b1f" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>registerPhilosophy</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a915acf824d7afbab19309fb12aa278e0" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>reloadConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a6292291e7d452e6ba1a480e0ebd0f2ef" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a6bb95b3c560c2f8013a7ef3ef3ce9aa4" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>selectAugmentation</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a8bba0f76438af0acf345803fc03ff14f" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a862a6a058b9f44200cacf75790b9a32d" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a9fd78723eb5710fde83261850d38d461" prot="private" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>statistics_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethical_guidelines_manager_1a91b86811f11fbec04e90476ebe39d9bf" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager</scope><name>~EthicalGuidelinesManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

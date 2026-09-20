@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__async__io__multiscan_8cpp" kind="file" language="C++">
+    <compoundname>bench_async_io_multiscan.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/base/bench_async_io_multiscan.cpp</label>
+        <link refid="bench__async__io__multiscan_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__async__io__multiscan_8cpp_1a310f6610a67d065c1eeaf9bef15373fb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_AsyncIO_Multiscan_Disabled</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AsyncIO_Multiscan_Disabled</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_async_io_multiscan.cpp" line="4" column="13" bodyfile="benchmarks/base/bench_async_io_multiscan.cpp" bodystart="4" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__async__io__multiscan_8cpp_1afbaa15a10df4d640bbc1cc58a6962d53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_AsyncIO_Multiscan_Disabled)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_AsyncIO_Multiscan_Disabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_async_io_multiscan.cpp" line="11" column="1" declfile="benchmarks/base/bench_async_io_multiscan.cpp" declline="11" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__async__io__multiscan_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_async_io_multiscan.cpp" line="12" column="1" declfile="benchmarks/base/bench_async_io_multiscan.cpp" declline="12" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Async<sp/>I/O<sp/>multiscan<sp/>benchmarks<sp/>disabled<sp/>pending<sp/>API<sp/>update.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AsyncIO_Multiscan_Disabled(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disabled:<sp/>async<sp/>I/O<sp/>multiscan<sp/>pending<sp/>API<sp/>update<sp/>|<sp/>Deadline:<sp/>v1.9.0<sp/>|<sp/>Issue:<sp/>#5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="bench__async__io__multiscan_8cpp_1afbaa15a10df4d640bbc1cc58a6962d53" kindref="member">BENCHMARK</ref>(BM_AsyncIO_Multiscan_Disabled);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="bench__async__io__multiscan_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/base/bench_async_io_multiscan.cpp"/>
+  </compounddef>
+</doxygen>

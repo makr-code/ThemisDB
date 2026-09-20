@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ResolutionResult</compoundname>
+    <includes refid="dependency__resolver_8h" local="no">dependency_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_resolution_result_1abe82910f9997da072ed8fe3a5f3b11f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ResolutionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::ResolutionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>true when resolution succeeded (no cycles, no missing required deps, no conflicts). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="93" column="10" bodyfile="include/updates/dependency_resolver.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_resolution_result_1ae85e550b933322dcec2ff5a02154871a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_update_step" kindref="compound">UpdateStep</ref> &gt;</type>
+        <definition>std::vector&lt;UpdateStep&gt; themis::updates::ResolutionResult::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::updates::ResolutionResult::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Topologically sorted list of package update steps. Dependencies always appear before the packages that depend on them. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="97" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_resolution_result_1a702f01174fd60b99c770e8ef87f8b31f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_dependency_conflict" kindref="compound">DependencyConflict</ref> &gt;</type>
+        <definition>std::vector&lt;DependencyConflict&gt; themis::updates::ResolutionResult::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::updates::ResolutionResult::conflicts</qualifiedname>
+        <briefdescription>
+<para>Detected conflicts (non-empty implies success == false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="100" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_resolution_result_1a060c1416ab257611578905a0596b049f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::ResolutionResult::backfilled</definition>
+        <argsstring></argsstring>
+        <name>backfilled</name>
+        <qualifiedname>themis::updates::ResolutionResult::backfilled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Packages that were not present in current_versions and were automatically added (&quot;backfilled&quot;) to the update plan. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="104" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_resolution_result_1a1dd80208f34ea2d0c26db1f67de3a301" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ResolutionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::ResolutionResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable failure description (empty on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="107" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a dependency resolution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/dependency_resolver.h" line="90" column="1" bodyfile="include/updates/dependency_resolver.h" bodystart="90" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_resolution_result_1a060c1416ab257611578905a0596b049f" prot="public" virt="non-virtual"><scope>themis::updates::ResolutionResult</scope><name>backfilled</name></member>
+      <member refid="structthemis_1_1updates_1_1_resolution_result_1a702f01174fd60b99c770e8ef87f8b31f" prot="public" virt="non-virtual"><scope>themis::updates::ResolutionResult</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1updates_1_1_resolution_result_1a1dd80208f34ea2d0c26db1f67de3a301" prot="public" virt="non-virtual"><scope>themis::updates::ResolutionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_resolution_result_1ae85e550b933322dcec2ff5a02154871a" prot="public" virt="non-virtual"><scope>themis::updates::ResolutionResult</scope><name>steps</name></member>
+      <member refid="structthemis_1_1updates_1_1_resolution_result_1abe82910f9997da072ed8fe3a5f3b11f4" prot="public" virt="non-virtual"><scope>themis::updates::ResolutionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

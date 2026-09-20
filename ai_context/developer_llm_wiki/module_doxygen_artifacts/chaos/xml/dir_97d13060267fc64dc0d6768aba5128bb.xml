@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_97d13060267fc64dc0d6768aba5128bb" kind="dir">
+    <compoundname>tests/chaos</compoundname>
+    <innerfile refid="test__chaos__callback__determinism_8cpp">test_chaos_callback_determinism.cpp</innerfile>
+    <innerfile refid="test__chaos__concurrency__hardening_8cpp">test_chaos_concurrency_hardening.cpp</innerfile>
+    <innerfile refid="test__chaos__framework_8cpp">test_chaos_framework.cpp</innerfile>
+    <innerfile refid="test__chaos__highcardinality__stress_8cpp">test_chaos_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__chaos__network_8cpp">test_chaos_network.cpp</innerfile>
+    <innerfile refid="test__chaos__scheduler_8cpp">test_chaos_scheduler.cpp</innerfile>
+    <innerfile refid="test__chaos__scheduler__timing_8cpp">test_chaos_scheduler_timing.cpp</innerfile>
+    <innerfile refid="test__chaos__stress_8cpp">test_chaos_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chaos/"/>
+  </compounddef>
+</doxygen>

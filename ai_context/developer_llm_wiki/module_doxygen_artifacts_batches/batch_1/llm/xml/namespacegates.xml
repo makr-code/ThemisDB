@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacegates" kind="namespace" language="C++">
+    <compoundname>gates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegates_1a6bc9b84baa0a91279e0dd6f2176a3e76" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::LORA_LAYER_CONSTRUCTION_US</definition>
+        <argsstring></argsstring>
+        <name>LORA_LAYER_CONSTRUCTION_US</name>
+        <qualifiedname>gates::LORA_LAYER_CONSTRUCTION_US</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="33" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1af67cf8729d224934ff0cabcbffd2030a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::LORA_FORWARD_PER_SAMPLE_US</definition>
+        <argsstring></argsstring>
+        <name>LORA_FORWARD_PER_SAMPLE_US</name>
+        <qualifiedname>gates::LORA_FORWARD_PER_SAMPLE_US</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="36" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1ad31025655e56cd40e4e9f39e517f8e00" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::ATTENTION_FORWARD_PER_SAMPLE_US</definition>
+        <argsstring></argsstring>
+        <name>ATTENTION_FORWARD_PER_SAMPLE_US</name>
+        <qualifiedname>gates::ATTENTION_FORWARD_PER_SAMPLE_US</qualifiedname>
+        <initializer>= 150.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="37" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1ae242f7d96f7013ec09d44f8b5d95cba9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::LORA_BACKWARD_PER_SAMPLE_US</definition>
+        <argsstring></argsstring>
+        <name>LORA_BACKWARD_PER_SAMPLE_US</name>
+        <qualifiedname>gates::LORA_BACKWARD_PER_SAMPLE_US</qualifiedname>
+        <initializer>= 150.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="40" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a40a6a2bb7b833ecb0c8c5e2827160416" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::ATTENTION_BACKWARD_PER_SAMPLE_US</definition>
+        <argsstring></argsstring>
+        <name>ATTENTION_BACKWARD_PER_SAMPLE_US</name>
+        <qualifiedname>gates::ATTENTION_BACKWARD_PER_SAMPLE_US</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="41" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a6727f719952385d0abde6ee20ae302f6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::ADAPTER_MERGE_MS</definition>
+        <argsstring></argsstring>
+        <name>ADAPTER_MERGE_MS</name>
+        <qualifiedname>gates::ADAPTER_MERGE_MS</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="44" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a084252da099238aecf26674ec3138559" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::CHECKPOINT_SAVE_MS</definition>
+        <argsstring></argsstring>
+        <name>CHECKPOINT_SAVE_MS</name>
+        <qualifiedname>gates::CHECKPOINT_SAVE_MS</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="47" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a2ac1bf61e9d6e207f76bc81c88e35c31" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::CHECKPOINT_LOAD_MS</definition>
+        <argsstring></argsstring>
+        <name>CHECKPOINT_LOAD_MS</name>
+        <qualifiedname>gates::CHECKPOINT_LOAD_MS</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="48" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a34951f7dfab42a376a17d4562ac71b07" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::MEMORY_REGRESSION_TOLERANCE_PCT</definition>
+        <argsstring></argsstring>
+        <name>MEMORY_REGRESSION_TOLERANCE_PCT</name>
+        <qualifiedname>gates::MEMORY_REGRESSION_TOLERANCE_PCT</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="51" column="22" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegates_1aeabaed37c4310368b1dad4a8f355c393" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void gates::report_gate_violation</definition>
+        <argsstring>(const std::string &amp;gate_name, double measured_us, double gate_us)</argsstring>
+        <name>report_gate_violation</name>
+        <qualifiedname>gates::report_gate_violation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gate_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>measured_us</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gate_us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_training.cpp" line="54" column="17" bodyfile="benchmarks/llm/bench_lora_training.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_lora_training.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::AdapterRegistry::PluginHandle</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a6fd7d41926dcb9503a4ffbc8f4555c03" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::core::concerns::AdapterRegistry::PluginHandle::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::handle</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>OS-specific library handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="205" column="20" bodyfile="include/core/concerns/adapter_registry.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1aba4832ccc66bc4a14eb5905ca501e69b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::AdapterRegistry::PluginHandle::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::path</qualifiedname>
+        <briefdescription>
+<para>Path used to open the library. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="206" column="21" bodyfile="include/core/concerns/adapter_registry.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a14bcf4eda60e919b5b95aba87fbece05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginHandle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="208" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a8af05d72c385d2f213dccdcaf6c6c6cc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</definition>
+        <argsstring>(void *h, std::string p)</argsstring>
+        <name>PluginHandle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Plugin Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="215" column="18" bodyfile="include/core/concerns/adapter_registry.h" bodystart="215" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1ae61cc779ddb8f9a70b50cb6c3ce7d662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</definition>
+        <argsstring>(const PluginHandle &amp;)=delete</argsstring>
+        <name>PluginHandle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</qualifiedname>
+        <param>
+          <type>const PluginHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="218" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a23db7f308a49ed972212eb0b023ff3cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PluginHandle &amp;</type>
+        <definition>PluginHandle &amp; themis::core::concerns::AdapterRegistry::PluginHandle::operator=</definition>
+        <argsstring>(const PluginHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::operator=</qualifiedname>
+        <param>
+          <type>const PluginHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="219" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1ae3b8461d2bed08bfaa5c54ccb41f9521" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</definition>
+        <argsstring>(PluginHandle &amp;&amp;o) noexcept</argsstring>
+        <name>PluginHandle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::PluginHandle</qualifiedname>
+        <param>
+          <type>PluginHandle &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="221" column="9" bodyfile="include/core/concerns/adapter_registry.h" bodystart="221" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a09788b765e301561125f8b14787c2d67" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>PluginHandle &amp;</type>
+        <definition>PluginHandle &amp; themis::core::concerns::AdapterRegistry::PluginHandle::operator=</definition>
+        <argsstring>(PluginHandle &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::operator=</qualifiedname>
+        <param>
+          <type>PluginHandle &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="225" column="22" bodyfile="include/core/concerns/adapter_registry.h" bodystart="225" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1aa2dce94f427238f52b5313557cbbf294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::AdapterRegistry::PluginHandle::~PluginHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginHandle</name>
+        <qualifiedname>themis::core::concerns::AdapterRegistry::PluginHandle::~PluginHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="234" column="9" bodyfile="src/core/concerns/adapter_registry.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/adapter_registry.h" line="204" column="5" bodyfile="include/core/concerns/adapter_registry.h" bodystart="204" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a6fd7d41926dcb9503a4ffbc8f4555c03" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>handle</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a23db7f308a49ed972212eb0b023ff3cd" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a09788b765e301561125f8b14787c2d67" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1aba4832ccc66bc4a14eb5905ca501e69b" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>path</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a14bcf4eda60e919b5b95aba87fbece05" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>PluginHandle</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1a8af05d72c385d2f213dccdcaf6c6c6cc" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>PluginHandle</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1ae61cc779ddb8f9a70b50cb6c3ce7d662" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>PluginHandle</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1ae3b8461d2bed08bfaa5c54ccb41f9521" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>PluginHandle</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_registry_1_1_plugin_handle_1aa2dce94f427238f52b5313557cbbf294" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterRegistry::PluginHandle</scope><name>~PluginHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

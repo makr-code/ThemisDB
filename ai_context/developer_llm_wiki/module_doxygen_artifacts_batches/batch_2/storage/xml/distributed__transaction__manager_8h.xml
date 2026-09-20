@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__transaction__manager_8h" kind="file" language="C++">
+    <compoundname>distributed_transaction_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="distributed__transaction__manager_8cpp" local="yes">src/storage/distributed_transaction_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/distributed_transaction_manager.cpp</label>
+        <link refid="distributed__transaction__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_operation" prot="public">themis::storage::DistributedOperation</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" prot="public">themis::storage::IDistributedShardParticipant</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_txn_config" prot="public">themis::storage::DistributedTxnConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_manager_shared_state" prot="public">themis::storage::ManagerSharedState</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_distributed_transaction" prot="public">themis::storage::DistributedTransaction</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag" prot="public">themis::storage::DistributedTransaction::PrivateTag</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_distributed_transaction_manager" prot="public">themis::storage::DistributedTransactionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config" prot="public">themis::storage::DistributedTransactionManager::ShardConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" prot="public">themis::storage::DistributedTransactionManager::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedTransactionManager<sp/>—<sp/>2PC<sp/>across<sp/>multiple<sp/>storage<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>a<sp/>Two-Phase<sp/>Commit<sp/>(2PC)<sp/>coordinator<sp/>for<sp/>ACID<sp/>distributed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transactions<sp/>spanning<sp/>multiple<sp/>ThemisDB<sp/>storage<sp/>shards.<sp/><sp/>Each<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exposes<sp/>an<sp/>IDistributedShardParticipant<sp/>interface;<sp/>the<sp/>coordinator<sp/>drives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PREPARE<sp/>→<sp/>COMMIT/ABORT<sp/>in<sp/>lock-step.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>the<sp/>storage-layer<sp/>distributed<sp/>transaction<sp/>facility<sp/>introduced<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>v1.7.0<sp/>and<sp/>is<sp/>fully<sp/>backward-compatible:<sp/>existing<sp/>single-node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransactionManager<sp/>usage<sp/>is<sp/>unaffected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>@code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>DistributedTransactionManager<sp/>dtx_mgr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>dtx_mgr.registerShard(&quot;shard1&quot;,<sp/>&amp;shard1Participant);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>dtx_mgr.registerShard(&quot;shard2&quot;,<sp/>&amp;shard2Participant);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>auto<sp/>tx<sp/>=<sp/>dtx_mgr.beginDistributedTransaction();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>tx-&gt;put(&quot;shard1:user:1&quot;,<sp/>&quot;alice&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>tx-&gt;put(&quot;shard2:user:1&quot;,<sp/>&quot;alice&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>bool<sp/>ok<sp/>=<sp/>tx-&gt;commit();<sp/><sp/>//<sp/>2PC<sp/>across<sp/>both<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>@endcode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Operation<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1storage_1_1_distributed_operation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_distributed_operation" kindref="compound">DistributedOperation</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690" kindref="member">Type</ref><sp/>{<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref>,<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1storage_1_1_distributed_operation_1ad647d329040a9f291d7aa650af27631a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690" kindref="member">Type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1ad647d329040a9f291d7aa650af27631a" kindref="member">type</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a7e1c1a3f0f186c5f1f4c0e75c924e690a3e75383a5992a6d15fb81e872e46e256" kindref="member">Type::PUT</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1storage_1_1_distributed_operation_1af8945ca4856e02e05b377087ab496260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1af8945ca4856e02e05b377087ab496260" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1storage_1_1_distributed_operation_1a93bcc4bffd4425a598c2571848fe02db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a93bcc4bffd4425a598c2571848fe02db" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1storage_1_1_distributed_operation_1a06fe56d0eea9d17a529f85209fcb4753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_distributed_operation_1a06fe56d0eea9d17a529f85209fcb4753" kindref="member">value</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Participant<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a25426acee7789ac61ee766cc7d83645a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a25426acee7789ac61ee766cc7d83645a" kindref="member">~IDistributedShardParticipant</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1ae4a47dd6b4afc320f0a5170650fad4f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1ae4a47dd6b4afc320f0a5170650fad4f4" kindref="member">prepare</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>txn_id,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DistributedOperation&gt;&amp;<sp/>ops</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1aa8020230cb47c4bdb3fa2d1c5f81fce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1aa8020230cb47c4bdb3fa2d1c5f81fce4" kindref="member">commit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1af7587597b894928ecdcc446aaac6661a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1af7587597b894928ecdcc446aaac6661a" kindref="member">abort</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a9ecb07bb2de6ee9599e7f6ff90080024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a9ecb07bb2de6ee9599e7f6ff90080024" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Transaction<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3" kindref="member">DistributedTxnState</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3abd6a3a60251e4e52cdc9c393f33cbe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3abd6a3a60251e4e52cdc9c393f33cbe10" kindref="member">PREPARING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a1c372d13f50af5ca9a935ebc78006e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a4e6c860e5da10e31c5fd9cb76ddc2025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1storage_1_1_distributed_txn_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_distributed_txn_config" kindref="compound">DistributedTxnConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1storage_1_1_distributed_txn_config_1ade8e987ecdcdff77fa4bd8e2f1705cf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_distributed_txn_config_1ade8e987ecdcdff77fa4bd8e2f1705cf0" kindref="member">shard_key_separator</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;:&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ManagerSharedState<sp/>—<sp/>shared<sp/>ownership<sp/>between<sp/>manager<sp/>and<sp/>live<sp/>transactions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1storage_1_1_manager_shared_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_manager_shared_state" kindref="compound">ManagerSharedState</ref><sp/>{</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1storage_1_1_manager_shared_state_1a36fff57a7db36a48945e352b94275f64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a36fff57a7db36a48945e352b94275f64" kindref="member">shards_mutex</ref>;</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1storage_1_1_manager_shared_state_1a19bfb1f8834b5c5dd58e58f36629503c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a19bfb1f8834b5c5dd58e58f36629503c" kindref="member">total_transactions</ref>{0};</highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1storage_1_1_manager_shared_state_1a6a8bd25a1a464a98b387bb1698c0377f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a6a8bd25a1a464a98b387bb1698c0377f" kindref="member">committed</ref>{0};</highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1storage_1_1_manager_shared_state_1a6e0dec40f311c54c6f12f4faac6167c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a6e0dec40f311c54c6f12f4faac6167c6" kindref="member">aborted</ref>{0};</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1storage_1_1_manager_shared_state_1ae30fc2eb111257d38460a50f050ed5ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1ae30fc2eb111257d38460a50f050ed5ac" kindref="member">active</ref>{0};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1storage_1_1_manager_shared_state_1af5e30678ff331acf83041b8cb0226ebf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1af5e30678ff331acf83041b8cb0226ebf" kindref="member">txn_counter</ref>{0};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1storage_1_1_manager_shared_state_1a24cc963b184842b4de7759eece40c3e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;IDistributedShardParticipant&gt;&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a24cc963b184842b4de7759eece40c3e2" kindref="member">shards</ref>;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1storage_1_1_manager_shared_state_1a356db41a9c8e8c0e6ec603eaf47543bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1a356db41a9c8e8c0e6ec603eaf47543bb" kindref="member">next_shard_version</ref>{0};</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1storage_1_1_manager_shared_state_1aa503776fd51353fea502674100b4f9b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_manager_shared_state_1aa503776fd51353fea502674100b4f9b5" kindref="member">shard_versions</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedTransaction<sp/>—<sp/>user-facing<sp/>transaction<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1storage_1_1_distributed_transaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a6030fe810c3bb97cb2c955e1e697035f" kindref="member">~DistributedTransaction</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-moveable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1storage_1_1_distributed_transaction_1ab1377d1aaebf00b40245566ecb76c048" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1ab1377d1aaebf00b40245566ecb76c048" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1storage_1_1_distributed_transaction_1a11560ea9b0b2338f66cae141b8cbc0ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a11560ea9b0b2338f66cae141b8cbc0ce" kindref="member">DistributedTransaction</ref>(<ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1storage_1_1_distributed_transaction_1a124a7afa41d6d2c7f393ba94e99ff12e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a124a7afa41d6d2c7f393ba94e99ff12e" kindref="member">operator=</ref>(<ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a29939871e14d1a8ecc09ccd5a544309a" kindref="member">put</ref>(std::string_view<sp/>key,<sp/>std::string_view<sp/>value);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1afc638bbd9b4822568f67c9e4fbb98d11" kindref="member">del</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1afb2faf92bd9363647a0458e0be150d29" kindref="member">get</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a7bcd409b0f60a1f3da5cce45eab1ecbd" kindref="member">commit</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a5a86a53be5b36dfcc0ef30ae095c5599" kindref="member">rollback</ref>();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1storage_1_1_distributed_transaction_1a45bdb6aaed891944daaba3ab5abed9bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3" kindref="member">DistributedTxnState</ref><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a45bdb6aaed891944daaba3ab5abed9bb" kindref="member">state</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state_;<sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1storage_1_1_distributed_transaction_1ae3071289dc4a227227264e0f370d154f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1ae3071289dc4a227227264e0f370d154f" kindref="member">id</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>txn_id_;<sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a8b5191cd3ee9690d5ab6a0883a70ed8f" kindref="member">participatingShards</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a9637cd83e6207199733f706693583c69" kindref="member">operationCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Construction<sp/>tag<sp/>(use<sp/>DistributedTransactionManager<sp/>only)<sp/>─────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag_1adfb0aef69fa9def8fe8d9487eaf5c451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag_1adfb0aef69fa9def8fe8d9487eaf5c451" kindref="member">PrivateTag</ref><sp/>{<sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag_1adfb0aef69fa9def8fe8d9487eaf5c451" kindref="member">PrivateTag</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/>};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1aee2e4dbbd0845c55cf811a0e37328c6e" kindref="member">DistributedTransaction</ref>(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag" kindref="compound">PrivateTag</ref>,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>txn_id,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>separator,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ManagerSharedState&gt;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_1a45bdb6aaed891944daaba3ab5abed9bb" kindref="member">state</ref></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::string,<sp/>std::string&gt;<sp/>parseKey(std::string_view<sp/>composite)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::shared_ptr&lt;IDistributedShardParticipant&gt;,<sp/>uint64_t&gt;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>requireParticipant(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>txn_id_;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>separator_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ManagerSharedState&gt;<sp/>mgr_state_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3" kindref="member">DistributedTxnState</ref><sp/>state_<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a18ff74f43da410c5529f7d6fca84f115" kindref="member">DistributedTxnState::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;DistributedOperation&gt;&gt;<sp/>pending_ops_;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::shared_ptr&lt;IDistributedShardParticipant&gt;&gt;&gt;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prepared_shards_;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>uint64_t&gt;<sp/>expected_shard_versions_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedTransactionManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="classthemis_1_1storage_1_1_distributed_transaction_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="342" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config" kindref="compound">ShardConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="343" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config_1a8ad6f5546a3421df2fc3926fdfb83194" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config_1a8ad6f5546a3421df2fc3926fdfb83194" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config_1a7583d85a7537db671b861776eecf61ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref>*<sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config_1a7583d85a7537db671b861776eecf61ed" kindref="member">participant</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="349" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1ad991784943caceb5d1baf5ae390c72c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1ad991784943caceb5d1baf5ae390c72c7" kindref="member">total_transactions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="350" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a7d4d1155abac4d361e0c52733f640c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a7d4d1155abac4d361e0c52733f640c87" kindref="member">committed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="351" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1af12adbbfaec715af9cad1ff1f49369bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1af12adbbfaec715af9cad1ff1f49369bf" kindref="member">aborted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="352" refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a3b90a9b27cf65230b773b3cae01088ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a3b90a9b27cf65230b773b3cae01088ab" kindref="member">active</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>(</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ShardConfig&gt;<sp/>shards<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_txn_config" kindref="compound">DistributedTxnConfig</ref><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a04ae1dcd6eb89a65cb34335f86e36014" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a04ae1dcd6eb89a65cb34335f86e36014" kindref="member">~DistributedTransactionManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-moveable<sp/>(shared<sp/>state<sp/>is<sp/>referenced<sp/>by<sp/>active<sp/>transactions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366" refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a17e68b7531872ccc4de53c8516e2f07a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a17e68b7531872ccc4de53c8516e2f07a" kindref="member">DistributedTransactionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367" refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3a1d1f333a025d4fed1a411a39167cc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3a1d1f333a025d4fed1a411a39167cc6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368" refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a561fe3fd581d80827947d36b13973702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a561fe3fd581d80827947d36b13973702" kindref="member">DistributedTransactionManager</ref>(<ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369" refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1ac3067eb9fc844e5976ffed45f13c6322" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1ac3067eb9fc844e5976ffed45f13c6322" kindref="member">operator=</ref>(<ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Shard<sp/>management<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a5ee938d0f997f20ed5b9d5c83522a1f0" kindref="member">registerShard</ref>(</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_id,</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref>*<sp/>participant</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a0c93018bd1aeab2707960a80208e1e59" kindref="member">unregisterShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1aae5204740fa1d5c42a87f90a01e817eb" kindref="member">shardCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1acae8e00ba65866067aa86a191b595c64" kindref="member">hasShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Transaction<sp/>lifecycle<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTransaction&gt;<sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3d9b64c980459dbf896c2d18c8ab078c" kindref="member">beginDistributedTransaction</ref>();</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a34c483337a0ba09353394e79a04addff" kindref="member">statistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_distributed_txn_config" kindref="compound">DistributedTxnConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ManagerSharedState&gt;<sp/>state_;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateTransactionId();</highlight></codeline>
+<codeline lineno="434"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/distributed_transaction_manager.h"/>
+  </compounddef>
+</doxygen>

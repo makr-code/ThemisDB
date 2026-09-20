@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_relational_join_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::RelationalJoinProvider</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_relational_join_provider_1a2a2135bc1c285818d624d54692451a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RelationalJoinProvider::~RelationalJoinProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RelationalJoinProvider</name>
+        <qualifiedname>themis::llm::RelationalJoinProvider::~RelationalJoinProvider</qualifiedname>
+        <briefdescription>
+<para>Relational Join Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="307" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_relational_join_provider_1af6919effea6cc8613aeb5d27b852baaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_relational_join" kindref="compound">RelationalJoin</ref></type>
+        <definition>virtual RelationalJoin themis::llm::RelationalJoinProvider::performJoin</definition>
+        <argsstring>(const std::string &amp;base_table, const std::vector&lt; std::string &gt; &amp;join_tables, const std::string &amp;join_type, const std::string &amp;key)=0</argsstring>
+        <name>performJoin</name>
+        <qualifiedname>themis::llm::RelationalJoinProvider::performJoin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>join_tables</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>join_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Perform Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="317" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="301" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="301" bodyend="323"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_relational_join_provider_1af6919effea6cc8613aeb5d27b852baaf" prot="public" virt="pure-virtual"><scope>themis::llm::RelationalJoinProvider</scope><name>performJoin</name></member>
+      <member refid="classthemis_1_1llm_1_1_relational_join_provider_1a2a2135bc1c285818d624d54692451a1b" prot="public" virt="virtual"><scope>themis::llm::RelationalJoinProvider</scope><name>~RelationalJoinProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

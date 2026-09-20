@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_q_t_train" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::QTTrain</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a53423b94d34def89d97f1bd0510c41c8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTrain::bit_depths</definition>
+        <argsstring></argsstring>
+        <name>bit_depths</name>
+        <qualifiedname>themis::tensor::QTTrain::bit_depths</qualifiedname>
+        <briefdescription>
+<para>Binary quantics depth per physical dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="161" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a7cafc275e634501aed58c5cbe33bb00c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTrain::grid_sizes</definition>
+        <argsstring></argsstring>
+        <name>grid_sizes</name>
+        <qualifiedname>themis::tensor::QTTrain::grid_sizes</qualifiedname>
+        <briefdescription>
+<para>Original (unpadded) physical extents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="162" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a85342c7384de027dd20f8cb42db29093" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTrain::padded_grid_sizes</definition>
+        <argsstring></argsstring>
+        <name>padded_grid_sizes</name>
+        <qualifiedname>themis::tensor::QTTrain::padded_grid_sizes</qualifiedname>
+        <briefdescription>
+<para>Power-of-2 padded extents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="163" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a3297ff48790310f4a9c914500b23da5c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTrain::quantics_mode_sizes</definition>
+        <argsstring></argsstring>
+        <name>quantics_mode_sizes</name>
+        <qualifiedname>themis::tensor::QTTrain::quantics_mode_sizes</qualifiedname>
+        <briefdescription>
+<para>All-2 mode sizes for the quantics TT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="164" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1acad26e289294b77c644d074296acd6c8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::QTTrain::original_element_count</definition>
+        <argsstring></argsstring>
+        <name>original_element_count</name>
+        <qualifiedname>themis::tensor::QTTrain::original_element_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of elements in the unpadded tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="165" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a70105f303f40ad8fe62d30952d6b1cab" prot="public" static="no" mutable="no">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::QTTrain::tt_train</definition>
+        <argsstring></argsstring>
+        <name>tt_train</name>
+        <qualifiedname>themis::tensor::QTTrain::tt_train</qualifiedname>
+        <briefdescription>
+<para>Underlying TT train in quantics layout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="166" column="30" bodyfile="include/tensor/hiss_structural_search.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_train_1a14f3deee4e863572c0a18af8f53dd5bc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor" kindref="compound">QTTMappingDescriptor</ref></type>
+        <definition>QTTMappingDescriptor themis::tensor::QTTrain::mapping</definition>
+        <argsstring></argsstring>
+        <name>mapping</name>
+        <qualifiedname>themis::tensor::QTTrain::mapping</qualifiedname>
+        <briefdescription>
+<para>Reversible physical ↔ QTT index map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="167" column="30" bodyfile="include/tensor/hiss_structural_search.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_q_t_train_1a4911dc8f498d9181595cf46ce443d5e3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::QTTrain::toTTTrain</definition>
+        <argsstring>() const</argsstring>
+        <name>toTTTrain</name>
+        <qualifiedname>themis::tensor::QTTrain::toTTTrain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="169" column="23" bodyfile="include/tensor/hiss_structural_search.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quantics Tensor Train representation with reversible index metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a3b8d787f17f79ffa0f66490220f7ca2e" kindref="member">HissReshaper::exposeQuantics()</ref></computeroutput>. Contains the pure-binary QTT decomposition of the (zero-padded) input tensor plus all metadata required to round-trip back to the original dense tensor without data loss.</para>
+<para>The <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_train_1a14f3deee4e863572c0a18af8f53dd5bc" kindref="member">mapping</ref></computeroutput> field provides a <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor" kindref="compound">QTTMappingDescriptor</ref></computeroutput> that maps flat physical indices (into the unpadded tensor) to flat QTT indices and vice versa; use it to distinguish valid payload elements from zero-padding when reconstructing the original dense tensor from <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_train_1a4911dc8f498d9181595cf46ce443d5e3" kindref="member">toTTTrain()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::QTTMappingDescriptor</label>
+        <link refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::QTTrain</label>
+        <link refid="structthemis_1_1tensor_1_1_q_t_train"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mapping</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/hiss_structural_search.h" line="160" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="160" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a53423b94d34def89d97f1bd0510c41c8" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>bit_depths</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a7cafc275e634501aed58c5cbe33bb00c" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>grid_sizes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a14f3deee4e863572c0a18af8f53dd5bc" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>mapping</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1acad26e289294b77c644d074296acd6c8" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>original_element_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a85342c7384de027dd20f8cb42db29093" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>padded_grid_sizes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a3297ff48790310f4a9c914500b23da5c" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>quantics_mode_sizes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a4911dc8f498d9181595cf46ce443d5e3" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>toTTTrain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_train_1a70105f303f40ad8fe62d30952d6b1cab" prot="public" virt="non-virtual"><scope>themis::tensor::QTTrain</scope><name>tt_train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

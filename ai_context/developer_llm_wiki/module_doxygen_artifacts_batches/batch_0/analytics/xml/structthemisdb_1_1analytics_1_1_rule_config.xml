@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_rule_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::RuleConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a75d9b6fc42a8ede24e793b3c27aadbf2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleConfig::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="331" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a7605556ac5c1779b3768d0db6333a772" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleConfig::rule_name</definition>
+        <argsstring></argsstring>
+        <name>rule_name</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::rule_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="332" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a754ad8a355dc525250b4e2b3972fe0b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="333" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a03bf82b89b431e5f82ea015ac94d6c73" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::RuleConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="334" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a70892a04fa6db4a47a150e8eb01abdf3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511c" kindref="member">EventPriority</ref></type>
+        <definition>EventPriority themisdb::analytics::RuleConfig::min_priority</definition>
+        <argsstring></argsstring>
+        <name>min_priority</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::min_priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca87ed58ce5596142e11cb65deb049bb4b" kindref="member">EventPriority::BACKGROUND</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="335" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a980a573a56690828c3dafa15605bf515" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::RuleConfig::streams</definition>
+        <argsstring></argsstring>
+        <name>streams</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::streams</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="338" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1ad24d774aceedf3a2066ac462a47a1126" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleConfig::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="339" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a1132534ecc3ec5f5ea8376d310b3b61f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_pattern_config" kindref="compound">PatternConfig</ref> &gt;</type>
+        <definition>std::optional&lt;PatternConfig&gt; themisdb::analytics::RuleConfig::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="342" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a394e2121b735cd8962521a72058a5ffa" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref> &gt;</type>
+        <definition>std::optional&lt;WindowConfig&gt; themisdb::analytics::RuleConfig::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="345" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a8f01a058b3b0ba0e96bf46fc93a7a55d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7d" kindref="member">AggregationType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, AggregationType&gt; &gt; themisdb::analytics::RuleConfig::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="348" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a0754f5c864ff14ae2d5cb4fc2008f34f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::RuleConfig::group_by</definition>
+        <argsstring></argsstring>
+        <name>group_by</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::group_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="349" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a70a310133901f9424d89f9db44f1d643" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::RuleConfig::having</definition>
+        <argsstring></argsstring>
+        <name>having</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::having</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="350" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a8fed6f56daf3473fa4d22a4d73377856" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_action_config" kindref="compound">ActionConfig</ref> &gt;</type>
+        <definition>std::vector&lt;ActionConfig&gt; themisdb::analytics::RuleConfig::actions</definition>
+        <argsstring></argsstring>
+        <name>actions</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::actions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="353" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1ad6e4a83ab7cc47fa8540141b48b1a500" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::analytics::RuleConfig::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="356" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1aefeb66d08c5ee4cb5183d9fdd2bed903" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::RuleConfig::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="357" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_config_1a9ddb6a6e793651ee00e18bfa4c70cb4d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::RuleConfig::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themisdb::analytics::RuleConfig::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="358" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="330" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="330" bodyend="359"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a8fed6f56daf3473fa4d22a4d73377856" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>actions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a8f01a058b3b0ba0e96bf46fc93a7a55d" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>aggregations</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1aefeb66d08c5ee4cb5183d9fdd2bed903" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a754ad8a355dc525250b4e2b3972fe0b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a03bf82b89b431e5f82ea015ac94d6c73" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>enabled</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1ad24d774aceedf3a2066ac462a47a1126" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>filter</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a0754f5c864ff14ae2d5cb4fc2008f34f" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>group_by</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a70a310133901f9424d89f9db44f1d643" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>having</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a70892a04fa6db4a47a150e8eb01abdf3" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>min_priority</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a1132534ecc3ec5f5ea8376d310b3b61f" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>pattern</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a75d9b6fc42a8ede24e793b3c27aadbf2" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>rule_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a7605556ac5c1779b3768d0db6333a772" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>rule_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a980a573a56690828c3dafa15605bf515" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>streams</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1ad6e4a83ab7cc47fa8540141b48b1a500" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>tags</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a9ddb6a6e793651ee00e18bfa4c70cb4d" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>updated_at</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_config_1a394e2121b735cd8962521a72058a5ffa" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleConfig</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

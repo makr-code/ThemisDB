@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_ivr_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::IvrResult</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_result_1a2fbb6a15a149dac9dc5ea1a142bb8c67" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::IvrResult::call_id</definition>
+        <argsstring></argsstring>
+        <name>call_id</name>
+        <qualifiedname>themis::voice::IvrResult::call_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="97" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_result_1af2591196cba05412aad89d0f9c939925" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IvrResult::terminal_node_id</definition>
+        <argsstring></argsstring>
+        <name>terminal_node_id</name>
+        <qualifiedname>themis::voice::IvrResult::terminal_node_id</qualifiedname>
+        <briefdescription>
+<para>ID of the node that concluded the session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="98" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_result_1aee376de6080501ccb1a243b4acd97844" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_dtmf_event" kindref="compound">DtmfEvent</ref> &gt;</type>
+        <definition>std::vector&lt;DtmfEvent&gt; themis::voice::IvrResult::dtmf_collected</definition>
+        <argsstring></argsstring>
+        <name>dtmf_collected</name>
+        <qualifiedname>themis::voice::IvrResult::dtmf_collected</qualifiedname>
+        <briefdescription>
+<para>All DTMF events captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="99" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_result_1aa4e3e670c2302f7d733fff94b0eb353d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IvrResult::speech_transcript</definition>
+        <argsstring></argsstring>
+        <name>speech_transcript</name>
+        <qualifiedname>themis::voice::IvrResult::speech_transcript</qualifiedname>
+        <briefdescription>
+<para>Aggregated spoken input, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="100" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_ivr_result_1ae51828e928d382a863d58b5aafc2d300" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IvrResult::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::voice::IvrResult::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if a terminal node was reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="101" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a completed IVR interaction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="96" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="96" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_ivr_result_1a2fbb6a15a149dac9dc5ea1a142bb8c67" prot="public" virt="non-virtual"><scope>themis::voice::IvrResult</scope><name>call_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_result_1ae51828e928d382a863d58b5aafc2d300" prot="public" virt="non-virtual"><scope>themis::voice::IvrResult</scope><name>completed</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_result_1aee376de6080501ccb1a243b4acd97844" prot="public" virt="non-virtual"><scope>themis::voice::IvrResult</scope><name>dtmf_collected</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_result_1aa4e3e670c2302f7d733fff94b0eb353d" prot="public" virt="non-virtual"><scope>themis::voice::IvrResult</scope><name>speech_transcript</name></member>
+      <member refid="structthemis_1_1voice_1_1_ivr_result_1af2591196cba05412aad89d0f9c939925" prot="public" virt="non-virtual"><scope>themis::voice::IvrResult</scope><name>terminal_node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_health_error_service_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::HealthErrorService::Config</compoundname>
+    <includes refid="health__error__service_8h" local="no">health_error_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_health_error_service_1_1_config_1a229a44db366f75bfd05d145633fb797b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::HealthErrorService::Config::bind_address</definition>
+        <argsstring></argsstring>
+        <name>bind_address</name>
+        <qualifiedname>themis::server::HealthErrorService::Config::bind_address</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="36" column="21" bodyfile="include/server/health_error_service.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_health_error_service_1_1_config_1a6016bab82f045456e097b029ab96ae14" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::HealthErrorService::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::server::HealthErrorService::Config::port</qualifiedname>
+        <initializer>= 9090</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="37" column="18" bodyfile="include/server/health_error_service.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_health_error_service_1_1_config_1ac0f31150fd6d02b0fbbae59967aabc66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::HealthErrorService::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::server::HealthErrorService::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="38" column="14" bodyfile="include/server/health_error_service.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_health_error_service_1_1_config_1abd6e7ff23b2288cc7989d753540353ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HealthErrorService::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::HealthErrorService::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="40" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_health_error_service_1_1_config_1a8c14aa32772288160846c57bc694cbbf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HealthErrorService::Config::Config</definition>
+        <argsstring>(const std::string &amp;addr, uint16_t p, bool en=true)</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::HealthErrorService::Config::Config</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>en</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="41" column="9" bodyfile="include/server/health_error_service.h" bodystart="41" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/health_error_service.h" line="35" column="5" bodyfile="include/server/health_error_service.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_health_error_service_1_1_config_1a229a44db366f75bfd05d145633fb797b" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService::Config</scope><name>bind_address</name></member>
+      <member refid="structthemis_1_1server_1_1_health_error_service_1_1_config_1abd6e7ff23b2288cc7989d753540353ae" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1server_1_1_health_error_service_1_1_config_1a8c14aa32772288160846c57bc694cbbf" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1server_1_1_health_error_service_1_1_config_1ac0f31150fd6d02b0fbbae59967aabc66" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_health_error_service_1_1_config_1a6016bab82f045456e097b029ab96ae14" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService::Config</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

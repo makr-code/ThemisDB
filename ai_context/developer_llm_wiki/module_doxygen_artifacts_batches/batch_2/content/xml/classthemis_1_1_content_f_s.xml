@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_content_f_s" kind="class" language="C++" prot="public">
+    <compoundname>themis::ContentFS</compoundname>
+    <includes refid="content__fs_8h" local="no">content_fs.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_content_f_s_1ab5ae00ad8b3582968dd67643e53edfd3" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::ContentFS::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::ContentFS::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="90" column="20" bodyfile="include/content/content_fs.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_content_f_s_1a90afcfebbc0ab3961a0be25f294e2ed4" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentFS::chunk_size_bytes_</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_bytes_</name>
+        <qualifiedname>themis::ContentFS::chunk_size_bytes_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_content_f_s_1a477eea8dfdd4ef282894a38fc9e053ad" kindref="member">kDefaultChunkSize</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="91" column="14" bodyfile="include/content/content_fs.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_content_f_s_1a477eea8dfdd4ef282894a38fc9e053ad" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentFS::kDefaultChunkSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultChunkSize</name>
+        <qualifiedname>themis::ContentFS::kDefaultChunkSize</qualifiedname>
+        <initializer>= 1024ull * 1024ull</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="117" column="31" bodyfile="include/content/content_fs.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a5e0c680dc0606c8e0cdf45324c10615f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ContentFS::ContentFS</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>ContentFS</name>
+        <qualifiedname>themis::ContentFS::ContentFS</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="34" column="14" bodyfile="include/content/content_fs.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1aca86336d1352904b90b71d2e9d6d3f6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ContentFS::setChunkSizeBytes</definition>
+        <argsstring>(uint64_t sz)</argsstring>
+        <name>setChunkSizeBytes</name>
+        <qualifiedname>themis::ContentFS::setChunkSizeBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sz</declname>
+        </param>
+        <briefdescription>
+<para>Set Chunk Size Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setChunkSizeBytes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="40" column="10" bodyfile="include/content/content_fs.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a4974049366bc44ede5f5ed3b84701ae1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentFS::getChunkSizeBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getChunkSizeBytes</name>
+        <qualifiedname>themis::ContentFS::getChunkSizeBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="41" column="14" bodyfile="include/content/content_fs.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a5109ee2f406110edf6713eefdb767111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ContentFS::put</definition>
+        <argsstring>(const std::string &amp;pk, const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;mime, const std::optional&lt; std::string &gt; &amp;sha256_expected_hex=std::nullopt)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::ContentFS::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>sha256_expected_hex</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sha256_expected_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), ErrVoid(), <ref refid="classthemis_1_1_content_f_s_1abdc9880d4f662117b9fc8a2006a298a6" kindref="member">sha256Hex()</ref>, fmt::format(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="47" column="12" bodyfile="src/content/content_fs.cpp" bodystart="93" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1afa97748e35170f80da06164302104edf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::ContentFS::get</definition>
+        <argsstring>(const std::string &amp;pk) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::ContentFS::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="57" column="12" bodyfile="src/content/content_fs.cpp" bodystart="169" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1aabac9468e85610410705dd56a5f1d177" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::ContentFS::getRange</definition>
+        <argsstring>(const std::string &amp;pk, uint64_t offset, uint64_t length) const</argsstring>
+        <name>getRange</name>
+        <qualifiedname>themis::ContentFS::getRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Get Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="66" column="12" bodyfile="src/content/content_fs.cpp" bodystart="210" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a8bf3e6256ad6ac1908890e4e899abcd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_content_meta" kindref="compound">ContentMeta</ref> &gt;</type>
+        <definition>Result&lt; ContentMeta &gt; themis::ContentFS::head</definition>
+        <argsstring>(const std::string &amp;pk) const</argsstring>
+        <name>head</name>
+        <qualifiedname>themis::ContentFS::head</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Head. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="73" column="12" bodyfile="src/content/content_fs.cpp" bodystart="283" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a2361e13d01784bb5123eeda5283e7f7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ContentFS::remove</definition>
+        <argsstring>(const std::string &amp;pk)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::ContentFS::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_content_f_s_1afa97748e35170f80da06164302104edf" kindref="member">get()</ref>, metaKey(), nlohmann::json::from_cbor(), value(), del(), blobKey(), chunkKey(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="80" column="12" bodyfile="src/content/content_fs.cpp" bodystart="315" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1abdc9880d4f662117b9fc8a2006a298a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ContentFS::sha256Hex</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::ContentFS::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: mdctx(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), <ref refid="classthemis_1_1_content_f_s_1afa97748e35170f80da06164302104edf" kindref="member">get()</ref>, EVP_sha256(), empty(), EVP_DigestUpdate(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="87" column="24" bodyfile="src/content/content_fs.cpp" bodystart="56" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1ad193b7d937272ef7a1d51cd612c8019a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::ContentFS::metaKey</definition>
+        <argsstring>(const std::string &amp;pk)</argsstring>
+        <name>metaKey</name>
+        <qualifiedname>themis::ContentFS::metaKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Meta Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="98" column="24" bodyfile="include/content/content_fs.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1acd747de5f848832628487f76b7a38042" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::ContentFS::blobKey</definition>
+        <argsstring>(const std::string &amp;pk)</argsstring>
+        <name>blobKey</name>
+        <qualifiedname>themis::ContentFS::blobKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Blob Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="105" column="24" bodyfile="include/content/content_fs.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_content_f_s_1a2e2ed46ce5cd8dc62e4a9e760267dc1b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::ContentFS::chunkKey</definition>
+        <argsstring>(const std::string &amp;pk, uint64_t idx)</argsstring>
+        <name>chunkKey</name>
+        <qualifiedname>themis::ContentFS::chunkKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Chunk Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="113" column="24" bodyfile="include/content/content_fs.h" bodystart="113" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_fs.h" line="32" column="1" bodyfile="include/content/content_fs.h" bodystart="32" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_content_f_s_1acd747de5f848832628487f76b7a38042" prot="private" virt="non-virtual"><scope>themis::ContentFS</scope><name>blobKey</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a90afcfebbc0ab3961a0be25f294e2ed4" prot="private" virt="non-virtual"><scope>themis::ContentFS</scope><name>chunk_size_bytes_</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a2e2ed46ce5cd8dc62e4a9e760267dc1b" prot="private" virt="non-virtual"><scope>themis::ContentFS</scope><name>chunkKey</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a5e0c680dc0606c8e0cdf45324c10615f" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>ContentFS</name></member>
+      <member refid="classthemis_1_1_content_f_s_1ab5ae00ad8b3582968dd67643e53edfd3" prot="private" virt="non-virtual"><scope>themis::ContentFS</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_content_f_s_1afa97748e35170f80da06164302104edf" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>get</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a4974049366bc44ede5f5ed3b84701ae1" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>getChunkSizeBytes</name></member>
+      <member refid="classthemis_1_1_content_f_s_1aabac9468e85610410705dd56a5f1d177" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>getRange</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a8bf3e6256ad6ac1908890e4e899abcd4" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>head</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a477eea8dfdd4ef282894a38fc9e053ad" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>kDefaultChunkSize</name></member>
+      <member refid="classthemis_1_1_content_f_s_1ad193b7d937272ef7a1d51cd612c8019a" prot="private" virt="non-virtual"><scope>themis::ContentFS</scope><name>metaKey</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a5109ee2f406110edf6713eefdb767111" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>put</name></member>
+      <member refid="classthemis_1_1_content_f_s_1a2361e13d01784bb5123eeda5283e7f7f" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_content_f_s_1aca86336d1352904b90b71d2e9d6d3f6b" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>setChunkSizeBytes</name></member>
+      <member refid="classthemis_1_1_content_f_s_1abdc9880d4f662117b9fc8a2006a298a6" prot="public" virt="non-virtual"><scope>themis::ContentFS</scope><name>sha256Hex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

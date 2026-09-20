@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</compoundname>
+    <includes refid="graph__kernel__classification_8h" local="no">graph_kernel_classification.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a510b411640fa1c58c92db0f29a8dc650" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::category</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca320013acc73c7937e33c4dd17a8b1484" kindref="member">KernelCategory::CPU_FIRST_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="242" column="37" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a46dd0326fa1140bf2b06d97c680cb3ea" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::name</qualifiedname>
+        <initializer>= &quot;PROVENANCE_CHAINS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="243" column="39" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a4f533ea734184d6f7b7321ccd3182d02" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::requires_input_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_input_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::requires_input_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="244" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1adb706ae49c0d93d1b23faed59945e13d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::requires_output_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_output_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::requires_output_validation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="245" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1ad5b11dba3f363df9352bb15c076ed9c9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::has_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_cpu_fallback</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::has_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="246" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a9f408ca848ca4c9534a3a22c7a67aa1c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::gpu_execution_bounded</definition>
+        <argsstring></argsstring>
+        <name>gpu_execution_bounded</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::gpu_execution_bounded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="247" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a16bc44d9af52d7bafd992fbf5993bbd6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::is_advisory_only</definition>
+        <argsstring></argsstring>
+        <name>is_advisory_only</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::is_advisory_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="248" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1ad8447f683ebd7fe6788fff48a10e53e1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::gpu_may_parallelize</definition>
+        <argsstring></argsstring>
+        <name>gpu_may_parallelize</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::gpu_may_parallelize</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="249" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1afb7907ffb409f9ea785174047ac742bc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::max_gpu_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="74" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_output_size</definition>
+        <argsstring></argsstring>
+        <name>max_output_size</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;::max_output_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="76" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/graph_kernel_classification.h" line="241" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="241" bodyend="250"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a510b411640fa1c58c92db0f29a8dc650" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>category</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a9f408ca848ca4c9534a3a22c7a67aa1c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>gpu_execution_bounded</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1ad8447f683ebd7fe6788fff48a10e53e1" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>gpu_may_parallelize</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1ad5b11dba3f363df9352bb15c076ed9c9" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>has_cpu_fallback</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a16bc44d9af52d7bafd992fbf5993bbd6" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>is_advisory_only</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1afb7907ffb409f9ea785174047ac742bc" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>max_gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>max_output_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a46dd0326fa1140bf2b06d97c680cb3ea" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1a4f533ea734184d6f7b7321ccd3182d02" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>requires_input_validation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_p_r_o_v_e_n_a_n_c_e___c_h_a_i_n_s_01_4_1adb706ae49c0d93d1b23faed59945e13d" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::PROVENANCE_CHAINS &gt;</scope><name>requires_output_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

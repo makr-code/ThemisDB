@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessLightRetriever::ResourceLimits</compoundname>
+    <includes refid="process__light__retriever_8h" local="no">process_light_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1abad77b2a5ce2198f86c7c46480f5ced8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessLightRetriever::ResourceLimits::max_context_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_context_bytes</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::ResourceLimits::max_context_bytes</qualifiedname>
+        <initializer>{1024 * 1024}</initializer>
+        <briefdescription>
+<para>Maximum context size in bytes before truncation (default: 1 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="125" column="16" bodyfile="include/process/process_light_retriever.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1a2d6aa04949c1a15621f7e39b00ea3162" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessLightRetriever::ResourceLimits::max_retrieval_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_retrieval_time_ms</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::ResourceLimits::max_retrieval_time_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Maximum retrieval timeout in milliseconds (default: 5000 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="127" column="17" bodyfile="include/process/process_light_retriever.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1aa46032f6d08b9a7c81157edcc32f16a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessLightRetriever::ResourceLimits::max_traversal_depth</definition>
+        <argsstring></argsstring>
+        <name>max_traversal_depth</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::ResourceLimits::max_traversal_depth</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+<para>Maximum graph traversal depth (default: 50). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="129" column="16" bodyfile="include/process/process_light_retriever.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1a6c32b78e7c2fb1dad5885ba6c5f43dd7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessLightRetriever::ResourceLimits::max_result_elements</definition>
+        <argsstring></argsstring>
+        <name>max_result_elements</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::ResourceLimits::max_result_elements</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Maximum number of results before graceful degradation (default: 1000). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="131" column="16" bodyfile="include/process/process_light_retriever.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource limits for stress scenario handling. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These are configurable per-retriever instance via <ref refid="classthemis_1_1process_1_1_process_light_retriever_1a74b2e8377fa724217a381368693acf1f" kindref="member">setResourceLimits()</ref>. </para>
+    </detaileddescription>
+    <location file="include/process/process_light_retriever.h" line="123" column="5" bodyfile="include/process/process_light_retriever.h" bodystart="123" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1abad77b2a5ce2198f86c7c46480f5ced8" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever::ResourceLimits</scope><name>max_context_bytes</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1a6c32b78e7c2fb1dad5885ba6c5f43dd7" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever::ResourceLimits</scope><name>max_result_elements</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1a2d6aa04949c1a15621f7e39b00ea3162" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever::ResourceLimits</scope><name>max_retrieval_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits_1aa46032f6d08b9a7c81157edcc32f16a5" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever::ResourceLimits</scope><name>max_traversal_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

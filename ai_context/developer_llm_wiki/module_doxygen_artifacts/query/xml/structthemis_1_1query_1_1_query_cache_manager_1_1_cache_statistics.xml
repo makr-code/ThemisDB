@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCacheManager::CacheStatistics</compoundname>
+    <includes refid="query__cache__manager_8h" local="no">query_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a08a05f5b796ce652b31d47ed61af0203" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="60" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ab104b40f18e17adc1a9146ce4ff506cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="61" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1af7c79cb669287af9e29b342de3da3c2c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="62" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ad4fedf3c5858d71d5d7739053b979561" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::cache_stores</definition>
+        <argsstring></argsstring>
+        <name>cache_stores</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::cache_stores</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="63" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a114e967e03039f254fb31a19e16db148" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::cache_evictions</definition>
+        <argsstring></argsstring>
+        <name>cache_evictions</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::cache_evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="64" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ae19fd143f020561fe0e7333daf3309e7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryCacheManager::CacheStatistics::cache_invalidations</definition>
+        <argsstring></argsstring>
+        <name>cache_invalidations</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::cache_invalidations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="65" column="18" bodyfile="include/query/query_cache_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a047efd291be1a425dba72ada586ef044" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::QueryCacheManager::CacheStatistics::detected_workload</definition>
+        <argsstring></argsstring>
+        <name>detected_workload</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::detected_workload</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="68" column="22" bodyfile="include/query/query_cache_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1adc965ecb12167ae099d8d51b010dbfb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::CacheStatistics::oltp_queries</definition>
+        <argsstring></argsstring>
+        <name>oltp_queries</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::oltp_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="69" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ac90503479b3198b279c69aabdea337a4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::CacheStatistics::olap_queries</definition>
+        <argsstring></argsstring>
+        <name>olap_queries</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::olap_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="70" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1abe6b2f95dd15605337d6f40986920ea7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::CacheStatistics::mixed_queries</definition>
+        <argsstring></argsstring>
+        <name>mixed_queries</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::mixed_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="71" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1afadbf6ee68e8ca3bfa63f0e233783e6a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::QueryCacheManager::CacheStatistics::avg_cache_hit_time_us</definition>
+        <argsstring></argsstring>
+        <name>avg_cache_hit_time_us</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::avg_cache_hit_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="74" column="17" bodyfile="include/query/query_cache_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a00b6a8cf954c14fefc2dedd587a9c8e9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::QueryCacheManager::CacheStatistics::avg_cache_miss_time_us</definition>
+        <argsstring></argsstring>
+        <name>avg_cache_miss_time_us</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::avg_cache_miss_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="75" column="17" bodyfile="include/query/query_cache_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ab12a0cbc1cf2c65fe4e34e995d507533" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::QueryCacheManager::CacheStatistics::total_time_saved_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_saved_ms</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::total_time_saved_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="76" column="17" bodyfile="include/query/query_cache_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1aaa9cc366a2f766b907c9200fc0305433" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::CacheStatistics::current_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::current_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="79" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a64fc75b2a54bab814f0f21afedadbac2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCacheManager::CacheStatistics::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::max_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="80" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a1fef9e970dbe3213ef79ed0ebcf39854" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryCacheManager::CacheStatistics::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="82" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="82" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1adfaafe00f1a6626d63ed096beb3f4ad3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryCacheManager::CacheStatistics::memoryUtilization</definition>
+        <argsstring>() const</argsstring>
+        <name>memoryUtilization</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::memoryUtilization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="88" column="16" bodyfile="include/query/query_cache_manager.h" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a3c5586b52e314ff7c7c5a06f82531490" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryCacheManager::CacheStatistics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::query::QueryCacheManager::CacheStatistics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache_manager.h" line="98" column="24" bodyfile="src/query/query_cache_manager.cpp" bodystart="25" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache_manager.h" line="58" column="5" bodyfile="include/query/query_cache_manager.h" bodystart="58" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1afadbf6ee68e8ca3bfa63f0e233783e6a" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>avg_cache_hit_time_us</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a00b6a8cf954c14fefc2dedd587a9c8e9" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>avg_cache_miss_time_us</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a114e967e03039f254fb31a19e16db148" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>cache_evictions</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ab104b40f18e17adc1a9146ce4ff506cb" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ae19fd143f020561fe0e7333daf3309e7" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>cache_invalidations</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1af7c79cb669287af9e29b342de3da3c2c" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ad4fedf3c5858d71d5d7739053b979561" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>cache_stores</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1aaa9cc366a2f766b907c9200fc0305433" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>current_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a047efd291be1a425dba72ada586ef044" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>detected_workload</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a1fef9e970dbe3213ef79ed0ebcf39854" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a64fc75b2a54bab814f0f21afedadbac2" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1adfaafe00f1a6626d63ed096beb3f4ad3" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>memoryUtilization</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1abe6b2f95dd15605337d6f40986920ea7" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>mixed_queries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ac90503479b3198b279c69aabdea337a4" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>olap_queries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1adc965ecb12167ae099d8d51b010dbfb3" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>oltp_queries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a3c5586b52e314ff7c7c5a06f82531490" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1a08a05f5b796ce652b31d47ed61af0203" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_manager_1_1_cache_statistics_1ab12a0cbc1cf2c65fe4e34e995d507533" prot="public" virt="non-virtual"><scope>themis::query::QueryCacheManager::CacheStatistics</scope><name>total_time_saved_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

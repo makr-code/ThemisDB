@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_run_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperRunSummary</compoundname>
+    <includes refid="scraper__run__summary_8h" local="no">scraper_run_summary.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a8b90af58629eb0742c528e74ac3a237a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::total_urls</definition>
+        <argsstring></argsstring>
+        <name>total_urls</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::total_urls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total URLs attempted in the run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="68" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1abe933031ecad83e75732d975710ca274" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::succeeded</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>URLs that completed successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="69" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1ab41a702888e65ac32702de933f14f743" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::failed_fetch</definition>
+        <argsstring></argsstring>
+        <name>failed_fetch</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::failed_fetch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>kFetchPath (and kRenderPath) fault events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="70" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a428b855c0893628270a905cd86318f3a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::failed_parse</definition>
+        <argsstring></argsstring>
+        <name>failed_parse</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::failed_parse</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>kParsePath fault events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="71" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a7f80050bf5427bd082cf709cea67d669" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::failed_eval</definition>
+        <argsstring></argsstring>
+        <name>failed_eval</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::failed_eval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>kEvaluatorPath fault events (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="72" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a823e35bf081273d15214ef3e3e0f6080" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::failed_write</definition>
+        <argsstring></argsstring>
+        <name>failed_write</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::failed_write</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>kWritePath fault events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="73" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1ac92dc5d50860a4b24522b473fa5bb018" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::skipped_burst</definition>
+        <argsstring></argsstring>
+        <name>skipped_burst</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::skipped_burst</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>kCrawlControl/kWarning events (burst throttle). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="74" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a488719a34058cc99adb88f90a5b8bcf8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScraperRunSummary::pages_written</definition>
+        <argsstring></argsstring>
+        <name>pages_written</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::pages_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Successfully written metadata records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="75" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_summary_1a3279dd23d7e6495f1087258f8bd770ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scraper::ScraperRunSummary::run_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>run_duration_ms</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::run_duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total run duration in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="76" column="14" bodyfile="include/scraper/scraper_run_summary.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_run_summary_1acff456c7648a94bb763038e2a76cf04d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScraperRunSummary::isHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::isHealthy</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one URL succeeded and no evaluation failures occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An evaluation failure (kEvaluatorPath) is fail-closed: content must not be written when quality gating fails, so any such failure marks the run as unhealthy for operator review. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="86" column="11" bodyfile="include/scraper/scraper_run_summary.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_run_summary_1aa75f1a2a1ee467076b0399be2675d371" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRunSummary::toLogLine</definition>
+        <argsstring>() const</argsstring>
+        <name>toLogLine</name>
+        <qualifiedname>themis::scraper::ScraperRunSummary::toLogLine</qualifiedname>
+        <briefdescription>
+<para>Returns a single-line operator log string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format: <programlisting><codeline><highlight class="normal">scrape-run:<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1abe933031ecad83e75732d975710ca274" kindref="member">succeeded</ref>=N<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1ab41a702888e65ac32702de933f14f743" kindref="member">failed_fetch</ref>=N<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a428b855c0893628270a905cd86318f3a" kindref="member">failed_parse</ref>=N<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a7f80050bf5427bd082cf709cea67d669" kindref="member">failed_eval</ref>=N</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a823e35bf081273d15214ef3e3e0f6080" kindref="member">failed_write</ref>=N<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1ac92dc5d50860a4b24522b473fa5bb018" kindref="member">skipped_burst</ref>=N<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a488719a34058cc99adb88f90a5b8bcf8" kindref="member">pages_written</ref>=N<sp/>duration_ms=N</highlight></codeline>
+</programlisting> (all on one line) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_run_summary.h" line="100" column="18" bodyfile="include/scraper/scraper_run_summary.h" bodystart="100" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plain value snapshot of a single scraper-run&apos;s outcome counters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated by <ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector" kindref="compound">ScraperRunSummaryCollector</ref> after the run completes. All fields are public for direct aggregate construction; callers should treat an instance as a read-only snapshot once it is returned from <computeroutput><ref refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector_1afb1308c3b9ab678df014d891c9d8b5b8" kindref="member">ScraperRunSummaryCollector::summary()</ref></computeroutput>. Suitable for structured logging, metrics export, and operator triage. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_run_summary.h" line="67" column="1" bodyfile="include/scraper/scraper_run_summary.h" bodystart="67" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a7f80050bf5427bd082cf709cea67d669" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>failed_eval</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1ab41a702888e65ac32702de933f14f743" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>failed_fetch</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a428b855c0893628270a905cd86318f3a" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>failed_parse</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a823e35bf081273d15214ef3e3e0f6080" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>failed_write</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1acff456c7648a94bb763038e2a76cf04d" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a488719a34058cc99adb88f90a5b8bcf8" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>pages_written</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a3279dd23d7e6495f1087258f8bd770ba" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>run_duration_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1ac92dc5d50860a4b24522b473fa5bb018" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>skipped_burst</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1abe933031ecad83e75732d975710ca274" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1aa75f1a2a1ee467076b0399be2675d371" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>toLogLine</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_summary_1a8b90af58629eb0742c528e74ac3a237a" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunSummary</scope><name>total_urls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

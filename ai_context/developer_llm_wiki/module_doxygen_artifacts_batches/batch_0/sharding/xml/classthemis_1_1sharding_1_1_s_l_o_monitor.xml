@@ -1,0 +1,1148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_s_l_o_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::SLOMonitor</compoundname>
+    <includes refid="slo__monitor_8h" local="no">slo_monitor.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" prot="public">themis::sharding::SLOMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" prot="public">themis::sharding::SLOMonitor::RepairProgress</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1afcfe90769b2eee1bdd7aa36a36a4c2ee" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::SLOMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="243" column="12" bodyfile="include/sharding/slo_monitor.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5b55e514f93c83ea1f15dc45ed963cc5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::SLOMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="244" column="24" bodyfile="include/sharding/slo_monitor.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4c3cbd11041f959b7d3c2bdac925551e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;SLOWindow&gt; &gt; themis::sharding::SLOMonitor::shard_windows_</definition>
+        <argsstring></argsstring>
+        <name>shard_windows_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::shard_windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="247" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a3bb2cafb6304ffdee2d9cc67a9732888" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;SLOWindow&gt; &gt; themis::sharding::SLOMonitor::query_latency_windows_</definition>
+        <argsstring></argsstring>
+        <name>query_latency_windows_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::query_latency_windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="250" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8bc1fb43488f0988d5b63c9db2f626b8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;SLOWindow&gt; &gt; themis::sharding::SLOMonitor::transaction_latency_windows_</definition>
+        <argsstring></argsstring>
+        <name>transaction_latency_windows_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::transaction_latency_windows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="253" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a56cdcac1cf5a59bea1e193a6690d2a04" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::SLOMonitor::active_alerts_</definition>
+        <argsstring></argsstring>
+        <name>active_alerts_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::active_alerts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="256" column="25" bodyfile="include/sharding/slo_monitor.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1af2a1c6d7ff3540fe73c7acc13e6fbbac" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RepairProgress&gt; themis::sharding::SLOMonitor::repair_progress_</definition>
+        <argsstring></argsstring>
+        <name>repair_progress_</name>
+        <qualifiedname>themis::sharding::SLOMonitor::repair_progress_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="259" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a1dcabd8b734c14fe6b02699682134276" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SLOMonitor::SLOMonitor</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>SLOMonitor</name>
+        <qualifiedname>themis::sharding::SLOMonitor::SLOMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct SLO monitor with runtime targets and alert policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="158" column="14" bodyfile="src/sharding/slo_monitor.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8460fe3e623e0eed3e8012e95ab915e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SLOMonitor::~SLOMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SLOMonitor</name>
+        <qualifiedname>themis::sharding::SLOMonitor::~SLOMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4d705f67d6ccb8ca21043d101562ae88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordShardAvailability</definition>
+        <argsstring>(const std::string &amp;shard_id, bool is_available)</argsstring>
+        <name>recordShardAvailability</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordShardAvailability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_available</declname>
+        </param>
+        <briefdescription>
+<para>Record shard availability sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Shard Availability.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical shard id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True for uptime sample, false for downtime sample.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::milliseconds(), getOrCreateShardWindow(), recordUptime(), recordDowntime(), checkAndGenerateAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="166" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="207" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5b1c8e27274e304a8092f41199840d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordQueryLatency</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;query_type, double latency_ms)</argsstring>
+        <name>recordQueryLatency</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordQueryLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record query latency sample for query-type SLO tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard id (reserved for future per-shard query slicing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query-class label (for target selection). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getOrCreateQueryWindow(), recordLatency(), checkAndGenerateAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="174" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="229" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1acde530e43671c6bc159de06d365d0cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordTransactionLatency</definition>
+        <argsstring>(const std::string &amp;transaction_type, double latency_ms)</argsstring>
+        <name>recordTransactionLatency</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordTransactionLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record transaction latency sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Transaction Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction-class label. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getOrCreateTransactionWindow(), recordLatency(), checkAndGenerateAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="181" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="242" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a66d17cd592555ca2252b537dbd577808" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordDataLoss</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t bytes_lost)</argsstring>
+        <name>recordDataLoss</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordDataLoss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_lost</declname>
+        </param>
+        <briefdescription>
+<para>Record data-loss event for durability SLO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Data Loss.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_lost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes lost.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_lost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getOrCreateShardWindow(), checkAndGenerateAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="188" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="255" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5d36fd353ad9d99de6a20a84d58a99de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordReplicationLag</definition>
+        <argsstring>(const std::string &amp;shard_id, double lag_ms)</argsstring>
+        <name>recordReplicationLag</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordReplicationLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record replication lag observation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Replication Lag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replication lag in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getOrCreateShardWindow(), checkAndGenerateAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="195" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1ad82022382c9ad56aa35e80e30adac5c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordLeaderElection</definition>
+        <argsstring>(const std::string &amp;shard_id, double duration_s)</argsstring>
+        <name>recordLeaderElection</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordLeaderElection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_s</declname>
+        </param>
+        <briefdescription>
+<para>Record leader-election duration sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Leader Election.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Election duration in seconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), formatSLOViolation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="202" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="281" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1af3179d7ecd10555b347fa244a929c6df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::recordRepairProgress</definition>
+        <argsstring>(const RepairProgress &amp;progress)</argsstring>
+        <name>recordRepairProgress</name>
+        <qualifiedname>themis::sharding::SLOMonitor::recordRepairProgress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref> &amp;</type>
+          <declname>progress</declname>
+        </param>
+        <briefdescription>
+<para>Record or update repair-progress snapshot keyed by job id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Repair Progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">progress</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="205" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="665" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a0febf84aa49958e82ca423afa1b069e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref></type>
+        <definition>SLOMonitor::RepairProgress themis::sharding::SLOMonitor::getRepairProgress</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>getRepairProgress</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getRepairProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Return latest repair progress for one job id (empty shell if unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="207" column="20" bodyfile="src/sharding/slo_monitor.cpp" bodystart="670" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a94962a34abb5957a8cab0fedf0262d61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref> &gt;</type>
+        <definition>std::vector&lt; SLOMonitor::RepairProgress &gt; themis::sharding::SLOMonitor::getActiveRepairJobs</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveRepairJobs</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getActiveRepairJobs</qualifiedname>
+        <briefdescription>
+<para>Return all repair jobs that are not yet marked completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="209" column="17" bodyfile="src/sharding/slo_monitor.cpp" bodystart="686" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a2067180db2c30d793cf35a28587db33f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::isAvailabilitySLOMet</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isAvailabilitySLOMet</name>
+        <qualifiedname>themis::sharding::SLOMonitor::isAvailabilitySLOMet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check availability SLO compliance for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="212" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="297" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a800e16f132ece988fbe2333fda4d04f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::isLatencySLOMet</definition>
+        <argsstring>(const std::string &amp;query_type) const</argsstring>
+        <name>isLatencySLOMet</name>
+        <qualifiedname>themis::sharding::SLOMonitor::isLatencySLOMet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_type</declname>
+        </param>
+        <briefdescription>
+<para>Check latency SLO compliance for a query class. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="214" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="314" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1adca0d3cd379b5ec8236b7396f10bab06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::isDurabilitySLOMet</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isDurabilitySLOMet</name>
+        <qualifiedname>themis::sharding::SLOMonitor::isDurabilitySLOMet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check durability SLO compliance for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="216" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="339" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1aaf6223201c30120b6add6f2481bb4d99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::isConsistencySLOMet</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isConsistencySLOMet</name>
+        <qualifiedname>themis::sharding::SLOMonitor::isConsistencySLOMet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check consistency SLO compliance for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="218" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="365" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a696fb1acc26719d41ad8c3271c1af494" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOMonitor::getErrorBudget</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getErrorBudget</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getErrorBudget</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get remaining error budget for a shard in [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="221" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="391" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1abe36c2c925e319f99cfeae2b0afb196d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SLOMonitor::getGlobalErrorBudget</definition>
+        <argsstring>() const</argsstring>
+        <name>getGlobalErrorBudget</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getGlobalErrorBudget</qualifiedname>
+        <briefdescription>
+<para>Get average remaining global error budget in [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="223" column="12" bodyfile="src/sharding/slo_monitor.cpp" bodystart="416" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a49ccdce90fd3b0811d530651c35091f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::isErrorBudgetExhausted</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isErrorBudgetExhausted</name>
+        <qualifiedname>themis::sharding::SLOMonitor::isErrorBudgetExhausted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true when shard error budget is fully exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="225" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="448" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a3441cd3046b1ab0b107862334ea459e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SLOMonitor::generateSLOReport</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSLOReport</name>
+        <qualifiedname>themis::sharding::SLOMonitor::generateSLOReport</qualifiedname>
+        <briefdescription>
+<para>Render human-readable SLO compliance report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="228" column="17" bodyfile="src/sharding/slo_monitor.cpp" bodystart="463" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a74b8415659a7b109135e4862592d8898" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SLOMonitor::generateSLOReportJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSLOReportJSON</name>
+        <qualifiedname>themis::sharding::SLOMonitor::generateSLOReportJSON</qualifiedname>
+        <briefdescription>
+<para>Render machine-readable SLO report as JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="230" column="17" bodyfile="src/sharding/slo_monitor.cpp" bodystart="537" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5675411a7d561a343e773e2a71fdec3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::sharding::SLOMonitor::getSLOCompliance</definition>
+        <argsstring>() const</argsstring>
+        <name>getSLOCompliance</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getSLOCompliance</qualifiedname>
+        <briefdescription>
+<para>Return compliance map keyed by metric name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="232" column="14" bodyfile="src/sharding/slo_monitor.cpp" bodystart="605" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a82a8dac5faf5dd25e758050c28f13071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::SLOMonitor::getActiveAlerts</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveAlerts</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getActiveAlerts</qualifiedname>
+        <briefdescription>
+<para>Return currently active alert messages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="235" column="17" bodyfile="src/sharding/slo_monitor.cpp" bodystart="640" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1adf2b08350ba411559a28ab71f09c7112" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref> &amp;</type>
+        <definition>const SLOTarget &amp; themis::sharding::SLOMonitor::getTargets</definition>
+        <argsstring>() const</argsstring>
+        <name>getTargets</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getTargets</qualifiedname>
+        <briefdescription>
+<para>Get active SLO target configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="238" column="21" bodyfile="include/sharding/slo_monitor.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1acfdfb2be3bc867a87409f18486b6dcac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::updateTargets</definition>
+        <argsstring>(const SLOTarget &amp;targets)</argsstring>
+        <name>updateTargets</name>
+        <qualifiedname>themis::sharding::SLOMonitor::updateTargets</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Replace SLO target configuration at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Targets.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="240" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="655" bodyend="658"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1aeb931f6f8e91f60c6ba544f8f8c3a3d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SLOWindow &gt; themis::sharding::SLOMonitor::getOrCreateShardWindow</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>getOrCreateShardWindow</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getOrCreateShardWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Shard Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="262" column="21" bodyfile="src/sharding/slo_monitor.cpp" bodystart="709" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1acf7c250a40caf1f5f9fe635c1a11a7cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SLOWindow &gt; themis::sharding::SLOMonitor::getOrCreateQueryWindow</definition>
+        <argsstring>(const std::string &amp;query_type)</argsstring>
+        <name>getOrCreateQueryWindow</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getOrCreateQueryWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Query Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="263" column="21" bodyfile="src/sharding/slo_monitor.cpp" bodystart="728" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8a7ab3b36a5d207b5176b77e0381377e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_window" kindref="compound">SLOWindow</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SLOWindow &gt; themis::sharding::SLOMonitor::getOrCreateTransactionWindow</definition>
+        <argsstring>(const std::string &amp;tx_type)</argsstring>
+        <name>getOrCreateTransactionWindow</name>
+        <qualifiedname>themis::sharding::SLOMonitor::getOrCreateTransactionWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tx_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Transaction Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tx_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="264" column="21" bodyfile="src/sharding/slo_monitor.cpp" bodystart="747" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4fa669bde0c26e0111229561c23bca4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SLOMonitor::checkAndGenerateAlerts</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndGenerateAlerts</name>
+        <qualifiedname>themis::sharding::SLOMonitor::checkAndGenerateAlerts</qualifiedname>
+        <briefdescription>
+<para>Check And Generate Alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), getAvailability(), push_back(), formatSLOViolation(), <ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a696fb1acc26719d41ad8c3271c1af494" kindref="member">getErrorBudget()</ref>, std::to_string(), getLatencyP99(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="265" column="10" bodyfile="src/sharding/slo_monitor.cpp" bodystart="764" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_s_l_o_monitor_1a92c830509f8ec8eb845a5ee16e696b70" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SLOMonitor::formatSLOViolation</definition>
+        <argsstring>(const std::string &amp;slo_name, double actual, double target) const</argsstring>
+        <name>formatSLOViolation</name>
+        <qualifiedname>themis::sharding::SLOMonitor::formatSLOViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slo_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="266" column="17" bodyfile="src/sharding/slo_monitor.cpp" bodystart="829" bodyend="835"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SLO Monitor tracks and reports on service level objectives. Monitors availability, latency, durability, and consistency targets. </para>
+    </detaileddescription>
+    <location file="include/sharding/slo_monitor.h" line="131" column="1" bodyfile="include/sharding/slo_monitor.h" bodystart="131" bodyend="267"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a56cdcac1cf5a59bea1e193a6690d2a04" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>active_alerts_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4fa669bde0c26e0111229561c23bca4b" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>checkAndGenerateAlerts</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1afcfe90769b2eee1bdd7aa36a36a4c2ee" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a92c830509f8ec8eb845a5ee16e696b70" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>formatSLOViolation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a3441cd3046b1ab0b107862334ea459e8" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>generateSLOReport</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a74b8415659a7b109135e4862592d8898" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>generateSLOReportJSON</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a82a8dac5faf5dd25e758050c28f13071" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getActiveAlerts</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a94962a34abb5957a8cab0fedf0262d61" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getActiveRepairJobs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a696fb1acc26719d41ad8c3271c1af494" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getErrorBudget</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1abe36c2c925e319f99cfeae2b0afb196d" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getGlobalErrorBudget</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1acf7c250a40caf1f5f9fe635c1a11a7cc" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getOrCreateQueryWindow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1aeb931f6f8e91f60c6ba544f8f8c3a3d3" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getOrCreateShardWindow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8a7ab3b36a5d207b5176b77e0381377e" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getOrCreateTransactionWindow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a0febf84aa49958e82ca423afa1b069e0" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getRepairProgress</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5675411a7d561a343e773e2a71fdec3d" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getSLOCompliance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1adf2b08350ba411559a28ab71f09c7112" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>getTargets</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a2067180db2c30d793cf35a28587db33f" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>isAvailabilitySLOMet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1aaf6223201c30120b6add6f2481bb4d99" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>isConsistencySLOMet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1adca0d3cd379b5ec8236b7396f10bab06" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>isDurabilitySLOMet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a49ccdce90fd3b0811d530651c35091f8" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>isErrorBudgetExhausted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a800e16f132ece988fbe2333fda4d04f4" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>isLatencySLOMet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5b55e514f93c83ea1f15dc45ed963cc5" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a3bb2cafb6304ffdee2d9cc67a9732888" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>query_latency_windows_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a66d17cd592555ca2252b537dbd577808" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordDataLoss</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1ad82022382c9ad56aa35e80e30adac5c1" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordLeaderElection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5b1c8e27274e304a8092f41199840d81" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordQueryLatency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1af3179d7ecd10555b347fa244a929c6df" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordRepairProgress</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5d36fd353ad9d99de6a20a84d58a99de" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordReplicationLag</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4d705f67d6ccb8ca21043d101562ae88" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordShardAvailability</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1acde530e43671c6bc159de06d365d0cf9" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>recordTransactionLatency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1af2a1c6d7ff3540fe73c7acc13e6fbbac" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>repair_progress_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4c3cbd11041f959b7d3c2bdac925551e" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>shard_windows_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a1dcabd8b734c14fe6b02699682134276" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>SLOMonitor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8bc1fb43488f0988d5b63c9db2f626b8" prot="private" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>transaction_latency_windows_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1acfdfb2be3bc867a87409f18486b6dcac" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>updateTargets</name></member>
+      <member refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8460fe3e623e0eed3e8012e95ab915e4" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor</scope><name>~SLOMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

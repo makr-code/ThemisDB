@@ -1,0 +1,971 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_explanation_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ExplanationGenerator</compoundname>
+    <includes refid="explanation__generator_8h" local="no">explanation_generator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Format</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::Format</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15ad9f46a7174a23f0f25c98b491407bbbc" prot="public">
+          <name>USER_FRIENDLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15abc3ed231cbb49b3b7e6a7b0c0a6dc150" prot="public">
+          <name>TECHNICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15a185bd2ffef1962ade3c0889c62cee500" prot="public">
+          <name>COMPLIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="25" column="5" bodyfile="include/llm/explanation_generator.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1ae9d8388a4917dd3205b8b7a218c73b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::generateExplanation</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors, Format format=Format::USER_FRIENDLY)</argsstring>
+        <name>generateExplanation</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::generateExplanation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" kindref="member">Format</ref></type>
+          <declname>format</declname>
+          <defval><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15ad9f46a7174a23f0f25c98b491407bbbc" kindref="member">Format::USER_FRIENDLY</ref></defval>
+        </param>
+        <briefdescription>
+<para>Generate Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: formatUserFriendly(), formatTechnical(), formatCompliance(), formatJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="32" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="32" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1a247c8da7d846b6b622d0aebbcbd8eb0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ExplanationGenerator::generateReasoningChain</definition>
+        <argsstring>(const std::string &amp;query, const json &amp;intermediate_results)</argsstring>
+        <name>generateReasoningChain</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::generateReasoningChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>intermediate_results</declname>
+        </param>
+        <briefdescription>
+<para>Generate Reasoning Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">intermediate_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">intermediate_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), empty(), is_object(), items(), is_string(), is_number(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="46" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="234" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1a6168425db651f7f6d8a5a0d36a892b14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ExplanationGenerator::identifyKeyFactors</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const json &amp;context=json::object())</argsstring>
+        <name>identifyKeyFactors</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::identifyKeyFactors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>context</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Identify Key Factors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKeywords(), std::find(), begin(), end(), push_back(), empty(), calculateSimilarity(), std::round(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="51" column="10" bodyfile="src/llm/explanation_generator.cpp" bodystart="272" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1a5c46417639e4e833c8a953ed6e665861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::explainConfidence</definition>
+        <argsstring>(float confidence, const std::vector&lt; std::string &gt; &amp;alternatives={})</argsstring>
+        <name>explainConfidence</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::explainConfidence</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>alternatives</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Explain Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alternatives</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min(), size(), size_t(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="57" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="328" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1aee9b12610a8b1e28cbdffdeb63a8ce45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::generateComplianceExplanation</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::string &amp;model_info, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors, float confidence)</argsstring>
+        <name>generateComplianceExplanation</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::generateComplianceExplanation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_info</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <briefdescription>
+<para>Generate Compliance Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setprecision(), empty(), size(), is_object(), items(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="72" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="373" bodyend="442"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1ae68e494ba4342cd34190c25e4899dd32" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::formatUserFriendly</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors)</argsstring>
+        <name>formatUserFriendly</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::formatUserFriendly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <briefdescription>
+<para>Helper methods for different formats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" kindref="member">Format</ref> User Friendly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), is_object(), items(), is_string(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="90" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="62" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1abf4bd019aea287f971d373cbef14d150" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::formatTechnical</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors)</argsstring>
+        <name>formatTechnical</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::formatTechnical</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" kindref="member">Format</ref> Technical. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="105" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="109" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1ac668f58dd5d4e617a3963c86f8b1f2de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::formatCompliance</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors)</argsstring>
+        <name>formatCompliance</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::formatCompliance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" kindref="member">Format</ref> Compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), is_object(), items(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="120" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="154" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1aca79cb8c4e9858f05e1fbdb00fa07903" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ExplanationGenerator::formatJson</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;reasoning_steps, const json &amp;key_factors)</argsstring>
+        <name>formatJson</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::formatJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reasoning_steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>key_factors</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" kindref="member">Format</ref> Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reasoning_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_factors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="135" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="212" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1acd84e9293ad65581a0066cca384b8514" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ExplanationGenerator::extractKeywords</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::extractKeywords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Helper to extract keywords from text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Keywords.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), reserve(), std::isalnum(), std::tolower(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="147" column="17" bodyfile="src/llm/explanation_generator.cpp" bodystart="452" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_explanation_generator_1a48e9338e976d59c34ed2eb052bb6e60c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::ExplanationGenerator::calculateSimilarity</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>calculateSimilarity</name>
+        <qualifiedname>themis::llm::ExplanationGenerator::calculateSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Helper to calculate text similarity (simple word overlap). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Similarity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKeywords(), empty(), set1(), begin(), end(), set2(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/explanation_generator.h" line="155" column="11" bodyfile="src/llm/explanation_generator.cpp" bodystart="505" bodyend="535"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/explanation_generator.h" line="23" column="1" bodyfile="include/llm/explanation_generator.h" bodystart="23" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1a48e9338e976d59c34ed2eb052bb6e60c" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>calculateSimilarity</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1a5c46417639e4e833c8a953ed6e665861" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>explainConfidence</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1acd84e9293ad65581a0066cca384b8514" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1a051fc0de621b1158d44c790bc5dccd15" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>Format</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1ac668f58dd5d4e617a3963c86f8b1f2de" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>formatCompliance</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1aca79cb8c4e9858f05e1fbdb00fa07903" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>formatJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1abf4bd019aea287f971d373cbef14d150" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>formatTechnical</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1ae68e494ba4342cd34190c25e4899dd32" prot="private" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>formatUserFriendly</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1aee9b12610a8b1e28cbdffdeb63a8ce45" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>generateComplianceExplanation</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1ae9d8388a4917dd3205b8b7a218c73b3f" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>generateExplanation</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1a247c8da7d846b6b622d0aebbcbd8eb0c" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>generateReasoningChain</name></member>
+      <member refid="classthemis_1_1llm_1_1_explanation_generator_1a6168425db651f7f6d8a5a0d36a892b14" prot="public" virt="non-virtual"><scope>themis::llm::ExplanationGenerator</scope><name>identifyKeyFactors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

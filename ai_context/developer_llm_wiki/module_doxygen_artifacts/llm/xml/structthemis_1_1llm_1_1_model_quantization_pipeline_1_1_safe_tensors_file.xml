@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::ModelQuantizationPipeline::SafeTensorsFile</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file_1aaa6fe604a625a1287f039438f420f934" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, SafeTensorDesc &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SafeTensorDesc&gt; themis::llm::ModelQuantizationPipeline::SafeTensorsFile::tensors</definition>
+        <argsstring></argsstring>
+        <name>tensors</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::SafeTensorsFile::tensors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="111" column="28" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file_1ac5a56e5bb24318075a026d4458b0bf10" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::ModelQuantizationPipeline::SafeTensorsFile::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::SafeTensorsFile::data</qualifiedname>
+        <briefdescription>
+<para>Raw binary payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="112" column="21" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_quantization_pipeline.h" line="110" column="5" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="110" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file_1ac5a56e5bb24318075a026d4458b0bf10" prot="public" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline::SafeTensorsFile</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file_1aaa6fe604a625a1287f039438f420f934" prot="public" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline::SafeTensorsFile</scope><name>tensors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

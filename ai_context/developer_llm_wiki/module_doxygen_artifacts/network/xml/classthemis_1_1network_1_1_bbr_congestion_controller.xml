@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_bbr_congestion_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::BbrCongestionController</compoundname>
+    <includes refid="bbr__congestion__control_8h" local="no">bbr_congestion_control.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_bbr_congestion_controller_1ace6ccd9ad94f2a8f475075e0d7f69ca9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::BbrCongestionController::socket_fd_</definition>
+        <argsstring></argsstring>
+        <name>socket_fd_</name>
+        <qualifiedname>themis::network::BbrCongestionController::socket_fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="253" column="25" bodyfile="include/network/bbr_congestion_control.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_bbr_congestion_controller_1a5d547aa3d6645186fdea585875da058e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref></type>
+        <definition>CongestionAlgorithm themis::network::BbrCongestionController::active_algorithm_</definition>
+        <argsstring></argsstring>
+        <name>active_algorithm_</name>
+        <qualifiedname>themis::network::BbrCongestionController::active_algorithm_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" kindref="member">CongestionAlgorithm::SYSTEM</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="254" column="25" bodyfile="include/network/bbr_congestion_control.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::BbrCongestionController::BbrCongestionController</definition>
+        <argsstring>(int socket_fd, CongestionAlgorithm algorithm=CongestionAlgorithm::SYSTEM)</argsstring>
+        <name>BbrCongestionController</name>
+        <qualifiedname>themis::network::BbrCongestionController::BbrCongestionController</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>socket_fd</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref></type>
+          <declname>algorithm</declname>
+          <defval><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" kindref="member">CongestionAlgorithm::SYSTEM</ref></defval>
+        </param>
+        <briefdescription>
+<para>Attach to an existing connected socket and optionally set the congestion algorithm immediately. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connected TCP socket fd. Caller retains ownership. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Algorithm to activate (SYSTEM = no change on construction).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>On platforms that do not support BBRv2, the algorithm silently falls back to CUBIC if <computeroutput><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1afc9811fa5252532b69bb51f2bf597c91" kindref="member">setCongestionAlgorithm()</ref></computeroutput> is called with <ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa9c337a7034fc7bc073b5873dd6f4b7c5" kindref="member">CongestionAlgorithm::BBRv2</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="174" column="14" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1adfb56d30a72436b022eec04a10cee1ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::BbrCongestionController::~BbrCongestionController</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BbrCongestionController</name>
+        <qualifiedname>themis::network::BbrCongestionController::~BbrCongestionController</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1af2ece779879e1f5e1784c65836f1df5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::BbrCongestionController::BbrCongestionController</definition>
+        <argsstring>(const BbrCongestionController &amp;)=delete</argsstring>
+        <name>BbrCongestionController</name>
+        <qualifiedname>themis::network::BbrCongestionController::BbrCongestionController</qualifiedname>
+        <param>
+          <type>const BbrCongestionController &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1abb9b4c73cf5ef5bcc1b6aad653b24b48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref> &amp;</type>
+        <definition>BbrCongestionController &amp; themis::network::BbrCongestionController::operator=</definition>
+        <argsstring>(const BbrCongestionController &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::BbrCongestionController::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="181" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1aad4356b98a3b8ea8160d03692963f25b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::BbrCongestionController::BbrCongestionController</definition>
+        <argsstring>(BbrCongestionController &amp;&amp;) noexcept=default</argsstring>
+        <name>BbrCongestionController</name>
+        <qualifiedname>themis::network::BbrCongestionController::BbrCongestionController</qualifiedname>
+        <param>
+          <type>BbrCongestionController &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="182" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1af63b091c119f7f14add9ddb8f3744a47" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref> &amp;</type>
+        <definition>BbrCongestionController &amp; themis::network::BbrCongestionController::operator=</definition>
+        <argsstring>(BbrCongestionController &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::BbrCongestionController::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="183" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1afc9811fa5252532b69bb51f2bf597c91" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::BbrCongestionController::setCongestionAlgorithm</definition>
+        <argsstring>(CongestionAlgorithm algorithm) noexcept</argsstring>
+        <name>setCongestionAlgorithm</name>
+        <qualifiedname>themis::network::BbrCongestionController::setCongestionAlgorithm</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>Set the TCP congestion control algorithm for the bound socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Algorithm to activate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false on error (errno set) or if the algorithm is not supported by the kernel. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="196" column="10" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="58" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1ad28a5e8ae8ad063694f9d72155a428b8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::BbrCongestionController::applyConfig</definition>
+        <argsstring>(const BbrConfig &amp;cfg) noexcept</argsstring>
+        <name>applyConfig</name>
+        <qualifiedname>themis::network::BbrCongestionController::applyConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_bbr_config" kindref="compound">BbrConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Apply BBR-specific tuning parameters to the bound socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op if the active algorithm is not BBR/BBRv2 or the kernel does not expose the requested setsockopt keys.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter overrides. Default-constructed = kernel defaults. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all non-zero parameters were accepted by the kernel. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="207" column="10" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="83" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1aff8bced53778a34743e6aca15cf04f09" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_congestion_diagnostics" kindref="compound">CongestionDiagnostics</ref></type>
+        <definition>CongestionDiagnostics themis::network::BbrCongestionController::getDiagnostics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDiagnostics</name>
+        <qualifiedname>themis::network::BbrCongestionController::getDiagnostics</qualifiedname>
+        <briefdescription>
+<para>Return a current diagnostic snapshot for the bound socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads TCP_INFO and TCP_CC_INFO (where available). Fields not populated by the kernel are zero-initialised. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="219" column="27" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="117" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1a49803cbf3ca62c84273f646a1aac0bb7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::network::BbrCongestionController::getActiveAlgorithmName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getActiveAlgorithmName</name>
+        <qualifiedname>themis::network::BbrCongestionController::getActiveAlgorithmName</qualifiedname>
+        <briefdescription>
+<para>Return the currently active algorithm name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the TCP_CONGESTION socket option. Returns an empty string on non-Linux platforms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="227" column="17" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="159" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1ab91c5d5847203556a9ba181051bee3a3" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::BbrCongestionController::isBBRv2Available</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isBBRv2Available</name>
+        <qualifiedname>themis::network::BbrCongestionController::isBBRv2Available</qualifiedname>
+        <briefdescription>
+<para>Return true if BBRv2 is available on the running system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a lightweight probe via a temporary socket and TCP_CONGESTION. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="238" column="17" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="172" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1aa3463cfb9df672244894f5ae2160d06c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::BbrCongestionController::isBBRv1Available</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isBBRv1Available</name>
+        <qualifiedname>themis::network::BbrCongestionController::isBBRv1Available</qualifiedname>
+        <briefdescription>
+<para>Return true if BBRv1 is available on the running system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="243" column="17" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="189" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_bbr_congestion_controller_1a6bf76c0140e9a371d88605e826446d68" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::network::BbrCongestionController::algorithmToKernelName</definition>
+        <argsstring>(CongestionAlgorithm algorithm) noexcept</argsstring>
+        <name>algorithmToKernelName</name>
+        <qualifiedname>themis::network::BbrCongestionController::algorithmToKernelName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>Convert a <computeroutput><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" kindref="member">CongestionAlgorithm</ref></computeroutput> to its kernel name string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the TCP_CONGESTION string for use in setsockopt (e.g., &quot;bbr2&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="250" column="23" bodyfile="src/network/bbr_congestion_control.cpp" bodystart="206" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-connection BBRv2 congestion control configurator and diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Binds to an existing connected TCP socket (identified by file descriptor) and provides:<itemizedlist>
+<listitem><para>Algorithm selection via TCP_CONGESTION sockopt.</para>
+</listitem><listitem><para>Optional BBR parameter tuning (where the kernel supports it).</para>
+</listitem><listitem><para>Read-only diagnostic snapshots via TCP_INFO / TCP_CC_INFO.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aff8bced53778a34743e6aca15cf04f09" kindref="member">getDiagnostics()</ref></computeroutput> is safe to call concurrently.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ad28a5e8ae8ad063694f9d72155a428b8" kindref="member">applyConfig()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1afc9811fa5252532b69bb51f2bf597c91" kindref="member">setCongestionAlgorithm()</ref></computeroutput> must not be called concurrently with each other on the same instance.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" kindref="member">BbrCongestionController</ref><sp/>bcc(socket_fd,<sp/><ref refid="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa9c337a7034fc7bc073b5873dd6f4b7c5" kindref="member">CongestionAlgorithm::BBRv2</ref>);</highlight></codeline>
+<codeline><highlight class="normal">bcc.applyConfig({});<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kernel<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/>bcc.getDiagnostics();</highlight></codeline>
+<codeline><highlight class="normal">LOG_INFO(</highlight><highlight class="stringliteral">&quot;bbr<sp/>bandwidth<sp/>estimate:<sp/>{}<sp/>Mbps&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>diag.bandwidth_bps<sp/>/<sp/>1&apos;000&apos;000.0);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/bbr_congestion_control.h" line="161" column="1" bodyfile="include/network/bbr_congestion_control.h" bodystart="161" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a5d547aa3d6645186fdea585875da058e" prot="private" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>active_algorithm_</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a6bf76c0140e9a371d88605e826446d68" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>algorithmToKernelName</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ad28a5e8ae8ad063694f9d72155a428b8" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>applyConfig</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a86930ffe1a60b0f8fd3297443a3a70ad" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>BbrCongestionController</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1af2ece779879e1f5e1784c65836f1df5b" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>BbrCongestionController</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aad4356b98a3b8ea8160d03692963f25b" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>BbrCongestionController</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1a49803cbf3ca62c84273f646a1aac0bb7" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>getActiveAlgorithmName</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aff8bced53778a34743e6aca15cf04f09" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>getDiagnostics</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1aa3463cfb9df672244894f5ae2160d06c" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>isBBRv1Available</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ab91c5d5847203556a9ba181051bee3a3" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>isBBRv2Available</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1abb9b4c73cf5ef5bcc1b6aad653b24b48" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1af63b091c119f7f14add9ddb8f3744a47" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1afc9811fa5252532b69bb51f2bf597c91" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>setCongestionAlgorithm</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1ace6ccd9ad94f2a8f475075e0d7f69ca9" prot="private" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>socket_fd_</name></member>
+      <member refid="classthemis_1_1network_1_1_bbr_congestion_controller_1adfb56d30a72436b022eec04a10cee1ba" prot="public" virt="non-virtual"><scope>themis::network::BbrCongestionController</scope><name>~BbrCongestionController</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

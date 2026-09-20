@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_task_audit_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskAuditEvent</compoundname>
+    <includes refid="task__audit__event_8h" local="no">task_audit_event.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1add7c923c2c8c4c04994a83d6482e5045" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::uuid</definition>
+        <argsstring></argsstring>
+        <name>uuid</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::uuid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="125" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a686f44f3057a5bec2bd2cc3978c8fd5f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::scheduler::TaskAuditEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="128" column="43" bodyfile="include/scheduler/task_audit_event.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1ae01aefe0050096ca187856cee94654ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAuditEvent::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="129" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a24bcd7478411f6b90ec0b45d81bb2e38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::task_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="132" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1afaa97a6ef3f7a7e027bfbef0b7cee0e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::task_name</definition>
+        <argsstring></argsstring>
+        <name>task_name</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::task_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="133" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1aaa4fff796371fee04260e2324eae1287" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::task_description</definition>
+        <argsstring></argsstring>
+        <name>task_description</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::task_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="134" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1aaa09dd6269331e68fa8eca898b2c64a7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1" kindref="member">TaskEventType</ref></type>
+        <definition>TaskEventType themis::scheduler::TaskAuditEvent::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="137" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a8ec5d32f6130befdbbd8b65f73bce42d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::trigger_type</definition>
+        <argsstring></argsstring>
+        <name>trigger_type</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::trigger_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="138" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1aa5da8ed28cd4d0fc885ab38b7c78196e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="141" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a4a66ca88b89849c1129f5ee5cfab4c43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="142" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1af9ff30d0c865939b7cb5feb47c0f93e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="143" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a1b385bf6276a915d5142220f88c9c499" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::scheduler::TaskAuditEvent::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="144" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a99286074406fc3fed316b230a9174ce3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskAuditEvent::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="147" column="10" bodyfile="include/scheduler/task_audit_event.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a6c31bed3a6abd1b89c40b1203f36fdce" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::scheduler::TaskAuditEvent::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="148" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1abd03f45ee8750b0c07777d011ec6728e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::scheduler::TaskAuditEvent::error_type</definition>
+        <argsstring></argsstring>
+        <name>error_type</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::error_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="149" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1af1c19256d753a8dca7bfce8729a60a49" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::scheduler::TaskAuditEvent::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::retry_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="150" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1af0be6d33bb6adf6394af2280ae1b6bcc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scheduler_1_1_task_resource_usage" kindref="compound">TaskResourceUsage</ref></type>
+        <definition>TaskResourceUsage themis::scheduler::TaskAuditEvent::resource_usage</definition>
+        <argsstring></argsstring>
+        <name>resource_usage</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::resource_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="153" column="23" bodyfile="include/scheduler/task_audit_event.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1a3991b476e0cf01d919c1e6987b64924f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref></type>
+        <definition>AnomalyMetrics themis::scheduler::TaskAuditEvent::anomaly_metrics</definition>
+        <argsstring></argsstring>
+        <name>anomaly_metrics</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::anomaly_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="156" column="20" bodyfile="include/scheduler/task_audit_event.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_audit_event_1ab59791b53dd1b9feede515a639691844" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAuditEvent::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="159" column="20" bodyfile="include/scheduler/task_audit_event.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_audit_event_1aff536e9a52b238408710703f8b78484f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAuditEvent::toJson</definition>
+        <argsstring>(bool gdpr_mode=false) const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::toJson</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>gdpr_mode</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Convert audit event to JSON format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gdpr_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, applies GDPR-compliant masking to sensitive fields </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON representation of the event </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="166" column="20" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="198" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_audit_event_1a99a6b4d609342d0d55e149fdae731024" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskAuditEvent::toCEF</definition>
+        <argsstring>() const</argsstring>
+        <name>toCEF</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::toCEF</qualifiedname>
+        <briefdescription>
+<para>Convert to CEF (Common Event Format) for SIEM integration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CEF-formatted string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="172" column="17" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="255" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_audit_event_1a6dfaead884336fd4aa48e8dbcab47ff3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAuditEvent::toSplunkHEC</definition>
+        <argsstring>() const</argsstring>
+        <name>toSplunkHEC</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::toSplunkHEC</qualifiedname>
+        <briefdescription>
+<para>Convert to Splunk HEC format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Splunk-compatible JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="178" column="20" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="291" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_audit_event_1a803532c08d85c4a74f0e7235a7a490d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAuditEvent::toElasticECS</definition>
+        <argsstring>() const</argsstring>
+        <name>toElasticECS</name>
+        <qualifiedname>themis::scheduler::TaskAuditEvent::toElasticECS</qualifiedname>
+        <briefdescription>
+<para>Convert to Elastic Common Schema (ECS) format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>ECS-compatible JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="184" column="20" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="314" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive audit event for task execution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures all relevant information for compliance and security monitoring:<itemizedlist>
+<listitem><para>Unique identification (UUID)</para>
+</listitem><listitem><para>Temporal data (timestamp, duration)</para>
+</listitem><listitem><para>Task context (ID, type, trigger)</para>
+</listitem><listitem><para>Actor information (user, IP, session)</para>
+</listitem><listitem><para>Result data (success/failure, error details)</para>
+</listitem><listitem><para>Resource metrics</para>
+</listitem><listitem><para>Anomaly detection scores </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::scheduler::AnomalyMetrics</label>
+        <link refid="structthemis_1_1scheduler_1_1_anomaly_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::scheduler::TaskAuditEvent</label>
+        <link refid="structthemis_1_1scheduler_1_1_task_audit_event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>resource_usage</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>anomaly_metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::scheduler::TaskResourceUsage</label>
+        <link refid="structthemis_1_1scheduler_1_1_task_resource_usage"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scheduler/task_audit_event.h" line="123" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="123" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a3991b476e0cf01d919c1e6987b64924f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>anomaly_metrics</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1ae01aefe0050096ca187856cee94654ed" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a6c31bed3a6abd1b89c40b1203f36fdce" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1abd03f45ee8750b0c07777d011ec6728e" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>error_type</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1aaa09dd6269331e68fa8eca898b2c64a7" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a4a66ca88b89849c1129f5ee5cfab4c43" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1ab59791b53dd1b9feede515a639691844" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1af0be6d33bb6adf6394af2280ae1b6bcc" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>resource_usage</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1af1c19256d753a8dca7bfce8729a60a49" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1af9ff30d0c865939b7cb5feb47c0f93e5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a99286074406fc3fed316b230a9174ce3" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>success</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1aaa4fff796371fee04260e2324eae1287" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>task_description</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a24bcd7478411f6b90ec0b45d81bb2e38" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>task_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1afaa97a6ef3f7a7e027bfbef0b7cee0e8" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>task_name</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a1b385bf6276a915d5142220f88c9c499" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a686f44f3057a5bec2bd2cc3978c8fd5f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a99a6b4d609342d0d55e149fdae731024" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>toCEF</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a803532c08d85c4a74f0e7235a7a490d0" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>toElasticECS</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1aff536e9a52b238408710703f8b78484f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a6dfaead884336fd4aa48e8dbcab47ff3" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>toSplunkHEC</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1a8ec5d32f6130befdbbd8b65f73bce42d" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>trigger_type</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1aa5da8ed28cd4d0fc885ab38b7c78196e" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_audit_event_1add7c923c2c8c4c04994a83d6482e5045" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAuditEvent</scope><name>uuid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_mmap_blob_view" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::MmapBlobView</compoundname>
+    <includes refid="zero__copy__blob__transfer_8h" local="no">zero_copy_blob_transfer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_mmap_blob_view_1a51485477195066f1ffde639b397038af" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::storage::MmapBlobView::mapping_</definition>
+        <argsstring></argsstring>
+        <name>mapping_</name>
+        <qualifiedname>themis::storage::MmapBlobView::mapping_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="107" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_mmap_blob_view_1adf8e71853158a8fa242f7f05e781f392" prot="private" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* themis::storage::MmapBlobView::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::storage::MmapBlobView::data_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="108" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_mmap_blob_view_1afd5eee5e31706cbc2dc56d432cc51324" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::MmapBlobView::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::storage::MmapBlobView::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="109" column="14" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_mmap_blob_view_1a21df127187f6355a437581acdd878e6f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::MmapBlobView::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::storage::MmapBlobView::fd_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="110" column="14" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::MmapBlobView::MmapBlobView</definition>
+        <argsstring>(const std::string &amp;file_path, bool sequential_hint=true)</argsstring>
+        <name>MmapBlobView</name>
+        <qualifiedname>themis::storage::MmapBlobView::MmapBlobView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sequential_hint</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Map the file at <computeroutput>file_path</computeroutput> for read-only access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the blob file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sequential_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, hints the kernel via MADV_SEQUENTIAL for forward-sequential access patterns.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+If the mapping fails (file not found, permission denied, etc.) the object is left in an invalid state; check <ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1ab8b5e9f9fc41241807c1c0ba07196f18" kindref="member">valid()</ref> before accessing <ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a7f62fe5dc6c4c6833c36044582f955ab" kindref="member">data()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Buf. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="67" column="14" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="289" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1a2cbc8c0af08ab4887a3cf5172b24b040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::MmapBlobView::~MmapBlobView</definition>
+        <argsstring>()</argsstring>
+        <name>~MmapBlobView</name>
+        <qualifiedname>themis::storage::MmapBlobView::~MmapBlobView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="70" column="5" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1aa59187e908d161653fad063b2569814c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::MmapBlobView::MmapBlobView</definition>
+        <argsstring>(const MmapBlobView &amp;)=delete</argsstring>
+        <name>MmapBlobView</name>
+        <qualifiedname>themis::storage::MmapBlobView::MmapBlobView</qualifiedname>
+        <param>
+          <type>const MmapBlobView &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1af11334656e41ce0f93e92bbb249d1ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" kindref="member">MmapBlobView</ref> &amp;</type>
+        <definition>MmapBlobView &amp; themis::storage::MmapBlobView::operator=</definition>
+        <argsstring>(const MmapBlobView &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::MmapBlobView::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" kindref="member">MmapBlobView</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="74" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1ab900cd18c123403fd89c8a10ed5776de" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::MmapBlobView::MmapBlobView</definition>
+        <argsstring>(MmapBlobView &amp;&amp;) noexcept</argsstring>
+        <name>MmapBlobView</name>
+        <qualifiedname>themis::storage::MmapBlobView::MmapBlobView</qualifiedname>
+        <param>
+          <type>MmapBlobView &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="76" column="5" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="392" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1aeec097b2aa7b4c84cd2044cceb5eb46a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" kindref="member">MmapBlobView</ref> &amp;</type>
+        <definition>MmapBlobView &amp; themis::storage::MmapBlobView::operator=</definition>
+        <argsstring>(MmapBlobView &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::MmapBlobView::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" kindref="member">MmapBlobView</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="77" column="18" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="404" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1a7f62fe5dc6c4c6833c36044582f955ab" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * themis::storage::MmapBlobView::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::storage::MmapBlobView::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the first mapped byte, or nullptr if !valid(). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="82" column="19" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1adb68728d94e35f541ac5938f29befb33" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::MmapBlobView::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::storage::MmapBlobView::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of mapped bytes (0 if !valid()). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="87" column="12" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1ab8b5e9f9fc41241807c1c0ba07196f18" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::MmapBlobView::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::storage::MmapBlobView::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the file is successfully mapped and <ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a7f62fe5dc6c4c6833c36044582f955ab" kindref="member">data()</ref> is usable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="92" column="10" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1ae5103c8c58130f3dfc39d1a78bbf6dae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::MmapBlobView::forEach</definition>
+        <argsstring>(size_t chunk_size, std::function&lt; bool(const uint8_t *, size_t)&gt; callback) const</argsstring>
+        <name>forEach</name>
+        <qualifiedname>themis::storage::MmapBlobView::forEach</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const uint8_t *, size_t)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Iterate over the mapped data in fixed-size chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum bytes per callback invocation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called with (ptr, len) for each chunk. Return false to stop early. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="101" column="10" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="421" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_mmap_blob_view_1a99543877dee42174e74c49ad8c205e2f" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::MmapBlobView::releaseResources</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseResources</name>
+        <qualifiedname>themis::storage::MmapBlobView::releaseResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="105" column="10" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="373" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Read-only, memory-mapped view of a blob file. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maps a blob file directly into the calling process&apos;s address space so that the kernel can satisfy read requests from its page cache without copying data to user-space buffers — eliminating one full copy compared with the read(2)/fread() path.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" kindref="member">MmapBlobView</ref><sp/>view(</highlight><highlight class="stringliteral">&quot;/data/blobs/aa/bb/aabb1234.blob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(view.valid())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>process(view.data(),<sp/>view.size());</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Thread-Safety: a single <ref refid="classthemis_1_1storage_1_1_mmap_blob_view" kindref="compound">MmapBlobView</ref> instance is read-only after construction and therefore safe to share across threads. </para>
+    </detaileddescription>
+    <location file="include/storage/zero_copy_blob_transfer.h" line="56" column="1" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="56" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a7f62fe5dc6c4c6833c36044582f955ab" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>data</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1adf8e71853158a8fa242f7f05e781f392" prot="private" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>data_</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a21df127187f6355a437581acdd878e6f" prot="private" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1ae5103c8c58130f3dfc39d1a78bbf6dae" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>forEach</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a51485477195066f1ffde639b397038af" prot="private" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>mapping_</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a6254485d19cc6de95eacc69a48283a3a" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>MmapBlobView</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1aa59187e908d161653fad063b2569814c" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>MmapBlobView</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1ab900cd18c123403fd89c8a10ed5776de" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>MmapBlobView</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1af11334656e41ce0f93e92bbb249d1ffe" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1aeec097b2aa7b4c84cd2044cceb5eb46a" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a99543877dee42174e74c49ad8c205e2f" prot="private" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>releaseResources</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1adb68728d94e35f541ac5938f29befb33" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>size</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1afd5eee5e31706cbc2dc56d432cc51324" prot="private" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>size_</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1ab8b5e9f9fc41241807c1c0ba07196f18" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>valid</name></member>
+      <member refid="classthemis_1_1storage_1_1_mmap_blob_view_1a2cbc8c0af08ab4887a3cf5172b24b040" prot="public" virt="non-virtual"><scope>themis::storage::MmapBlobView</scope><name>~MmapBlobView</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

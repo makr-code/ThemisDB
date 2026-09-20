@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigValidatorHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a1ec4de8e6f3c2ebe9ab8378bdfb1ef51" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigValidatorHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigValidatorHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_hardening_resolver_validator.cpp" line="134" column="10" bodyfile="tests/config/test_config_hardening_resolver_validator.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a6ceb093939109b3cd33d781fba24f410" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigValidatorHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::ConfigValidatorHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_hardening_resolver_validator.cpp" line="135" column="10" bodyfile="tests/config/test_config_hardening_resolver_validator.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigValidatorHardeningTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigValidatorHardeningTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_hardening_resolver_validator.cpp" line="132" column="1" bodyfile="tests/config/test_config_hardening_resolver_validator.cpp" bodystart="132" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a1ec4de8e6f3c2ebe9ab8378bdfb1ef51" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigValidatorHardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_validator_hardening_test_1a6ceb093939109b3cd33d781fba24f410" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigValidatorHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

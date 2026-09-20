@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="behavioral__anomaly__detector_8h" kind="file" language="C++">
+    <compoundname>behavioral_anomaly_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="behavioral__anomaly__detector_8cpp" local="yes">src/security/behavioral_anomaly_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/behavioral_anomaly_detector.h</label>
+        <link refid="behavioral__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/behavioral_anomaly_detector.h</label>
+        <link refid="behavioral__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/behavioral_anomaly_detector.cpp</label>
+        <link refid="behavioral__anomaly__detector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_access_event" prot="public">themis::security::AccessEvent</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_threat_score" prot="public">themis::security::ThreatScore</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_anomaly_detector" prot="public">themis::security::IAnomalyDetector</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_behavioral_anomaly_detector" prot="public">themis::security::BehavioralAnomalyDetector</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config" prot="public">themis::security::BehavioralAnomalyDetector::Config</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state" prot="private">themis::security::BehavioralAnomalyDetector::SessionState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Public<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_access_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_access_event" kindref="compound">AccessEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_access_event_1a9574978089a1ec4dac45d8c42d34da7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_event_1a9574978089a1ec4dac45d8c42d34da7e" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_access_event_1ab8e95bac6c72fa4f528bd6d0b6a74290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_event_1ab8e95bac6c72fa4f528bd6d0b6a74290" kindref="member">session_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_access_event_1ae5b1fa6c8ae83715746cf09d66ac3373" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_event_1ae5b1fa6c8ae83715746cf09d66ac3373" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_access_event_1acf67675e3aeb45c7408403a822d46cd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_event_1acf67675e3aeb45c7408403a822d46cd8" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_access_event_1aabb6e24ed2271032e1d42f75273f6428" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_event_1aabb6e24ed2271032e1d42f75273f6428" kindref="member">client_ip</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1security_1_1_access_event_1adaf2cde01d52f172cd649be6050b8521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1security_1_1_access_event_1adaf2cde01d52f172cd649be6050b8521" kindref="member">timestamp</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1security_1_1_threat_score" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_threat_score" kindref="compound">ThreatScore</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1security_1_1_threat_score_1a5e8820af0c0a66bc7cceed773e606acb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref><sp/><ref refid="structthemis_1_1security_1_1_threat_score_1a5e8820af0c0a66bc7cceed773e606acb" kindref="member">level</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ThreatLevel::LOW</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1security_1_1_threat_score_1aba2b6505e887a850b816f6231d77e3b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_threat_score_1aba2b6505e887a850b816f6231d77e3b3" kindref="member">score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1security_1_1_threat_score_1a55564527f46d8e8dc2774d5ae797f219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_threat_score_1a55564527f46d8e8dc2774d5ae797f219" kindref="member">explanation</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAnomalyDetector<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1security_1_1_i_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_i_anomaly_detector" kindref="compound">IAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1security_1_1_i_anomaly_detector_1a2ad2b0d8d5ca4cbe7b9993d4208a4917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_anomaly_detector_1a2ad2b0d8d5ca4cbe7b9993d4208a4917" kindref="member">~IAnomalyDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1security_1_1_i_anomaly_detector_1ae3d263337a4df6e89143a0c8e112fc84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_threat_score" kindref="compound">ThreatScore</ref><sp/><ref refid="classthemis_1_1security_1_1_i_anomaly_detector_1ae3d263337a4df6e89143a0c8e112fc84" kindref="member">scoreEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_event" kindref="compound">AccessEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1security_1_1_i_anomaly_detector_1a69d53a6dde9c97b1af63ebf50740e00a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_anomaly_detector_1a69d53a6dde9c97b1af63ebf50740e00a" kindref="member">clearSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BehavioralAnomalyDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_anomaly_detector" kindref="compound">IAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ac206bc1f451ec816bc7456347e28be17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ac206bc1f451ec816bc7456347e28be17" kindref="member">max_events_per_session</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1af535e3d7a988cc7b2171876ae27303ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1af535e3d7a988cc7b2171876ae27303ae" kindref="member">burst_rate_threshold</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ab0bec0d6f71f0f77ebb7dea943aeb2b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ab0bec0d6f71f0f77ebb7dea943aeb2b0" kindref="member">burst_window</ref>{10};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1abc5f5327c734318cca48a288cd955d17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1abc5f5327c734318cca48a288cd955d17" kindref="member">work_hours_start_utc</ref><sp/>=<sp/>8;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a82c463e3a3a3ffba74330a5723783bd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a82c463e3a3a3ffba74330a5723783bd3" kindref="member">work_hours_end_utc</ref><sp/>=<sp/>20;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a8897e2348dc7502b5a0aab8ab512cb62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a8897e2348dc7502b5a0aab8ab512cb62" kindref="member">privileged_actions</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>{});</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a4cc5b7da83a15ca3e835a42f8468d207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a4cc5b7da83a15ca3e835a42f8468d207" kindref="member">~BehavioralAnomalyDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a801e46da6e20b1b194fa9544a160a5ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a801e46da6e20b1b194fa9544a160a5ff" kindref="member">BehavioralAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a91605b450f94d91977c8e92d5f88fc63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a91605b450f94d91977c8e92d5f88fc63" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1aca685e09752d1d131c5c13c0abaf7afa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1aca685e09752d1d131c5c13c0abaf7afa" kindref="member">BehavioralAnomalyDetector</ref>(<ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;&amp;)<sp/>noexcept<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1aa7841ab07713bbc97193f40d3be38eea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a3f11bc129a0c9ebfd3600fc67804a01c" kindref="member">BehavioralAnomalyDetector</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_threat_score" kindref="compound">ThreatScore</ref><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a119a3a42a8da7d260f651ee9c650a18a" kindref="member">scoreEvent</ref>(const<sp/><ref refid="structthemis_1_1security_1_1_access_event" kindref="compound">AccessEvent</ref>&amp;<sp/>event)<sp/>override;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1ae3a35d4fdd3b7ee8bfc40e2c8475d6b4" kindref="member">clearSession</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>session_id)<sp/>override;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1a4d65df8f874f17333b14fb4c0d0426bc" kindref="member">sessionEventCount</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>session_id)<sp/>const;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1af82907e6093935c62e02ce20b4a2ee64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_behavioral_anomaly_detector_1af82907e6093935c62e02ce20b4a2ee64" kindref="member">getConfig</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Per-session<sp/>state<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SessionState<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;AccessEvent&gt;<sp/>events;<sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref><sp/>peak_level<sp/>=<sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ThreatLevel::LOW</ref>;<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>SessionState&gt;<sp/>sessions_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ThreatScore<sp/>checkBurstRate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SessionState&amp;<sp/>state,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AccessEvent&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ThreatScore<sp/>checkOffHours(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AccessEvent&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ThreatScore<sp/>checkPrivilegeEscalation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SessionState&amp;<sp/>state,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AccessEvent&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ThreatScore<sp/>checkUnusualResource(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SessionState&amp;<sp/>state,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AccessEvent&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ThreatScore<sp/>maxScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ThreatScore&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ThreatScore&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>levelToScore(<ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref><sp/>lvl)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/behavioral_anomaly_detector.h"/>
+  </compounddef>
+</doxygen>

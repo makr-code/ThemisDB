@@ -1,0 +1,2007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1process_1_1benchmark" kind="namespace" language="C++">
+    <compoundname>themis::process::benchmark</compoundname>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier" prot="public">themis::process::benchmark::BaselineIncidentClassifier</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_bpmn_parser" prot="public">themis::process::benchmark::BpmnParser</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_cmmn_parser" prot="public">themis::process::benchmark::CmmnParser</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_community_detector" prot="public">themis::process::benchmark::CommunityDetector</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store" prot="public">themis::process::benchmark::ConcurrentModelStore</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_conflict_resolver" prot="public">themis::process::benchmark::ConflictResolver</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_conformance_checker" prot="public">themis::process::benchmark::ConformanceChecker</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_diagnostic_event" prot="public">themis::process::benchmark::DiagnosticEvent</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph" prot="public">themis::process::benchmark::DirectlyFollowsGraph</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_dmn_parser" prot="public">themis::process::benchmark::DmnParser</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier" prot="public">themis::process::benchmark::EnhancedIncidentClassifier</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_epk_parser" prot="public">themis::process::benchmark::EpkParser</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_event" prot="public">themis::process::benchmark::Event</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_event_log" prot="public">themis::process::benchmark::EventLog</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_fim_parser" prot="public">themis::process::benchmark::FimParser</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_graph_link" prot="public">themis::process::benchmark::GraphLink</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_graph_node" prot="public">themis::process::benchmark::GraphNode</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_link_record" prot="public">themis::process::benchmark::LinkRecord</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_llm_process_descriptor" prot="public">themis::process::benchmark::LlmProcessDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_ocel_parser" prot="public">themis::process::benchmark::OcelParser</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict" prot="public">themis::process::benchmark::ProcessConflict</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_process_incident" prot="public">themis::process::benchmark::ProcessIncident</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_process_link" prot="public">themis::process::benchmark::ProcessLink</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_process_linker" prot="public">themis::process::benchmark::ProcessLinker</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine" prot="public">themis::process::benchmark::ProcessMiningEngine</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record" prot="public">themis::process::benchmark::ProcessModelRecord</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever" prot="public">themis::process::benchmark::ProcessModelRetriever</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" prot="public">themis::process::benchmark::ProcessModelRevision</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_query_result" prot="public">themis::process::benchmark::QueryResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_revision_store" prot="public">themis::process::benchmark::RevisionStore</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" prot="public">themis::process::benchmark::SimProcessModel</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_transaction" prot="public">themis::process::benchmark::Transaction</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer" prot="public">themis::process::benchmark::TransactionSerializer</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_variant_analyzer" prot="public">themis::process::benchmark::VariantAnalyzer</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1benchmark_1_1_vcc_vpb_parser" prot="public">themis::process::benchmark::VccVpbParser</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_version_clock" prot="public">themis::process::benchmark::VersionClock</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IncidentType</name>
+        <qualifiedname>themis::process::benchmark::IncidentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bdab3b42fdf239e439324f7f9626f638c2c" prot="public">
+          <name>kPerfAnomaly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda6312034afbe4b559b1ebf20c5114a247" prot="public">
+          <name>kDeadlock</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda6c96c78ffad282dd4b82fa1cf11d73ee" prot="public">
+          <name>kResourceExhaustion</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda9d9c0ec60c6e67cc289d941c24ec9ab1" prot="public">
+          <name>kStateIncoherence</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda85a1d2a938a945021e16ffda12f92fe2" prot="public">
+          <name>kSerializationFailure</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda1b58d976bf0041cd2b69b80734cab481" prot="public">
+          <name>kTimeoutViolation</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda75d864377f9ebff12cb4d0292d53125e" prot="public">
+          <name>kCyclicDependency</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bda9aa96dad5ce68b8d3813b7641f664c18" prot="public">
+          <name>kInvalidTransition</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="26" column="1" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1a6b99d750fedb76b3bfb3e1d853b271f0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::benchmark::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::process::benchmark::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="18" column="20" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1a3ec7f10c672d330c0b7c1cdc06e84e17" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kSmallDatasetSize</definition>
+        <argsstring></argsstring>
+        <name>kSmallDatasetSize</name>
+        <qualifiedname>themis::process::benchmark::kSmallDatasetSize</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="19" column="15" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1a1cdd0a7c289d01b74b18da81a8537e9d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kMediumDatasetSize</definition>
+        <argsstring></argsstring>
+        <name>kMediumDatasetSize</name>
+        <qualifiedname>themis::process::benchmark::kMediumDatasetSize</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="20" column="15" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1ae117c2d02ea7878f3ba881a04047795c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kNumThreads</definition>
+        <argsstring></argsstring>
+        <name>kNumThreads</name>
+        <qualifiedname>themis::process::benchmark::kNumThreads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="20" column="15" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1a5b32fa682a06bb4c5f8c31a422e6e417" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kLargeRevisions</definition>
+        <argsstring></argsstring>
+        <name>kLargeRevisions</name>
+        <qualifiedname>themis::process::benchmark::kLargeRevisions</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="18" column="15" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1aedfee3cf09f616647ead27510884f171" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kLargeDatasetSize</definition>
+        <argsstring></argsstring>
+        <name>kLargeDatasetSize</name>
+        <qualifiedname>themis::process::benchmark::kLargeDatasetSize</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="21" column="15" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1process_1_1benchmark_1a71a5032d6187b2d651e0bad0a82901c1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::kEmbeddingDim</definition>
+        <argsstring></argsstring>
+        <name>kEmbeddingDim</name>
+        <qualifiedname>themis::process::benchmark::kEmbeddingDim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="21" column="15" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ac2fe3b7dd88cbf96ef3e86803ddbd079" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::process::benchmark::generateEventLog</definition>
+        <argsstring>(int num_cases, int events_per_case)</argsstring>
+        <name>generateEventLog</name>
+        <qualifiedname>themis::process::benchmark::generateEventLog</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_cases</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>events_per_case</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic event log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="309" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="309" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a4c98bbe91702ae320b74841dc05686c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph" kindref="compound">DirectlyFollowsGraph</ref></type>
+        <definition>static DirectlyFollowsGraph themis::process::benchmark::generateDfg</definition>
+        <argsstring>(const EventLog &amp;log)</argsstring>
+        <name>generateDfg</name>
+        <qualifiedname>themis::process::benchmark::generateDfg</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic DFG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="347" column="29" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="347" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a61326f3ffc29fdaead8ff95b6363405d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE01_MultiFormatImport</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE01_MultiFormatImport</name>
+        <qualifiedname>themis::process::benchmark::BM_BE01_MultiFormatImport</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-01: Multi-Format Import (5 formats, 100 files each) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="380" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="380" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1af8bbc70985e4b7e630508c273328dbb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::Iterations</definition>
+        <argsstring>(5) -&gt; ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::process::benchmark::Iterations</qualifiedname>
+        <param>
+          <type>5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="403" column="5" declfile="benchmarks/process/bench_process_advanced_workflows.cpp" declline="403" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ad73f3e16cc3b117a5b4351a284adbf23" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE02_AlphaMiner</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE02_AlphaMiner</name>
+        <qualifiedname>themis::process::benchmark::BM_BE02_AlphaMiner</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-02: Process Mining Alpha Algorithm (1k event log) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="410" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="410" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a38440d03d39feb4d680af83de7e1b2fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::Iterations</definition>
+        <argsstring>(10) -&gt; ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::process::benchmark::Iterations</qualifiedname>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="425" column="5" declfile="benchmarks/process/bench_process_advanced_workflows.cpp" declline="425" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a721dd3a54d7d7582d3ecee93f0c9b807" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE03_HeuristicMiner</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE03_HeuristicMiner</name>
+        <qualifiedname>themis::process::benchmark::BM_BE03_HeuristicMiner</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-03: Process Mining Heuristic Algorithm (1k event log) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="432" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="432" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aad9190f6365ed49c811ca5101ea373f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE04_InductiveMiner</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE04_InductiveMiner</name>
+        <qualifiedname>themis::process::benchmark::BM_BE04_InductiveMiner</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-04: Process Mining Inductive Algorithm (1k event log) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="454" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="454" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae1bf492c39c5ece98992ec6e260055e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE05_ConformanceChecking</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE05_ConformanceChecking</name>
+        <qualifiedname>themis::process::benchmark::BM_BE05_ConformanceChecking</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-05: Conformance Checking (DFG vs log, 1k events) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="476" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="476" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a695236b7bd0b357a3b98033a8483e015" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE06_VariantAnalysis</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE06_VariantAnalysis</name>
+        <qualifiedname>themis::process::benchmark::BM_BE06_VariantAnalysis</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-06: Variant Analysis (event clustering, 1k events) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="499" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="499" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a372a207945f8f62f0b6a3e66e1c4689b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE07_LlmDescriptor</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE07_LlmDescriptor</name>
+        <qualifiedname>themis::process::benchmark::BM_BE07_LlmDescriptor</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-07: LLM Process Descriptor (100 models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="521" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="521" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ad200ec0ef79a56bc7c34adcd089e0e03" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE08_BpmnToDfgConversion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE08_BpmnToDfgConversion</name>
+        <qualifiedname>themis::process::benchmark::BM_BE08_BpmnToDfgConversion</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-08: BPMN to DFG Conversion (100 models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="543" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="543" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a7e26dcc9d1031e3370c82d8cbd2fb564" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE09_CommunityDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE09_CommunityDetection</name>
+        <qualifiedname>themis::process::benchmark::BM_BE09_CommunityDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-09: Process Community Detection (1k model graph) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="565" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="565" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aef31b217fe06e0c1b3d2866f1c2eb2d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE10_RagRetrieval</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE10_RagRetrieval</name>
+        <qualifiedname>themis::process::benchmark::BM_BE10_RagRetrieval</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-10: RAG Knowledge Retrieval (1k models + queries) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="584" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="584" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1af7d995e9741d29e9b94686edc40e2e81" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE11_EndToEndScenario</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE11_EndToEndScenario</name>
+        <qualifiedname>themis::process::benchmark::BM_BE11_EndToEndScenario</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-11: Combined End-to-End Scenario (import + mining + retrieval) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="610" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="610" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aaaf04e9d318e6145c7a2f61e435134ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_BE12_StressTest</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_BE12_StressTest</name>
+        <qualifiedname>themis::process::benchmark::BM_BE12_StressTest</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BE-12: Sustained Load Stress Test </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="648" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="648" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ad184293a7ab58023b2c74e644f4de454" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateBpmnXml</definition>
+        <argsstring>(const std::string &amp;model_name)</argsstring>
+        <name>generateBpmnXml</name>
+        <qualifiedname>themis::process::benchmark::generateBpmnXml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Generate realistic BPMN XML content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="121" column="20" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1acaa0822b5c8bce35cf38297d733e9eca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref></type>
+        <definition>static SimProcessModel themis::process::benchmark::simulateBpmnImport</definition>
+        <argsstring>(const std::string &amp;xml_content, int64_t now_ms)</argsstring>
+        <name>simulateBpmnImport</name>
+        <qualifiedname>themis::process::benchmark::simulateBpmnImport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <briefdescription>
+<para>Simulate BPMN import operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="128" column="24" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a167dcf0c59ad5b05c733ab0d5bbddf96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::simulateBpmnExport</definition>
+        <argsstring>(const SimProcessModel &amp;model)</argsstring>
+        <name>simulateBpmnExport</name>
+        <qualifiedname>themis::process::benchmark::simulateBpmnExport</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Simulate BPMN export operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="144" column="20" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aeacbf31b217cb6d7ba8bd532f15ff284" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::process::benchmark::simulateLink</definition>
+        <argsstring>(const SimProcessModel &amp;source, const SimProcessModel &amp;target)</argsstring>
+        <name>simulateLink</name>
+        <qualifiedname>themis::process::benchmark::simulateLink</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Simulate linking operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="151" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a4cceef6e6b3d3af09ea11432a6932cf6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP01_ConcurrentCrud_Small</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP01_ConcurrentCrud_Small</name>
+        <qualifiedname>themis::process::benchmark::BM_CP01_ConcurrentCrud_Small</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="161" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="161" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a5e63dc597a28f30622831a93265cd26c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP02_ConcurrentCrud_Medium</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP02_ConcurrentCrud_Medium</name>
+        <qualifiedname>themis::process::benchmark::BM_CP02_ConcurrentCrud_Medium</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="254" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="254" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a3c8af99899b6da186ba64be00cb1e0a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP03_ConcurrentImport_Bpmn</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP03_ConcurrentImport_Bpmn</name>
+        <qualifiedname>themis::process::benchmark::BM_CP03_ConcurrentImport_Bpmn</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="345" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="345" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a21c89c4f4c569a40773c6bc9fb8095e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP04_ConcurrentExport</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP04_ConcurrentExport</name>
+        <qualifiedname>themis::process::benchmark::BM_CP04_ConcurrentExport</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="392" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="392" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a9af7937785b939ab9e9b8bf852b0d21a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP05_ConcurrentLinking</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP05_ConcurrentLinking</name>
+        <qualifiedname>themis::process::benchmark::BM_CP05_ConcurrentLinking</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="451" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="451" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a1b5ec5bb3a3f9aeeefb554f7f5190b68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_CP06_ConcurrentRetrieval_Medium</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CP06_ConcurrentRetrieval_Medium</name>
+        <qualifiedname>themis::process::benchmark::BM_CP06_ConcurrentRetrieval_Medium</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="520" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="520" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aa9e94defbf294740c06fccbed7e02043" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict" kindref="compound">ProcessConflict</ref> &gt;</type>
+        <definition>static std::vector&lt; ProcessConflict &gt; themis::process::benchmark::generateConflicts</definition>
+        <argsstring>(int count)</argsstring>
+        <name>generateConflicts</name>
+        <qualifiedname>themis::process::benchmark::generateConflicts</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="221" column="20" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="221" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a45c5a1fcc9070c8a467786768ef34d91" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>static std::vector&lt; ProcessModelRevision &gt; themis::process::benchmark::generateRevisionHistory</definition>
+        <argsstring>(const std::string &amp;model_id, int num_revisions)</argsstring>
+        <name>generateRevisionHistory</name>
+        <qualifiedname>themis::process::benchmark::generateRevisionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_revisions</declname>
+        </param>
+        <briefdescription>
+<para>Generate revision history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="254" column="20" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="254" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a0f7476609c996998d253c5b020e76a5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP01_ConflictResolution</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP01_ConflictResolution</name>
+        <qualifiedname>themis::process::benchmark::BM_DP01_ConflictResolution</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="276" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="276" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a1ca8a8bbaa2154ea8fcc91cc3b9e6658" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP02_RollbackSingle</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP02_RollbackSingle</name>
+        <qualifiedname>themis::process::benchmark::BM_DP02_RollbackSingle</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="314" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="314" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a4d38e0f2c891e7394d24580a43760b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::Iterations</definition>
+        <argsstring>(20) -&gt; ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::process::benchmark::Iterations</qualifiedname>
+        <param>
+          <type>20</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="342" column="5" declfile="benchmarks/process/bench_process_determinism_gates.cpp" declline="342" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a24d065ec5162eba6b187bbcd9855a4af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP03_RollbackBatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP03_RollbackBatch</name>
+        <qualifiedname>themis::process::benchmark::BM_DP03_RollbackBatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="350" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="350" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a259272170ec08481a49b53290e4be10e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP04_TransactionSerialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP04_TransactionSerialization</name>
+        <qualifiedname>themis::process::benchmark::BM_DP04_TransactionSerialization</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="395" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="395" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a22d7e963dfd52411acbec800485a7468" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP05_DeterministicOutputVerification</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP05_DeterministicOutputVerification</name>
+        <qualifiedname>themis::process::benchmark::BM_DP05_DeterministicOutputVerification</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="457" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="457" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aac425b7f4bc494535d1892e630218640" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_DP06_VersionClockOperations</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DP06_VersionClockOperations</name>
+        <qualifiedname>themis::process::benchmark::BM_DP06_VersionClockOperations</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="525" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="525" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a983d4b901b68be6906782d7b061c61b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &gt;</type>
+        <definition>static std::vector&lt; DiagnosticEvent &gt; themis::process::benchmark::generateDiagnosticEvents</definition>
+        <argsstring>(int count)</argsstring>
+        <name>generateDiagnosticEvents</name>
+        <qualifiedname>themis::process::benchmark::generateDiagnosticEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic diagnostic events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="201" column="20" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="201" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ad6aa160743c4dc62f45f64ff777d1dc6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_incident" kindref="compound">ProcessIncident</ref> &gt;</type>
+        <definition>static std::vector&lt; ProcessIncident &gt; themis::process::benchmark::generateIncidents</definition>
+        <argsstring>(int count)</argsstring>
+        <name>generateIncidents</name>
+        <qualifiedname>themis::process::benchmark::generateIncidents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="245" column="20" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="245" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aa5804ae5c7e5822cea0fa4ebd9bbb828" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO01_ClassificationBaseline</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO01_ClassificationBaseline</name>
+        <qualifiedname>themis::process::benchmark::BM_GO01_ClassificationBaseline</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Measure baseline classification performance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="279" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="279" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1afa578a595f18aff84dba555af185fd3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO01_ClassificationEnhanced</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO01_ClassificationEnhanced</name>
+        <qualifiedname>themis::process::benchmark::BM_GO01_ClassificationEnhanced</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Measure enhanced classification performance (with diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="306" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="306" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a9e093b5ac85d4eda4a1b4991632ffb26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO01_ClassificationOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO01_ClassificationOverhead</name>
+        <qualifiedname>themis::process::benchmark::BM_GO01_ClassificationOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Measure classification overhead ratio (Enhanced/Baseline). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="333" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="333" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae73b5ad8e0fd277c4cc4d0ea7d06eda9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO02_LinkTraversalLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO02_LinkTraversalLatency</name>
+        <qualifiedname>themis::process::benchmark::BM_GO02_LinkTraversalLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="412" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="412" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aff23c6269d62924a8a7e75231eeb0d9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO03_GraphConstructionTime</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO03_GraphConstructionTime</name>
+        <qualifiedname>themis::process::benchmark::BM_GO03_GraphConstructionTime</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="463" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="463" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a6668695e25cb1e547a9b7f764b0ca89c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO04_CycleDetectionPerformance</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO04_CycleDetectionPerformance</name>
+        <qualifiedname>themis::process::benchmark::BM_GO04_CycleDetectionPerformance</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="515" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="515" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a7687016f5a0bc434c789a586affc9b07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO05_CommunityDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO05_CommunityDetection</name>
+        <qualifiedname>themis::process::benchmark::BM_GO05_CommunityDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="590" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="590" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a86c5e94a4511d1ab6d6a6e6b16a91992" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_GO06_ComplexGraphP95Latency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GO06_ComplexGraphP95Latency</name>
+        <qualifiedname>themis::process::benchmark::BM_GO06_ComplexGraphP95Latency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="668" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="668" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ab915e22b97d8792581250289db209f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::Iterations</definition>
+        <argsstring>(3) -&gt; ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::process::benchmark::Iterations</qualifiedname>
+        <param>
+          <type>3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="726" column="5" declfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" declline="726" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a798f56e64079da475a89cafa3d24e52c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::process::benchmark::generateProcessModels</definition>
+        <argsstring>(int count)</argsstring>
+        <name>generateProcessModels</name>
+        <qualifiedname>themis::process::benchmark::generateProcessModels</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate random process models for linking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="206" column="20" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="206" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1abe2295917908aa99680dd7bbb7e3ef73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; int, int &gt; &gt;</type>
+        <definition>static std::vector&lt; std::pair&lt; int, int &gt; &gt; themis::process::benchmark::generateRandomLinks</definition>
+        <argsstring>(int model_count, int link_count)</argsstring>
+        <name>generateRandomLinks</name>
+        <qualifiedname>themis::process::benchmark::generateRandomLinks</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>link_count</declname>
+        </param>
+        <briefdescription>
+<para>Generate random links between models. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="218" column="20" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="218" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae2cf937fda5d0f3189862c9dd676061b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; int, int &gt; &gt;</type>
+        <definition>static std::vector&lt; std::pair&lt; int, int &gt; &gt; themis::process::benchmark::generateLinkChain</definition>
+        <argsstring>(int length)</argsstring>
+        <name>generateLinkChain</name>
+        <qualifiedname>themis::process::benchmark::generateLinkChain</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Generate a link chain (for cycle testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="241" column="20" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="241" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae2ab023ca20ef866e5d23177a8493aae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP01_LinkingLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP01_LinkingLatency</name>
+        <qualifiedname>themis::process::benchmark::BM_LP01_LinkingLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="253" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="253" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a343af20671d8e81ea2bb817cb3ec0cb3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP02_CyclicDependencyDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP02_CyclicDependencyDetection</name>
+        <qualifiedname>themis::process::benchmark::BM_LP02_CyclicDependencyDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="297" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="297" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aa1eb5d5982a5e85b262a7c8b743e5901" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP03_LinkValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP03_LinkValidation</name>
+        <qualifiedname>themis::process::benchmark::BM_LP03_LinkValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="349" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="349" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a4a0e56499052714c0b49c4aaa8299587" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP04_GraphTraversal</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP04_GraphTraversal</name>
+        <qualifiedname>themis::process::benchmark::BM_LP04_GraphTraversal</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="392" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="392" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a13f0788679b3e6eda89071e7c7022009" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP05_StaleLinkDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP05_StaleLinkDetection</name>
+        <qualifiedname>themis::process::benchmark::BM_LP05_StaleLinkDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="460" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="460" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a374e31e3f822588b783cfa99b91343a9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_LP06_BatchLinkOperations</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LP06_BatchLinkOperations</name>
+        <qualifiedname>themis::process::benchmark::BM_LP06_BatchLinkOperations</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="523" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="523" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a3d800268f873ae0e80264a60d587282c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateBpmnXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateBpmnXml</name>
+        <qualifiedname>themis::process::benchmark::generateBpmnXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate realistic BPMN XML content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="302" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="302" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a2309d529a8073a8a02850f0543be9ff4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateEpkXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateEpkXml</name>
+        <qualifiedname>themis::process::benchmark::generateEpkXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate EPK XML content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="330" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="330" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a76f1b6766b146889f50f2975dbce6483" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateCmmnXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateCmmnXml</name>
+        <qualifiedname>themis::process::benchmark::generateCmmnXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate CMMN XML content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="352" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="352" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ad982b2c951856d5a2c2a2a0665c83094" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateDmnXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateDmnXml</name>
+        <qualifiedname>themis::process::benchmark::generateDmnXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate DMN XML content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="370" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="370" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a62b5cb8b86c9a5c713245563516cb708" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateOcelJson</definition>
+        <argsstring>(int log_idx)</argsstring>
+        <name>generateOcelJson</name>
+        <qualifiedname>themis::process::benchmark::generateOcelJson</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>log_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate OCEL JSON content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="387" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="387" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ac8a977d9171b8a01b5ee85c83beca08a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateVccVpbXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateVccVpbXml</name>
+        <qualifiedname>themis::process::benchmark::generateVccVpbXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate VCC/VPB content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="418" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="418" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a717cbc8180e6e6035bd30bffb6930cad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::generateFimXml</definition>
+        <argsstring>(int model_idx)</argsstring>
+        <name>generateFimXml</name>
+        <qualifiedname>themis::process::benchmark::generateFimXml</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>model_idx</declname>
+        </param>
+        <briefdescription>
+<para>Generate FIM content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="435" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="435" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1accd5ebf78942b4faab01593e2893458f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP01_BpmnParse_Small</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP01_BpmnParse_Small</name>
+        <qualifiedname>themis::process::benchmark::BM_PP01_BpmnParse_Small</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-01: BPMN Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="456" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="456" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a21824c1ea428bd83e7709cfac506bc7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP01_BpmnParse_Small) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP01_BpmnParse_Small</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="493" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="493" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1af18401f386eb1f84bb3ff5a930dacb7b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP02_BpmnParse_Medium</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP02_BpmnParse_Medium</name>
+        <qualifiedname>themis::process::benchmark::BM_PP02_BpmnParse_Medium</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-02: BPMN Parse (1k files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="498" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="498" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ab54dd7180fb625d6572b34fee854bd04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP02_BpmnParse_Medium) -&gt; Iterations(5) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP02_BpmnParse_Medium</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="520" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="520" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a7dbd7d11ced27210a6b9cc76024b0d9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP03_EpkParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP03_EpkParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP03_EpkParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-03: EPK Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="525" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="525" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a9bd2b73db14676f517d6ca7af38b6e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP03_EpkParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP03_EpkParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="546" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="546" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a773207e18c178098a18b236d9a66e3b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP04_CmmnParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP04_CmmnParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP04_CmmnParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-04: CMMN Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="551" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="551" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae35bbe2d576a56452e04b049ae90b5c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP04_CmmnParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP04_CmmnParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="572" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="572" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae986079d8f1eed29fa4784057346b412" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP05_DmnParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP05_DmnParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP05_DmnParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-05: DMN Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="577" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="577" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ab723797b0f56529685e8dd2feda66677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP05_DmnParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP05_DmnParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="598" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="598" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a38e644bd6eede1aa3d11f3dd5a94835e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP06_OcelParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP06_OcelParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP06_OcelParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-06: OCEL Parse (100 logs) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="603" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="603" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a6937b01a0098e0c7a32c45d489c8d52a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP06_OcelParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP06_OcelParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="624" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="624" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a7af3c20bec0ea9a8f736d5b4c177ffdb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP07_VccVpbParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP07_VccVpbParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP07_VccVpbParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-07: VCC/VPB Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="629" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="629" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a1faa82a11ad4e232c38ae0c226aafceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP07_VccVpbParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP07_VccVpbParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="650" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="650" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aeedfdd3fae5e66e969f01f81fcaea0d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_PP08_FimParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PP08_FimParse</name>
+        <qualifiedname>themis::process::benchmark::BM_PP08_FimParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PP-08: FIM Parse (100 files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="655" column="13" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="655" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a94eaa5222679e7e17e531a7a620845c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_PP08_FimParse) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PP08_FimParse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="676" column="1" declfile="benchmarks/process/bench_process_parser_gates.cpp" declline="676" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ab77c97827006e767beb3356f56a35b31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::process::benchmark::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::process::benchmark::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic embedding vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="250" column="20" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="250" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae6a6105608845ffc3546044571f512b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>static std::vector&lt; ProcessModelRecord &gt; themis::process::benchmark::generateModelCollection</definition>
+        <argsstring>(int count)</argsstring>
+        <name>generateModelCollection</name>
+        <qualifiedname>themis::process::benchmark::generateModelCollection</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Generate synthetic process model collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="283" column="20" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="283" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a60af52d010f41168b935e2896ebce771" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP01_SimpleQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP01_SimpleQuery</name>
+        <qualifiedname>themis::process::benchmark::BM_RP01_SimpleQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-01: Simple Query (1k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="326" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="326" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ae37e95e74bd4bfb482a6bea0e4de50e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP01_SimpleQuery) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP01_SimpleQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="366" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="366" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a1feea772fa4ef5f898ef7c49d89672e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP02_ComplexQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP02_ComplexQuery</name>
+        <qualifiedname>themis::process::benchmark::BM_RP02_ComplexQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-02: Complex Query (1k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="371" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="371" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a49acf55d392c72713d0bd7405ff6dd90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP02_ComplexQuery) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP02_ComplexQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="395" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="395" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ab630810b672c0d62083ae664e42a5ce2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP03_FullTextSearch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP03_FullTextSearch</name>
+        <qualifiedname>themis::process::benchmark::BM_RP03_FullTextSearch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-03: Full-Text Search (1k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="400" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="400" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aa26a13e5133fca72f12de4b75c6281c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP03_FullTextSearch) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP03_FullTextSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="427" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="427" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a37a53e23485ee1a68684ff1a5ef9056a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP04_EmbeddingSimilarity</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP04_EmbeddingSimilarity</name>
+        <qualifiedname>themis::process::benchmark::BM_RP04_EmbeddingSimilarity</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-04: Embedding Similarity Search (1k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="432" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="432" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a067c9eb849695c8e03aeb5a9e17e8e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP04_EmbeddingSimilarity) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP04_EmbeddingSimilarity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="457" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="457" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ac15b0f875a056188623a06c7969fbff3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP05_PaginationQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP05_PaginationQuery</name>
+        <qualifiedname>themis::process::benchmark::BM_RP05_PaginationQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-05: Pagination Query (10k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="462" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="462" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a0f03baad87da4613b9ac7e212d2d7405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP05_PaginationQuery) -&gt; Iterations(5) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP05_PaginationQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="484" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="484" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1acdda4b3b9267e07bd86c05b3312d5456" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP06_ConcurrentQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP06_ConcurrentQuery</name>
+        <qualifiedname>themis::process::benchmark::BM_RP06_ConcurrentQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-06: Concurrent Query (1k models, 4 threads) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="489" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="489" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a14f9341cd2a48b0eb4269993169442fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP06_ConcurrentQuery) -&gt; Iterations(5) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP06_ConcurrentQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="532" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="532" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a2543ebd84418811f9f4e61c486438636" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP07_QueryUnderChurn</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP07_QueryUnderChurn</name>
+        <qualifiedname>themis::process::benchmark::BM_RP07_QueryUnderChurn</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-07: Query Under Churn (1k -&gt; 10k models) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="537" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="537" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1aa7a2dce9e2f2ba768b7eee760d58875c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP07_QueryUnderChurn) -&gt; Iterations(5) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP07_QueryUnderChurn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="593" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="593" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1a8bb7617ff9a8b22f026bd43d93861442" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::process::benchmark::BM_RP08_RankingAndSorting</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RP08_RankingAndSorting</name>
+        <qualifiedname>themis::process::benchmark::BM_RP08_RankingAndSorting</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RP-08: Ranking/Sorting (1k results) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="598" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="598" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1benchmark_1ac8bc35412196c961ac40864650b211d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BENCHMARK</definition>
+        <argsstring>(BM_RP08_RankingAndSorting) -&gt; Iterations(10) -&gt;ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::process::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RP08_RankingAndSorting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="618" column="1" declfile="benchmarks/process/bench_process_retriever_gates.cpp" declline="618" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mirror__school__handler_8h" kind="file" language="C++">
+    <compoundname>mirror_school_handler.h</compoundname>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__ldm_8cpp" local="yes">benchmarks/ethics_ai/bench_ldm.cpp</includedby>
+    <includedby refid="mirror__school__handler_8cpp" local="yes">src/ethics_ai/mirror_school_handler.cpp</includedby>
+    <includedby refid="test__ethics__ai__eu__compliance_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</includedby>
+    <includedby refid="test__ethics__ai__euai__compliance__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__ldm__contract__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/mirror_school_handler.h</label>
+        <link refid="mirror__school__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ethics_ai/bench_ldm.cpp</label>
+        <link refid="bench__ldm_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/mirror_school_handler.h</label>
+        <link refid="mirror__school__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/ethics_ai/mirror_school_handler.cpp</label>
+        <link refid="mirror__school__handler_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</label>
+        <link refid="test__ethics__ai__eu__compliance_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</label>
+        <link refid="test__ethics__ai__euai__compliance__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm__contract__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler" prot="public">themis::plugins::ethics::MirrorSchoolHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Mirror-School lightweight parallel inference handler (LDM-5). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Non-western schools (islamische_ethik, konfuzianismus, buddhistische_ethik, juedische_bioethik) participate as structural self-reflection mirrors when <computeroutput>cross_cultural_sensitivity</computeroutput> is active.</para>
+<para>Each mirror school executes exactly 1 LLM inference step and produces:<itemizedlist>
+<listitem><para><computeroutput>position_abstract</computeroutput> (≤ 100 tokens)</para>
+</listitem><listitem><para><computeroutput>strongest_tension</computeroutput> string</para>
+</listitem></itemizedlist>
+</para>
+<para>Output is always persisted in <computeroutput>MetaVerdict::minority_dissent[]</computeroutput> — visible in the audit trail regardless of convergence_score.</para>
+<sect1 id="mirror__school__handler_8h_1autotoc_md2_1s1"><sect2 id="mirror__school__handler_8h_1autotoc_md2">
+<title>Thread safety</title><para><computeroutput>runMirror()</computeroutput> launches internal <computeroutput>std::async</computeroutput> tasks and is safe to call from a single caller thread. Concurrent calls from different threads are not supported.</para>
+<para><simplesect kind="note"><para>STUB/SIMULATION NOTE: Purpose: Mirror-school scoring requires a real LLM inference step per school. Activation: When no LLM provider is injected (default in tests / non-LDM builds). Production Delta: Returns deterministic position_abstract based on school_id. In production, a real ILLMPlugin call is made for each mirror school. Removal Plan: Inject real ILLMPlugin at call site when LDM-5 LLM wiring is complete (Target: Q2 2027).</para>
+</simplesect>
+<simplesect kind="since"><para>LDM-5 (Target: Q2 2027) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kindref="member">LLMInferenceFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school_id,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_text)&gt;;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a02451698dee1216c544d48a5fad8abd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a02451698dee1216c544d48a5fad8abd1" kindref="member">~MirrorSchoolHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>move-constructible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aacdc8bf4f62a0b4ac273d4cbaea1e26b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aacdc8bf4f62a0b4ac273d4cbaea1e26b" kindref="member">MirrorSchoolHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ad8b7dfe5e39e967c7198f3f2e5b62755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ad8b7dfe5e39e967c7198f3f2e5b62755" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abe31530ad511ec1fe8cc6f23d184d1d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abe31530ad511ec1fe8cc6f23d184d1d1" kindref="member">MirrorSchoolHandler</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6568067c55324b13d8d1622070d73207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aa8cd36618257d0b604eef189c0937790" kindref="member">setLLMInferenceFn</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kindref="member">LLMInferenceFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abb1a6520a2c04c19dcde0604613ed762" kindref="member">setSchoolTimeoutMs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6607ea27ed297cda838fd32b67541c69" kindref="member">runMirror</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>mirror_school_ids,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dilemma_text,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>domain);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kindref="member">LLMInferenceFn</ref><sp/>inference_fn_;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout_ms_{1000};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/mirror_school_handler.h"/>
+  </compounddef>
+</doxygen>

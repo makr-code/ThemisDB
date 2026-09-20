@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_similarity_result_1_1_metric_breakdown" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SimilarityResult::MetricBreakdown</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1a43f4976c20cb4a1b4ffa2825b3b27ea1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::graph_similarity</definition>
+        <argsstring></argsstring>
+        <name>graph_similarity</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::graph_similarity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Structural similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="68" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ac4732ebb1369f5568858e032e7d39a8e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::vector_similarity</definition>
+        <argsstring></argsstring>
+        <name>vector_similarity</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::vector_similarity</qualifiedname>
+        <briefdescription>
+<para>Semantic similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="69" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ac45fcd7009afd50750ad84430bdbb741" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::behavioral_similarity</definition>
+        <argsstring></argsstring>
+        <name>behavioral_similarity</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::behavioral_similarity</qualifiedname>
+        <briefdescription>
+<para>Behavioral similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="70" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1aee6408c4d9d8862be65c75bc6fcba92e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::node_overlap</definition>
+        <argsstring></argsstring>
+        <name>node_overlap</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::node_overlap</qualifiedname>
+        <briefdescription>
+<para>Jaccard similarity of nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="73" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1a54c567d43624349d2814fc2e84e53d55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::edge_overlap</definition>
+        <argsstring></argsstring>
+        <name>edge_overlap</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::edge_overlap</qualifiedname>
+        <briefdescription>
+<para>Jaccard similarity of edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="74" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ab3b2ca1a4b55dd8da5ac758c581868e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::path_similarity</definition>
+        <argsstring></argsstring>
+        <name>path_similarity</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::path_similarity</qualifiedname>
+        <briefdescription>
+<para>Longest common subsequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="75" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1_1_metric_breakdown_1aba787909a6e9279b2de924449b1790db" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::MetricBreakdown::edit_distance</definition>
+        <argsstring></argsstring>
+        <name>edit_distance</name>
+        <qualifiedname>themis::SimilarityResult::MetricBreakdown::edit_distance</qualifiedname>
+        <briefdescription>
+<para>Graph edit distance (normalized). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="76" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_pattern_matcher.h" line="67" column="5" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="67" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ac45fcd7009afd50750ad84430bdbb741" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>behavioral_similarity</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1a54c567d43624349d2814fc2e84e53d55" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>edge_overlap</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1aba787909a6e9279b2de924449b1790db" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>edit_distance</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1a43f4976c20cb4a1b4ffa2825b3b27ea1" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>graph_similarity</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1aee6408c4d9d8862be65c75bc6fcba92e" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>node_overlap</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ab3b2ca1a4b55dd8da5ac758c581868e5" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>path_similarity</name></member>
+      <member refid="structthemis_1_1_similarity_result_1_1_metric_breakdown_1ac4732ebb1369f5568858e032e7d39a8e" prot="public" virt="non-virtual"><scope>themis::SimilarityResult::MetricBreakdown</scope><name>vector_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

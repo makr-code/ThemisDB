@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_parquet_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ParquetExporter</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_exporter" prot="public" virt="non-virtual">themis::exporters::IExporter</basecompoundref>
+    <includes refid="parquet__exporter_8h" local="no">parquet_exporter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_parquet_exporter_1a1a1566bee73447909e50fde6faa897a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref></type>
+        <definition>ParquetExportConfig themis::exporters::ParquetExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::ParquetExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="108" column="25" bodyfile="include/exporters/parquet_exporter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_parquet_exporter_1a64ded3a3e1a7c2733625db7dc83e2d52" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::ParquetExporter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::exporters::ParquetExporter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="109" column="21" bodyfile="include/exporters/parquet_exporter.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a76df3ae58b000c60b09dc1c514b87d89" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ParquetExporter::ParquetExporter</definition>
+        <argsstring>(const ParquetExportConfig &amp;config={})</argsstring>
+        <name>ParquetExporter</name>
+        <qualifiedname>themis::exporters::ParquetExporter::ParquetExporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="71" column="14" bodyfile="src/exporters/parquet_exporter.cpp" bodystart="495" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1add693e30e55af88a5a4babc0b8e24380" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::ParquetExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) override</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::ParquetExporter::exportEntities</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff">exportEntities</reimplements>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Export Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ConfigException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy()</ref>, std::chrono::steady_clock::now(), hasScope(), THEMIS_INFO(), empty(), size(), resolveColumns(), exportWithArrow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="74" column="17" bodyfile="src/exporters/parquet_exporter.cpp" bodystart="574" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1ac6efd8a04fcca62c937a3b4144fa129d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::ParquetExporter::getSupportedFormats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::ParquetExporter::getSupportedFormats</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287">getSupportedFormats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="79" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a538f311091b21b3e32e27f45b5803fe4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ParquetExporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::ParquetExporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="82" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a16d46196cdaf20ba4bb7ccbf4ab98344" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ParquetExporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::ParquetExporter::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908">getVersion</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="83" column="17" bodyfile="include/exporters/parquet_exporter.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1ad205f7c9631becf2b48dfb108b29f384" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ParquetExporter::setConfig</definition>
+        <argsstring>(const ParquetExportConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::exporters::ParquetExporter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="90" column="10" bodyfile="include/exporters/parquet_exporter.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1ada5518db97ad04e149103fcbd5800a1a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1exporters_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref> &amp;</type>
+        <definition>const ParquetExportConfig &amp; themis::exporters::ParquetExporter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::exporters::ParquetExporter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="91" column="31" bodyfile="include/exporters/parquet_exporter.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a8133bc2d1007c1473c3625832969a457" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ExporterMetrics &gt; themis::exporters::ParquetExporter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::exporters::ParquetExporter::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="93" column="21" bodyfile="include/exporters/parquet_exporter.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a09863210d0861bda0afaff1040d543ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ParquetExporter::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::exporters::ParquetExporter::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="99" column="10" bodyfile="include/exporters/parquet_exporter.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a3f27ba6a184c7308a48453cfe2de7ba5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ParquetExporter::isArrowAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isArrowAvailable</name>
+        <qualifiedname>themis::exporters::ParquetExporter::isArrowAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Arrow Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isArrowAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="105" column="17" bodyfile="src/exporters/parquet_exporter.cpp" bodystart="503" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a3611a4cce8599e51df7791392e4d788f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::ParquetExporter::resolveColumns</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) const</argsstring>
+        <name>resolveColumns</name>
+        <qualifiedname>themis::exporters::ParquetExporter::resolveColumns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Columns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="117" column="17" bodyfile="src/exporters/parquet_exporter.cpp" bodystart="511" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_parquet_exporter_1a3a233117f2deff59bfca745d00dd7da4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::ParquetExporter::exportFallback</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options, const std::vector&lt; std::string &gt; &amp;columns)</argsstring>
+        <name>exportFallback</name>
+        <qualifiedname>themis::exporters::ParquetExporter::exportFallback</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Export Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Minimal hand-written Parquet fallback (no Arrow dependency) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ExportIOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: col_data(), size(), empty(), getFieldAsString(), evaluate(), insert(), getPrimaryKey(), valueToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="144" column="17" bodyfile="src/exporters/parquet_exporter.cpp" bodystart="852" bodyend="1058"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ParquetExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_parquet_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ParquetExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_parquet_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/parquet_exporter.h" line="69" column="1" bodyfile="include/exporters/parquet_exporter.h" bodystart="69" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a1a1566bee73447909e50fde6faa897a8" prot="private" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1add693e30e55af88a5a4babc0b8e24380" prot="public" virt="virtual"><scope>themis::exporters::ParquetExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a3a233117f2deff59bfca745d00dd7da4" prot="private" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>exportFallback</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1ada5518db97ad04e149103fcbd5800a1a" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a8133bc2d1007c1473c3625832969a457" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a538f311091b21b3e32e27f45b5803fe4" prot="public" virt="virtual"><scope>themis::exporters::ParquetExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1ac6efd8a04fcca62c937a3b4144fa129d" prot="public" virt="virtual"><scope>themis::exporters::ParquetExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a16d46196cdaf20ba4bb7ccbf4ab98344" prot="public" virt="virtual"><scope>themis::exporters::ParquetExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a3f27ba6a184c7308a48453cfe2de7ba5" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>isArrowAvailable</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a64ded3a3e1a7c2733625db7dc83e2d52" prot="private" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a76df3ae58b000c60b09dc1c514b87d89" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>ParquetExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a09863210d0861bda0afaff1040d543ba" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1a3611a4cce8599e51df7791392e4d788f" prot="private" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>resolveColumns</name></member>
+      <member refid="classthemis_1_1exporters_1_1_parquet_exporter_1ad205f7c9631becf2b48dfb108b29f384" prot="public" virt="non-virtual"><scope>themis::exporters::ParquetExporter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::ParquetExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_column_modification" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ColumnModification</compoundname>
+    <includes refid="in__place__schema__migrator_8h" local="no">in_place_schema_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_column_modification_1aab45d598b93b297e0fbc22d94a87f235" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ColumnModification::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::updates::ColumnModification::column_name</qualifiedname>
+        <briefdescription>
+<para>Name of the column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="39" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_column_modification_1aa4076a90d89c4300f8bb582f1fb67649" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ColumnModification::old_type</definition>
+        <argsstring></argsstring>
+        <name>old_type</name>
+        <qualifiedname>themis::updates::ColumnModification::old_type</qualifiedname>
+        <briefdescription>
+<para>Type in the current (from) schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="40" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_column_modification_1af0594e3009ae1c5f4b560d585ecc9218" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ColumnModification::new_type</definition>
+        <argsstring></argsstring>
+        <name>new_type</name>
+        <qualifiedname>themis::updates::ColumnModification::new_type</qualifiedname>
+        <briefdescription>
+<para>Type in the proposed (to) schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="41" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_column_modification_1ab09cebbda0d7039df4d424687580ebcc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ColumnModification::old_nullable</definition>
+        <argsstring></argsstring>
+        <name>old_nullable</name>
+        <qualifiedname>themis::updates::ColumnModification::old_nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Nullability in the current schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="42" column="10" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_column_modification_1ae69c21cf117689a7327ab92595f2a253" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ColumnModification::new_nullable</definition>
+        <argsstring></argsstring>
+        <name>new_nullable</name>
+        <qualifiedname>themis::updates::ColumnModification::new_nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Nullability in the proposed schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="43" column="10" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single column whose type or nullability would change. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/in_place_schema_migrator.h" line="38" column="1" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="38" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_column_modification_1aab45d598b93b297e0fbc22d94a87f235" prot="public" virt="non-virtual"><scope>themis::updates::ColumnModification</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1updates_1_1_column_modification_1ae69c21cf117689a7327ab92595f2a253" prot="public" virt="non-virtual"><scope>themis::updates::ColumnModification</scope><name>new_nullable</name></member>
+      <member refid="structthemis_1_1updates_1_1_column_modification_1af0594e3009ae1c5f4b560d585ecc9218" prot="public" virt="non-virtual"><scope>themis::updates::ColumnModification</scope><name>new_type</name></member>
+      <member refid="structthemis_1_1updates_1_1_column_modification_1ab09cebbda0d7039df4d424687580ebcc" prot="public" virt="non-virtual"><scope>themis::updates::ColumnModification</scope><name>old_nullable</name></member>
+      <member refid="structthemis_1_1updates_1_1_column_modification_1aa4076a90d89c4300f8bb582f1fb67649" prot="public" virt="non-virtual"><scope>themis::updates::ColumnModification</scope><name>old_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

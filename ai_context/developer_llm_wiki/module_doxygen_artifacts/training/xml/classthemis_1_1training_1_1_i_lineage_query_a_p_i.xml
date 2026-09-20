@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_lineage_query_a_p_i" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::ILineageQueryAPI</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a3d8f56d27d8c8929dde4317848d68043" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::ILineageQueryAPI::~ILineageQueryAPI</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILineageQueryAPI</name>
+        <qualifiedname>themis::training::ILineageQueryAPI::~ILineageQueryAPI</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="447" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a45448b2de214a20fb2330d07f5336dac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_sample_ref" kindref="compound">SampleRef</ref> &gt;</type>
+        <definition>virtual std::vector&lt; SampleRef &gt; themis::training::ILineageQueryAPI::getProvenance</definition>
+        <argsstring>(const std::string &amp;model_id) const =0</argsstring>
+        <name>getProvenance</name>
+        <qualifiedname>themis::training::ILineageQueryAPI::getProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all training samples that contributed to a deployed model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter version or model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sample references sorted by contribution weight (descending). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="454" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a855b3360c30158f19bbe8f63feea5e2e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_origin_record" kindref="compound">OriginRecord</ref></type>
+        <definition>virtual OriginRecord themis::training::ILineageQueryAPI::getSampleOrigin</definition>
+        <argsstring>(const std::string &amp;sample_id) const =0</argsstring>
+        <name>getSampleOrigin</name>
+        <qualifiedname>themis::training::ILineageQueryAPI::getSampleOrigin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the origin record for a specific training sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Origin record; result.found is false when the sample is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="462" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Read-only sample-to-model lineage query interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design constraint: no write methods exist on this interface. Unauthorized access must throw std::runtime_error with a descriptive message.</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" kindref="member">ProvenanceTracker::queryLineage</ref> (concrete traversal) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="445" column="1" bodyfile="include/training/training_interfaces.h" bodystart="445" bodyend="464"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a45448b2de214a20fb2330d07f5336dac" prot="public" virt="pure-virtual"><scope>themis::training::ILineageQueryAPI</scope><name>getProvenance</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a855b3360c30158f19bbe8f63feea5e2e" prot="public" virt="pure-virtual"><scope>themis::training::ILineageQueryAPI</scope><name>getSampleOrigin</name></member>
+      <member refid="classthemis_1_1training_1_1_i_lineage_query_a_p_i_1a3d8f56d27d8c8929dde4317848d68043" prot="public" virt="virtual"><scope>themis::training::ILineageQueryAPI</scope><name>~ILineageQueryAPI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

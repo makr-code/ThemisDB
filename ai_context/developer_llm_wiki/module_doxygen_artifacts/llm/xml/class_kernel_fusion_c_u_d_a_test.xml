@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kernel_fusion_c_u_d_a_test" kind="class" language="C++" prot="public">
+    <compoundname>KernelFusionCUDATest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_kernel_fusion_c_u_d_a_test_1aed3e7238b94bcb3a8fc7dec881f69fb2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KernelFusionCUDATest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KernelFusionCUDATest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cuda.cpp" line="198" column="10" bodyfile="tests/llm/test_kernel_fusion_cuda.cpp" bodystart="198" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KernelFusionCUDATest</label>
+        <link refid="class_kernel_fusion_c_u_d_a_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KernelFusionCUDATest</label>
+        <link refid="class_kernel_fusion_c_u_d_a_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_kernel_fusion_cuda.cpp" line="196" column="1" bodyfile="tests/llm/test_kernel_fusion_cuda.cpp" bodystart="196" bodyend="204"/>
+    <listofallmembers>
+      <member refid="class_kernel_fusion_c_u_d_a_test_1aed3e7238b94bcb3a8fc7dec881f69fb2" prot="protected" virt="non-virtual"><scope>KernelFusionCUDATest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

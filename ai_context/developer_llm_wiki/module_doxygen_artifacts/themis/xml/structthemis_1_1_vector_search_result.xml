@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorSearchResult</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_search_result_1a16e9d92af2ecd96aa830f88c735b8c14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorSearchResult::primary_key</definition>
+        <argsstring></argsstring>
+        <name>primary_key</name>
+        <qualifiedname>themis::VectorSearchResult::primary_key</qualifiedname>
+        <briefdescription>
+<para>Primary key of the matching document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="114" column="17" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_search_result_1ad3cbbe3b13fd0afb6bd5cfdb313d8d39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorSearchResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::VectorSearchResult::distance</qualifiedname>
+        <briefdescription>
+<para>Distance/similarity score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="115" column="11" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_search_result_1a7cdf7d38d111b26c9c21e0d4d581b0ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorSearchResult::VectorSearchResult</definition>
+        <argsstring>(std::string pk, float dist)</argsstring>
+        <name>VectorSearchResult</name>
+        <qualifiedname>themis::VectorSearchResult::VectorSearchResult</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="117" column="5" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="117" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vector similarity search result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="113" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="113" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_search_result_1ad3cbbe3b13fd0afb6bd5cfdb313d8d39" prot="public" virt="non-virtual"><scope>themis::VectorSearchResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1_vector_search_result_1a16e9d92af2ecd96aa830f88c735b8c14" prot="public" virt="non-virtual"><scope>themis::VectorSearchResult</scope><name>primary_key</name></member>
+      <member refid="structthemis_1_1_vector_search_result_1a7cdf7d38d111b26c9c21e0d4d581b0ed" prot="public" virt="non-virtual"><scope>themis::VectorSearchResult</scope><name>VectorSearchResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

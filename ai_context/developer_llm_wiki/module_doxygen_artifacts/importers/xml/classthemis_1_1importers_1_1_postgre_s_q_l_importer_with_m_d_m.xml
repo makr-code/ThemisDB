@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLImporterWithMDM</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer" prot="public" virt="non-virtual">themis::importers::PostgreSQLImporter</basecompoundref>
+    <includes refid="postgres__importer__mdm_8h" local="no">postgres_importer_mdm.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a79cb27b5581846fc8d9e40eed2014402" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_m_d_m_engine" kindref="compound">MDMEngine</ref></type>
+        <definition>MDMEngine themis::importers::PostgreSQLImporterWithMDM::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="60" column="24" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1aea393c122d0f2188f97c6cffdb70f7f2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_m_d_m_audit_trail" kindref="compound">MDMAuditTrail</ref></type>
+        <definition>MDMAuditTrail themis::importers::PostgreSQLImporterWithMDM::audit_trail_</definition>
+        <argsstring></argsstring>
+        <name>audit_trail_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::audit_trail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="61" column="24" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a1a7fc5738ef0db5c78e784ab92090f99" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref></type>
+        <definition>MDMWorkflowResult themis::importers::PostgreSQLImporterWithMDM::last_mdm_result_</definition>
+        <argsstring></argsstring>
+        <name>last_mdm_result_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::last_mdm_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="62" column="24" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1afc8637e089e420bd90aef9f783e01477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporterWithMDM::PostgreSQLImporterWithMDM</definition>
+        <argsstring>()=default</argsstring>
+        <name>PostgreSQLImporterWithMDM</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::PostgreSQLImporterWithMDM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1af44b34d8a6590051acfcc4ab367cdff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporterWithMDM::~PostgreSQLImporterWithMDM</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PostgreSQLImporterWithMDM</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::~PostgreSQLImporterWithMDM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a560dee31fa4c6a813d179d01c2a8438e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::PostgreSQLImporterWithMDM::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a012b0368ead0def37b09b2733173df78">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="27" column="16" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a5888e94d6ce778896c3ca55bbef9d1cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::PostgreSQLImporterWithMDM::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af5e9d718b1db740ba302d43075a3aade">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> importData – standard import + optional MDM phase ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="29" column="17" bodyfile="src/importers/postgres_importer_mdm.cpp" bodystart="82" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a7e0c8c8a438d649a2f1342e6b113348c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref> &amp;</type>
+        <definition>const MDMWorkflowResult &amp; themis::importers::PostgreSQLImporterWithMDM::lastMDMResult</definition>
+        <argsstring>() const</argsstring>
+        <name>lastMDMResult</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::lastMDMResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="35" column="29" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1aafd9ed47f035f54c226afded2b39a1ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1importers_1_1_m_d_m_audit_trail" kindref="compound">MDMAuditTrail</ref> &amp;</type>
+        <definition>const MDMAuditTrail &amp; themis::importers::PostgreSQLImporterWithMDM::auditTrail</definition>
+        <argsstring>() const</argsstring>
+        <name>auditTrail</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::auditTrail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="37" column="25" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a183e119e3b380eac6e30d08164bcb111" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref></type>
+        <definition>MDMConfig themis::importers::PostgreSQLImporterWithMDM::buildMDMConfig</definition>
+        <argsstring>(const EntityLinkingConfig &amp;elc)</argsstring>
+        <name>buildMDMConfig</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::buildMDMConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_entity_linking_config" kindref="compound">EntityLinkingConfig</ref> &amp;</type>
+          <declname>elc</declname>
+        </param>
+        <briefdescription>
+<para>Build <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">elc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="45" column="22" bodyfile="src/importers/postgres_importer_mdm.cpp" bodystart="26" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a81b5849288a9696c7e880b1b8e218cbd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref></type>
+        <definition>MDMWorkflowResult themis::importers::PostgreSQLImporterWithMDM::applyMDMWorkflow</definition>
+        <argsstring>(const std::vector&lt; json &gt; &amp;imported_entities, const MDMConfig &amp;config, const ImportOptions &amp;options)</argsstring>
+        <name>applyMDMWorkflow</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterWithMDM::applyMDMWorkflow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>imported_entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Apply MDMWorkflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">imported_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer_mdm.h" line="54" column="23" bodyfile="src/importers/postgres_importer_mdm.cpp" bodystart="137" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="2">
+        <label>themis::importers::PostgreSQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporterWithMDM</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="2">
+        <label>themis::importers::PostgreSQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporterWithMDM</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/postgres_importer_mdm.h" line="22" column="1" bodyfile="include/importers/postgres_importer_mdm.h" bodystart="22" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a81b5849288a9696c7e880b1b8e218cbd" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>applyMDMWorkflow</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1aea393c122d0f2188f97c6cffdb70f7f2" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>audit_trail_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1aafd9ed47f035f54c226afded2b39a1ab" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>auditTrail</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a183e119e3b380eac6e30d08164bcb111" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>buildMDMConfig</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1b95944589481cd843c5caac5aab8be8" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a79cb27b5581846fc8d9e40eed2014402" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a560dee31fa4c6a813d179d01c2a8438e" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a54ec6a1a4c318d8b28f076b16d90e1c9" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1acdae4f7401afaca131b6fe35129e45da" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a5888e94d6ce778896c3ca55bbef9d1cb" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d880dcf2b0f80f870b7c3fda489a36f" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad21b2167fc9bcb34df74afc3e4f6d74a" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae14ca8e9447b41d7e225115e47e2e28d" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a1a7fc5738ef0db5c78e784ab92090f99" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>last_mdm_result_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a7e0c8c8a438d649a2f1342e6b113348c" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>lastMDMResult</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abaa59c6ec027238b0c2883806941fd13" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>PostgreSQLImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1afc8637e089e420bd90aef9f783e01477" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>PostgreSQLImporterWithMDM</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a05bcbe6f9e00075029116b7117d814db" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af8512db1eee2e32bf7c35ae7269f41d3" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>~PostgreSQLImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1af44b34d8a6590051acfcc4ab367cdff0" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterWithMDM</scope><name>~PostgreSQLImporterWithMDM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,645 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_policy_manager_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PolicyManagerApiHandler</compoundname>
+    <includes refid="policy__manager__api__handler_8h" local="no">policy_manager_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a17dd7ba5ab45ca13a67d91a698b0799c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::PolicyManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::PolicyManager&gt; themis::server::PolicyManagerApiHandler::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="105" column="21" bodyfile="include/server/policy_manager_api_handler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_manager_api_handler_1ae17798e947a81225f200eb17915c9a4f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::PolicyManagerApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="106" column="21" bodyfile="include/server/policy_manager_api_handler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a2ab5ebd26414266c2c67b7bc1013ab3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PolicyManagerApiHandler::PolicyManagerApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::PolicyManager &gt; policy_manager, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>PolicyManagerApiHandler</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::PolicyManagerApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::PolicyManager &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="30" column="5" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="68" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1ae6f6d791ab77330fb7209ff5fbc43eb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleListRules</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListRules</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleListRules</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), listRules(), nlohmann::json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="40" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="86" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a33f6b2fb30713dee9d68f32db40279fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleGetRule</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleGetRule</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleGetRule</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), checkAuth(), getRule(), has_value(), makeResponse(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="50" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="126" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1aa754bb073a636dd97f8e33243c29cde6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleCreateRule</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreateRule</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleCreateRule</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidPolicyBody(), body(), makeErrorResponse(), checkAuth(), nlohmann::json::parse(), themis::governance::PolicyRule::fromJson(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="60" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="163" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a47b7d29894f180b2ecabe679e7867a9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleUpdateRule</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleUpdateRule</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleUpdateRule</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), isValidPolicyBody(), body(), checkAuth(), getRule(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="70" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="232" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a0d914fb1f1b59406fc024c0cef3ec64e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleDeleteRule</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleDeleteRule</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleDeleteRule</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), checkAuth(), getRule(), has_value(), removeRule(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="81" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="301" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a5985e2a02a1ed7b27830799d0da3785b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleEvaluatePolicy</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEvaluatePolicy</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleEvaluatePolicy</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Evaluate Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidPolicyBody(), body(), makeErrorResponse(), checkAuth(), nlohmann::json::parse(), contains(), isValidPolicyField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="91" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="348" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1a7c2911f252babf93cc288efb1e29d1de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::handleGetStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetStats</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::handleGetStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getStats(), makeResponse(), dump(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="100" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="429" bodyend="457"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1aa8c060b920c7738e58cac2427b257a4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), body(), dump(), prepare_payload(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="116" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="467" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1aa56e4a9bc9c88e5d16a46c67a05b9026" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyManagerApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), body(), prepare_payload(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="129" column="20" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="495" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_manager_api_handler_1af59d467f9ff21e090d5564c525419299" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PolicyManagerApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_role=&quot;admin&quot;)</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::PolicyManagerApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+          <defval>&quot;admin&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isEnabled(), THEMIS_WARN(), empty(), <ref refid="classthemis_1_1server_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), <ref refid="namespacethemis_1_1server_1_1auth__scope__mapper_1a65a57b8d74e159b893b915231132a9c7" kindref="member">auth_scope_mapper::mapPolicyRoleToScope()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_manager_api_handler.h" line="135" column="10" bodyfile="src/server/policy_manager_api_handler.cpp" bodystart="517" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_manager_api_handler.h" line="28" column="1" bodyfile="include/server/policy_manager_api_handler.h" bodystart="28" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1ae17798e947a81225f200eb17915c9a4f" prot="private" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1af59d467f9ff21e090d5564c525419299" prot="private" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1aa754bb073a636dd97f8e33243c29cde6" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleCreateRule</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a0d914fb1f1b59406fc024c0cef3ec64e" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleDeleteRule</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a5985e2a02a1ed7b27830799d0da3785b" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleEvaluatePolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a33f6b2fb30713dee9d68f32db40279fd" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleGetRule</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a7c2911f252babf93cc288efb1e29d1de" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleGetStats</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1ae6f6d791ab77330fb7209ff5fbc43eb2" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleListRules</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a47b7d29894f180b2ecabe679e7867a9f" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>handleUpdateRule</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1aa8c060b920c7738e58cac2427b257a4b" prot="private" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1aa56e4a9bc9c88e5d16a46c67a05b9026" prot="private" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a17dd7ba5ab45ca13a67d91a698b0799c" prot="private" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_manager_api_handler_1a2ab5ebd26414266c2c67b7bc1013ab3d" prot="public" virt="non-virtual"><scope>themis::server::PolicyManagerApiHandler</scope><name>PolicyManagerApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

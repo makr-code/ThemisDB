@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::ContentGeoResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1aae8e513b6ccf1f99e9fb8dc2c17a0c67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::ContentGeoResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::query::QueryEngine::ContentGeoResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="598" column="21" bodyfile="include/query/query_engine.h" bodystart="598" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1a81dfda9f76a91f0071d31695d8a4af16" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryEngine::ContentGeoResult::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::query::QueryEngine::ContentGeoResult::bm25_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="599" column="16" bodyfile="include/query/query_engine.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1aa4f1bd492080becaeef178faac39c8a7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::query::QueryEngine::ContentGeoResult::geo_distance</definition>
+        <argsstring></argsstring>
+        <name>geo_distance</name>
+        <qualifiedname>themis::query::QueryEngine::ContentGeoResult::geo_distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="600" column="23" bodyfile="include/query/query_engine.h" bodystart="600" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1ad1cded15cb0f352593833b2b5eebc8b5" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryEngine::ContentGeoResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::query::QueryEngine::ContentGeoResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="601" column="24" bodyfile="include/query/query_engine.h" bodystart="601" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="597" column="5" bodyfile="include/query/query_engine.h" bodystart="597" bodyend="602"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1a81dfda9f76a91f0071d31695d8a4af16" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentGeoResult</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1ad1cded15cb0f352593833b2b5eebc8b5" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentGeoResult</scope><name>entity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1aa4f1bd492080becaeef178faac39c8a7" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentGeoResult</scope><name>geo_distance</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_geo_result_1aae8e513b6ccf1f99e9fb8dc2c17a0c67" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentGeoResult</scope><name>pk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

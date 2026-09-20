@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::CapabilityAutoGenerator::AnalysisResult</compoundname>
+    <includes refid="capability__auto__generator_8h" local="no">capability_auto_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1aa35880e1c0523caba05a0fca5f5cfd38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::AnalysisResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="101" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1af19976a61f7bd79fc934b592b8540a04" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::domains</definition>
+        <argsstring></argsstring>
+        <name>domains</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="104" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a4c3978298cb26e74e39a87dd69eeeba9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::organizations</definition>
+        <argsstring></argsstring>
+        <name>organizations</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::organizations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="105" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a7555d371e612e8e7db2d9492a1de08f7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::regions</definition>
+        <argsstring></argsstring>
+        <name>regions</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::regions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="106" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1aee66d27d6fd1d452d61bedcb5578def4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::data_types</definition>
+        <argsstring></argsstring>
+        <name>data_types</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::data_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="107" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1acda45716bfb6664e8ca66ec017820dc1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="108" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1ac32a85187b8373d3e76c21fef3bb28a0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::CapabilityAutoGenerator::AnalysisResult::document_count</definition>
+        <argsstring></argsstring>
+        <name>document_count</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::document_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="111" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a87ba07b70e03b6b7930b906bec7462fb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::CapabilityAutoGenerator::AnalysisResult::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="112" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1ac739194682749fb4967d2ce3f09445ac" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::util::CapabilityAutoGenerator::AnalysisResult::last_update_time</definition>
+        <argsstring></argsstring>
+        <name>last_update_time</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::last_update_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="113" column="47" bodyfile="include/utils/capability_auto_generator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a9b65433fe33c5e71fc8c34418deba73e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::CapabilityAutoGenerator::AnalysisResult::collections</definition>
+        <argsstring></argsstring>
+        <name>collections</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::AnalysisResult::collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="116" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Analysis result from RocksDB scan </para>
+    </detaileddescription>
+    <location file="include/utils/capability_auto_generator.h" line="100" column="5" bodyfile="include/utils/capability_auto_generator.h" bodystart="100" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a9b65433fe33c5e71fc8c34418deba73e" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>collections</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1aee66d27d6fd1d452d61bedcb5578def4" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>data_types</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1ac32a85187b8373d3e76c21fef3bb28a0" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>document_count</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1af19976a61f7bd79fc934b592b8540a04" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>domains</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1acda45716bfb6664e8ca66ec017820dc1" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1ac739194682749fb4967d2ce3f09445ac" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>last_update_time</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a4c3978298cb26e74e39a87dd69eeeba9" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>organizations</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a7555d371e612e8e7db2d9492a1de08f7" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>regions</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1aa35880e1c0523caba05a0fca5f5cfd38" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result_1a87ba07b70e03b6b7930b906bec7462fb" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::AnalysisResult</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

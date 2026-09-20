@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_flare_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::FlareConfig</compoundname>
+    <includes refid="flare__retrieval_8h" local="no">flare_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1a64c22fb65ae36ae91040b557d59421fb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::FlareConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::rag::FlareConfig::confidence_threshold</qualifiedname>
+        <initializer>= -2.303f</initializer>
+        <briefdescription>
+<para>Log-probability threshold for triggering retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When log(p(t)) &lt; confidence_threshold for a generated token, the token is considered low-confidence and retrieval is scheduled.</para>
+<para>Default: ln(0.1) ≈ -2.303 (trigger when token probability &lt; 10%). For more conservative retrieval (only very uncertain tokens): -3.0. For aggressive retrieval (more frequent): -1.0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="40" column="11" bodyfile="include/rag/flare_retrieval.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1ad719edc35c9303a73ac4f3a8601d0c6a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareConfig::min_consecutive_uncertain</definition>
+        <argsstring></argsstring>
+        <name>min_consecutive_uncertain</name>
+        <qualifiedname>themis::rag::FlareConfig::min_consecutive_uncertain</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum number of consecutive low-confidence tokens before retrieval is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents retrieval on a single uncertain token in an otherwise confident sequence (e.g., rare proper nouns with known context).</para>
+<para>Default: 1 (trigger on first low-confidence token). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="51" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1a01b536d0b69896bf095bc78c37ca44d9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareConfig::retrieval_cooldown_tokens</definition>
+        <argsstring></argsstring>
+        <name>retrieval_cooldown_tokens</name>
+        <qualifiedname>themis::rag::FlareConfig::retrieval_cooldown_tokens</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+<para>Cool-down period (number of tokens) after a successful retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents redundant re-retrieval while injected context is still fresh. Set to 0 to disable.</para>
+<para>Default: 30 tokens (roughly one sentence). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="61" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1ae9721a65c26fd622d277a707670a5095" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::FlareConfig::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Top-K results to request from the TT-core index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="66" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1a78e601b6b6ac528339508b1f686e2f4e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareConfig::max_retrieval_steps</definition>
+        <argsstring></argsstring>
+        <name>max_retrieval_steps</name>
+        <qualifiedname>themis::rag::FlareConfig::max_retrieval_steps</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of FLARE retrieval steps per generation sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Caps the total number of mid-generation retrievals to bound latency. Set to 0 for unlimited.</para>
+<para>Default: 10 steps. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="76" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1aeb248fbf13df332a1fb888d4a2d2b1c5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareConfig::query_window_tokens</definition>
+        <argsstring></argsstring>
+        <name>query_window_tokens</name>
+        <qualifiedname>themis::rag::FlareConfig::query_window_tokens</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum number of tokens to include in the look-ahead query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When building the retrieval query from partial_output, at most <computeroutput><ref refid="structthemis_1_1rag_1_1_flare_config_1aeb248fbf13df332a1fb888d4a2d2b1c5" kindref="member">query_window_tokens</ref></computeroutput> most-recent tokens are used.</para>
+<para>Default: 64 tokens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="86" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1a95eec1479418a4dddcd306d0922a41b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FlareConfig::mask_uncertain_tokens</definition>
+        <argsstring></argsstring>
+        <name>mask_uncertain_tokens</name>
+        <qualifiedname>themis::rag::FlareConfig::mask_uncertain_tokens</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If true, low-confidence tokens are masked (replaced with a special placeholder) in the query text before retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Masking focuses retrieval on predictable context rather than the model&apos;s uncertain guesses, improving query relevance.</para>
+<para>Default: true (per §FLARE algorithm description). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="97" column="10" bodyfile="include/rag/flare_retrieval.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_config_1a3c50576600ab76402e6bc276e810559c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::FlareConfig::mask_token</definition>
+        <argsstring></argsstring>
+        <name>mask_token</name>
+        <qualifiedname>themis::rag::FlareConfig::mask_token</qualifiedname>
+        <initializer>= &quot;[MASK]&quot;</initializer>
+        <briefdescription>
+<para>Placeholder string used to replace masked tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: &quot;[MASK]&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="104" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for FLARE log-probability gating. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/flare_retrieval.h" line="29" column="1" bodyfile="include/rag/flare_retrieval.h" bodystart="29" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1a64c22fb65ae36ae91040b557d59421fb" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1a3c50576600ab76402e6bc276e810559c" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>mask_token</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1a95eec1479418a4dddcd306d0922a41b3" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>mask_uncertain_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1a78e601b6b6ac528339508b1f686e2f4e" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>max_retrieval_steps</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1ad719edc35c9303a73ac4f3a8601d0c6a" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>min_consecutive_uncertain</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1aeb248fbf13df332a1fb888d4a2d2b1c5" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>query_window_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1a01b536d0b69896bf095bc78c37ca44d9" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>retrieval_cooldown_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_config_1ae9721a65c26fd622d277a707670a5095" prot="public" virt="non-virtual"><scope>themis::rag::FlareConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

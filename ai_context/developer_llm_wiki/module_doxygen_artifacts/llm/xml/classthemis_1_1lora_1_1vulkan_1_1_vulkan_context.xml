@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::VulkanContext</compoundname>
+    <includes refid="vulkan__context_8h" local="no">vulkan_context.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanContext::VulkanContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>VulkanContext</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::VulkanContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="211" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a77ea42211b9dc78eabea43beaac5f2fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanContext::~VulkanContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VulkanContext</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::~VulkanContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="212" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ac52b0cf69cd0c53ac0d330a33514180e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanContext::VulkanContext</definition>
+        <argsstring>(const VulkanContext &amp;)=delete</argsstring>
+        <name>VulkanContext</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::VulkanContext</qualifiedname>
+        <param>
+          <type>const VulkanContext &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="214" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a604f76a6d37002d52dd9d66791d697ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" kindref="member">VulkanContext</ref> &amp;</type>
+        <definition>VulkanContext &amp; themis::lora::vulkan::VulkanContext::operator=</definition>
+        <argsstring>(const VulkanContext &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" kindref="member">VulkanContext</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="215" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1aaabeacd3476fe8cff09d6dd0a9a3e3ae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::lora::vulkan::VulkanContext::VulkanContext</definition>
+        <argsstring>(VulkanContext &amp;&amp;) noexcept=default</argsstring>
+        <name>VulkanContext</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::VulkanContext</qualifiedname>
+        <param>
+          <type>VulkanContext &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="216" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a7fcb24cc3beeac1b72c9d3a8a7eacc38" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" kindref="member">VulkanContext</ref> &amp;</type>
+        <definition>VulkanContext &amp; themis::lora::vulkan::VulkanContext::operator=</definition>
+        <argsstring>(VulkanContext &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" kindref="member">VulkanContext</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="217" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a3dc0b2e0c36c1a868c97d5ef42d86138" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanContext::initialize</definition>
+        <argsstring>(int=0, bool=false)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="219" column="10" bodyfile="include/llm/lora_framework/vulkan_context.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ab947ea5ee1c1a776aa1cc5297c2b5d78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::VulkanContext::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements cleanup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="224" column="10" bodyfile="include/llm/lora_framework/vulkan_context.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a71e07f8d684dfd5981019351ad9d2b18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanContext::is_initialized</definition>
+        <argsstring>() const</argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::is_initialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="225" column="10" bodyfile="include/llm/lora_framework/vulkan_context.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ae9194b5ef9b58c3801873801b8c5c916" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::lora::vulkan::VulkanContext::is_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::lora::vulkan::VulkanContext::is_available</qualifiedname>
+        <briefdescription>
+<para>Is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_available without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vulkan_context.h" line="231" column="17" bodyfile="include/llm/lora_framework/vulkan_context.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vulkan_context.h" line="209" column="1" bodyfile="include/llm/lora_framework/vulkan_context.h" bodystart="209" bodyend="232"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ab947ea5ee1c1a776aa1cc5297c2b5d78" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a3dc0b2e0c36c1a868c97d5ef42d86138" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ae9194b5ef9b58c3801873801b8c5c916" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>is_available</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a71e07f8d684dfd5981019351ad9d2b18" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a604f76a6d37002d52dd9d66791d697ba" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a7fcb24cc3beeac1b72c9d3a8a7eacc38" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a04f0824be431e2312c57f812d91e120c" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>VulkanContext</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ac52b0cf69cd0c53ac0d330a33514180e" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>VulkanContext</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1aaabeacd3476fe8cff09d6dd0a9a3e3ae" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>VulkanContext</name></member>
+      <member refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1a77ea42211b9dc78eabea43beaac5f2fe" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanContext</scope><name>~VulkanContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

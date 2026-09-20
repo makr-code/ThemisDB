@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockProviderConfig</compoundname>
+    <includes refid="mock__provider__factory_8h" local="no">mock_provider_factory.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureMode</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::FailureMode</qualifiedname>
+        <enumvalue id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14bafb4b589251242d51010076fec281118f" prot="public">
+          <name>ALWAYS_SUCCEED</name>
+          <briefdescription>
+<para>All requests succeed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14ba7089b82227a705086659fbb1a1ec4469" prot="public">
+          <name>ALWAYS_FAIL</name>
+          <briefdescription>
+<para>All requests fail with provider error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14ba1d8787ab4734794ba96df3f8ec0de0cd" prot="public">
+          <name>FAIL_AFTER_N</name>
+          <briefdescription>
+<para>First N requests succeed, then always fail. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14bac8f1c26cabad43ecadc457174cfa07bc" prot="public">
+          <name>TIMEOUT_AFTER_N</name>
+          <briefdescription>
+<para>First N requests succeed, then always time out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14ba898e747cae322a3112c1870591d46931" prot="public">
+          <name>INTERMITTENT_FAIL</name>
+          <briefdescription>
+<para>Fails every Nth request (cycle). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="42" column="5" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="42" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a810471d87474f1de1c74a858618be4af" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14b" kindref="member">FailureMode</ref></type>
+        <definition>FailureMode themis::aql::testing::MockProviderConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14bafb4b589251242d51010076fec281118f" kindref="member">FailureMode::ALWAYS_SUCCEED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="50" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a7ab9e1421f7b8144d214981811ad5eb5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockProviderConfig::threshold_n</definition>
+        <argsstring></argsstring>
+        <name>threshold_n</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::threshold_n</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>N for FAIL_AFTER_N / TIMEOUT_AFTER_N / INTERMITTENT_FAIL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="51" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a88acda68bf3bc0b50cca8820aa30a0e2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockProviderConfig::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Artificial latency per call (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="52" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ac45485225731215aec8465fd2eaa7b60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockProviderConfig::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::error_message</qualifiedname>
+        <initializer>= &quot;Mock provider error&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="53" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref></type>
+        <definition>static MockProviderConfig themis::aql::testing::MockProviderConfig::AlwaysSucceed</definition>
+        <argsstring>()</argsstring>
+        <name>AlwaysSucceed</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::AlwaysSucceed</qualifiedname>
+        <briefdescription>
+<para>Factory: always succeed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="56" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ac9047d937e6c533e6c181a1a3d344600" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref></type>
+        <definition>static MockProviderConfig themis::aql::testing::MockProviderConfig::AlwaysFail</definition>
+        <argsstring>(const std::string &amp;msg=&quot;Provider unavailable&quot;)</argsstring>
+        <name>AlwaysFail</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::AlwaysFail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;Provider unavailable&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Factory: always fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="60" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ad8764e8c70843bb84813e302848e5096" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref></type>
+        <definition>static MockProviderConfig themis::aql::testing::MockProviderConfig::FailAfterN</definition>
+        <argsstring>(int n, const std::string &amp;msg=&quot;Sustained failure&quot;)</argsstring>
+        <name>FailAfterN</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::FailAfterN</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;Sustained failure&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Factory: succeed N times then fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="64" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1aa217491b019de1c0d613d749e4ee0d42" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref></type>
+        <definition>static MockProviderConfig themis::aql::testing::MockProviderConfig::TimeoutAfterN</definition>
+        <argsstring>(int n, int latency_ms=100)</argsstring>
+        <name>TimeoutAfterN</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::TimeoutAfterN</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>latency_ms</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Factory: succeed N times then time out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="68" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1aec01952316a764be71c5e276afd0b341" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref></type>
+        <definition>static MockProviderConfig themis::aql::testing::MockProviderConfig::IntermittentFail</definition>
+        <argsstring>(int every_n, const std::string &amp;msg=&quot;Intermittent failure&quot;)</argsstring>
+        <name>IntermittentFail</name>
+        <qualifiedname>themis::aql::testing::MockProviderConfig::IntermittentFail</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>every_n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;Intermittent failure&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Factory: fail every Nth call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="72" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configures the failure behavior of a mock provider. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/mock_provider_factory.h" line="41" column="1" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="41" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ac9047d937e6c533e6c181a1a3d344600" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>AlwaysFail</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>AlwaysSucceed</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ac45485225731215aec8465fd2eaa7b60" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1ad8764e8c70843bb84813e302848e5096" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>FailAfterN</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a8f2c759c1eedd4fe4c4c88224940b14b" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>FailureMode</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1aec01952316a764be71c5e276afd0b341" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>IntermittentFail</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a88acda68bf3bc0b50cca8820aa30a0e2" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a810471d87474f1de1c74a858618be4af" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a7ab9e1421f7b8144d214981811ad5eb5" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>threshold_n</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1aa217491b019de1c0d613d749e4ee0d42" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderConfig</scope><name>TimeoutAfterN</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_session_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceSessionManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_test_1a839b6ff7031e25249e89dc8d91095d38" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_voice_session_manager" kindref="compound">VoiceSessionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VoiceSessionManager&gt; themis::voice::VoiceSessionManagerTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::voice::VoiceSessionManagerTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_manager_focused.cpp" line="11" column="21" bodyfile="tests/voice/test_voice_session_manager_focused.cpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_test_1ad269f1cfae19b302e1a65c2dc7ed7131" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSessionManagerTest::test_session_id_</definition>
+        <argsstring></argsstring>
+        <name>test_session_id_</name>
+        <qualifiedname>themis::voice::VoiceSessionManagerTest::test_session_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_manager_focused.cpp" line="22" column="17" bodyfile="tests/voice/test_voice_session_manager_focused.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_test_1ab8149744541e5bce9de2d9373eecd04e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSessionManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::voice::VoiceSessionManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_manager_focused.cpp" line="13" column="10" bodyfile="tests/voice/test_voice_session_manager_focused.cpp" bodystart="13" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceSessionManagerTest</label>
+        <link refid="classthemis_1_1voice_1_1_voice_session_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceSessionManagerTest</label>
+        <link refid="classthemis_1_1voice_1_1_voice_session_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_session_manager_focused.cpp" line="9" column="1" bodyfile="tests/voice/test_voice_session_manager_focused.cpp" bodystart="9" bodyend="23"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_test_1a839b6ff7031e25249e89dc8d91095d38" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceSessionManagerTest</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_test_1ab8149744541e5bce9de2d9373eecd04e" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceSessionManagerTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_test_1ad269f1cfae19b302e1a65c2dc7ed7131" prot="protected" virt="non-virtual"><scope>themis::voice::VoiceSessionManagerTest</scope><name>test_session_id_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

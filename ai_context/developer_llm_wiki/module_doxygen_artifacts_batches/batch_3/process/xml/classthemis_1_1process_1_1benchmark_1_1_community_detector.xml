@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_community_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::CommunityDetector</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community" prot="public">themis::process::benchmark::CommunityDetector::Community</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_community_detector_1aba4c9afad2a4f249c33d7f3bcd2ef790" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_community_detector_1_1_community" kindref="compound">Community</ref> &gt;</type>
+        <definition>static std::vector&lt; Community &gt; themis::process::benchmark::CommunityDetector::detectCommunities</definition>
+        <argsstring>(int num_models)</argsstring>
+        <name>detectCommunities</name>
+        <qualifiedname>themis::process::benchmark::CommunityDetector::detectCommunities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_models</declname>
+        </param>
+        <briefdescription>
+<para>Detect communities in process model graph (louvain simulation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="278" column="24" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="278" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process community detector. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="268" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="268" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_community_detector_1aba4c9afad2a4f249c33d7f3bcd2ef790" prot="public" virt="non-virtual"><scope>themis::process::benchmark::CommunityDetector</scope><name>detectCommunities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

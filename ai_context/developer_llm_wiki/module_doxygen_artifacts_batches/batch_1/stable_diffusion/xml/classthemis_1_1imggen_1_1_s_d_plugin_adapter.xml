@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::SDPluginAdapter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="sd__plugin__registrar_8h" local="no">sd_plugin_registrar.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a2fb62cc88b0e4d02fe08deab669de5e1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SDPlugin&gt; themis::imggen::SDPluginAdapter::sd_plugin_</definition>
+        <argsstring></argsstring>
+        <name>sd_plugin_</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::sd_plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="98" column="21" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a68b7afe17a525c5d641999fcd6292574" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPluginAdapter::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::model_path_</qualifiedname>
+        <briefdescription>
+<para>saved for hot-reload </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="99" column="31" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ae58dddc17e1f621f8259fabd2df26e2b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPluginAdapter::SDPluginAdapter</definition>
+        <argsstring>(std::unique_ptr&lt; SDPlugin &gt; plugin)</argsstring>
+        <name>SDPluginAdapter</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::SDPluginAdapter</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Construct from an existing <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Heap-allocated <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>; adapter takes ownership. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="56" column="14" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afecaf0321f5e978c98e3aad701a5cf42" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::imggen::SDPluginAdapter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="59" column="16" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a5cfd6a9ce702344fb86ed418a58e1d8c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::imggen::SDPluginAdapter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="60" column="16" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a669631d66903a4168cede18a6fad8301" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::imggen::SDPluginAdapter::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="62" column="25" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a7d44424b8101f92fed25c0be3ceba053" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::imggen::SDPluginAdapter::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="66" column="33" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="26" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1acbf71109d78674ab2b0bdffb79892c0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPluginAdapter::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the underlying <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>Parses <computeroutput>config_json</computeroutput> and calls <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kindref="member">SDPlugin::initialize()</ref>. Expected JSON keys: &quot;model_path&quot; (string, optional).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON configuration string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false when config is missing a non-empty model_path.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), contains(), is_string(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="77" column="10" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="42" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ad9f5622731560049ed82334ee743c555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::imggen::SDPluginAdapter::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown: reset the inner plugin to its default stub state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="82" column="10" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a66f5daec7a8a809fded7713bc1b76714" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::imggen::SDPluginAdapter::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getInstance</qualifiedname>
+        <briefdescription>
+<para>Return a pointer to the underlying <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callers should cast the return value to <computeroutput><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">imggen::SDPlugin</ref>*</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="89" column="10" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afdc7b2150286f1e2cc5c9482fb45dc47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> *</type>
+        <definition>SDPlugin * themis::imggen::SDPluginAdapter::getSDPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>getSDPlugin</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getSDPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Non-owning pointer to the wrapped <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="94" column="20" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a40c7bad33502d6bfca001718fe87e059" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> *</type>
+        <definition>const SDPlugin * themis::imggen::SDPluginAdapter::getSDPlugin</definition>
+        <argsstring>() const</argsstring>
+        <name>getSDPlugin</name>
+        <qualifiedname>themis::imggen::SDPluginAdapter::getSDPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="95" column="20" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>IThemisPlugin adapter for <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps an <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> so that it can be managed by the unified plugins::PluginManager, including hot-plug monitoring.</para>
+<para>On <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1acbf71109d78674ab2b0bdffb79892c0a" kindref="member">initialize()</ref> the adapter calls SDPlugin::initialize(model_path, config). On <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ad9f5622731560049ed82334ee743c555" kindref="member">shutdown()</ref> the adapter resets the inner plugin to a stub state. <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a66f5daec7a8a809fded7713bc1b76714" kindref="member">getInstance()</ref> returns a pointer to the underlying <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> for callers that need direct access to the image-generation API.</para>
+<para>Thread-Safety: <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1acbf71109d78674ab2b0bdffb79892c0a" kindref="member">initialize()</ref> and <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ad9f5622731560049ed82334ee743c555" kindref="member">shutdown()</ref> are not concurrently safe; all other paths delegate to the thread-safe <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDPluginAdapter</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDPluginAdapter</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/stable_diffusion/sd_plugin_registrar.h" line="50" column="1" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="50" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a7d44424b8101f92fed25c0be3ceba053" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a66f5daec7a8a809fded7713bc1b76714" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afecaf0321f5e978c98e3aad701a5cf42" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afdc7b2150286f1e2cc5c9482fb45dc47" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getSDPlugin</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a40c7bad33502d6bfca001718fe87e059" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getSDPlugin</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a669631d66903a4168cede18a6fad8301" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getType</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a5cfd6a9ce702344fb86ed418a58e1d8c" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1acbf71109d78674ab2b0bdffb79892c0a" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a68b7afe17a525c5d641999fcd6292574" prot="private" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a2fb62cc88b0e4d02fe08deab669de5e1" prot="private" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>sd_plugin_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ae58dddc17e1f621f8259fabd2df26e2b" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>SDPluginAdapter</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ad9f5622731560049ed82334ee743c555" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginAdapter</scope><name>shutdown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1bca7c5cd400cb4c6f57f6805d8ec26e" kind="dir">
+    <compoundname>benchmarks/importers</compoundname>
+    <innerfile refid="bench__importer__throughput_8cpp">bench_importer_throughput.cpp</innerfile>
+    <innerfile refid="bench__importers__release__gates_8cpp">bench_importers_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/"/>
+  </compounddef>
+</doxygen>

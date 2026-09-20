@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_a_p_i" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginAPI</compoundname>
+    <includes refid="plugin__api_8h" local="no">plugin_api.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8e91ab70dc88f2be8465b233a5e8467d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>std::unique_ptr&lt; PluginInterface &gt;</type>
+        <definition>static std::unique_ptr&lt; PluginInterface &gt; themis::plugins::PluginAPI::get</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::plugins::PluginAPI::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Get single plugin by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Loaded plugin instance or nullptr</para>
+</simplesect>
+<simplesect kind="note"><para>Returns nullptr instead of throwing on error for graceful fallback </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_api.h" line="53" column="28" bodyfile="include/plugins/plugin_api.h" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8053666dc76f4a2b629e53cbf8ea0def" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::unique_ptr&lt; PluginInterface &gt; &gt;</type>
+        <definition>static std::vector&lt; std::unique_ptr&lt; PluginInterface &gt; &gt; themis::plugins::PluginAPI::getAll</definition>
+        <argsstring>()</argsstring>
+        <name>getAll</name>
+        <qualifiedname>themis::plugins::PluginAPI::getAll</qualifiedname>
+        <briefdescription>
+<para>Get all plugins implementing an interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of plugin instances </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_api.h" line="70" column="24" bodyfile="include/plugins/plugin_api.h" bodystart="70" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_a_p_i_1a06c285a10c3d207180c26a749909e5d9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::plugins::PluginAPI::has</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>has</name>
+        <qualifiedname>themis::plugins::PluginAPI::has</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if plugin is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if plugin exists and is correct type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_api.h" line="92" column="17" bodyfile="include/plugins/plugin_api.h" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_a_p_i_1aa9ede8de9755a691029f0470a36c2aed" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename PluginInterface</type>
+          </param>
+        </templateparamlist>
+        <type>std::unique_ptr&lt; PluginInterface &gt;</type>
+        <definition>static std::unique_ptr&lt; PluginInterface &gt; themis::plugins::PluginAPI::getWithFallback</definition>
+        <argsstring>()</argsstring>
+        <name>getWithFallback</name>
+        <qualifiedname>themis::plugins::PluginAPI::getWithFallback</qualifiedname>
+        <briefdescription>
+<para>Get plugin with fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns first available plugin if primary fails. Useful for finding alternative implementations.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PluginInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interface type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>First available plugin or nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_api.h" line="106" column="28" bodyfile="include/plugins/plugin_api.h" bodystart="106" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Type-Safe Plugin API. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides convenient template-based access to plugins. Eliminates manual void* casts.</para>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Single<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s3<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8e91ab70dc88f2be8465b233a5e8467d" kindref="member">PluginAPI::get&lt;IBlobStorageBackend&gt;</ref>(</highlight><highlight class="stringliteral">&quot;s3_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s3)<sp/>{<sp/>s3-&gt;write(...);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>plugins<sp/>of<sp/>a<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all_importers<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8053666dc76f4a2b629e53cbf8ea0def" kindref="member">PluginAPI::getAll&lt;IImporter&gt;</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>importer<sp/>:<sp/>all_importers)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>importer-&gt;import_data(...);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_api.h" line="41" column="1" bodyfile="include/plugins/plugin_api.h" bodystart="41" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8e91ab70dc88f2be8465b233a5e8467d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginAPI</scope><name>get</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1a8053666dc76f4a2b629e53cbf8ea0def" prot="public" virt="non-virtual"><scope>themis::plugins::PluginAPI</scope><name>getAll</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1aa9ede8de9755a691029f0470a36c2aed" prot="public" virt="non-virtual"><scope>themis::plugins::PluginAPI</scope><name>getWithFallback</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_a_p_i_1a06c285a10c3d207180c26a749909e5d9" prot="public" virt="non-virtual"><scope>themis::plugins::PluginAPI</scope><name>has</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

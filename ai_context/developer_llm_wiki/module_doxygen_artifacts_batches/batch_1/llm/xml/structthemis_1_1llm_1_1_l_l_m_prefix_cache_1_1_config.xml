@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMPrefixCache::Config</compoundname>
+    <includes refid="llm__prefix__cache_8h" local="no">llm_prefix_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPrefixCache::Config::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::similarity_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="69" column="16" bodyfile="include/llm/llm_prefix_cache.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a68625e624f5b2a6254dc9ffa5b40d149" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPrefixCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::max_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="70" column="16" bodyfile="include/llm/llm_prefix_cache.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMPrefixCache::Config::min_prefix_length</definition>
+        <argsstring></argsstring>
+        <name>min_prefix_length</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::min_prefix_length</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="71" column="16" bodyfile="include/llm/llm_prefix_cache.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a2fc5d953b790050901f347b24404d2d7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMPrefixCache::Config::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::ttl_seconds</qualifiedname>
+        <initializer>= 7200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="72" column="13" bodyfile="include/llm/llm_prefix_cache.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a3b60a467a7dbf1aa34b98e99f628fd98" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPrefixCache::Config::enable_kv_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_kv_caching</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::enable_kv_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="73" column="14" bodyfile="include/llm/llm_prefix_cache.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1aa2d2925d47165bfaa287607db4009762" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::Clock &gt;</type>
+        <definition>std::shared_ptr&lt;utils::Clock&gt; themis::llm::LLMPrefixCache::Config::clock</definition>
+        <argsstring></argsstring>
+        <name>clock</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::clock</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="74" column="25" bodyfile="include/llm/llm_prefix_cache.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a75e099fa86cb8f80fed29f7eae775ec6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMPrefixCache::Config::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::llm::LLMPrefixCache::Config::cache_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="75" column="21" bodyfile="include/llm/llm_prefix_cache.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_prefix_cache.h" line="68" column="5" bodyfile="include/llm/llm_prefix_cache.h" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a75e099fa86cb8f80fed29f7eae775ec6" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1aa2d2925d47165bfaa287607db4009762" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>clock</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a3b60a467a7dbf1aa34b98e99f628fd98" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>enable_kv_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a68625e624f5b2a6254dc9ffa5b40d149" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>min_prefix_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a2fc5d953b790050901f347b24404d2d7" prot="public" virt="non-virtual"><scope>themis::llm::LLMPrefixCache::Config</scope><name>ttl_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

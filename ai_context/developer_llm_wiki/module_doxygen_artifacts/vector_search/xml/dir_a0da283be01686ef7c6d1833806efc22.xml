@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a0da283be01686ef7c6d1833806efc22" kind="dir">
+    <compoundname>benchmarks/vector_search</compoundname>
+    <innerfile refid="bench__vector__search__dedicated__gates_8cpp">bench_vector_search_dedicated_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/vector_search/"/>
+  </compounddef>
+</doxygen>

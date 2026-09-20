@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_batch_processor_scaling_fixture" kind="class" language="C++" prot="public">
+    <compoundname>BatchProcessorScalingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_batch_processor_scaling_fixture_1a0cd1fa308c1498fefe7971c638d62eb9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; BatchProcessorScalingFixture::audio_bytes</definition>
+        <argsstring></argsstring>
+        <name>audio_bytes</name>
+        <qualifiedname>BatchProcessorScalingFixture::audio_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="157" column="17" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_batch_processor_scaling_fixture_1ac394284bd7a165af58e03ff70eae6339" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BatchProcessorScalingFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BatchProcessorScalingFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="153" column="10" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="153" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BatchProcessorScalingFixture</label>
+        <link refid="class_batch_processor_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BatchProcessorScalingFixture</label>
+        <link refid="class_batch_processor_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="151" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="151" bodyend="158"/>
+    <listofallmembers>
+      <member refid="class_batch_processor_scaling_fixture_1a0cd1fa308c1498fefe7971c638d62eb9" prot="public" virt="non-virtual"><scope>BatchProcessorScalingFixture</scope><name>audio_bytes</name></member>
+      <member refid="class_batch_processor_scaling_fixture_1ac394284bd7a165af58e03ff70eae6339" prot="public" virt="non-virtual"><scope>BatchProcessorScalingFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

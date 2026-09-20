@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_pii_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpPiiManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_pii_manager_test_1a36c345e03e3eb4a46cb75e21cb8fd56f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpPiiManagerTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpPiiManagerTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="134" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_pii_manager_test_1a1466ce9162736733ba3e754f9eb20cfb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpPiiManagerTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpPiiManagerTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="135" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_pii_manager_test_1a768b7d007185e7855d66c14f876568b6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpPiiManagerTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpPiiManagerTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="136" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_pii_manager_test_1a7f17ffbc2a5eb9437ab0dbe7f57c9777" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpPiiManagerTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpPiiManagerTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="137" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_pii_manager_test_1ad49283764dbf7bffb7fdb315c733e645" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpPiiManagerTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpPiiManagerTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="138" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_pii_manager_test_1aaef03661106812cdb4de524c9e7f6a14" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpPiiManagerTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpPiiManagerTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="139" column="21" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_pii_manager_test_1a6bb89390beeb36124c04faff52463721" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpPiiManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpPiiManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="58" column="10" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="58" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_pii_manager_test_1a28ab43dbbcfe94b8a5f2a5c4b631b46a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpPiiManagerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpPiiManagerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_manager_new.cpp" line="106" column="10" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="106" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpPiiManagerTest</label>
+        <link refid="class_http_pii_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpPiiManagerTest</label>
+        <link refid="class_http_pii_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_pii_manager_new.cpp" line="56" column="1" bodyfile="tests/network/test_http_pii_manager_new.cpp" bodystart="56" bodyend="140"/>
+    <listofallmembers>
+      <member refid="class_http_pii_manager_test_1a7f17ffbc2a5eb9437ab0dbe7f57c9777" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_pii_manager_test_1a768b7d007185e7855d66c14f876568b6" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_pii_manager_test_1a36c345e03e3eb4a46cb75e21cb8fd56f" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>server_</name></member>
+      <member refid="class_http_pii_manager_test_1a6bb89390beeb36124c04faff52463721" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>SetUp</name></member>
+      <member refid="class_http_pii_manager_test_1a1466ce9162736733ba3e754f9eb20cfb" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>storage_</name></member>
+      <member refid="class_http_pii_manager_test_1a28ab43dbbcfe94b8a5f2a5c4b631b46a" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>TearDown</name></member>
+      <member refid="class_http_pii_manager_test_1aaef03661106812cdb4de524c9e7f6a14" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_pii_manager_test_1ad49283764dbf7bffb7fdb315c733e645" prot="protected" virt="non-virtual"><scope>HttpPiiManagerTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

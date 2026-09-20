@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__feedback_8h" kind="file" language="C++">
+    <compoundname>lora_feedback.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="feedback__plugin_8h" local="yes">include/llm/lora_framework/feedback_plugin.h</includedby>
+    <includedby refid="lora__feedback__storage_8h" local="yes">include/llm/lora_framework/lora_feedback_storage.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_feedback.h</label>
+        <link refid="lora__feedback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/lora_framework/feedback_plugin.h</label>
+        <link refid="feedback__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_feedback.h</label>
+        <link refid="lora__feedback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/lora_framework/lora_feedback_storage.h</label>
+        <link refid="lora__feedback__storage_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/lora_training_config.h</label>
+        <link refid="lora__training__config_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/feedback_plugin.cpp</label>
+        <link refid="feedback__plugin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/lora_feedback_storage.cpp</label>
+        <link refid="lora__feedback__storage_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/lora_training_config.cpp</label>
+        <link refid="lora__training__config_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_feedback" prot="public">themis::llm::lora::Feedback</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter" prot="public">themis::llm::lora::FeedbackFilter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1lora_1_1_feedback" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a51f74e732dba7952a6314fd3664a331f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a51f74e732dba7952a6314fd3664a331f" kindref="member">~Feedback</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a549fb60f3bae66287ced1569607a9ea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a549fb60f3bae66287ced1569607a9ea7" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>feedback<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Associated<sp/>LoRA<sp/>adapter<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>who<sp/>provided<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feedback<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" kindref="member">rating</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rating<sp/>(e.g.,<sp/>1-5<sp/>stars)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" kindref="member">feedback_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>text<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" kindref="member">prompt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>prompt/question</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" kindref="member">response</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" kindref="member">model_response_id</ref>;<sp/></highlight><highlight class="comment">//<sp/>Link<sp/>to<sp/>model<sp/>response<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" kindref="member">is_cached_response</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>response<sp/>was<sp/>from<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" kindref="member">is_training</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>feedback<sp/>occurred<sp/>during<sp/>training/runtime<sp/>training<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" kindref="member">cache_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>key<sp/>if<sp/>cached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" kindref="member">cache_similarity_score</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Similarity<sp/>score<sp/>(1.0<sp/>=<sp/>exact<sp/>match)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>weight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" kindref="member">training_weight</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>for<sp/>training<sp/>(0.0-1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lower<sp/>weight<sp/>for<sp/>cached<sp/>responses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" kindref="member">flagged_for_training</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flag<sp/>for<sp/>training<sp/>inclusion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" kindref="member">training_category</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;positive&quot;,<sp/>&quot;negative&quot;,<sp/>&quot;neutral&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" kindref="member">custom_metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extensible<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1af5990710ddd5973bfd1d7a1e63f1f213" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1af5990710ddd5973bfd1d7a1e63f1f213" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time_t<sp/>=<sp/>std::chrono::system_clock::to_time_t(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" kindref="member">timestamp</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" kindref="member">adapter_id</ref>},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" kindref="member">user_id</ref>},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rating&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" kindref="member">rating</ref>},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;feedback_text&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" kindref="member">feedback_text</ref>},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" kindref="member">prompt</ref>},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" kindref="member">response</ref>},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/>time_t},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;flagged_for_training&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" kindref="member">flagged_for_training</ref>},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;training_category&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" kindref="member">training_category</ref>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_cached_response&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" kindref="member">is_cached_response</ref>},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_training&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" kindref="member">is_training</ref>},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cache_similarity_score&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" kindref="member">cache_similarity_score</ref>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;training_weight&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" kindref="member">training_weight</ref>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" kindref="member">model_response_id</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;model_response_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" kindref="member">model_response_id</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" kindref="member">cache_key</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;cache_key&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" kindref="member">cache_key</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" kindref="member">custom_metadata</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;custom_metadata&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a872e5068e09b6c1197963552c8049849" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a872e5068e09b6c1197963552c8049849" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref><sp/>fb<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a549fb60f3bae66287ced1569607a9ea7" kindref="member">id</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" kindref="member">adapter_id</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;adapter_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" kindref="member">user_id</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;rating&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" kindref="member">rating</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;rating&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;feedback_text&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" kindref="member">feedback_text</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;feedback_text&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" kindref="member">prompt</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" kindref="member">response</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;model_response_id&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" kindref="member">model_response_id</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;model_response_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;cache_key&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" kindref="member">cache_key</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;cache_key&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;is_cached_response&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" kindref="member">is_cached_response</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;is_cached_response&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;is_training&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" kindref="member">is_training</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;is_training&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;cache_similarity_score&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" kindref="member">cache_similarity_score</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;cache_similarity_score&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;training_weight&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" kindref="member">training_weight</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;training_weight&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::time_t<sp/>tt<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">].get&lt;std::time_t&gt;();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" kindref="member">timestamp</ref><sp/>=<sp/>std::chrono::system_clock::from_time_t(tt);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" kindref="member">timestamp</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;flagged_for_training&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" kindref="member">flagged_for_training</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;flagged_for_training&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;training_category&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" kindref="member">training_category</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;training_category&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;custom_metadata&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fb.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" kindref="member">custom_metadata</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;custom_metadata&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fb;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter" kindref="compound">FeedbackFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a4b638d1806545938f003c94ee70d57c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a4b638d1806545938f003c94ee70d57c8" kindref="member">~FeedbackFilter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1ae581a1bcff29af17ff0cc704304df8c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1ae581a1bcff29af17ff0cc704304df8c2" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a3f782a337d436742b7a1fe073029f4f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a3f782a337d436742b7a1fe073029f4f3" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a19aa3f8effac8a730df6257b924f659b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a19aa3f8effac8a730df6257b924f659b" kindref="member">min_rating</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>rating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a8f481627e512c418b7d5e949ee9564d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a8f481627e512c418b7d5e949ee9564d2" kindref="member">flagged_for_training</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>training<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a49a104b18054d01b6f934c88e40798bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a49a104b18054d01b6f934c88e40798bb" kindref="member">training_category</ref>;<sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a827104b02792f7cefdeeb87a6e7540ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1a827104b02792f7cefdeeb87a6e7540ca" kindref="member">since</ref>;<sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>date</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1afe9ef43ed79d0e1b3920179bfcbd31d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1afe9ef43ed79d0e1b3920179bfcbd31d8" kindref="member">limit</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1abdf63ba69bbb41158bedce76f8d530d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_filter_1abdf63ba69bbb41158bedce76f8d530d9" kindref="member">offset</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pagination<sp/>offset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/lora_feedback.h"/>
+  </compounddef>
+</doxygen>

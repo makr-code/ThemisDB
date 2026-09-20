@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_prefetch_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::PrefetchConfig</compoundname>
+    <includes refid="prefetch__hints_8h" local="no">prefetch_hints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_prefetch_config_1a5d188cdbc306ad4e7a75bcd3da0a6477" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PrefetchConfig::prefetch_distance</definition>
+        <argsstring></argsstring>
+        <name>prefetch_distance</name>
+        <qualifiedname>themis::performance::PrefetchConfig::prefetch_distance</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of items to prefetch ahead in sequential access Default: 2 (good for most workloads) Range: 1-8 (higher = more aggressive, more memory bandwidth) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="213" column="12" bodyfile="include/performance/prefetch_hints.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_prefetch_config_1a914bee2c550f62fd3b0c199e919cb8cc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37e" kindref="member">PrefetchHint</ref></type>
+        <definition>PrefetchHint themis::performance::PrefetchConfig::hint</definition>
+        <argsstring></argsstring>
+        <name>hint</name>
+        <qualifiedname>themis::performance::PrefetchConfig::hint</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" kindref="member">PrefetchHint::T0</ref></initializer>
+        <briefdescription>
+<para>Cache locality hint for prefetched data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="216" column="18" bodyfile="include/performance/prefetch_hints.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_prefetch_config_1aeedaf32479e5c4df74e950524109e950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::PrefetchConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::performance::PrefetchConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable/disable prefetching at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="219" column="10" bodyfile="include/performance/prefetch_hints.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_prefetch_config_1a0ebb2f5d39523c7d947c0ea20b311975" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PrefetchConfig::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::performance::PrefetchConfig::min_batch_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum batch size to enable prefetching Prefetching overhead isn&apos;t worth it for tiny batches </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="223" column="12" bodyfile="include/performance/prefetch_hints.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for adaptive prefetch distance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Allows runtime tuning of prefetch distance based on memory latency and access patterns. </para>
+    </detaileddescription>
+    <location file="include/performance/prefetch_hints.h" line="209" column="1" bodyfile="include/performance/prefetch_hints.h" bodystart="209" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_prefetch_config_1aeedaf32479e5c4df74e950524109e950" prot="public" virt="non-virtual"><scope>themis::performance::PrefetchConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1performance_1_1_prefetch_config_1a914bee2c550f62fd3b0c199e919cb8cc" prot="public" virt="non-virtual"><scope>themis::performance::PrefetchConfig</scope><name>hint</name></member>
+      <member refid="structthemis_1_1performance_1_1_prefetch_config_1a0ebb2f5d39523c7d947c0ea20b311975" prot="public" virt="non-virtual"><scope>themis::performance::PrefetchConfig</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_prefetch_config_1a5d188cdbc306ad4e7a75bcd3da0a6477" prot="public" virt="non-virtual"><scope>themis::performance::PrefetchConfig</scope><name>prefetch_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,934 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_task_scheduler_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::TaskSchedulerApiHandler</compoundname>
+    <includes refid="task__scheduler__api__handler_8h" local="no">task_scheduler_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a3821ed446d6b62600b04393568ed475e" prot="private" static="no" mutable="no">
+        <type>TaskScheduler *</type>
+        <definition>TaskScheduler* themis::server::TaskSchedulerApiHandler::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="149" column="19" bodyfile="include/server/task_scheduler_api_handler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1ab90eac5cc293703d43be09c492e5e6ca" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::TaskSchedulerApiHandler::TaskSchedulerApiHandler</definition>
+        <argsstring>(TaskScheduler *scheduler)</argsstring>
+        <name>TaskSchedulerApiHandler</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::TaskSchedulerApiHandler</qualifiedname>
+        <param>
+          <type>TaskScheduler *</type>
+          <declname>scheduler</declname>
+        </param>
+        <briefdescription>
+<para>Task Scheduler Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="28" column="14" bodyfile="include/server/task_scheduler_api_handler.h" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a775d8ee0e328f8879cdc48b5c1bd37a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::registerTask</definition>
+        <argsstring>(const nlohmann::json &amp;request)</argsstring>
+        <name>registerTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::registerTask</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Register Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseTaskFromJson(), spdlog::info(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="36" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="167" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1ac917704eb5b50dbb20c0e7b607d73037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::listTasks</definition>
+        <argsstring>()</argsstring>
+        <name>listTasks</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::listTasks</qualifiedname>
+        <briefdescription>
+<para>List Tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), json::array(), push_back(), taskToJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="41" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::getTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>getTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), taskToJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="47" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a717775b99051d5c534c6817375a19038" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::updateTask</definition>
+        <argsstring>(const std::string &amp;task_id, const nlohmann::json &amp;request)</argsstring>
+        <name>updateTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::updateTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Update Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), parseTaskFromJson(), spdlog::info(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="54" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="237" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a56278650d67b860a150ba2a41e7589a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::unregisterTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>unregisterTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::unregisterTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, spdlog::warn(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="60" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="266" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a19b824bc625233ab6e5a07184caace2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::enableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>enableTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::enableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, spdlog::warn(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="68" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="297" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a27e88fc1828e95c7227a3705b6b29d40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::disableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>disableTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::disableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, spdlog::warn(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="74" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="328" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a4c215c47faf7a76e1869cd5842a1486c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::executeTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>executeTask</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::executeTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Execute Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), executeTaskNow(), contains(), spdlog::warn(), value(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="80" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="359" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6a01fe1814c0f8539aadd45b4fa1e401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::executeDAG</definition>
+        <argsstring>(const nlohmann::json &amp;request)</argsstring>
+        <name>executeDAG</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::executeDAG</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Execute DAG. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), contains(), is_array(), validateTaskIdentifier(), json::object(), spdlog::info(), size(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="87" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1070" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a13020b3d5006f1af56beeae9e1833234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::getStats</definition>
+        <argsstring>()</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), timePointToIso(), isRunning(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="94" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="390" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1abace4c7723575c350a329a9d29efbd65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::getTaskResults</definition>
+        <argsstring>(const std::string &amp;task_id, size_t limit=10)</argsstring>
+        <name>getTaskResults</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getTaskResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get Task Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="96" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="416" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a52ad99be28cce69daef35c9d9954ebaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::getLatestTaskResult</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>getLatestTaskResult</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getLatestTaskResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Task Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateTaskIdentifier(), has_value(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="103" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="441" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1afc25c47e9a0d8455c1b10fb3d71aa6e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::getExecutionHistory</definition>
+        <argsstring>(const std::string &amp;task_id, const nlohmann::json &amp;query_params=nlohmann::json::object())</argsstring>
+        <name>getExecutionHistory</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getExecutionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>query_params</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Get Execution History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="105" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="465" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1aee621e6404aa346f32b9d6bf9168cdcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::exportToKubernetesCronJobJson</definition>
+        <argsstring>(const std::string &amp;task_id, const nlohmann::json &amp;request)</argsstring>
+        <name>exportToKubernetesCronJobJson</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::exportToKubernetesCronJobJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Export To Kubernetes Cron Job Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, k8sConfigFromJson(), toKubernetesCronJobJson(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="115" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1204" bodyend="1223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a38e8b4fd6b0355670f75b79d9f4e9cb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::exportToKubernetesCronJobYaml</definition>
+        <argsstring>(const std::string &amp;task_id, const nlohmann::json &amp;request)</argsstring>
+        <name>exportToKubernetesCronJobYaml</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::exportToKubernetesCronJobYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Export To Kubernetes Cron Job Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, k8sConfigFromJson(), toKubernetesCronJobYaml(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="124" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1232" bodyend="1251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a7b6d22a35b9870f71ce040d8a7c1679a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::exportToAirflowDag</definition>
+        <argsstring>(const nlohmann::json &amp;request)</argsstring>
+        <name>exportToAirflowDag</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::exportToAirflowDag</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Export To Airflow Dag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), contains(), is_array(), reserve(), size(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" kindref="member">getTask()</ref>, push_back(), airflowConfigFromJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="132" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1259" bodyend="1288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1ad471129694b17c2c33e9d0e9b815f7f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::importFromKubernetesCronJob</definition>
+        <argsstring>(const nlohmann::json &amp;request)</argsstring>
+        <name>importFromKubernetesCronJob</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::importFromKubernetesCronJob</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Import From Kubernetes Cron Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), fromKubernetesCronJobJson(), <ref refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a775d8ee0e328f8879cdc48b5c1bd37a2" kindref="member">registerTask()</ref>, spdlog::info(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="139" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1296" bodyend="1311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a04fecabeea25cefc47b336b41014c76e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::TaskSchedulerApiHandler::getWebUi</definition>
+        <argsstring>()</argsstring>
+        <name>getWebUi</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::getWebUi</qualifiedname>
+        <briefdescription>
+<para>Get Web Ui. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), Tracer::startSpan(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="146" column="17" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="581" bodyend="909"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a4229c01ac2caaa0c6fd42c2de0e16dbe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::TaskSchedulerApiHandler::taskToJson</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>taskToJson</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::taskToJson</qualifiedname>
+        <param>
+          <type>const ScheduledTask &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Task To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), taskTypeStr(), triggerTypeStr(), count(), errorCategoryStr(), timePointToIso(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="156" column="20" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="921" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_task_scheduler_api_handler_1a422765cc3249395938a437776940adb0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ScheduledTask</type>
+        <definition>ScheduledTask themis::server::TaskSchedulerApiHandler::parseTaskFromJson</definition>
+        <argsstring>(const nlohmann::json &amp;json)</argsstring>
+        <name>parseTaskFromJson</name>
+        <qualifiedname>themis::server::TaskSchedulerApiHandler::parseTaskFromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>Parse Task From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), validateTaskIdentifier(), value(), contains(), empty(), validateStringLength(), validateAQLQuery(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/task_scheduler_api_handler.h" line="163" column="19" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="959" bodyend="1062"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/task_scheduler_api_handler.h" line="21" column="1" bodyfile="include/server/task_scheduler_api_handler.h" bodystart="21" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a27e88fc1828e95c7227a3705b6b29d40" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>disableTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a19b824bc625233ab6e5a07184caace2c" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>enableTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6a01fe1814c0f8539aadd45b4fa1e401" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>executeDAG</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a4c215c47faf7a76e1869cd5842a1486c" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>executeTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a7b6d22a35b9870f71ce040d8a7c1679a" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>exportToAirflowDag</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1aee621e6404aa346f32b9d6bf9168cdcf" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>exportToKubernetesCronJobJson</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a38e8b4fd6b0355670f75b79d9f4e9cb0" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>exportToKubernetesCronJobYaml</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1afc25c47e9a0d8455c1b10fb3d71aa6e6" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getExecutionHistory</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a52ad99be28cce69daef35c9d9954ebaa" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getLatestTaskResult</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a13020b3d5006f1af56beeae9e1833234" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a6d1386aa8f004c82a0e1fc2df0035e2f" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1abace4c7723575c350a329a9d29efbd65" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getTaskResults</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a04fecabeea25cefc47b336b41014c76e" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>getWebUi</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1ad471129694b17c2c33e9d0e9b815f7f2" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>importFromKubernetesCronJob</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1ac917704eb5b50dbb20c0e7b607d73037" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>listTasks</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a422765cc3249395938a437776940adb0" prot="private" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>parseTaskFromJson</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a775d8ee0e328f8879cdc48b5c1bd37a2" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>registerTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a3821ed446d6b62600b04393568ed475e" prot="private" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>scheduler_</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1ab90eac5cc293703d43be09c492e5e6ca" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>TaskSchedulerApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a4229c01ac2caaa0c6fd42c2de0e16dbe" prot="private" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>taskToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a56278650d67b860a150ba2a41e7589a6" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>unregisterTask</name></member>
+      <member refid="classthemis_1_1server_1_1_task_scheduler_api_handler_1a717775b99051d5c534c6817375a19038" prot="public" virt="non-virtual"><scope>themis::server::TaskSchedulerApiHandler</scope><name>updateTask</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

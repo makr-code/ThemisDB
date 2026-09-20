@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_unified_memory_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::UnifiedMemoryBuffer</compoundname>
+    <includes refid="unified__memory__coordinator_8h" local="no">unified_memory_coordinator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Owner</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::Owner</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a768aa5562ec40e7c92d5595c48c80e62" prot="public">
+          <name>UNOWNED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Not currently owned. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>CPU has exclusive access. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a52f9ec21735243ad9917cda3ca077d32" prot="public">
+          <name>GPU</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>GPU has exclusive access. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="63" column="5" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a23065e63cd4005f89ee599feaba2d768" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::UnifiedMemoryBuffer::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="152" column="10" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ad96fca6fd51fccc803a305a26a40723e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::UnifiedMemoryBuffer::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="153" column="12" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a820d3647537f95650be1fc28372226c1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" kindref="member">Owner</ref> &gt;</type>
+        <definition>std::atomic&lt;Owner&gt; themis::gpu::UnifiedMemoryBuffer::owner_</definition>
+        <argsstring></argsstring>
+        <name>owner_</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::owner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="154" column="17" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac98aeeae347b2a0dc7075a18892f0695" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::UnifiedMemoryBuffer::conflict_</definition>
+        <argsstring></argsstring>
+        <name>conflict_</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::conflict_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="155" column="17" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>UnifiedMemoryBuffer</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Unified Memory Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="74" column="14" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="12" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1abe55ffea3a27050cdd7505b9966c7dcd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::UnifiedMemoryBuffer::~UnifiedMemoryBuffer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~UnifiedMemoryBuffer</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::~UnifiedMemoryBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="76" column="5" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a845a7cfaa3a3e566302603f16e1aecaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</definition>
+        <argsstring>(const UnifiedMemoryBuffer &amp;)=delete</argsstring>
+        <name>UnifiedMemoryBuffer</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</qualifiedname>
+        <param>
+          <type>const UnifiedMemoryBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ad68e8687dc6989aa2ca5863206d93630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref> &amp;</type>
+        <definition>UnifiedMemoryBuffer &amp; themis::gpu::UnifiedMemoryBuffer::operator=</definition>
+        <argsstring>(const UnifiedMemoryBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="80" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1cf1811b5df62aff3553d3f750db3806" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</definition>
+        <argsstring>(UnifiedMemoryBuffer &amp;&amp;) noexcept=default</argsstring>
+        <name>UnifiedMemoryBuffer</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::UnifiedMemoryBuffer</qualifiedname>
+        <param>
+          <type>UnifiedMemoryBuffer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0b00c0b41cecce9850a265f3f99b44d0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref> &amp;</type>
+        <definition>UnifiedMemoryBuffer &amp; themis::gpu::UnifiedMemoryBuffer::operator=</definition>
+        <argsstring>(UnifiedMemoryBuffer &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="84" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a830cf0f2f1365f473734f330b3dfe352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::UnifiedMemoryBuffer::acquireForCPU</definition>
+        <argsstring>()</argsstring>
+        <name>acquireForCPU</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::acquireForCPU</qualifiedname>
+        <briefdescription>
+<para>Acquire For CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" kindref="member">isValid()</ref>, compare_exchange_strong(), store(), <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, cudaDeviceSynchronize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="90" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="31" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a962522a39664105a766d33b1319cc204" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::UnifiedMemoryBuffer::acquireForGPU</definition>
+        <argsstring>()</argsstring>
+        <name>acquireForGPU</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::acquireForGPU</qualifiedname>
+        <briefdescription>
+<para>Acquire For GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" kindref="member">isValid()</ref>, compare_exchange_strong(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="96" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="70" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ab3207327b2bdec59d7d1bb364abe577e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::UnifiedMemoryBuffer::releaseOwnership</definition>
+        <argsstring>()</argsstring>
+        <name>releaseOwnership</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::releaseOwnership</qualifiedname>
+        <briefdescription>
+<para>Release Ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="102" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa01a837734e844d9fc7228d71f77493c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" kindref="member">Owner</ref></type>
+        <definition>UnifiedMemoryBuffer::Owner themis::gpu::UnifiedMemoryBuffer::getCurrentOwner</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getCurrentOwner</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::getCurrentOwner</qualifiedname>
+        <briefdescription>
+<para>Get Current <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" kindref="member">Owner</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="109" column="11" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac41a0d5208b4731186f3087eb488d5b6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::UnifiedMemoryBuffer::get</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="116" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ab638c2920e5260f2e036c2dd32fef8c3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const void *</type>
+        <definition>const void * themis::gpu::UnifiedMemoryBuffer::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="123" column="16" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a089483f556731f2ce2e9108688b0bb01" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::UnifiedMemoryBuffer::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="130" column="12" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::UnifiedMemoryBuffer::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="137" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0be1a1f247038fb18f81a13d03d3222e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::UnifiedMemoryBuffer::synchronize</definition>
+        <argsstring>()</argsstring>
+        <name>synchronize</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::synchronize</qualifiedname>
+        <briefdescription>
+<para>Synchronize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" kindref="member">isValid()</ref>, <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, cudaDeviceSynchronize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="142" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="140" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a8b1676af0996bde721bc73c15f8f5b6f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::UnifiedMemoryBuffer::hadConflict</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hadConflict</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::hadConflict</qualifiedname>
+        <briefdescription>
+<para>Had Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="149" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1a18e84003aa1e9a60ce2ceff838ed8978" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::UnifiedMemoryBuffer::allocateUnifiedMemory</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocateUnifiedMemory</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::allocateUnifiedMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate Unified Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, cudaMallocManaged(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="162" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="158" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac0678b636b94a66f1468bf16e0a6ca2d" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::UnifiedMemoryBuffer::freeUnifiedMemory</definition>
+        <argsstring>(void *ptr) noexcept</argsstring>
+        <name>freeUnifiedMemory</name>
+        <qualifiedname>themis::gpu::UnifiedMemoryBuffer::freeUnifiedMemory</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Free Unified Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/unified_memory_coordinator.h" line="168" column="10" bodyfile="src/gpu/unified_memory_coordinator.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/unified_memory_coordinator.h" line="61" column="1" bodyfile="include/gpu/unified_memory_coordinator.h" bodystart="61" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a830cf0f2f1365f473734f330b3dfe352" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>acquireForCPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a962522a39664105a766d33b1319cc204" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>acquireForGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a18e84003aa1e9a60ce2ceff838ed8978" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>allocateUnifiedMemory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac98aeeae347b2a0dc7075a18892f0695" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>conflict_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac0678b636b94a66f1468bf16e0a6ca2d" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>freeUnifiedMemory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac41a0d5208b4731186f3087eb488d5b6" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ab638c2920e5260f2e036c2dd32fef8c3" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa01a837734e844d9fc7228d71f77493c" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>getCurrentOwner</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a8b1676af0996bde721bc73c15f8f5b6f" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>hadConflict</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ad68e8687dc6989aa2ca5863206d93630" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0b00c0b41cecce9850a265f3f99b44d0" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>Owner</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a820d3647537f95650be1fc28372226c1" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>owner_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a23065e63cd4005f89ee599feaba2d768" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ab3207327b2bdec59d7d1bb364abe577e" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>releaseOwnership</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a089483f556731f2ce2e9108688b0bb01" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ad96fca6fd51fccc803a305a26a40723e" prot="private" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>size_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0be1a1f247038fb18f81a13d03d3222e" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>synchronize</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>UnifiedMemoryBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a845a7cfaa3a3e566302603f16e1aecaf" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>UnifiedMemoryBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1cf1811b5df62aff3553d3f750db3806" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>UnifiedMemoryBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1abe55ffea3a27050cdd7505b9966c7dcd" prot="public" virt="non-virtual"><scope>themis::gpu::UnifiedMemoryBuffer</scope><name>~UnifiedMemoryBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

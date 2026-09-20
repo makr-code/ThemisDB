@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_dependency_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginDependencyResolver</compoundname>
+    <includes refid="plugin__dependency__resolver_8h" local="no">plugin_dependency_resolver.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" prot="public">themis::plugins::PluginDependencyResolver::DependencyGraph</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a65a0ef6e4ae9d2773899ac912f68698c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MapType</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref></type>
+        <definition>static DependencyGraph themis::plugins::PluginDependencyResolver::buildGraph</definition>
+        <argsstring>(const MapType &amp;plugins)</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::buildGraph</qualifiedname>
+        <param>
+          <type>const MapType &amp;</type>
+          <declname>plugins</declname>
+        </param>
+        <briefdescription>
+<para>Build dependency graph from plugin entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>MapType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any map-like container (std::map or std::unordered_map) whose mapped_type has a .manifest field with a .dependencies field (std::vector&lt;std::string&gt;) Example: struct PluginEntry { <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> manifest; ... } </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugins</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of plugin name to plugin entry </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Complete dependency graph </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="69" column="28" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="69" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1aa7937e4475071b4e920dcb1e2cb7513e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>static std::vector&lt; std::vector&lt; std::string &gt; &gt; themis::plugins::PluginDependencyResolver::detectCircularDependencies</definition>
+        <argsstring>(const DependencyGraph &amp;graph)</argsstring>
+        <name>detectCircularDependencies</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::detectCircularDependencies</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Detect circular dependencies in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses depth-first search with a recursion stack to detect cycles. Returns all unique cycles found in the dependency graph.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of cycles, where each cycle is a vector of plugin names Empty vector if no cycles detected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="97" column="24" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="97" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1ae52aa452eb95147dd2795853343cfb24" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::plugins::PluginDependencyResolver::computeLoadOrder</definition>
+        <argsstring>(const DependencyGraph &amp;graph)</argsstring>
+        <name>computeLoadOrder</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::computeLoadOrder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Compute safe load order using topological sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses Kahn&apos;s algorithm to compute a topological ordering. Ensures dependencies are loaded before dependents.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of plugin names in safe load order </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if circular dependencies detected </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="132" column="24" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="132" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a2ffa7fe7bdc89019a055ad91fac9cfc5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::plugins::PluginDependencyResolver::hasDependency</definition>
+        <argsstring>(const DependencyGraph &amp;graph, const std::string &amp;plugin, const std::string &amp;dependency)</argsstring>
+        <name>hasDependency</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::hasDependency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dependency</declname>
+        </param>
+        <briefdescription>
+<para>Check if a specific dependency exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dependency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if dependency exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="190" column="17" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="190" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a8fbddf7410f8ef7d3d21ef84192786ae" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>static std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::plugins::PluginDependencyResolver::validateDependencies</definition>
+        <argsstring>(const DependencyGraph &amp;graph)</argsstring>
+        <name>validateDependencies</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::validateDependencies</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Validate that all declared dependencies are registered in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifies plugins that declare a dependency on a plugin that is not present in the dependency graph (i.e. not registered with the manager). Must be called before <ref refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1ae52aa452eb95147dd2795853343cfb24" kindref="member">computeLoadOrder()</ref> to distinguish missing-dependency failures from circular-dependency failures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of (dependent_plugin, missing_dependency) pairs. Empty if all dependencies are satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="216" column="24" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="216" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1afa6c4f0c5c3334e6e35888ec03dfdaea" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::plugins::PluginDependencyResolver::getTransitiveDependencies</definition>
+        <argsstring>(const DependencyGraph &amp;graph, const std::string &amp;plugin)</argsstring>
+        <name>getTransitiveDependencies</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::getTransitiveDependencies</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Get all transitive dependencies for a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns all direct and indirect dependencies in load order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of all transitive dependencies </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="241" column="24" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="241" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1aa66a6c650847b15bd49d1259f9122498" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::PluginDependencyResolver::detectCyclesRecursive</definition>
+        <argsstring>(const std::string &amp;node, const DependencyGraph &amp;graph, std::set&lt; std::string &gt; &amp;visited, std::set&lt; std::string &gt; &amp;recursion_stack, std::vector&lt; std::string &gt; &amp;current_path, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;cycles)</argsstring>
+        <name>detectCyclesRecursive</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::detectCyclesRecursive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>std::set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::set&lt; std::string &gt; &amp;</type>
+          <declname>recursion_stack</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>current_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>cycles</declname>
+        </param>
+        <briefdescription>
+<para>Recursive helper for cycle detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses DFS with a recursion stack to detect back edges (cycles). When a back edge is found, extracts the cycle path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="260" column="17" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="260" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a7d4a6fa6d1c0eafcdc6640b552216045" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::PluginDependencyResolver::getTransitiveDependenciesRecursive</definition>
+        <argsstring>(const std::string &amp;node, const DependencyGraph &amp;graph, std::set&lt; std::string &gt; &amp;visited, std::vector&lt; std::string &gt; &amp;result)</argsstring>
+        <name>getTransitiveDependenciesRecursive</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::getTransitiveDependenciesRecursive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kindref="compound">DependencyGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>std::set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Recursive helper for transitive dependency collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="313" column="17" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="313" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Dependency Graph Resolver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides dependency graph building, circular dependency detection, and topological sorting for safe plugin load ordering.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Build dependency graph from plugin manifests</para>
+</listitem><listitem><para>Detect circular dependencies with full path reporting</para>
+</listitem><listitem><para>Compute safe load order via topological sorting</para>
+</listitem><listitem><para>Handle transitive dependencies</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All methods are thread-safe (stateless) </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_dependency_resolver.h" line="42" column="1" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="42" bodyend="336"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a65a0ef6e4ae9d2773899ac912f68698c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>buildGraph</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1ae52aa452eb95147dd2795853343cfb24" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>computeLoadOrder</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1aa7937e4475071b4e920dcb1e2cb7513e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>detectCircularDependencies</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1aa66a6c650847b15bd49d1259f9122498" prot="private" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>detectCyclesRecursive</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1afa6c4f0c5c3334e6e35888ec03dfdaea" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>getTransitiveDependencies</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a7d4a6fa6d1c0eafcdc6640b552216045" prot="private" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>getTransitiveDependenciesRecursive</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a2ffa7fe7bdc89019a055ad91fac9cfc5" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>hasDependency</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a8fbddf7410f8ef7d3d21ef84192786ae" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver</scope><name>validateDependencies</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

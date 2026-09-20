@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::CMT_FIN_46_DocSyncFreshness</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a5743372e8c6ee1cab1f66f520818f484" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_46_DocSyncFreshness::content_module_path</definition>
+        <argsstring></argsstring>
+        <name>content_module_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_46_DocSyncFreshness::content_module_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="350" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a0d45e855803dbbf8d421551c86663981" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::test::CMT_FIN_46_DocSyncFreshness::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::test::CMT_FIN_46_DocSyncFreshness::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="352" column="10" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="352" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_46_DocSyncFreshness</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_46_DocSyncFreshness</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp" line="348" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="348" bodyend="357"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a5743372e8c6ee1cab1f66f520818f484" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_46_DocSyncFreshness</scope><name>content_module_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness_1a0d45e855803dbbf8d421551c86663981" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_46_DocSyncFreshness</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

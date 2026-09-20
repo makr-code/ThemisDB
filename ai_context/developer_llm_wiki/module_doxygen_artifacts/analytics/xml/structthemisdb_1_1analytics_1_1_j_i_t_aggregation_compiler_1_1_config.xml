@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::JITAggregationCompiler::Config</compoundname>
+    <includes refid="jit__aggregation_8h" local="no">jit_aggregation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1a8e34067c814ff1b6daed3c6a658d7598" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Config::hot_threshold</definition>
+        <argsstring></argsstring>
+        <name>hot_threshold</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Config::hot_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="70" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1a488aca8857906a10f40d50934b3d13a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::JITAggregationCompiler::Config::enable_jit</definition>
+        <argsstring></argsstring>
+        <name>enable_jit</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Config::enable_jit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="72" column="14" bodyfile="include/analytics/jit_aggregation.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1aaadf5dbafd4eb9bbfe5b259438a5e305" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::JITAggregationCompiler::Config::optimization_level</definition>
+        <argsstring></argsstring>
+        <name>optimization_level</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Config::optimization_level</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="74" column="13" bodyfile="include/analytics/jit_aggregation.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1ae71d8d68793b87d235734ce10edb08c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Config::max_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>max_cache_entries</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Config::max_cache_entries</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="76" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/jit_aggregation.h" line="69" column="5" bodyfile="include/analytics/jit_aggregation.h" bodystart="69" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1a488aca8857906a10f40d50934b3d13a8" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Config</scope><name>enable_jit</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1a8e34067c814ff1b6daed3c6a658d7598" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Config</scope><name>hot_threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1ae71d8d68793b87d235734ce10edb08c2" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Config</scope><name>max_cache_entries</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config_1aaadf5dbafd4eb9bbfe5b259438a5e305" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Config</scope><name>optimization_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

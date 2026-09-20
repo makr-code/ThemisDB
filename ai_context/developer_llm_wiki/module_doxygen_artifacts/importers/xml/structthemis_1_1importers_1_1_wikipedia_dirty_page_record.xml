@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_dirty_page_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaDirtyPageRecord</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1ad659d7dd87e2b552bb854e7a44e38e12" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaDirtyPageRecord::page_id</definition>
+        <argsstring></argsstring>
+        <name>page_id</name>
+        <qualifiedname>themis::importers::WikipediaDirtyPageRecord::page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="154" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1ada4c0ada01b01b62019950672c726e98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDirtyPageRecord::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::importers::WikipediaDirtyPageRecord::reason</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="155" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1a590b033d99ea639e123dbde1ae761867" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaDirtyPageRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaDirtyPageRecord::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="157" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dirty-page work queue entry for incremental projection refresh. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="153" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="153" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1ad659d7dd87e2b552bb854e7a44e38e12" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDirtyPageRecord</scope><name>page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1ada4c0ada01b01b62019950672c726e98" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDirtyPageRecord</scope><name>reason</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dirty_page_record_1a590b033d99ea639e123dbde1ae761867" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDirtyPageRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

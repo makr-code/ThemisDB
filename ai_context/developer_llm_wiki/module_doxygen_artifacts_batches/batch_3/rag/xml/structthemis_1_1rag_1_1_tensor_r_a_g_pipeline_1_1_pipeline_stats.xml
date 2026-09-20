@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TensorRAGPipeline::PipelineStats</compoundname>
+    <includes refid="tensor__rag__pipeline_8h" local="no">tensor_rag_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1affad5dae1cccd3a34481cd089b4c7c3c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::PipelineStats::total_token_steps</definition>
+        <argsstring></argsstring>
+        <name>total_token_steps</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::total_token_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total calls to <ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">step()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="407" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1ad6fe0c570b41723723ed974c818a6872" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::PipelineStats::flare_triggers</definition>
+        <argsstring></argsstring>
+        <name>flare_triggers</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::flare_triggers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times FLARE fired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="408" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1aaeb897a9c82e4f5e52ffe7bb6b79e126" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::PipelineStats::targ_triggers</definition>
+        <argsstring></argsstring>
+        <name>targ_triggers</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::targ_triggers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times TARG fired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="409" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a3012f126aee269b2b17f2d714b7ca048" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::PipelineStats::combined_triggers</definition>
+        <argsstring></argsstring>
+        <name>combined_triggers</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::combined_triggers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times both fired simultaneously. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="410" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a15e8b8e04f395236dfecc7784ba5d421" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRAGPipeline::PipelineStats::total_retrievals</definition>
+        <argsstring></argsstring>
+        <name>total_retrievals</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::total_retrievals</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times <ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a087701c9113a75ffadede58aac56c046" kindref="member">notifyRetrievalDone()</ref> called. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="411" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a8ef5cc602494ca258b25209e8434102d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::TensorRAGPipeline::PipelineStats::anyTriggerRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>anyTriggerRate</name>
+        <qualifiedname>themis::rag::TensorRAGPipeline::PipelineStats::anyTriggerRate</qualifiedname>
+        <briefdescription>
+<para>Fraction of tokens that triggered at least one gate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="414" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="414" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate statistics accumulated since construction or last <ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1abbbbdfe15943a70fb54b18797816c1bc" kindref="member">reset()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_pipeline.h" line="406" column="5" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="406" bodyend="421"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a8ef5cc602494ca258b25209e8434102d" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>anyTriggerRate</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a3012f126aee269b2b17f2d714b7ca048" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>combined_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1ad6fe0c570b41723723ed974c818a6872" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>flare_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1aaeb897a9c82e4f5e52ffe7bb6b79e126" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>targ_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1a15e8b8e04f395236dfecc7784ba5d421" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>total_retrievals</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1_1_pipeline_stats_1affad5dae1cccd3a34481cd089b4c7c3c" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipeline::PipelineStats</scope><name>total_token_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

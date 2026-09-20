@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_themis_d_b_engine_injection_test" kind="class" language="C++" prot="public">
+    <compoundname>ThemisDBEngineInjectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_themis_d_b_engine_injection_test_1a969369593f097ba68cf35c4bc5afbf9d" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::QueryEngine *</type>
+        <definition>static themis::QueryEngine * ThemisDBEngineInjectionTest::fake_qe</definition>
+        <argsstring>()</argsstring>
+        <name>fake_qe</name>
+        <qualifiedname>ThemisDBEngineInjectionTest::fake_qe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="1409" column="32" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="1409" bodyend="1411"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_d_b_engine_injection_test_1a15744ece4653605bb4f84939ed37eaee" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::VectorIndexManager *</type>
+        <definition>static themis::VectorIndexManager * ThemisDBEngineInjectionTest::fake_vi</definition>
+        <argsstring>()</argsstring>
+        <name>fake_vi</name>
+        <qualifiedname>ThemisDBEngineInjectionTest::fake_vi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="1412" column="39" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="1412" bodyend="1414"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_d_b_engine_injection_test_1a161a4dcbf1219fb0e2f690dc658832b4" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::GraphIndexManager *</type>
+        <definition>static themis::GraphIndexManager * ThemisDBEngineInjectionTest::fake_gi</definition>
+        <argsstring>()</argsstring>
+        <name>fake_gi</name>
+        <qualifiedname>ThemisDBEngineInjectionTest::fake_gi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="1415" column="38" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="1415" bodyend="1417"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThemisDBEngineInjectionTest</label>
+        <link refid="class_themis_d_b_engine_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThemisDBEngineInjectionTest</label>
+        <link refid="class_themis_d_b_engine_injection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/chimera/test_themisdb_adapter.cpp" line="1403" column="1" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="1403" bodyend="1418"/>
+    <listofallmembers>
+      <member refid="class_themis_d_b_engine_injection_test_1a161a4dcbf1219fb0e2f690dc658832b4" prot="protected" virt="non-virtual"><scope>ThemisDBEngineInjectionTest</scope><name>fake_gi</name></member>
+      <member refid="class_themis_d_b_engine_injection_test_1a969369593f097ba68cf35c4bc5afbf9d" prot="protected" virt="non-virtual"><scope>ThemisDBEngineInjectionTest</scope><name>fake_qe</name></member>
+      <member refid="class_themis_d_b_engine_injection_test_1a15744ece4653605bb4f84939ed37eaee" prot="protected" virt="non-virtual"><scope>ThemisDBEngineInjectionTest</scope><name>fake_vi</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

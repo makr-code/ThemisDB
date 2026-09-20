@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tenant_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TenantConfig</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a179ad63f6bf9d64be0c462d2de0eb5a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::TenantConfig::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="28" column="17" bodyfile="include/server/tenant_manager.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a5b337bb9bbbb7f29b0d7c8f8b07347ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantConfig::display_name</definition>
+        <argsstring></argsstring>
+        <name>display_name</name>
+        <qualifiedname>themis::TenantConfig::display_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="29" column="17" bodyfile="include/server/tenant_manager.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1aad5622fd5c9062b688eeaaf5f296fd2b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::TenantConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="30" column="10" bodyfile="include/server/tenant_manager.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a7c575d88561ab32fac84ac279a6c8b55" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::TenantConfig::custom_domains</definition>
+        <argsstring></argsstring>
+        <name>custom_domains</name>
+        <qualifiedname>themis::TenantConfig::custom_domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="35" column="17" bodyfile="include/server/tenant_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a12f5682936c5579ad5a039a76d3c23fd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TenantConfig::max_storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_storage_bytes</name>
+        <qualifiedname>themis::TenantConfig::max_storage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="38" column="14" bodyfile="include/server/tenant_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1aa33d0e19359fd1e5306f380053a05129" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TenantConfig::max_documents</definition>
+        <argsstring></argsstring>
+        <name>max_documents</name>
+        <qualifiedname>themis::TenantConfig::max_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="39" column="14" bodyfile="include/server/tenant_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a2407ddfb5d3a7a7a26027f98183d8de5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TenantConfig::max_collections</definition>
+        <argsstring></argsstring>
+        <name>max_collections</name>
+        <qualifiedname>themis::TenantConfig::max_collections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="40" column="14" bodyfile="include/server/tenant_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a9661b98f257ef910ab071e73405306e9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TenantConfig::max_concurrent_queries</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_queries</name>
+        <qualifiedname>themis::TenantConfig::max_concurrent_queries</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="41" column="14" bodyfile="include/server/tenant_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1adf14a22d1f7da0d8860c1160634d4632" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TenantConfig::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::TenantConfig::max_connections</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="42" column="14" bodyfile="include/server/tenant_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a41f195aaca7355d11319737be19b05fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TenantConfig::requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>requests_per_second</name>
+        <qualifiedname>themis::TenantConfig::requests_per_second</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="45" column="14" bodyfile="include/server/tenant_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a65f4852d823881d1c37db8e2d2790bf9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::TenantConfig::burst_size</definition>
+        <argsstring></argsstring>
+        <name>burst_size</name>
+        <qualifiedname>themis::TenantConfig::burst_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="46" column="14" bodyfile="include/server/tenant_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a7b9cdaadc8fda334ad7672eb74f9c45d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_gpu_acceleration</definition>
+        <argsstring></argsstring>
+        <name>allow_gpu_acceleration</name>
+        <qualifiedname>themis::TenantConfig::allow_gpu_acceleration</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="49" column="10" bodyfile="include/server/tenant_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a115cd1450fb5988708d847857675f9d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_vector_search</definition>
+        <argsstring></argsstring>
+        <name>allow_vector_search</name>
+        <qualifiedname>themis::TenantConfig::allow_vector_search</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="50" column="10" bodyfile="include/server/tenant_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a24b28c2cd277dea58a7a81a16ba7d1e6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_graph_queries</definition>
+        <argsstring></argsstring>
+        <name>allow_graph_queries</name>
+        <qualifiedname>themis::TenantConfig::allow_graph_queries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="51" column="10" bodyfile="include/server/tenant_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1af388451083e4a64a1b454666d8759532" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_timeseries</definition>
+        <argsstring></argsstring>
+        <name>allow_timeseries</name>
+        <qualifiedname>themis::TenantConfig::allow_timeseries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="52" column="10" bodyfile="include/server/tenant_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1ae87b7208ee38bc75cb28d286456d55b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_geo_queries</definition>
+        <argsstring></argsstring>
+        <name>allow_geo_queries</name>
+        <qualifiedname>themis::TenantConfig::allow_geo_queries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="53" column="10" bodyfile="include/server/tenant_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a2ecc13bec4ef7ab04dd2a94b8865d676" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::allow_full_text_search</definition>
+        <argsstring></argsstring>
+        <name>allow_full_text_search</name>
+        <qualifiedname>themis::TenantConfig::allow_full_text_search</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="54" column="10" bodyfile="include/server/tenant_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a5644a52e9ea3859731a0226bd5b23bed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantConfig::encryption_key_id</definition>
+        <argsstring></argsstring>
+        <name>encryption_key_id</name>
+        <qualifiedname>themis::TenantConfig::encryption_key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="57" column="17" bodyfile="include/server/tenant_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a3cb783396eba4a535c07652177e9929e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantConfig::require_encryption</definition>
+        <argsstring></argsstring>
+        <name>require_encryption</name>
+        <qualifiedname>themis::TenantConfig::require_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="58" column="10" bodyfile="include/server/tenant_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a381463736c7d1d8ca43428fefafe3c3d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantConfig::custom_domain</definition>
+        <argsstring></argsstring>
+        <name>custom_domain</name>
+        <qualifiedname>themis::TenantConfig::custom_domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="65" column="17" bodyfile="include/server/tenant_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1ae9ce234de329c460d577c7a1595db879" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TenantConfig::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::TenantConfig::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="68" column="43" bodyfile="include/server/tenant_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1aca18b5c161372fdc239cad109055f33f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TenantConfig::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::TenantConfig::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="69" column="43" bodyfile="include/server/tenant_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_config_1a28b9a4b8db7613ed55d0d8d79697e352" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::TenantConfig::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::TenantConfig::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="70" column="24" bodyfile="include/server/tenant_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="27" column="1" bodyfile="include/server/tenant_manager.h" bodystart="27" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tenant_config_1a2ecc13bec4ef7ab04dd2a94b8865d676" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_full_text_search</name></member>
+      <member refid="structthemis_1_1_tenant_config_1ae87b7208ee38bc75cb28d286456d55b1" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_geo_queries</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a7b9cdaadc8fda334ad7672eb74f9c45d" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_gpu_acceleration</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a24b28c2cd277dea58a7a81a16ba7d1e6" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_graph_queries</name></member>
+      <member refid="structthemis_1_1_tenant_config_1af388451083e4a64a1b454666d8759532" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_timeseries</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a115cd1450fb5988708d847857675f9d7" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>allow_vector_search</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a65f4852d823881d1c37db8e2d2790bf9" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>burst_size</name></member>
+      <member refid="structthemis_1_1_tenant_config_1ae9ce234de329c460d577c7a1595db879" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a381463736c7d1d8ca43428fefafe3c3d" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>custom_domain</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a7c575d88561ab32fac84ac279a6c8b55" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>custom_domains</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a5b337bb9bbbb7f29b0d7c8f8b07347ac" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>display_name</name></member>
+      <member refid="structthemis_1_1_tenant_config_1aad5622fd5c9062b688eeaaf5f296fd2b" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a5644a52e9ea3859731a0226bd5b23bed" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>encryption_key_id</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a2407ddfb5d3a7a7a26027f98183d8de5" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>max_collections</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a9661b98f257ef910ab071e73405306e9" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>max_concurrent_queries</name></member>
+      <member refid="structthemis_1_1_tenant_config_1adf14a22d1f7da0d8860c1160634d4632" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1_tenant_config_1aa33d0e19359fd1e5306f380053a05129" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>max_documents</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a12f5682936c5579ad5a039a76d3c23fd" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>max_storage_bytes</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a28b9a4b8db7613ed55d0d8d79697e352" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a41f195aaca7355d11319737be19b05fe" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>requests_per_second</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a3cb783396eba4a535c07652177e9929e" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>require_encryption</name></member>
+      <member refid="structthemis_1_1_tenant_config_1a179ad63f6bf9d64be0c462d2de0eb5a6" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_tenant_config_1aca18b5c161372fdc239cad109055f33f" prot="public" virt="non-virtual"><scope>themis::TenantConfig</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

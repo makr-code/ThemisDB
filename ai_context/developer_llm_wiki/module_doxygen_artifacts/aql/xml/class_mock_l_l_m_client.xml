@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_l_l_m_client" kind="class" language="C++" prot="public">
+    <compoundname>MockLLMClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">LLMClient</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_l_l_m_client_1a15cde0b41c845b8d2b97ec8f4755ed58" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockLLMClient::provider_name_</definition>
+        <argsstring></argsstring>
+        <name>provider_name_</name>
+        <qualifiedname>MockLLMClient::provider_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="107" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_l_l_m_client_1a2113ca891c578e201327a860bf39a909" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockLLMClient::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>MockLLMClient::call_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="108" column="9" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_l_l_m_client_1a3a8f6c91b25565763b83ecd6c690def9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockLLMClient::should_fail_</definition>
+        <argsstring></argsstring>
+        <name>should_fail_</name>
+        <qualifiedname>MockLLMClient::should_fail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="109" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_l_l_m_client_1aa6e04086d134fd17e4a4313b99cce982" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockLLMClient::failure_reason_</definition>
+        <argsstring></argsstring>
+        <name>failure_reason_</name>
+        <qualifiedname>MockLLMClient::failure_reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="110" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_l_l_m_client_1ad7da08b21e5c60777ef06804f1c4132e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockLLMClient::MockLLMClient</definition>
+        <argsstring>(const std::string &amp;provider_name=&quot;mock-llm-provider&quot;)</argsstring>
+        <name>MockLLMClient</name>
+        <qualifiedname>MockLLMClient::MockLLMClient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>provider_name</declname>
+          <defval>&quot;mock-llm-provider&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="37" column="14" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1a3d81786cf11f3ef82add8b4ac333f1e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GenerationResult</type>
+        <definition>GenerationResult MockLLMClient::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const GenerationOptions &amp;options) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>MockLLMClient::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const GenerationOptions &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="41" column="22" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="41" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1ac234c7f6b9c226cded4d786980c89c66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GenerationResult</type>
+        <definition>GenerationResult MockLLMClient::generateAQL</definition>
+        <argsstring>(const std::string &amp;nl_query, const std::string &amp;schema_context, const GenerationOptions &amp;options) override</argsstring>
+        <name>generateAQL</name>
+        <qualifiedname>MockLLMClient::generateAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+        </param>
+        <param>
+          <type>const GenerationOptions &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="60" column="22" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="60" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1a1d0d69edfbea45d04ab65d0dc09ff3e9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockLLMClient::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>MockLLMClient::estimateTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="88" column="12" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1aaab9064dffd6cbca0e2bd6b6514acb32" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockLLMClient::getProviderName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getProviderName</name>
+        <qualifiedname>MockLLMClient::getProviderName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="92" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1ae5562a2344da28060171c62a15483e19" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockLLMClient::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>MockLLMClient::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="94" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1aa830e344ae069efcb6f1ba5b09baa99c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockLLMClient::setFailure</definition>
+        <argsstring>(bool should_fail, const std::string &amp;reason=&quot;mock failure&quot;)</argsstring>
+        <name>setFailure</name>
+        <qualifiedname>MockLLMClient::setFailure</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>should_fail</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;mock failure&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="97" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1a93088148374cea9ca53439a9bd37fa56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockLLMClient::getCallCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCallCount</name>
+        <qualifiedname>MockLLMClient::getCallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="102" column="9" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_l_l_m_client_1abc7267b3d84123f4c4a9acc1897e7821" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockLLMClient::resetCallCount</definition>
+        <argsstring>()</argsstring>
+        <name>resetCallCount</name>
+        <qualifiedname>MockLLMClient::resetCallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="104" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>LLMClient</label>
+      </node>
+      <node id="1">
+        <label>MockLLMClient</label>
+        <link refid="class_mock_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>LLMClient</label>
+      </node>
+      <node id="1">
+        <label>MockLLMClient</label>
+        <link refid="class_mock_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="35" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="35" bodyend="111"/>
+    <listofallmembers>
+      <member refid="class_mock_l_l_m_client_1a2113ca891c578e201327a860bf39a909" prot="private" virt="non-virtual"><scope>MockLLMClient</scope><name>call_count_</name></member>
+      <member refid="class_mock_l_l_m_client_1a1d0d69edfbea45d04ab65d0dc09ff3e9" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>estimateTokens</name></member>
+      <member refid="class_mock_l_l_m_client_1aa6e04086d134fd17e4a4313b99cce982" prot="private" virt="non-virtual"><scope>MockLLMClient</scope><name>failure_reason_</name></member>
+      <member refid="class_mock_l_l_m_client_1a3d81786cf11f3ef82add8b4ac333f1e2" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>generate</name></member>
+      <member refid="class_mock_l_l_m_client_1ac234c7f6b9c226cded4d786980c89c66" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>generateAQL</name></member>
+      <member refid="class_mock_l_l_m_client_1a93088148374cea9ca53439a9bd37fa56" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>getCallCount</name></member>
+      <member refid="class_mock_l_l_m_client_1aaab9064dffd6cbca0e2bd6b6514acb32" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>getProviderName</name></member>
+      <member refid="class_mock_l_l_m_client_1ae5562a2344da28060171c62a15483e19" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>isReady</name></member>
+      <member refid="class_mock_l_l_m_client_1ad7da08b21e5c60777ef06804f1c4132e" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>MockLLMClient</name></member>
+      <member refid="class_mock_l_l_m_client_1a15cde0b41c845b8d2b97ec8f4755ed58" prot="private" virt="non-virtual"><scope>MockLLMClient</scope><name>provider_name_</name></member>
+      <member refid="class_mock_l_l_m_client_1abc7267b3d84123f4c4a9acc1897e7821" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>resetCallCount</name></member>
+      <member refid="class_mock_l_l_m_client_1aa830e344ae069efcb6f1ba5b09baa99c" prot="public" virt="non-virtual"><scope>MockLLMClient</scope><name>setFailure</name></member>
+      <member refid="class_mock_l_l_m_client_1a3a8f6c91b25565763b83ecd6c690def9" prot="private" virt="non-virtual"><scope>MockLLMClient</scope><name>should_fail_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

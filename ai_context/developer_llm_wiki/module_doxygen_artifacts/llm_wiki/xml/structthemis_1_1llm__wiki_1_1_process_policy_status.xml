@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_process_policy_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::ProcessPolicyStatus</compoundname>
+    <includes refid="process__policy__manager_8h" local="no">process_policy_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Code</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::Code</qualifiedname>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" prot="public">
+          <name>Ok</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093abb149a06efb0aa1a2ea6711f20c82bbe" prot="public">
+          <name>InvalidFile</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093ae41199faa7290c167f70f314c5e6c165" prot="public">
+          <name>ParseError</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093a8180c46099f957f51b2bc31f7f0f5c42" prot="public">
+          <name>ValidationError</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="26" column="5" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" kindref="member">Code</ref></type>
+        <definition>Code themis::llm_wiki::ProcessPolicyStatus::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::code</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="33" column="10" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a41bf92a4e174e0f35fb6d63d86b100d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::ProcessPolicyStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="34" column="17" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1ab5bd8307012c92d9075405275f517597" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::ProcessPolicyStatus::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="36" column="11" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>static ProcessPolicyStatus themis::llm_wiki::ProcessPolicyStatus::Ok</definition>
+        <argsstring>()</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::Ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="38" column="33" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>static ProcessPolicyStatus themis::llm_wiki::ProcessPolicyStatus::InvalidFile</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>InvalidFile</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::InvalidFile</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="42" column="33" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>static ProcessPolicyStatus themis::llm_wiki::ProcessPolicyStatus::ParseError</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>ParseError</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::ParseError</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="46" column="33" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>static ProcessPolicyStatus themis::llm_wiki::ProcessPolicyStatus::ValidationError</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>ValidationError</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyStatus::ValidationError</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="50" column="33" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="50" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Status for process policy loading and validation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/process_policy_manager.h" line="25" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="25" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>Code</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>code</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>InvalidFile</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a41bf92a4e174e0f35fb6d63d86b100d9" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1ab5bd8307012c92d9075405275f517597" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>ok</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>ParseError</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyStatus</scope><name>ValidationError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

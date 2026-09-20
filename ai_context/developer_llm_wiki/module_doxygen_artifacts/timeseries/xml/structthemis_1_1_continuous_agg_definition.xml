@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_continuous_agg_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ContinuousAggDefinition</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_definition_1a63f8eb7fed90b39c46692d5f84b4c49f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContinuousAggDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ContinuousAggDefinition::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable aggregate name (must be unique). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="284" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_definition_1a0ba2b22fc4e47e3e9ed5dde784ae4555" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref></type>
+        <definition>AggConfig themis::ContinuousAggDefinition::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::ContinuousAggDefinition::config</qualifiedname>
+        <briefdescription>
+<para>Metric, entity, and window configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="285" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_definition_1a24d08d81b0ed480068eec6c3da8d79d4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ContinuousAggDefinition::auto_refresh</definition>
+        <argsstring></argsstring>
+        <name>auto_refresh</name>
+        <qualifiedname>themis::ContinuousAggDefinition::auto_refresh</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Include in refreshAll() calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="286" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_definition_1a528f53d85b2a6947ec2da228e71963f7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3" kindref="member">ContinuousAggStatus</ref></type>
+        <definition>ContinuousAggStatus themis::ContinuousAggDefinition::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::ContinuousAggDefinition::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3a18ff74f43da410c5529f7d6fca84f115" kindref="member">ContinuousAggStatus::ACTIVE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="287" column="25" bodyfile="include/timeseries/continuous_agg.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_definition_1ad13e575561cb564fc9d3c2f108bf2bcc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContinuousAggDefinition::agg_id</definition>
+        <argsstring></argsstring>
+        <name>agg_id</name>
+        <qualifiedname>themis::ContinuousAggDefinition::agg_id</qualifiedname>
+        <briefdescription>
+<para>Watermark key = name + &quot;::&quot; + derived_metric_name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="290" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Named continuous aggregate definition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Analogous to TimescaleDB&apos;s: CREATE MATERIALIZED VIEW &lt;name&gt; WITH (timescaledb.continuous) AS SELECT time_bucket(&lt;window&gt;, time_col) bucket, min(val) AS min, max(val) AS max, avg(val) AS avg, sum(val) AS sum, count(*) AS count FROM &lt;source_metric&gt; GROUP BY bucket;</para>
+<para>The derived metric is stored in <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> under the name produced by <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName</ref>(config.metric, config.window.size). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::AggConfig</label>
+        <link refid="structthemis_1_1_agg_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>window</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::AggWindow</label>
+        <link refid="structthemis_1_1_agg_window"/>
+      </node>
+      <node id="1">
+        <label>themis::ContinuousAggDefinition</label>
+        <link refid="structthemis_1_1_continuous_agg_definition"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/continuous_agg.h" line="283" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="283" bodyend="291"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_continuous_agg_definition_1ad13e575561cb564fc9d3c2f108bf2bcc" prot="public" virt="non-virtual"><scope>themis::ContinuousAggDefinition</scope><name>agg_id</name></member>
+      <member refid="structthemis_1_1_continuous_agg_definition_1a24d08d81b0ed480068eec6c3da8d79d4" prot="public" virt="non-virtual"><scope>themis::ContinuousAggDefinition</scope><name>auto_refresh</name></member>
+      <member refid="structthemis_1_1_continuous_agg_definition_1a0ba2b22fc4e47e3e9ed5dde784ae4555" prot="public" virt="non-virtual"><scope>themis::ContinuousAggDefinition</scope><name>config</name></member>
+      <member refid="structthemis_1_1_continuous_agg_definition_1a63f8eb7fed90b39c46692d5f84b4c49f" prot="public" virt="non-virtual"><scope>themis::ContinuousAggDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1_continuous_agg_definition_1a528f53d85b2a6947ec2da228e71963f7" prot="public" virt="non-virtual"><scope>themis::ContinuousAggDefinition</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

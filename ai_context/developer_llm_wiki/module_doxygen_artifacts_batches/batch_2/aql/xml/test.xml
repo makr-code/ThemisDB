@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, EmbeddingFailed_FallbackToKeywords)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>T4.4.1a: EmbeddingFailed Fallback to Non-Embedding Path </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a99e1c38a3ae686e21669b1f93407c8ec" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, BridgeTimeout_RetryOnce)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>T4.4.1b: TimeoutExceeded in Bridge Operation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a49932429d3f27b39de4165e14b603ac6" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, ResourceExhausted_ReduceBatchSize)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>T4.4.1c: ResourceExhausted and Batch Size Reduction </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a6c5f026becf9121b1a82a7c09bc8a782" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, ContextBoundExceeded_HistoryTruncation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>T4.4.1d: ContextBoundExceeded and History Truncation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a7fe560649f99445dedbe19980c6fe945" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, MultipleErrors_Precedence)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>T4.4.1e: Multiple Errors and Error Precedence </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ac4ebb1b1646e0c25e8139c7fa1405be9" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, ErrorContext_PreservationAcrossFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>T4.4.1f: Error Context Preservation Across Fallback </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ab27e43727bee9268b71f4b5977e73980" kindref="member">themis::aql::testing::TEST</ref>  (AQLBridgeDegradation, ConversationContext_MultipleEvictions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>T4.4.1g: ConversationContext Multiple Evictions </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1aa1f9d5c1d61fae3cab02e5ea61993e77" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, FailureThresholdTriggersOpen)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>CircuitBreakerPolicy_FailureThresholdTriggersOpen </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a407c5266a573d64b2e4db3e5d490152e" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, SuccessTransitionsFromHalfOpenToClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>CircuitBreakerPolicy_SuccessTransitionsFromHalfOpenToClosed </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a245efcd1c0a9d647e363ee84a7625464" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, TimeoutTransitionsFromHalfOpenToOpen)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>CircuitBreakerPolicy_TimeoutTransitionsFromHalfOpenToOpen </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a1c443510f07c5505fa6b40720a8b0a95" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, PerOperationTypeIsolation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>CircuitBreakerPolicy_PerOperationTypeIsolation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a093011f164f46deb67b8663d46f901d6" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, HalfOpenAllowsLimitedRequests)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>CircuitBreakerPolicy_HalfOpenAllowsLimitedRequests </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1aa1e22e74135c85d73df2f888d7c4ebf5" kindref="member">themis::aql::testing::TEST</ref>  (CircuitBreakerPolicy, ExplicitResetBehavior)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>CircuitBreakerPolicy_ExplicitResetBehavior </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a321c5bce9f092092abca787a70884d14" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, ParallelContextAccessIsSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>ConversationConcurrency_ParallelContextAccessIsSafe </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1abc6963214e91c6a7d70a18644938e59c" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, ConcurrentCircuitBreakerTransitions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>ConversationConcurrency_ConcurrentCircuitBreakerTransitions </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a12b99e177c04008ae2ad2375f4bf413c" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, TokenBudgetExhaustionRaceCondition)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>ConversationConcurrency_TokenBudgetExhaustionRaceCondition </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ac0800dbce1b5fdbcd348a990a55243f7" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, ConcurrentContextEviction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>ConversationConcurrency_ConcurrentContextEviction </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1aff082248f3f7a215734ebb86b488effc" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>ConversationConcurrency_HistoryConsistencyUnderInterleavedAccess </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ae84070a542fb17f203de4cd10f4a21ac" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, NoDeadlockInLockOrdering)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>ConversationConcurrency_NoDeadlockInLockOrdering </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a3080d7a5f59d5518666ff1404c0bec54" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, ConcurrentValidationPipelineCalls)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>ConversationConcurrency_ConcurrentValidationPipelineCalls </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1aa54a6f769956afcc04eda19afa4b7d47" kindref="member">themis::aql::testing::TEST</ref>  (ConversationConcurrency, StressTestConcurrentTurns)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>ConversationConcurrency_StressTestConcurrentTurns </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a694906530c39cf189f19991cf964caf1" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, InferProviderUnavailableReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>ProviderDegradation_InferProviderUnavailableReturnsError </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a81b55159677556aeada0e91c201d0fd4" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, RAGProviderTimeoutFallsBack)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>ProviderDegradation_RAGProviderTimeoutFallsBack </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a0929965a8104a1826ba100e6ed6eab43" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, EmbedProviderFailureDegrades)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>ProviderDegradation_EmbedProviderFailureDegrades </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a8c3affd1a67d757947d938e85cfbb920" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, MultipleProvidersUnavailableErrorPriority)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>ProviderDegradation_MultipleProvidersUnavailableErrorPriority </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ac37dcfc9fa03a9bfb61a7f73bfd7d774" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, ProviderRecoveryHandledCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>ProviderDegradation_ProviderRecoveryHandledCorrectly </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1af527b07ba6fd6faf947abbc9c2594248" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, CircuitBreakerActivatesUnderSustainedFailures)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>ProviderDegradation_CircuitBreakerActivatesUnderSustainedFailures </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a5b030f0fd5318e01a8759bfccb149e5e" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, FewShotFallbackToTemplateLibrary)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>ProviderDegradation_FewShotFallbackToTemplateLibrary </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a62babe1f4e4ffcf0f4545421e9aa7ad9" kindref="member">themis::aql::testing::TEST</ref>  (ProviderDegradation, DiagnosticAccuracyUserFacingMessages)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>ProviderDegradation_DiagnosticAccuracyUserFacingMessages </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a53c25867f49ed45302c0da7bd34977d2" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, NullSchemaContextIsRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>SchemaEdgeCases_NullSchemaContextIsRejected </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a6f87e98e10bbcceeb069cfcaddc4df1b" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, EmptySchemaContextHandledGracefully)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>SchemaEdgeCases_EmptySchemaContextHandledGracefully </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a9911448aa7ae648cdade3bbc67902a3e" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, MissingCollectionMetadataReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>SchemaEdgeCases_MissingCollectionMetadataReturnsError </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a82787b366ac362b17f46ccd4d1c1c7ca" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, TypeMismatchInFieldDefinitionDetected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>SchemaEdgeCases_TypeMismatchInFieldDefinitionDetected </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a3944c4d7f2f9c98b6a149bbba32f3e34" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, LargeSchemaHandledEfficiently)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>SchemaEdgeCases_LargeSchemaHandledEfficiently </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a7bdd20f6e15e343c206de8e2134eb058" kindref="member">themis::aql::testing::TEST</ref>  (AQLSchemaEdgeCases, ErrorContextContainsDiagnosticHint)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>SchemaEdgeCases_ErrorContextContainsDiagnosticHint </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a38f89bf82d23ad67fc1658eda024bc9d" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, BudgetExactlyExhaustedBoundaryCondition)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>TokenPolicy_BudgetExactlyExhaustedBoundaryCondition </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a0e0606a6fce13250efc4a63ab73c40bc" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, SingleTurnExceedingBudgetErrors)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>TokenPolicy_SingleTurnExceedingBudgetErrors </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a085bf764145d0c1fd7ebed7a7090cb04" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, HistoryTruncatedOldestFirst)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>TokenPolicy_HistoryTruncatedOldestFirst </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a83eb858a0ccd771b7073592aea0b452e" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, MaxTurnsLimitEnforced)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>TokenPolicy_MaxTurnsLimitEnforced </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a23ca57aa9cdf1d6e809be3ebca4d0564" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, TokenCountingAccuracy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>TokenPolicy_TokenCountingAccuracy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1aea9ef9a80d1eef5c76aa31d254c624ee" kindref="member">themis::aql::testing::TEST</ref>  (TokenPolicy, PolicyBehaviorAtBoundary)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>TokenPolicy_PolicyBehaviorAtBoundary </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a72462fe36e9e5163774be13ccee5d992" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, GenerationFailed_RetrySucceeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>T4.3.1a: GenerationFailed with Retry (Success on 2nd Attempt) </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a9d8e50a44a62b063165b87a892f0202a" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, GenerationFailed_RetryExhausted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>T4.3.1b: GenerationFailed Retry Exhaustion (3 Failures) </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ac5ae1d1b378d8d9e42528c81a539ed41" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, TimeoutExceeded_ExponentialBackoff)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>T4.3.1c: TimeoutExceeded with Exponential Backoff </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a810871a6ff935d03a772ed099fac2132" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, InvalidResponse_RetryWithFeedback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>T4.3.1d: InvalidResponse Retry with Error Feedback in Prompt </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a7dcd208a1edd0df31e28e61eac8c1892" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, ContextOverflow_GracefulDegradation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>T4.3.1e: ContextOverflow Graceful Degradation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a7d1bc1dd9682ea85f7862b996e045daa" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, CircuitBreakerOpen_FastFail)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>T4.3.1f: CircuitBreakerOpen Fast-Fail </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1afc89a96a7cec68890fcc2e48cdfb87fe" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, ProviderUnavailable_Detection)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>T4.3.1g: ProviderUnavailable Detection </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ae895ee4d2dde7a3526fdad86d9e9dfca" kindref="member">themis::aql::testing::TEST</ref>  (AQLTranslationRecovery, Backoff_TimingAccuracy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>T4.3.1h: Retry Backoff Timing Accuracy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a062941f9d884252520b95d7960af8783" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, MalformedAQL_SyntaxError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>T4.2.1a: MalformedAQL Detection </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a01a1b46fd0812e32e357635220282cb0" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, InjectionAttempt_SQLInjection)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>T4.2.1b: InjectionAttempt Detection </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a86b4724a9ea7b70d137a521abf73c41a" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, SchemaMismatch_FieldNotFound)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>T4.2.1c: SchemaMismatch Diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a0b5f99d43e26ad5559239f758aa10183" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, TypeMismatch_StringComparison)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>T4.2.1d: TypeMismatch Detection </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a9315ac7a8aad9d619aa8c97835984440" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, UnsupportedOperator_RegexMatch)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>T4.2.1e: UnsupportedOperator Handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1a57be08e488a41b1c48cb6988514cb2d4" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, NullSchemaContext_MissingSchema)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>T4.2.1f: NullSchemaContext Handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1ac3bda57d128c9ee2ca3b6883ffe3c74b" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, MissingFieldMetadata_IncompleteType)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>T4.2.1g: MissingFieldMetadata Handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1aql_1_1testing_1afc7405a13b7cf4ce48b9eb5ffc7a83bf" kindref="member">themis::aql::testing::TEST</ref>  (AQLValidationErrorHandling, ErrorContextFormatting_CompleteContext)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>T4.2.1h: Error Context Formatting and Diagnostics</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

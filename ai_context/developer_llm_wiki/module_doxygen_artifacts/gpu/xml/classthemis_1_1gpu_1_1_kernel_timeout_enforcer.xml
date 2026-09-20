@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelTimeoutEnforcer</compoundname>
+    <includes refid="kernel__timeout__enforcer_8h" local="no">kernel_timeout_enforcer.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" prot="public">themis::gpu::KernelTimeoutEnforcer::KernelConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a637087796e4d399b55fc70000cad23da" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutEnforcer::kernel_timed_out_</definition>
+        <argsstring></argsstring>
+        <name>kernel_timed_out_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::kernel_timed_out_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="76" column="10" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a6d7836b6c2fdcf96c353446625042686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelTimeoutEnforcer::KernelTimeoutEnforcer</definition>
+        <argsstring>()=default</argsstring>
+        <name>KernelTimeoutEnforcer</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::KernelTimeoutEnforcer</qualifiedname>
+        <briefdescription>
+<para>Construct enforcer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a7f152ccb12638ede3f60944e25aa3178" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutEnforcer::executeWithTimeout</definition>
+        <argsstring>(const std::function&lt; void()&gt; &amp;kernel_lambda, const KernelConfig &amp;config)</argsstring>
+        <name>executeWithTimeout</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::executeWithTimeout</qualifiedname>
+        <param>
+          <type>const std::function&lt; void()&gt; &amp;</type>
+          <declname>kernel_lambda</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute kernel with timeout protection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kernel_lambda</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function containing kernel launch code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kernel configuration and timeout settings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if kernel completed within timeout; false if timed out </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid input or backend synchronization errors </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="56" column="11" bodyfile="src/gpu/kernel_timeout_enforcer.cpp" bodystart="14" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a4ede5531c8fcbf1cf7d5392bf515c0ad" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutEnforcer::executeWithFallback</definition>
+        <argsstring>(const std::function&lt; void()&gt; &amp;gpu_kernel, const std::function&lt; void()&gt; &amp;cpu_kernel, const KernelConfig &amp;config)</argsstring>
+        <name>executeWithFallback</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::executeWithFallback</qualifiedname>
+        <param>
+          <type>const std::function&lt; void()&gt; &amp;</type>
+          <declname>gpu_kernel</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; void()&gt; &amp;</type>
+          <declname>cpu_kernel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute kernel with CPU fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gpu_kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU kernel function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cpu_kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CPU fallback function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kernel configuration GPU exceptions trigger CPU fallback when enabled; otherwise they are rethrown to the caller.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if GPU kernel completed; false if execution degraded to CPU </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="69" column="11" bodyfile="src/gpu/kernel_timeout_enforcer.cpp" bodystart="27" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1aa0f4627ff9edbf422d80a04b4d9b38cd" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutEnforcer::waitForCompletion</definition>
+        <argsstring>(cudaStream_t stream, uint32_t timeout_ms, std::chrono::steady_clock::time_point start_time)</argsstring>
+        <name>waitForCompletion</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::waitForCompletion</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>start_time</declname>
+        </param>
+        <briefdescription>
+<para>Wait For Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="gpu__safe__operations_8h_1a7e4f1241fc60f826093cb16e172a26cd" kindref="member">cudaStreamQuery()</ref>, <ref refid="namespacethemis_1_1gpu_1_1detail_1a9becad7726c8e0c0e49502d9b6cc2b9d" kindref="member">detail::throwCudaError()</ref>, <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>, std::chrono::steady_clock::now(), count(), <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, <ref refid="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" kindref="member">cudaStreamSynchronize()</ref>, std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="78" column="11" bodyfile="src/gpu/kernel_timeout_enforcer.cpp" bodystart="55" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enforce timeout limits on GPU kernel execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/kernel_timeout_enforcer.h" line="39" column="1" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="39" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a4ede5531c8fcbf1cf7d5392bf515c0ad" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer</scope><name>executeWithFallback</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a7f152ccb12638ede3f60944e25aa3178" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer</scope><name>executeWithTimeout</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a637087796e4d399b55fc70000cad23da" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer</scope><name>kernel_timed_out_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a6d7836b6c2fdcf96c353446625042686" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer</scope><name>KernelTimeoutEnforcer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1aa0f4627ff9edbf422d80a04b4d9b38cd" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer</scope><name>waitForCompletion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

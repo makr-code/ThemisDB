@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedTransaction</compoundname>
+    <includes refid="distributed__transaction_8h" local="no">distributed_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a92a199f7d7a7f8f72d2635d90b5b32b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransaction::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Unique transaction ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="70" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1acb317dc1452081cfa214d52b8bd654e6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState themis::sharding::DistributedTransaction::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::state</qualifiedname>
+        <briefdescription>
+<para>Current lifecycle state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="71" column="22" bodyfile="include/sharding/distributed_transaction.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a700502cabc42d9c65458a00201c259f3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref></type>
+        <definition>DistributedIsolationLevel themis::sharding::DistributedTransaction::isolation_level</definition>
+        <argsstring></argsstring>
+        <name>isolation_level</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::isolation_level</qualifiedname>
+        <briefdescription>
+<para>Isolation level selected for transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="72" column="31" bodyfile="include/sharding/distributed_transaction.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1af9e8baefdfb6fcee5ca41e22a949793c" prot="public" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::DistributedTransaction::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::start_time</qualifiedname>
+        <briefdescription>
+<para>Transaction start timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="73" column="30" bodyfile="include/sharding/distributed_transaction.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a2b1e8c3853b0a09b1f2cd33f0af0968c" prot="public" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::DistributedTransaction::commit_time</definition>
+        <argsstring></argsstring>
+        <name>commit_time</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::commit_time</qualifiedname>
+        <briefdescription>
+<para>Assigned commit timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="74" column="30" bodyfile="include/sharding/distributed_transaction.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a30d012dba424fa96a30fb71323bc2cef" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_transaction_participant" kindref="compound">TransactionParticipant</ref> &gt;</type>
+        <definition>std::vector&lt;TransactionParticipant&gt; themis::sharding::DistributedTransaction::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::participants</qualifiedname>
+        <briefdescription>
+<para>Participating shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="75" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a219df32f29614cfad02f475025dbc926" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedTransaction::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::operations</qualifiedname>
+        <briefdescription>
+<para>Grouped operations per shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="76" column="20" bodyfile="include/sharding/distributed_transaction.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a11c94294780ace340e79e7f6ccda55b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedTransaction::commit_retry_count</definition>
+        <argsstring></argsstring>
+        <name>commit_retry_count</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::commit_retry_count</qualifiedname>
+        <briefdescription>
+<para>Number of commit retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="77" column="14" bodyfile="include/sharding/distributed_transaction.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_transaction_1a5871db66431663850e65e9bb9717cdd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransaction::error_detail</definition>
+        <argsstring></argsstring>
+        <name>error_detail</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::error_detail</qualifiedname>
+        <briefdescription>
+<para>Extended error detail for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="78" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_transaction_1ad5e276866b83239b1a8f4942ba131e2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedTransaction::DistributedTransaction</definition>
+        <argsstring>()</argsstring>
+        <name>DistributedTransaction</name>
+        <qualifiedname>themis::sharding::DistributedTransaction::DistributedTransaction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="80" column="5" bodyfile="include/sharding/distributed_transaction.h" bodystart="80" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed transaction metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_transaction.h" line="69" column="1" bodyfile="include/sharding/distributed_transaction.h" bodystart="69" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a11c94294780ace340e79e7f6ccda55b3" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>commit_retry_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a2b1e8c3853b0a09b1f2cd33f0af0968c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>commit_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1ad5e276866b83239b1a8f4942ba131e2b" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>DistributedTransaction</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a5871db66431663850e65e9bb9717cdd2" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>error_detail</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a700502cabc42d9c65458a00201c259f3" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>isolation_level</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a219df32f29614cfad02f475025dbc926" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>operations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a30d012dba424fa96a30fb71323bc2cef" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>participants</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1af9e8baefdfb6fcee5ca41e22a949793c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1acb317dc1452081cfa214d52b8bd654e6" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>state</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_transaction_1a92a199f7d7a7f8f72d2635d90b5b32b5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransaction</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTensorBuffer::Stats</compoundname>
+    <includes refid="tensor__buffer_8h" local="no">tensor_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1abe2ac28c53c797bfdc33146129c4f386" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::Stats::total_buffers_created</definition>
+        <argsstring></argsstring>
+        <name>total_buffers_created</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Stats::total_buffers_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="89" column="18" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1aeda5ea555721f425947b762f423b2aaf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::Stats::total_buffers_freed</definition>
+        <argsstring></argsstring>
+        <name>total_buffers_freed</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Stats::total_buffers_freed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="90" column="18" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1a71575e68e702453d80bf45b3c19c9dd8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::Stats::total_views_created</definition>
+        <argsstring></argsstring>
+        <name>total_views_created</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Stats::total_views_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="91" column="18" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1abf59c18df609cfc58a9316104859c065" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUTensorBuffer::Stats::peak_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Stats::peak_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="92" column="18" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1a60b7853de4753126da6084c5d9491ac9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUTensorBuffer::Stats::current_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_bytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Stats::current_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="93" column="18" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/tensor_buffer.h" line="88" column="5" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="88" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1a60b7853de4753126da6084c5d9491ac9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Stats</scope><name>current_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1abf59c18df609cfc58a9316104859c065" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Stats</scope><name>peak_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1abe2ac28c53c797bfdc33146129c4f386" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Stats</scope><name>total_buffers_created</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1aeda5ea555721f425947b762f423b2aaf" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Stats</scope><name>total_buffers_freed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats_1a71575e68e702453d80bf45b3c19c9dd8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Stats</scope><name>total_views_created</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

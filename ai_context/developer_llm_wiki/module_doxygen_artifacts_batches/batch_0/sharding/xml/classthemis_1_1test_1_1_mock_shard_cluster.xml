@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_mock_shard_cluster" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::MockShardCluster</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_cluster_1a9913f1cf6c22a15c883e522812832bf5" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockShardCluster::shard_count_</definition>
+        <argsstring></argsstring>
+        <name>shard_count_</name>
+        <qualifiedname>themis::test::MockShardCluster::shard_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="177" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_shard_cluster_1a86b331933f447b83c810b4c2dcf9f739" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_mock_shard" kindref="compound">MockShard</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;MockShard&gt; &gt; themis::test::MockShardCluster::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themis::test::MockShardCluster::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="178" column="17" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1ae881b764ee201de419d8cc5604f1763b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::MockShardCluster::MockShardCluster</definition>
+        <argsstring>(int shard_count)</argsstring>
+        <name>MockShardCluster</name>
+        <qualifiedname>themis::test::MockShardCluster::MockShardCluster</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="103" column="14" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a1ca2157e1c06253bea85a4408e6fa64b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShardCluster::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::test::MockShardCluster::getShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="113" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1af5ac60b4997b51ee8e4606e9b7fd231b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_mock_shard" kindref="compound">MockShard</ref> *</type>
+        <definition>MockShard * themis::test::MockShardCluster::getShard</definition>
+        <argsstring>(int id)</argsstring>
+        <name>getShard</name>
+        <qualifiedname>themis::test::MockShardCluster::getShard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="115" column="15" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a9100f6983f308720c5680819117585b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShardCluster::write</definition>
+        <argsstring>(int shard_id, const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::test::MockShardCluster::write</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="122" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a2f41a54464d484961cb88776686fe921" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShardCluster::getHealthyShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyShardCount</name>
+        <qualifiedname>themis::test::MockShardCluster::getHealthyShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="130" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="130" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1ac479de5025450940e2f58bf8525d0a7f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShardCluster::hasLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>hasLeader</name>
+        <qualifiedname>themis::test::MockShardCluster::hasLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="140" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="140" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a7c9bfb4774323e5cadaa7e8b555aa918" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockShardCluster::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themis::test::MockShardCluster::getLeaderId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="149" column="9" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="149" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a11a31d97bed671714b509787b59b0aaf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockShardCluster::promoteNewLeader</definition>
+        <argsstring>()</argsstring>
+        <name>promoteNewLeader</name>
+        <qualifiedname>themis::test::MockShardCluster::promoteNewLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="158" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_shard_cluster_1a0c0fee68f5be15ba4809b73e23874325" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockShardCluster::rebalance</definition>
+        <argsstring>()</argsstring>
+        <name>rebalance</name>
+        <qualifiedname>themis::test::MockShardCluster::rebalance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="168" column="10" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="168" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="101" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="101" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a2f41a54464d484961cb88776686fe921" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>getHealthyShardCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a7c9bfb4774323e5cadaa7e8b555aa918" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>getLeaderId</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1af5ac60b4997b51ee8e4606e9b7fd231b" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>getShard</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a1ca2157e1c06253bea85a4408e6fa64b" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1ac479de5025450940e2f58bf8525d0a7f" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>hasLeader</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1ae881b764ee201de419d8cc5604f1763b" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>MockShardCluster</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a11a31d97bed671714b509787b59b0aaf" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>promoteNewLeader</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a0c0fee68f5be15ba4809b73e23874325" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>rebalance</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a9913f1cf6c22a15c883e522812832bf5" prot="private" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>shard_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a86b331933f447b83c810b4c2dcf9f739" prot="private" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_shard_cluster_1a9100f6983f308720c5680819117585b4" prot="public" virt="non-virtual"><scope>themis::test::MockShardCluster</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

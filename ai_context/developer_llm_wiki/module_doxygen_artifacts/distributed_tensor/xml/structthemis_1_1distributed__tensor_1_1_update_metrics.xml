@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_update_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::UpdateMetrics</compoundname>
+    <includes refid="snapshot__update__worker_8h" local="no">snapshot_update_worker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1a4c2468d2d7388370b74e467d24e868f3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref></type>
+        <definition>UpdateDecision themis::distributed_tensor::UpdateMetrics::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::decision</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63c719161482d82fb65d5bb9f77dc3a0" kindref="member">UpdateDecision::NO_UPDATE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="98" column="18" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1a7280fa46d3a2fdbdd21cb499615f8e4c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::UpdateMetrics::analysis_time_ms</definition>
+        <argsstring></argsstring>
+        <name>analysis_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::analysis_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="100" column="11" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1adbd648e38ec3a8958a2547440442d7f9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::UpdateMetrics::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::execution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="102" column="11" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1affd3b4ef1931c855d714e90ed18aaff7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::UpdateMetrics::resulting_residual</definition>
+        <argsstring></argsstring>
+        <name>resulting_residual</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::resulting_residual</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="104" column="10" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1a0445aa3056d1a58a80826a0ea43c7628" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::UpdateMetrics::resulting_rank_status</definition>
+        <argsstring></argsstring>
+        <name>resulting_rank_status</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::resulting_rank_status</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="106" column="12" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1aa2445ed03d12f7fce3e08d4a5b44e841" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::UpdateMetrics::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="108" column="8" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1af4aebb79ec8571dcf8d20e98aaeae72b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::UpdateMetrics::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="110" column="15" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_metrics_1a67d00d42b49154283fc8a0dd34448eab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::UpdateMetrics::throughput_deltas_per_sec</definition>
+        <argsstring></argsstring>
+        <name>throughput_deltas_per_sec</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMetrics::throughput_deltas_per_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="112" column="10" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="97" column="1" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="97" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a7280fa46d3a2fdbdd21cb499615f8e4c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>analysis_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a4c2468d2d7388370b74e467d24e868f3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>decision</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1af4aebb79ec8571dcf8d20e98aaeae72b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1adbd648e38ec3a8958a2547440442d7f9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a0445aa3056d1a58a80826a0ea43c7628" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>resulting_rank_status</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1affd3b4ef1931c855d714e90ed18aaff7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>resulting_residual</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1aa2445ed03d12f7fce3e08d4a5b44e841" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>success</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a67d00d42b49154283fc8a0dd34448eab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateMetrics</scope><name>throughput_deltas_per_sec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

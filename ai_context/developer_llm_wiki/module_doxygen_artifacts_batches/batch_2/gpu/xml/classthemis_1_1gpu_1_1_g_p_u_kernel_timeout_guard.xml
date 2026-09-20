@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUKernelTimeoutGuard</compoundname>
+    <includes refid="gpu__resource__handles_8h" local="no">gpu_resource_handles.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a9fb9b1ec9d8c0a947709a17decb9e517" prot="private" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::GPUKernelTimeoutGuard::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="206" column="18" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1ab0239dd7986a11056b750a88d8abd94b" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::GPUKernelTimeoutGuard::timeout_</definition>
+        <argsstring></argsstring>
+        <name>timeout_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="207" column="31" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a56048ae5e1a52d2c022bd057b6af296e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::gpu::GPUKernelTimeoutGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="208" column="43" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aba8da46b95ad1bc475a1e01431c550a9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::GPUKernelTimeoutGuard::completed_</definition>
+        <argsstring></argsstring>
+        <name>completed_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::completed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="209" column="17" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a76e7c5b5845f62dcd667f95b8fbce98e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::GPUKernelTimeoutGuard::timed_out_</definition>
+        <argsstring></argsstring>
+        <name>timed_out_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::timed_out_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="210" column="17" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a1ca5d3485a0cb91d1b6887cb5dc79225" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::gpu::GPUKernelTimeoutGuard::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="211" column="17" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</definition>
+        <argsstring>(cudaStream_t stream=nullptr, std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>GPUKernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="175" column="14" bodyfile="src/gpu/gpu_resource_handles.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aba4875f666e5275885413a6cff8e1564" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUKernelTimeoutGuard::~GPUKernelTimeoutGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUKernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::~GPUKernelTimeoutGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="180" column="5" bodyfile="src/gpu/gpu_resource_handles.cpp" bodystart="212" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a3677f07e56900b4dfea13061c010313d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</definition>
+        <argsstring>(const GPUKernelTimeoutGuard &amp;)=delete</argsstring>
+        <name>GPUKernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</qualifiedname>
+        <param>
+          <type>const GPUKernelTimeoutGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="183" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1adc56cbef0f81d010c72cb9e6144b1c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" kindref="member">GPUKernelTimeoutGuard</ref> &amp;</type>
+        <definition>GPUKernelTimeoutGuard &amp; themis::gpu::GPUKernelTimeoutGuard::operator=</definition>
+        <argsstring>(const GPUKernelTimeoutGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" kindref="member">GPUKernelTimeoutGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="184" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1ac3cf2e5a7d02e78f5b8169346648c297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</definition>
+        <argsstring>(GPUKernelTimeoutGuard &amp;&amp;)=delete</argsstring>
+        <name>GPUKernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::GPUKernelTimeoutGuard</qualifiedname>
+        <param>
+          <type>GPUKernelTimeoutGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aea8dcf68eaf6381584b36a7c3a5a6bdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" kindref="member">GPUKernelTimeoutGuard</ref> &amp;</type>
+        <definition>GPUKernelTimeoutGuard &amp; themis::gpu::GPUKernelTimeoutGuard::operator=</definition>
+        <argsstring>(GPUKernelTimeoutGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" kindref="member">GPUKernelTimeoutGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="188" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a40a4af293bd031e1e4096224993f00b9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUKernelTimeoutGuard::markCompleted</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markCompleted</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::markCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="190" column="10" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a74f624c76c5db45b00d778ab9c4fdb6e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUKernelTimeoutGuard::didTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>didTimeout</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::didTimeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="194" column="10" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="194" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a403051952f078740cb0d0199c58fb31d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::GPUKernelTimeoutGuard::getRemainingBudget</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRemainingBudget</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::getRemainingBudget</qualifiedname>
+        <briefdescription>
+<para>Get Remaining Budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="203" column="31" bodyfile="src/gpu/gpu_resource_handles.cpp" bodystart="226" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af33a5282a0d7443af4d6ec0db54b3d2c" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUKernelTimeoutGuard::monitorThread</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>monitorThread</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::monitorThread</qualifiedname>
+        <briefdescription>
+<para>Monitor Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="217" column="10" bodyfile="src/gpu/gpu_resource_handles.cpp" bodystart="236" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a3e7e446111a9e72369e930751d1b47f0" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUKernelTimeoutGuard::cleanupStream</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cleanupStream</name>
+        <qualifiedname>themis::gpu::GPUKernelTimeoutGuard::cleanupStream</qualifiedname>
+        <briefdescription>
+<para>Cleanup Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="222" column="10" bodyfile="src/gpu/gpu_resource_handles.cpp" bodystart="255" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_resource_handles.h" line="173" column="1" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="173" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a3e7e446111a9e72369e930751d1b47f0" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>cleanupStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aba8da46b95ad1bc475a1e01431c550a9" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>completed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a74f624c76c5db45b00d778ab9c4fdb6e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>didTimeout</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a403051952f078740cb0d0199c58fb31d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>getRemainingBudget</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af23a14987bb4241eaf6e8c746dc5fe6e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>GPUKernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a3677f07e56900b4dfea13061c010313d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>GPUKernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1ac3cf2e5a7d02e78f5b8169346648c297" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>GPUKernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a40a4af293bd031e1e4096224993f00b9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>markCompleted</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a1ca5d3485a0cb91d1b6887cb5dc79225" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1af33a5282a0d7443af4d6ec0db54b3d2c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>monitorThread</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1adc56cbef0f81d010c72cb9e6144b1c33" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aea8dcf68eaf6381584b36a7c3a5a6bdb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a56048ae5e1a52d2c022bd057b6af296e" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a9fb9b1ec9d8c0a947709a17decb9e517" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>stream_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1a76e7c5b5845f62dcd667f95b8fbce98e" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>timed_out_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1ab0239dd7986a11056b750a88d8abd94b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>timeout_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard_1aba4875f666e5275885413a6cff8e1564" prot="public" virt="non-virtual"><scope>themis::gpu::GPUKernelTimeoutGuard</scope><name>~GPUKernelTimeoutGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

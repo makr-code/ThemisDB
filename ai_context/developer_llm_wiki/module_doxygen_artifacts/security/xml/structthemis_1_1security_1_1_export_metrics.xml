@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_export_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ExportMetrics</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1afed963aaf9512716d4aa94f5010f686b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::ExportMetrics::export_start_ms</definition>
+        <argsstring></argsstring>
+        <name>export_start_ms</name>
+        <qualifiedname>themis::security::ExportMetrics::export_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Export operation start timestamp (Unix ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="172" column="13" bodyfile="include/security/security_evidence_collector.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1a8d1227088f31f02a2395604a902b56c4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::ExportMetrics::export_end_ms</definition>
+        <argsstring></argsstring>
+        <name>export_end_ms</name>
+        <qualifiedname>themis::security::ExportMetrics::export_end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Export operation end timestamp (Unix ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="173" column="13" bodyfile="include/security/security_evidence_collector.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1af5b1f292dc6d367bc38b7d3e4d06bf4a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::ExportMetrics::events_sent</definition>
+        <argsstring></argsstring>
+        <name>events_sent</name>
+        <qualifiedname>themis::security::ExportMetrics::events_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events transmitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="174" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1accc5b610afd312311335354a45323f99" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::ExportMetrics::events_confirmed</definition>
+        <argsstring></argsstring>
+        <name>events_confirmed</name>
+        <qualifiedname>themis::security::ExportMetrics::events_confirmed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events successfully confirmed at destination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="175" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1aa1c32fd6e4d74d8a29fdec31849d9698" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::ExportMetrics::resend_count</definition>
+        <argsstring></argsstring>
+        <name>resend_count</name>
+        <qualifiedname>themis::security::ExportMetrics::resend_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of resend/retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="176" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1a12bb599a920e9d7f769d0f2dbe643045" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ExportMetrics::atomicity_guaranteed</definition>
+        <argsstring></argsstring>
+        <name>atomicity_guaranteed</name>
+        <qualifiedname>themis::security::ExportMetrics::atomicity_guaranteed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when export guarantees all-or-nothing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="177" column="10" bodyfile="include/security/security_evidence_collector.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_export_metrics_1afa370f3bce5db6a11fbac9d824fe65b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ExportMetrics::idempotency_verified</definition>
+        <argsstring></argsstring>
+        <name>idempotency_verified</name>
+        <qualifiedname>themis::security::ExportMetrics::idempotency_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when duplicate detection is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="178" column="10" bodyfile="include/security/security_evidence_collector.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_export_metrics_1a46474ade9a7e23eae443fe577b024be9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::ExportMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::ExportMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="184" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="103" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Export metrics for audit export reliability and performance tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures timing and event counts for export operations, enabling reliability validation (atomicity, idempotency) and performance gate enforcement. </para>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="171" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="171" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1a12bb599a920e9d7f769d0f2dbe643045" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>atomicity_guaranteed</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1accc5b610afd312311335354a45323f99" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>events_confirmed</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1af5b1f292dc6d367bc38b7d3e4d06bf4a" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>events_sent</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1a8d1227088f31f02a2395604a902b56c4" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>export_end_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1afed963aaf9512716d4aa94f5010f686b" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>export_start_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1afa370f3bce5db6a11fbac9d824fe65b8" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>idempotency_verified</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1aa1c32fd6e4d74d8a29fdec31849d9698" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>resend_count</name></member>
+      <member refid="structthemis_1_1security_1_1_export_metrics_1a46474ade9a7e23eae443fe577b024be9" prot="public" virt="non-virtual"><scope>themis::security::ExportMetrics</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

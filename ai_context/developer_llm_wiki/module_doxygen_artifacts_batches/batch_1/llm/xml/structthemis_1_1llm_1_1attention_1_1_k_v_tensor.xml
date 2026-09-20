@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::KVTensor</compoundname>
+    <includes refid="kv__cache__manager_8h" local="no">kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a0074248a91a5ee5b350b8dd7455d8c9e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::attention::KVTensor::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::attention::KVTensor::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="32" column="17" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a0a5442b701b7a16202d80bc947938334" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVTensor::layer_id</definition>
+        <argsstring></argsstring>
+        <name>layer_id</name>
+        <qualifiedname>themis::llm::attention::KVTensor::layer_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="33" column="12" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1afdb9d9fa1de608799c6f98941ff4e6ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVTensor::head_id</definition>
+        <argsstring></argsstring>
+        <name>head_id</name>
+        <qualifiedname>themis::llm::attention::KVTensor::head_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="34" column="12" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a52bb13da70ee1f422c641544e66c6562" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::KVTensor::token_pos</definition>
+        <argsstring></argsstring>
+        <name>token_pos</name>
+        <qualifiedname>themis::llm::attention::KVTensor::token_pos</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="35" column="12" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a09cb1a3f44f45aeed65b34834ff02f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::attention::KVTensor::~KVTensor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KVTensor</name>
+        <qualifiedname>themis::llm::attention::KVTensor::~KVTensor</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor" kindref="compound">KVTensor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="31" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/kv_cache_manager.h" line="26" column="1" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="26" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a0074248a91a5ee5b350b8dd7455d8c9e" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVTensor</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1afdb9d9fa1de608799c6f98941ff4e6ac" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVTensor</scope><name>head_id</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a0a5442b701b7a16202d80bc947938334" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVTensor</scope><name>layer_id</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a52bb13da70ee1f422c641544e66c6562" prot="public" virt="non-virtual"><scope>themis::llm::attention::KVTensor</scope><name>token_pos</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor_1a09cb1a3f44f45aeed65b34834ff02f0b" prot="public" virt="virtual"><scope>themis::llm::attention::KVTensor</scope><name>~KVTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

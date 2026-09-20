@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedHybridSearch::SearchStats</compoundname>
+    <includes refid="distributed__hybrid__search_8h" local="no">distributed_hybrid_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedHybridSearch::SearchStats::shards_queried</definition>
+        <argsstring></argsstring>
+        <name>shards_queried</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::shards_queried</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total shards attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="126" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedHybridSearch::SearchStats::shards_succeeded</definition>
+        <argsstring></argsstring>
+        <name>shards_succeeded</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::shards_succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Shards that returned results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="127" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedHybridSearch::SearchStats::shards_failed</definition>
+        <argsstring></argsstring>
+        <name>shards_failed</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::shards_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Shards that failed or timed out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="128" column="16" bodyfile="include/search/distributed_hybrid_search.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedHybridSearch::SearchStats::partial_result</definition>
+        <argsstring></argsstring>
+        <name>partial_result</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::partial_result</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one shard failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="129" column="14" bodyfile="include/search/distributed_hybrid_search.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a011903a9a8f618159f44af52a8931760" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedHybridSearch::SearchStats::merge_underflow</definition>
+        <argsstring></argsstring>
+        <name>merge_underflow</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::merge_underflow</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when merge produced &lt; k results due to candidate deficit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="132" column="14" bodyfile="include/search/distributed_hybrid_search.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9e648dfc65e6baa2900ca84806b9d681" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedHybridSearch::SearchStats::high_overlap_variance</definition>
+        <argsstring></argsstring>
+        <name>high_overlap_variance</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::high_overlap_variance</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when high-cardinality overlap detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="133" column="14" bodyfile="include/search/distributed_hybrid_search.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a4f31d88f9bcaa9d3f878fbe9debaebf6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedHybridSearch::SearchStats::ranking_conflict</definition>
+        <argsstring></argsstring>
+        <name>ranking_conflict</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::ranking_conflict</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when shard ranking conflicts detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="134" column="14" bodyfile="include/search/distributed_hybrid_search.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::DistributedHybridSearch::SearchStats::failed_shard_reasons</definition>
+        <argsstring></argsstring>
+        <name>failed_shard_reasons</name>
+        <qualifiedname>themis::DistributedHybridSearch::SearchStats::failed_shard_reasons</qualifiedname>
+        <briefdescription>
+<para>Per-shard diagnostics (Phase 2 enhancement). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reason for each failed shard (e.g. &quot;timeout&quot;, &quot;HTTP 500&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="137" column="21" bodyfile="include/search/distributed_hybrid_search.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostics returned alongside the merged result set. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides explicit visibility into degradation paths and partial result conditions, enabling operators to make informed decisions about result quality and fallback behavior. </para>
+    </detaileddescription>
+    <location file="include/search/distributed_hybrid_search.h" line="125" column="5" bodyfile="include/search/distributed_hybrid_search.h" bodystart="125" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>failed_shard_reasons</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9e648dfc65e6baa2900ca84806b9d681" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>high_overlap_variance</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a011903a9a8f618159f44af52a8931760" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>merge_underflow</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>partial_result</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a4f31d88f9bcaa9d3f878fbe9debaebf6" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>ranking_conflict</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>shards_failed</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>shards_queried</name></member>
+      <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch::SearchStats</scope><name>shards_succeeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

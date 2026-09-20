@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_step_plugin_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::StepPluginManifest</compoundname>
+    <includes refid="workflow__engine_8h" local="no">workflow_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a68fba050d5c17e327decae8ca1a39e52" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::StepPluginManifest::allowed_paths</definition>
+        <argsstring></argsstring>
+        <name>allowed_paths</name>
+        <qualifiedname>themis::ingestion::StepPluginManifest::allowed_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Directory prefixes that are allowed for plugin .so files. Matched as path prefix (canonical). Empty → any path allowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="107" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a0bb350716bd1fd3445ba596dc2cc72b3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::StepPluginManifest::allowed_mime_types</definition>
+        <argsstring></argsstring>
+        <name>allowed_mime_types</name>
+        <qualifiedname>themis::ingestion::StepPluginManifest::allowed_mime_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>MIME type allowlist for the plugin. Matched against the &quot;mime_type&quot; key in the sidecar &lt;plugin&gt;.manifest.json. Empty → any MIME type allowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="112" column="17" bodyfile="include/ingestion/workflow_engine.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sandbox manifest for DLL step plugin loading. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements §Phase 3 DLL step plugin sandbox (ROADMAP Q3 2026). Before <computeroutput>loadStepPlugin()</computeroutput> dlopen()s any library, the manifest is validated:<orderedlist>
+<listitem><para>The library path must be under one of the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a68fba050d5c17e327decae8ca1a39e52" kindref="member">allowed_paths</ref></computeroutput> prefixes.</para>
+</listitem><listitem><para>If <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a0bb350716bd1fd3445ba596dc2cc72b3" kindref="member">allowed_mime_types</ref></computeroutput> is non-empty, the plugin&apos;s reported MIME type (declared in the manifest, read from a sidecar <computeroutput>.manifest.json</computeroutput> file next to the .so) must be in the allowed set.</para>
+</listitem></orderedlist>
+</para>
+<para>An empty <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_plugin_manifest" kindref="compound">StepPluginManifest</ref></computeroutput> (default) is permissive — all paths and MIME types are accepted (backwards compatibility). </para>
+    </detaileddescription>
+    <location file="include/ingestion/workflow_engine.h" line="104" column="1" bodyfile="include/ingestion/workflow_engine.h" bodystart="104" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a0bb350716bd1fd3445ba596dc2cc72b3" prot="public" virt="non-virtual"><scope>themis::ingestion::StepPluginManifest</scope><name>allowed_mime_types</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_step_plugin_manifest_1a68fba050d5c17e327decae8ca1a39e52" prot="public" virt="non-virtual"><scope>themis::ingestion::StepPluginManifest</scope><name>allowed_paths</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_domain_gating_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::DomainGatingResult</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_domain_gating_result_1a59fc433ec2b2fd8f9bae07e5cef14914" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DomainGatingResult::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::training::DomainGatingResult::task_id</qualifiedname>
+        <briefdescription>
+<para>Predicted task identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="66" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_domain_gating_result_1a0c09ec2528e45f22ef86d3e6f7cb6242" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::DomainGatingResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::training::DomainGatingResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Gating confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="67" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_domain_gating_result_1a73de4bac3a864c888e45311ad2d2b0e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, float&gt; &gt; themis::training::DomainGatingResult::scores</definition>
+        <argsstring></argsstring>
+        <name>scores</name>
+        <qualifiedname>themis::training::DomainGatingResult::scores</qualifiedname>
+        <briefdescription>
+<para>(task_id, score) for all tasks </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="68" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of the domain-gating classification step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="65" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="65" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_domain_gating_result_1a0c09ec2528e45f22ef86d3e6f7cb6242" prot="public" virt="non-virtual"><scope>themis::training::DomainGatingResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_domain_gating_result_1a73de4bac3a864c888e45311ad2d2b0e7" prot="public" virt="non-virtual"><scope>themis::training::DomainGatingResult</scope><name>scores</name></member>
+      <member refid="structthemis_1_1training_1_1_domain_gating_result_1a59fc433ec2b2fd8f9bae07e5cef14914" prot="public" virt="non-virtual"><scope>themis::training::DomainGatingResult</scope><name>task_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

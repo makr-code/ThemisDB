@@ -1,0 +1,829 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_hnsw_parameter_tuner" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::HnswParameterTuner</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" prot="public">themis::index::HnswParameterTuner::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" prot="public">themis::index::HnswParameterTuner::Stats</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" prot="public">themis::index::HnswParameterTuner::ConstructionParams</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats" prot="private">themis::index::HnswParameterTuner::QueryStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadType</name>
+        <qualifiedname>themis::index::HnswParameterTuner::WorkloadType</qualifiedname>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda3edb9cc3b98f151feb21dbde6323e82a" prot="public">
+          <name>OLTP</name>
+          <briefdescription>
+<para>High-throughput, low-latency, small k values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdabe25776fa91444b6d85c015efeddfc0e" prot="public">
+          <name>ANALYTICS</name>
+          <briefdescription>
+<para>Large k values, batch queries, higher latency tolerance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+<para>Balanced workload with varying query patterns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdafb6a72bbc33faf101b251a60eb3ee087" prot="public">
+          <name>RAG</name>
+          <briefdescription>
+<para>Retrieval-Augmented Generation: medium k, high recall. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda89d9abcd2b9a1a1442a4011c34e1fd0a" prot="public">
+          <name>BATCH_INSERT</name>
+          <briefdescription>
+<para>Optimized for bulk indexing operations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Workload types for index optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="51" column="5" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="51" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2ed60c1bd9d4792ae2c82966667823c7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::index::HnswParameterTuner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="196" column="12" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2cf1d38f3779ea0b3cc398b033858729" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::HnswParameterTuner::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="197" column="24" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a0dc11a1e1699471f4d5ed1fc44a772c8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::index::HnswParameterTuner::current_ef_search_</definition>
+        <argsstring></argsstring>
+        <name>current_ef_search_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::current_ef_search_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="200" column="17" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a22275a46063d655ea8aa3ae833659b12" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; QueryStats &gt;</type>
+        <definition>std::vector&lt;QueryStats&gt; themis::index::HnswParameterTuner::recent_queries_</definition>
+        <argsstring></argsstring>
+        <name>recent_queries_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::recent_queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="203" column="17" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1abb1ca33ab9f527d390d4c5e4b6bd7b67" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::index::HnswParameterTuner::queries_processed_</definition>
+        <argsstring></argsstring>
+        <name>queries_processed_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::queries_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="204" column="17" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a3dea616e8fdbd276a9166745dc1f7355" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::index::HnswParameterTuner::adaptations_count_</definition>
+        <argsstring></argsstring>
+        <name>adaptations_count_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::adaptations_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="205" column="17" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1acc507b038279b08455d87b6a6144f9cb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswParameterTuner::total_latency_</definition>
+        <argsstring></argsstring>
+        <name>total_latency_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::total_latency_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="206" column="12" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a345f9f8394d17f5bea67015876105981" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswParameterTuner::total_recall_</definition>
+        <argsstring></argsstring>
+        <name>total_recall_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::total_recall_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="207" column="12" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a746ef1d9bc1151b72ce521075f06010c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswParameterTuner::recall_count_</definition>
+        <argsstring></argsstring>
+        <name>recall_count_</name>
+        <qualifiedname>themis::index::HnswParameterTuner::recall_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="208" column="12" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a306bea7439006dbe880f55051ac611f4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::HnswParameterTuner::HnswParameterTuner</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>HnswParameterTuner</name>
+        <qualifiedname>themis::index::HnswParameterTuner::HnswParameterTuner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="82" column="14" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7e4651692eab0cd73972ca909df6abe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::HnswParameterTuner::~HnswParameterTuner</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HnswParameterTuner</name>
+        <qualifiedname>themis::index::HnswParameterTuner::~HnswParameterTuner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2800636f46098f546c1733a5a4905fd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::getOptimalEfSearch</definition>
+        <argsstring>(size_t k, size_t dataset_size) const</argsstring>
+        <name>getOptimalEfSearch</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getOptimalEfSearch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <briefdescription>
+<para>Get optimal efSearch for current conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of neighbors requested </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current dataset size (number of vectors) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended efSearch value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="91" column="9" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="43" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a87e4dbc79c16e347356ba436496b504b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::HnswParameterTuner::recordQueryResult</definition>
+        <argsstring>(size_t k, int ef_used, double latency_ms, double recall=-1.0)</argsstring>
+        <name>recordQueryResult</name>
+        <qualifiedname>themis::index::HnswParameterTuner::recordQueryResult</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ef_used</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>recall</declname>
+          <defval>-1.0</defval>
+        </param>
+        <briefdescription>
+<para>Record query result for adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query Result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of neighbors requested </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ef_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>efSearch value used </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Achieved recall (if known, optional)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ef_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(), fetch_add(), adapt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="100" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="72" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a02cb649048605592c31f6ff12b5de106" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::index::HnswParameterTuner::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="105" column="18" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a9ea226758b96d46d2825b22c75dcd650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::HnswParameterTuner::updateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::index::HnswParameterTuner::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="110" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="107" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a6bd87b598c8b55a0c3c7598b66c70a8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>HnswParameterTuner::Stats themis::index::HnswParameterTuner::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="123" column="11" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="113" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7dad9c99663802e8d097354744aa5134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::HnswParameterTuner::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::index::HnswParameterTuner::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset <ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" kindref="compound">Stats</ref>.</para>
+<para>Calls: lock(), clear(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="128" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="142" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a0d2c78a91db7d20d47b50898c1d2a410" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" kindref="compound">ConstructionParams</ref></type>
+        <definition>HnswParameterTuner::ConstructionParams themis::index::HnswParameterTuner::getAutoTunedConstructionParams</definition>
+        <argsstring>(size_t dataset_size, WorkloadType workload_hint=WorkloadType::MIXED) const</argsstring>
+        <name>getAutoTunedConstructionParams</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getAutoTunedConstructionParams</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+          <declname>workload_hint</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get auto-tuned construction parameters based on workload detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the recently recorded query statistics to infer the workload type and returns the recommended M and ef_construction values for index creation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected number of vectors in the index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If not MIXED, used directly; otherwise workload is auto-detected </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended M and ef_construction together with the detected workload </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Infer from recorded query patterns. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Use average k as a simple heuristic: k &lt;= 5 → likely OLTP (point-lookups, small neighborhoods) 6 &lt;= k &lt;= 19 → likely RAG (retrieval-augmented generation) k &gt;= 20 → likely ANALYTICS (large result sets)</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="174" column="24" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="436" bodyend="477"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1aebf5ac665e7384f3828bb545a16bc14c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::getRecommendedM</definition>
+        <argsstring>(size_t dataset_size, WorkloadType workload=WorkloadType::MIXED)</argsstring>
+        <name>getRecommendedM</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getRecommendedM</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get recommended M parameter for dataset size and workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Recommended M.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected dataset size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Workload type for optimization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended M value (for index creation)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="136" column="16" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="160" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ac6934a227c0b311d779d48b983ffda8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::getRecommendedEfConstruction</definition>
+        <argsstring>(size_t dataset_size, int M, WorkloadType workload=WorkloadType::MIXED)</argsstring>
+        <name>getRecommendedEfConstruction</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getRecommendedEfConstruction</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get recommended ef_construction for dataset size, M, and workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Recommended Ef Construction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected dataset size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connections per node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Workload type for optimization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended ef_construction value (for index creation)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getRecommendedEfConstruction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="145" column="16" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="213" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a8962cbaad9f3ae41bde549562d308ab2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref></type>
+        <definition>HnswParameterTuner::Config themis::index::HnswParameterTuner::getWorkloadOptimizedConfig</definition>
+        <argsstring>(size_t dataset_size, WorkloadType workload)</argsstring>
+        <name>getWorkloadOptimizedConfig</name>
+        <qualifiedname>themis::index::HnswParameterTuner::getWorkloadOptimizedConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+        </param>
+        <briefdescription>
+<para>Get workload-optimized configuration preset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Workload Optimized <ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected dataset size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Workload type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optimized configuration for the workload</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1aebf5ac665e7384f3828bb545a16bc14c" kindref="member">getRecommendedM()</ref>, <ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ac6934a227c0b311d779d48b983ffda8e" kindref="member">getRecommendedEfConstruction()</ref>, std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="153" column="19" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="360" bodyend="434"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1adc8289c2f71cb8cfe74daf4483bd15df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::HnswParameterTuner::adapt</definition>
+        <argsstring>()</argsstring>
+        <name>adapt</name>
+        <qualifiedname>themis::index::HnswParameterTuner::adapt</qualifiedname>
+        <briefdescription>
+<para>Adapt efSearch based on recent queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adapt.</para>
+<para>Calls: empty(), size(), load(), count(), std::max(), std::min(), store(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="182" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="259" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a3aa120381ac3c2514899fd1471634da2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::calculateEfSearch</definition>
+        <argsstring>(size_t k, size_t dataset_size) const</argsstring>
+        <name>calculateEfSearch</name>
+        <qualifiedname>themis::index::HnswParameterTuner::calculateEfSearch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <briefdescription>
+<para>Calculate efSearch based on k and dataset size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="187" column="9" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="307" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive HNSW Parameter Tuner. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Dynamically adjusts HNSW search parameters based on:<itemizedlist>
+<listitem><para>Query latency targets</para>
+</listitem><listitem><para>Recall requirements</para>
+</listitem><listitem><para>Dataset size</para>
+</listitem><listitem><para>Query patterns</para>
+</listitem><listitem><para>Workload type (OLTP, Analytics, Mixed, RAG)</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance Gains:<itemizedlist>
+<listitem><para>Optimal efSearch selection: +15-25% faster queries at same recall</para>
+</listitem><listitem><para>Reduced over-searching: -10-20% CPU usage</para>
+</listitem><listitem><para>Better latency/recall trade-offs</para>
+</listitem><listitem><para>Workload-specific optimization: +20-35% throughput improvement</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md</para>
+</listitem><listitem><para>Research: docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md</para>
+</listitem><listitem><para>HNSW Paper: Malkov &amp; Yashunin (2018)</para>
+</listitem><listitem><para>Performance Tips: docs/knowledge-base/PERFORMANCE_TIPS.md </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="46" column="1" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="46" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1adc8289c2f71cb8cfe74daf4483bd15df" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>adapt</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a3dea616e8fdbd276a9166745dc1f7355" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>adaptations_count_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a3aa120381ac3c2514899fd1471634da2" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>calculateEfSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2ed60c1bd9d4792ae2c82966667823c7" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a0dc11a1e1699471f4d5ed1fc44a772c8" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>current_ef_search_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a0d2c78a91db7d20d47b50898c1d2a410" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getAutoTunedConstructionParams</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a02cb649048605592c31f6ff12b5de106" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2800636f46098f546c1733a5a4905fd6" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getOptimalEfSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ac6934a227c0b311d779d48b983ffda8e" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getRecommendedEfConstruction</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1aebf5ac665e7384f3828bb545a16bc14c" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getRecommendedM</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a6bd87b598c8b55a0c3c7598b66c70a8d" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a8962cbaad9f3ae41bde549562d308ab2" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>getWorkloadOptimizedConfig</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a306bea7439006dbe880f55051ac611f4" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>HnswParameterTuner</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2cf1d38f3779ea0b3cc398b033858729" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1abb1ca33ab9f527d390d4c5e4b6bd7b67" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>queries_processed_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a746ef1d9bc1151b72ce521075f06010c" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>recall_count_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a22275a46063d655ea8aa3ae833659b12" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>recent_queries_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a87e4dbc79c16e347356ba436496b504b" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>recordQueryResult</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7dad9c99663802e8d097354744aa5134" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1acc507b038279b08455d87b6a6144f9cb" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>total_latency_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a345f9f8394d17f5bea67015876105981" prot="private" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>total_recall_</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a9ea226758b96d46d2825b22c75dcd650" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>WorkloadType</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7e4651692eab0cd73972ca909df6abe4" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner</scope><name>~HnswParameterTuner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::rag::delegate_eval::MarkdownEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::IDomainEvaluator</basecompoundref>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a7f0685c6b9af68e6163f15058a778ec3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kindref="compound">PlainTextEvaluator</ref></type>
+        <definition>PlainTextEvaluator themis::rag::delegate_eval::MarkdownEvaluator::text_eval_</definition>
+        <argsstring></argsstring>
+        <name>text_eval_</name>
+        <qualifiedname>themis::rag::delegate_eval::MarkdownEvaluator::text_eval_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="503" column="24" bodyfile="include/rag/delegate_evaluator.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a48c97ec7fb28b7d508af1faebc9a58e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::MarkdownEvaluator::MarkdownEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>MarkdownEvaluator</name>
+        <qualifiedname>themis::rag::delegate_eval::MarkdownEvaluator::MarkdownEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="489" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1ad3977ca301bc32235043b4f25a9319fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref></type>
+        <definition>ReconstructionScore themis::rag::delegate_eval::MarkdownEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;original, const std::string &amp;recovered) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::delegate_eval::MarkdownEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovered</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Markdown fidelity via plain-text edit distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original Markdown string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The recovered Markdown string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RS in <computeroutput>[0.0, 1.0]</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="497" column="25" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="382" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a43a0717e726b84f146b30285466297dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::rag::delegate_eval::MarkdownEvaluator::domain</definition>
+        <argsstring>() const override</argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::delegate_eval::MarkdownEvaluator::domain</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c">domain</reimplements>
+        <briefdescription>
+<para>Domain identifier for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="500" column="16" bodyfile="include/rag/delegate_evaluator.h" bodystart="500" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Markdown evaluator (delegates to <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kindref="compound">PlainTextEvaluator</ref></computeroutput>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Markdown structure is preserved through plain-text edit-distance; syntax markers (headings, bullets, code fences) contribute to the character pool. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::MarkdownEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::MarkdownEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/delegate_evaluator.h" line="487" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="487" bodyend="504"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a43a0717e726b84f146b30285466297dc" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::MarkdownEvaluator</scope><name>domain</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1ad3977ca301bc32235043b4f25a9319fb" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::MarkdownEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a48c97ec7fb28b7d508af1faebc9a58e7" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::MarkdownEvaluator</scope><name>MarkdownEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_markdown_evaluator_1a7f0685c6b9af68e6163f15058a778ec3" prot="private" virt="non-virtual"><scope>themis::rag::delegate_eval::MarkdownEvaluator</scope><name>text_eval_</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::MarkdownEvaluator</scope><name>~IDomainEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

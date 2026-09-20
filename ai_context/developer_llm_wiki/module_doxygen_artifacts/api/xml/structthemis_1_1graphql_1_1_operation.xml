@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Operation</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_operation_1a6e2bebda986868ab5d78308e73530c13" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931" kindref="member">OperationType</ref></type>
+        <definition>OperationType themis::graphql::Operation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::graphql::Operation::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graphql_1a8a76cdefa7d815d00cdf88b5834a1931a66c1b4c7f3dc385b68a9fa903ccd016d" kindref="member">OperationType::Query</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="248" column="19" bodyfile="include/api/graphql.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_operation_1a449a0514993fdc3bfec557ac2278b649" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Operation::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graphql::Operation::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="249" column="17" bodyfile="include/api/graphql.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_operation_1abbc672a0c25b66ccaea55919629880fb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_variable_definition" kindref="compound">VariableDefinition</ref> &gt;</type>
+        <definition>std::vector&lt;VariableDefinition&gt; themis::graphql::Operation::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>themis::graphql::Operation::variables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="250" column="17" bodyfile="include/api/graphql.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_operation_1a632ac21ed51fc296c6918feccad60723" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &gt;</type>
+        <definition>std::vector&lt;Field&gt; themis::graphql::Operation::selections</definition>
+        <argsstring></argsstring>
+        <name>selections</name>
+        <qualifiedname>themis::graphql::Operation::selections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="251" column="17" bodyfile="include/api/graphql.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="247" column="1" bodyfile="include/api/graphql.h" bodystart="247" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_operation_1a449a0514993fdc3bfec557ac2278b649" prot="public" virt="non-virtual"><scope>themis::graphql::Operation</scope><name>name</name></member>
+      <member refid="structthemis_1_1graphql_1_1_operation_1a632ac21ed51fc296c6918feccad60723" prot="public" virt="non-virtual"><scope>themis::graphql::Operation</scope><name>selections</name></member>
+      <member refid="structthemis_1_1graphql_1_1_operation_1a6e2bebda986868ab5d78308e73530c13" prot="public" virt="non-virtual"><scope>themis::graphql::Operation</scope><name>type</name></member>
+      <member refid="structthemis_1_1graphql_1_1_operation_1abbc672a0c25b66ccaea55919629880fb" prot="public" virt="non-virtual"><scope>themis::graphql::Operation</scope><name>variables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

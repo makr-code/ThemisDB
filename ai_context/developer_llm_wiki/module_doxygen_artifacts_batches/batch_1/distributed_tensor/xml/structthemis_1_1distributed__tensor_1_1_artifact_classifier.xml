@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_artifact_classifier" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ArtifactClassifier</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2tensor__artifact__classes_8h" local="no">tensor_artifact_classes.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a474d094f8ab6629af4dfc435e09745a0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactClassifier::isValidCombination</definition>
+        <argsstring>(ArtifactClass klass, TruthSemantic semantic) noexcept</argsstring>
+        <name>isValidCombination</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClassifier::isValidCombination</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref></type>
+          <declname>klass</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" kindref="member">TruthSemantic</ref></type>
+          <declname>semantic</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Combination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">klass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">semantic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="43" column="17" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="82" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a773ad111933dc7eb0dc14e6a54fb31e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ArtifactClassifier::classToString</definition>
+        <argsstring>(ArtifactClass klass)</argsstring>
+        <name>classToString</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClassifier::classToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref></type>
+          <declname>klass</declname>
+        </param>
+        <briefdescription>
+<para>Class To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">klass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">klass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements classToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="51" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a30dcb93124464aeebc2cddcc006de03a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref> &gt;</type>
+        <definition>std::optional&lt; ArtifactClass &gt; themis::distributed_tensor::ArtifactClassifier::stringToClass</definition>
+        <argsstring>(const std::string &amp;class_str)</argsstring>
+        <name>stringToClass</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClassifier::stringToClass</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>class_str</declname>
+        </param>
+        <briefdescription>
+<para>String To Class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">class_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">class_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToClass without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="58" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aede6ec36babc4e5d61889af3c53febac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ArtifactClassifier::semanticToString</definition>
+        <argsstring>(TruthSemantic semantic)</argsstring>
+        <name>semanticToString</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClassifier::semanticToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" kindref="member">TruthSemantic</ref></type>
+          <declname>semantic</declname>
+        </param>
+        <briefdescription>
+<para>Semantic To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">semantic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">semantic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements semanticToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="65" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="136" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aa319e74a9c56b9d0cc0bad5508e1316a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" kindref="member">TruthSemantic</ref> &gt;</type>
+        <definition>std::optional&lt; TruthSemantic &gt; themis::distributed_tensor::ArtifactClassifier::stringToSemantic</definition>
+        <argsstring>(const std::string &amp;semantic_str)</argsstring>
+        <name>stringToSemantic</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClassifier::stringToSemantic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>semantic_str</declname>
+        </param>
+        <briefdescription>
+<para>String To Semantic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">semantic_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">semantic_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToSemantic without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="72" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="150" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/tensor_artifact_classes.h" line="34" column="1" bodyfile="src/distributed_tensor/include/tensor_artifact_classes.h" bodystart="34" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a773ad111933dc7eb0dc14e6a54fb31e0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactClassifier</scope><name>classToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a474d094f8ab6629af4dfc435e09745a0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactClassifier</scope><name>isValidCombination</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aede6ec36babc4e5d61889af3c53febac" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactClassifier</scope><name>semanticToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a30dcb93124464aeebc2cddcc006de03a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactClassifier</scope><name>stringToClass</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aa319e74a9c56b9d0cc0bad5508e1316a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactClassifier</scope><name>stringToSemantic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

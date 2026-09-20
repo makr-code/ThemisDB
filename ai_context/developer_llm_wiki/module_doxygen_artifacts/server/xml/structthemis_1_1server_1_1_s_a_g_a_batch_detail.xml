@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_s_a_g_a_batch_detail" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SAGABatchDetail</compoundname>
+    <includes refid="saga__api__handler_8h" local="no">saga_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a8e179022b8c1bd9108b2635e4542cbaa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_s_a_g_a_batch_info" kindref="compound">SAGABatchInfo</ref></type>
+        <definition>SAGABatchInfo themis::server::SAGABatchDetail::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themis::server::SAGABatchDetail::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="45" column="19" bodyfile="include/server/saga_api_handler.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a8800d6d04d496fab5fbd6b369fd680d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; themis::utils::SAGAStep &gt;</type>
+        <definition>std::vector&lt;themis::utils::SAGAStep&gt; themis::server::SAGABatchDetail::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::server::SAGABatchDetail::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="46" column="17" bodyfile="include/server/saga_api_handler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a5e67159ffc265059d3d7b99758076ee1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SAGABatchDetail::ciphertext_hash_b64</definition>
+        <argsstring></argsstring>
+        <name>ciphertext_hash_b64</name>
+        <qualifiedname>themis::server::SAGABatchDetail::ciphertext_hash_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="47" column="17" bodyfile="include/server/saga_api_handler.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1ad8d5aca8a4e30bd793d83c6ec3f7e212" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SAGABatchDetail::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::server::SAGABatchDetail::signature_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="48" column="17" bodyfile="include/server/saga_api_handler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1ab425571645048a6aabc907feb490a818" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SAGABatchDetail::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::SAGABatchDetail::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="54" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="91" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::server::SAGABatchDetail</label>
+        <link refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>info</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::server::SAGABatchInfo</label>
+        <link refid="structthemis_1_1server_1_1_s_a_g_a_batch_info"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/saga_api_handler.h" line="44" column="1" bodyfile="include/server/saga_api_handler.h" bodystart="44" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a5e67159ffc265059d3d7b99758076ee1" prot="public" virt="non-virtual"><scope>themis::server::SAGABatchDetail</scope><name>ciphertext_hash_b64</name></member>
+      <member refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a8e179022b8c1bd9108b2635e4542cbaa" prot="public" virt="non-virtual"><scope>themis::server::SAGABatchDetail</scope><name>info</name></member>
+      <member refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1ad8d5aca8a4e30bd793d83c6ec3f7e212" prot="public" virt="non-virtual"><scope>themis::server::SAGABatchDetail</scope><name>signature_b64</name></member>
+      <member refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1a8800d6d04d496fab5fbd6b369fd680d4" prot="public" virt="non-virtual"><scope>themis::server::SAGABatchDetail</scope><name>steps</name></member>
+      <member refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail_1ab425571645048a6aabc907feb490a818" prot="public" virt="non-virtual"><scope>themis::server::SAGABatchDetail</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_drop_column_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DropColumnOptions</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_drop_column_options_1a729312841c373fcedd90a03e4157b245" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::updates::DropColumnOptions::grace_period</definition>
+        <argsstring></argsstring>
+        <name>grace_period</name>
+        <qualifiedname>themis::updates::DropColumnOptions::grace_period</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum time to keep the column before it is physically removed. The column is hidden immediately but data is not purged until after this period, allowing rollback or dependent queries to complete. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="91" column="24" bodyfile="include/updates/schema_migration.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options controlling how a column drop is performed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="87" column="1" bodyfile="include/updates/schema_migration.h" bodystart="87" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_drop_column_options_1a729312841c373fcedd90a03e4157b245" prot="public" virt="non-virtual"><scope>themis::updates::DropColumnOptions</scope><name>grace_period</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

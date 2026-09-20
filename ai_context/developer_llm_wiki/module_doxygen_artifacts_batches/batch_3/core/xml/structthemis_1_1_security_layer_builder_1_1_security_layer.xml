@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_security_layer_builder_1_1_security_layer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SecurityLayerBuilder::SecurityLayer</compoundname>
+    <includes refid="security__initialization_8h" local="no">security_initialization.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_security_layer_builder_1_1_security_layer_1ac4b0aab4e5df0f11df96bedd8536908f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IFieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;IFieldEncryption&gt; themis::SecurityLayerBuilder::SecurityLayer::field_encryption</definition>
+        <argsstring></argsstring>
+        <name>field_encryption</name>
+        <qualifiedname>themis::SecurityLayerBuilder::SecurityLayer::field_encryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="34" column="25" bodyfile="include/core/security_initialization.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_security_layer_builder_1_1_security_layer_1a1e587b419ec86b67b2612b8551b8347b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; security::RBAC &gt;</type>
+        <definition>std::shared_ptr&lt;security::RBAC&gt; themis::SecurityLayerBuilder::SecurityLayer::rbac</definition>
+        <argsstring></argsstring>
+        <name>rbac</name>
+        <qualifiedname>themis::SecurityLayerBuilder::SecurityLayer::rbac</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="36" column="25" bodyfile="include/core/security_initialization.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_security_layer_builder_1_1_security_layer_1a27fbd3507a01b999eedff819fec6d3db" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; auth::JWTValidator &gt;</type>
+        <definition>std::shared_ptr&lt;auth::JWTValidator&gt; themis::SecurityLayerBuilder::SecurityLayer::jwt</definition>
+        <argsstring></argsstring>
+        <name>jwt</name>
+        <qualifiedname>themis::SecurityLayerBuilder::SecurityLayer::jwt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/security_initialization.h" line="38" column="25" bodyfile="include/core/security_initialization.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/security_initialization.h" line="33" column="5" bodyfile="include/core/security_initialization.h" bodystart="33" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1ac4b0aab4e5df0f11df96bedd8536908f" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder::SecurityLayer</scope><name>field_encryption</name></member>
+      <member refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a27fbd3507a01b999eedff819fec6d3db" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder::SecurityLayer</scope><name>jwt</name></member>
+      <member refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a1e587b419ec86b67b2612b8551b8347b" prot="public" virt="non-virtual"><scope>themis::SecurityLayerBuilder::SecurityLayer</scope><name>rbac</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

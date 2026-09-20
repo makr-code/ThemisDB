@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::test::CodeQualityImprovementsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+<para>Verify readability improvements and type safety @finding 7510-tenant_update_scheduler.cpp:195 and 7511-notification_webhook.cpp:304. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>UP-FIN-21..22: Null check order and size_t/int comparison </para>
+</xrefdescription></xrefsect></para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::CodeQualityImprovementsTest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::CodeQualityImprovementsTest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_batch5_finalization.cpp" line="460" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="460" bodyend="460"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

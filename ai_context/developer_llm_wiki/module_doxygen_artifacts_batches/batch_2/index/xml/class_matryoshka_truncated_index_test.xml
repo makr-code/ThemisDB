@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_matryoshka_truncated_index_test" kind="class" language="C++" prot="public">
+    <compoundname>MatryoshkaTruncatedIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1a474f363d7db7d6d548790ea540cbbedf" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MatryoshkaTruncatedIndexTest::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::N</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="197" column="29" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1aaea5fbe76aed86b743f5b00813564fae" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MatryoshkaTruncatedIndexTest::FULL_DIM</definition>
+        <argsstring></argsstring>
+        <name>FULL_DIM</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::FULL_DIM</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="198" column="29" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1a3e262668af1a5491d04ef241ed8ac998" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MatryoshkaTruncatedIndexTest::TRUNC</definition>
+        <argsstring></argsstring>
+        <name>TRUNC</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::TRUNC</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="199" column="29" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1af50d2324c093e198cd0c776909027595" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int MatryoshkaTruncatedIndexTest::K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::K</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="200" column="29" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1aa9131b02471bdf9ce26d91046b0bd016" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; MatryoshkaTruncatedIndexTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="202" column="17" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1a069845c8c66ac1beacbad540b412bcae" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; MatryoshkaTruncatedIndexTest::flat_db_</definition>
+        <argsstring></argsstring>
+        <name>flat_db_</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::flat_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="203" column="30" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; MatryoshkaTruncatedIndexTest::ids_</definition>
+        <argsstring></argsstring>
+        <name>ids_</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="204" column="28" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path MatryoshkaTruncatedIndexTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="205" column="37" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_matryoshka_truncated_index_test_1a02301271382de762db661193dd86f5d6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MatryoshkaTruncatedIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="207" column="10" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="207" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="class_matryoshka_truncated_index_test_1a57d52e36f390ba50bcd4151a2b801191" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MatryoshkaTruncatedIndexTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="217" column="10" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="class_matryoshka_truncated_index_test_1a638e1625466f56656e79a9c059ffbcfa" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_matryoshka_truncated_index" kindref="compound">MatryoshkaTruncatedIndex</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MatryoshkaTruncatedIndex &gt; MatryoshkaTruncatedIndexTest::make_idx</definition>
+        <argsstring>(size_t trunc=TRUNC, bool norm=true) const</argsstring>
+        <name>make_idx</name>
+        <qualifiedname>MatryoshkaTruncatedIndexTest::make_idx</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>trunc</declname>
+          <defval><ref refid="class_matryoshka_truncated_index_test_1a3e262668af1a5491d04ef241ed8ac998" kindref="member">TRUNC</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>norm</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_matryoshka_truncation.cpp" line="221" column="21" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="221" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MatryoshkaTruncatedIndexTest</label>
+        <link refid="class_matryoshka_truncated_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MatryoshkaTruncatedIndexTest</label>
+        <link refid="class_matryoshka_truncated_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_matryoshka_truncation.cpp" line="195" column="1" bodyfile="tests/index/test_matryoshka_truncation.cpp" bodystart="195" bodyend="227"/>
+    <listofallmembers>
+      <member refid="class_matryoshka_truncated_index_test_1aa9131b02471bdf9ce26d91046b0bd016" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>db_</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a069845c8c66ac1beacbad540b412bcae" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>flat_db_</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1aaea5fbe76aed86b743f5b00813564fae" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>FULL_DIM</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a6c514ef47fe09bf4066e05184da82458" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>ids_</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1af50d2324c093e198cd0c776909027595" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>K</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a638e1625466f56656e79a9c059ffbcfa" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>make_idx</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a474f363d7db7d6d548790ea540cbbedf" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>N</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a02301271382de762db661193dd86f5d6" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a57d52e36f390ba50bcd4151a2b801191" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>TearDown</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1adfb2b35d2fa7ec8d62a69dac7a63b37c" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>tmp_dir_</name></member>
+      <member refid="class_matryoshka_truncated_index_test_1a3e262668af1a5491d04ef241ed8ac998" prot="protected" virt="non-virtual"><scope>MatryoshkaTruncatedIndexTest</scope><name>TRUNC</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

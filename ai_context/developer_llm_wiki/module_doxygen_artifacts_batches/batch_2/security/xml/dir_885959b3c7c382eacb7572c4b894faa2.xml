@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_885959b3c7c382eacb7572c4b894faa2" kind="dir">
+    <compoundname>benchmarks/security</compoundname>
+    <innerfile refid="bench__audit__export__gates_8cpp">bench_audit_export_gates.cpp</innerfile>
+    <innerfile refid="bench__compliance__security__governance_8cpp">bench_compliance_security_governance.cpp</innerfile>
+    <innerfile refid="bench__encryption_8cpp">bench_encryption.cpp</innerfile>
+    <innerfile refid="bench__hsm__provider_8cpp">bench_hsm_provider.cpp</innerfile>
+    <innerfile refid="bench__sbom__verification__gates_8cpp">bench_sbom_verification_gates.cpp</innerfile>
+    <innerfile refid="bench__security_8cpp">bench_security.cpp</innerfile>
+    <innerfile refid="bench__security__phase2__crypto__gates_8cpp">bench_security_phase2_crypto_gates.cpp</innerfile>
+    <innerfile refid="bench__security__phase3__policy__gates_8cpp">bench_security_phase3_policy_gates.cpp</innerfile>
+    <innerfile refid="bench__security__release__gates_8cpp">bench_security_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/"/>
+  </compounddef>
+</doxygen>

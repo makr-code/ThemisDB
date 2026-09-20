@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IMultiGPUSelector</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1acf918a7579b0c59c9c70db847d889a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IMultiGPUSelector::~IMultiGPUSelector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMultiGPUSelector</name>
+        <qualifiedname>themis::acceleration::IMultiGPUSelector::~IMultiGPUSelector</qualifiedname>
+        <briefdescription>
+<para>IMulti GPUSelector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1057" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1a9ebd80336f29cb97f175fe979047d2be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_device_set" kindref="compound">DeviceSet</ref></type>
+        <definition>virtual DeviceSet themis::acceleration::IMultiGPUSelector::selectDevices</definition>
+        <argsstring>(const WorkloadDescriptor &amp;workload) const =0</argsstring>
+        <name>selectDevices</name>
+        <qualifiedname>themis::acceleration::IMultiGPUSelector::selectDevices</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_descriptor" kindref="compound">WorkloadDescriptor</ref> &amp;</type>
+          <declname>workload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1059" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1a3aaa3bafc326b03739167279eb34a155" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::acceleration::IMultiGPUSelector::deviceCount</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>deviceCount</name>
+        <qualifiedname>themis::acceleration::IMultiGPUSelector::deviceCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1061" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="1051" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="1051" bodyend="1062"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1a3aaa3bafc326b03739167279eb34a155" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMultiGPUSelector</scope><name>deviceCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1a9ebd80336f29cb97f175fe979047d2be" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMultiGPUSelector</scope><name>selectDevices</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_multi_g_p_u_selector_1acf918a7579b0c59c9c70db847d889a83" prot="public" virt="virtual"><scope>themis::acceleration::IMultiGPUSelector</scope><name>~IMultiGPUSelector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

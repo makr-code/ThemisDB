@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns" kind="namespace" language="C++">
+    <compoundname>themis::llm_wiki::guardrail_patterns</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a0c822cb314bd31d4eda5048b665d8a1d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::llm_wiki::guardrail_patterns::kShellPatterns[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kShellPatterns</name>
+        <qualifiedname>themis::llm_wiki::guardrail_patterns::kShellPatterns</qualifiedname>
+        <initializer>                                                 = {
+    &quot;sudo&quot;,      &quot;su &quot;,       &quot;chmod&quot;,      &quot;chown&quot;,       &quot;rm &quot;,
+    &quot;rm-rf&quot;,     &quot;rmdir&quot;,     &quot;dd if=&quot;,     &quot;mkfs&quot;,        &quot;mount&quot;,
+    &quot;umount&quot;,    &quot;kill&quot;,      &quot;pkill&quot;,      &quot;service&quot;,     &quot;/bin/bash&quot;,
+    &quot;/bin/sh&quot;,   &quot;bash -c&quot;,   &quot;sh -c&quot;,      &quot;nc -l&quot;,       &quot;netcat&quot;,
+    &quot;curl|&quot;,     &quot;wget|&quot;,     &quot;cat|&quot;,       &quot;grep|&quot;,       &quot;awk|&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="51" column="35" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a630b8e8108fa59cec4e6c974d65b1b30" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::llm_wiki::guardrail_patterns::kCodeExecutionPatterns[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kCodeExecutionPatterns</name>
+        <qualifiedname>themis::llm_wiki::guardrail_patterns::kCodeExecutionPatterns</qualifiedname>
+        <initializer>                                                         = {
+    &quot;eval(&quot;,      &quot;exec(&quot;,       &quot;__import__&quot;,    &quot;compile(&quot;,
+    &quot;exec_code&quot;,  &quot;execute_code&quot;, &quot;subprocess&quot;,    &quot;popen(&quot;,
+    &quot;system(&quot;,    &quot;os.system&quot;,   &quot;popen&quot;,         &quot;execvp&quot;,
+    &quot;spawn&quot;,      &quot;fork&quot;,        &quot;clone&quot;,         &quot;dlopen(&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="60" column="35" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a09f3d200d3af53e443e2d0927ae20d86" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::llm_wiki::guardrail_patterns::kEncodingPatterns[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kEncodingPatterns</name>
+        <qualifiedname>themis::llm_wiki::guardrail_patterns::kEncodingPatterns</qualifiedname>
+        <initializer>                                                    = {
+    &quot;base64 decode&quot;,   &quot;hex decode&quot;,       &quot;url decode&quot;,    &quot;unicode decode&quot;,
+    &quot;rot13&quot;,           &quot;cipher&quot;,           &quot;obfuscat&quot;,      &quot;rot-13&quot;,
+    &quot;base 64&quot;,         &quot;b64&quot;,              &quot;unescape&quot;,      &quot;unhex&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="68" column="35" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a92d74a8d3209487beeff81c4adf38854" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::llm_wiki::guardrail_patterns::kPrivilegePatterns[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kPrivilegePatterns</name>
+        <qualifiedname>themis::llm_wiki::guardrail_patterns::kPrivilegePatterns</qualifiedname>
+        <initializer>                                                     = {
+    &quot;setuid&quot;,      &quot;setgid&quot;,         &quot;sudo&quot;,         &quot;admin&quot;,
+    &quot;root&quot;,        &quot;superuser&quot;,      &quot;privilege&quot;,    &quot;credential&quot;,
+    &quot;password&quot;,    &quot;token&quot;,          &quot;secret&quot;,       &quot;key&quot;,
+    &quot;grant&quot;,       &quot;permission&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="75" column="35" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a38887117617821cb835ac434a9d9009d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::llm_wiki::guardrail_patterns::kControlFlowPatterns[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kControlFlowPatterns</name>
+        <qualifiedname>themis::llm_wiki::guardrail_patterns::kControlFlowPatterns</qualifiedname>
+        <initializer>                                                       = {
+    &quot;goto&quot;,        &quot;longjmp&quot;,        &quot;setjmp&quot;,       &quot;jmp_buf&quot;,
+    &quot;signal&quot;,      &quot;handler&quot;,        &quot;interrupt&quot;,    &quot;trap&quot;,
+    &quot;atexit&quot;,      &quot;on_exit&quot;,        &quot;abort&quot;,        &quot;exit_code&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm_wiki/guardrail_patterns.h" line="83" column="35" bodyfile="src/llm_wiki/guardrail_patterns.h" bodystart="83" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/guardrail_patterns.h" line="48" column="1"/>
+  </compounddef>
+</doxygen>

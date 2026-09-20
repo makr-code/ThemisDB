@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::DiffEngine::DiffStats</compoundname>
+    <includes refid="diff__engine_8h" local="no">diff_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a910b0c971f6e3ba3e42e93c0312a04e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffStats::added_count</definition>
+        <argsstring></argsstring>
+        <name>added_count</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffStats::added_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="62" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a4427f2ad4915d0ced6e45f665695d33a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffStats::modified_count</definition>
+        <argsstring></argsstring>
+        <name>modified_count</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffStats::modified_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="63" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a6c4ae9abe127db036e3817baee9d5556" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffStats::deleted_count</definition>
+        <argsstring></argsstring>
+        <name>deleted_count</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffStats::deleted_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="64" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a752ddba9454f5ff99e7d413b92673e70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffStats::total_changes</definition>
+        <argsstring></argsstring>
+        <name>total_changes</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffStats::total_changes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="65" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a141e23436f8f0265074626d1cba5168b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref></type>
+        <definition>json themis::analytics::DiffEngine::DiffStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="71" column="14" bodyfile="src/analytics/diff_engine.cpp" bodystart="75" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/diff_engine.h" line="61" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="61" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a910b0c971f6e3ba3e42e93c0312a04e8" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffStats</scope><name>added_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a6c4ae9abe127db036e3817baee9d5556" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffStats</scope><name>deleted_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a4427f2ad4915d0ced6e45f665695d33a" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffStats</scope><name>modified_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a141e23436f8f0265074626d1cba5168b" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a752ddba9454f5ff99e7d413b92673e70" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffStats</scope><name>total_changes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

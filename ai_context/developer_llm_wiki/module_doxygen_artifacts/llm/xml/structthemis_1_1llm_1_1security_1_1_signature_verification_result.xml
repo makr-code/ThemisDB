@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1security_1_1_signature_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::security::SignatureVerificationResult</compoundname>
+    <includes refid="signature__verifier_8h" local="no">signature_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ae12bde4de456d2993943c9aaff9403bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::security::SignatureVerificationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="30" column="10" bodyfile="include/llm/security/signature_verifier.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ad0eafc9314ff43c9bcd2737d8e828a53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::security::SignatureVerificationResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="31" column="17" bodyfile="include/llm/security/signature_verifier.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ad2a3956b359ed5c5f9f5c23a04b31b90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::security::SignatureVerificationResult::signer_identity</definition>
+        <argsstring></argsstring>
+        <name>signer_identity</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::signer_identity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="32" column="17" bodyfile="include/llm/security/signature_verifier.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1a383a3aa53e158d5c66b700cde6f9745b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::security::SignatureVerificationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="33" column="17" bodyfile="include/llm/security/signature_verifier.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ab6ae2f539e2f1f7420ce3ecd22549d59" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::security::SignatureVerificationResult::chain_fingerprints</definition>
+        <argsstring></argsstring>
+        <name>chain_fingerprints</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::chain_fingerprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="36" column="17" bodyfile="include/llm/security/signature_verifier.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1a464d14a0105a825ddc5b48b82756c6a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::security::SignatureVerificationResult::chain_valid</definition>
+        <argsstring></argsstring>
+        <name>chain_valid</name>
+        <qualifiedname>themis::llm::security::SignatureVerificationResult::chain_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="37" column="10" bodyfile="include/llm/security/signature_verifier.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/security/signature_verifier.h" line="29" column="1" bodyfile="include/llm/security/signature_verifier.h" bodystart="29" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ad0eafc9314ff43c9bcd2737d8e828a53" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ab6ae2f539e2f1f7420ce3ecd22549d59" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>chain_fingerprints</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1a464d14a0105a825ddc5b48b82756c6a9" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>chain_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1a383a3aa53e158d5c66b700cde6f9745b" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ae12bde4de456d2993943c9aaff9403bd" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result_1ad2a3956b359ed5c5f9f5c23a04b31b90" prot="public" virt="non-virtual"><scope>themis::llm::security::SignatureVerificationResult</scope><name>signer_identity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

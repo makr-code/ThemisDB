@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperPlugin</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_scraper_plugin" prot="public" virt="non-virtual">themis::scraper::ScraperPlugin</derivedcompoundref>
+    <includes refid="scraper__plugin_8h" local="no">scraper_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1a6c25d9ad49f4eeb7b796e7eb5a587185" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperPlugin::~IScraperPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperPlugin</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::~IScraperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="107" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::scraper::IScraperPlugin::initialize</definition>
+        <argsstring>(const ScraperConfig &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialise the plugin from a configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Complete scraper configuration (seed URLs, crawl options, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false when the config is structurally invalid. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When config.loadFromFile/Yaml parsing fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="115" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1a83a7b4d6c73e6deebf9f137ecb28762f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_stats" kindref="compound">ScraperRunStats</ref></type>
+        <definition>virtual ScraperRunStats themis::scraper::IScraperPlugin::scrape</definition>
+        <argsstring>()=0</argsstring>
+        <name>scrape</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::scrape</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_plugin_1a774d7b3759eb2a9d01a5274e33556da6">scrape</reimplementedby>
+        <briefdescription>
+<para>Execute the agentic scraper loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until all seeds and search forms have been processed or the max_pages limit is reached. Error isolation guarantees that per-URL failures do not abort the run.</para>
+<para><simplesect kind="pre"><para><ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5" kindref="member">initialize()</ref> must have been called and returned true. </para>
+</simplesect>
+<simplesect kind="return"><para>Run statistics (URLs visited, documents accepted/discarded, …). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When called before a successful <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5" kindref="member">initialize()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="128" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5731691f97222f46171b38c6f213e302" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraped_document" kindref="compound">ScrapedDocument</ref> &gt; &amp;</type>
+        <definition>virtual const std::vector&lt; ScrapedDocument &gt; &amp; themis::scraper::IScraperPlugin::getResults</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getResults</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::getResults</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_plugin_1a401c698410547f5b3e401650aec35b68">getResults</reimplementedby>
+        <briefdescription>
+<para>Returns all documents collected in the most recent <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a83a7b4d6c73e6deebf9f137ecb28762f" kindref="member">scrape()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes both accepted (discarded=false) and discarded (discarded=true) documents. The vector is cleared by <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5ba37c7fc611bd0e4b882949f221a82f" kindref="member">reset()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="136" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5ba37c7fc611bd0e4b882949f221a82f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::scraper::IScraperPlugin::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_plugin_1a03d6b97c23451390ca8caad2855df5ab">reset</reimplementedby>
+        <briefdescription>
+<para>Reset state so the plugin can be re-initialised for a new run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clears results, resets statistics, and sets initialized=false. Injected dependencies (evaluator, writer, …) are preserved. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="144" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_plugin_1aacf50b9106d074f744c7aeea48d57be9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::scraper::IScraperPlugin::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::scraper::IScraperPlugin::isInitialized</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_plugin_1a619dc80c06072e76b6b4e856aeddd97e">isInitialized</reimplementedby>
+        <briefdescription>
+<para>Returns true after a successful call to <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5" kindref="member">initialize()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="149" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for the agentic scraper plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lifecycle:<orderedlist>
+<listitem><para>Call initialize(config) — returns false on invalid config.</para>
+</listitem><listitem><para>Call <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a83a7b4d6c73e6deebf9f137ecb28762f" kindref="member">scrape()</ref> — blocks until the run completes.</para>
+</listitem><listitem><para>Inspect <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5731691f97222f46171b38c6f213e302" kindref="member">getResults()</ref> for the accepted documents.</para>
+</listitem><listitem><para>Call <ref refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5ba37c7fc611bd0e4b882949f221a82f" kindref="member">reset()</ref> before reusing the same instance with a new config. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::IScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_plugin"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::ScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_scraper_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_plugin.h" line="105" column="1" bodyfile="include/scraper/scraper_plugin.h" bodystart="105" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5731691f97222f46171b38c6f213e302" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperPlugin</scope><name>getResults</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1aacf50b9106d074f744c7aeea48d57be9" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5ba37c7fc611bd0e4b882949f221a82f" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperPlugin</scope><name>reset</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a83a7b4d6c73e6deebf9f137ecb28762f" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperPlugin</scope><name>scrape</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a6c25d9ad49f4eeb7b796e7eb5a587185" prot="public" virt="virtual"><scope>themis::scraper::IScraperPlugin</scope><name>~IScraperPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

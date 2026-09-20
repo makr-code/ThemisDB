@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_session_window_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SessionWindowConfig</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_session_window_config_1a6217d2ba0c2186774ce4fc10078a9288" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::SessionWindowConfig::gap</definition>
+        <argsstring></argsstring>
+        <name>gap</name>
+        <qualifiedname>themisdb::analytics::SessionWindowConfig::gap</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="207" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_session_window_config_1adb5af75c8e8d67bbc5f5f60a6c7a3672" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref></type>
+        <definition>WatermarkConfig themisdb::analytics::SessionWindowConfig::watermark</definition>
+        <argsstring></argsstring>
+        <name>watermark</name>
+        <qualifiedname>themisdb::analytics::SessionWindowConfig::watermark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="208" column="21" bodyfile="include/analytics/streaming_window.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_session_window_config_1a26d163269320f3884d08dce6ea5aab95" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::SessionWindowConfig::session_expiry_check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>session_expiry_check_interval_ms</name>
+        <qualifiedname>themisdb::analytics::SessionWindowConfig::session_expiry_check_interval_ms</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="209" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_session_window_config_1ae927f7782ba4652507a5c5cd69032487" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::SessionWindowConfig::max_open_sessions</definition>
+        <argsstring></argsstring>
+        <name>max_open_sessions</name>
+        <qualifiedname>themisdb::analytics::SessionWindowConfig::max_open_sessions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="210" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_session_window_config_1a70ab907488becfa73c4bf62a3044d86e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::SessionWindowConfig::max_records_per_session</definition>
+        <argsstring></argsstring>
+        <name>max_records_per_session</name>
+        <qualifiedname>themisdb::analytics::SessionWindowConfig::max_records_per_session</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="211" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::SessionWindowConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_session_window_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>watermark</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::WatermarkConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_watermark_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/streaming_window.h" line="206" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="206" bodyend="212"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_session_window_config_1a6217d2ba0c2186774ce4fc10078a9288" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindowConfig</scope><name>gap</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_session_window_config_1ae927f7782ba4652507a5c5cd69032487" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindowConfig</scope><name>max_open_sessions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_session_window_config_1a70ab907488becfa73c4bf62a3044d86e" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindowConfig</scope><name>max_records_per_session</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_session_window_config_1a26d163269320f3884d08dce6ea5aab95" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindowConfig</scope><name>session_expiry_check_interval_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_session_window_config_1adb5af75c8e8d67bbc5f5f60a6c7a3672" prot="public" virt="non-virtual"><scope>themisdb::analytics::SessionWindowConfig</scope><name>watermark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

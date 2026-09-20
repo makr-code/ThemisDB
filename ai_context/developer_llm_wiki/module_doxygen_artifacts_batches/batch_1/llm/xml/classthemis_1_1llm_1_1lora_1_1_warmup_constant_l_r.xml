@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::WarmupConstantLR</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public" virt="non-virtual">themis::llm::lora::LRScheduler</basecompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a123dc720d5c06aa0c95bdee72550dc8a" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::WarmupConstantLR::target_lr_</definition>
+        <argsstring></argsstring>
+        <name>target_lr_</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::target_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="289" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a4dfb198166536333e9aae88815dc0217" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::WarmupConstantLR::warmup_steps_</definition>
+        <argsstring></argsstring>
+        <name>warmup_steps_</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::warmup_steps_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="290" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac78e3e237cf83c15e0e5ae9bff709a69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::WarmupConstantLR::WarmupConstantLR</definition>
+        <argsstring>(float target_lr, int warmup_steps)</argsstring>
+        <name>WarmupConstantLR</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::WarmupConstantLR</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>target_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>warmup_steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="280" column="5" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="280" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1aae49d04bfd6d8de6c481348770d45946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::WarmupConstantLR::~WarmupConstantLR</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~WarmupConstantLR</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::~WarmupConstantLR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="282" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0017d83eb26690bf6a81bbd3870771f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::WarmupConstantLR::get_lr</definition>
+        <argsstring>(int step) const override</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::get_lr</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688">get_lr</reimplements>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="284" column="11" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0de8f69aab48a528fbf35eb23174f7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::lora::WarmupConstantLR::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::type</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="285" column="19" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a6d0240e369b8039dbc0ff94e2bf5b4fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::WarmupConstantLR::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::WarmupConstantLR::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="286" column="23" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="176" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::WarmupConstantLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::WarmupConstantLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="278" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="278" bodyend="291"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a6d0240e369b8039dbc0ff94e2bf5b4fe" prot="public" virt="virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0017d83eb26690bf6a81bbd3870771f" prot="public" virt="virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a123dc720d5c06aa0c95bdee72550dc8a" prot="private" virt="non-virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>target_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0de8f69aab48a528fbf35eb23174f7d" prot="public" virt="virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a4dfb198166536333e9aae88815dc0217" prot="private" virt="non-virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>warmup_steps_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac78e3e237cf83c15e0e5ae9bff709a69" prot="public" virt="non-virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>WarmupConstantLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>~LRScheduler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1aae49d04bfd6d8de6c481348770d45946" prot="public" virt="non-virtual"><scope>themis::llm::lora::WarmupConstantLR</scope><name>~WarmupConstantLR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classwave1__exd_1_1_stub_inference_engine" kind="class" language="C++" prot="public">
+    <compoundname>wave1_exd::StubInferenceEngine</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classwave1__exd_1_1_stub_inference_engine_1a7546effa9d43430c644a263a7f8c6d37" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_exd::StubInferenceEngine::simulate_throw_</definition>
+        <argsstring></argsstring>
+        <name>simulate_throw_</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::simulate_throw_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="161" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classwave1__exd_1_1_stub_inference_engine_1a7572c924ded3c44d1721149284395a2f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_exd::StubInferenceEngine::shut_down_</definition>
+        <argsstring></argsstring>
+        <name>shut_down_</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::shut_down_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="162" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_inference_engine_1affb128224b27af07919d8a150d7ee478" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>wave1_exd::StubInferenceEngine::StubInferenceEngine</definition>
+        <argsstring>(bool simulate_throw_in_shutdown=false)</argsstring>
+        <name>StubInferenceEngine</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::StubInferenceEngine</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>simulate_throw_in_shutdown</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="139" column="14" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="139" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_inference_engine_1a9661457006930c48e946f331c506e899" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>wave1_exd::StubInferenceEngine::~StubInferenceEngine</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~StubInferenceEngine</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::~StubInferenceEngine</qualifiedname>
+        <briefdescription>
+<para>noexcept matches the production InferenceEngineEnhanced::~InferenceEngineEnhanced() </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="143" column="5" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="143" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_inference_engine_1aa236b0d08be6cf2a2a801a2ac374ca2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_exd::StubInferenceEngine::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="151" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="151" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_inference_engine_1a4703c9638c8159642bf4e633a3432c72" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool wave1_exd::StubInferenceEngine::wasShutDown</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>wasShutDown</name>
+        <qualifiedname>wave1_exd::StubInferenceEngine::wasShutDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="158" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Models InferenceEngineEnhanced destructor contract: <ref refid="classwave1__exd_1_1_stub_inference_engine_1aa236b0d08be6cf2a2a801a2ac374ca2d" kindref="member">shutdown()</ref> is called inside the destructor, which itself must not propagate exceptions. </para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="137" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="137" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1a7572c924ded3c44d1721149284395a2f" prot="private" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>shut_down_</name></member>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1aa236b0d08be6cf2a2a801a2ac374ca2d" prot="public" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>shutdown</name></member>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1a7546effa9d43430c644a263a7f8c6d37" prot="private" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>simulate_throw_</name></member>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1affb128224b27af07919d8a150d7ee478" prot="public" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>StubInferenceEngine</name></member>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1a4703c9638c8159642bf4e633a3432c72" prot="public" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>wasShutDown</name></member>
+      <member refid="classwave1__exd_1_1_stub_inference_engine_1a9661457006930c48e946f331c506e899" prot="public" virt="non-virtual"><scope>wave1_exd::StubInferenceEngine</scope><name>~StubInferenceEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

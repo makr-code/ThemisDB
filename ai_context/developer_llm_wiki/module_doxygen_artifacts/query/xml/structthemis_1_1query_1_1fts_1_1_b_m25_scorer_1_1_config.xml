@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::BM25Scorer::Config</compoundname>
+    <includes refid="bm25__scorer_8h" local="no">bm25_scorer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1aef27fb3368cb8a2e66e4171ba71a1e63" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::BM25Scorer::Config::k1</definition>
+        <argsstring></argsstring>
+        <name>k1</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::Config::k1</qualifiedname>
+        <initializer>= 1.5f</initializer>
+        <briefdescription>
+<para>Term frequency saturation parameter (default: 1.5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="36" column="11" bodyfile="include/query/bm25_scorer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1a3e6229fe714da325085992d35f4f0e89" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::BM25Scorer::Config::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <qualifiedname>themis::query::fts::BM25Scorer::Config::b</qualifiedname>
+        <initializer>= 0.75f</initializer>
+        <briefdescription>
+<para>Length normalization parameter (default: 0.75). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/bm25_scorer.h" line="37" column="11" bodyfile="include/query/bm25_scorer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/bm25_scorer.h" line="35" column="3" bodyfile="include/query/bm25_scorer.h" bodystart="35" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1a3e6229fe714da325085992d35f4f0e89" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer::Config</scope><name>b</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1aef27fb3368cb8a2e66e4171ba71a1e63" prot="public" virt="non-virtual"><scope>themis::query::fts::BM25Scorer::Config</scope><name>k1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::RPCServiceRegistryImpl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1aab2e94cb33c8bc5053e6f6aa9e023715" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, void * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, void*&gt; themis::plugins::rpc::RPCServiceRegistryImpl::services_</definition>
+        <argsstring></argsstring>
+        <name>services_</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::services_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="66" column="24" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a035b22a3500994ab0f2f9984a8675e06" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::rpc::RPCServiceRegistryImpl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="67" column="16" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a294d67a2d3fe24f58e191b47ac0b56b4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl" kindref="compound">RPCServiceRegistryImpl</ref> &amp;</type>
+        <definition>static RPCServiceRegistryImpl &amp; themis::plugins::rpc::RPCServiceRegistryImpl::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="27" column="35" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1adf7ef9f2c857f08f1b725fef55464faf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::RPCServiceRegistryImpl::registerService</definition>
+        <argsstring>(const std::string &amp;name, void *impl)</argsstring>
+        <name>registerService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::registerService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Register Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="38" column="10" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a655797520754570a5b7410ff50def7fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::plugins::rpc::RPCServiceRegistryImpl::getService</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::getService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="49" column="10" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1aea44641105134f2b1099544ff8beecd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::rpc::RPCServiceRegistryImpl::unregisterService</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterService</name>
+        <qualifiedname>themis::plugins::rpc::RPCServiceRegistryImpl::unregisterService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/rpc_service_registry.cpp" line="60" column="10" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/plugins/rpc_service_registry.cpp" line="20" column="1" bodyfile="src/plugins/rpc_service_registry.cpp" bodystart="20" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a655797520754570a5b7410ff50def7fb" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>getService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a294d67a2d3fe24f58e191b47ac0b56b4" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>instance</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1a035b22a3500994ab0f2f9984a8675e06" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1adf7ef9f2c857f08f1b725fef55464faf" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>registerService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1aab2e94cb33c8bc5053e6f6aa9e023715" prot="private" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>services_</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl_1aea44641105134f2b1099544ff8beecd4" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServiceRegistryImpl</scope><name>unregisterService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

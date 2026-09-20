@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_intent_classifier_1_1_classification_result" kind="struct" language="C++" prot="public">
+    <compoundname>IntentClassifier::ClassificationResult</compoundname>
+    <includes refid="intent__classifier_8h" local="no">intent_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_classification_result_1a06bfb7a93cf5a55705e6ca788f0a1403" prot="public" static="no" mutable="no">
+        <type><ref refid="class_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref></type>
+        <definition>IntentType themis::security::IntentClassifier::ClassificationResult::intent</definition>
+        <argsstring></argsstring>
+        <name>intent</name>
+        <qualifiedname>IntentClassifier::ClassificationResult::intent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="43" column="21" bodyfile="include/security/intent_classifier.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_classification_result_1a51fcb69706370280db777be7a5e8ea45" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::IntentClassifier::ClassificationResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>IntentClassifier::ClassificationResult::confidence</qualifiedname>
+        <briefdescription>
+<para>[0.0, 1.0] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="44" column="21" bodyfile="include/security/intent_classifier.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_classification_result_1a523eddf306c7c505b673809fef85fd66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::ClassificationResult::primary_indicator</definition>
+        <argsstring></argsstring>
+        <name>primary_indicator</name>
+        <qualifiedname>IntentClassifier::ClassificationResult::primary_indicator</qualifiedname>
+        <briefdescription>
+<para>human-readable evidence token </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="45" column="21" bodyfile="include/security/intent_classifier.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/intent_classifier.h" line="42" column="5" bodyfile="include/security/intent_classifier.h" bodystart="42" bodyend="46"/>
+    <listofallmembers>
+      <member refid="struct_intent_classifier_1_1_classification_result_1a51fcb69706370280db777be7a5e8ea45" prot="public" virt="non-virtual"><scope>IntentClassifier::ClassificationResult</scope><name>confidence</name></member>
+      <member refid="struct_intent_classifier_1_1_classification_result_1a06bfb7a93cf5a55705e6ca788f0a1403" prot="public" virt="non-virtual"><scope>IntentClassifier::ClassificationResult</scope><name>intent</name></member>
+      <member refid="struct_intent_classifier_1_1_classification_result_1a523eddf306c7c505b673809fef85fd66" prot="public" virt="non-virtual"><scope>IntentClassifier::ClassificationResult</scope><name>primary_indicator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

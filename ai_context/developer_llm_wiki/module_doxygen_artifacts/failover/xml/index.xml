@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1failover_1_1_auto_failover_config" kind="struct"><name>themis::failover::AutoFailoverConfig</name>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a2d9746feb08e913c2b69798e1afd837f" kind="variable"><name>failure_detection_interval</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1ada819a254f1f9643cf3d26f477651ff7" kind="variable"><name>health_check_interval</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a82989ec79e00bf809efeadfdc2d79e82" kind="variable"><name>failover_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1abcae95609e0ea60a0eb5bec29011b5a8" kind="variable"><name>spare_activation_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a67917a8f9f57244c0920d80a83e0e7a5" kind="variable"><name>leader_election_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1afee01a869543f74f02754c6340370392" kind="variable"><name>consecutive_failures_before_action</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a9474de3184275d748e7a4e0bdead334f" kind="variable"><name>max_concurrent_failovers</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a386ef7a169422c0915a973024f01e06f" kind="variable"><name>queue_pressure_threshold</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a5b89572c8f79bf1d8b4648fbb700a007" kind="variable"><name>enable_automatic_failover</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1adbd67b21066c7ec4b71852ec0344a1b5" kind="variable"><name>enable_spare_activation</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1ae00a39ae006c3b564a06e2304661f1fc" kind="variable"><name>enable_leader_election</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1af7cf88ddf1354576af7a1bd343eacee4" kind="variable"><name>enable_network_partition_detection</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c741950f92f3fb7bff4055cc5c81477" kind="variable"><name>enable_split_brain_prevention</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a5363390f015029236df58bde5cb9bcfd" kind="variable"><name>enable_automatic_recovery</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" kind="variable"><name>recovery_retry_interval</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" kind="variable"><name>max_recovery_attempts</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a7e845ed64e0c259fb75813c9167abfc6" kind="variable"><name>health_check_call_timeout_ms</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a2290851b0a416bcfe8cfc499b20a9011" kind="variable"><name>quorum_log_path</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c035165ca055a164a3c210bbb94f8d4" kind="variable"><name>adaptive_check_interval</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1aebfec2beab143ae13544c8a193c63dfb" kind="variable"><name>adaptive_check_samples</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1aba2b0283b15b8ba3c5e02af0f8a671be" kind="variable"><name>adaptive_check_interval_min</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a59aa33bce62b3a31a92630470b9cd040" kind="variable"><name>adaptive_check_interval_max</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a9af85ac11fae977f382c8c8dcefefc22" kind="variable"><name>gc_grace_failure_count</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1ab1bd0728479360514c81ad367e31a060" kind="variable"><name>gc_grace_window</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a8a4a7072a083623c0425f4bc3388488c" kind="variable"><name>gc_grace_period</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a1c618e11af6783a96580f9235464ba25" kind="variable"><name>quorum_timeout_ms</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1a981afc87d1dffcd1cb51d8d44b66f409" kind="variable"><name>deterministic_tie_breaking</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_config_1aea60438b425a9d5f61ea87b5fbc0f1a8" kind="variable"><name>max_heartbeats_per_second</name></member>
+  </compound>
+  <compound refid="classthemis_1_1failover_1_1_auto_failover_manager" kind="class"><name>themis::failover::AutoFailoverManager</name>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kind="typedef"><name>FailoverEventCallback</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a9160fd74d9140ef02ca4186ecaa5a714" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a415d283fc1c4dd3d07a99f44f9bd2103" kind="variable"><name>quorum_log_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0bc2742d699a57da7b0dbdafe950506e" kind="variable"><name>replication_mgr_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1acf38978f125cb1d896317249f23c156e" kind="variable"><name>health_monitor_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac8d58823765233ca808be88838bf612c" kind="variable"><name>spare_manager_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae3f436ad3f2ab07163df55d9d60c1000" kind="variable"><name>fencing_manager_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac3bfba79a6727b83f2b01f67adf6654b" kind="variable"><name>state_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aed0f8bbc2326454d528d071ecfd471b3" kind="variable"><name>running_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1acc45703d6abde888a52641924b7db484" kind="variable"><name>failover_in_progress_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1adab8493ac39a860f8554a4c58aabbdc4" kind="variable"><name>monitoring_thread_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ab0c3da40b0800d0b853380e00ee41691" kind="variable"><name>failover_thread_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a8702e5a9926fafdad0e5fb494a6b7b9a" kind="variable"><name>monitor_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac0d83ec901c9bf4dd974b7f00c66de3e" kind="variable"><name>failover_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a62e3db197c6996d569d222d0125fd1ef" kind="variable"><name>failover_cv_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a213617b29680be181f7909ee79273434" kind="variable"><name>failover_queue_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ada0e47e87f13d7f9eec272a59fdf475c" kind="variable"><name>consecutive_failures_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d1c7bfd411f362ce715f7b547efc69b" kind="variable"><name>tracking_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a8b85bba7008e52a0cf015294f744a110" kind="variable"><name>topology_version_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a43241f54026410aeaf09de89ef42596f" kind="variable"><name>last_failover_result_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7fa28f0a6c6c7d472a2b78dadfc19ea3" kind="variable"><name>health_check_latency_samples_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a6cc2023c5ee212bb64d726499304e580" kind="variable"><name>recent_failure_timestamps_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a30cd9cdb60f79acf10c6ac5080d2f1fd" kind="variable"><name>gc_grace_expiry_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aea558044cfaf39239be46bbfc8c57273" kind="variable"><name>current_check_interval_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa41da45ba771a788696fcf249344d677" kind="variable"><name>heartbeat_coalesce_window_start_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0d9acd2581ca99472b64f119528d1d2c" kind="variable"><name>heartbeat_coalesce_count_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3c8a7bf716641e82ae144de4e4bbf234" kind="variable"><name>stats_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a11beebf1e82641f61f56bee04f559706" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad2dec2b1b77410ccd86cb0b7925aef8f" kind="variable"><name>failover_durations_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a62cf756994d325d66f5028ab213d7c13" kind="variable"><name>callbacks_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad67fff6d39790ce41ef830395f016d56" kind="variable"><name>event_callbacks_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a6e10f485f0b51c2e989ae91634c5be06" kind="variable"><name>abandoned_health_check_future_</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" kind="function"><name>AutoFailoverManager</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a814bf2bd52e3b6e44a42aa83f98de217" kind="function"><name>~AutoFailoverManager</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad3057625feddc42f242049975c1bb8fb" kind="function"><name>start</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a78757a4d2251f5923727d6058895d9c9" kind="function"><name>stop</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac04c22a9ce8dc4e8756751f26d58cfae" kind="function"><name>isRunning</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac9cebd4ecd8a157c4d24516f3eb56256" kind="function"><name>triggerManualFailover</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a31d122398d066b94de8f3eb05904be28" kind="function"><name>getState</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7088ec0ecc3a320b03b3e8223dcbed71" kind="function"><name>isFailoverInProgress</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a59a416df84a1c5a820162b4ae2e17aea" kind="function"><name>getFailingNodes</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1af3deb301bf6c1d07ea9709b4de93eddb" kind="function"><name>getLastFailoverResult</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0c248a17293d0ff9e2cbb5b26b51d064" kind="function"><name>updateConfig</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d3a739df9f18ad19bc0e72047ac166b" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a18b1b0d1c43e06186e3c38c1e4e819f7" kind="function"><name>resetStatistics</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1af8388238862d134f335381edddbd2120" kind="function"><name>registerEventCallback</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" kind="function"><name>canTransition</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d7746d4f4cb3b09b7c1afe3d1e0b892" kind="function"><name>captureTopologySnapshot</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7827b3a0376f8e09b316e2cba35ee800" kind="function"><name>monitoringLoop</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae3bc5cf3a8d188a9e19e2c5d6a418b48" kind="function"><name>performHealthChecks</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a467588a53c352016c580834b77d1a882" kind="function"><name>checkForNetworkPartitions</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a17c34b250d1d9f5c47be05938f4d7ed5" kind="function"><name>detectNodeFailures</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a212010b7cef29f05f023a95775a03e55" kind="function"><name>updateFailureTracking</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac5770eda19aa55fa09504648a1715e96" kind="function"><name>performBoundedHealthCheck</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa59550808c8529220ef533eb878ae34a" kind="function"><name>updateAdaptiveInterval</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae1ead9c865b9b957a5af671b85f6c6b3" kind="function"><name>checkAndApplyGcGrace</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a783284945cf27dc87ca34d14596fc38a" kind="function"><name>failoverLoop</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a52cceda3c0cd5647fe946f61e7a490d0" kind="function"><name>processFailover</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1b4b0ba2d8896e17422bc5151ed8229d" kind="function"><name>checkAndWaitForQuorum</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a76abc7615c427c55e5fabfafa0d8ddd5" kind="function"><name>startLeaderElection</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3c055d0e327eee5b4ce58334996f491c" kind="function"><name>selectAndPromoteReplica</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0b18f979e4f55e47b04876ef8e02733e" kind="function"><name>activateSpareIfNeeded</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a20940769eaf3ea68aec1709d5d0e2039" kind="function"><name>updateMetadata</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2e3b15bd193efebba41ace63012e1bc3" kind="function"><name>verifyFailoverCompletion</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa7bd178377a328abcaf13abd317753ac" kind="function"><name>preventSplitBrain</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a887ef7e056d45a87a788421eea9993ee" kind="function"><name>resolveSplitVote</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a97fa86d4ea828fe8b6b3e15c302881a1" kind="function"><name>handleNetworkPartition</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0e9a1df12005f6ebaf9a0800d0e9dd08" kind="function"><name>isNetworkPartitionedFromQuorum</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a67616d97d4fa72a5325e69af5fbc4af5" kind="function"><name>attemptRecovery</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2f6f9614c41c274f41bc4c432b2592a6" kind="function"><name>waitForNodeRecovery</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1afd93acb64941d39a3599e4f90bdacfed" kind="function"><name>transitionState</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a481c68ea3007f96162d8852ccd35f605" kind="function"><name>emitDiagnostic</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2c48ad4966cedadf4d1fccec75884631" kind="function"><name>emitEvent</name></member>
+    <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a4be9be5180d3f8c2bcfdbbd7d6b000d2" kind="function"><name>updateStatistics</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_config" kind="struct"><name>themis::failover::DisasterRecoveryConfig</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" kind="variable"><name>precheck_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" kind="variable"><name>catchup_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" kind="variable"><name>verification_timeout</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" kind="variable"><name>max_verification_retries</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" kind="variable"><name>require_quorum</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" kind="variable"><name>enforce_epoch_fencing</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" kind="variable"><name>allow_dry_run_without_managers</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1ace9f893f8e3f20b9cbc931f79de09d85" kind="variable"><name>consensus_timeout_ms</name></member>
+  </compound>
+  <compound refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kind="class"><name>themis::failover::DisasterRecoveryManager</name>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" kind="typedef"><name>StepHook</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f90c2a2452927548bb482502655c1e" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8126f792f1c96c2d55947ba19a35dde6" kind="variable"><name>replication_mgr_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8fc7e0208ca393e366ef4f02356cd162" kind="variable"><name>fencing_mgr_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ab888c61441780911c7da2cf6b8f1daa1" kind="variable"><name>hooks_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a24b5e890af2f632859675fb112794da1" kind="variable"><name>state_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abc0f0e634161f17259d92ce0f05e3a52" kind="variable"><name>state_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8db1fd9419b166af7b74cda39fa1b4ee" kind="variable"><name>execution_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a52e30b6b941aace61c3d3b608b5f9f9f" kind="variable"><name>idempotency_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abec87a53021c9172ce50eae558d1891e" kind="variable"><name>completed_plans_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1aed644fb57da1d27b7f8808b54f79b2ec" kind="variable"><name>stats_mutex_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a45a70361b05b44cf0c7a0c8eeee48fcf" kind="variable"><name>stats_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a334501e7502ecb956d16cbbd1800ad20" kind="variable"><name>durations_</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a7c1416ee75001a8760052ea117f6d5b8" kind="function"><name>DisasterRecoveryManager</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4935f0ef7306fab7a33084cd965ba98c" kind="function"><name>executePlan</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1afdcaf061adabd69d3c75c259ecf9e373" kind="function"><name>validatePlan</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1aa448b50e95845469e51935e3e17e7c68" kind="function"><name>setStepHook</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a5cd1a9dc5659577aeeb39eaead1ced8a" kind="function"><name>clearStepHooks</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ac15855c7331d23b4cc5bd94c8ff3aba3" kind="function"><name>getState</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0d549e94129b9472bab9a501397ea10e" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a56550d803d43fbb366f0ee43f157a330" kind="function"><name>runStep</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ade087f1d69776430c1fbc734c7cefd53" kind="function"><name>runPrechecks</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4e5a336e33f0bdff55df7baac21a5adb" kind="function"><name>validateSnapshot</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0fa675859acce919068360c2470d8f19" kind="function"><name>applyEpochFencing</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a58e20b645d17a1c89d0b7f7a25cb1aeb" kind="function"><name>runRestore</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f82ff9134f408592d7aff8ecbae858" kind="function"><name>waitForCatchup</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ae9ef5328838be620932fe578f0660f4b" kind="function"><name>shiftTraffic</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a25de7bb2a7a5bc52f9cede47ce5ef4c6" kind="function"><name>verifyRecoveredState</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1af1a2eb7dfcdebc78fe8fcb868d3f3788" kind="function"><name>transitionState</name></member>
+    <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abbb540fac82335626d3796841b685c07" kind="function"><name>updateStatistics</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kind="struct"><name>themis::failover::DisasterRecoveryPlan</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" kind="variable"><name>plan_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" kind="variable"><name>primary_site</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" kind="variable"><name>recovery_site</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" kind="variable"><name>snapshot_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a7cd91f9548c952aa577bcb596faa98ed" kind="variable"><name>critical_nodes</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kind="variable"><name>dry_run</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" kind="variable"><name>shift_traffic</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_result" kind="struct"><name>themis::failover::DisasterRecoveryResult</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a33ae5c0e2fb0219639e8d972fdebe4a3" kind="variable"><name>final_state</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ac0f9d14f56ec5cc211f54285d908615e" kind="variable"><name>duration</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ad2013a8aaf023d7b6d94f75dcedc43c9" kind="variable"><name>error_message</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1afa36d242c843225a4fe4abe52cfd0160" kind="variable"><name>fenced_epoch</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1abb8ecea870696a082b08cfac9329fa84" kind="variable"><name>step_results</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" kind="struct"><name>themis::failover::DisasterRecoveryStepResult</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1a8027a0d6353f3c018f8773f725bc70ed" kind="variable"><name>step</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1ab7fce3053ddf9c1308f3f02e5748a6d8" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_step_result_1abaa9ced61f8dd8b70b50673f59b3a4a6" kind="variable"><name>message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash" kind="struct"><name>themis::failover::DisasterRecoveryManager::EnumHash</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash_1a4836d6066ce7677b0b601a9bc684083a" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_failover_result" kind="struct"><name>themis::failover::FailoverResult</name>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a676282ea1089c3112654bf7d07c324ff" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a728c4b25d8c8f7aa18874bc4f08ef2de" kind="variable"><name>failed_node_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a168b3b9ae05850bc54d6e640ab27d804" kind="variable"><name>promoted_node_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a69e5fd5345b13ec8c2800da85205c2bd" kind="variable"><name>spare_node_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a281a64bd8459013b531c816018eb849d" kind="variable"><name>duration</name></member>
+    <member refid="structthemis_1_1failover_1_1_failover_result_1a3904fae41cbf979b866c62c6f71d6afd" kind="variable"><name>error_message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task" kind="struct"><name>themis::failover::AutoFailoverManager::FailoverTask</name>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1ac7c2786e569fbfe87e7512d3505e5adb" kind="variable"><name>failed_node_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a58d4e1d70043fb0444656e03424f9325" kind="variable"><name>target_promote_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task_1a3e010e0ee9a080c4e635827d1afc1d06" kind="variable"><name>enqueued_at</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg" kind="struct"><name>themis::bench::frg::HeartbeatMsg</name>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a6286ceb96d0afc98d1720464ad5226af" kind="variable"><name>epoch</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a463184abf465a71b1c972d821bc9d3a9" kind="variable"><name>sender_id</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a2367d570f3a6c31ad3f794c4463ee504" kind="variable"><name>timestamp_ms</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1abb02354d59fb8df6be7a5acf8f6ec3f0" kind="variable"><name>padding</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer" kind="struct"><name>themis::bench::frg::InFlightBuffer</name>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a868422a650dc3d5cb438f0470b037c0a" kind="variable"><name>count</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a865bc0409bc11233da10f1eedb712ab4" kind="variable"><name>capacity</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a2e5bb76b56e20b031c05e1c0182e9b51" kind="function"><name>hasRoom</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1fp23_1_1_mock_fencing_manager" kind="struct"><name>themis::bench::fp23::MockFencingManager</name>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats" kind="struct"><name>themis::bench::fp23::MockQueueStats</name>
+    <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats_1a02fe4e28e05d5fc084939644db197f1e" kind="variable"><name>tasks_dropped_queue_full</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats" kind="struct"><name>themis::bench::fp23::MockRecoveryStats</name>
+    <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a90b6d7b9f62e145b9f1099bad8b254e1" kind="variable"><name>total_retry_attempts</name></member>
+    <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a9a37a72ddb3c8289b1d69258ef92569c" kind="variable"><name>failed_retries</name></member>
+    <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1ae793def1ae0a32736b55426dbc244862" kind="variable"><name>successful_retries</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1frg_1_1_node_health_state" kind="struct"><name>themis::bench::frg::NodeHealthState</name>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a87a751d05afadebc366844a6af832840" kind="variable"><name>last_hb_ms</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a92a009f30b242b04d99f98c2c6c542be" kind="variable"><name>timeout_ms</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a654fb9ad7184e42eb2ed1791a6f46653" kind="variable"><name>alive</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_quorum_entry" kind="struct"><name>themis::failover::QuorumEntry</name>
+    <member refid="structthemis_1_1failover_1_1_quorum_entry_1a2a21c2932cc9725928083daa0fd6b663" kind="variable"><name>epoch</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_entry_1a3d40640c5ddeb79fe0c8fe9f5a597903" kind="variable"><name>node_id</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_entry_1ab4cfbab7212d4f46b9fb7e148c8dce17" kind="variable"><name>decision</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_entry_1aa8a3e601d1f5b608984095fd875bcf9a" kind="variable"><name>timestamp_ms</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_entry_1a5ef595ddaffae3b72e171f9302d0bde7" kind="variable"><name>crc32</name></member>
+  </compound>
+  <compound refid="classthemis_1_1failover_1_1_quorum_log" kind="class"><name>themis::failover::QuorumLog</name>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1a9b47f8a04079d3b8988d3d9e45e1e1ff" kind="variable"><name>log_path_</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kind="function"><name>QuorumLog</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1a260e33b323a3afbc7f11b43957c5ebba" kind="function"><name>~QuorumLog</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1a6e1fce2d43e7f457d2b1fa9c39ef27ec" kind="function"><name>QuorumLog</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1aaa5602952b43b43c52ef37f7a9114b2c" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1ac219d6d85bea2fce91cbe41e078d4a3d" kind="function"><name>append</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1aa9e261c599e751f794c4a200f11bdc4f" kind="function"><name>recover</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1a958f8ecd6630e6f7139c44882971c96a" kind="function"><name>path</name></member>
+    <member refid="classthemis_1_1failover_1_1_quorum_log_1a0dfe8dea135b39e44ad0c5cf49a7b7d0" kind="function"><name>computeCrc32</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_quorum_state" kind="struct"><name>themis::failover::QuorumState</name>
+    <member refid="structthemis_1_1failover_1_1_quorum_state_1ad74317e17ba7eabc8c7dd371f1f18b6a" kind="variable"><name>last_epoch</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_state_1aba7f71fcdb69bd93c4373cac401b08df" kind="variable"><name>last_promoted_node</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_state_1ade60ee35cab750de1df33bf90e161390" kind="variable"><name>last_decision</name></member>
+    <member refid="structthemis_1_1failover_1_1_quorum_state_1afd951f803a7e82e886e338fd756354b8" kind="variable"><name>valid</name></member>
+  </compound>
+  <compound refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg" kind="struct"><name>themis::bench::frg::StateSyncMsg</name>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a4e56da02a4470b06fe75c4cb4b46808e" kind="variable"><name>epoch</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a63629a9efb5be84f80ae1974bae860e6" kind="variable"><name>offset</name></member>
+    <member refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg_1a44a8006f8971f93e33b94e751128161a" kind="variable"><name>data</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kind="struct"><name>themis::failover::AutoFailoverManager::Statistics</name>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3d7fff6585ef8762d1f2ff046850cfb7" kind="variable"><name>total_failovers</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1af324c9892b9ec2c09f3da642bd03eb10" kind="variable"><name>successful_failovers</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a5d5a1506bdfc4148473058c14eaf709e" kind="variable"><name>failed_failovers</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a46e46c6a991490471841bb4415ce6317" kind="variable"><name>network_partitions_detected</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3c97ead0459f808294538c5eb04997d3" kind="variable"><name>split_brain_preventions</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aa3afe0854430c2af052f868db09ddd9d" kind="variable"><name>avg_failover_time</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a02c28fa063df5aae5bb5635551aa2dd3" kind="variable"><name>min_failover_time</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8b0563091a1b9d77033b3f0b3766b134" kind="variable"><name>max_failover_time</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8a7d839a4291d6d25f96d3ed80cf0134" kind="variable"><name>current_queue_depth</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8f21f178ff2667bdae740177419e6753" kind="variable"><name>max_queue_depth_observed</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a61b4eee73c784f186183557b7c7a848b" kind="variable"><name>tasks_dropped_queue_full</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a11e6b6e4ed42f7e3eee0f6cea6f1fb74" kind="variable"><name>queue_pressure_events</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8dc4baf32c7c44019a73fef19b4ab80e" kind="variable"><name>total_retry_attempts</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aff4b588b4595d71102c6fa66e3871a5e" kind="variable"><name>successful_retries</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a036166a994a529348efd677db85c0773" kind="variable"><name>failed_retries</name></member>
+    <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1add24e44e6f207e02c7ee646149339970" kind="variable"><name>total_recovery_attempts</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kind="struct"><name>themis::failover::DisasterRecoveryManager::Statistics</name>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8927ff51793506c24ab987baf76e53b2" kind="variable"><name>total_runs</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a0055ff09041abaad9ba0c6a40bd5b49e" kind="variable"><name>successful_runs</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a8d782254ab85bb7e4aa734d311758490" kind="variable"><name>failed_runs</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a33ecf81e7939c82575733a4b113cf51d" kind="variable"><name>aborted_runs</name></member>
+    <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics_1a7ef9d3641cf7b763cef876c61335b427" kind="variable"><name>average_duration</name></member>
+  </compound>
+  <compound refid="structthemis_1_1failover_1_1_topology_snapshot" kind="struct"><name>themis::failover::TopologySnapshot</name>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" kind="variable"><name>failures</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ac86e1437e34fe771aaba3667f16ab791" kind="variable"><name>node_ids</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1a99bade088b1cb6a5f4dbfe3aa1ed38bc" kind="function"><name>added_nodes</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ae6e9efee1bb2745016a4af6fde8ccd93" kind="function"><name>removed_nodes</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ac69a0939a1d551ff7aa2e7956d9bef23" kind="function"><name>has_topology_change</name></member>
+    <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ad51afc63ed652c73f055f699a32aba90" kind="function"><name>capture</name></member>
+  </compound>
+  <compound refid="namespace_0d031130112135124234056063224170366113076136362330" kind="namespace"><name>@031130112135124234056063224170366113076136362330</name>
+  </compound>
+  <compound refid="namespace_0d036055323304043122231013321005101011236142116046" kind="namespace"><name>@036055323304043122231013321005101011236142116046</name>
+  </compound>
+  <compound refid="namespace_0d160031333047117344323160027010055365120031125145" kind="namespace"><name>@160031333047117344323160027010055365120031125145</name>
+  </compound>
+  <compound refid="namespace_0d167325001277070264116334136010014262164073244342" kind="namespace"><name>@167325001277070264116334136010014262164073244342</name>
+  </compound>
+  <compound refid="namespace_0d244016062232013226323154076345262144331213132000" kind="namespace"><name>@244016062232013226323154076345262144331213132000</name>
+  </compound>
+  <compound refid="namespace_0d253217345363203142105100346352067202343051214106" kind="namespace"><name>@253217345363203142105100346352067202343051214106</name>
+  </compound>
+  <compound refid="namespace_0d265111263155144223316226217255341272154126134054" kind="namespace"><name>@265111263155144223316226217255341272154126134054</name>
+  </compound>
+  <compound refid="namespace_0d313212177131176064250247221310101000124064212160" kind="namespace"><name>@313212177131176064250247221310101000124064212160</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1fp23" kind="namespace"><name>themis::bench::fp23</name>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1ab0f353ae9e90c19d484f657498e1339c" kind="typedef"><name>FailoverEventCallback</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a6fce1fcb1a40eebba0c9fed1ca04b8f5" kind="variable"><name>kP23CanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a8274c6f4c25c726b588b84d0570158e1" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a157f4d174c1c7026e4161fce71d44895" kind="variable"><name>kWarmupIterations</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a5e342838939022fe32b35c227513dc84" kind="variable"><name>g_execution_mutex</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1ab1ffa41567488842850bdc69cb05a9f2" kind="variable"><name>g_stats_mutex</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a72ddcdc193dd5d4785f5eb8938310e23" kind="variable"><name>g_recovery_stats</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a406ccae7ad05cbe12498cdd9275d2abd" kind="variable"><name>g_empty_callbacks</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a04021a88e9e6e77f4e4c4b58d5c695a1" kind="variable"><name>kMockMaxConcurrentFailovers</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1ab279a27f41d8adb08225bd16fab3127f" kind="variable"><name>g_queue_mutex</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a4569ebaaf1686b805d69515f5eac8a2d" kind="variable"><name>g_queue_stats</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1aeed046991ea4282ff3b35223fefcadcb" kind="function"><name>mockCanTransition</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1adf6189d717f0585c49cce4a64f99c655" kind="function"><name>mockPreventSplitBrainFailClosed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a10aa9529d1662311c1b0e94fea0feee9" kind="function"><name>mockExecutionGuard</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a5ea83f1551d783787f40123265e0061e" kind="function"><name>mockBatchStatsFlush</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a8cb1d2a4491626b897c23ae436ddcd6f" kind="function"><name>mockEmitDiagnostic</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1aae806421022fa5e79b6e48388037b932" kind="function"><name>mockTriggerFailoverQueueFullDrop</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a42f32ac821fabf6ce0ac2e5d27d534f6" kind="function"><name>BM_FP23_01_CanTransitionLookup</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a87484199bdb6af036250433d46ba346d" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a45a89e09ba284702cd0869345bb577af" kind="function"><name>BM_FP23_02_PreventSplitBrainFailClosed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1aac9b98509f76383cf4d402dbc4df7dd1" kind="function"><name>BM_FP23_03_ExecutePlanConcurrencyGuard</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a660e88268d2cd620a29d090833a9959a" kind="function"><name>BM_FP23_04_AttemptRecoveryBatchStatsFlush</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a9fdb30d499b4b6cbb45c22e118a4cb03" kind="function"><name>BM_FP23_05_EmitDiagnosticDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1fp23_1a117eee8a6975fadc68674fde1e357613" kind="function"><name>BM_FP23_06_TriggerFailoverQueueFullDrop</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1frg" kind="namespace"><name>themis::bench::frg</name>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a0bd3565d96ba48dad7fab16bf0725f44" kind="variable"><name>kFailoverCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a0d2b7fd8881955092a6d1df138e232a5" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1af4d941aeaaa0b7c6936cb179004a1323" kind="variable"><name>kWarmupIterations</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1acf722f4d719f07a0b2220a8f365463bb" kind="variable"><name>kBufSize</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1af2a64e383406a2b5528fbda1f3bf3969" kind="variable"><name>g_epoch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a0af6117d0cd501a8aa32114041ddd625" kind="function"><name>makeHeartbeat</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1aea47a1e4d41637daeffdfc57193e4cea" kind="function"><name>runMockElection</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1acb95f56ad598c7ad1eacb302f11fbfa6" kind="function"><name>makeStateSync</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a1eb7fc93fb0f0971d70659d8fd43afe6" kind="function"><name>evaluateHealth</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a4919143fb2dba44e49dfad3186972b62" kind="function"><name>incrementAndPersistEpoch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1ae6be2360ed1059b14601bddf7960e5f0" kind="function"><name>BM_FRG01_HeartbeatSendOverhead</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a4dc518c9f992bfc259186e1076d058b1" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1af48ce1349ba7ed90f2f14353024640db" kind="function"><name>BM_FRG02_ElectionDecision</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1afb3c124674e8eb2f77b4b651e9563fc5" kind="function"><name>Arg</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a072a47b87c928e9271a2d91d38f5faf3" kind="function"><name>BM_FRG03_StateSyncSerialize</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a8b94f3d5752eb1dd2f7887156274521a" kind="function"><name>BM_FRG04_HealthCheckEvaluation</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a8d792ad41ef6cdc4149282873c8ff681" kind="function"><name>BM_FRG05_InFlightBufferCheck</name></member>
+    <member refid="namespacethemis_1_1bench_1_1frg_1a0b8d320480853f1dc1c39944264fd1ff" kind="function"><name>BM_FRG06_EpochIncrementPersist</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1failover" kind="namespace"><name>themis::failover</name>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kind="enum"><name>FailoverEventType</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a525ea54cb438fa2c162f3a58807748f5" kind="enumvalue"><name>NODE_FAILURE_DETECTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac365a723376219ad542ea3eea431008e" kind="enumvalue"><name>QUORUM_CHECK_PASSED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a9950c183a921303acf8c812d08d2c938" kind="enumvalue"><name>QUORUM_CHECK_FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab732abb995b2ad026b080be1e6e07184" kind="enumvalue"><name>LEADER_ELECTION_STARTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3154460e008063d518b5e659504c58e8" kind="enumvalue"><name>LEADER_ELECTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a666456c51d2f8c3ffe3a10a448d2de59" kind="enumvalue"><name>SPARE_ACTIVATED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a33d285ab97e16d74291c1b8936019453" kind="enumvalue"><name>SPARE_ACTIVATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3986ad9bab09619982e5b4fe230e93c0" kind="enumvalue"><name>FAILOVER_COMPLETED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a984b2dcdbfd219ee28ca3c0fa63549fd" kind="enumvalue"><name>FAILOVER_CANCELLED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a4b610a4613fcf11d25506c94d47f6d9b" kind="enumvalue"><name>RECOVERY_STARTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab5f7c8acadb75ff41d83c04da98ca895" kind="enumvalue"><name>RECOVERY_COMPLETED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a0dee95ae77d0baff6db0d5186a30704e" kind="enumvalue"><name>NETWORK_PARTITION_DETECTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a96e55045ca31be4a17e285c280611f7a" kind="enumvalue"><name>QUEUE_PRESSURE</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac3f8a1d7a36d4f74b5a5a7ec44204005" kind="enumvalue"><name>HEARTBEAT_MISSED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a14d0d4ad987868a4c16ba615f997caeb" kind="enumvalue"><name>SPLIT_BRAIN_RISK_DETECTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ad457aa9b34aaa594e96e83542c35e2e1" kind="enumvalue"><name>NODE_REJOIN_FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kind="enum"><name>FailoverOrchestratorState</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kind="enumvalue"><name>IDLE</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac5180bd8e8f315dd948c1dbffb071c50" kind="enumvalue"><name>DETECTING_FAILURE</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kind="enumvalue"><name>VERIFYING_FAILURE</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kind="enumvalue"><name>CHECKING_QUORUM</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" kind="enumvalue"><name>STARTING_LEADER_ELECTION</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kind="enumvalue"><name>LEADER_ELECTION_IN_PROGRESS</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da5c8c2f6b4c9276b2010c0828e190b651" kind="enumvalue"><name>ACTIVATING_SPARE</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daca0d5dcb6025fc537360dab45ceb0451" kind="enumvalue"><name>REDIRECTING_TRAFFIC</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kind="enumvalue"><name>UPDATING_METADATA</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kind="enumvalue"><name>COMPLETING_FAILOVER</name></member>
+    <member refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kind="enum"><name>DisasterRecoveryState</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" kind="enumvalue"><name>IDLE</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa95dd7ceac214d9668600481386bdbfd" kind="enumvalue"><name>PRECHECKS</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326af274237df90551b4c1690102a80f9f0e" kind="enumvalue"><name>SNAPSHOT_VALIDATION</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a560ed638a779af425820b814c3283a17" kind="enumvalue"><name>EPOCH_FENCING</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ac95fa04340c629ddfa2d38e285e59245" kind="enumvalue"><name>RESTORE</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a40343c9dbda4a2a7cefca793adb8308a" kind="enumvalue"><name>REPLICA_CATCHUP</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a0ec2edd0a73692758839c12efb1a284d" kind="enumvalue"><name>TRAFFIC_SHIFT</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a38e546ad5ae30263739bc07b278a910e" kind="enumvalue"><name>VERIFICATION</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a8f7afecbc8fbc4cd0f50a57d1172482e" kind="enumvalue"><name>COMPLETED</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a4e6c860e5da10e31c5fd9cb76ddc2025" kind="enumvalue"><name>ABORTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kind="enum"><name>DisasterRecoveryStep</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" kind="enumvalue"><name>PRECHECKS</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66af274237df90551b4c1690102a80f9f0e" kind="enumvalue"><name>SNAPSHOT_VALIDATION</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a560ed638a779af425820b814c3283a17" kind="enumvalue"><name>EPOCH_FENCING</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66ac95fa04340c629ddfa2d38e285e59245" kind="enumvalue"><name>RESTORE</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a40343c9dbda4a2a7cefca793adb8308a" kind="enumvalue"><name>REPLICA_CATCHUP</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a0ec2edd0a73692758839c12efb1a284d" kind="enumvalue"><name>TRAFFIC_SHIFT</name></member>
+    <member refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a38e546ad5ae30263739bc07b278a910e" kind="enumvalue"><name>VERIFICATION</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kind="enum"><name>NodeRole</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa88183b946cc5f0e8c96b2e66e1c74a7e" kind="enumvalue"><name>Unknown</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa829e620db67faa54c8ca8441f1239d41" kind="enumvalue"><name>Follower</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa25befec7033aa9feec4a5a586d4e1366" kind="enumvalue"><name>Candidate</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa5158a250e30f1fb4415d86ded2c8e0c5" kind="enumvalue"><name>Leader</name></member>
+    <member refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaad7c8c85bf79bbe1b7188497c32c3b0ca" kind="enumvalue"><name>Failed</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kind="enum"><name>FailoverErrorCode</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" kind="enumvalue"><name>ELECTION_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae1060c291804dc70e39623f1078fd270" kind="enumvalue"><name>SPLIT_BRAIN_DETECTED</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccabbaefc9258ba25d647648dda0b553dee" kind="enumvalue"><name>HANDOVER_INCOMPLETE</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccad457aa9b34aaa594e96e83542c35e2e1" kind="enumvalue"><name>NODE_REJOIN_FAILED</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac3f8a1d7a36d4f74b5a5a7ec44204005" kind="enumvalue"><name>HEARTBEAT_MISSED</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" kind="enumvalue"><name>STATE_SYNC_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" kind="enumvalue"><name>QUORUM_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccaba9cd57b65da001f23d76d5fb33f2231" kind="enumvalue"><name>INVALID_EPOCH</name></member>
+    <member refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae8c0c70879b5895c615677261d64a1ee" kind="enumvalue"><name>INTERNAL_ERROR</name></member>
+    <member refid="namespacethemis_1_1failover_1a715fec3b25222f58fe59d24f21f7ce7a" kind="variable"><name>kHeartbeatInterval</name></member>
+    <member refid="namespacethemis_1_1failover_1a4e188c44861fb7d760ee97270cc09b4b" kind="variable"><name>kHeartbeatTimeout</name></member>
+    <member refid="namespacethemis_1_1failover_1a8a24fc2e4cdf8982d0e222278811a22b" kind="variable"><name>kMinHeartbeatTimeout</name></member>
+    <member refid="namespacethemis_1_1failover_1a11e2e73dc0d10cedf7acae427c401c41" kind="variable"><name>kMaxHeartbeatTimeout</name></member>
+    <member refid="namespacethemis_1_1failover_1afb302df324514943368f024901f79681" kind="variable"><name>kElectionTimeoutBudget</name></member>
+    <member refid="namespacethemis_1_1failover_1a77eb6d15b10b62fe4f309b2e6fbe00b0" kind="variable"><name>kStateSyncDeadline</name></member>
+    <member refid="namespacethemis_1_1failover_1a43c2932af1e3941079a42588c450ea2b" kind="variable"><name>kInvalidEpoch</name></member>
+    <member refid="namespacethemis_1_1failover_1a96705c0d00320ad61f269ccf4a36aa83" kind="variable"><name>kFirstValidEpoch</name></member>
+    <member refid="namespacethemis_1_1failover_1a87eb9a69cdc18d5a3b7d692a96855489" kind="variable"><name>kMaxInFlightRequests</name></member>
+    <member refid="namespacethemis_1_1failover_1aea8052e89ca3064de4b82c5f2a7d054c" kind="variable"><name>kHandoverDrainDeadline</name></member>
+    <member refid="namespacethemis_1_1failover_1a38e15e18ea99230b1dbf9f6caf38689c" kind="function"><name>isValidEpoch</name></member>
+    <member refid="namespacethemis_1_1failover_1ace83577a0da379ee05da9a4a68b43e70" kind="function"><name>isNewerEpoch</name></member>
+    <member refid="namespacethemis_1_1failover_1aaed361cb05e980d4be7c686f96516061" kind="function"><name>isWriteEligible</name></member>
+    <member refid="namespacethemis_1_1failover_1ae6eaef154c2ab2c1dde541256b56f9f7" kind="function"><name>isVoteEligible</name></member>
+    <member refid="namespacethemis_1_1failover_1a7b6b33c2a70210030bc868d88484161b" kind="function"><name>isFailSafeCode</name></member>
+    <member refid="namespacethemis_1_1failover_1ac3bdc2a2063b2eec7c96793ce9e547e9" kind="function"><name>isRetryEscalationCode</name></member>
+    <member refid="namespacethemis_1_1failover_1aca1debc6e42aa0e9413a676769fe9c2f" kind="function"><name>toRetryTimeoutSource</name></member>
+    <member refid="namespacethemis_1_1failover_1abcdf0f31195d1e2da55d7ed7bd0debff" kind="function"><name>quorumSize</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1failover_1_1_0d027245370360115255137310365220315202231202057014" kind="namespace"><name>themis::failover::@027245370360115255137310365220315202231202057014</name>
+  </compound>
+  <compound refid="namespacethemis_1_1failover_1_1test" kind="namespace"><name>themis::failover::test</name>
+    <member refid="namespacethemis_1_1failover_1_1test_1a7247b38d0d1dfd9a10eccab63c695809" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a3918a29eb5e66d77d24bbd0b72d040b0" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1aa87b5e392ef075c1e34c7149dcf87902" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a43eafb8ad5072f57bcbf13b786a4dbbb" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1acd57fd32682f8963712d76c73ee4b2e5" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1aaf6545e5270662fcd0a64de4741c1c42" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1ab285521046c448f8cf559236d76d5428" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a2feb13e42735d39a00a9d8c32b4c8835" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a8c6558f550a3c6f787074044eb8b1411" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a3e4ed73a419b9e30d185143d2b131d39" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a8524121ddc8cf204135e8e94b2218e74" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a72697a3f2c1f14f0b0bef5df3492073e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1ad1dc2ec12188b77363acfcfa52e6d31a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a93cc6a37d857cb82cbe717e37a8c3354" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a465a69584d3a011d7f2973a9ca0e67d6" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a72f72a15e44480f3558b0ff471da2006" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a33e6490084254fc6f9f5372326273793" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1aeedab8da1ac9d7c383ea720ad4723d93" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1adc90196fde3358ff276f6d7ba810a504" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1ab5fc9d4aa0eb947b4599b90ed97d4a23" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1ad27391d97e1602047ef7da02088969b9" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1af14aa417430a0d270d1621aa6275f6b8" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a9cc9bc8b7b1a09f364ec0e7ccef03d32" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a1e7423191702727166a38e033fa237c5" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a7ba76ca15750c2cbfc52706b85210704" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a68ec0badc088fb2571f930c943f60e93" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1failover_1_1test_1a92015c61c4ba0d8b5a02c7986ec8753d" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1sharding" kind="namespace"><name>themis::sharding</name>
+  </compound>
+  <compound refid="bench__failover__phase2__phase3__gates_8cpp" kind="file"><name>bench_failover_phase2_phase3_gates.cpp</name>
+    <member refid="bench__failover__phase2__phase3__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__failover__release__gates_8cpp" kind="file"><name>bench_failover_release_gates.cpp</name>
+    <member refid="bench__failover__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__failover__wave__b__gates_8cpp" kind="file"><name>bench_failover_wave_b_gates.cpp</name>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a80bf914f015563234d28594a8fc26d7f" kind="function"><name>BM_FWB01_AdaptiveIntervalUpdate</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a06e55186a1c0718fe87a0a78aab17f20" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a7613a43e93b916a988ae3f4a0e036edc" kind="function"><name>BM_FWB02_QuorumLogAppendInMemory</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1aaee18974176510b922d1342e1381ce3a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1adb3655409e627f64043b8390409dada8" kind="function"><name>BM_FWB03_TopologySnapshotCapture</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a1b721dfc904fec0a99e7585a5333e83e" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1ae289ca3385c5dcc52773e4b6dabb963e" kind="function"><name>BM_FWB04_TopologySnapshotDiff</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a9691e042df939ede0c0b08dd671075cf" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1aa4cf27aa0f18a6f943d57a39eedf831e" kind="function"><name>BM_FWB05_GcGraceBurstDetection</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a60d55927b3b3da3365ccd9989c2dfaa4" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1af5b782b3138d9acda4eec6e3552c836e" kind="function"><name>BM_FWB06_QuorumResolutionFastPath</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1ad4de3a26929a89ae43fb497023b014f8" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a90edfbe5433e8f4dcc4133347c49a489" kind="function"><name>BM_FWB07_RecoveryBatchStatFlush</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a4d024cabf5f021d779fa628ccda16df7" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a4cef0dacb25ff73bebac1aa7acbdf97c" kind="function"><name>BM_FWB08_ConcurrentQueueEnqueue</name></member>
+    <member refid="bench__failover__wave__b__gates_8cpp_1a2a1e1bdc9c4105c950303cb6b2395582" kind="function"><name>Repetitions</name></member>
+  </compound>
+  <compound refid="auto__failover__manager_8h" kind="file"><name>auto_failover_manager.h</name>
+  </compound>
+  <compound refid="disaster__recovery__manager_8h" kind="file"><name>disaster_recovery_manager.h</name>
+  </compound>
+  <compound refid="failover__api__contract_8h" kind="file"><name>failover_api_contract.h</name>
+  </compound>
+  <compound refid="quorum__log_8h" kind="file"><name>quorum_log.h</name>
+  </compound>
+  <compound refid="topology__snapshot_8h" kind="file"><name>topology_snapshot.h</name>
+  </compound>
+  <compound refid="auto__failover__manager_8cpp" kind="file"><name>auto_failover_manager.cpp</name>
+  </compound>
+  <compound refid="disaster__recovery__manager_8cpp" kind="file"><name>disaster_recovery_manager.cpp</name>
+  </compound>
+  <compound refid="quorum__log_8cpp" kind="file"><name>quorum_log.cpp</name>
+  </compound>
+  <compound refid="topology__snapshot_8cpp" kind="file"><name>topology_snapshot.cpp</name>
+  </compound>
+  <compound refid="test__failover__chaos__scenarios_8cpp" kind="file"><name>test_failover_chaos_scenarios.cpp</name>
+  </compound>
+  <compound refid="test__failover__contract__hardening__focused_8cpp" kind="file"><name>test_failover_contract_hardening_focused.cpp</name>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a75d13d50d3b394ade68d4f4024babaf2" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a5a1661cf8acd99b36e1c5b24923f3a57" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1ae8a717dd044ceb2af7bd012822cc8a84" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a529e21f83eee20702d1ae9815e4f44e6" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1ad5315e25c4dee822a35402f9fe2315a5" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1aa9296e1fba53120f8a2a45d220c568e6" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1abb6e52b08b6f78cf13c4ab9ab6d9074e" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a7b9a08bb274e889bc38ef75f2bb5de3c" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a5c4cc269da8c5df014d69e1f8b8a1281" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a7c2e62b009e4cb7af0b4887e9c83253d" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a7b4ba2af8584e270adcefb4838a3afae" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1acc19a634048b55dc8339db698c6db061" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1aa508b43af673037004b0dfbb43a14f63" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a780fc70c83ffdcfde37599dbd191ad41" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1a62214dc516a5c68d5dee2a3a8c075cb0" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1ac78a8db9400e9e3d1b65c341dac231e1" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__contract__hardening__focused_8cpp_1af252b0827f262d14a5e1bf37642b5dc2" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__failover__dr__edge__scenarios_8cpp" kind="file"><name>test_failover_dr_edge_scenarios.cpp</name>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a66bc48db221e9fc052fd28a16ca7b193" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a03fab942feb12fdd94723d3fe029b8e2" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a00333228059e111e20f1da13657e9252" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1aa431ad5f23221a46e1c0d5af90a86516" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a4a21fe302589274b072464fd3c762fb9" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1ac735e4bb0e455b9e2d14e233004f9221" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a5c944086594ae6161606b78fe578ddc9" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__dr__edge__scenarios_8cpp_1a1919fde47a65cf362316f53807dbadbd" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__failover__phase2__phase3__focused_8cpp" kind="file"><name>test_failover_phase2_phase3_focused.cpp</name>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1aaecb83e2feb6875c25f30fb7e9361ba1" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a7fd9b66efa3a97b61c8d7f04066c834e" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a2a270efcbd163e2359c8cc3c3f0bccea" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a74ebf31eccf9f6d9d8ce53d58ead1a39" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a4882970cb804d9c803ca4c90d79954a3" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a8b5bf069dfc3bff200e7f8c8f1542a67" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__phase2__phase3__focused_8cpp_1a2adc5b22e24e3a61ff55343034306222" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__failover__wave__a__fencing_8cpp" kind="file"><name>test_failover_wave_a_fencing.cpp</name>
+  </compound>
+  <compound refid="test__failover__wave__a__health__timeout_8cpp" kind="file"><name>test_failover_wave_a_health_timeout.cpp</name>
+  </compound>
+  <compound refid="test__failover__wave__a__quorum__persistence_8cpp" kind="file"><name>test_failover_wave_a_quorum_persistence.cpp</name>
+    <member refid="test__failover__wave__a__quorum__persistence_8cpp_1a05ec903ffe7ae6d10dd0c4aad53e8f9d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__failover__wave__a__quorum__persistence_8cpp_1a90db086ec6328f71b270456514b18129" kind="function"><name>TEST_F</name></member>
+    <member refid="test__failover__wave__a__quorum__persistence_8cpp_1a47ff942d2a25591883c00686980da368" kind="function"><name>TEST_F</name></member>
+    <member refid="test__failover__wave__a__quorum__persistence_8cpp_1a48c6048576984c1481de34c888dd0116" kind="function"><name>TEST_F</name></member>
+    <member refid="test__failover__wave__a__quorum__persistence_8cpp_1a12d81909dd505e9a0607a5b89d9caafd" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__failover__wave__a__topology__versioning_8cpp" kind="file"><name>test_failover_wave_a_topology_versioning.cpp</name>
+  </compound>
+  <compound refid="test__failover__wave__b__adaptive__health_8cpp" kind="file"><name>test_failover_wave_b_adaptive_health.cpp</name>
+  </compound>
+  <compound refid="test__failover__wave__b__consensus_8cpp" kind="file"><name>test_failover_wave_b_consensus.cpp</name>
+  </compound>
+  <compound refid="test__failover__wave__c__fencing__security_8cpp" kind="file"><name>test_failover_wave_c_fencing_security.cpp</name>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1af59e5bace5e4d76f125b0461a937b3d7" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1ad3628fb11bc8a539ccb1ac001533677f" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1acfd1316bd7246b10ef21d31c39cdd83c" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1a3a8b078283543fba57e117f105f99c06" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1a8825db920fc8a946378e9f74e45915df" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1a1d08d53b3138d8327a1f66be4dcc7cd0" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1ad9ada6330db258e7aeb23f221efad206" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1a0162b2efd5930aed8aad4bad080915de" kind="function"><name>TEST</name></member>
+    <member refid="test__failover__wave__c__fencing__security_8cpp_1a411a308dad5f53f55abb193b9e3c9070" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__failover__wave__d__observability_8cpp" kind="file"><name>test_failover_wave_d_observability.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_11b114e577261427c21eca848047b8f2" kind="dir"><name>benchmarks/failover</name>
+  </compound>
+  <compound refid="dir_4d95f95389f4ceb13df8f8b75da26de1" kind="dir"><name>include/failover</name>
+  </compound>
+  <compound refid="dir_d9873b517ede45839a2a91bd36240447" kind="dir"><name>src/failover</name>
+  </compound>
+  <compound refid="dir_7ecabc4743ba12be88efc40f49fb7a3e" kind="dir"><name>tests/failover</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

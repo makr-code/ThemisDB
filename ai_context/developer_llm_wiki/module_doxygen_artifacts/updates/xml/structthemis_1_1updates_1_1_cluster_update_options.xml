@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_update_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterUpdateOptions</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_options_1a5f36db84cf4f1d04bb0e27b1fb7fe22d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::updates::ClusterUpdateOptions::health_check_timeout</definition>
+        <argsstring></argsstring>
+        <name>health_check_timeout</name>
+        <qualifiedname>themis::updates::ClusterUpdateOptions::health_check_timeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Timeout for the per-node health check after the update is applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="118" column="26" bodyfile="include/updates/cluster_update_manager.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_options_1a49ef3940c4395fd6fb83ba98497bd2a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterUpdateOptions::rollback_on_failure</definition>
+        <argsstring></argsstring>
+        <name>rollback_on_failure</name>
+        <qualifiedname>themis::updates::ClusterUpdateOptions::rollback_on_failure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, invoke the NodeRollbackFunc (if registered) on a node that fails to update or fails its post-update health check, and abort updating any subsequent nodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="123" column="10" bodyfile="include/updates/cluster_update_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options controlling how a cluster-wide update is executed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="116" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="116" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_options_1a5f36db84cf4f1d04bb0e27b1fb7fe22d" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateOptions</scope><name>health_check_timeout</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_options_1a49ef3940c4395fd6fb83ba98497bd2a2" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateOptions</scope><name>rollback_on_failure</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

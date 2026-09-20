@@ -1,0 +1,868 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1maintenance_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::maintenance::test</compoundname>
+    <innerclass refid="structthemis_1_1maintenance_1_1test_1_1_churn_tracker" prot="public">themis::maintenance::test::ChurnTracker</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1test_1_1_in_flight_guard" prot="public">themis::maintenance::test::InFlightGuard</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store" prot="public">themis::maintenance::test::MockScheduleStore</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1test_1_1_test_ring_buffer" prot="public">themis::maintenance::test::TestRingBuffer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::maintenance::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="42" column="27" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a3f9cb685532b97bc9b833df823c28de4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::test::kChurnIntervalMs</definition>
+        <argsstring></argsstring>
+        <name>kChurnIntervalMs</name>
+        <qualifiedname>themis::maintenance::test::kChurnIntervalMs</qualifiedname>
+        <initializer>= 60&apos;000LL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="68" column="26" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::maintenance::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="29" column="27" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::maintenance::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="37" column="27" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::maintenance::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="40" column="27" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1maintenance_1_1test_1a5921b749d6def8d1c06a4f93bccbcebb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::maintenance::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="43" column="27" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1aa7efbec822323d91c9990de552c0c319" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceChurnHardening, MTN17_ConcurrentScheduleTriggerSkipped)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceChurnHardening</type>
+        </param>
+        <param>
+          <type>MTN17_ConcurrentScheduleTriggerSkipped</type>
+        </param>
+        <briefdescription>
+<para>Two threads try to enter executeSchedule() for the same schedule_id. The second thread must see the &quot;already in-flight&quot; condition and produce a SKIPPED_CONCURRENT outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="105" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="105" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a8b9dafc0380b74c622be263af371509d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceChurnHardening, MTN18_RapidChurnLoopBoundedState)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceChurnHardening</type>
+        </param>
+        <param>
+          <type>MTN18_RapidChurnLoopBoundedState</type>
+        </param>
+        <briefdescription>
+<para>Validates that 100 rapid add/remove churn cycles on schedule state complete without panics and the in-flight set returns to empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="139" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="139" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a6ccd405d8693da06af8a4ae3630fb13d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceChurnHardening, MTN19_ChurnLimitPolicyTriggered)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceChurnHardening</type>
+        </param>
+        <param>
+          <type>MTN19_ChurnLimitPolicyTriggered</type>
+        </param>
+        <briefdescription>
+<para>Validates that the churn rate-limit policy correctly rejects excess mutations beyond max_schedule_changes_per_interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="192" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="192" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ab3f055d1ec9736fd470d30a54dc282b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceChurnHardening, MTN20_SkippedConcurrentInDiagnosticLog)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceChurnHardening</type>
+        </param>
+        <param>
+          <type>MTN20_SkippedConcurrentInDiagnosticLog</type>
+        </param>
+        <briefdescription>
+<para>Validates that a <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> with SKIPPED_CONCURRENT outcome serialises to JSON with the correct fields, enabling operators to observe it in the health log / ring buffer snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="227" column="1" bodyfile="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" bodystart="227" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a8b72d4277c86c458c00ea86080015e4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN01_ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN01_ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="35" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="35" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a68596fa31b8f3aad956fb6e39846bd25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN02_ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN02_ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="60" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="60" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a4054453c2f0899bcc507075b1ee6e40f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN03_SwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN03_SwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="81" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="81" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ad3e8199b1db562584f500e5cb18a45d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN04_ScheduleDescriptorDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN04_ScheduleDescriptorDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="108" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a353f027e052d54bef829549d80614571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN05_HealthSnapshotDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN05_HealthSnapshotDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="121" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1aed19f41ca6ba87b565042c869c356bef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN06_ScheduleDescriptorCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN06_ScheduleDescriptorCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="133" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a5f6d757cbd55886a18bc3495c51ad88f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN07_ScheduleDescriptorMove)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN07_ScheduleDescriptorMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="151" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="151" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a9ede7f454dbe22e26196f7e37aa921d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceContractHardening, MTN08_FailClosedPredicate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceContractHardening</type>
+        </param>
+        <param>
+          <type>MTN08_FailClosedPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" line="165" column="1" bodyfile="tests/maintenance/test_maintenance_contract_hardening_focused.cpp" bodystart="165" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a2c9c0ed339a074a164d26f284768fadb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref></type>
+        <definition>static DispatchOutcome themis::maintenance::test::makeOutcome</definition>
+        <argsstring>(DispatchOutcomeType t, const std::string &amp;sched_id, const std::string &amp;task, int64_t latency_us=100)</argsstring>
+        <name>makeOutcome</name>
+        <qualifiedname>themis::maintenance::test::makeOutcome</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sched_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>latency_us</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="69" column="24" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="69" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a2721b8a14efcda3d172862937f81c07e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceDiagnostics, MTN29_AllOutcomeTypesVisibleInHealthReport)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceDiagnostics</type>
+        </param>
+        <param>
+          <type>MTN29_AllOutcomeTypesVisibleInHealthReport</type>
+        </param>
+        <briefdescription>
+<para>Validates that all five <ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref> values can be recorded and are visible in <ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" kindref="member">MaintenanceHealthReport::recent_dispatch_outcomes</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="89" column="1" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="89" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a833246adb54186fd634cf3fabc374810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceDiagnostics, MTN30_RingBufferOverflowDropsOldest)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceDiagnostics</type>
+        </param>
+        <param>
+          <type>MTN30_RingBufferOverflowDropsOldest</type>
+        </param>
+        <briefdescription>
+<para>Fills the ring buffer beyond capacity (256) and verifies: </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>No crash occurs</para>
+</listitem><listitem><para>Buffer size stays at capacity</para>
+</listitem><listitem><para>The oldest entries are dropped (FIFO eviction) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="138" column="1" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="138" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a237a1b44e2ddb3ba47e0ef85dcf841f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceDiagnostics, MTN31_ReportSerializationConsistentFields)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceDiagnostics</type>
+        </param>
+        <param>
+          <type>MTN31_ReportSerializationConsistentFields</type>
+        </param>
+        <briefdescription>
+<para>Verifies that <ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a363c574f608e6f59fb110894e5997fa5" kindref="member">MaintenanceHealthReport::toJson()</ref> produces a complete JSON object with all expected top-level fields populated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="174" column="1" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="174" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a407cf94ae5b274ab231f719368d1e796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceDiagnostics, MTN32_DispatchOutcomeLatencyNonNegativePlausible)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceDiagnostics</type>
+        </param>
+        <param>
+          <type>MTN32_DispatchOutcomeLatencyNonNegativePlausible</type>
+        </param>
+        <briefdescription>
+<para>Validates that latency_us in <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> is always &gt;= 0 and within a plausible range for normal maintenance operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_diagnostics_focused.cpp" line="228" column="1" bodyfile="tests/maintenance/test_maintenance_diagnostics_focused.cpp" bodystart="228" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a7ecc59e679107b5ba8adfe0a079f1123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceEndurance, MTN_ENDURANCE_01_TenThousandCyclesNoLeaks)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceEndurance</type>
+        </param>
+        <param>
+          <type>MTN_ENDURANCE_01_TenThousandCyclesNoLeaks</type>
+        </param>
+        <briefdescription>
+<para>Runs 10 000 add→execute→remove lifecycle cycles against an in-memory schedule map with a RAII counter to verify no state leaks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acceptance criteria:<itemizedlist>
+<listitem><para>Completes within 60 seconds wall-clock time.</para>
+</listitem><listitem><para>Zero accumulated errors.</para>
+</listitem><listitem><para>Schedule count returns to exactly 0 at end (no leaks). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_endurance_focused.cpp" line="49" column="1" bodyfile="tests/maintenance/test_maintenance_endurance_focused.cpp" bodystart="49" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a4ee9ed2ca14f9dec6bdc63377b73bdab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN09_FrequencyToCronNonEmpty)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN09_FrequencyToCronNonEmpty</type>
+        </param>
+        <briefdescription>
+<para>Validates that every non-CUSTOM <ref refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5" kindref="member">ScheduleFrequency</ref> maps to a non-empty, syntactically plausible cron expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 2 item: &quot;align registry and execution behavior to bounded
+runtime contracts&quot; — the cron derivation is part of the schedule activation contract. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="54" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="54" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a7d48db3f3efefb9ce3c62efe71b04763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN10_ScheduleEntryRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN10_ScheduleEntryRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>Validates that all key fields of <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> survive a JSON serialization → deserialization round-trip without data loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 2 item: &quot;complete hardening for orchestrator and
+schedule-store internals&quot; — the schedule store relies on toJson/fromJson for persistence. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="92" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="92" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a12360e1095983b68b1e7c556886a7ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN11_TaskDependencyRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN11_TaskDependencyRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>Validates that <ref refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kindref="compound">MaintenanceTaskDependency</ref> survives a JSON round-trip preserving all fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 3 item: &quot;unify diagnostics across scheduling/persistence/
+execution incidents&quot; — the dependency structure is part of the schedule&apos;s durable state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="158" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="158" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a280ae5e2a52779f290fcc0b216d88b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN12_TaskTypeStringRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN12_TaskTypeStringRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>Validates that every <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> survives a string ↔ enum round-trip without loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 2 item: &quot;align registry and execution behavior to bounded
+runtime contracts&quot; — task type dispatch relies on deterministic string conversion. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="185" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="185" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1afb120888bad010893396c7ec1fb8857f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN13_JobStateStringCoverage)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN13_JobStateStringCoverage</type>
+        </param>
+        <briefdescription>
+<para>Validates that every <ref refid="namespacethemis_1_1maintenance_1a65450b0a45da070f15f7464babf52dc3" kindref="member">MaintenanceJobState</ref> maps to a non-empty, distinct string (full coverage of the operator-visible diagnostics path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 3 item: &quot;unify diagnostics across scheduling/persistence/
+execution incidents&quot; — job state strings appear in operator logs and REST responses. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="236" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="236" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ae4b80a597afb00e8dc9ec9e06e52d737" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN14_ScheduleEntryDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN14_ScheduleEntryDefaults</type>
+        </param>
+        <briefdescription>
+<para>Validates that a default-constructed <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> has well-defined, bounded default values consistent with the persistence and execution contracts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 2 item: &quot;complete hardening for orchestrator and schedule-store
+internals&quot; — default-constructed entries must never silently submit invalid schedules. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="272" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="272" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1acc077e2d637132714d099b44b9c7678f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN15_HaltOnTaskFailureRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN15_HaltOnTaskFailureRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>Validates that the halt_on_task_failure field survives serialization so that the fail-safe execution mode is preserved on persistence reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 3 item: &quot;standardize fail-safe behavior for missing handlers
+and invalid persisted schedules.&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="305" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="305" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a7289418ec5a5555a88a4e476811db082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceHardeningPhase23, MTN16_ScheduleWithDependenciesRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceHardeningPhase23</type>
+        </param>
+        <param>
+          <type>MTN16_ScheduleWithDependenciesRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>Validates that a <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> with a non-empty task_dependencies list serializes and deserializes correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers Phase 3 item: &quot;standardize fail-safe behavior for missing handlers
+and invalid persisted schedules&quot; — a corrupt dependency list after reload would produce an unexpected execution order or a cycle detection error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" line="331" column="1" bodyfile="tests/maintenance/test_maintenance_hardening_phase23_focused.cpp" bodystart="331" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1aa3e1e73c4f32effc17ee8cbb3e256f61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref></type>
+        <definition>static MaintenanceScheduleEntry themis::maintenance::test::makeSchedule</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; MaintenanceTaskType &gt; &amp;tasks={MaintenanceTaskType::QUOTA_CHECK})</argsstring>
+        <name>makeSchedule</name>
+        <qualifiedname>themis::maintenance::test::makeSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> &gt; &amp;</type>
+          <declname>tasks</declname>
+          <defval>{<ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a65ec89d68ac3d5ef1e4fad4f75023ec3" kindref="member">MaintenanceTaskType::QUOTA_CHECK</ref>}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="92" column="33" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="92" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ac26ad3db514e8ba8294e8ad7942ce952" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN21_CorruptStorePersistenceCorrupt)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN21_CorruptStorePersistenceCorrupt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="111" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="111" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1af6ed09be8b74909cb9f71fc9260fa89f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN22_MissingHandlerSkippedOutcome)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN22_MissingHandlerSkippedOutcome</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="142" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="142" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a48b85795ca9007584864966369a2ac52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN23_FiveHundredCycleStressLoop)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN23_FiveHundredCycleStressLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="168" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="168" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a440f5d73e13a047c04c92dfca8ade463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN24_EmptyScheduleListPersistReload)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN24_EmptyScheduleListPersistReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="204" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="204" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a90848bfa7d392b8d70703cc0c93ff55f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN25_EmptyTaskListRoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN25_EmptyTaskListRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="219" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="219" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1a218cf4e8efa47f159f4deda139f3d8b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN26_MaxScheduleCountPersistReload)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN26_MaxScheduleCountPersistReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="235" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="235" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ab831f2ab834f12baac5d37f7e7fef76f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN27_CorruptMidArrayReturnsPersistenceCorrupt)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN27_CorruptMidArrayReturnsPersistenceCorrupt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="258" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="258" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1maintenance_1_1test_1ad311a9c5533d1ee46cb2aefca54ee9a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::test::TEST</definition>
+        <argsstring>(MaintenanceStress, MTN28_PartialRegistryHandlerMismatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::maintenance::test::TEST</qualifiedname>
+        <param>
+          <type>MaintenanceStress</type>
+        </param>
+        <param>
+          <type>MTN28_PartialRegistryHandlerMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="285" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="285" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_churn_hardening_focused.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

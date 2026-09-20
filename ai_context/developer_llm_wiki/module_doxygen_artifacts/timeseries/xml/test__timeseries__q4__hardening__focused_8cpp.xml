@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__timeseries__q4__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_timeseries_q4_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ts__edge__case__handler_8h" local="yes">timeseries/ts_edge_case_handler.h</includes>
+    <includes refid="ts__operator__diagnostics_8h" local="yes">timeseries/ts_operator_diagnostics.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>timeseries/timeseries_api_contract.h</label>
+        <link refid="timeseries__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>timeseries/ts_edge_case_handler.h</label>
+        <link refid="ts__edge__case__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>timeseries/ts_operator_diagnostics.h</label>
+        <link refid="ts__operator__diagnostics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/timeseries/test_timeseries_q4_hardening_focused.cpp</label>
+        <link refid="test__timeseries__q4__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>climits</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries_1_1test">themis::timeseries::test</innernamespace>
+    <briefdescription>
+<para>Timeseries Q4 2026 Phase 2/3 hardening focused test suite (TEH-01..TEH-20). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies deterministic fail-safe behavior for remote-write validation, encrypted chunk edge cases, buffer pressure, and operator diagnostics.</para>
+<sect1 id="test__timeseries__q4__hardening__focused_8cpp_1autotoc_md51_1s1"><sect2 id="test__timeseries__q4__hardening__focused_8cpp_1autotoc_md51">
+<title>Test families</title><para><heading level="3">TEH-01..04 — Remote-write endpoint validation</heading>
+</para>
+<para>TEH-01 Empty URL → REMOTE_WRITE_VALIDATION_ERROR TEH-02 Non-http/https URL → REMOTE_WRITE_VALIDATION_ERROR TEH-03 Valid https URL → success (nullopt) TEH-04 URL exceeding max length → REMOTE_WRITE_VALIDATION_ERROR</para>
+<para><heading level="3">TEH-05..08 — Remote-write timeout handling</heading>
+</para>
+<para>TEH-05 Timeout handler returns REMOTE_WRITE_RETRIES_EXHAUSTED TEH-06 Timeout counter increments per call TEH-07 Incident callback invoked on timeout TEH-08 URL with control characters → REMOTE_WRITE_VALIDATION_ERROR</para>
+<para><heading level="3">TEH-09..12 — Encryption key validation</heading>
+</para>
+<para>TEH-09 Null key → ENCRYPTION_STATE_INVALID TEH-10 Zero-length key → ENCRYPTION_STATE_INVALID TEH-11 Invalid key length (e.g. 20) → ENCRYPTION_STATE_INVALID TEH-12 Valid 16/24/32-byte key → success (nullopt)</para>
+<para><heading level="3">TEH-13..16 — Encryption key rotation</heading>
+</para>
+<para>TEH-13 Rotation with invalid key → ENCRYPTION_KEY_NOT_FOUND TEH-14 Rotation with valid key → success; rotation counter incremented TEH-15 Rotation incident callback invoked on valid rotation TEH-16 Multiple rotations increment counter correctly</para>
+<para><heading level="3">TEH-17..20 — Buffer pressure + operator diagnostics</heading>
+</para>
+<para>TEH-17 Buffer below kMaxOutOfOrderBuffer → flush not required TEH-18 Buffer at kMaxOutOfOrderBuffer → flush required TEH-19 TsOperatorDiagnostics records incident with correct severity TEH-20 formatSummary includes incident details</para>
+<para><simplesect kind="see"><para><ref refid="ts__edge__case__handler_8h" kindref="compound">include/timeseries/ts_edge_case_handler.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ts__operator__diagnostics_8h" kindref="compound">include/timeseries/ts_operator_diagnostics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2/3 Q4 2026 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ts__edge__case__handler_8h" kindref="compound">timeseries/ts_edge_case_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ts__operator__diagnostics_8h" kindref="compound">timeseries/ts_operator_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries" kindref="compound">timeseries</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTehSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Remote-Write<sp/>Endpoint<sp/>Validation<sp/>(TEH-01..04)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH01_EmptyEndpointReturnsValidationError)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateRemoteWriteEndpoint(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.validationFailureCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH02_InvalidProtocolReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateRemoteWriteEndpoint(</highlight><highlight class="stringliteral">&quot;ftp://example.com/write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH03_ValidHttpsEndpointReturnsSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateRemoteWriteEndpoint(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://prometheus.example.com/api/v1/write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>success<sp/>(nullopt)<sp/>for<sp/>valid<sp/>URL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.validationFailureCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH04_TooLongEndpointReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>URL<sp/>of<sp/>2049<sp/>characters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>long_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>long_url.append(2050,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>long_url<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.com/write&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateRemoteWriteEndpoint(long_url);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Remote-Write<sp/>Timeout<sp/>Handling<sp/>(TEH-05..08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH05_TimeoutHandlerReturnsRetriesExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.handleRemoteWriteTimeout(</highlight><highlight class="stringliteral">&quot;https://prom.example.com/write&quot;</highlight><highlight class="normal">,<sp/>5000);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH06_TimeoutCounterIncrementsPerCall)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.handleRemoteWriteTimeout(</highlight><highlight class="stringliteral">&quot;https://a.com/write&quot;</highlight><highlight class="normal">,<sp/>1000);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.handleRemoteWriteTimeout(</highlight><highlight class="stringliteral">&quot;https://b.com/write&quot;</highlight><highlight class="normal">,<sp/>2000);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.handleRemoteWriteTimeout(</highlight><highlight class="stringliteral">&quot;https://c.com/write&quot;</highlight><highlight class="normal">,<sp/>3000);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.remoteWriteTimeoutCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH07_IncidentCallbackInvokedOnTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>captured_ids;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler([&amp;](std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_ids.emplace_back(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.handleRemoteWriteTimeout(</highlight><highlight class="stringliteral">&quot;https://prom.example.com/write&quot;</highlight><highlight class="normal">,<sp/>5000);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(captured_ids.empty());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find_if(captured_ids.begin(),<sp/>captured_ids.end(),</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>s.find(</highlight><highlight class="stringliteral">&quot;TIMEOUT&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}),</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_ids.end());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH08_ControlCharInUrlReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://example.com/wri\x01te&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateRemoteWriteEndpoint(url);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_VALIDATION_ERROR</ref>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Encryption<sp/>Key<sp/>Validation<sp/>(TEH-09..12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH09_NullKeyReturnsEncryptionError)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateEncryptionKey(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>16);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH10_ZeroLengthKeyReturnsEncryptionError)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>dummy<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateEncryptionKey(&amp;dummy,<sp/>0);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH11_InvalidKeyLengthReturnsEncryptionError)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>key(20,<sp/>0xAB);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateEncryptionKey(key.data(),<sp/>key.size());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" kindref="member">TimeseriesErrorCode::ENCRYPTION_STATE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH12_ValidKeyLengthsReturnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>len<sp/>:<sp/>{16u,<sp/>24u,<sp/>32u})<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>key(len,<sp/>0x42);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.validateEncryptionKey(key.data(),<sp/>key.size());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>success<sp/>for<sp/>key<sp/>length<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>len;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.validationFailureCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Encryption<sp/>Key<sp/>Rotation<sp/>(TEH-13..16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH13_RotationWithInvalidKeyReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>bad_key[20]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.handleKeyRotationDuringWrite(bad_key,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(bad_key));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" kindref="member">TimeseriesErrorCode::ENCRYPTION_KEY_NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.keyRotationCount(),<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Counter<sp/>must<sp/>not<sp/>increment<sp/>on<sp/>failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH14_RotationWithValidKeySucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>key[32]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.handleKeyRotationDuringWrite(key,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(key));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>success<sp/>for<sp/>valid<sp/>key<sp/>rotation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.keyRotationCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH15_IncidentCallbackInvokedOnValidRotation)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>captured_ids;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler([&amp;](std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_ids.emplace_back(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>key[16]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.handleKeyRotationDuringWrite(key,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(key));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(captured_ids.empty());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find_if(captured_ids.begin(),<sp/>captured_ids.end(),</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>s.find(</highlight><highlight class="stringliteral">&quot;ROTATION&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}),</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_ids.end());</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH16_MultipleRotationsIncrementCounter)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>key[16]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler.handleKeyRotationDuringWrite(key,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(key));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.keyRotationCount(),<sp/>5u);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Buffer<sp/>Pressure<sp/>+<sp/>Operator<sp/>Diagnostics<sp/>(TEH-17..20)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH17_BufferBelowCapacityNoFlushRequired)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(handler.isOutOfOrderFlushRequired(0));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(handler.isOutOfOrderFlushRequired(<ref refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" kindref="member">kMaxOutOfOrderBuffer</ref><sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH18_BufferAtCapacityRequiresFlush)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>TsEdgeCaseHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handler.isOutOfOrderFlushRequired(<ref refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" kindref="member">kMaxOutOfOrderBuffer</ref>));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handler.isOutOfOrderFlushRequired(<ref refid="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" kindref="member">kMaxOutOfOrderBuffer</ref><sp/>+<sp/>100));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH19_OperatorDiagnosticsRecordsIncidentCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>TsOperatorDiagnostics<sp/>diag;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.recordIncident(</highlight><highlight class="stringliteral">&quot;TS-ECH-RW-TIMEOUT&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">TsIncidentSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;timeout<sp/>after<sp/>5000<sp/>ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Check<sp/>endpoint&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(diag.totalIncidentCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent<sp/>=<sp/>diag.recentIncidents(5);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(recent.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent[0].incident_id,<sp/></highlight><highlight class="stringliteral">&quot;TS-ECH-RW-TIMEOUT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent[0].severity,<sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">TsIncidentSeverity::ERROR</ref>);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(recent[0].error_code.has_value());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent[0].error_code.value(),<sp/><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" kindref="member">TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" kindref="member">TEST</ref>(TimeseriesQ4Hardening,<sp/>TEH20_FormatSummaryIncludesIncidentDetails)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>TsOperatorDiagnostics<sp/>diag;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.recordIncident(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-ROTATION-INVALID&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">TsIncidentSeverity::CRITICAL</ref>,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;key<sp/>rotation<sp/>rejected&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Provide<sp/>valid<sp/>AES<sp/>key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>summary<sp/>=<sp/>diag.formatSummary(5);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(summary.empty());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(summary.find(</highlight><highlight class="stringliteral">&quot;TS-ECH-ENC-ROTATION-INVALID&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Summary<sp/>must<sp/>include<sp/>incident<sp/>ID&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(summary.find(</highlight><highlight class="stringliteral">&quot;CRITICAL&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Summary<sp/>must<sp/>include<sp/>severity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(diag.hasCriticalIncidents());</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>timeseries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

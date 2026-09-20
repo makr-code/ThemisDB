@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2a1cd4d9d398b2db0a350c22bd6cc5ac" kind="dir">
+    <compoundname>benchmarks/llm_streaming</compoundname>
+    <innerfile refid="bench__llm__streaming__dedicated__gates_8cpp">bench_llm_streaming_dedicated_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_streaming/"/>
+  </compounddef>
+</doxygen>

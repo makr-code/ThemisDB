@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_wasm_runtime_injector" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::WasmRuntimeInjector</compoundname>
+    <includes refid="wasm__runtime__injector_8h" local="no">wasm_runtime_injector.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_runtime_injector_1a34f707cd9440be41009de0947e045bfe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::modules::WasmRuntimeInjector::registerRuntime</definition>
+        <argsstring>(WasmRuntimeDescriptor desc)</argsstring>
+        <name>registerRuntime</name>
+        <qualifiedname>themis::modules::WasmRuntimeInjector::registerRuntime</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_wasm_runtime_descriptor" kindref="compound">WasmRuntimeDescriptor</ref></type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>Register a WASM runtime backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called before any sandbox is created. Duplicate names replace the previous registration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="137" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_runtime_injector_1a9458c441b32932fbce23635395f76c18" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_i_wasm_runtime" kindref="compound">IWasmRuntime</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; IWasmRuntime &gt; themis::modules::WasmRuntimeInjector::create</definition>
+        <argsstring>(const std::string &amp;runtime_name={})</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::modules::WasmRuntimeInjector::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>runtime_name</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a runtime instance by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>runtime_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Empty string = select highest-priority registered backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to a new (un-instantiated) runtime, or nullptr if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="145" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_runtime_injector_1ad13be8483b0f44c7213f1f90801794e2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::modules::WasmRuntimeInjector::available</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>available</name>
+        <qualifiedname>themis::modules::WasmRuntimeInjector::available</qualifiedname>
+        <briefdescription>
+<para>True if at least one backend is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="150" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_runtime_injector_1ad42abd90d5cd87a7f87dd1b71f4c3ffb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::modules::WasmRuntimeInjector::registeredNames</definition>
+        <argsstring>()</argsstring>
+        <name>registeredNames</name>
+        <qualifiedname>themis::modules::WasmRuntimeInjector::registeredNames</qualifiedname>
+        <briefdescription>
+<para>List registered runtime names, sorted by descending priority. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="155" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_runtime_injector_1a6a509701341c1f97f4ad8762ac7a4df8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::modules::WasmRuntimeInjector::clearAll</definition>
+        <argsstring>()</argsstring>
+        <name>clearAll</name>
+        <qualifiedname>themis::modules::WasmRuntimeInjector::clearAll</qualifiedname>
+        <briefdescription>
+<para>Unregister all backends (useful for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="160" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry of pluggable WASM runtime backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage — registering a backend at startup: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>In<sp/>wasmtime_backend.cpp:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="wasm__runtime__injector_8h_1a4bcf5fee10405d2f530f2be333dd3aec" kindref="member">THEMIS_REGISTER_WASM_RUNTIME</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;wasmtime&quot;</highlight><highlight class="normal">,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;Bytecode<sp/>Alliance<sp/>Wasmtime&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[]()<sp/>-&gt;<sp/>std::unique_ptr&lt;IWasmRuntime&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;WasmtimeRuntime&gt;();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+</programlisting></para>
+<para>Usage — creating a runtime in <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref>: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rt<sp/>=<sp/><ref refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1a9458c441b32932fbce23635395f76c18" kindref="member">WasmRuntimeInjector::create</ref>(</highlight><highlight class="stringliteral">&quot;wasmtime&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!rt)<sp/>rt<sp/>=<sp/><ref refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1a9458c441b32932fbce23635395f76c18" kindref="member">WasmRuntimeInjector::create</ref>();<sp/></highlight><highlight class="comment">//<sp/>auto-select</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">rt-&gt;instantiate(bytes,<sp/>host_fns,<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_runtime_injector.h" line="129" column="1" bodyfile="include/themis/base/wasm_runtime_injector.h" bodystart="129" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1ad13be8483b0f44c7213f1f90801794e2" prot="public" virt="non-virtual"><scope>themis::modules::WasmRuntimeInjector</scope><name>available</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1a6a509701341c1f97f4ad8762ac7a4df8" prot="public" virt="non-virtual"><scope>themis::modules::WasmRuntimeInjector</scope><name>clearAll</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1a9458c441b32932fbce23635395f76c18" prot="public" virt="non-virtual"><scope>themis::modules::WasmRuntimeInjector</scope><name>create</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1ad42abd90d5cd87a7f87dd1b71f4c3ffb" prot="public" virt="non-virtual"><scope>themis::modules::WasmRuntimeInjector</scope><name>registeredNames</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_runtime_injector_1a34f707cd9440be41009de0947e045bfe" prot="public" virt="non-virtual"><scope>themis::modules::WasmRuntimeInjector</scope><name>registerRuntime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

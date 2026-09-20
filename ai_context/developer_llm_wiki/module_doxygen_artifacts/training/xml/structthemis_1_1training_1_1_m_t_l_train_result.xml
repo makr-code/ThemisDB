@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_m_t_l_train_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::MTLTrainResult</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1a33de3ae1b87f18cec8709542ab7b8a5b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::MTLTrainResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::MTLTrainResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="106" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1a04f286f266a4b629d7035b8154e58c99" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::MTLTrainResult::joint_loss</definition>
+        <argsstring></argsstring>
+        <name>joint_loss</name>
+        <qualifiedname>themis::training::MTLTrainResult::joint_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Weighted joint loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="107" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1a2cfd16f900807cb6a7bab29eaec004c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MTLTrainResult::epochs_run</definition>
+        <argsstring></argsstring>
+        <name>epochs_run</name>
+        <qualifiedname>themis::training::MTLTrainResult::epochs_run</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="108" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1a8f0da8488f4f460a18bcbeb7cadb642e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_task_metrics" kindref="compound">TaskMetrics</ref> &gt;</type>
+        <definition>std::vector&lt;TaskMetrics&gt; themis::training::MTLTrainResult::per_task</definition>
+        <argsstring></argsstring>
+        <name>per_task</name>
+        <qualifiedname>themis::training::MTLTrainResult::per_task</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="109" column="18" bodyfile="include/training/multi_task_lora.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1afc7f35cde1cc35a059fc3836d6ffbc6e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::MTLTrainResult::avg_improvement</definition>
+        <argsstring></argsstring>
+        <name>avg_improvement</name>
+        <qualifiedname>themis::training::MTLTrainResult::avg_improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Improvement over single-task baseline (positive = better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="111" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_train_result_1a0c6fdb16fb8b2235e9ee0b216dc92c35" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_acceptance_gate_metrics" kindref="compound">AcceptanceGateMetrics</ref></type>
+        <definition>AcceptanceGateMetrics themis::training::MTLTrainResult::acceptance_gates</definition>
+        <argsstring></argsstring>
+        <name>acceptance_gates</name>
+        <qualifiedname>themis::training::MTLTrainResult::acceptance_gates</qualifiedname>
+        <briefdescription>
+<para>Wave B Acceptance gate metrics (Phase 5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="113" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated training result for a Multi-Task LoRA run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::training::AcceptanceGateMetrics</label>
+        <link refid="structthemis_1_1training_1_1_acceptance_gate_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::training::MTLTrainResult</label>
+        <link refid="structthemis_1_1training_1_1_m_t_l_train_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>acceptance_gates</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/multi_task_lora.h" line="105" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="105" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1a0c6fdb16fb8b2235e9ee0b216dc92c35" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>acceptance_gates</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1afc7f35cde1cc35a059fc3836d6ffbc6e" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>avg_improvement</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1a2cfd16f900807cb6a7bab29eaec004c1" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>epochs_run</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1a04f286f266a4b629d7035b8154e58c99" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>joint_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1a8f0da8488f4f460a18bcbeb7cadb642e" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>per_task</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_train_result_1a33de3ae1b87f18cec8709542ab7b8a5b" prot="public" virt="non-virtual"><scope>themis::training::MTLTrainResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

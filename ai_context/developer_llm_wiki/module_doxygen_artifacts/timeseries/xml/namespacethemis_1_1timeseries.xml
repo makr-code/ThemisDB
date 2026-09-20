@@ -1,0 +1,1215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1timeseries" kind="namespace" language="C++">
+    <compoundname>themis::timeseries</compoundname>
+    <innerclass refid="structthemis_1_1timeseries_1_1_incident" prot="public">themis::timeseries::Incident</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_incident_context" prot="public">themis::timeseries::IncidentContext</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_incident_timestamp" prot="public">themis::timeseries::IncidentTimestamp</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_label" prot="public">themis::timeseries::PromLabel</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_sample" prot="public">themis::timeseries::PromSample</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_time_series" prot="public">themis::timeseries::PromTimeSeries</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_write_request" prot="public">themis::timeseries::PromWriteRequest</innerclass>
+    <innerclass refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler" prot="public">themis::timeseries::TsEdgeCaseHandler</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_ts_incident" prot="public">themis::timeseries::TsIncident</innerclass>
+    <innerclass refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" prot="public">themis::timeseries::TsOperatorDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1timeseries_1_1_ts_stream_cursor" prot="public">themis::timeseries::TsStreamCursor</innerclass>
+    <innernamespace refid="namespacethemis_1_1timeseries_1_1proto">themis::timeseries::proto</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries_1_1test">themis::timeseries::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>TimeseriesErrorCode</name>
+        <qualifiedname>themis::timeseries::TimeseriesErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a096596073371717c3052230d1aaf459f" prot="public">
+          <name>TIMESTAMP_OUT_OF_ORDER</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+<para>New point timestamp is not greater than the current series tail timestamp. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a5d72348b23339860f2175fd6656aec27" prot="public">
+          <name>SERIES_NOT_FOUND</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+<para>Named series does not exist or has been dropped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a9c4fd5af7d236e9a899fd6b42e3de4a8" prot="public">
+          <name>RETENTION_EXPIRED</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+<para>Data point is beyond the retention boundary and has been removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a2b80bd0816ebdf43c510804dcab7183e" prot="public">
+          <name>COMPRESSION_FAILED</name>
+          <initializer>= 403</initializer>
+          <briefdescription>
+<para>Gorilla (or other codec) encountered an unrecoverable encode/decode error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ab15e17b5da1d08bfcd3b8f331474c8ce" prot="public">
+          <name>DOWNSAMPLING_RESOLUTION_INVALID</name>
+          <initializer>= 404</initializer>
+          <briefdescription>
+<para>Downsampling resolution is zero or negative. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217abc56602da5a8282afc0f0432435db4c6" prot="public">
+          <name>QUOTA_EXCEEDED</name>
+          <initializer>= 405</initializer>
+          <briefdescription>
+<para>Requested series operation would exceed the per-series or global quota. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0caa76e6254f1575803033b5738d42bd" prot="public">
+          <name>BUFFER_PRESSURE</name>
+          <initializer>= 411</initializer>
+          <briefdescription>
+<para>Buffer capacity reached; backpressure applied to writer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ad53c9f7d5b985bba6cb80cdf8ae665e4" prot="public">
+          <name>BUFFER_OVERFLOW</name>
+          <initializer>= 412</initializer>
+          <briefdescription>
+<para>Write queue is overflowing despite backpressure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8d0f0173ad13d105203dea5980e56b17" prot="public">
+          <name>FLUSH_TIMEOUT</name>
+          <initializer>= 413</initializer>
+          <briefdescription>
+<para>Flush operation failed to complete within timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a800b647aaaed27a51a7f4aaac63c09e6" prot="public">
+          <name>RANGE_INVALID</name>
+          <initializer>= 421</initializer>
+          <briefdescription>
+<para>Query range is invalid (e.g., start &gt; end). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a0e37b0e1d53bd8ff19b39d596c3c428f" prot="public">
+          <name>QUERY_TIMEOUT</name>
+          <initializer>= 423</initializer>
+          <briefdescription>
+<para>Query execution exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a31669af116fdb6061e768c972ccaa593" prot="public">
+          <name>RETENTION_BOUNDARY_CROSSED</name>
+          <initializer>= 422</initializer>
+          <briefdescription>
+<para>Data outside retention boundary may be missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a771c6e6e6893bb7c57e063c6259ab1f6" prot="public">
+          <name>RETENTION_POLICY_VIOLATION</name>
+          <initializer>= 431</initializer>
+          <briefdescription>
+<para>Retention policy violation detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217af16180e4ffad239262a0460106ddd24a" prot="public">
+          <name>DELETION_FAILED</name>
+          <initializer>= 432</initializer>
+          <briefdescription>
+<para>Disk error during safe deletion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a82c686b38135c5a135bd5d93068e8faa" prot="public">
+          <name>ENCRYPTION_ROTATION_FAILURE</name>
+          <initializer>= 433</initializer>
+          <briefdescription>
+<para>Key rotation failed; encryption state invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a1b86c0c7c9029f73f80ce69748af25d0" prot="public">
+          <name>ENCRYPTION_KEY_NOT_FOUND</name>
+          <initializer>= 434</initializer>
+          <briefdescription>
+<para>Encryption key not found for decryption. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217add1b539cd0bdcb75435c7a773eba8294" prot="public">
+          <name>ENCRYPTION_STATE_INVALID</name>
+          <initializer>= 435</initializer>
+          <briefdescription>
+<para>Encryption state validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a8baeaa275caa05efd912c04f627343f4" prot="public">
+          <name>REMOTE_WRITE_VALIDATION_ERROR</name>
+          <initializer>= 443</initializer>
+          <briefdescription>
+<para>Remote write validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217a06755377f9467c2c8e4cb35fee81dc89" prot="public">
+          <name>REMOTE_WRITE_RETRIES_EXHAUSTED</name>
+          <initializer>= 444</initializer>
+          <briefdescription>
+<para>Retry limit exceeded for remote-write operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 499</initializer>
+          <briefdescription>
+<para>Unclassified timeseries internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical timeseries error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes in range [400, 499] are timeseries-specific. Codes in range [400, 419] are Phase 1-2 error codes. Codes in range [410, 445] are Phase 3 error codes (new in Phase 3).</para>
+<para>Phase 3 adds incident-specific codes for:<itemizedlist>
+<listitem><para>Ingest path: BUFFER_PRESSURE, BUFFER_OVERFLOW, FLUSH_TIMEOUT, etc.</para>
+</listitem><listitem><para>Query path: RANGE_INVALID, RETENTION_BOUNDARY_CROSSED, QUERY_TIMEOUT, etc.</para>
+</listitem><listitem><para>Lifecycle path: RETENTION_POLICY_VIOLATION, DELETION_FAILED, ENCRYPTION_ROTATION_FAILURE, etc.</para>
+</listitem><listitem><para>Integration path: REMOTE_WRITE_FAILURE, REMOTE_WRITE_VALIDATION_ERROR, etc.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="timeseries__incident__taxonomy_8h" kindref="compound">include/timeseries/timeseries_incident_taxonomy.h</ref> — Phase 3 incident taxonomy </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="153" column="1" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="153" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>IncidentSeverity</name>
+        <qualifiedname>themis::timeseries::IncidentSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Requires immediate remediation (data loss, auth failure). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Operation failed, service degraded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520a32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Unusual but recoverable condition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Normal operational event. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> severity classification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Severity guides operational response:<itemizedlist>
+<listitem><para>CRITICAL: Immediate action required (e.g., data loss risk)</para>
+</listitem><listitem><para>ERROR: Failure that degrades service (e.g., buffer overflow, key rotation)</para>
+</listitem><listitem><para>WARN: Degraded behavior but service continues (e.g., high backpressure)</para>
+</listitem><listitem><para>INFO: Normal operational event (e.g., retention GC, flush completion) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="54" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>IngestIncidentCode</name>
+        <qualifiedname>themis::timeseries::IngestIncidentCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba096596073371717c3052230d1aaf459f" prot="public">
+          <name>TIMESTAMP_OUT_OF_ORDER</name>
+          <initializer>= 410</initializer>
+          <briefdescription>
+<para>Point timestamp not greater than series tail. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba3e45a33e0b56c53143e1df8aa0a02dff" prot="public">
+          <name>BUFFER_PRESSURE_HIGH</name>
+          <initializer>= 411</initializer>
+          <briefdescription>
+<para>Buffer capacity reached; backpressure applied to writer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494bad20c9aaeed96012829165d88136a68e0" prot="public">
+          <name>BUFFER_OVERFLOW_IMMINENT</name>
+          <initializer>= 412</initializer>
+          <briefdescription>
+<para>Write queue is overflowing despite backpressure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba8d0f0173ad13d105203dea5980e56b17" prot="public">
+          <name>FLUSH_TIMEOUT</name>
+          <initializer>= 413</initializer>
+          <briefdescription>
+<para>Flush operation failed to complete within timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba994c9f0506b62e0b3d5621dd294d9c77" prot="public">
+          <name>SERIES_QUOTA_EXCEEDED</name>
+          <initializer>= 414</initializer>
+          <briefdescription>
+<para>Series limit exceeded for this store. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba7a960fd46d60e866cbcffb7d7ea1d8ce" prot="public">
+          <name>SERIES_CAPACITY_EXCEEDED</name>
+          <initializer>= 415</initializer>
+          <briefdescription>
+<para>Per-series quota exceeded (e.g., max points). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494ba8c77839ae1eda5c8e6913e0364fb9957" prot="public">
+          <name>TIMESTAMP_INVALID</name>
+          <initializer>= 416</initializer>
+          <briefdescription>
+<para>Timestamp validation error (e.g., null, negative). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494baf00bcf58f263b3be9b48019b43eb3f19" prot="public">
+          <name>INGEST_INTERNAL_ERROR</name>
+          <initializer>= 499</initializer>
+          <briefdescription>
+<para>Unclassified ingest error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for ingest-path incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest incidents cover:<itemizedlist>
+<listitem><para>Timestamp validation (out-of-order, null)</para>
+</listitem><listitem><para>Buffer overflow and backpressure</para>
+</listitem><listitem><para>Flush timeouts and failures</para>
+</listitem><listitem><para>Series quota violations </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="87" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="87" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>QueryIncidentCode</name>
+        <qualifiedname>themis::timeseries::QueryIncidentCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfa5d72348b23339860f2175fd6656aec27" prot="public">
+          <name>SERIES_NOT_FOUND</name>
+          <initializer>= 420</initializer>
+          <briefdescription>
+<para>Named series does not exist or has been dropped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfa800b647aaaed27a51a7f4aaac63c09e6" prot="public">
+          <name>RANGE_INVALID</name>
+          <initializer>= 421</initializer>
+          <briefdescription>
+<para>Query range is invalid (e.g., start &gt; end). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfa31669af116fdb6061e768c972ccaa593" prot="public">
+          <name>RETENTION_BOUNDARY_CROSSED</name>
+          <initializer>= 422</initializer>
+          <briefdescription>
+<para>Data outside retention boundary may be missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfa0e37b0e1d53bd8ff19b39d596c3c428f" prot="public">
+          <name>QUERY_TIMEOUT</name>
+          <initializer>= 423</initializer>
+          <briefdescription>
+<para>Query execution exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfafdbee952451362948fe13b0a003b20b3" prot="public">
+          <name>CONSISTENCY_CHECK_FAILED</name>
+          <initializer>= 424</initializer>
+          <briefdescription>
+<para>Consistency check failed (e.g., aggregation mismatch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfa5fc63eceb2f8d3f85b08ab8061d2ccff" prot="public">
+          <name>DOWNSAMPLING_INVALID</name>
+          <initializer>= 425</initializer>
+          <briefdescription>
+<para>Downsampling parameters invalid or unsupported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bfaa551d781145d9905e960bbae9abcece7" prot="public">
+          <name>QUERY_INTERNAL_ERROR</name>
+          <initializer>= 499</initializer>
+          <briefdescription>
+<para>Unclassified query error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for query-path incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query incidents cover:<itemizedlist>
+<listitem><para>Series not found</para>
+</listitem><listitem><para>Range boundary violations</para>
+</listitem><listitem><para>Query timeout</para>
+</listitem><listitem><para>Consistency errors</para>
+</listitem><listitem><para>Retention boundary crossings </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="146" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="146" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>LifecycleIncidentCode</name>
+        <qualifiedname>themis::timeseries::LifecycleIncidentCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcca9c4fd5af7d236e9a899fd6b42e3de4a8" prot="public">
+          <name>RETENTION_EXPIRED</name>
+          <initializer>= 430</initializer>
+          <briefdescription>
+<para>Data point is beyond retention and has been deleted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcca771c6e6e6893bb7c57e063c6259ab1f6" prot="public">
+          <name>RETENTION_POLICY_VIOLATION</name>
+          <initializer>= 431</initializer>
+          <briefdescription>
+<para>Retention policy violation detected (premature removal attempted). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdccaf16180e4ffad239262a0460106ddd24a" prot="public">
+          <name>DELETION_FAILED</name>
+          <initializer>= 432</initializer>
+          <briefdescription>
+<para>Disk error during safe deletion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcca82c686b38135c5a135bd5d93068e8faa" prot="public">
+          <name>ENCRYPTION_ROTATION_FAILURE</name>
+          <initializer>= 433</initializer>
+          <briefdescription>
+<para>Key rotation failed; encryption state invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcca1b86c0c7c9029f73f80ce69748af25d0" prot="public">
+          <name>ENCRYPTION_KEY_NOT_FOUND</name>
+          <initializer>= 434</initializer>
+          <briefdescription>
+<para>Encryption key not found for decryption. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdccadd1b539cd0bdcb75435c7a773eba8294" prot="public">
+          <name>ENCRYPTION_STATE_INVALID</name>
+          <initializer>= 435</initializer>
+          <briefdescription>
+<para>Encryption state validation failed (e.g., IV, ciphertext mismatch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdccac140a01532dc44cb2423431dc9058d6b" prot="public">
+          <name>GC_FAILED</name>
+          <initializer>= 436</initializer>
+          <briefdescription>
+<para>Garbage collection or compaction failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcca2c91de0fdbda451618fe9431033e0d73" prot="public">
+          <name>LIFECYCLE_INTERNAL_ERROR</name>
+          <initializer>= 499</initializer>
+          <briefdescription>
+<para>Unclassified lifecycle error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for lifecycle-path incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Lifecycle incidents cover:<itemizedlist>
+<listitem><para>Retention policy violations</para>
+</listitem><listitem><para>Safe deletion failures</para>
+</listitem><listitem><para>Key rotation errors</para>
+</listitem><listitem><para>Encryption state validation</para>
+</listitem><listitem><para>GC and compaction events </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="200" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="200" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>IntegrationIncidentCode</name>
+        <qualifiedname>themis::timeseries::IntegrationIncidentCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07ca2618dd5c93c069814cc1bf2c7bc78585" prot="public">
+          <name>REMOTE_WRITE_CLIENT_ERROR</name>
+          <initializer>= 440</initializer>
+          <briefdescription>
+<para>Remote endpoint returned a client error (4xx). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07ca1ea3f33072a1c05a1ff39d17006c896c" prot="public">
+          <name>REMOTE_WRITE_SERVER_ERROR</name>
+          <initializer>= 441</initializer>
+          <briefdescription>
+<para>Remote endpoint returned a server error (5xx). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07ca82a9fe06d2ac2cd13747821b0d6dc169" prot="public">
+          <name>REMOTE_WRITE_NETWORK_ERROR</name>
+          <initializer>= 442</initializer>
+          <briefdescription>
+<para>Remote endpoint unreachable (connection, DNS). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07ca8baeaa275caa05efd912c04f627343f4" prot="public">
+          <name>REMOTE_WRITE_VALIDATION_ERROR</name>
+          <initializer>= 443</initializer>
+          <briefdescription>
+<para>Remote write validation failed (e.g., schema mismatch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07ca06755377f9467c2c8e4cb35fee81dc89" prot="public">
+          <name>REMOTE_WRITE_RETRIES_EXHAUSTED</name>
+          <initializer>= 444</initializer>
+          <briefdescription>
+<para>Retry limit exceeded for remote-write operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07cae27c256472fabc09923196658b178046" prot="public">
+          <name>METRICS_EXPORT_FAILED</name>
+          <initializer>= 445</initializer>
+          <briefdescription>
+<para>Metrics export failed (e.g., format error, quota). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07caf7242692bf76321568c8efc41bc90d82" prot="public">
+          <name>INTEGRATION_INTERNAL_ERROR</name>
+          <initializer>= 499</initializer>
+          <briefdescription>
+<para>Unclassified integration error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for integration-path incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Integration incidents cover:<itemizedlist>
+<listitem><para>Remote-write validation and transmission</para>
+</listitem><listitem><para>Prometheus export failures</para>
+</listitem><listitem><para>Metrics export errors</para>
+</listitem><listitem><para>Bounded retry behavior </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="256" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="256" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TsIncidentSeverity</name>
+        <qualifiedname>themis::timeseries::TsIncidentSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Informational; no operator action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Degraded operation; operator should investigate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Operation failed; automatic recovery attempted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Unrecoverable; operator intervention required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> severity levels for the timeseries module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="47" column="1" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="47" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1timeseries_1ad38deb0cef460c77c20622815aa27a78" prot="public" static="no">
+        <type>void(*)(const <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> &amp;incident) noexcept</type>
+        <definition>using themis::timeseries::IncidentHandler = void (*)(const Incident&amp; incident) noexcept</definition>
+        <argsstring></argsstring>
+        <name>IncidentHandler</name>
+        <qualifiedname>themis::timeseries::IncidentHandler</qualifiedname>
+        <briefdescription>
+<para>Optional callback function for incident handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applications can register an <ref refid="namespacethemis_1_1timeseries_1ad38deb0cef460c77c20622815aa27a78" kindref="member">IncidentHandler</ref> to receive all emitted incidents for logging, metrics, alerting, or tracing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident being emitted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="namespacethemis_1_1timeseries_1ae41a35200bf37ed9593c357e9e12d565" kindref="member">setIncidentHandler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="589" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" prot="public" static="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+        <definition>using themis::timeseries::TsEdgeCaseResult = std::optional&lt;TimeseriesErrorCode&gt;</definition>
+        <argsstring></argsstring>
+        <name>TsEdgeCaseResult</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseResult</qualifiedname>
+        <briefdescription>
+<para>Result type for <ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler" kindref="compound">TsEdgeCaseHandler</ref> operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convention: nullopt = success; non-nullopt = error code. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="57" column="1" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1a24f05a14b8ab9b0c51f0f3276f085ff2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::kMinPointTimestampNs</definition>
+        <argsstring></argsstring>
+        <name>kMinPointTimestampNs</name>
+        <qualifiedname>themis::timeseries::kMinPointTimestampNs</qualifiedname>
+        <initializer>= 1LL</initializer>
+        <briefdescription>
+<para>Minimum accepted point timestamp (Unix nanoseconds; 1 ns after epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="53" column="31" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1acc73d7fe2e379db5cb708b47c7ca24b6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::kMaxPointTimestampNs</definition>
+        <argsstring></argsstring>
+        <name>kMaxPointTimestampNs</name>
+        <qualifiedname>themis::timeseries::kMaxPointTimestampNs</qualifiedname>
+        <initializer>= INT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted point timestamp (approximately year 2554; sentinel for &quot;open end&quot;). Set to INT64_MAX to represent an unbounded open interval end. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="57" column="31" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1a97a8d300a1f590fb00255b777c528ad8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::kMaxOutOfOrderBuffer</definition>
+        <argsstring></argsstring>
+        <name>kMaxOutOfOrderBuffer</name>
+        <qualifiedname>themis::timeseries::kMaxOutOfOrderBuffer</qualifiedname>
+        <initializer>= 10&apos;000u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of out-of-order points buffered per series before a forced re-sort flush is triggered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="61" column="30" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1a96a9a67a9240f9a182f49d0112000051" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::kMinDownsamplingResolutionNs</definition>
+        <argsstring></argsstring>
+        <name>kMinDownsamplingResolutionNs</name>
+        <qualifiedname>themis::timeseries::kMinDownsamplingResolutionNs</qualifiedname>
+        <initializer>= 1&apos;000LL</initializer>
+        <briefdescription>
+<para>Minimum accepted downsampling resolution in nanoseconds (1 µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="102" column="31" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1aff4ed93a91380e9aaed21c32a2b666ea" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::kMaxSeriesPerStore</definition>
+        <argsstring></argsstring>
+        <name>kMaxSeriesPerStore</name>
+        <qualifiedname>themis::timeseries::kMaxSeriesPerStore</qualifiedname>
+        <initializer>= 10&apos;000&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum number of series in a single <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="278" column="30" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1a101fc0bf89e6392db39254bde9ad2e64" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::kMaxWriteBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kMaxWriteBatchSize</name>
+        <qualifiedname>themis::timeseries::kMaxWriteBatchSize</qualifiedname>
+        <initializer>= 100&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum number of data points per write batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="281" column="30" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1ab7f8781562585760e4c2ac545922f25f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::kDefaultRetentionSeconds</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRetentionSeconds</name>
+        <qualifiedname>themis::timeseries::kDefaultRetentionSeconds</qualifiedname>
+        <initializer>= 30LL * 24 * 3600</initializer>
+        <briefdescription>
+<para>Default retention period in seconds (30 days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="284" column="31" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1aad4b75779a78e39282eb5003e129f35f" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1timeseries_1ad38deb0cef460c77c20622815aa27a78" kindref="member">IncidentHandler</ref> &gt;</type>
+        <definition>std::atomic&lt;IncidentHandler&gt; themis::timeseries::g_incident_handler</definition>
+        <argsstring></argsstring>
+        <name>g_incident_handler</name>
+        <qualifiedname>themis::timeseries::g_incident_handler</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Global incident handler pointer (relaxed atomicity, updated rarely). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/timeseries_incident_taxonomy.cpp" line="27" column="20" bodyfile="src/timeseries/timeseries_incident_taxonomy.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1adec2a22a06472c5b0305c4b137d43cbe" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isHardTimeseriesError</definition>
+        <argsstring>(TimeseriesErrorCode code) noexcept</argsstring>
+        <name>isHardTimeseriesError</name>
+        <qualifiedname>themis::timeseries::isHardTimeseriesError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is a non-retryable hard error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="228" column="24" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="228" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1aaed43183e6b9355c0d199cdc638f2dd9" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isLifecycleError</definition>
+        <argsstring>(TimeseriesErrorCode code) noexcept</argsstring>
+        <name>isLifecycleError</name>
+        <qualifiedname>themis::timeseries::isLifecycleError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code indicates a data-lifecycle condition (series not found, retention expired) that the caller should handle distinctly from hard errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="243" column="24" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="243" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1ad4655fe0b53407cc9ce0e0c085c8d059" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isBackpressureError</definition>
+        <argsstring>(TimeseriesErrorCode code) noexcept</argsstring>
+        <name>isBackpressureError</name>
+        <qualifiedname>themis::timeseries::isBackpressureError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code indicates backpressure that writer should handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Backpressure errors indicate buffer/queue congestion. Writers should implement exponential backoff or rate limiting. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="255" column="24" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="255" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a06c3e4d8e7339725a50c13fd03ed93f7" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isTransientError</definition>
+        <argsstring>(TimeseriesErrorCode code) noexcept</argsstring>
+        <name>isTransientError</name>
+        <qualifiedname>themis::timeseries::isTransientError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is potentially retryable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transient errors include buffer congestion, timeouts, and remote errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_api_contract.h" line="265" column="24" bodyfile="include/timeseries/timeseries_api_contract.h" bodystart="265" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1aa407e34f17157904991d13cec07f7c21" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::severityName</definition>
+        <argsstring>(IncidentSeverity sev) noexcept</argsstring>
+        <name>severityName</name>
+        <qualifiedname>themis::timeseries::severityName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520" kindref="member">IncidentSeverity</ref></type>
+          <declname>sev</declname>
+        </param>
+        <briefdescription>
+<para>Returns a human-readable string for the given severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="64" column="36" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1abfe3e725eb375b1caeef62d6fb24f38e" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isHardIngestError</definition>
+        <argsstring>(IngestIncidentCode code) noexcept</argsstring>
+        <name>isHardIngestError</name>
+        <qualifiedname>themis::timeseries::isHardIngestError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the ingest error is unrecoverable (not worth retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="116" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a7781674cb81c9bf4068ff6e57ff817f7" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isBackpressureError</definition>
+        <argsstring>(IngestIncidentCode code) noexcept</argsstring>
+        <name>isBackpressureError</name>
+        <qualifiedname>themis::timeseries::isBackpressureError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when backpressure should be applied to writer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="127" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a7c9409f0cd5e3ab5872d869c0f61e130" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isHardQueryError</definition>
+        <argsstring>(QueryIncidentCode code) noexcept</argsstring>
+        <name>isHardQueryError</name>
+        <qualifiedname>themis::timeseries::isHardQueryError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the query error is unrecoverable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="172" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="172" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a788c3ca7869f1190bd6b8e7daad3f451" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isDataGapError</definition>
+        <argsstring>(QueryIncidentCode code) noexcept</argsstring>
+        <name>isDataGapError</name>
+        <qualifiedname>themis::timeseries::isDataGapError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error indicates missing data but query is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="182" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a82733628be0494db90d83d538469494e" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isHardLifecycleError</definition>
+        <argsstring>(LifecycleIncidentCode code) noexcept</argsstring>
+        <name>isHardLifecycleError</name>
+        <qualifiedname>themis::timeseries::isHardLifecycleError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when lifecycle error is unrecoverable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="229" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="229" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1ac7b1f98bda2c1f52a71510d8383d579a" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isAdminIncident</definition>
+        <argsstring>(LifecycleIncidentCode code) noexcept</argsstring>
+        <name>isAdminIncident</name>
+        <qualifiedname>themis::timeseries::isAdminIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when lifecycle error requires administrative action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="238" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a07750fc8e7dbd345c9a7730316635609" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isRetryableIntegrationError</definition>
+        <argsstring>(IntegrationIncidentCode code) noexcept</argsstring>
+        <name>isRetryableIntegrationError</name>
+        <qualifiedname>themis::timeseries::isRetryableIntegrationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when integration error is retryable (transient). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="282" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a83ca2fb3b89dfa57bc4fc675902bc867" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::isPermanentIntegrationError</definition>
+        <argsstring>(IntegrationIncidentCode code) noexcept</argsstring>
+        <name>isPermanentIntegrationError</name>
+        <qualifiedname>themis::timeseries::isPermanentIntegrationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when integration error is non-retryable (permanent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="290" column="24" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="290" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1ae41a35200bf37ed9593c357e9e12d565" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::setIncidentHandler</definition>
+        <argsstring>(IncidentHandler handler) noexcept</argsstring>
+        <name>setIncidentHandler</name>
+        <qualifiedname>themis::timeseries::setIncidentHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1ad38deb0cef460c77c20622815aa27a78" kindref="member">IncidentHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Registers a global incident handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The handler will be called for all incidents emitted by timeseries operations. Only one handler is active at a time; registering a new handler replaces the old one.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function, or nullptr to disable incident reporting. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/timeseries_incident_taxonomy.cpp" line="29" column="6" bodyfile="src/timeseries/timeseries_incident_taxonomy.cpp" bodystart="29" bodyend="31" declfile="include/timeseries/timeseries_incident_taxonomy.h" declline="600" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a6da63f32229972965e69c5ae2227df46" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1ad38deb0cef460c77c20622815aa27a78" kindref="member">IncidentHandler</ref></type>
+        <definition>IncidentHandler themis::timeseries::getIncidentHandler</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getIncidentHandler</name>
+        <qualifiedname>themis::timeseries::getIncidentHandler</qualifiedname>
+        <briefdescription>
+<para>Retrieves the current global incident handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The active handler, or nullptr if none is registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/timeseries_incident_taxonomy.cpp" line="33" column="17" bodyfile="src/timeseries/timeseries_incident_taxonomy.cpp" bodystart="33" bodyend="35" declfile="include/timeseries/timeseries_incident_taxonomy.h" declline="607" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a71e31c1ca572e10d5616187b8b1f7d4b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::emitIncident</definition>
+        <argsstring>(const Incident &amp;incident) noexcept</argsstring>
+        <name>emitIncident</name>
+        <qualifiedname>themis::timeseries::emitIncident</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Emits an incident via the registered handler (if any). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function has bounded latency and will not throw. It is safe to call from any path (ingest, query, lifecycle, integration).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident to emit. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/timeseries_incident_taxonomy.cpp" line="37" column="6" bodyfile="src/timeseries/timeseries_incident_taxonomy.cpp" bodystart="37" bodyend="99" declfile="include/timeseries/timeseries_incident_taxonomy.h" declline="618" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1a35f3de039c0bb14a3e91681071709fbb" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::timeseries::tsSeverityName</definition>
+        <argsstring>(TsIncidentSeverity s) noexcept</argsstring>
+        <name>tsSeverityName</name>
+        <qualifiedname>themis::timeseries::tsSeverityName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a333ce4ed0482c4e76e0a87773b1baca6" kindref="member">TsIncidentSeverity</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Returns the string name of a severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_operator_diagnostics.h" line="55" column="35" bodyfile="include/timeseries/ts_operator_diagnostics.h" bodystart="55" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/prometheus_remote_write.h" line="60" column="1"/>
+  </compounddef>
+</doxygen>

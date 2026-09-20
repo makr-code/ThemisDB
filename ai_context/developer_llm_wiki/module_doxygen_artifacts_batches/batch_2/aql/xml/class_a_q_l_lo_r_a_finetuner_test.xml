@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_lo_r_a_finetuner_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLLoRAFinetunerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_lo_r_a_finetuner_test_1a0412f0d437d9e7f4ccca2958f31db988" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; LoRATrainingService &gt;</type>
+        <definition>std::shared_ptr&lt;LoRATrainingService&gt; AQLLoRAFinetunerTest::training_service_</definition>
+        <argsstring></argsstring>
+        <name>training_service_</name>
+        <qualifiedname>AQLLoRAFinetunerTest::training_service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_lora_finetuner.cpp" line="140" column="21" bodyfile="tests/aql/test_aql_lora_finetuner.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_lo_r_a_finetuner_test_1a5cdbb8b43ce17989dbc921773c680061" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLLoRAFinetunerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLLoRAFinetunerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_lora_finetuner.cpp" line="134" column="10" bodyfile="tests/aql/test_aql_lora_finetuner.cpp" bodystart="134" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLLoRAFinetunerTest</label>
+        <link refid="class_a_q_l_lo_r_a_finetuner_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLLoRAFinetunerTest</label>
+        <link refid="class_a_q_l_lo_r_a_finetuner_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_lora_finetuner.cpp" line="132" column="1" bodyfile="tests/aql/test_aql_lora_finetuner.cpp" bodystart="132" bodyend="141"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_lo_r_a_finetuner_test_1a5cdbb8b43ce17989dbc921773c680061" prot="protected" virt="non-virtual"><scope>AQLLoRAFinetunerTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_lo_r_a_finetuner_test_1a0412f0d437d9e7f4ccca2958f31db988" prot="protected" virt="non-virtual"><scope>AQLLoRAFinetunerTest</scope><name>training_service_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

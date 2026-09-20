@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_recursive_path_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::RecursivePathQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_recursive_path_query_1_1_spatial_constraint" prot="public">themis::query::RecursivePathQuery::SpatialConstraint</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1ad88f4c44f03c8580003157204bcf4117" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecursivePathQuery::start_node</definition>
+        <argsstring></argsstring>
+        <name>start_node</name>
+        <qualifiedname>themis::query::RecursivePathQuery::start_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="66" column="17" bodyfile="include/query/query_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1a68590c381130f6d8594780dc85bdc2da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecursivePathQuery::end_node</definition>
+        <argsstring></argsstring>
+        <name>end_node</name>
+        <qualifiedname>themis::query::RecursivePathQuery::end_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="67" column="17" bodyfile="include/query/query_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1a532e250cc4fb00be78bf4f5442f670b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecursivePathQuery::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::query::RecursivePathQuery::edge_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="68" column="17" bodyfile="include/query/query_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1a030e02e4c8b3289da7ecfb3c7664060b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RecursivePathQuery::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::query::RecursivePathQuery::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="69" column="17" bodyfile="include/query/query_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1ae99038531e563637bf36b0049b3d94d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::RecursivePathQuery::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::query::RecursivePathQuery::max_depth</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="70" column="12" bodyfile="include/query/query_engine.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1a9c92d9c941892758e758908b337eef5f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::RecursivePathQuery::valid_from</definition>
+        <argsstring></argsstring>
+        <name>valid_from</name>
+        <qualifiedname>themis::query::RecursivePathQuery::valid_from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="71" column="19" bodyfile="include/query/query_engine.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1ae417fbb5e7899b782cee089d3328b769" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::RecursivePathQuery::valid_to</definition>
+        <argsstring></argsstring>
+        <name>valid_to</name>
+        <qualifiedname>themis::query::RecursivePathQuery::valid_to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="72" column="19" bodyfile="include/query/query_engine.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_recursive_path_query_1a7b421ce6a32b5ded279d0b49d0838417" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_recursive_path_query_1_1_spatial_constraint" kindref="compound">SpatialConstraint</ref> &gt;</type>
+        <definition>std::optional&lt;SpatialConstraint&gt; themis::query::RecursivePathQuery::spatial_constraint</definition>
+        <argsstring></argsstring>
+        <name>spatial_constraint</name>
+        <qualifiedname>themis::query::RecursivePathQuery::spatial_constraint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="80" column="19" bodyfile="include/query/query_engine.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="65" column="1" bodyfile="include/query/query_engine.h" bodystart="65" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1a532e250cc4fb00be78bf4f5442f670b5" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1a68590c381130f6d8594780dc85bdc2da" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>end_node</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1a030e02e4c8b3289da7ecfb3c7664060b" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1ae99038531e563637bf36b0049b3d94d6" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1a7b421ce6a32b5ded279d0b49d0838417" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>spatial_constraint</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1ad88f4c44f03c8580003157204bcf4117" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>start_node</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1a9c92d9c941892758e758908b337eef5f" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>valid_from</name></member>
+      <member refid="structthemis_1_1query_1_1_recursive_path_query_1ae417fbb5e7899b782cee089d3328b769" prot="public" virt="non-virtual"><scope>themis::query::RecursivePathQuery</scope><name>valid_to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheEntry</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_entry_1a91021e72c8ed5e644bce6936806b9789" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K themis::cache::CacheEntry&lt; K, V &gt;::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="118" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_entry_1a709b6c11effd652623cfe9a154f722bf" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V themis::cache::CacheEntry&lt; K, V &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::cache::CacheEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="119" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_entry_1a044229fba7ad5ba79523cc92352acf48" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CacheEntry&lt; K, V &gt;::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::cache::CacheEntry::ttl_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Remaining TTL; 0 means &quot;use cache default&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="120" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_entry_1afaee61a72e0dece46d762beb923f5a21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEntry&lt; K, V &gt;::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cache::CacheEntry::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant namespace; empty = global. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="121" column="17" bodyfile="include/cache/cache_interfaces.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="117" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="117" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_entry_1a91021e72c8ed5e644bce6936806b9789" prot="public" virt="non-virtual"><scope>themis::cache::CacheEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_entry_1afaee61a72e0dece46d762beb923f5a21" prot="public" virt="non-virtual"><scope>themis::cache::CacheEntry</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_entry_1a044229fba7ad5ba79523cc92352acf48" prot="public" virt="non-virtual"><scope>themis::cache::CacheEntry</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_entry_1a709b6c11effd652623cfe9a154f722bf" prot="public" virt="non-virtual"><scope>themis::cache::CacheEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

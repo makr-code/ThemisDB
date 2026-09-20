@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::RootCauseAnalyzer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a34af4720c49a120e199d7af96723fb55" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref></type>
+        <definition>RootCauseAnalyzerConfig themis::observability::RootCauseAnalyzer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::RootCauseAnalyzer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/root_cause_analyzer.cpp" line="267" column="29" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1aa7ad20c8fc0de9425617dca37c87eeb0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_time_series" kindref="compound">TimeSeries</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TimeSeries&gt; themis::observability::RootCauseAnalyzer::Impl::series_registry</definition>
+        <argsstring></argsstring>
+        <name>series_registry</name>
+        <qualifiedname>themis::observability::RootCauseAnalyzer::Impl::series_registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/root_cause_analyzer.cpp" line="268" column="24" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a26093211db4cfcc7ce23de8d1560713d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::RootCauseAnalyzer::Impl::Impl</definition>
+        <argsstring>(const RootCauseAnalyzerConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::RootCauseAnalyzer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/root_cause_analyzer.cpp" line="270" column="14" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a23c5e13ba7ca46965772f53f4c4031d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::RootCauseAnalyzer::Impl::applyRules</definition>
+        <argsstring>(const PerformanceIssue &amp;issue, const std::map&lt; std::string, double &gt; &amp;deltas, RootCauseReport &amp;report)</argsstring>
+        <name>applyRules</name>
+        <qualifiedname>themis::observability::RootCauseAnalyzer::Impl::applyRules</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &amp;</type>
+          <declname>issue</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>deltas</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_root_cause_report" kindref="compound">RootCauseReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/root_cause_analyzer.cpp" line="273" column="10" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="273" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1ad8ac08ccfffcf09198ae764f235beb09" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::observability::RootCauseAnalyzer::Impl::deltaForKey</definition>
+        <argsstring>(const std::map&lt; std::string, double &gt; &amp;deltas, const std::string &amp;key)</argsstring>
+        <name>deltaForKey</name>
+        <qualifiedname>themis::observability::RootCauseAnalyzer::Impl::deltaForKey</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>deltas</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/root_cause_analyzer.cpp" line="347" column="19" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="347" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::RootCauseAnalyzer::Impl</label>
+        <link refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::RootCauseAnalyzerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_root_cause_analyzer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/root_cause_analyzer.cpp" line="265" column="1" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="265" bodyend="352"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a23c5e13ba7ca46965772f53f4c4031d5" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseAnalyzer::Impl</scope><name>applyRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a34af4720c49a120e199d7af96723fb55" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseAnalyzer::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1ad8ac08ccfffcf09198ae764f235beb09" prot="private" virt="non-virtual"><scope>themis::observability::RootCauseAnalyzer::Impl</scope><name>deltaForKey</name></member>
+      <member refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1a26093211db4cfcc7ce23de8d1560713d" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseAnalyzer::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl_1aa7ad20c8fc0de9425617dca37c87eeb0" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseAnalyzer::Impl</scope><name>series_registry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

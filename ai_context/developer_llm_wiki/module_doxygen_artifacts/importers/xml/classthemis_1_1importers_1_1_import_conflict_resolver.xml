@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_import_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ImportConflictResolver</compoundname>
+    <includes refid="conflict__resolver_8h" local="no">conflict_resolver.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a53e95f6c0e734c47db4c7da0664c2054" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, json&gt; &gt; themis::importers::ImportConflictResolver::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="127" column="2" bodyfile="include/importers/conflict_resolver.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1ae3c6715f57d9d798c294e2f94522b4bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImportConflictResolver::ImportConflictResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>ImportConflictResolver</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::ImportConflictResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a87bbba49b4c63f82bb96dc65538f1f16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImportConflictResolver::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="48" column="10" bodyfile="src/importers/conflict_resolver.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a5131f503027fdb553ce617f3232cb963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json ImportConflictResolver::resolve</definition>
+        <argsstring>(const json &amp;entity, const std::string &amp;table_name, const std::string &amp;conflict_key, ConflictStrategy strategy, int merge_depth, const std::vector&lt; std::string &gt; &amp;protected_fields, bool &amp;conflict_detected)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1aa97007b3c4cd4d768c1819a889d4357e" kindref="member">ConflictStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>merge_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>conflict_detected</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merge_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">conflict_detected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merge_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">conflict_detected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), emplace(), <ref refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a382b9f4e04901369184834b7401c0c0c" kindref="member">mergeEntities()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="70" column="10" bodyfile="src/importers/conflict_resolver.cpp" bodystart="78" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a15f5610830e14f3a1462e23c22c7049a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json ImportConflictResolver::resolveWithMetadata</definition>
+        <argsstring>(const json &amp;entity, const std::string &amp;table_name, const std::string &amp;conflict_key, ConflictStrategy strategy, int merge_depth, const std::vector&lt; std::string &gt; &amp;protected_fields, bool &amp;conflict_detected, ConflictMetadata &amp;metadata)</argsstring>
+        <name>resolveWithMetadata</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::resolveWithMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1aa97007b3c4cd4d768c1819a889d4357e" kindref="member">ConflictStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>merge_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>conflict_detected</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Resolve With Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merge_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">conflict_detected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merge_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">conflict_detected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), emplace(), clear(), <ref refid="classthemis_1_1importers_1_1_import_conflict_resolver_1afa0ab66f349fa8996538c4530c816449" kindref="member">determineConflictReason()</ref>, <ref refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a382b9f4e04901369184834b7401c0c0c" kindref="member">mergeEntities()</ref>, contains(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="103" column="10" bodyfile="src/importers/conflict_resolver.cpp" bodystart="254" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a3d931a810172ecc27ed657fdb727836d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ImportConflictResolver::computeKey</definition>
+        <argsstring>(const json &amp;entity, const std::vector&lt; std::string &gt; &amp;key_columns)</argsstring>
+        <name>computeKey</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::computeKey</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>key_columns</declname>
+        </param>
+        <briefdescription>
+<para>Compute Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), contains(), is_string(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="56" column="24" bodyfile="src/importers/conflict_resolver.cpp" bodystart="40" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1a382b9f4e04901369184834b7401c0c0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json ImportConflictResolver::mergeEntities</definition>
+        <argsstring>(const json &amp;existing, const json &amp;incoming, int depth, const std::vector&lt; std::string &gt; &amp;protected_fields)</argsstring>
+        <name>mergeEntities</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::mergeEntities</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>protected_fields</declname>
+        </param>
+        <briefdescription>
+<para>Merge Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), begin(), end(), key(), value(), std::find(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="86" column="17" bodyfile="src/importers/conflict_resolver.cpp" bodystart="131" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_conflict_resolver_1afa0ab66f349fa8996538c4530c816449" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1abac4e9f4b3e1b016177fc34f8ec992c4" kindref="member">ConflictReasonType</ref></type>
+        <definition>ConflictReasonType ImportConflictResolver::determineConflictReason</definition>
+        <argsstring>(const json &amp;existing, const json &amp;incoming, std::vector&lt; std::string &gt; &amp;affected_fields)</argsstring>
+        <name>determineConflictReason</name>
+        <qualifiedname>themis::importers::ImportConflictResolver::determineConflictReason</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>incoming</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>affected_fields</declname>
+        </param>
+        <briefdescription>
+<para>Determine Conflict Reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 2 T2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">affected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">affected_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+3.1 – Conflict Determinism &amp; Reason Tracking ============================================================================ Calls: clear(), is_object(), items(), insert(), key(), contains(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="119" column="31" bodyfile="src/importers/conflict_resolver.cpp" bodystart="173" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/conflict_resolver.h" line="41" column="1" bodyfile="include/importers/conflict_resolver.h" bodystart="41" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a3d931a810172ecc27ed657fdb727836d" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>computeKey</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1afa0ab66f349fa8996538c4530c816449" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>determineConflictReason</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1ae3c6715f57d9d798c294e2f94522b4bc" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>ImportConflictResolver</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a382b9f4e04901369184834b7401c0c0c" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>mergeEntities</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a53e95f6c0e734c47db4c7da0664c2054" prot="private" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a87bbba49b4c63f82bb96dc65538f1f16" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>reset</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a5131f503027fdb553ce617f3232cb963" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_conflict_resolver_1a15f5610830e14f3a1462e23c22c7049a" prot="public" virt="non-virtual"><scope>themis::importers::ImportConflictResolver</scope><name>resolveWithMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

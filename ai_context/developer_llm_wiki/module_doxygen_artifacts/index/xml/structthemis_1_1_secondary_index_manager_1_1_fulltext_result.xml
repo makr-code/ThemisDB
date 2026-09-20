@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_secondary_index_manager_1_1_fulltext_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SecondaryIndexManager::FulltextResult</compoundname>
+    <includes refid="secondary__index_8h" local="no">secondary_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_manager_1_1_fulltext_result_1a610ec99e1fa4f25cfe34dd89850a0e25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecondaryIndexManager::FulltextResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::SecondaryIndexManager::FulltextResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="163" column="21" bodyfile="include/index/secondary_index.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_manager_1_1_fulltext_result_1a6fa98f9249f824cd00b5ec0ca4fb0aaa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SecondaryIndexManager::FulltextResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::SecondaryIndexManager::FulltextResult::score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="164" column="16" bodyfile="include/index/secondary_index.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index.h" line="162" column="5" bodyfile="include/index/secondary_index.h" bodystart="162" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_secondary_index_manager_1_1_fulltext_result_1a610ec99e1fa4f25cfe34dd89850a0e25" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexManager::FulltextResult</scope><name>pk</name></member>
+      <member refid="structthemis_1_1_secondary_index_manager_1_1_fulltext_result_1a6fa98f9249f824cd00b5ec0ca4fb0aaa" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexManager::FulltextResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

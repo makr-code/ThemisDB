@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::CorrelationIdPropagationScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1a11e789ac09e4579180198fb71458e183" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CorrelationIdPropagationScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CorrelationIdPropagationScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="292" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1aaf8dbb0dfc1579b70dc910c640a8fa0b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CorrelationIdPropagationScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CorrelationIdPropagationScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="293" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="293" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed Tracing Scenario 7: Correlation ID Propagation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests correlation ID flow across federation RPC boundaries.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster</para>
+</listitem><listitem><para>Single federated write operation (consensus coordination)</para>
+</listitem><listitem><para>Trace context propagation through 4 RPC hops</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Generate correlation ID (UUID v4)</para>
+</listitem><listitem><para>Initiate write on node 1</para>
+</listitem><listitem><para>Track RPC calls: Node1→Leader→Followers (4+ hops)</para>
+</listitem><listitem><para>Collect traces from all nodes</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Same correlation ID in all span attributes</para>
+</listitem><listitem><para>Span hierarchy correct (root→parent→child)</para>
+</listitem><listitem><para>No correlation ID collisions</para>
+</listitem><listitem><para>W3C Trace Context serialization valid</para>
+</listitem><listitem><para>Telemetry overhead &lt;5%</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;5% overhead over untraced operation </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="290" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="290" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1aaf8dbb0dfc1579b70dc910c640a8fa0b" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CorrelationIdPropagationScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1a11e789ac09e4579180198fb71458e183" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CorrelationIdPropagationScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

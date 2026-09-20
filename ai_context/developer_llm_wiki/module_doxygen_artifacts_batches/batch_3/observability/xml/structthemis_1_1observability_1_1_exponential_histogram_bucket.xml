@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exponential_histogram_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ExponentialHistogramBucket</compoundname>
+    <includes refid="advanced__metrics_8h" local="no">advanced_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_bucket_1afb5282315ad7e1c58464d2155141f327" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExponentialHistogramBucket::lower_bound</definition>
+        <argsstring></argsstring>
+        <name>lower_bound</name>
+        <qualifiedname>themis::observability::ExponentialHistogramBucket::lower_bound</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Inclusive lower bound of the bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="49" column="12" bodyfile="include/observability/advanced_metrics.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_bucket_1a76acf6ba8a4aa0a0f7518850caaf6ded" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExponentialHistogramBucket::upper_bound</definition>
+        <argsstring></argsstring>
+        <name>upper_bound</name>
+        <qualifiedname>themis::observability::ExponentialHistogramBucket::upper_bound</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Exclusive upper bound of the bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="51" column="12" bodyfile="include/observability/advanced_metrics.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_bucket_1a678edffc45fd25cdb3df2e14df219901" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ExponentialHistogramBucket::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::observability::ExponentialHistogramBucket::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of observations that fell in this bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="53" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single bucket in an exponential histogram. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="47" column="1" bodyfile="include/observability/advanced_metrics.h" bodystart="47" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_bucket_1a678edffc45fd25cdb3df2e14df219901" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramBucket</scope><name>count</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_bucket_1afb5282315ad7e1c58464d2155141f327" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramBucket</scope><name>lower_bound</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_bucket_1a76acf6ba8a4aa0a0f7518850caaf6ded" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramBucket</scope><name>upper_bound</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

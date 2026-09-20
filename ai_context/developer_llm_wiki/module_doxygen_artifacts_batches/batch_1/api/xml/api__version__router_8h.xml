@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__version__router_8h" kind="file" language="C++">
+    <compoundname>api_version_router.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes refid="http__handler_8h" local="yes">api/http_handler.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="test__api__contracts_8cpp" local="yes">tests/api/test_api_contracts.cpp</includedby>
+    <includedby refid="test__api__interfaces_8cpp" local="yes">tests/api/test_api_interfaces.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/api_version_router.h</label>
+        <link refid="api__version__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/api/api_version_router.h</label>
+        <link refid="api__version__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/api/test_api_contracts.cpp</label>
+        <link refid="test__api__contracts_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/api/test_api_interfaces.cpp</label>
+        <link refid="test__api__interfaces_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_version_descriptor" prot="public">themis::api::VersionDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_route_entry" prot="public">themis::api::RouteEntry</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_a_p_i_version_router" prot="public">themis::api::IAPIVersionRouter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>Request router for API version negotiation and routing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Routes API requests to version-specific handlers based on X-API-Version header and Accept-Version negotiation. Supports multiple concurrent API versions.</para>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="http__handler_8h" kindref="compound">api/http_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VersionDescriptor<sp/>—<sp/>metadata<sp/>for<sp/>a<sp/>single<sp/>API<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1api_1_1_version_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1api_1_1_version_descriptor_1a48504b6da32f0a846b8e059e4d3f43ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a48504b6da32f0a846b8e059e4d3f43ce" kindref="member">major_version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1api_1_1_version_descriptor_1a167a6bafa35f6d910b649096c60a61ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a167a6bafa35f6d910b649096c60a61ca" kindref="member">minor_version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" kindref="member">label</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" kindref="member">deprecation_date</ref>;<sp/></highlight><highlight class="comment">//<sp/>ISO-8601<sp/>date<sp/>string,<sp/>e.g.<sp/>&quot;2027-01-01&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" kindref="member">sunset_date</ref>;<sp/></highlight><highlight class="comment">//<sp/>ISO-8601<sp/>date<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" kindref="member">successor_url</ref>;<sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;https://docs.example.com/migrate-v1-v2&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" kindref="member">current</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>major,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>minor<sp/>=<sp/>0,<sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" kindref="member">label</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{major,<sp/>minor,<sp/>std::move(<ref refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" kindref="member">label</ref>),<sp/>std::nullopt,<sp/>std::nullopt,<sp/>std::nullopt};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref><sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" kindref="member">deprecated</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>major,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>minor,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" kindref="member">deprecation_date</ref>,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" kindref="member">sunset_date</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" kindref="member">successor_url</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VersionDescriptor<sp/>d;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.major_version<sp/><sp/><sp/><sp/>=<sp/>major;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.minor_version<sp/><sp/><sp/><sp/>=<sp/>minor;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.deprecation_date<sp/>=<sp/>std::move(<ref refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" kindref="member">deprecation_date</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" kindref="member">sunset_date</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.sunset_date<sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" kindref="member">sunset_date</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" kindref="member">successor_url</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.successor_url<sp/>=<sp/>std::move(<ref refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" kindref="member">successor_url</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HandlerSet<sp/>—<sp/>a<sp/>mapping<sp/>of<sp/>HTTP<sp/>method+path<sp/>patterns<sp/>to<sp/>IHttpHandlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1api_1_1_route_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_route_entry" kindref="compound">RouteEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1api_1_1_route_entry_1a50962fc2da7a5243181e0d5ef8abde7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_route_entry_1a50962fc2da7a5243181e0d5ef8abde7c" kindref="member">method</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1api_1_1_route_entry_1a675c860a048ed44b14639ea2a7336420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_route_entry_1a675c860a048ed44b14639ea2a7336420" kindref="member">path</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1api_1_1_route_entry_1a2ee856000d25241cc9cd9035f02de997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IHttpHandler&gt;<sp/><ref refid="structthemis_1_1api_1_1_route_entry_1a2ee856000d25241cc9cd9035f02de997" kindref="member">handler</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" kindref="member">HandlerSet</ref><sp/>=<sp/>std::vector&lt;RouteEntry&gt;;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAPIVersionRouter<sp/>—<sp/>pure-virtual<sp/>versioned<sp/>routing<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1api_1_1_i_a_p_i_version_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_i_a_p_i_version_router" kindref="compound">IAPIVersionRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a032ae7ef31dbed08bd73a15e0df77b52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a032ae7ef31dbed08bd73a15e0df77b52" kindref="member">~IAPIVersionRouter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a9ae0702a5d8d7a09ddf8b8b879289922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a9ae0702a5d8d7a09ddf8b8b879289922" kindref="member">registerVersion</ref>(<ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref><sp/>version,<sp/><ref refid="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" kindref="member">HandlerSet</ref><sp/>handlers)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1af6fda8146979caf3ed286243810b84f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1af6fda8146979caf3ed286243810b84f0" kindref="member">route</ref>(std::string_view<sp/>method,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>path,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;*<sp/>out_deprecation_headers<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1abe1e2137f4dfb49fbfe35d57fe1ecbc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;VersionDescriptor&gt;<sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1abe1e2137f4dfb49fbfe35d57fe1ecbc3" kindref="member">registeredVersions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/api_version_router.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</compoundname>
+    <includes refid="crash__recovery__checkpoint_8h" local="no">crash_recovery_checkpoint.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a1cb32daf799dcd2028277f8699540c61" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::checkpoint_count</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_count</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::checkpoint_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="128" column="14" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1afb5481cf1432701ba07019d376dfa55a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="130" column="14" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a07453764478b18832e91daefebf23283" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::oldest_checkpoint_unix_sec</definition>
+        <argsstring></argsstring>
+        <name>oldest_checkpoint_unix_sec</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::oldest_checkpoint_unix_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="132" column="13" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a0fc923d5c25f620edfe20bd9298ad501" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::newest_checkpoint_unix_sec</definition>
+        <argsstring></argsstring>
+        <name>newest_checkpoint_unix_sec</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats::newest_checkpoint_unix_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="134" column="13" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="127" column="3" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="127" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a1cb32daf799dcd2028277f8699540c61" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</scope><name>checkpoint_count</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a0fc923d5c25f620edfe20bd9298ad501" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</scope><name>newest_checkpoint_unix_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a07453764478b18832e91daefebf23283" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</scope><name>oldest_checkpoint_unix_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1afb5481cf1432701ba07019d376dfa55a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

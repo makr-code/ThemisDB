@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::security::test::SafeMoveTest::SafeObject</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a3993d28b9e944ddedbcb88e5d8353ae3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::security::test::SafeMoveTest::SafeObject::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::security::test::SafeMoveTest::SafeObject::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="191" column="17" bodyfile="tests/security/test_safe_move.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1adaebdabba561cab73fa2a02e593b457c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::SafeMoveTest::SafeObject::SafeObject</definition>
+        <argsstring>()=default</argsstring>
+        <name>SafeObject</name>
+        <qualifiedname>themis::security::test::SafeMoveTest::SafeObject::SafeObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="193" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1aa7dfcffff8ab42b356722a5ab87bbcc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::SafeMoveTest::SafeObject::SafeObject</definition>
+        <argsstring>(std::vector&lt; int &gt; d)</argsstring>
+        <name>SafeObject</name>
+        <qualifiedname>themis::security::test::SafeMoveTest::SafeObject::SafeObject</qualifiedname>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="194" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a72d6905af5c9f6a44681ab91dcfe904f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::SafeMoveTest::SafeObject::SafeObject</definition>
+        <argsstring>(SafeObject &amp;&amp;other) noexcept</argsstring>
+        <name>SafeObject</name>
+        <qualifiedname>themis::security::test::SafeMoveTest::SafeObject::SafeObject</qualifiedname>
+        <param>
+          <type>SafeObject &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="196" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a01e7f1511b1477bb519385cb318ec0dd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1adaebdabba561cab73fa2a02e593b457c" kindref="member">SafeObject</ref> &amp;</type>
+        <definition>SafeObject &amp; themis::security::test::SafeMoveTest::SafeObject::operator=</definition>
+        <argsstring>(SafeObject &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::test::SafeMoveTest::SafeObject::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1adaebdabba561cab73fa2a02e593b457c" kindref="member">SafeObject</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="197" column="16" bodyfile="tests/security/test_safe_move.cpp" bodystart="197" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_safe_move.cpp" line="190" column="3" bodyfile="tests/security/test_safe_move.cpp" bodystart="190" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a3993d28b9e944ddedbcb88e5d8353ae3" prot="public" virt="non-virtual"><scope>themis::security::test::SafeMoveTest::SafeObject</scope><name>data</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a01e7f1511b1477bb519385cb318ec0dd" prot="public" virt="non-virtual"><scope>themis::security::test::SafeMoveTest::SafeObject</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1adaebdabba561cab73fa2a02e593b457c" prot="public" virt="non-virtual"><scope>themis::security::test::SafeMoveTest::SafeObject</scope><name>SafeObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1aa7dfcffff8ab42b356722a5ab87bbcc8" prot="public" virt="non-virtual"><scope>themis::security::test::SafeMoveTest::SafeObject</scope><name>SafeObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_safe_move_test_1_1_safe_object_1a72d6905af5c9f6a44681ab91dcfe904f" prot="public" virt="non-virtual"><scope>themis::security::test::SafeMoveTest::SafeObject</scope><name>SafeObject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::TableStatistics</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1ab094b98f1a5eb9e86a6440d30042ce7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::OptimizerCostModel::TableStatistics::tableName</definition>
+        <argsstring></argsstring>
+        <name>tableName</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::tableName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="42" column="21" bodyfile="include/query/optimizer_cost_model.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1abed460b4b451476c343f77a5e423c5da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::TableStatistics::rowCount</definition>
+        <argsstring></argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::rowCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="43" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a8f47f905b764e7461c01227a280d0f49" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::TableStatistics::pageCount</definition>
+        <argsstring></argsstring>
+        <name>pageCount</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::pageCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="44" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a36dd574a9c2ec91d45806b34b5474002" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::TableStatistics::avgRowSize</definition>
+        <argsstring></argsstring>
+        <name>avgRowSize</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::avgRowSize</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="45" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a5647270fbf2f0474172a68e208ae515d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::OptimizerCostModel::TableStatistics::isStale</definition>
+        <argsstring></argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::isStale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="46" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a08589a7824f9445abf99fe7a01f1b137" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::OptimizerCostModel::TableStatistics::lastUpdated</definition>
+        <argsstring></argsstring>
+        <name>lastUpdated</name>
+        <qualifiedname>themis::OptimizerCostModel::TableStatistics::lastUpdated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="47" column="17" bodyfile="include/query/optimizer_cost_model.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="41" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="41" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a36dd574a9c2ec91d45806b34b5474002" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>avgRowSize</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a5647270fbf2f0474172a68e208ae515d" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>isStale</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a08589a7824f9445abf99fe7a01f1b137" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>lastUpdated</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a8f47f905b764e7461c01227a280d0f49" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>pageCount</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1abed460b4b451476c343f77a5e423c5da" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>rowCount</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1ab094b98f1a5eb9e86a6440d30042ce7e" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::TableStatistics</scope><name>tableName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

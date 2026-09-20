@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1network_1_1_0d363120161056360336335033163071310307143371332344" kind="namespace" language="C++">
+    <compoundname>themis::network::@363120161056360336335033163071310307143371332344</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/network/geo_topology_router.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

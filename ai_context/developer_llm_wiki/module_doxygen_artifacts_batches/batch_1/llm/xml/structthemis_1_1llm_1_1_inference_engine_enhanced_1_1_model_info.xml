@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceEngineEnhanced::ModelInfo</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a1a6e894b92a6c99cca8e7d53ba31e2f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::ModelInfo::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="138" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a774e02a8f96af2e335560e59ab4f7496" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+        <definition>std::shared_ptr&lt;ILLMPlugin&gt; themis::llm::InferenceEngineEnhanced::ModelInfo::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="139" column="25" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1af81794fc6ec4c05834433865bf6b4096" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::ModelInfo::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="140" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a6da14d78eaafc3cdf9e504739203028a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::InferenceEngineEnhanced::ModelInfo::avg_response_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_response_time_ms</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::avg_response_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="141" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a27e8e14b56fd8aa34efc5e0d24eec3d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::ModelInfo::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="142" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1ac1d68c5820beddd7186841a2780ac9b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::ModelInfo::is_available</definition>
+        <argsstring></argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::is_available</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="143" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1ad6829d2ffadc1b6059b53a14afde90e7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota" kindref="compound">ModelResourceQuota</ref></type>
+        <definition>ModelResourceQuota themis::llm::InferenceEngineEnhanced::ModelInfo::quota</definition>
+        <argsstring></argsstring>
+        <name>quota</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelInfo::quota</qualifiedname>
+        <briefdescription>
+<para>Per-model resource limits (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="144" column="28" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::InferenceEngineEnhanced::ModelInfo</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>quota</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::InferenceEngineEnhanced::ModelResourceQuota</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/inference_engine_enhanced.h" line="137" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="137" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1af81794fc6ec4c05834433865bf6b4096" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>active_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a6da14d78eaafc3cdf9e504739203028a" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>avg_response_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1ac1d68c5820beddd7186841a2780ac9b6" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>is_available</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a1a6e894b92a6c99cca8e7d53ba31e2f3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a774e02a8f96af2e335560e59ab4f7496" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>plugin</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1ad6829d2ffadc1b6059b53a14afde90e7" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>quota</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_info_1a27e8e14b56fd8aa34efc5e0d24eec3d5" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelInfo</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

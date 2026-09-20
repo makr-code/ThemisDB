@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_themis_d_b_document_test" kind="class" language="C++" prot="public">
+    <compoundname>ThemisDBDocumentTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_themis_d_b_document_test_1a4fb27d13e7a8d1d6b8e22a46fa537510" prot="protected" static="no" mutable="no">
+        <type><ref refid="classchimera_1_1_themis_d_b_adapter" kindref="compound">ThemisDBAdapter</ref></type>
+        <definition>ThemisDBAdapter ThemisDBDocumentTest::adapter</definition>
+        <argsstring></argsstring>
+        <name>adapter</name>
+        <qualifiedname>ThemisDBDocumentTest::adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="290" column="21" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_themis_d_b_document_test_1a7bdec8e3d1a79cfc11298324fe7c62ff" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisDBDocumentTest::kCollection</definition>
+        <argsstring></argsstring>
+        <name>kCollection</name>
+        <qualifiedname>ThemisDBDocumentTest::kCollection</qualifiedname>
+        <initializer>= &quot;items&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="291" column="33" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_themis_d_b_document_test_1a219a130cc137e0f1dd5b2c3e836c6674" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThemisDBDocumentTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ThemisDBDocumentTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="286" column="10" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThemisDBDocumentTest</label>
+        <link refid="class_themis_d_b_document_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>IAsyncDatabaseAdapter</label>
+      </node>
+      <node id="4">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="1">
+        <label>ThemisDBDocumentTest</label>
+        <link refid="class_themis_d_b_document_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>adapter</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="6">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="3">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/chimera/test_themisdb_adapter.cpp" line="284" column="1" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="284" bodyend="292"/>
+    <listofallmembers>
+      <member refid="class_themis_d_b_document_test_1a4fb27d13e7a8d1d6b8e22a46fa537510" prot="protected" virt="non-virtual"><scope>ThemisDBDocumentTest</scope><name>adapter</name></member>
+      <member refid="class_themis_d_b_document_test_1a7bdec8e3d1a79cfc11298324fe7c62ff" prot="protected" virt="non-virtual"><scope>ThemisDBDocumentTest</scope><name>kCollection</name></member>
+      <member refid="class_themis_d_b_document_test_1a219a130cc137e0f1dd5b2c3e836c6674" prot="protected" virt="non-virtual"><scope>ThemisDBDocumentTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

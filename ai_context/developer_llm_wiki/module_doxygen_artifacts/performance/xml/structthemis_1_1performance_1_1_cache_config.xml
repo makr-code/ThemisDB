@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::CacheConfig</compoundname>
+    <includes refid="advanced__cache__manager_8h" local="no">advanced_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_config_1ae03bb9dea5082b138f3d31a8ed80a037" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::CacheConfig::total_size_mb</definition>
+        <argsstring></argsstring>
+        <name>total_size_mb</name>
+        <qualifiedname>themis::performance::CacheConfig::total_size_mb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="70" column="32" bodyfile="include/performance/advanced_cache_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_config_1a690934e2ea9ce991fef0864c0b5d8ff6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_cache_partition" kindref="compound">CachePartition</ref> &gt;</type>
+        <definition>std::vector&lt;CachePartition&gt; themis::performance::CacheConfig::partitions</definition>
+        <argsstring></argsstring>
+        <name>partitions</name>
+        <qualifiedname>themis::performance::CacheConfig::partitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="71" column="17" bodyfile="include/performance/advanced_cache_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_config_1aa6b1a19eba5cf6c07a889634d61f5c2c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::CacheConfig::enable_bloom_filters</definition>
+        <argsstring></argsstring>
+        <name>enable_bloom_filters</name>
+        <qualifiedname>themis::performance::CacheConfig::enable_bloom_filters</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="72" column="32" bodyfile="include/performance/advanced_cache_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_config_1a6216968ce9d69f2b76c0c434d2abb52d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::CacheConfig::bloom_filter_fp_rate</definition>
+        <argsstring></argsstring>
+        <name>bloom_filter_fp_rate</name>
+        <qualifiedname>themis::performance::CacheConfig::bloom_filter_fp_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="73" column="32" bodyfile="include/performance/advanced_cache_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Top-level cache configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="69" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_cache_config_1a6216968ce9d69f2b76c0c434d2abb52d" prot="public" virt="non-virtual"><scope>themis::performance::CacheConfig</scope><name>bloom_filter_fp_rate</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_config_1aa6b1a19eba5cf6c07a889634d61f5c2c" prot="public" virt="non-virtual"><scope>themis::performance::CacheConfig</scope><name>enable_bloom_filters</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_config_1a690934e2ea9ce991fef0864c0b5d8ff6" prot="public" virt="non-virtual"><scope>themis::performance::CacheConfig</scope><name>partitions</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_config_1ae03bb9dea5082b138f3d31a8ed80a037" prot="public" virt="non-virtual"><scope>themis::performance::CacheConfig</scope><name>total_size_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

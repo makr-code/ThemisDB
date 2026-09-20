@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_query_profiler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::QueryProfiler::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a319b5e9333f2d120220e56b315bafba1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref></type>
+        <definition>QueryProfilerConfig themis::observability::QueryProfiler::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::QueryProfiler::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/query_profiler.cpp" line="154" column="25" bodyfile="src/observability/query_profiler.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a557c9826f1af88e0be2568d3440af594" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;QueryProfile&gt; &gt; themis::observability::QueryProfiler::Impl::profiles</definition>
+        <argsstring></argsstring>
+        <name>profiles</name>
+        <qualifiedname>themis::observability::QueryProfiler::Impl::profiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/query_profiler.cpp" line="155" column="24" bodyfile="src/observability/query_profiler.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a0a9b0bb7a58e19a959728d8de85085f1" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::QueryProfiler::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::observability::QueryProfiler::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/query_profiler.cpp" line="156" column="24" bodyfile="src/observability/query_profiler.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a644e6b0a8657bf98fa1f90af42fd86c3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::QueryProfiler::Impl::Impl</definition>
+        <argsstring>(const QueryProfilerConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::QueryProfiler::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/query_profiler.cpp" line="158" column="14" bodyfile="src/observability/query_profiler.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1afc41f06c5bc045e645e5d89e4c1f37d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::Impl::cleanup_old</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_old</name>
+        <qualifiedname>themis::observability::QueryProfiler::Impl::cleanup_old</qualifiedname>
+        <briefdescription>
+<para>Cleanup old. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), push_back(), erase(), size(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/query_profiler.cpp" line="164" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="164" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::QueryProfiler::Impl</label>
+        <link refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::QueryProfilerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_query_profiler_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/query_profiler.cpp" line="152" column="1" bodyfile="src/observability/query_profiler.cpp" bodystart="152" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1afc41f06c5bc045e645e5d89e4c1f37d2" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler::Impl</scope><name>cleanup_old</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a319b5e9333f2d120220e56b315bafba1" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a644e6b0a8657bf98fa1f90af42fd86c3" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a0a9b0bb7a58e19a959728d8de85085f1" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler::Impl</scope><name>mutex</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl_1a557c9826f1af88e0be2568d3440af594" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler::Impl</scope><name>profiles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

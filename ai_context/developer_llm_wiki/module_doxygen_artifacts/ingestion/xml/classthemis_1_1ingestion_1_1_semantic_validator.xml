@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_semantic_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::SemanticValidator</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>( const <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref> &amp;extraction, const std::string &amp;text)&gt;</type>
+        <definition>using themis::ingestion::SemanticValidator::ValidatorFn = std::function&lt;SemanticValidationResult(
+       const DeonticExtraction&amp; extraction, const std::string&amp; text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ValidatorFn</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::ValidatorFn</qualifiedname>
+        <briefdescription>
+<para>Signature for an injectable validation function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="219" column="5" bodyfile="include/ingestion/semantic_validator.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_semantic_validator_1aecb81483ddee56a7345831f81c094955" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref></type>
+        <definition>LegalQualityGates themis::ingestion::SemanticValidator::gates_</definition>
+        <argsstring></argsstring>
+        <name>gates_</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::gates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="302" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_semantic_validator_1a7c9ca98c5c6ae51ca734c969c0d03372" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref></type>
+        <definition>ValidatorFn themis::ingestion::SemanticValidator::validator_fn_</definition>
+        <argsstring></argsstring>
+        <name>validator_fn_</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::validator_fn_</qualifiedname>
+        <briefdescription>
+<para>Custom override; empty = built-in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="303" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_semantic_validator_1a1f1386c5a9bfcc6706ae40d403f8c357" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref></type>
+        <definition>DeonticExtractor themis::ingestion::SemanticValidator::extractor_</definition>
+        <argsstring></argsstring>
+        <name>extractor_</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::extractor_</qualifiedname>
+        <briefdescription>
+<para>Shared extractor instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="304" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::SemanticValidator::SemanticValidator</definition>
+        <argsstring>()</argsstring>
+        <name>SemanticValidator</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::SemanticValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a29291ecb798469d80e6cc62984060faf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref></type>
+        <definition>SemanticValidationResult themis::ingestion::SemanticValidator::validate</definition>
+        <argsstring>(const DeonticExtraction &amp;extraction, const std::string &amp;text) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref> &amp;</type>
+          <declname>extraction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Validate a deontic extraction result against the configured gates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extraction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result from <ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a51576b6bf34cae9e76dd1da35fe0a31a" kindref="member">DeonticExtractor::extract()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original document text (used for pattern checks) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> with gate details and score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="231" column="30" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="109" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result" kindref="compound">LegalExtractionResult</ref></type>
+        <definition>LegalExtractionResult themis::ingestion::SemanticValidator::extractDocument</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;full_text) const</argsstring>
+        <name>extractDocument</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::extractDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>full_text</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result" kindref="compound">LegalExtractionResult</ref> for a complete document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Splits the document into provisions (by § pattern), runs extraction and validation on each, and returns an aggregated result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier for the document (e.g. &quot;BImSchG_2024&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>full_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Complete text of the legal document </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated <ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result" kindref="compound">LegalExtractionResult</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">full_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="244" column="27" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="259" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a51ba0a45ea9f421d8274c5b8808ead6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::SemanticValidator::setQualityGates</definition>
+        <argsstring>(const LegalQualityGates &amp;gates)</argsstring>
+        <name>setQualityGates</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::setQualityGates</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref> &amp;</type>
+          <declname>gates</declname>
+        </param>
+        <briefdescription>
+<para>Configure the quality gates to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Quality Gates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality gate configuration struct</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setQualityGates without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="252" column="10" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a122cfb57a45924bc8bbbae73c2e11d68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::SemanticValidator::setValidatorFn</definition>
+        <argsstring>(ValidatorFn fn)</argsstring>
+        <name>setValidatorFn</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::setValidatorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Replace the built-in validation logic with a custom function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Validator Fn.</para>
+<para>Pass an empty <computeroutput><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref>{}</computeroutput> to restore the built-in logic.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom validation function, or empty to reset</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="261" column="10" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::SemanticValidator::setExtractor</definition>
+        <argsstring>(DeonticExtractor extractor)</argsstring>
+        <name>setExtractor</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::setExtractor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref></type>
+          <declname>extractor</declname>
+        </param>
+        <briefdescription>
+<para>Replace the internal <computeroutput><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref></computeroutput> with a pre-configured one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Extractor.</para>
+<sect1 id="classthemis_1_1ingestion_1_1_semantic_validator_1autotoc_md24_1s1"><sect2 id="classthemis_1_1ingestion_1_1_semantic_validator_1autotoc_md24">
+<title>SoC / DIP note</title><para>The default extractor uses built-in regex rules. To activate an LLM-backed extractor, build one via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">LegalLlmAdapter::buildExtractor()</ref></computeroutput> and inject it here. The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref></computeroutput> remains entirely free of any <computeroutput>llm/</computeroutput> or <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref></computeroutput> knowledge — the caller provides the pre-built extractor.</para>
+<para>Example: <programlisting><codeline><highlight class="comment">//<sp/>In<sp/>wiring<sp/>code<sp/>(not<sp/>in<sp/>ingestion/):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">LegalLlmAdapter<sp/>adapter(bridge);</highlight></codeline>
+<codeline><highlight class="normal">DeonticExtractor<sp/>llm_extractor<sp/>=<sp/>adapter.buildExtractor(0.75);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" kindref="member">SemanticValidator</ref><sp/>validator;</highlight></codeline>
+<codeline><highlight class="normal">validator.setExtractor(std::move(llm_extractor));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-configured <ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref> (moved in).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="286" column="10" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a5c28de926c6ea535aaf701a1bb026670" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref></type>
+        <definition>SemanticValidationResult themis::ingestion::SemanticValidator::validateBuiltin</definition>
+        <argsstring>(const DeonticExtraction &amp;extraction, const std::string &amp;text) const</argsstring>
+        <name>validateBuiltin</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::validateBuiltin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref> &amp;</type>
+          <declname>extraction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="289" column="30" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="117" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1aee767fbcd42dbc828af804e23260e290" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SemanticValidator::hasSection</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasSection</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::hasSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check the section-hierarchy gate: does the text contain a § pattern? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="293" column="17" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1a80b902660a91cb59d93a1e4a4331615e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SemanticValidator::hasTemporal</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasTemporal</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::hasTemporal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check the temporal-present gate: does the text contain a date pattern? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="296" column="17" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_semantic_validator_1af9f6c77b213d6c99063071d0cc8b558b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::SemanticValidator::computeScore</definition>
+        <argsstring>(const DeonticExtraction &amp;extraction, const std::string &amp;text)</argsstring>
+        <name>computeScore</name>
+        <qualifiedname>themis::ingestion::SemanticValidator::computeScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref> &amp;</type>
+          <declname>extraction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a composite score from extraction results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="299" column="19" bodyfile="src/ingestion/semantic_validator.cpp" bodystart="215" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Semantic validator for legal text extractions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Applies quality gates defined in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref></computeroutput> to a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref></computeroutput> result and produces a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref></computeroutput>.</para>
+<para>The validator is injectable: supply a custom validation function via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a122cfb57a45924bc8bbbae73c2e11d68" kindref="member">setValidatorFn()</ref></computeroutput> to override the built-in logic (useful in tests or when wiring an LLM-based semantic checker in Phase 2).</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">DeonticExtractor<sp/>extractor;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" kindref="member">SemanticValidator</ref><sp/>validator;</highlight></codeline>
+<codeline><highlight class="normal">validator.setQualityGates(LegalQualityGates{});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>extraction<sp/>=<sp/>extractor.extract(text);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(extraction,<sp/>text);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.is_valid)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>required<sp/>gate<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/semantic_validator.h" line="216" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="216" bodyend="305"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1af9f6c77b213d6c99063071d0cc8b558b" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>computeScore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>extractDocument</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a1f1386c5a9bfcc6706ae40d403f8c357" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>extractor_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1aecb81483ddee56a7345831f81c094955" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>gates_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1aee767fbcd42dbc828af804e23260e290" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>hasSection</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a80b902660a91cb59d93a1e4a4331615e" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>hasTemporal</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>SemanticValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>setExtractor</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a51ba0a45ea9f421d8274c5b8808ead6d" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>setQualityGates</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a122cfb57a45924bc8bbbae73c2e11d68" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>setValidatorFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a29291ecb798469d80e6cc62984060faf" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a5c28de926c6ea535aaf701a1bb026670" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>validateBuiltin</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1a7c9ca98c5c6ae51ca734c969c0d03372" prot="private" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>validator_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidator</scope><name>ValidatorFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

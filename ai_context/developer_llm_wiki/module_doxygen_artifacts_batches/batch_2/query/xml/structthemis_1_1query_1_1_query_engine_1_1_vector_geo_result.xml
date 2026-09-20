@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::VectorGeoResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1ae7afa545d1cbefbbff2e842f927b0fbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::VectorGeoResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::query::QueryEngine::VectorGeoResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="582" column="21" bodyfile="include/query/query_engine.h" bodystart="582" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1ad7f95452d13eea7491889f3c24aabbd6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::QueryEngine::VectorGeoResult::vector_distance</definition>
+        <argsstring></argsstring>
+        <name>vector_distance</name>
+        <qualifiedname>themis::query::QueryEngine::VectorGeoResult::vector_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="583" column="15" bodyfile="include/query/query_engine.h" bodystart="583" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1a9da67a7ceab123719ef9af415fc81905" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryEngine::VectorGeoResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::query::QueryEngine::VectorGeoResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="584" column="24" bodyfile="include/query/query_engine.h" bodystart="584" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="581" column="5" bodyfile="include/query/query_engine.h" bodystart="581" bodyend="585"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1a9da67a7ceab123719ef9af415fc81905" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::VectorGeoResult</scope><name>entity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1ae7afa545d1cbefbbff2e842f927b0fbb" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::VectorGeoResult</scope><name>pk</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_vector_geo_result_1ad7f95452d13eea7491889f3c24aabbd6" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::VectorGeoResult</scope><name>vector_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

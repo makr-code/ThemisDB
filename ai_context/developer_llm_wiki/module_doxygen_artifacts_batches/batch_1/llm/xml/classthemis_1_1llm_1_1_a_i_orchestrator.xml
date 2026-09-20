@@ -1,0 +1,851 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_a_i_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AIOrchestrator</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_orchestrator_1_1_impl" prot="public">themis::llm::AIOrchestrator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_a_i_orchestrator_1abddcaf50aa3928590a146c88e87fb9fd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_a_i_orchestrator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::AIOrchestrator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::AIOrchestrator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="580" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="580" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ae29a20eb0ed3a5cc3da0c5652a95cd21" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AIOrchestrator::AIOrchestrator</definition>
+        <argsstring>(const ModePack &amp;pack)</argsstring>
+        <name>AIOrchestrator</name>
+        <qualifiedname>themis::llm::AIOrchestrator::AIOrchestrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_pack" kindref="compound">ModePack</ref> &amp;</type>
+          <declname>pack</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_a_i_orchestrator" kindref="compound">AIOrchestrator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="494" column="14" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="728" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a32bcf4e6464361c65f662ee7108a129e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AIOrchestrator::~AIOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>~AIOrchestrator</name>
+        <qualifiedname>themis::llm::AIOrchestrator::~AIOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="495" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a72115c0982bcc80e96d35c98d008088e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AIOrchestrator::AIOrchestrator</definition>
+        <argsstring>(const AIOrchestrator &amp;)=delete</argsstring>
+        <name>AIOrchestrator</name>
+        <qualifiedname>themis::llm::AIOrchestrator::AIOrchestrator</qualifiedname>
+        <param>
+          <type>const AIOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="498" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a0d1e58ea2b2a69ce791fe20e93506e9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ae29a20eb0ed3a5cc3da0c5652a95cd21" kindref="member">AIOrchestrator</ref> &amp;</type>
+        <definition>AIOrchestrator &amp; themis::llm::AIOrchestrator::operator=</definition>
+        <argsstring>(const AIOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::AIOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ae29a20eb0ed3a5cc3da0c5652a95cd21" kindref="member">AIOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="499" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ac531dd8be057c73f442a24662b9d63f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setLLMPlugin</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMPlugin &gt; plugin)</argsstring>
+        <name>setLLMPlugin</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setLLMPlugin</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>── Configuration ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set LLMPlugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), lock(), setPathResolver(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="506" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="743" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a56d9003e70e359b04ca2892d91fc88a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setAdapterCandidateProvider</definition>
+        <argsstring>(std::shared_ptr&lt; IAdapterCandidateProvider &gt; provider)</argsstring>
+        <name>setAdapterCandidateProvider</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setAdapterCandidateProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider" kindref="compound">IAdapterCandidateProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Candidate Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="512" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="760" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1aae5662d011a665ada79d8f9676ff9d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setAdapterApplyService</definition>
+        <argsstring>(std::shared_ptr&lt; IAdapterApplyService &gt; service)</argsstring>
+        <name>setAdapterApplyService</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setAdapterApplyService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_adapter_apply_service" kindref="compound">IAdapterApplyService</ref> &gt;</type>
+          <declname>service</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Apply Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="518" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="771" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ad8e2841b418f7471cb871d8b04873fc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setAdapterSwitchPolicy</definition>
+        <argsstring>(const AdapterSwitchPolicy &amp;policy)</argsstring>
+        <name>setAdapterSwitchPolicy</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setAdapterSwitchPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_switch_policy" kindref="compound">AdapterSwitchPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Switch Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="524" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="782" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a22df7835452527f7ddb94e16f5db3974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setAdapterPathResolver</definition>
+        <argsstring>(AdapterPathResolverFn resolver)</argsstring>
+        <name>setAdapterPathResolver</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setAdapterPathResolver</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ae872466676df377ac2d6aaf95ba094b1" kindref="member">AdapterPathResolverFn</ref></type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Path Resolver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), get(), setPathResolver(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="530" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="792" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a8b2ad01f9eb33a7cdf9fdb2e8d030e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::setRagCostModelService</definition>
+        <argsstring>(std::shared_ptr&lt; IRagCostModelService &gt; service)</argsstring>
+        <name>setRagCostModelService</name>
+        <qualifiedname>themis::llm::AIOrchestrator::setRagCostModelService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_rag_cost_model_service" kindref="compound">IRagCostModelService</ref> &gt;</type>
+          <declname>service</declname>
+        </param>
+        <briefdescription>
+<para>Set Rag Cost Model Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="536" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="807" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a5557b6f86764477cdd4c9788ba519f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_tool_registry" kindref="compound">ToolRegistry</ref> &amp;</type>
+        <definition>ToolRegistry &amp; themis::llm::AIOrchestrator::toolRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>toolRegistry</name>
+        <qualifiedname>themis::llm::AIOrchestrator::toolRegistry</qualifiedname>
+        <briefdescription>
+<para>Tool Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toolRegistry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="542" column="18" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="817" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a8c551baa631a75dc3812c5d4c8a33a64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::run</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx) const</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::llm::AIOrchestrator::run</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>── Execution ──────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="550" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="870" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a9441f6d5baa88a6dff70fff58dcd369b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_mode_pack" kindref="compound">ModePack</ref> &amp;</type>
+        <definition>const ModePack &amp; themis::llm::AIOrchestrator::modePack</definition>
+        <argsstring>() const</argsstring>
+        <name>modePack</name>
+        <qualifiedname>themis::llm::AIOrchestrator::modePack</qualifiedname>
+        <briefdescription>
+<para>── Introspection ───────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="557" column="20" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="821" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1afd95a0d8501608389b39282e2d9c1a39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> *</type>
+        <definition>const ModeSpec * themis::llm::AIOrchestrator::findMode</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>findMode</name>
+        <qualifiedname>themis::llm::AIOrchestrator::findMode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Find Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="564" column="20" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="825" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a910adf2f18d9b158a1ffc537c6b9612d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> *</type>
+        <definition>const ModeSpec * themis::llm::AIOrchestrator::defaultMode</definition>
+        <argsstring>() const</argsstring>
+        <name>defaultMode</name>
+        <qualifiedname>themis::llm::AIOrchestrator::defaultMode</qualifiedname>
+        <briefdescription>
+<para>Default Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="570" column="20" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="834" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a2e4017861905808d45d26fee89efbd5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::AIOrchestrator::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::llm::AIOrchestrator::stats</qualifiedname>
+        <briefdescription>
+<para>Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="576" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="838" bodyend="864"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ae18c8f7835a272b267b99fe4d0808ab0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::runAsk</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>runAsk</name>
+        <qualifiedname>themis::llm::AIOrchestrator::runAsk</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>── Internal pipeline steps ─────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="589" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="1008" bodyend="1054"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ac96c640b9100e4cee05e83b484628e72" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::runRag</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>runRag</name>
+        <qualifiedname>themis::llm::AIOrchestrator::runRag</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Run Rag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="598" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="1060" bodyend="1608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1abaaef69aa7c4d722390ee436eefc3e26" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::runAgentic</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>runAgentic</name>
+        <qualifiedname>themis::llm::AIOrchestrator::runAgentic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Run Agentic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="607" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="1614" bodyend="1698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a9abba7bff53872899434900bdac3e4c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::runEthics</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>runEthics</name>
+        <qualifiedname>themis::llm::AIOrchestrator::runEthics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Run Ethics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="616" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="1704" bodyend="1740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1af2b70d0060dfeef11b5f69cddc82ef37" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_orchestrator_result" kindref="compound">OrchestratorResult</ref></type>
+        <definition>OrchestratorResult themis::llm::AIOrchestrator::runMultiAgent</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>runMultiAgent</name>
+        <qualifiedname>themis::llm::AIOrchestrator::runMultiAgent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Run Multi Agent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="625" column="24" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="1746" bodyend="1821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a57825ff2aee5c411f9a8b7af89fa3504" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref></type>
+        <definition>InferenceRequest themis::llm::AIOrchestrator::buildRequest</definition>
+        <argsstring>(const OrchestratorContext &amp;ctx, const ModeSpec &amp;mode) const</argsstring>
+        <name>buildRequest</name>
+        <qualifiedname>themis::llm::AIOrchestrator::buildRequest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_orchestrator_context" kindref="compound">OrchestratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Build Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="634" column="22" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="939" bodyend="963"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1a2742fbe2b5971efaa130ae9018c421c1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIOrchestrator::assemblePrompt</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RAGContext::Document &gt; &amp;docs, const ModeSpec &amp;) const</argsstring>
+        <name>assemblePrompt</name>
+        <qualifiedname>themis::llm::AIOrchestrator::assemblePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_r_a_g_context_1_1_document" kindref="compound">RAGContext::Document</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Assemble Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="644" column="17" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="965" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_orchestrator_1ae115d1ad669a828a4e9f3553eaff7141" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AIOrchestrator::emitObservability</definition>
+        <argsstring>(const RunMetadata &amp;meta, const ModeSpec &amp;mode) const</argsstring>
+        <name>emitObservability</name>
+        <qualifiedname>themis::llm::AIOrchestrator::emitObservability</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_run_metadata" kindref="compound">RunMetadata</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Emit Observability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="653" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="986" bodyend="1002"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="487" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="487" bodyend="655"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ae29a20eb0ed3a5cc3da0c5652a95cd21" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>AIOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a72115c0982bcc80e96d35c98d008088e" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>AIOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a2742fbe2b5971efaa130ae9018c421c1" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>assemblePrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a57825ff2aee5c411f9a8b7af89fa3504" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>buildRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a910adf2f18d9b158a1ffc537c6b9612d" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>defaultMode</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ae115d1ad669a828a4e9f3553eaff7141" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>emitObservability</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1afd95a0d8501608389b39282e2d9c1a39" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>findMode</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1abddcaf50aa3928590a146c88e87fb9fd" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a9441f6d5baa88a6dff70fff58dcd369b" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>modePack</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a0d1e58ea2b2a69ce791fe20e93506e9f" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a8c551baa631a75dc3812c5d4c8a33a64" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>run</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1abaaef69aa7c4d722390ee436eefc3e26" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>runAgentic</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ae18c8f7835a272b267b99fe4d0808ab0" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>runAsk</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a9abba7bff53872899434900bdac3e4c0" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>runEthics</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1af2b70d0060dfeef11b5f69cddc82ef37" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>runMultiAgent</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ac96c640b9100e4cee05e83b484628e72" prot="private" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>runRag</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1aae5662d011a665ada79d8f9676ff9d51" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setAdapterApplyService</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a56d9003e70e359b04ca2892d91fc88a0" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setAdapterCandidateProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a22df7835452527f7ddb94e16f5db3974" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setAdapterPathResolver</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ad8e2841b418f7471cb871d8b04873fc6" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setAdapterSwitchPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1ac531dd8be057c73f442a24662b9d63f1" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setLLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a8b2ad01f9eb33a7cdf9fdb2e8d030e19" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>setRagCostModelService</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a2e4017861905808d45d26fee89efbd5e" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>stats</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a5557b6f86764477cdd4c9788ba519f7e" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>toolRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_orchestrator_1a32bcf4e6464361c65f662ee7108a129e" prot="public" virt="non-virtual"><scope>themis::llm::AIOrchestrator</scope><name>~AIOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_shard_router" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IShardRouter</compoundname>
+    <derivedcompoundref refid="class_mock_shard_router" prot="public" virt="non-virtual">MockShardRouter</derivedcompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_router_1a4ebe9358d70c9cd984e1bd1cb7642f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IShardRouter::~IShardRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IShardRouter</name>
+        <qualifiedname>themis::sharding::IShardRouter::~IShardRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="363" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_router_1ab6932d4aa50cd0e795f2240f7d58390e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>virtual NodeId themis::sharding::IShardRouter::route</definition>
+        <argsstring>(const ShardKey &amp;key) const =0</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::sharding::IShardRouter::route</qualifiedname>
+        <reimplementedby refid="class_mock_shard_router_1a885993acc9a1d86e023684190307b40f">route</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Route a single partition key to the owning shard. <simplesect kind="return"><para>The <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> of the shard responsible for <computeroutput>key</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="367" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_router_1a5fa3f0431c6b6eb2e3a7fb0be3ddb342" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &gt;</type>
+        <definition>virtual std::vector&lt; NodeId &gt; themis::sharding::IShardRouter::routeAll</definition>
+        <argsstring>(std::span&lt; const ShardKey &gt; keys) const =0</argsstring>
+        <name>routeAll</name>
+        <qualifiedname>themis::sharding::IShardRouter::routeAll</qualifiedname>
+        <reimplementedby refid="class_mock_shard_router_1aa895a79d2e37c36260c1b7cde0d07d72">routeAll</reimplementedby>
+        <param>
+          <type>std::span&lt; const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Route a batch of partition keys to their respective owning shards. The result vector is 1-to-1 with the input span. <simplesect kind="return"><para>Vector of NodeIds, one per key in <computeroutput>keys</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="372" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe shard routing interface.</para>
+<para>All public methods are fully thread-safe. The read path (route / routeAll) is designed to be lock-free so that routing hot-paths are not stalled by concurrent topology changes.</para>
+<para>Performance contract: <ref refid="classthemis_1_1sharding_1_1_i_shard_router_1ab6932d4aa50cd0e795f2240f7d58390e" kindref="member">route()</ref> single-key lookup ≤ 200 ns. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockShardRouter</label>
+        <link refid="class_mock_shard_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_i_shard_router"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_interfaces.h" line="361" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="361" bodyend="373"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_router_1ab6932d4aa50cd0e795f2240f7d58390e" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_router_1a5fa3f0431c6b6eb2e3a7fb0be3ddb342" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardRouter</scope><name>routeAll</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_router_1a4ebe9358d70c9cd984e1bd1cb7642f83" prot="public" virt="virtual"><scope>themis::sharding::IShardRouter</scope><name>~IShardRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

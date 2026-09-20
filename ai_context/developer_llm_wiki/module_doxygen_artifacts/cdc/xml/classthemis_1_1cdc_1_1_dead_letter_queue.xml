@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_dead_letter_queue" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::DeadLetterQueue</compoundname>
+    <includes refid="dead__letter__queue_8h" local="no">dead_letter_queue.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a9d960dc51f2b998e237c5cc2fbee3558" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::cdc::DeadLetterQueue::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="135" column="32" bodyfile="include/cdc/dead_letter_queue.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_dead_letter_queue_1ae787391ee78ed570b74c131b61bda19e" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::cdc::DeadLetterQueue::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="136" column="33" bodyfile="include/cdc/dead_letter_queue.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a2f84fa49a455ae74158f7b68d652108b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::DeadLetterQueue::sequence_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sequence_mutex_</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::sequence_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="141" column="24" bodyfile="include/cdc/dead_letter_queue.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a570e1fa560fea5fb8da4c3fd9e6c6091" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::DeadLetterQueue::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;dlq:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="138" column="33" bodyfile="include/cdc/dead_letter_queue.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a698779a54b5f8d8f586b92337b491d5f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::DeadLetterQueue::SEQUENCE_KEY</definition>
+        <argsstring></argsstring>
+        <name>SEQUENCE_KEY</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::SEQUENCE_KEY</qualifiedname>
+        <initializer>= &quot;dlq_sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="139" column="33" bodyfile="include/cdc/dead_letter_queue.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeadLetterQueue::DeadLetterQueue</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>DeadLetterQueue</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::DeadLetterQueue</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="67" column="14" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a9054d1cc0b35ec426a086f03b5153b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeadLetterQueue::~DeadLetterQueue</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DeadLetterQueue</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::~DeadLetterQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1ad68ab2ff3076362352ef556c17766bc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeadLetterQueue::DeadLetterQueue</definition>
+        <argsstring>(const DeadLetterQueue &amp;)=delete</argsstring>
+        <name>DeadLetterQueue</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::DeadLetterQueue</qualifiedname>
+        <param>
+          <type>const DeadLetterQueue &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a8986d95a9e3b81a5510f103ba81ecd87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" kindref="member">DeadLetterQueue</ref> &amp;</type>
+        <definition>DeadLetterQueue &amp; themis::cdc::DeadLetterQueue::operator=</definition>
+        <argsstring>(const DeadLetterQueue &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" kindref="member">DeadLetterQueue</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="74" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a602581c249c1e3f61c44280e315821c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeadLetterQueue::DeadLetterQueue</definition>
+        <argsstring>(DeadLetterQueue &amp;&amp;)=delete</argsstring>
+        <name>DeadLetterQueue</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::DeadLetterQueue</qualifiedname>
+        <param>
+          <type>DeadLetterQueue &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a8756397e0688ba8a3595085d5e3e84db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" kindref="member">DeadLetterQueue</ref> &amp;</type>
+        <definition>DeadLetterQueue &amp; themis::cdc::DeadLetterQueue::operator=</definition>
+        <argsstring>(DeadLetterQueue &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" kindref="member">DeadLetterQueue</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="76" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1afe2088c085fea2d39f8541c9c0a8f5c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref></type>
+        <definition>DLQEntry themis::cdc::DeadLetterQueue::enqueue</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::string &amp;failure_reason, int attempt_count)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::enqueue</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failure_reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_count</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::dbOperationFailed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nextSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), makeKey(), toJson(), dump(), Put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="89" column="14" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="120" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1aab0f02a99a92227bcd24a422d72a88d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::cdc::DeadLetterQueue::replay</definition>
+        <argsstring>(uint64_t dlq_sequence, Changefeed &amp;changefeed)</argsstring>
+        <name>replay</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::replay</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>dlq_sequence</declname>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <briefdescription>
+<para>Replay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1af2efc3d2473b37a11a94bf9f62c9d3ef" kindref="member">getEntry()</ref>, recordEvent(), <ref refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a0704ef5e1812e2477c8bbd3764877dc6" kindref="member">remove()</ref>, THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="99" column="29" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="182" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a0704ef5e1812e2477c8bbd3764877dc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::DeadLetterQueue::remove</definition>
+        <argsstring>(uint64_t dlq_sequence)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::remove</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>dlq_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), Get(), IsNotFound(), ok(), THEMIS_ERROR(), ToString(), Delete(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="107" column="10" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="208" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a005e761aff12e8416037d7c59b1296c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::DeadLetterQueue::drain</definition>
+        <argsstring>()</argsstring>
+        <name>drain</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::drain</qualifiedname>
+        <briefdescription>
+<para>Drain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), NewIterator(), makeKey(), Seek(), Valid(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="113" column="12" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="253" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1ad427be8a05d47ec529a66dfe0951875d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref> &gt;</type>
+        <definition>std::vector&lt; DLQEntry &gt; themis::cdc::DeadLetterQueue::listEntries</definition>
+        <argsstring>(size_t limit=0) const</argsstring>
+        <name>listEntries</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::listEntries</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="119" column="17" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="296" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1af2efc3d2473b37a11a94bf9f62c9d3ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref></type>
+        <definition>DLQEntry themis::cdc::DeadLetterQueue::getEntry</definition>
+        <argsstring>(uint64_t dlq_sequence) const</argsstring>
+        <name>getEntry</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::getEntry</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>dlq_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Get Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="126" column="14" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="155" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a33d8a68b3b71a0e39191e5ab567959a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::DeadLetterQueue::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="132" column="12" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="335" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a7569c621f6123b30782f1669973f0e2a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DeadLetterQueue::makeKey</definition>
+        <argsstring>(uint64_t dlq_sequence) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::makeKey</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>dlq_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dlq_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="148" column="17" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_dead_letter_queue_1a6e337e8025ae9f088d45f4a5b1da0572" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::DeadLetterQueue::nextSequence</definition>
+        <argsstring>()</argsstring>
+        <name>nextSequence</name>
+        <qualifiedname>themis::cdc::DeadLetterQueue::nextSequence</qualifiedname>
+        <briefdescription>
+<para>Next Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::sequenceGenerationFailed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), Get(), ok(), empty(), std::stoull(), std::to_string(), Put(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="153" column="17" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="76" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/dead_letter_queue.h" line="65" column="1" bodyfile="include/cdc/dead_letter_queue.h" bodystart="65" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ae787391ee78ed570b74c131b61bda19e" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a9d960dc51f2b998e237c5cc2fbee3558" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>db_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad29fa58b1f0b8402fe10a73c90ab963c" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>DeadLetterQueue</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad68ab2ff3076362352ef556c17766bc3" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>DeadLetterQueue</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a602581c249c1e3f61c44280e315821c0" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>DeadLetterQueue</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a005e761aff12e8416037d7c59b1296c8" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>drain</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1afe2088c085fea2d39f8541c9c0a8f5c4" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>enqueue</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1af2efc3d2473b37a11a94bf9f62c9d3ef" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>getEntry</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a570e1fa560fea5fb8da4c3fd9e6c6091" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1ad427be8a05d47ec529a66dfe0951875d" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>listEntries</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a7569c621f6123b30782f1669973f0e2a" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a6e337e8025ae9f088d45f4a5b1da0572" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>nextSequence</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a8986d95a9e3b81a5510f103ba81ecd87" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a8756397e0688ba8a3595085d5e3e84db" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a0704ef5e1812e2477c8bbd3764877dc6" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>remove</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1aab0f02a99a92227bcd24a422d72a88d7" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>replay</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a698779a54b5f8d8f586b92337b491d5f" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>SEQUENCE_KEY</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a2f84fa49a455ae74158f7b68d652108b" prot="private" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>sequence_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a33d8a68b3b71a0e39191e5ab567959a3" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>size</name></member>
+      <member refid="classthemis_1_1cdc_1_1_dead_letter_queue_1a9054d1cc0b35ec426a086f03b5153b1c" prot="public" virt="non-virtual"><scope>themis::cdc::DeadLetterQueue</scope><name>~DeadLetterQueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

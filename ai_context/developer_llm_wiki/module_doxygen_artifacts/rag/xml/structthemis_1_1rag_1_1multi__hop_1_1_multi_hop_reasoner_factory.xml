@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multi_hop::MultiHopReasonerFactory</compoundname>
+    <includes refid="multi__hop__reasoner_8h" local="no">multi_hop_reasoner.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a4037e11d557d46fc2b8c43d80ed0142a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kindref="compound">MultiHopReasoner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiHopReasoner &gt; themis::rag::multi_hop::MultiHopReasonerFactory::createSingleHop</definition>
+        <argsstring>()</argsstring>
+        <name>createSingleHop</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasonerFactory::createSingleHop</qualifiedname>
+        <briefdescription>
+<para>Single-hop configuration (equivalent to simple RAG; 1 hop max). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Single Hop.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="289" column="28" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="391" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1ac2ae17c455820ebdcc10f0c53abf85e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kindref="compound">MultiHopReasoner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiHopReasoner &gt; themis::rag::multi_hop::MultiHopReasonerFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasonerFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Balanced configuration (3 hops, 5 docs/hop). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="294" column="28" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="404" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a02f8f21564a8292c726d2946e770323c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kindref="compound">MultiHopReasoner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiHopReasoner &gt; themis::rag::multi_hop::MultiHopReasonerFactory::createDeepReasoning</definition>
+        <argsstring>()</argsstring>
+        <name>createDeepReasoning</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasonerFactory::createDeepReasoning</qualifiedname>
+        <briefdescription>
+<para>Deep-reasoning configuration (5 hops, 8 docs/hop). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Deep Reasoning.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="299" column="28" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="417" bodyend="426"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kindref="compound">MultiHopReasoner</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_hop_reasoner.h" line="285" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="285" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1ac2ae17c455820ebdcc10f0c53abf85e0" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasonerFactory</scope><name>createBalanced</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a02f8f21564a8292c726d2946e770323c" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasonerFactory</scope><name>createDeepReasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a4037e11d557d46fc2b8c43d80ed0142a" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasonerFactory</scope><name>createSingleHop</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

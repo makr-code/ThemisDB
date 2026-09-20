@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1testing_1_1_resource_counter" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::testing::ResourceCounter</compoundname>
+    <includes refid="resource__leak__detector_8h" local="no">resource_leak_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a041b316aaf36c82c2f584cb92e10a385" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::utils::testing::ResourceCounter::allocations_</definition>
+        <argsstring></argsstring>
+        <name>allocations_</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::allocations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="100" column="17" bodyfile="include/utils/resource_leak_detector.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a3a7d4a6d84d05643d6e436ed0bb3c066" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::utils::testing::ResourceCounter::deallocations_</definition>
+        <argsstring></argsstring>
+        <name>deallocations_</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::deallocations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="101" column="17" bodyfile="include/utils/resource_leak_detector.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae5e015355bb814ec71045d75c0f413a4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::testing::ResourceCounter::record_allocation</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>record_allocation</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::record_allocation</qualifiedname>
+        <briefdescription>
+<para>Increment allocation counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call this when a resource is allocated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="47" column="10" bodyfile="include/utils/resource_leak_detector.h" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ab042f6a0c5ca97060694249cc9868b3f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::testing::ResourceCounter::record_deallocation</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>record_deallocation</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::record_deallocation</qualifiedname>
+        <briefdescription>
+<para>Increment deallocation counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call this when a resource is deallocated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="56" column="10" bodyfile="include/utils/resource_leak_detector.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a8bc52f7328e6e3aff17fd64e016955c6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::utils::testing::ResourceCounter::allocations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>allocations</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::allocations</qualifiedname>
+        <briefdescription>
+<para>Get total allocations recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="63" column="18" bodyfile="include/utils/resource_leak_detector.h" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a02c2e93f726bb698f8e828572f3bfaff" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::utils::testing::ResourceCounter::deallocations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>deallocations</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::deallocations</qualifiedname>
+        <briefdescription>
+<para>Get total deallocations recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="70" column="18" bodyfile="include/utils/resource_leak_detector.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a48bebbf8d4285a6f43fd355c045cffb6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::ptrdiff_t</type>
+        <definition>std::ptrdiff_t themis::utils::testing::ResourceCounter::outstanding</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>outstanding</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::outstanding</qualifiedname>
+        <briefdescription>
+<para>Get outstanding resources (allocations - deallocations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should be 0 at the end of test to verify no leaks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="79" column="21" bodyfile="include/utils/resource_leak_detector.h" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae0b09fb88775e7b3c9db043f00126d9e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::testing::ResourceCounter::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="87" column="10" bodyfile="include/utils/resource_leak_detector.h" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae0bdad17c2a5d37a2c52a81ce38e2223" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::testing::ResourceCounter::is_balanced</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_balanced</name>
+        <qualifiedname>themis::utils::testing::ResourceCounter::is_balanced</qualifiedname>
+        <briefdescription>
+<para>Check if balanced (allocations == deallocations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="95" column="11" bodyfile="include/utils/resource_leak_detector.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource leak detector for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks allocation and deallocation counts to verify that all resources are properly cleaned up.</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="normal">ResourceCounter<sp/>counter;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>std::make_unique&lt;MyResource&gt;();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.allocations(),<sp/>1);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.deallocations(),<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(counter.allocations(),<sp/>1);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(counter.deallocations(),<sp/>1);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(counter.outstanding(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Memory<sp/>leaked!&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/resource_leak_detector.h" line="40" column="1" bodyfile="include/utils/resource_leak_detector.h" bodystart="40" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a8bc52f7328e6e3aff17fd64e016955c6" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>allocations</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a041b316aaf36c82c2f584cb92e10a385" prot="private" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>allocations_</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a02c2e93f726bb698f8e828572f3bfaff" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>deallocations</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a3a7d4a6d84d05643d6e436ed0bb3c066" prot="private" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>deallocations_</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae0bdad17c2a5d37a2c52a81ce38e2223" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>is_balanced</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1a48bebbf8d4285a6f43fd355c045cffb6" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>outstanding</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae5e015355bb814ec71045d75c0f413a4" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>record_allocation</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ab042f6a0c5ca97060694249cc9868b3f" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>record_deallocation</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_resource_counter_1ae0b09fb88775e7b3c9db043f00126d9e" prot="public" virt="non-virtual"><scope>themis::utils::testing::ResourceCounter</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

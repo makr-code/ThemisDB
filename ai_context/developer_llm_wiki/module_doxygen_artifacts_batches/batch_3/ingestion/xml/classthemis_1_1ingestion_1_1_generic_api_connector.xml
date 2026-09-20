@@ -1,0 +1,642 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_generic_api_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::GenericApiConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="api__connector_8h" local="no">api_connector.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_generic_api_connector_1_1_impl" prot="public">themis::ingestion::GenericApiConnector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a5ac4d2fb2d1afabe303dba4920f3791b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::GenericApiConnector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="204" column="21" bodyfile="include/ingestion/api_connector.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::GenericApiConnector::GenericApiConnector</definition>
+        <argsstring>()</argsstring>
+        <name>GenericApiConnector</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::GenericApiConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="83" column="5" bodyfile="src/ingestion/api_connector.cpp" bodystart="731" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1aa1d21fb9b3410befbaffbb0ed0c02b30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::GenericApiConnector::~GenericApiConnector</definition>
+        <argsstring>() override</argsstring>
+        <name>~GenericApiConnector</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::~GenericApiConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a3c6f7cad2b7e2df9b33e549d2e47317f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::GenericApiConnector::GenericApiConnector</definition>
+        <argsstring>(const GenericApiConnector &amp;)=delete</argsstring>
+        <name>GenericApiConnector</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::GenericApiConnector</qualifiedname>
+        <param>
+          <type>const GenericApiConnector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a817c49e536c50b884a9c0476def15b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" kindref="member">GenericApiConnector</ref> &amp;</type>
+        <definition>GenericApiConnector &amp; themis::ingestion::GenericApiConnector::operator=</definition>
+        <argsstring>(const GenericApiConnector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" kindref="member">GenericApiConnector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="88" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1ac06017a49b7f242948682bf708228995" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::GenericApiConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector from a source configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must have <computeroutput>type == <ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fadb974238714ca8de634a7ce1d083a14f" kindref="member">SourceType::API</ref></computeroutput>; <computeroutput>location</computeroutput> is the base endpoint URL. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="96" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="742" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1ac5cfe82ffe6419acd3348a9757f73cea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::GenericApiConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Poll the endpoint to check availability (HTTP 200). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="99" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="746" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1ae7145c639be12360357b555e4f86cd02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::GenericApiConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Estimate the total document count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the value from a <computeroutput>total</computeroutput> or <computeroutput>count</computeroutput> field in the first-page response, or 0 when the API does not expose a total count. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="107" column="12" bodyfile="src/ingestion/api_connector.cpp" bodystart="750" bodyend="752"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a6d4039a25171c5ae31acadb06239b623" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::GenericApiConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest documents from the API endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>Pages through the endpoint using the configured cursor parameter until no more documents are returned or <computeroutput>max_pages</computeroutput> is reached.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ingest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="115" column="20" bodyfile="src/ingestion/api_connector.cpp" bodystart="761" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a946f8e76ba702722ce1ab9ee9d931c25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setApiKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>setApiKey</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setApiKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Override the API key (alternative to <computeroutput>options["api_key"]</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Api Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setApiKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="121" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="771" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a3bb2e9021c1e0a588f8417ccb0aef973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setPageSize</definition>
+        <argsstring>(size_t page_size)</argsstring>
+        <name>setPageSize</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setPageSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>page_size</declname>
+        </param>
+        <briefdescription>
+<para>Override the page size (alternative to <computeroutput>options["page_size"]</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Page Size.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPageSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="126" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="780" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a4bd3663f1fccffd192257558ba62e369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry and timeout behaviour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="131" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="789" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1af97df3b2f0009fd2021bc5f64bb16b59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setPaginationMode</definition>
+        <argsstring>(PaginationMode mode)</argsstring>
+        <name>setPaginationMode</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setPaginationMode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a9bc2dd826d2ec18a61c43e31f9ca5798" kindref="member">PaginationMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Override the pagination mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Pagination Mode.</para>
+<para>Equivalent to setting <computeroutput>options["pagination_mode"]</computeroutput> in the source config. Must be called after <computeroutput><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ac06017a49b7f242948682bf708228995" kindref="member">initialize()</ref></computeroutput> to take effect.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput><ref refid="namespacethemis_1_1ingestion_1a9bc2dd826d2ec18a61c43e31f9ca5798a1b8a8605d2ff5670a215e55c6645e0d9" kindref="member">PaginationMode::OFFSET</ref></computeroutput> (default) or <computeroutput><ref refid="namespacethemis_1_1ingestion_1a9bc2dd826d2ec18a61c43e31f9ca5798ab463a0d9beb14bdcecd3a50d70655963" kindref="member">PaginationMode::CURSOR</ref></computeroutput></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPaginationMode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="141" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="798" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a7b6f7d18913a95c269db5b40790af1e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setCursorResponseField</definition>
+        <argsstring>(const std::string &amp;field)</argsstring>
+        <name>setCursorResponseField</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setCursorResponseField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Set the JSON response field that contains the next-page cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Cursor Response Field.</para>
+<para>Only relevant in <computeroutput><ref refid="namespacethemis_1_1ingestion_1a9bc2dd826d2ec18a61c43e31f9ca5798ab463a0d9beb14bdcecd3a50d70655963" kindref="member">PaginationMode::CURSOR</ref></computeroutput>. Equivalent to setting <computeroutput>options["cursor_response_field"]</computeroutput> in the source config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON key name (e.g. <computeroutput>"next_cursor"</computeroutput>, <computeroutput>"next_page_token"</computeroutput>)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCursorResponseField without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="151" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="807" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a0b0d1379fad87f7239ff5c556750143a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setHttpGetForTesting</definition>
+        <argsstring>(ApiHttpGetFn fn)</argsstring>
+        <name>setHttpGetForTesting</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setHttpGetForTesting</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a1e4fa390cb9bdc63e5bbecc33469e214" kindref="member">ApiHttpGetFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a mock HTTP GET function (for unit testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Http Get For Testing.</para>
+<para>When set, every HTTP GET that would normally be performed via libcurl is replaced by a call to <computeroutput>fn</computeroutput>. Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a1e4fa390cb9bdc63e5bbecc33469e214" kindref="member">ApiHttpGetFn</ref>{}</computeroutput> to restore the real libcurl implementation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="160" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="816" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a206b09dfa79428f0cedcb321d28304ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setOAuthConfig</definition>
+        <argsstring>(const OAuthConfig &amp;config)</argsstring>
+        <name>setOAuthConfig</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setOAuthConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_o_auth_config" kindref="compound">OAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure OAuth 2.0 token refresh for this connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set OAuth Config.</para>
+<para>When set, the connector will automatically attempt a token refresh (RFC 6749 §6) upon receiving HTTP 401. The refreshed access token is cached inside the connector and used for all subsequent requests in the same ingestion run.</para>
+<para><computeroutput>config.access_token</computeroutput> is used immediately as the Bearer token; if it is empty, the static <computeroutput>api_key</computeroutput> (set via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a946f8e76ba702722ce1ab9ee9d931c25" kindref="member">setApiKey()</ref></computeroutput> or <computeroutput>options["api_key"]</computeroutput>) is used instead until the first refresh.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OAuth configuration including token endpoint, client credentials, and the refresh token.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setOAuthConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="177" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="825" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1adcbb660f18547fe4e8c8fa4d07a46e6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setHttpPostForTesting</definition>
+        <argsstring>(ApiHttpPostFn fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a22d9df0422ccb57efc40c73b1a67c6d0" kindref="member">ApiHttpPostFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a mock HTTP POST function for OAuth token refresh (unit testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Http Post For Testing.</para>
+<para>When set, every token-refresh POST that would normally be performed via libcurl is replaced by a call to <computeroutput>fn</computeroutput>. The function receives the token endpoint URL and the URL-encoded form body, and returns <computeroutput>{status_code, response_body}</computeroutput>.</para>
+<para>Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a22d9df0422ccb57efc40c73b1a67c6d0" kindref="member">ApiHttpPostFn</ref>{}</computeroutput> to restore the real libcurl path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="189" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="834" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_generic_api_connector_1a7dcf780719840dfbb5f4d320838d2608" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GenericApiConnector::setDocumentValidator</definition>
+        <argsstring>(DocumentValidatorFn validator) override</argsstring>
+        <name>setDocumentValidator</name>
+        <qualifiedname>themis::ingestion::GenericApiConnector::setDocumentValidator</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84">setDocumentValidator</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Inject a per-document validator called before each write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document Validator.</para>
+<para>When set, the validator is called for every document fetched from the API. Documents that fail validation are counted as failed (not processed). Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></computeroutput> to remove a previously set validator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validator callback; empty = disable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/api_connector.h" line="200" column="10" bodyfile="src/ingestion/api_connector.cpp" bodystart="843" bodyend="845"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generic REST API source connector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fetches documents from a paginated REST/JSON API endpoint and ingests them into ThemisDB. Pagination is driven by a configurable cursor/offset parameter; retries use the shared <computeroutput><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref></computeroutput> back-off logic.</para>
+<para>Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys: <table rows="8" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>api_key</computeroutput>  </para>
+</entry><entry thead="no"><para>Bearer token sent in <computeroutput>Authorization: Bearer &lt;token&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>page_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Items requested per page  </para>
+</entry><entry thead="no"><para><computeroutput>100</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>cursor_param</computeroutput>  </para>
+</entry><entry thead="no"><para>Query-parameter name for the page cursor / offset  </para>
+</entry><entry thead="no"><para><computeroutput>offset</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key whose value is treated as the document text  </para>
+</entry><entry thead="no"><para><computeroutput>text</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_pages</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum pages to fetch (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>pagination_mode</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>"offset"</computeroutput> (numeric) or <computeroutput>"cursor"</computeroutput> (opaque token)  </para>
+</entry><entry thead="no"><para><computeroutput>offset</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>cursor_response_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key in the response that contains the next cursor  </para>
+</entry><entry thead="no"><para><computeroutput>next_cursor</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><bold>Offset mode</bold> (default): each page appends <computeroutput>?&lt;cursor_param&gt;=N&amp;limit=M</computeroutput> where N advances by the number of items received.</para>
+<para><bold>Cursor mode</bold>: the first request uses <computeroutput>?limit=M</computeroutput> only; every subsequent request appends <computeroutput>?&lt;cursor_param&gt;=&lt;token&gt;&amp;limit=M</computeroutput> where <computeroutput>&lt;token&gt;</computeroutput> is the value read from <computeroutput>cursor_response_field</computeroutput> in the previous response. Pagination terminates when the response contains no cursor field or the field value is empty.</para>
+<para>Example usage (offset mode): <programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my_api&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fadb974238714ca8de634a7ce1d083a14f" kindref="member">SourceType::API</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://api.example.com/v1/documents&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;api_key&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;page_size&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;50&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;text_field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" kindref="member">GenericApiConnector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Example usage (cursor mode): <programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cursor_api&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fadb974238714ca8de634a7ce1d083a14f" kindref="member">SourceType::API</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://api.example.com/v2/documents&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;pagination_mode&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;cursor&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cursor_param&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;page_token&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cursor_response_field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;next_page_token&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;page_size&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;50&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" kindref="member">GenericApiConnector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::GenericApiConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_generic_api_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::GenericApiConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_generic_api_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/api_connector.h" line="81" column="1" bodyfile="include/ingestion/api_connector.h" bodystart="81" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa769ec6487f3d29a790c13ef8237a4bc" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>GenericApiConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a3c6f7cad2b7e2df9b33e549d2e47317f" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>GenericApiConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ae7145c639be12360357b555e4f86cd02" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a5ac4d2fb2d1afabe303dba4920f3791b" prot="private" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a6d4039a25171c5ae31acadb06239b623" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ac06017a49b7f242948682bf708228995" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1ac5cfe82ffe6419acd3348a9757f73cea" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a817c49e536c50b884a9c0476def15b9a" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a946f8e76ba702722ce1ab9ee9d931c25" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setApiKey</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a7b6f7d18913a95c269db5b40790af1e7" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setCursorResponseField</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a7dcf780719840dfbb5f4d320838d2608" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a0b0d1379fad87f7239ff5c556750143a" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setHttpGetForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1adcbb660f18547fe4e8c8fa4d07a46e6b" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a206b09dfa79428f0cedcb321d28304ff" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setOAuthConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a3bb2e9021c1e0a588f8417ccb0aef973" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setPageSize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1af97df3b2f0009fd2021bc5f64bb16b59" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setPaginationMode</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1a4bd3663f1fccffd192257558ba62e369" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_generic_api_connector_1aa1d21fb9b3410befbaffbb0ed0c02b30" prot="public" virt="non-virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>~GenericApiConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::GenericApiConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__backend__dispatch__diagnostics_8h" kind="file" language="C++">
+    <compoundname>gpu_backend_dispatch_diagnostics.h</compoundname>
+    <includes refid="gpu__backend__dispatch__diagnostics_8h" local="yes">gpu/gpu_backend_dispatch_diagnostics.h</includes>
+    <includedby refid="gpu__backend__dispatch__diagnostics_8h" local="yes">include/themis/gpu/gpu_backend_dispatch_diagnostics.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/gpu_backend_dispatch_diagnostics.h</label>
+        <link refid="gpu__backend__dispatch__diagnostics_8h"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/gpu_backend_dispatch_diagnostics.h</label>
+        <link refid="gpu__backend__dispatch__diagnostics_8h"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compatibility<sp/>forwarding<sp/>header:<sp/>include/gpu/...<sp/>is<sp/>the<sp/>canonical<sp/>location<sp/>in-tree,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>but<sp/>many<sp/>sources<sp/>include<sp/>&quot;themis/gpu/...&quot;.<sp/>Forward<sp/>to<sp/>the<sp/>real<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__backend__dispatch__diagnostics_8h" kindref="compound">gpu/gpu_backend_dispatch_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/gpu_backend_dispatch_diagnostics.h"/>
+  </compounddef>
+</doxygen>

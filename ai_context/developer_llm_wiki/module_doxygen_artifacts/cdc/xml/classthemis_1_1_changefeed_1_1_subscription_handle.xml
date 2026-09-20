@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_changefeed_1_1_subscription_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::Changefeed::SubscriptionHandle</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a66b4ca86f03a68d01849d08f6b216ef6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Changefeed</definition>
+        <argsstring></argsstring>
+        <name>Changefeed</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::Changefeed</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="320" column="22" bodyfile="include/cdc/changefeed.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a30e928ce78950d5aa90c68c4b1558ce8" prot="private" static="no" mutable="no">
+        <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+        <definition>Changefeed* themis::Changefeed::SubscriptionHandle::feed_</definition>
+        <argsstring></argsstring>
+        <name>feed_</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::feed_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="324" column="20" bodyfile="include/cdc/changefeed.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a651336205101052f947c47919329fe60" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::SubscriptionHandle::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="325" column="21" bodyfile="include/cdc/changefeed.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</definition>
+        <argsstring>()=default</argsstring>
+        <name>SubscriptionHandle</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="286" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a9ad8eda83be8ada3aa0dbdc60030a79d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::SubscriptionHandle::~SubscriptionHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~SubscriptionHandle</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::~SubscriptionHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="287" column="9" bodyfile="include/cdc/changefeed.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a739ff3bd1b13f3a66efec5e98feefed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</definition>
+        <argsstring>(const SubscriptionHandle &amp;)=delete</argsstring>
+        <name>SubscriptionHandle</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</qualifiedname>
+        <param>
+          <type>const SubscriptionHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="289" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a5dae42c6bef01b53786d3ca87ee0d1c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref> &amp;</type>
+        <definition>SubscriptionHandle &amp; themis::Changefeed::SubscriptionHandle::operator=</definition>
+        <argsstring>(const SubscriptionHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="290" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1ac108d2491523d3e13720f2788e14b6d4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</definition>
+        <argsstring>(SubscriptionHandle &amp;&amp;other) noexcept</argsstring>
+        <name>SubscriptionHandle</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</qualifiedname>
+        <param>
+          <type>SubscriptionHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="292" column="9" bodyfile="include/cdc/changefeed.h" bodystart="292" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a5fda4614e192516207b49ff07ab65a00" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref> &amp;</type>
+        <definition>SubscriptionHandle &amp; themis::Changefeed::SubscriptionHandle::operator=</definition>
+        <argsstring>(SubscriptionHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="298" column="28" bodyfile="include/cdc/changefeed.h" bodystart="298" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1ac0e35cd59d65c06fa6834449c74653ee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::SubscriptionHandle::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="313" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="1305" bodyend="1311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1a16be6de8e1c4859862ec69556b6c4e93" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::SubscriptionHandle::active</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>active</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::active</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="315" column="14" bodyfile="include/cdc/changefeed.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1ac55bc1c5927e62ebdbfc8fe34d9b0cc3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::SubscriptionHandle::id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="317" column="18" bodyfile="include/cdc/changefeed.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1_1_subscription_handle_1aa43f2e3b3c99b339ce351705352195b5" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</definition>
+        <argsstring>(Changefeed *feed, uint64_t id) noexcept</argsstring>
+        <name>SubscriptionHandle</name>
+        <qualifiedname>themis::Changefeed::SubscriptionHandle::SubscriptionHandle</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>feed</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="321" column="9" bodyfile="include/cdc/changefeed.h" bodystart="321" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="284" column="5" bodyfile="include/cdc/changefeed.h" bodystart="284" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a16be6de8e1c4859862ec69556b6c4e93" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>active</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac0e35cd59d65c06fa6834449c74653ee" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a66b4ca86f03a68d01849d08f6b216ef6" prot="private" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>Changefeed</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a30e928ce78950d5aa90c68c4b1558ce8" prot="private" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>feed_</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac55bc1c5927e62ebdbfc8fe34d9b0cc3" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>id</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a651336205101052f947c47919329fe60" prot="private" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>id_</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5dae42c6bef01b53786d3ca87ee0d1c2" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5fda4614e192516207b49ff07ab65a00" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>SubscriptionHandle</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a739ff3bd1b13f3a66efec5e98feefed4" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>SubscriptionHandle</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac108d2491523d3e13720f2788e14b6d4" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>SubscriptionHandle</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aa43f2e3b3c99b339ce351705352195b5" prot="private" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>SubscriptionHandle</name></member>
+      <member refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a9ad8eda83be8ada3aa0dbdc60030a79d" prot="public" virt="non-virtual"><scope>themis::Changefeed::SubscriptionHandle</scope><name>~SubscriptionHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

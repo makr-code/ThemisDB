@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SecondaryIndexMetadataCache::IndexMetadata</compoundname>
+    <includes refid="secondary__index__metadata__cache_8h" local="no">secondary_index_metadata_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2760050b04570dfd5035571b71870b97" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::regular_indexes</definition>
+        <argsstring></argsstring>
+        <name>regular_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::regular_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="44" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a269257f98d177a03bc0453f02d400c38" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::range_indexes</definition>
+        <argsstring></argsstring>
+        <name>range_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::range_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="45" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2ffcba929de5a0b882f87a286f95960b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::sparse_indexes</definition>
+        <argsstring></argsstring>
+        <name>sparse_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::sparse_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="46" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a9ef2bfb8401e53613ce4dfb627df89ae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::geo_indexes</definition>
+        <argsstring></argsstring>
+        <name>geo_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::geo_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="47" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a7a8fb223fe8f5e0b08c7268080107d4f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::ttl_indexes</definition>
+        <argsstring></argsstring>
+        <name>ttl_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::ttl_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="48" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1abc6151e57f34ea70bc6c2f7a0ea5c992" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::fulltext_indexes</definition>
+        <argsstring></argsstring>
+        <name>fulltext_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::fulltext_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="49" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ae901a942f833b48bccbaee0a21accfb8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::partial_indexes</definition>
+        <argsstring></argsstring>
+        <name>partial_indexes</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::partial_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="50" column="21" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1acd50052b83c276171b86b529455c5b4a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::regular_unique</definition>
+        <argsstring></argsstring>
+        <name>regular_unique</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::regular_unique</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="53" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a581c7c7787dfaba81a2d2ff8e43db1fc" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::sparse_unique</definition>
+        <argsstring></argsstring>
+        <name>sparse_unique</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::sparse_unique</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="54" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a743c087b4a4ccd8a6e4118b7ab3ce44e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::partial_predicates</definition>
+        <argsstring></argsstring>
+        <name>partial_predicates</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::partial_predicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="55" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ad83666783f3bb5d3c040cecfddca7adc" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::partial_unique</definition>
+        <argsstring></argsstring>
+        <name>partial_unique</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::partial_unique</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="56" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ab3b94f212ce9992eefd109918121c371" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::regular_indexes_set</definition>
+        <argsstring></argsstring>
+        <name>regular_indexes_set</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::regular_indexes_set</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="61" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a0211bb8cfb9a9f9f6904b67eafb22326" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::range_indexes_set</definition>
+        <argsstring></argsstring>
+        <name>range_indexes_set</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::range_indexes_set</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="62" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ac87d3b86c473b8f8374ccbedf46258ee" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config" kindref="compound">CachedFulltextConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CachedFulltextConfig&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::fulltext_configs</definition>
+        <argsstring></argsstring>
+        <name>fulltext_configs</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::fulltext_configs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="66" column="28" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a144ec6614ca442094b5b41c6d4a7a02e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::ttl_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="67" column="41" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a44a9908644b276bc9526bc56b124e8fa" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::SecondaryIndexMetadataCache::IndexMetadata::composite_unique</definition>
+        <argsstring></argsstring>
+        <name>composite_unique</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::IndexMetadata::composite_unique</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="68" column="44" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index_metadata_cache.h" line="43" column="5" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="43" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a44a9908644b276bc9526bc56b124e8fa" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>composite_unique</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ac87d3b86c473b8f8374ccbedf46258ee" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>fulltext_configs</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1abc6151e57f34ea70bc6c2f7a0ea5c992" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>fulltext_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a9ef2bfb8401e53613ce4dfb627df89ae" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>geo_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ae901a942f833b48bccbaee0a21accfb8" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>partial_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a743c087b4a4ccd8a6e4118b7ab3ce44e" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>partial_predicates</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ad83666783f3bb5d3c040cecfddca7adc" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>partial_unique</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a269257f98d177a03bc0453f02d400c38" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>range_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a0211bb8cfb9a9f9f6904b67eafb22326" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>range_indexes_set</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2760050b04570dfd5035571b71870b97" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>regular_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ab3b94f212ce9992eefd109918121c371" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>regular_indexes_set</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1acd50052b83c276171b86b529455c5b4a" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>regular_unique</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2ffcba929de5a0b882f87a286f95960b" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>sparse_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a581c7c7787dfaba81a2d2ff8e43db1fc" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>sparse_unique</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a7a8fb223fe8f5e0b08c7268080107d4f" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>ttl_indexes</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a144ec6614ca442094b5b41c6d4a7a02e" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::IndexMetadata</scope><name>ttl_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

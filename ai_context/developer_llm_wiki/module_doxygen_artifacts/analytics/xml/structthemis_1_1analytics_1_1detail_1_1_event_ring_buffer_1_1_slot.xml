@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::detail::EventRingBuffer::Slot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot_1a403d70d9d93b5ccd775268cd038f39eb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::analytics::detail::EventRingBuffer&lt; T &gt;::Slot::seq</definition>
+        <argsstring></argsstring>
+        <name>seq</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::Slot::seq</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="167" column="21" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot_1a6f1662b5a26bc711a2448e5138ae9dce" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::analytics::detail::EventRingBuffer&lt; T &gt;::Slot::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::Slot::data</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="168" column="29" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/ring_buffer.h" line="166" column="5" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="166" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot_1a6f1662b5a26bc711a2448e5138ae9dce" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer::Slot</scope><name>data</name></member>
+      <member refid="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot_1a403d70d9d93b5ccd775268cd038f39eb" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer::Slot</scope><name>seq</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="format__extractor_8h" kind="file" language="C++">
+    <compoundname>format_extractor.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">span</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="builtin__step__factories_8h" local="yes">include/ingestion/builtin_step_factories.h</includedby>
+    <includedby refid="format__parse__step_8cpp" local="yes">src/ingestion/steps/format_parse_step.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/format_extractor.h</label>
+        <link refid="format__extractor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>span</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/ingestion/builtin_step_factories.h</label>
+        <link refid="builtin__step__factories_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/format_extractor.h</label>
+        <link refid="format__extractor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/ingestion/steps/chunk_embed_step.cpp</label>
+        <link refid="chunk__embed__step_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/steps/chunk_tt_decompose_step.cpp</label>
+        <link refid="chunk__tt__decompose__step_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/ingestion/steps/decompress_step.cpp</label>
+        <link refid="decompress__step_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/ingestion/steps/format_parse_step.cpp</label>
+        <link refid="format__parse__step_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/ingestion/steps/legal_reference_step.cpp</label>
+        <link refid="legal__reference__step_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/ingestion/steps/llm_extract_step.cpp</label>
+        <link refid="llm__extract__step_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/ingestion/steps/ner_step.cpp</label>
+        <link refid="ner__step_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/ingestion/steps/tensor_core_bridge_step.cpp</label>
+        <link refid="tensor__core__bridge__step_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/ingestion/workflow_engine.cpp</label>
+        <link refid="workflow__engine_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/ingestion/test_ingestion_builtin_steps_v14.cpp</label>
+        <link refid="test__ingestion__builtin__steps__v14_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/ingestion/test_ingestion_ner_llm.cpp</label>
+        <link refid="test__ingestion__ner__llm_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_format_extract_result" prot="public">themis::ingestion::FormatExtractResult</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_format_extractor" prot="public">themis::ingestion::IFormatExtractor</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory" prot="public">themis::ingestion::IFormatExtractorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;span&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FormatExtractResult<sp/>—<sp/>output<sp/>of<sp/>IFormatExtractor::extract()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1ingestion_1_1_format_extract_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1a34bcb3ffccae5900079ac1511d627f04" kindref="member">raw_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1ingestion_1_1_format_extract_result_1af6d686274c02f04c5b2550f696c0e260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1af6d686274c02f04c5b2550f696c0e260" kindref="member">detected_lang</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1ingestion_1_1_format_extract_result_1afdb1665d00c08dd0b60116be421195ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1afdb1665d00c08dd0b60116be421195ac" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1ingestion_1_1_format_extract_result_1a5e10b8db233e0d87c3d119ddfa7a6d71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1a5e10b8db233e0d87c3d119ddfa7a6d71" kindref="member">child_paths</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1aafd99267b5ea7c8a085c45c1c4670183" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1ingestion_1_1_format_extract_result_1abfd05d78d9ea0b8aafeb29f449dfc6d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result_1abfd05d78d9ea0b8aafeb29f449dfc6d3" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IFormatExtractor<sp/>—<sp/>decoupled<sp/>format-extraction<sp/>abstraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1ingestion_1_1_i_format_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a3022259f9ccac1e9c0c110eae779e974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a3022259f9ccac1e9c0c110eae779e974" kindref="member">~IFormatExtractor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a56385a31ed1290879d890f98481bfd6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a56385a31ed1290879d890f98481bfd6e" kindref="member">extract</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::span&lt;const<sp/>std::byte&gt;<sp/>data,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename_hint)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1ingestion_1_1_i_format_extractor_1acec9040162c4009dc3e997f73522a7bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_1acec9040162c4009dc3e997f73522a7bc" kindref="member">supportedMimeTypes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1ingestion_1_1_i_format_extractor_1ad38f6e7003439e0e47ecd14cf7708484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_1ad38f6e7003439e0e47ecd14cf7708484" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IFormatExtractorFactory<sp/>—<sp/>obtains<sp/>the<sp/>right<sp/>extractor<sp/>for<sp/>a<sp/>MIME<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory" kindref="compound">IFormatExtractorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a96192a77bf4e02b9add0def373eb18a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a96192a77bf4e02b9add0def373eb18a0" kindref="member">~IFormatExtractorFactory</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a4bc2b01f26214bfd10e723a6132d98b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IFormatExtractor&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a4bc2b01f26214bfd10e723a6132d98b4" kindref="member">extractorFor</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1af616125fc6de7c41f870136f56dc1963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1af616125fc6de7c41f870136f56dc1963" kindref="member">registerExtractor</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IFormatExtractor&gt;<sp/>extractor)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a5cd4d3a2ba1bac98d3a2a7a5c01fb4e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_factory_1a5cd4d3a2ba1bac98d3a2a7a5c01fb4e5" kindref="member">registeredMimeTypes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/format_extractor.h"/>
+  </compounddef>
+</doxygen>

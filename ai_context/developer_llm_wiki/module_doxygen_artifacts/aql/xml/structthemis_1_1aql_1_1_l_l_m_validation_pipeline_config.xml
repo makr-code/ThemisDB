@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMValidationPipelineConfig</compoundname>
+    <includes refid="llm__validation__pipeline_8h" local="no">llm_validation_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a9ebfbc41667dda3ac5f6e92f1c657a47" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::LLMValidationPipelineConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineConfig::max_retries</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="62" column="12" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a40ed004b5eb01f8f741b96ce78988049" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::LLMValidationPipelineConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="64" column="14" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a51c338bbebe441b86e84c402587a0f80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMValidationPipelineConfig::reject_on_error</definition>
+        <argsstring></argsstring>
+        <name>reject_on_error</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineConfig::reject_on_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="66" column="10" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a44591a1dce365b880fc45918835844f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMValidationPipelineConfig::log_level</definition>
+        <argsstring></argsstring>
+        <name>log_level</name>
+        <qualifiedname>themis::aql::LLMValidationPipelineConfig::log_level</qualifiedname>
+        <initializer>= &quot;info&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="68" column="17" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_validation_pipeline.h" line="61" column="1" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="61" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a44591a1dce365b880fc45918835844f0" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineConfig</scope><name>log_level</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a9ebfbc41667dda3ac5f6e92f1c657a47" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a51c338bbebe441b86e84c402587a0f80" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineConfig</scope><name>reject_on_error</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a40ed004b5eb01f8f741b96ce78988049" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipelineConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

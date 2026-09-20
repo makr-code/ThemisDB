@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d021153151042057377015243071006103325163057207036" kind="namespace" language="C++">
+    <compoundname>@021153151042057377015243071006103325163057207036</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/auth/test_auth_soak.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

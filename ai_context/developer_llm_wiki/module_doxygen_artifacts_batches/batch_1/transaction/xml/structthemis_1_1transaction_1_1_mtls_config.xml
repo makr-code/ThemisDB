@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_mtls_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::MtlsConfig</compoundname>
+    <includes refid="grpc__rpc__adapter_8h" local="no">grpc_rpc_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_mtls_config_1a1d05cb4f42e991c78fbe9fc6a2ee50da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::MtlsConfig::ca_cert_pem</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_pem</name>
+        <qualifiedname>themis::transaction::MtlsConfig::ca_cert_pem</qualifiedname>
+        <briefdescription>
+<para>PEM-encoded root CA certificate used to verify the server&apos;s certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="68" column="17" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_mtls_config_1a7395949df9fd60560ffe3cd2ea0e809e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::MtlsConfig::client_cert_pem</definition>
+        <argsstring></argsstring>
+        <name>client_cert_pem</name>
+        <qualifiedname>themis::transaction::MtlsConfig::client_cert_pem</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>PEM-encoded client certificate presented to the server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="70" column="17" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_mtls_config_1a52a011bdce6d3db822a5e804a391a1e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::MtlsConfig::client_key_pem</definition>
+        <argsstring></argsstring>
+        <name>client_key_pem</name>
+        <qualifiedname>themis::transaction::MtlsConfig::client_key_pem</qualifiedname>
+        <briefdescription>
+<para>PEM-encoded client private key corresponding to <computeroutput>client_cert_pem</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="72" column="17" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_mtls_config_1ad9be7b98b957164311ae58ee07bb804e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::MtlsConfig::target_name_override</definition>
+        <argsstring></argsstring>
+        <name>target_name_override</name>
+        <qualifiedname>themis::transaction::MtlsConfig::target_name_override</qualifiedname>
+        <briefdescription>
+<para>Optional TLS server-name override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty this is set via <computeroutput>grpc::ChannelArguments::SetSslTargetNameOverride</computeroutput>. Useful in test environments where the server certificate CN does not match the dial address (e.g. <computeroutput>"localhost"</computeroutput> vs <computeroutput>"127.0.0.1"</computeroutput>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="80" column="17" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_mtls_config_1a526388edc334be92d87bc392dd603369" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::MtlsConfig::allow_insecure</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure</name>
+        <qualifiedname>themis::transaction::MtlsConfig::allow_insecure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allow the explicit development/test-only insecure fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This must remain false in production. The distributed transaction path treats any other usage as a hard error to avoid silent trust degradation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="87" column="10" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mutual-TLS credential bundle for gRPC channel creation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This path is fail-closed: the adapter will only create a secure gRPC channel when all three PEM fields are present and valid. Missing material is rejected unless <computeroutput><ref refid="structthemis_1_1transaction_1_1_mtls_config_1a526388edc334be92d87bc392dd603369" kindref="member">allow_insecure</ref></computeroutput> is explicitly set for a local test-only override.</para>
+<para><simplesect kind="note"><para>For production deployments populate from files or a secret manager — never hard-code PEM material in source code. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/transaction/grpc_rpc_adapter.h" line="66" column="1" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="66" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_mtls_config_1a526388edc334be92d87bc392dd603369" prot="public" virt="non-virtual"><scope>themis::transaction::MtlsConfig</scope><name>allow_insecure</name></member>
+      <member refid="structthemis_1_1transaction_1_1_mtls_config_1a1d05cb4f42e991c78fbe9fc6a2ee50da" prot="public" virt="non-virtual"><scope>themis::transaction::MtlsConfig</scope><name>ca_cert_pem</name></member>
+      <member refid="structthemis_1_1transaction_1_1_mtls_config_1a7395949df9fd60560ffe3cd2ea0e809e" prot="public" virt="non-virtual"><scope>themis::transaction::MtlsConfig</scope><name>client_cert_pem</name></member>
+      <member refid="structthemis_1_1transaction_1_1_mtls_config_1a52a011bdce6d3db822a5e804a391a1e0" prot="public" virt="non-virtual"><scope>themis::transaction::MtlsConfig</scope><name>client_key_pem</name></member>
+      <member refid="structthemis_1_1transaction_1_1_mtls_config_1ad9be7b98b957164311ae58ee07bb804e" prot="public" virt="non-virtual"><scope>themis::transaction::MtlsConfig</scope><name>target_name_override</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

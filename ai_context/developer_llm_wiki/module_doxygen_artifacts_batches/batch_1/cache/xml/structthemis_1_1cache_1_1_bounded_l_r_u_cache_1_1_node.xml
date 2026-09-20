@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::BoundedLRUCache::Node</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1acbab5a61e689e67944900a7e674ebb45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::BoundedLRUCache::Node::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Node::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="97" column="21" bodyfile="include/cache/bounded_lru_cache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a41be073cd6edea244cd59604dfec7a81" prot="public" static="no" mutable="no">
+        <type>CacheEntry</type>
+        <definition>CacheEntry themis::cache::BoundedLRUCache::Node::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Node::entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="98" column="20" bodyfile="include/cache/bounded_lru_cache.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a61543b2c7239497e492438cd8eaa7267" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Node &gt;</type>
+        <definition>std::shared_ptr&lt;Node&gt; themis::cache::BoundedLRUCache::Node::prev</definition>
+        <argsstring></argsstring>
+        <name>prev</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Node::prev</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="99" column="25" bodyfile="include/cache/bounded_lru_cache.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a1d137c96997f4df46185fe4961ad0453" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Node &gt;</type>
+        <definition>std::shared_ptr&lt;Node&gt; themis::cache::BoundedLRUCache::Node::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Node::next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="100" column="25" bodyfile="include/cache/bounded_lru_cache.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cache::BoundedLRUCache::CacheEntry</label>
+      </node>
+      <node id="1">
+        <label>themis::cache::BoundedLRUCache::Node</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/bounded_lru_cache.h" line="96" column="5" bodyfile="include/cache/bounded_lru_cache.h" bodystart="96" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a41be073cd6edea244cd59604dfec7a81" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Node</scope><name>entry</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1acbab5a61e689e67944900a7e674ebb45" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Node</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a1d137c96997f4df46185fe4961ad0453" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Node</scope><name>next</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node_1a61543b2c7239497e492438cd8eaa7267" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Node</scope><name>prev</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

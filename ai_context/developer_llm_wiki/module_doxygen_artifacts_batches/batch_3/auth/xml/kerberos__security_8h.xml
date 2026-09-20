@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="kerberos__security_8h" kind="file" language="C++">
+    <compoundname>kerberos_security.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="kerberos__security_8cpp" local="yes">src/auth/kerberos_security.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/kerberos_security.h</label>
+        <link refid="kerberos__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/kerberos_security.h</label>
+        <link refid="kerberos__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/kerberos_security.cpp</label>
+        <link refid="kerberos__security_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_kerberos_security_validator" prot="public">themis::auth::KerberosSecurityValidator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" prot="public">themis::auth::KerberosSecurityValidator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" prot="public">themis::auth::KerberosSecurityValidator::TokenInfo</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag" prot="private">themis::auth::KerberosSecurityValidator::ASN1Tag</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_channel_binding_generator" prot="public">themis::auth::ChannelBindingGenerator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1auth_1_1_kerberos_security_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1afca37d0de33c8f43ff7813f13fa57e2e" kindref="member">KerberosSecurityValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" kindref="member">ChannelBindingType</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>channel<sp/>binding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a1f99c81a902bd0dde89b467ac751f62f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a1f99c81a902bd0dde89b467ac751f62f" kindref="member">TLS_UNIQUE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>Finished<sp/>message<sp/>(RFC<sp/>5929)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a3320e9d040b682fac7e57f9f889d5a26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a3320e9d040b682fac7e57f9f889d5a26" kindref="member">TLS_SERVER_ENDPOINT</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Server<sp/>certificate<sp/>hash<sp/>(RFC<sp/>5929)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219aecb50938415b36d26abe152492739fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219aecb50938415b36d26abe152492739fe4" kindref="member">TLS_EXPORTER</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>exporter<sp/>(RFC<sp/>5705)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Channel<sp/>bindings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afe7b9464ec46b4d61489c71c66e1c6f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afe7b9464ec46b4d61489c71c66e1c6f5" kindref="member">enable_channel_bindings</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1ae1fc22b02172d38c642bd77dbcd702e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" kindref="member">ChannelBindingType</ref><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1ae1fc22b02172d38c642bd77dbcd702e6" kindref="member">binding_type</ref><sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a3320e9d040b682fac7e57f9f889d5a26" kindref="member">ChannelBindingType::TLS_SERVER_ENDPOINT</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ASN.1<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a08a86590ff4be199f0d7d71e9135bdd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a08a86590ff4be199f0d7d71e9135bdd3" kindref="member">strict_asn1_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a649cd0aec46af7cc005b8c1c5d1e4818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a649cd0aec46af7cc005b8c1c5d1e4818" kindref="member">max_token_depth</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>ASN.1<sp/>nesting<sp/>depth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a35ab8e2bf1d32087172768081ea880da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a35ab8e2bf1d32087172768081ea880da" kindref="member">max_sequence_length</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>sequence<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Service<sp/>ticket<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a3cad3bb18116cce81a638a29247f1971" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a3cad3bb18116cce81a638a29247f1971" kindref="member">verify_service_target</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1829744c18384770d14db4b78e763afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1829744c18384770d14db4b78e763afe" kindref="member">expected_service_principal</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;HTTP/server.example.com@REALM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>structure<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1586eefd03a818acdf52252ebfee6d71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1586eefd03a818acdf52252ebfee6d71" kindref="member">validate_token_structure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1af43756e04ddb2108af881d5c0dfd7e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1af43756e04ddb2108af881d5c0dfd7e1d" kindref="member">require_mutual_auth</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>mutual<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa3f991eab5b5f40e7c04a4bab7fb3275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa3f991eab5b5f40e7c04a4bab7fb3275" kindref="member">require_integrity</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>integrity<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa2a0424ce826ee51c7885039778ce3c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa2a0424ce826ee51c7885039778ce3c5" kindref="member">require_confidentiality</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>confidentiality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afabf0ca498dff0206d9466a088fcd909" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afabf0ca498dff0206d9466a088fcd909" kindref="member">max_clock_skew_seconds</ref><sp/>=<sp/>300;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a0e881b0e08a7f7a20f8552b6faa05a27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a0e881b0e08a7f7a20f8552b6faa05a27" kindref="member">reject_expired_tickets</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1afca37d0de33c8f43ff7813f13fa57e2e" kindref="member">KerberosSecurityValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a8b632a71e36ee59c19d7fe16dfa31af0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a8b632a71e36ee59c19d7fe16dfa31af0" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ab3263ef435750cca71b560f1c3367e30" kindref="member">validateToken</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>channel_binding<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac0a4072c7ed9c2cca1330a76d70cb3f4" kindref="member">validateASN1Structure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1aee41a3f11771fb2aa44d6abf08c2ef86" kindref="member">verifyServicePrincipal</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_principal</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a86b5fe7276260d29294185751f59148c" kindref="member">verifyChannelBinding</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>channel_binding</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac4cf24b530bce5816a928ffc8c2ef8ec" kindref="member">extractServicePrincipal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a0994e74d7e478030013d3c80d6c3408f" kindref="member">isTicketExpired</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" kindref="compound">TokenInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1ae10b073e10d50f0e45d217c3446d515b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1ae10b073e10d50f0e45d217c3446d515b" kindref="member">service_principal</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a2120509a2cb44ade7f2e8146adaa8ad2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a2120509a2cb44ade7f2e8146adaa8ad2" kindref="member">client_principal</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a0bbd363d5ff477b6f2b2ebadb65ccdcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a0bbd363d5ff477b6f2b2ebadb65ccdcf" kindref="member">realm</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1ae7498b78dad103162e714d9dc05f85a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1ae7498b78dad103162e714d9dc05f85a4" kindref="member">auth_time</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a22adfbe1e8a89181aaaa8dc4ad7013ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a22adfbe1e8a89181aaaa8dc4ad7013ea" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a6d3bf6f226a222261b319b7525492c35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a6d3bf6f226a222261b319b7525492c35" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a074fc7e77bd1202eda48048780408fe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a074fc7e77bd1202eda48048780408fe2" kindref="member">renew_till</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a5946568ca58612047dec95414662fb57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a5946568ca58612047dec95414662fb57" kindref="member">has_mutual_auth</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a0f8c36206a3ed74b45db1245bf8a2f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a0f8c36206a3ed74b45db1245bf8a2f18" kindref="member">has_integrity</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1aea7e75c965cd1f44bb761e07881a152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1aea7e75c965cd1f44bb761e07881a152d" kindref="member">has_confidentiality</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a697090584b579e99f6971843114d7b2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info_1a697090584b579e99f6971843114d7b2d" kindref="member">has_channel_binding</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" kindref="compound">TokenInfo</ref><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ad11058424e489db9ab7a593e6f55ec27" kindref="member">getTokenInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>token_data);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a2e0f81ae820a7d568ce200ef9019ecb8" kindref="member">withChannelBindings</ref>(<ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" kindref="member">ChannelBindingType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a91a760417ad857b20a00dce3c9357204" kindref="member">strictValidation</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1aa376d16514e584a40bd9ab2075162e3d" kindref="member">forService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>service_principal);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ASN.1<sp/>parsing<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ASN1Tag<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>tag_class;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Universal,<sp/>Application,<sp/>Context,<sp/>Private</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_constructed;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>tag_number;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>length;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>value;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseASN1Tag(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/>ASN1Tag&amp;<sp/>tag);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateASN1Depth(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_depth);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Channel<sp/>binding<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>computeTLSServerEndpoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>cert_data);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1auth_1_1_channel_binding_generator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_channel_binding_generator" kindref="compound">ChannelBindingGenerator</ref><sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1auth_1_1_channel_binding_generator_1ad5b5b440522f057bf1fa5536bd9e3235" kindref="member">generateFromTLSCertificate</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>server_cert</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1auth_1_1_channel_binding_generator_1aefdf20723a50e143c1bf12412f67ab19" kindref="member">generateFromTLSFinished</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>finished_message</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1auth_1_1_channel_binding_generator_1af84d2ae7defa0e92a5fd60d62fa2407c" kindref="member">generateFromTLSExporter</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>exporter_value</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1auth_1_1_channel_binding_generator_1aad8d49112242fafc5791faac48614cd6" kindref="member">formatChannelBinding</ref>(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>initiator_address,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>acceptor_address,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>application_data</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/kerberos_security.h"/>
+  </compounddef>
+</doxygen>

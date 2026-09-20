@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_join_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlJoinTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_join_test_1a690bf8facf30aeb223de2fb883ad4731" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HttpAqlJoinTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpAqlJoinTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="96" column="17" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1a216479ca36064765f393e59fc1fda087" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlJoinTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlJoinTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="97" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1ac16f86dd66b5a90a063542121b00703b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlJoinTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlJoinTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="98" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1af266b1509743bf8c8382a61ba774a697" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlJoinTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlJoinTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="99" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1a262c658adf044251c06e6897589aae49" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlJoinTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlJoinTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="100" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1a88e4d97b57eca5d9699bd5ef5e48a85d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlJoinTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlJoinTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="101" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_join_test_1a1f61369488abc5c3e986af25e644a0fe" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlJoinTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlJoinTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="102" column="21" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_join_test_1a43cafefdb60c2a6893c4e6098f9c5105" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlJoinTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlJoinTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="25" column="10" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="25" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_join_test_1a4094f52f6c7278be9f42fb4ae47ec9e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlJoinTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlJoinTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="46" column="10" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_join_test_1a4e3a371316938e198f000411b72dd378" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlJoinTest::setupData</definition>
+        <argsstring>()</argsstring>
+        <name>setupData</name>
+        <qualifiedname>HttpAqlJoinTest::setupData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="54" column="10" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="54" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_join_test_1abef5d037396716507841165cf1964179" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlJoinTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;j)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpAqlJoinTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_join.cpp" line="70" column="20" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="70" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlJoinTest</label>
+        <link refid="class_http_aql_join_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlJoinTest</label>
+        <link refid="class_http_aql_join_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_aql_join.cpp" line="23" column="1" bodyfile="tests/network/test_http_aql_join.cpp" bodystart="23" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_http_aql_join_test_1a690bf8facf30aeb223de2fb883ad4731" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>db_path_</name></member>
+      <member refid="class_http_aql_join_test_1a262c658adf044251c06e6897589aae49" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_join_test_1abef5d037396716507841165cf1964179" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>post</name></member>
+      <member refid="class_http_aql_join_test_1af266b1509743bf8c8382a61ba774a697" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_join_test_1a216479ca36064765f393e59fc1fda087" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_join_test_1a43cafefdb60c2a6893c4e6098f9c5105" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_join_test_1a4e3a371316938e198f000411b72dd378" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>setupData</name></member>
+      <member refid="class_http_aql_join_test_1ac16f86dd66b5a90a063542121b00703b" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_join_test_1a4094f52f6c7278be9f42fb4ae47ec9e9" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_join_test_1a1f61369488abc5c3e986af25e644a0fe" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_join_test_1a88e4d97b57eca5d9699bd5ef5e48a85d" prot="protected" virt="non-virtual"><scope>HttpAqlJoinTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

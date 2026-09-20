@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="http__handler_8h" kind="file" language="C++">
+    <compoundname>http_handler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="bench__api__release__gates_8cpp" local="yes">benchmarks/api/bench_api_release_gates.cpp</includedby>
+    <includedby refid="bench__api__transport_8cpp" local="yes">benchmarks/api/bench_api_transport.cpp</includedby>
+    <includedby refid="api__transport__policy_8h" local="yes">include/api/api_transport_policy.h</includedby>
+    <includedby refid="api__version__router_8h" local="yes">include/api/api_version_router.h</includedby>
+    <includedby refid="grpc__bridge_8h" local="yes">include/api/grpc_bridge.h</includedby>
+    <includedby refid="test__api__contracts_8cpp" local="yes">tests/api/test_api_contracts.cpp</includedby>
+    <includedby refid="test__api__degraded__mode_8cpp" local="yes">tests/api/test_api_degraded_mode.cpp</includedby>
+    <includedby refid="test__api__error__handling_8cpp" local="yes">tests/api/test_api_error_handling.cpp</includedby>
+    <includedby refid="test__api__interfaces_8cpp" local="yes">tests/api/test_api_interfaces.cpp</includedby>
+    <includedby refid="test__api__observability_8cpp" local="yes">tests/api/test_api_observability.cpp</includedby>
+    <includedby refid="test__api__phase4__concurrency_8cpp" local="yes">tests/api/test_api_phase4_concurrency.cpp</includedby>
+    <includedby refid="test__api__transport__hardening_8cpp" local="yes">tests/api/test_api_transport_hardening.cpp</includedby>
+    <includedby refid="test__api__wave__d__stress_8cpp" local="yes">tests/api/test_api_wave_d_stress.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/api/bench_api_release_gates.cpp</label>
+        <link refid="bench__api__release__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/api/bench_api_transport.cpp</label>
+        <link refid="bench__api__transport_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/api/api_transport_policy.h</label>
+        <link refid="api__transport__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/api/api_version_router.h</label>
+        <link refid="api__version__router_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/api/grpc_bridge.h</label>
+        <link refid="grpc__bridge_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/api/api_transport_policy.cpp</label>
+        <link refid="api__transport__policy_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/api/test_api_contracts.cpp</label>
+        <link refid="test__api__contracts_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/api/test_api_degraded_mode.cpp</label>
+        <link refid="test__api__degraded__mode_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/api/test_api_error_handling.cpp</label>
+        <link refid="test__api__error__handling_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/api/test_api_interfaces.cpp</label>
+        <link refid="test__api__interfaces_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/api/test_api_observability.cpp</label>
+        <link refid="test__api__observability_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/api/test_api_phase4_concurrency.cpp</label>
+        <link refid="test__api__phase4__concurrency_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/api/test_api_transport_hardening.cpp</label>
+        <link refid="test__api__transport__hardening_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/api/test_api_wave_d_stress.cpp</label>
+        <link refid="test__api__wave__d__stress_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_http_error" prot="public">themis::api::HttpError</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_http_request" prot="public">themis::api::HttpRequest</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_http_response" prot="public">themis::api::HttpResponse</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_http_handler" prot="public">themis::api::IHttpHandler</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_middleware_chain" prot="public">themis::api::MiddlewareChain</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>HTTP request/response abstractions and handler interfaces. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides transport-independent representations of HTTP requests and responses, along with pluggable handler interfaces for composing middleware stacks.</para>
+<para>Core abstractions:<itemizedlist>
+<listitem><para><computeroutput>HttpRequest</computeroutput>: Immutable value type containing parsed request metadata and body</para>
+</listitem><listitem><para><computeroutput>HttpResponse</computeroutput>: Mutable builder for constructing HTTP response payloads</para>
+</listitem><listitem><para><computeroutput>IHttpHandler</computeroutput>: Pure-virtual interface for processing HTTP requests</para>
+</listitem><listitem><para><computeroutput>IHttpServer</computeroutput>: Pure-virtual interface for lifecycle management and request routing</para>
+</listitem></itemizedlist>
+</para>
+<para>Request flow:<orderedlist>
+<listitem><para>Raw HTTP connection parsed into <computeroutput>HttpRequest</computeroutput> by transport layer</para>
+</listitem><listitem><para>Request dispatched to <computeroutput>IHttpHandler::handle()</computeroutput> (often a middleware stack)</para>
+</listitem><listitem><para>Handler chain processes request, applying policy, auth, tracing, logging</para>
+</listitem><listitem><para>Final handler produces <computeroutput>HttpResponse</computeroutput> or error</para>
+</listitem><listitem><para>Response serialized back to HTTP wire format and sent to client</para>
+</listitem></orderedlist>
+</para>
+<para>Middleware composition: Handlers can be chained to compose orthogonal concerns. Example stack: <programlisting><codeline><highlight class="normal">TransportPolicyMiddleware<sp/>(validate<sp/>payload/path/version)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">AuthenticationMiddleware<sp/>(enforce<sp/>authz)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">TracingMiddleware<sp/>(correlation<sp/>ID<sp/>+<sp/>OTLP<sp/>export)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">RateLimitMiddleware<sp/>(per-user<sp/>quota<sp/>enforcement)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">ApplicationHandler<sp/>(business<sp/>logic)</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>HttpRequest</computeroutput> is immutable and safe to share across threads</para>
+</listitem><listitem><para><computeroutput>HttpResponse</computeroutput> must be built by a single thread (not thread-safe for concurrent mutation)</para>
+</listitem><listitem><para><computeroutput>IHttpHandler::handle()</computeroutput> must be thread-safe and reentrant</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Error handling</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>IHttpHandler::handle()</computeroutput> returns <computeroutput>Result&lt;HttpResponse&gt;</computeroutput> which may contain either a successful response or an <computeroutput>HttpError</computeroutput> (status + message)</para>
+</listitem><listitem><para>On error, the middleware chain should short-circuit and return immediately (fail-closed: no upstream handler is invoked)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>type<sp/>used<sp/>in<sp/>Result&lt;T&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1api_1_1_http_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_http_error" kindref="compound">HttpError</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1api_1_1_http_error_1a80d997d354578c8494ea81323948304f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_error_1a80d997d354578c8494ea81323948304f" kindref="member">status_code</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1api_1_1_http_error_1ac6efaa057feaeebd9b8ff902be9fa5f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_error_1ac6efaa057feaeebd9b8ff902be9fa5f5" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HttpRequest<sp/>—<sp/>plain-data<sp/>value<sp/>type<sp/>representing<sp/>an<sp/>inbound<sp/>HTTP<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1api_1_1_http_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1api_1_1_http_request_1acb55e007306b2db44321d8afcc38710a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1acb55e007306b2db44321d8afcc38710a" kindref="member">query_string</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1api_1_1_http_request_1a290d9d9964daf3e2edaddc848c8f633d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a290d9d9964daf3e2edaddc848c8f633d" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1api_1_1_http_request_1ac0c4c9b2b9d07fd8dcb4f3f9e8525c29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_request_1ac0c4c9b2b9d07fd8dcb4f3f9e8525c29" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1api_1_1_http_request_1aded28dc4bb7acf365b146b37b8fe9b08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request_1aded28dc4bb7acf365b146b37b8fe9b08" kindref="member">hasAuth</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>.count(</highlight><highlight class="stringliteral">&quot;authorization&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0<sp/>||<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>.count(</highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1api_1_1_http_request_1a8ea3c37ef97436231bfcdaf6982147f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a8ea3c37ef97436231bfcdaf6982147f6" kindref="member">header</ref>(std::string_view<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>.find(std::string(name));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/><ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>.end())<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HttpResponse<sp/>—<sp/>plain-data<sp/>value<sp/>type<sp/>representing<sp/>an<sp/>outbound<sp/>HTTP<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1api_1_1_http_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Convenience<sp/>factories<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" kindref="member">ok</ref>(std::string<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/>{},<sp/>std::string<sp/>content_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/>std::move(<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::move(content_type);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" kindref="member">created</ref>(std::string<sp/><ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>201;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/>std::move(<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" kindref="member">noContent</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>204;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" kindref="member">badRequest</ref>(std::string<sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bad<sp/>Request&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>400;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;error\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>+<sp/>message<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" kindref="member">unauthorized</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>401;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;error\&quot;:\&quot;Unauthorized\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" kindref="member">forbidden</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>403;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;error\&quot;:\&quot;Forbidden\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" kindref="member">notFound</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>404;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;error\&quot;:\&quot;Not<sp/>Found\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/><ref refid="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" kindref="member">internalError</ref>(std::string<sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Internal<sp/>Server<sp/>Error&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;error\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>+<sp/>message<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IHttpHandler<sp/>—<sp/>pure-virtual<sp/>interface<sp/>for<sp/>all<sp/>HTTP<sp/>request<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1api_1_1_i_http_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler_1ae5b094331b6466ed851080010ef82257" kindref="member">~IHttpHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>themis::Result&lt;HttpResponse&gt;<sp/><ref refid="classthemis_1_1api_1_1_i_http_handler_1abb4f14c9e049df893aa53d9c2ad902ec" kindref="member">handle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>&amp;<sp/>request)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler_1a64f3952e037b08e2633f0a7b4f1b7c4e" kindref="member">requiresAuthentication</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="classthemis_1_1api_1_1_i_http_handler_1a5346bc63057ac9e8a9f1d753a094029f" kindref="member">handlerName</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MiddlewareChain<sp/>—<sp/>composes<sp/>a<sp/>sequence<sp/>of<sp/>IHttpHandler<sp/>middlewares</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1api_1_1_middleware_chain" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref><sp/>final<sp/>:<sp/>public<sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain" kindref="compound">MiddlewareChain</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_middleware_chain_1a703044435e5879f9ff25edd4ee27aa71" kindref="member">append</ref>(std::shared_ptr&lt;IHttpHandler&gt;<sp/>handler)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>links_.push_back(std::move(handler));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/><ref refid="classthemis_1_1api_1_1_middleware_chain_1a7a1631a8927f1d4d03c99b072cc6312c" kindref="member">handle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>&amp;<sp/>request)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>invokeAt(request,<sp/>0);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_middleware_chain_1af5326702530ffe7e396f5b2a6fee720b" kindref="member">requiresAuthentication</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>auth<sp/>if<sp/>ANY<sp/>link<sp/>in<sp/>the<sp/>chain<sp/>requires<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>link<sp/>:<sp/>links_)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(link-&gt;requiresAuthentication())<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1api_1_1_middleware_chain_1a6b9449cf75773a182e8a5f32b445151c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1api_1_1_middleware_chain_1a6b9449cf75773a182e8a5f32b445151c" kindref="member">handlerName</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MiddlewareChain&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1api_1_1_middleware_chain_1a6e0fd390e9933d963631dae8bc664f2e" kindref="member">size</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>links_.size();<sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>invokeAt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>&amp;<sp/>request,<sp/>std::size_t<sp/>idx)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx<sp/>&gt;=<sp/>links_.size())<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(themis::Error(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MiddlewareChain:<sp/>no<sp/>terminal<sp/>handler&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>links_[idx]-&gt;handle(request);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;<sp/></highlight><highlight class="comment">//<sp/>error:<sp/>short-circuit<sp/>the<sp/>chain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>there&apos;s<sp/>a<sp/>next<sp/>handler,<sp/>advance<sp/>(discard<sp/>this<sp/>intermediate<sp/>response)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx<sp/>+<sp/>1<sp/>&lt;<sp/>links_.size())<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>invokeAt(request,<sp/>idx<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;<sp/></highlight><highlight class="comment">//<sp/>final<sp/>handler&apos;s<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;IHttpHandler&gt;&gt;<sp/>links_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/http_handler.h"/>
+  </compounddef>
+</doxygen>

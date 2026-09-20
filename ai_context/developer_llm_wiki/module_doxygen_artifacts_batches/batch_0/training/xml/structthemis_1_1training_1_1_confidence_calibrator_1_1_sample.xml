@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample" kind="struct" language="C++" prot="private">
+    <compoundname>themis::training::ConfidenceCalibrator::Sample</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1ada34c4c15bfdea45fdafd6115fd1a88d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ConfidenceCalibrator::Sample::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::Sample::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="180" column="29" bodyfile="include/training/training_pipeline.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1a4699f1dbf2f630b0885b15f026b0362d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::ConfidenceCalibrator::Sample::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::Sample::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="180" column="44" bodyfile="include/training/training_pipeline.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1a44c4ed90e4f975474db1b5ee19683c36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ConfidenceCalibrator::Sample::correct</definition>
+        <argsstring></argsstring>
+        <name>correct</name>
+        <qualifiedname>themis::training::ConfidenceCalibrator::Sample::correct</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="180" column="60" bodyfile="include/training/training_pipeline.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="180" column="5" bodyfile="include/training/training_pipeline.h" bodystart="180" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1ada34c4c15bfdea45fdafd6115fd1a88d" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator::Sample</scope><name>category</name></member>
+      <member refid="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1a4699f1dbf2f630b0885b15f026b0362d" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator::Sample</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_confidence_calibrator_1_1_sample_1a44c4ed90e4f975474db1b5ee19683c36" prot="public" virt="non-virtual"><scope>themis::training::ConfidenceCalibrator::Sample</scope><name>correct</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

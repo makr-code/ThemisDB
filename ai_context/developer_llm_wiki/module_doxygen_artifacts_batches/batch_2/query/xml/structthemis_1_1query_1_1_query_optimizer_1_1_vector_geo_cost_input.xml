@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::VectorGeoCostInput</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a25715d56bdf90571657b34b687d79d19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::VectorGeoCostInput::hasVectorIndex</definition>
+        <argsstring></argsstring>
+        <name>hasVectorIndex</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::hasVectorIndex</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="145" column="14" bodyfile="include/query/query_optimizer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98764034ba6b21e819577f9731160e02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::VectorGeoCostInput::hasSpatialIndex</definition>
+        <argsstring></argsstring>
+        <name>hasSpatialIndex</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::hasSpatialIndex</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="146" column="14" bodyfile="include/query/query_optimizer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::VectorGeoCostInput::bboxRatio</definition>
+        <argsstring></argsstring>
+        <name>bboxRatio</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::bboxRatio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="147" column="16" bodyfile="include/query/query_optimizer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::VectorGeoCostInput::prefilterSize</definition>
+        <argsstring></argsstring>
+        <name>prefilterSize</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::prefilterSize</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="148" column="16" bodyfile="include/query/query_optimizer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a20b83bc52242dcebd19ec3af5d25b7d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::VectorGeoCostInput::spatialIndexEntries</definition>
+        <argsstring></argsstring>
+        <name>spatialIndexEntries</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::spatialIndexEntries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="149" column="16" bodyfile="include/query/query_optimizer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a852695f2d08d0c934d3cc9bcf2a0adb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::VectorGeoCostInput::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="150" column="16" bodyfile="include/query/query_optimizer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1af22e47ed474051b3a61965a78c10beb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::VectorGeoCostInput::vectorDim</definition>
+        <argsstring></argsstring>
+        <name>vectorDim</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::vectorDim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="151" column="16" bodyfile="include/query/query_optimizer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::VectorGeoCostInput::overfetch</definition>
+        <argsstring></argsstring>
+        <name>overfetch</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoCostInput::overfetch</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="152" column="16" bodyfile="include/query/query_optimizer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="144" column="5" bodyfile="include/query/query_optimizer.h" bodystart="144" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a18d76a7e378b0a7e0419bb9f308f3b6d" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>bboxRatio</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98764034ba6b21e819577f9731160e02" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>hasSpatialIndex</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a25715d56bdf90571657b34b687d79d19" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>hasVectorIndex</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a852695f2d08d0c934d3cc9bcf2a0adb3" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>k</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1abf893b1267e24e457179c689f06b5035" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>overfetch</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a98c7927067097330e8f9d21d68130a8d" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>prefilterSize</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1a20b83bc52242dcebd19ec3af5d25b7d0" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>spatialIndexEntries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input_1af22e47ed474051b3a61965a78c10beb3" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::VectorGeoCostInput</scope><name>vectorDim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

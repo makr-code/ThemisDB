@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store" kind="struct" language="C++" prot="private">
+    <compoundname>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1a319a896e73f749ac1325fbd71824f735" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::control</definition>
+        <argsstring></argsstring>
+        <name>control</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::control</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="338" column="21" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1a56b29f1fe6f0338a84b2bd8651f21fc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::treatment</definition>
+        <argsstring></argsstring>
+        <name>treatment</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::treatment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="339" column="21" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1abc0a283d6bcf6d16fefe710369e60e86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" kindref="compound">ExperimentOutcome</ref> &gt;</type>
+        <definition>std::vector&lt;ExperimentOutcome&gt; themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::outcomes</definition>
+        <argsstring></argsstring>
+        <name>outcomes</name>
+        <qualifiedname>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore::outcomes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="340" column="21" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="337" column="5" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="337" bodyend="341"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1a319a896e73f749ac1325fbd71824f735" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</scope><name>control</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1abc0a283d6bcf6d16fefe710369e60e86" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</scope><name>outcomes</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store_1a56b29f1fe6f0338a84b2bd8651f21fc0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</scope><name>treatment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

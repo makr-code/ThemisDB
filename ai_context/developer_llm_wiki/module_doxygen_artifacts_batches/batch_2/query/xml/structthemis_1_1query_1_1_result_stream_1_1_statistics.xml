@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_result_stream_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ResultStream::Statistics</compoundname>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a901586d4476f119f20d25654e7db13b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::Statistics::items_read</definition>
+        <argsstring></argsstring>
+        <name>items_read</name>
+        <qualifiedname>themis::query::ResultStream::Statistics::items_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="110" column="16" bodyfile="include/query/result_stream.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a301105ccda3ab55999c584f06e6b339b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::Statistics::batches_fetched</definition>
+        <argsstring></argsstring>
+        <name>batches_fetched</name>
+        <qualifiedname>themis::query::ResultStream::Statistics::batches_fetched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="111" column="16" bodyfile="include/query/result_stream.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_stream_1_1_statistics_1aa99fba2c2ddb9c0c418cdee8736d92b8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::Statistics::buffer_hits</definition>
+        <argsstring></argsstring>
+        <name>buffer_hits</name>
+        <qualifiedname>themis::query::ResultStream::Statistics::buffer_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="112" column="16" bodyfile="include/query/result_stream.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a01c26d3bf0701b61928a3ab6d9477e70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultStream&lt; T &gt;::Statistics::buffer_misses</definition>
+        <argsstring></argsstring>
+        <name>buffer_misses</name>
+        <qualifiedname>themis::query::ResultStream::Statistics::buffer_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="113" column="16" bodyfile="include/query/result_stream.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a2361bdc17b0373679a0593bd5c834703" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ResultStream&lt; T &gt;::Statistics::backpressure_active</definition>
+        <argsstring></argsstring>
+        <name>backpressure_active</name>
+        <qualifiedname>themis::query::ResultStream::Statistics::backpressure_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="114" column="14" bodyfile="include/query/result_stream.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/result_stream.h" line="109" column="5" bodyfile="include/query/result_stream.h" bodystart="109" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a2361bdc17b0373679a0593bd5c834703" prot="public" virt="non-virtual"><scope>themis::query::ResultStream::Statistics</scope><name>backpressure_active</name></member>
+      <member refid="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a301105ccda3ab55999c584f06e6b339b" prot="public" virt="non-virtual"><scope>themis::query::ResultStream::Statistics</scope><name>batches_fetched</name></member>
+      <member refid="structthemis_1_1query_1_1_result_stream_1_1_statistics_1aa99fba2c2ddb9c0c418cdee8736d92b8" prot="public" virt="non-virtual"><scope>themis::query::ResultStream::Statistics</scope><name>buffer_hits</name></member>
+      <member refid="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a01c26d3bf0701b61928a3ab6d9477e70" prot="public" virt="non-virtual"><scope>themis::query::ResultStream::Statistics</scope><name>buffer_misses</name></member>
+      <member refid="structthemis_1_1query_1_1_result_stream_1_1_statistics_1a901586d4476f119f20d25654e7db13b0" prot="public" virt="non-virtual"><scope>themis::query::ResultStream::Statistics</scope><name>items_read</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

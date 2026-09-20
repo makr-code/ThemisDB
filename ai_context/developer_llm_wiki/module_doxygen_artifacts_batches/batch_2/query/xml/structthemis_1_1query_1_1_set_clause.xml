@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_set_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SetClause</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_set_clause_1a08c1dc8292ce0ea4fe652018c063f07d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SetClause::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::SetClause::field</qualifiedname>
+        <briefdescription>
+<para>Target field path (may contain dots). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="390" column="17" bodyfile="include/query/aql_parser.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_set_clause_1adcf4530b2d0758ba69a4677949b655fe" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::SetClause::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::SetClause::value</qualifiedname>
+        <briefdescription>
+<para>Right-hand side expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="391" column="21" bodyfile="include/query/aql_parser.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_set_clause_1a31d3e1e7f892899f50af164a5fdcf08c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::SetClause::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::SetClause::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="393" column="20" bodyfile="include/query/aql_parser.h" bodystart="393" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="389" column="1" bodyfile="include/query/aql_parser.h" bodystart="389" bodyend="397"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_set_clause_1a08c1dc8292ce0ea4fe652018c063f07d" prot="public" virt="non-virtual"><scope>themis::query::SetClause</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1_set_clause_1a31d3e1e7f892899f50af164a5fdcf08c" prot="public" virt="non-virtual"><scope>themis::query::SetClause</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_set_clause_1adcf4530b2d0758ba69a4677949b655fe" prot="public" virt="non-virtual"><scope>themis::query::SetClause</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

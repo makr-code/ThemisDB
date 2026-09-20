@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_server_runtime_feature_requests" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ServerRuntimeFeatureRequests</compoundname>
+    <includes refid="server__activation__profile_8h" local="no">server_activation_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1a44bdad12db1cc9c6213065e42daf4d6c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::http_enabled</definition>
+        <argsstring></argsstring>
+        <name>http_enabled</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::http_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="68" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1a50f5da3092493153c1e1f9ffd69b0979" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::grpc_enabled</definition>
+        <argsstring></argsstring>
+        <name>grpc_enabled</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::grpc_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="69" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1a9d1a40e363742e9c5b272a8e46d277d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::prometheus_enabled</definition>
+        <argsstring></argsstring>
+        <name>prometheus_enabled</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::prometheus_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="70" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1aa77c0cd36ce68d9b5adc3a0530409916" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::llm_enabled</definition>
+        <argsstring></argsstring>
+        <name>llm_enabled</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::llm_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="71" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1a654b3d3cc3a01bcea9280635b2da0d80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::mimalloc_enabled</definition>
+        <argsstring></argsstring>
+        <name>mimalloc_enabled</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::mimalloc_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="72" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1af6fd11b956146b72e35aa8f16b74e1b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerRuntimeFeatureRequests::hsm_stub_opt_in</definition>
+        <argsstring></argsstring>
+        <name>hsm_stub_opt_in</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::hsm_stub_opt_in</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="73" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_server_runtime_feature_requests_1a5a80511627d4d0ba48f4f4b315f083a7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::ServerRuntimeFeatureRequests::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::ServerRuntimeFeatureRequests::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="75" column="21" bodyfile="include/server/server_activation_profile.h" bodystart="75" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime feature intent extracted from configuration and CLI opts. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/server_activation_profile.h" line="67" column="1" bodyfile="include/server/server_activation_profile.h" bodystart="67" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1a50f5da3092493153c1e1f9ffd69b0979" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>grpc_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1af6fd11b956146b72e35aa8f16b74e1b5" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>hsm_stub_opt_in</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1a44bdad12db1cc9c6213065e42daf4d6c" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>http_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1aa77c0cd36ce68d9b5adc3a0530409916" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>llm_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1a654b3d3cc3a01bcea9280635b2da0d80" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>mimalloc_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1a9d1a40e363742e9c5b272a8e46d277d7" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>prometheus_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_server_runtime_feature_requests_1a5a80511627d4d0ba48f4f4b315f083a7" prot="public" virt="non-virtual"><scope>themis::server::ServerRuntimeFeatureRequests</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

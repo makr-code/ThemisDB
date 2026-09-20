@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="differential__update__engine_8h" kind="file" language="C++">
+    <compoundname>differential_update_engine.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includedby refid="differential__update__engine_8cpp" local="yes">src/server/rpc/differential_update_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/rpc/differential_update_engine.h</label>
+        <link refid="differential__update__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/rpc/differential_update_engine.h</label>
+        <link refid="differential__update__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/rpc/differential_update_engine.cpp</label>
+        <link refid="differential__update__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rpc_1_1_chunk_info" prot="public">themis::rpc::ChunkInfo</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_delta_result" prot="public">themis::rpc::DeltaResult</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_blob_metadata" prot="public">themis::rpc::BlobMetadata</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_differential_update_engine" prot="public">themis::rpc::DifferentialUpdateEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rpc">themis::rpc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&quot;shard_rpc.pb.h&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;shard_rpc.pb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&quot;proto_generated/shard_rpc.pb.h&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;proto_generated/shard_rpc.pb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;Required<sp/>protobuf<sp/>header<sp/>shard_rpc.pb.h<sp/>not<sp/>found.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rpc" kindref="compound">rpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Chunk<sp/>manifest<sp/>for<sp/>hash-based<sp/>deduplication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rpc_1_1_chunk_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_chunk_info" kindref="compound">ChunkInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rpc_1_1_chunk_info_1a08539d096451fc34d1b86a0fc6ebd99c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_chunk_info_1a08539d096451fc34d1b86a0fc6ebd99c" kindref="member">hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA256<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rpc_1_1_chunk_info_1ae822e54a993a50eebf4d4ca98fe26178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_chunk_info_1ae822e54a993a50eebf4d4ca98fe26178" kindref="member">offset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>in<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rpc_1_1_chunk_info_1a47055db62f51961a948f8ea3719309e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_chunk_info_1a47055db62f51961a948f8ea3719309e5" kindref="member">size</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rpc_1_1_chunk_info_1ae95f7ecdfca6df3ca6c6966e54193d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1rpc_1_1_chunk_info_1ae95f7ecdfca6df3ca6c6966e54193d95" kindref="member">index</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Delta<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rpc_1_1_delta_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_delta_result" kindref="compound">DeltaResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rpc_1_1_delta_result_1a371e5914fa8869750a5adba86784c0d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1rpc_1_1_delta_result_1a371e5914fa8869750a5adba86784c0d8" kindref="member">unchanged_chunks</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Chunks<sp/>to<sp/>keep<sp/>from<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rpc_1_1_delta_result_1a227957323c9d51ca0d5847c637470d4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1rpc_1_1_delta_result_1a227957323c9d51ca0d5847c637470d4e" kindref="member">changed_chunks</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunks<sp/>to<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rpc_1_1_delta_result_1a5214ed57fdc32a4220e76a85b8e353f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_delta_result_1a5214ed57fdc32a4220e76a85b8e353f9" kindref="member">total_bytes_saved</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rpc_1_1_delta_result_1a1e3c7e4dcab8f4f5483cb535b28c2dba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_delta_result_1a1e3c7e4dcab8f4f5483cb535b28c2dba" kindref="member">savings_percentage</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Blob<sp/>metadata<sp/>for<sp/>strategy<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rpc_1_1_blob_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rpc_1_1_blob_metadata" kindref="compound">BlobMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rpc_1_1_blob_metadata_1aef4cdb984d355d8357891793aefee081" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_blob_metadata_1aef4cdb984d355d8357891793aefee081" kindref="member">size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rpc_1_1_blob_metadata_1a26a6aecb19ca5594de6a449c2adf909b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rpc_1_1_blob_metadata_1a26a6aecb19ca5594de6a449c2adf909b" kindref="member">blob_type</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rpc_1_1_blob_metadata_1a43ad6c713e7eae48084a29716d619452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1rpc_1_1_blob_metadata_1a43ad6c713e7eae48084a29716d619452" kindref="member">base_version_size</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rpc_1_1_blob_metadata_1a76291b77baff4f9e2a3a137cd44c6b95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_blob_metadata_1a76291b77baff4f9e2a3a137cd44c6b95" kindref="member">estimated_change_rate</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>-<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1rpc_1_1_differential_update_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref>();</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1rpc_1_1_differential_update_engine_1a36b45a603ccdb0ab91af5a970f0f7bee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1a36b45a603ccdb0ab91af5a970f0f7bee" kindref="member">~DifferentialUpdateEngine</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1rpc_1_1_differential_update_engine_1ac71aae50f8879ca2e4afe002db18d6b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1ac71aae50f8879ca2e4afe002db18d6b2" kindref="member">DifferentialUpdateEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1rpc_1_1_differential_update_engine_1af8d3b976e0ffd1238d5fc4a9cfa47713" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref>&amp;<sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1af8d3b976e0ffd1238d5fc4a9cfa47713" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChunkInfo&gt;<sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1a6eb904d13fd3c7a838756c14612f7b74" kindref="member">GenerateManifest</ref>(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob_path,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::sharding::proto::DifferentialMode<sp/>mode,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>chunk_size_kb<sp/>=<sp/>64</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rpc_1_1_delta_result" kindref="compound">DeltaResult</ref><sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1a35a12ad8d38fb4de3efa6f882543a295" kindref="member">ComputeDelta</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ChunkInfo&gt;&amp;<sp/>base_manifest,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ChunkInfo&gt;&amp;<sp/>target_manifest</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::sharding::proto::DifferentialMode<sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1a555ae0ee919f3430d76c1296fa1aa132" kindref="member">SelectStrategy</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rpc_1_1_blob_metadata" kindref="compound">BlobMetadata</ref>&amp;<sp/><ref refid="namespacethemis_1_1metadata" kindref="compound">metadata</ref></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;uint32_t,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1a5d0095cdd0baf75e6762a59d7ba479fc" kindref="member">ExtractChunks</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob_path,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;&amp;<sp/>chunk_indices</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/rpc/differential_update_engine.h"/>
+  </compounddef>
+</doxygen>

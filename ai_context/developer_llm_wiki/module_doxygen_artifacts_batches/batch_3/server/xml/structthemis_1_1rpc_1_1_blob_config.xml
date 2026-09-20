@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_blob_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::BlobConfig</compoundname>
+    <includes refid="blob__transfer__handler_8h" local="no">blob_transfer_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a82161b157cdc9632b7082b9cf34e35c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobConfig::blob_id</definition>
+        <argsstring></argsstring>
+        <name>blob_id</name>
+        <qualifiedname>themis::rpc::BlobConfig::blob_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="32" column="17" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a303b75b29c1fbe2d791234d4034dcd26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobConfig::blob_type</definition>
+        <argsstring></argsstring>
+        <name>blob_type</name>
+        <qualifiedname>themis::rpc::BlobConfig::blob_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="33" column="17" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a8169bb7af9121a1855255a984135434e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobConfig::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::rpc::BlobConfig::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="34" column="17" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a35eaa61658890e91f09ca5ab8aecbd51" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobConfig::dest_path</definition>
+        <argsstring></argsstring>
+        <name>dest_path</name>
+        <qualifiedname>themis::rpc::BlobConfig::dest_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="35" column="17" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a292a9191a21ba8977b8f219425c1df6b" prot="public" static="no" mutable="no">
+        <type>themis::sharding::proto::CompressionType</type>
+        <definition>themis::sharding::proto::CompressionType themis::rpc::BlobConfig::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::rpc::BlobConfig::compression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="38" column="46" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a17aab139dfd6e9c2ae2a7068673c762d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rpc::BlobConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::rpc::BlobConfig::compression_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="39" column="9" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a7c344d8589c2f79794e81c77b0cc5566" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobConfig::chunk_size_mb</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_mb</name>
+        <qualifiedname>themis::rpc::BlobConfig::chunk_size_mb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="42" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a51c6eee8ab26e950137375c0f97621e7" prot="public" static="no" mutable="no">
+        <type>themis::sharding::proto::ChecksumType</type>
+        <definition>themis::sharding::proto::ChecksumType themis::rpc::BlobConfig::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::rpc::BlobConfig::checksum_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="43" column="43" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1abf778e6771274a8fef81d9c1b510f5f0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::rpc::BlobConfig::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rpc::BlobConfig::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="46" column="14" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a7138c54957fe31aa978ad89d5a9e44df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rpc::BlobConfig::enable_resume</definition>
+        <argsstring></argsstring>
+        <name>enable_resume</name>
+        <qualifiedname>themis::rpc::BlobConfig::enable_resume</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="49" column="10" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_config_1a8b36f0e3904d48c8a0d44197b09bd843" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobConfig::checkpoint_id</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_id</name>
+        <qualifiedname>themis::rpc::BlobConfig::checkpoint_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="50" column="17" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rpc_1_1_blob_config_1ac5ef77acc4c29bc7285de12809154b7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::BlobConfig::BlobConfig</definition>
+        <argsstring>()</argsstring>
+        <name>BlobConfig</name>
+        <qualifiedname>themis::rpc::BlobConfig::BlobConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="52" column="5" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="52" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/blob_transfer_handler.h" line="31" column="1" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="31" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a82161b157cdc9632b7082b9cf34e35c3" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>blob_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a303b75b29c1fbe2d791234d4034dcd26" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>blob_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1ac5ef77acc4c29bc7285de12809154b7a" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>BlobConfig</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a8b36f0e3904d48c8a0d44197b09bd843" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>checkpoint_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a51c6eee8ab26e950137375c0f97621e7" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a7c344d8589c2f79794e81c77b0cc5566" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>chunk_size_mb</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a17aab139dfd6e9c2ae2a7068673c762d" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a292a9191a21ba8977b8f219425c1df6b" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a35eaa61658890e91f09ca5ab8aecbd51" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>dest_path</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a7138c54957fe31aa978ad89d5a9e44df" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>enable_resume</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1abf778e6771274a8fef81d9c1b510f5f0" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_config_1a8169bb7af9121a1855255a984135434e" prot="public" virt="non-virtual"><scope>themis::rpc::BlobConfig</scope><name>source_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

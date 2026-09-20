@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_embedding_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::EmbeddingPipelineConfig</compoundname>
+    <includes refid="embedding__pipeline_8h" local="no">embedding_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_embedding_pipeline_config_1a7a7f8dc395e6c22e512d8617de11f321" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::EmbeddingPipelineConfig::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::content::EmbeddingPipelineConfig::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="32" column="17" bodyfile="include/content/embedding_pipeline.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_embedding_pipeline_config_1ac43f31d847646a5aeb3ae9e4e8c13c18" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::EmbeddingPipelineConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::content::EmbeddingPipelineConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="34" column="9" bodyfile="include/content/embedding_pipeline.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_embedding_pipeline_config_1a4104fa0c71210c04d59b05905fd3a72b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::EmbeddingPipelineConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::content::EmbeddingPipelineConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="36" column="9" bodyfile="include/content/embedding_pipeline.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_embedding_pipeline_config_1a2e726e32286ec3aa82a1beb1060f8696" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::EmbeddingPipelineConfig::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::content::EmbeddingPipelineConfig::embedding_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="38" column="9" bodyfile="include/content/embedding_pipeline.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_embedding_pipeline_config_1a2b7bc306138ffb4912cdc77dbff5cffc" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref> *</type>
+        <definition>ContentMetrics* themis::content::EmbeddingPipelineConfig::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::content::EmbeddingPipelineConfig::metrics</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="40" column="20" bodyfile="include/content/embedding_pipeline.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentMetrics</label>
+        <link refid="classthemis_1_1content_1_1_content_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::content::EmbeddingPipelineConfig</label>
+        <link refid="structthemis_1_1content_1_1_embedding_pipeline_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/embedding_pipeline.h" line="31" column="1" bodyfile="include/content/embedding_pipeline.h" bodystart="31" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_embedding_pipeline_config_1ac43f31d847646a5aeb3ae9e4e8c13c18" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipelineConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2e726e32286ec3aa82a1beb1060f8696" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipelineConfig</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2b7bc306138ffb4912cdc77dbff5cffc" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipelineConfig</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a7a7f8dc395e6c22e512d8617de11f321" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipelineConfig</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a4104fa0c71210c04d59b05905fd3a72b" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipelineConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

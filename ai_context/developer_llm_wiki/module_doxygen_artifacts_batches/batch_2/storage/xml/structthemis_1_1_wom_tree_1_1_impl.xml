@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_wom_tree_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::WomTree::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1a22cb22e90968089db11adadaf73e71b2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_wom_tree_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::WomTree::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::WomTree::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="242" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1a37202ed73f4a07cb12d91f0ff7f6cce0" prot="public" static="no" mutable="no">
+        <type>NodePtr</type>
+        <definition>NodePtr themis::WomTree::Impl::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <qualifiedname>themis::WomTree::Impl::root</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="243" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1adbb7e489705fa6221882aabebc0ee625" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WomTree::Impl::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::WomTree::Impl::height</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="244" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1af25046317f30a2b0ecf80585adaa897d" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::WomTree::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::WomTree::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="246" column="31" bodyfile="src/storage/wom_tree.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1a99342cf59ecb4f44f094aba2cf94a1b4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_puts</definition>
+        <argsstring></argsstring>
+        <name>stat_puts</name>
+        <qualifiedname>themis::WomTree::Impl::stat_puts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="250" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1af86279ca636210455bcd369c988117fb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_removes</definition>
+        <argsstring></argsstring>
+        <name>stat_removes</name>
+        <qualifiedname>themis::WomTree::Impl::stat_removes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="251" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1ad54cb43b8b3192df57a44583447ad0f3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_gets</definition>
+        <argsstring></argsstring>
+        <name>stat_gets</name>
+        <qualifiedname>themis::WomTree::Impl::stat_gets</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="252" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1a1ca35a0767e1cfb405d7fa2262d4ef9e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_get_hits</definition>
+        <argsstring></argsstring>
+        <name>stat_get_hits</name>
+        <qualifiedname>themis::WomTree::Impl::stat_get_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="253" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1abec2a7a92a707221351bb070a213c8e5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_flush_passes</definition>
+        <argsstring></argsstring>
+        <name>stat_flush_passes</name>
+        <qualifiedname>themis::WomTree::Impl::stat_flush_passes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="254" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1acb9c041d96187e9a974cd5321add4e15" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_user_bytes</definition>
+        <argsstring></argsstring>
+        <name>stat_user_bytes</name>
+        <qualifiedname>themis::WomTree::Impl::stat_user_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="255" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1a2d096390987546148dc9259dfdaadb1b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_internal_bytes</definition>
+        <argsstring></argsstring>
+        <name>stat_internal_bytes</name>
+        <qualifiedname>themis::WomTree::Impl::stat_internal_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="256" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_impl_1ad61d152e2cac9f7d3c25cfbc981896d0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::WomTree::Impl::stat_live_entries</definition>
+        <argsstring></argsstring>
+        <name>stat_live_entries</name>
+        <qualifiedname>themis::WomTree::Impl::stat_live_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="257" column="17" bodyfile="src/storage/wom_tree.cpp" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a4c711e37c4c1e2e8b6e3d88573cbff36" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::WomTree::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_wom_tree_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="259" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="259" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a9a5acfa3f45ebe117d8c3682ae05cca6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::doInsertOp</definition>
+        <argsstring>(Op op)</argsstring>
+        <name>doInsertOp</name>
+        <qualifiedname>themis::WomTree::Impl::doInsertOp</qualifiedname>
+        <param>
+          <type>Op</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>── Write path ─────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), byteSize(), leafFind(), end(), <ref refid="structthemis_1_1_wom_tree_1_1_impl_1a7235658ea73da5fc6e8bfebfc2f134ea" kindref="member">applyOpToLeaf()</ref>, fetch_sub(), <ref refid="structthemis_1_1_wom_tree_1_1_impl_1afef55d860838d47fd4624e89292c81ce" kindref="member">maybeSplitRootLeaf()</ref>, <ref refid="structthemis_1_1_wom_tree_1_1_impl_1a520b3e445bc46bf2ab53ab42764b1b64" kindref="member">doGet()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="269" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="269" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1ac6facc063f26e2573b433101a11ac5a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::flushNode</definition>
+        <argsstring>(Node &amp;node, uint32_t depth)</argsstring>
+        <name>flushNode</name>
+        <qualifiedname>themis::WomTree::Impl::flushNode</qualifiedname>
+        <param>
+          <type>Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Recursively flush node&apos;s buffer one level downward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+depth == depth of &apos;node&apos; in the tree (root = 1). Calls: <ref refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" kindref="member">empty()</ref>, <ref refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" kindref="member">size()</ref>, child_ops(), childIndex(), push_back(), std::move(), <ref refid="classthemis_1_1_wom_tree_1aee8de4451f795404e4b5dfa33a7e0c7d" kindref="member">clear()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="333" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="333" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a02fca9cf494d36c37989e7cc59eeee2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::flushAll</definition>
+        <argsstring>(Node &amp;node, uint32_t depth)</argsstring>
+        <name>flushAll</name>
+        <qualifiedname>themis::WomTree::Impl::flushAll</qualifiedname>
+        <param>
+          <type>Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Flush all buffers in the subtree rooted at &apos;node&apos; to leaves. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1_wom_tree_1_1_impl_1ac6facc063f26e2573b433101a11ac5a6" kindref="member">flushNode()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="414" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="414" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1afef55d860838d47fd4624e89292c81ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::maybeSplitRootLeaf</definition>
+        <argsstring>()</argsstring>
+        <name>maybeSplitRootLeaf</name>
+        <qualifiedname>themis::WomTree::Impl::maybeSplitRootLeaf</qualifiedname>
+        <briefdescription>
+<para>If the single-leaf root is over capacity, promote it to an internal node with two leaf children. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" kindref="member">size()</ref>, splitLeaf(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="430" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="430" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a6f11f8a25868219ea6af23e1ed77fb7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::maybeSplitChild</definition>
+        <argsstring>(Node &amp;parent, size_t ci)</argsstring>
+        <name>maybeSplitChild</name>
+        <qualifiedname>themis::WomTree::Impl::maybeSplitChild</qualifiedname>
+        <param>
+          <type>Node &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ci</declname>
+        </param>
+        <briefdescription>
+<para>If child[ci] is a leaf and has more than leaf_capacity entries, split it and insert the new pivot into &apos;parent&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ci</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" kindref="member">size()</ref>, splitLeaf(), insert(), begin(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="456" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="456" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a1c71a396c0d2b24d9973a6c9232f62ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::WomTree::Impl::doOneInternalSplit</definition>
+        <argsstring>(NodePtr &amp;node_ref, Node *parent, size_t idx_in_parent)</argsstring>
+        <name>doOneInternalSplit</name>
+        <qualifiedname>themis::WomTree::Impl::doOneInternalSplit</qualifiedname>
+        <param>
+          <type>NodePtr &amp;</type>
+          <declname>node_ref</declname>
+        </param>
+        <param>
+          <type>Node *</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>idx_in_parent</declname>
+        </param>
+        <briefdescription>
+<para>Perform one internal-node split, depth-first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">node_ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idx_in_parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns true if any split was performed (the caller should then call again until stable). Calls: <ref refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" kindref="member">size()</ref>, <ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref>, splitInternal(), push_back(), std::move(), insert(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="487" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="487" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a51af5ea1840cd6fed562cfa84bcdfdaf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::fixAllInternalOverflows</definition>
+        <argsstring>()</argsstring>
+        <name>fixAllInternalOverflows</name>
+        <qualifiedname>themis::WomTree::Impl::fixAllInternalOverflows</qualifiedname>
+        <briefdescription>
+<para>Keep splitting overfull internal nodes until the tree satisfies the fanout constraint at every level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="structthemis_1_1_wom_tree_1_1_impl_1a1c71a396c0d2b24d9973a6c9232f62ca" kindref="member">doOneInternalSplit()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="534" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="534" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a7235658ea73da5fc6e8bfebfc2f134ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::applyOpToLeaf</definition>
+        <argsstring>(Node &amp;leaf, const Op &amp;op)</argsstring>
+        <name>applyOpToLeaf</name>
+        <qualifiedname>themis::WomTree::Impl::applyOpToLeaf</qualifiedname>
+        <param>
+          <type>Node &amp;</type>
+          <declname>leaf</declname>
+        </param>
+        <param>
+          <type>const Op &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Apply a single Op to a leaf and record the write in stat_internal_bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">leaf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+stat_live_entries is NOT updated here — that responsibility belongs to: • doInsertOp (single-leaf fast path: before/after check) • doInsertOp (buffered path: doGet-based check before enqueueing) • directRemove (unconditional decrement, existence pre-verified) This separation avoids double-counting when buffered ops are flushed by flushNode. Calls: fetch_add(), byteSize(), leafApply(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="546" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="546" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a678dc487c52cce06104c3f69e94333af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::clearBufferedOpsForKey</definition>
+        <argsstring>(const std::string &amp;key, Node &amp;node)</argsstring>
+        <name>clearBufferedOpsForKey</name>
+        <qualifiedname>themis::WomTree::Impl::clearBufferedOpsForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Remove all buffered ops for &apos;key&apos; along the path from node down to the child subtree that contains &apos;key&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This prevents a previously-buffered PUT from reappearing after the next flush when lazy_deletes=false. Calls: erase(), std::remove_if(), begin(), end(), byteSize(), childIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="559" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="559" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a24f9404c9c74ea88f3a9f2ff52bb1d2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::directRemove</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>directRemove</name>
+        <qualifiedname>themis::WomTree::Impl::directRemove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Immediately remove &apos;key&apos; from the tree without buffering a tombstone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+All pending buffered ops for &apos;key&apos; in internal nodes are purged first, then the entry is physically erased from its leaf. Precondition: caller has verified the key exists (doGet succeeded). Calls: <ref refid="structthemis_1_1_wom_tree_1_1_impl_1a678dc487c52cce06104c3f69e94333af" kindref="member">clearBufferedOpsForKey()</ref>, <ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref>, childIndex(), <ref refid="structthemis_1_1_wom_tree_1_1_impl_1a7235658ea73da5fc6e8bfebfc2f134ea" kindref="member">applyOpToLeaf()</ref>, fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="587" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="587" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a520b3e445bc46bf2ab53ab42764b1b64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::WomTree::Impl::doGet</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>doGet</name>
+        <qualifiedname>themis::WomTree::Impl::doGet</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="614" column="19" bodyfile="src/storage/wom_tree.cpp" bodystart="614" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1adb93434e46a3695aa59c33b2c625707c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::collectAllEntries</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; &amp;out) const</argsstring>
+        <name>collectAllEntries</name>
+        <qualifiedname>themis::WomTree::Impl::collectAllEntries</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="666" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="666" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1ad5c52f9e88463a06b3067c64b6fe2eca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::Impl::collectNode</definition>
+        <argsstring>(const Node &amp;node, std::map&lt; std::string, std::string &gt; &amp;out) const</argsstring>
+        <name>collectNode</name>
+        <qualifiedname>themis::WomTree::Impl::collectNode</qualifiedname>
+        <param>
+          <type>const Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="670" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="670" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1aab70d172b2b339c9803a9d49e4dd693e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::Impl::countBufferedEntries</definition>
+        <argsstring>(const Node &amp;node) const</argsstring>
+        <name>countBufferedEntries</name>
+        <qualifiedname>themis::WomTree::Impl::countBufferedEntries</qualifiedname>
+        <param>
+          <type>const Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="699" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="699" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a2281ca174e8bd7da6a6378747303098e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::Impl::countLeaves</definition>
+        <argsstring>(const Node &amp;node) const</argsstring>
+        <name>countLeaves</name>
+        <qualifiedname>themis::WomTree::Impl::countLeaves</qualifiedname>
+        <param>
+          <type>const Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="710" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="710" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a2df73ee302532140e7be0909e7db0674" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::Impl::countInternals</definition>
+        <argsstring>(const Node &amp;node) const</argsstring>
+        <name>countInternals</name>
+        <qualifiedname>themis::WomTree::Impl::countInternals</qualifiedname>
+        <param>
+          <type>const Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="721" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="721" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_impl_1a754f74f2a78f3dc8724a5c47407e806f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WomTree::Impl::treeHeight</definition>
+        <argsstring>(const Node &amp;node) const</argsstring>
+        <name>treeHeight</name>
+        <qualifiedname>themis::WomTree::Impl::treeHeight</qualifiedname>
+        <param>
+          <type>const Node &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="732" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="732" bodyend="737"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::WomTree::Config</label>
+        <link refid="structthemis_1_1_wom_tree_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::WomTree::Impl</label>
+        <link refid="structthemis_1_1_wom_tree_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/storage/wom_tree.cpp" line="241" column="1" bodyfile="src/storage/wom_tree.cpp" bodystart="241" bodyend="738"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a7235658ea73da5fc6e8bfebfc2f134ea" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>applyOpToLeaf</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a678dc487c52cce06104c3f69e94333af" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>clearBufferedOpsForKey</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1adb93434e46a3695aa59c33b2c625707c" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>collectAllEntries</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1ad5c52f9e88463a06b3067c64b6fe2eca" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>collectNode</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a22cb22e90968089db11adadaf73e71b2" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1aab70d172b2b339c9803a9d49e4dd693e" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>countBufferedEntries</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a2df73ee302532140e7be0909e7db0674" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>countInternals</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a2281ca174e8bd7da6a6378747303098e" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>countLeaves</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a24f9404c9c74ea88f3a9f2ff52bb1d2d" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>directRemove</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a520b3e445bc46bf2ab53ab42764b1b64" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>doGet</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a9a5acfa3f45ebe117d8c3682ae05cca6" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>doInsertOp</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a1c71a396c0d2b24d9973a6c9232f62ca" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>doOneInternalSplit</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a51af5ea1840cd6fed562cfa84bcdfdaf" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>fixAllInternalOverflows</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a02fca9cf494d36c37989e7cc59eeee2d" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>flushAll</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1ac6facc063f26e2573b433101a11ac5a6" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>flushNode</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1adbb7e489705fa6221882aabebc0ee625" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>height</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a4c711e37c4c1e2e8b6e3d88573cbff36" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a6f11f8a25868219ea6af23e1ed77fb7b" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>maybeSplitChild</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1afef55d860838d47fd4624e89292c81ce" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>maybeSplitRootLeaf</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1af25046317f30a2b0ecf80585adaa897d" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>mu</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a37202ed73f4a07cb12d91f0ff7f6cce0" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>root</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1abec2a7a92a707221351bb070a213c8e5" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_flush_passes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a1ca35a0767e1cfb405d7fa2262d4ef9e" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_get_hits</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1ad54cb43b8b3192df57a44583447ad0f3" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_gets</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a2d096390987546148dc9259dfdaadb1b" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_internal_bytes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1ad61d152e2cac9f7d3c25cfbc981896d0" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_live_entries</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a99342cf59ecb4f44f094aba2cf94a1b4" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_puts</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1af86279ca636210455bcd369c988117fb" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_removes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1acb9c041d96187e9a974cd5321add4e15" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>stat_user_bytes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_impl_1a754f74f2a78f3dc8724a5c47407e806f" prot="public" virt="non-virtual"><scope>themis::WomTree::Impl</scope><name>treeHeight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

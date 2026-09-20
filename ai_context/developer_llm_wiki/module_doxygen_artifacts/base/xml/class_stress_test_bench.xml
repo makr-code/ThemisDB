@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_test_bench" kind="class" language="C++" prot="public">
+    <compoundname>StressTestBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_stress_test_bench_1ad271be10dced4da1d63fd11d2131ef6b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StressTestBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>StressTestBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="821" column="17" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="821" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_test_bench_1a086bcfcb48320e07fd8daee9bedf7af7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; StressTestBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>StressTestBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="822" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="822" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_test_bench_1a72f2e230b6481d3dc22fab03f1ffbe03" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; StressTestBench::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>StressTestBench::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="823" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="823" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_test_bench_1aa08a45e6a43f8a85252dba9dffd0719a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; StressTestBench::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>StressTestBench::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="824" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="824" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_test_bench_1af8089d42fba990519d5cfcd5a1c47929" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressTestBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StressTestBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="798" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="798" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_test_bench_1a6c2e5306e1798485713915ecf1a99bc4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressTestBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StressTestBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="813" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="813" bodyend="818"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StressTestBench</label>
+        <link refid="class_stress_test_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StressTestBench</label>
+        <link refid="class_stress_test_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_comprehensive.cpp" line="796" column="1" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="796" bodyend="825"/>
+    <listofallmembers>
+      <member refid="class_stress_test_bench_1a086bcfcb48320e07fd8daee9bedf7af7" prot="protected" virt="non-virtual"><scope>StressTestBench</scope><name>db_</name></member>
+      <member refid="class_stress_test_bench_1ad271be10dced4da1d63fd11d2131ef6b" prot="protected" virt="non-virtual"><scope>StressTestBench</scope><name>db_path_</name></member>
+      <member refid="class_stress_test_bench_1af8089d42fba990519d5cfcd5a1c47929" prot="public" virt="non-virtual"><scope>StressTestBench</scope><name>SetUp</name></member>
+      <member refid="class_stress_test_bench_1aa08a45e6a43f8a85252dba9dffd0719a" prot="protected" virt="non-virtual"><scope>StressTestBench</scope><name>sim_</name></member>
+      <member refid="class_stress_test_bench_1a6c2e5306e1798485713915ecf1a99bc4" prot="public" virt="non-virtual"><scope>StressTestBench</scope><name>TearDown</name></member>
+      <member refid="class_stress_test_bench_1a72f2e230b6481d3dc22fab03f1ffbe03" prot="protected" virt="non-virtual"><scope>StressTestBench</scope><name>vim_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

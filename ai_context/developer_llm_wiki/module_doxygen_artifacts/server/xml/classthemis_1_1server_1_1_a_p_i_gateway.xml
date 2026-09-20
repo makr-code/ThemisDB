@@ -1,0 +1,1604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_a_p_i_gateway" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::APIGateway</compoundname>
+    <includes refid="api__gateway_8h" local="no">api_gateway.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" prot="public">themis::server::APIGateway::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RouteTarget</name>
+        <qualifiedname>themis::server::APIGateway::RouteTarget</qualifiedname>
+        <enumvalue id="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002a54b4c4075463b2e02cd69f5cd139b5b2" prot="public">
+          <name>LOCAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002a5fe9db299562a253ce0745d25f54eb0f" prot="public">
+          <name>SHARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002a9bac194ce9ab1aff4edc121e77d0f28c" prot="public">
+          <name>SCATTER_GATHER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002a53e513fe9ffcb59dcdc84ddcbed6ba20" prot="public">
+          <name>FEDERATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="75" column="5" bodyfile="include/server/api_gateway.h" bodystart="75" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a70cfedaab51a9c7d298018c9abf8ba33" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::APIGateway::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::APIGateway::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="150" column="12" bodyfile="include/server/api_gateway.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1abb6110a4e6b024f2d0b81b3272120a80" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::APIGateway::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::APIGateway::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="151" column="21" bodyfile="include/server/api_gateway.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a942667954673f029032e7df5a0f5d17a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_rate_limiter" kindref="compound">RateLimiter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RateLimiter&gt; themis::server::APIGateway::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>themis::server::APIGateway::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="152" column="21" bodyfile="include/server/api_gateway.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1ac4847e8ec6acbfa722018ebfe5e61cef" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_per_client_rate_limiter" kindref="compound">PerClientRateLimiter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PerClientRateLimiter&gt; themis::server::APIGateway::rate_limiter_v2_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_v2_</name>
+        <qualifiedname>themis::server::APIGateway::rate_limiter_v2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="153" column="21" bodyfile="include/server/api_gateway.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a7f30691d4c788863ea32da782dc0692f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_load_shedder" kindref="compound">LoadShedder</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoadShedder&gt; themis::server::APIGateway::load_shedder_</definition>
+        <argsstring></argsstring>
+        <name>load_shedder_</name>
+        <qualifiedname>themis::server::APIGateway::load_shedder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="154" column="21" bodyfile="include/server/api_gateway.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1adb7f6524590109ed20aaadf0fb15afa3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardRouter&gt; themis::server::APIGateway::shard_router_</definition>
+        <argsstring></argsstring>
+        <name>shard_router_</name>
+        <qualifiedname>themis::server::APIGateway::shard_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="155" column="21" bodyfile="include/server/api_gateway.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a32243b8162b03566f939d536149c3ea8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::PrometheusMetrics&gt; themis::server::APIGateway::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::server::APIGateway::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="156" column="21" bodyfile="include/server/api_gateway.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a85e5e1eb642bfa80426a9b585cf54c9a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_a_p_i_version_manager" kindref="compound">APIVersionManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;APIVersionManager&gt; themis::server::APIGateway::version_manager_</definition>
+        <argsstring></argsstring>
+        <name>version_manager_</name>
+        <qualifiedname>themis::server::APIGateway::version_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="157" column="21" bodyfile="include/server/api_gateway.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a0ceb5b4b63bcaf0bd2a423e98d71ab27" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; sharding::CircuitBreaker &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;sharding::CircuitBreaker&gt; &gt; themis::server::APIGateway::circuit_breakers_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breakers_</name>
+        <qualifiedname>themis::server::APIGateway::circuit_breakers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="160" column="24" bodyfile="include/server/api_gateway.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1ac1733f73ee87a9f3fec8ba8b039ba3c4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::APIGateway::circuit_breakers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breakers_mutex_</name>
+        <qualifiedname>themis::server::APIGateway::circuit_breakers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="161" column="24" bodyfile="include/server/api_gateway.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1ad792bd3da5a87e9caf78caa5ae242f80" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::function&lt;http::response&lt;http::string_body&gt;(const http::request&lt;http::string_body&gt;&amp;)&gt; &gt; themis::server::APIGateway::handlers_</definition>
+        <argsstring></argsstring>
+        <name>handlers_</name>
+        <qualifiedname>themis::server::APIGateway::handlers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="165" column="4" bodyfile="include/server/api_gateway.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1ac9bb75fee15445415196f96544e48629" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::server::APIGateway::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="168" column="17" bodyfile="include/server/api_gateway.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a9c807d4b8bc638db6a722616b77777da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::successful_requests_</definition>
+        <argsstring></argsstring>
+        <name>successful_requests_</name>
+        <qualifiedname>themis::server::APIGateway::successful_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="169" column="17" bodyfile="include/server/api_gateway.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a4cc88a2139d1ae5910dd37d0581aea4a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::failed_requests_</definition>
+        <argsstring></argsstring>
+        <name>failed_requests_</name>
+        <qualifiedname>themis::server::APIGateway::failed_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="170" column="17" bodyfile="include/server/api_gateway.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1af30b18a61870d0ab512c3ca758af85a1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::rate_limited_requests_</definition>
+        <argsstring></argsstring>
+        <name>rate_limited_requests_</name>
+        <qualifiedname>themis::server::APIGateway::rate_limited_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="171" column="17" bodyfile="include/server/api_gateway.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a06b7f45f7c312a29fc6099186a390044" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::load_shed_requests_</definition>
+        <argsstring></argsstring>
+        <name>load_shed_requests_</name>
+        <qualifiedname>themis::server::APIGateway::load_shed_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="172" column="17" bodyfile="include/server/api_gateway.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1aae855fdcff42db4a13686fc7244be6f4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::circuit_breaker_rejections_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_rejections_</name>
+        <qualifiedname>themis::server::APIGateway::circuit_breaker_rejections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="173" column="17" bodyfile="include/server/api_gateway.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1aa13a3027e98370f942ca6aaf2495b351" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::local_requests_</definition>
+        <argsstring></argsstring>
+        <name>local_requests_</name>
+        <qualifiedname>themis::server::APIGateway::local_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="174" column="17" bodyfile="include/server/api_gateway.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a8d10614646286bbc6aaad8a42e154613" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::distributed_requests_</definition>
+        <argsstring></argsstring>
+        <name>distributed_requests_</name>
+        <qualifiedname>themis::server::APIGateway::distributed_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="175" column="17" bodyfile="include/server/api_gateway.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_gateway_1a245299e9a530739dda59b958c31786c0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::APIGateway::federated_queries_</definition>
+        <argsstring></argsstring>
+        <name>federated_queries_</name>
+        <qualifiedname>themis::server::APIGateway::federated_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="176" column="17" bodyfile="include/server/api_gateway.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a7e84e7bd1d0cd2f88e5e7a8f0534daf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::APIGateway::APIGateway</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; AuthMiddleware &gt; auth, std::shared_ptr&lt; RateLimiter &gt; rate_limiter, std::shared_ptr&lt; LoadShedder &gt; load_shedder, std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router=nullptr, std::shared_ptr&lt; sharding::PrometheusMetrics &gt; metrics=nullptr)</argsstring>
+        <name>APIGateway</name>
+        <qualifiedname>themis::server::APIGateway::APIGateway</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_rate_limiter" kindref="compound">RateLimiter</ref> &gt;</type>
+          <declname>rate_limiter</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_load_shedder" kindref="compound">LoadShedder</ref> &gt;</type>
+          <declname>load_shedder</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="82" column="5" bodyfile="src/server/api_gateway.cpp" bodystart="71" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a34461aecc1a2d0f8c5af67a6c7f9c875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::APIGateway::APIGateway</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; AuthMiddleware &gt; auth, std::shared_ptr&lt; PerClientRateLimiter &gt; rate_limiter_v2, std::shared_ptr&lt; LoadShedder &gt; load_shedder, std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router=nullptr, std::shared_ptr&lt; sharding::PrometheusMetrics &gt; metrics=nullptr)</argsstring>
+        <name>APIGateway</name>
+        <qualifiedname>themis::server::APIGateway::APIGateway</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_per_client_rate_limiter" kindref="compound">PerClientRateLimiter</ref> &gt;</type>
+          <declname>rate_limiter_v2</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_load_shedder" kindref="compound">LoadShedder</ref> &gt;</type>
+          <declname>load_shedder</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="91" column="5" bodyfile="src/server/api_gateway.cpp" bodystart="101" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1aabd2f80727177e8dca8a396887458bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; local_handler)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::APIGateway::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>local_handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="100" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="131" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1abb32f3fe60309fa6509ff3be7a22b970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::APIGateway::executeFederatedQuery</definition>
+        <argsstring>(const std::string &amp;query, const AuthContext &amp;auth_context)</argsstring>
+        <name>executeFederatedQuery</name>
+        <qualifiedname>themis::server::APIGateway::executeFederatedQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_auth_context" kindref="compound">AuthContext</ref> &amp;</type>
+          <declname>auth_context</declname>
+        </param>
+        <briefdescription>
+<para>Execute Federated Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), executeQuery(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="111" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="267" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a048b99bafb6a6747303d0e124f5ec02e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::APIGateway::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::server::APIGateway::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="120" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="302" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a2b15a60b7efaf38aa1d69e3b434f07b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::APIGateway::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::server::APIGateway::getHealthStatus</qualifiedname>
+        <briefdescription>
+<para>Get Health Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="126" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="337" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a36bb1c49b11f7f050ee81b5cc4d4f047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIGateway::updateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::server::APIGateway::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="132" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="385" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a03906bb5bff62b438b182d67b55946f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIGateway::registerHandler</definition>
+        <argsstring>(const std::string &amp;pattern, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; handler)</argsstring>
+        <name>registerHandler</name>
+        <qualifiedname>themis::server::APIGateway::registerHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="134" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="390" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1aae893ab23864e1bb426c7a3fc06dd399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIGateway::registerDeprecation</definition>
+        <argsstring>(const std::string &amp;endpoint, const APIDeprecationInfo &amp;info)</argsstring>
+        <name>registerDeprecation</name>
+        <qualifiedname>themis::server::APIGateway::registerDeprecation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Deprecation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerDeprecation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="144" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="404" bodyend="412"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1aa48b1d54850155569ea31310f69fc801" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002" kindref="member">RouteTarget</ref></type>
+        <definition>APIGateway::RouteTarget themis::server::APIGateway::determineRouteTarget</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>determineRouteTarget</name>
+        <qualifiedname>themis::server::APIGateway::determineRouteTarget</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Determine Route Target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), method(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="183" column="17" bodyfile="src/server/api_gateway.cpp" bodystart="502" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1acc29ba2097d2a75ac50d973b05b96631" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::checkRateLimit</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::server::APIGateway::checkRateLimit</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: extractClientIp(), empty(), std::string(), data(), size(), substr(), extractContext(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="190" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="545" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a95ff742c767a79c945124f1fc8f2821e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::checkLoadShedding</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>checkLoadShedding</name>
+        <qualifiedname>themis::server::APIGateway::checkLoadShedding</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Check Load Shedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: shouldReject(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="197" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="625" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a42c38a3345d84df13badc507108fa046" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; sharding::CircuitBreaker &gt;</type>
+        <definition>std::shared_ptr&lt; sharding::CircuitBreaker &gt; themis::server::APIGateway::getCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;backend_id)</argsstring>
+        <name>getCircuitBreaker</name>
+        <qualifiedname>themis::server::APIGateway::getCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="204" column="21" bodyfile="src/server/api_gateway.cpp" bodystart="640" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a50e959791c3104c0dc9f20c0a78f8170" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::executeLocal</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; handler)</argsstring>
+        <name>executeLocal</name>
+        <qualifiedname>themis::server::APIGateway::executeLocal</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="206" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="655" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a902de266c76a89f78ea257c2befd0121" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::executeRemote</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;shard_id)</argsstring>
+        <name>executeRemote</name>
+        <qualifiedname>themis::server::APIGateway::executeRemote</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Execute Remote. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), getCircuitBreaker(), allowRequest(), extractUrnFromPath(), std::string(), target(), dispatchShardOperation(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="217" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="675" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a87713323a07ef621211715184ef30ecb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::executeScatterGather</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>executeScatterGather</name>
+        <qualifiedname>themis::server::APIGateway::executeScatterGather</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Execute Scatter Gather. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), body(), empty(), nlohmann::json::parse(), value(), scatterGather(), nlohmann::json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="227" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="741" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a6de91c3fecc30f860662bcbf09b2f0d8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIGateway::processVersionHeaders</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::response&lt; http::string_body &gt; &amp;response)</argsstring>
+        <name>processVersionHeaders</name>
+        <qualifiedname>themis::server::APIGateway::processVersionHeaders</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Process Version Headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), extractVersionFromPath(), end(), value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="237" column="16" bodyfile="src/server/api_gateway.cpp" bodystart="893" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a18cdf3c32c873f5c0604a5e3d129007a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIGateway::addDeprecationHeaders</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::response&lt; http::string_body &gt; &amp;response, const APIVersion &amp;version)</argsstring>
+        <name>addDeprecationHeaders</name>
+        <qualifiedname>themis::server::APIGateway::addDeprecationHeaders</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Add Deprecation Headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), target(), find(), substr(), stripVersionPrefix(), getDeprecationInfo(), set(), <ref refid="namespacethemis_1_1server_1a81b53524f4242636d6907155603fc249" kindref="member">toString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="248" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="989" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a28a4f6cd271b7280cf0db375dafa5dd1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::APIGateway::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), body(), dump(), prepare_payload(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="261" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="806" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1ac09e511f5407516fb13af9090833b9ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::APIGateway::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), body(), prepare_payload(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="274" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="832" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a63dbed0cab5609bfc95ab69f4fd0dc07" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::APIGateway::extractVersionFromPath</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>extractVersionFromPath</name>
+        <qualifiedname>themis::server::APIGateway::extractVersionFromPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Version From Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="285" column="19" bodyfile="src/server/api_gateway.cpp" bodystart="1054" bodyend="1068"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1acbd7095ac0d814d75f26a1bfefd92d1a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIGateway::stripVersionPrefix</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>stripVersionPrefix</name>
+        <qualifiedname>themis::server::APIGateway::stripVersionPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Strip Version Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="292" column="17" bodyfile="src/server/api_gateway.cpp" bodystart="1070" bodyend="1089"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1ae032c8ee40f3da7c63848ec870ee53b3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; sharding::URN &gt;</type>
+        <definition>std::optional&lt; sharding::URN &gt; themis::server::APIGateway::extractUrnFromPath</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>extractUrnFromPath</name>
+        <qualifiedname>themis::server::APIGateway::extractUrnFromPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Urn From Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="299" column="19" bodyfile="src/server/api_gateway.cpp" bodystart="414" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a70ccd2c717d314dd5ee4b64fd0d2b79e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIGateway::extractClientIp</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>extractClientIp</name>
+        <qualifiedname>themis::server::APIGateway::extractClientIp</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Client Ip. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="306" column="17" bodyfile="src/server/api_gateway.cpp" bodystart="1091" bodyend="1124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a9c005aedc220f5ee0912fc8a8d05ad6e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::APIGateway::dispatchShardOperation</definition>
+        <argsstring>(const sharding::URN &amp;urn, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>dispatchShardOperation</name>
+        <qualifiedname>themis::server::APIGateway::dispatchShardOperation</qualifiedname>
+        <param>
+          <type>const sharding::URN &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Shard Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), method(), get(), body(), empty(), nlohmann::json::parse(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="314" column="20" bodyfile="src/server/api_gateway.cpp" bodystart="449" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_gateway_1a0f8b5c1f30ab5f55b1ad0236a8876631" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIGateway::recordMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const http::response&lt; http::string_body &gt; &amp;response, uint64_t duration_ms, RouteTarget target)</argsstring>
+        <name>recordMetrics</name>
+        <qualifiedname>themis::server::APIGateway::recordMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002" kindref="member">RouteTarget</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Record Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), method_string(), std::to_string(), result(), spdlog::debug(), nlohmann::json(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="326" column="10" bodyfile="src/server/api_gateway.cpp" bodystart="853" bodyend="884"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_gateway.h" line="37" column="1" bodyfile="include/server/api_gateway.h" bodystart="37" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a18cdf3c32c873f5c0604a5e3d129007a" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>addDeprecationHeaders</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a7e84e7bd1d0cd2f88e5e7a8f0534daf7" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>APIGateway</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a34461aecc1a2d0f8c5af67a6c7f9c875" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>APIGateway</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1abb6110a4e6b024f2d0b81b3272120a80" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a95ff742c767a79c945124f1fc8f2821e" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>checkLoadShedding</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1acc29ba2097d2a75ac50d973b05b96631" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1aae855fdcff42db4a13686fc7244be6f4" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>circuit_breaker_rejections_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a0ceb5b4b63bcaf0bd2a423e98d71ab27" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>circuit_breakers_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ac1733f73ee87a9f3fec8ba8b039ba3c4" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>circuit_breakers_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a70cfedaab51a9c7d298018c9abf8ba33" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1aa48b1d54850155569ea31310f69fc801" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>determineRouteTarget</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a9c005aedc220f5ee0912fc8a8d05ad6e" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>dispatchShardOperation</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a8d10614646286bbc6aaad8a42e154613" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>distributed_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1abb32f3fe60309fa6509ff3be7a22b970" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>executeFederatedQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a50e959791c3104c0dc9f20c0a78f8170" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>executeLocal</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a902de266c76a89f78ea257c2befd0121" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>executeRemote</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a87713323a07ef621211715184ef30ecb" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>executeScatterGather</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a70ccd2c717d314dd5ee4b64fd0d2b79e" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>extractClientIp</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ae032c8ee40f3da7c63848ec870ee53b3" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>extractUrnFromPath</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a63dbed0cab5609bfc95ab69f4fd0dc07" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>extractVersionFromPath</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a4cc88a2139d1ae5910dd37d0581aea4a" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>failed_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a245299e9a530739dda59b958c31786c0" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>federated_queries_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a42c38a3345d84df13badc507108fa046" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>getCircuitBreaker</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a2b15a60b7efaf38aa1d69e3b434f07b0" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a048b99bafb6a6747303d0e124f5ec02e" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1aabd2f80727177e8dca8a396887458bc5" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ad792bd3da5a87e9caf78caa5ae242f80" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>handlers_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a06b7f45f7c312a29fc6099186a390044" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>load_shed_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a7f30691d4c788863ea32da782dc0692f" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>load_shedder_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1aa13a3027e98370f942ca6aaf2495b351" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>local_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a28a4f6cd271b7280cf0db375dafa5dd1" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ac09e511f5407516fb13af9090833b9ff" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a32243b8162b03566f939d536149c3ea8" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a6de91c3fecc30f860662bcbf09b2f0d8" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>processVersionHeaders</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1af30b18a61870d0ab512c3ca758af85a1" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>rate_limited_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a942667954673f029032e7df5a0f5d17a" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>rate_limiter_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ac4847e8ec6acbfa722018ebfe5e61cef" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>rate_limiter_v2_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a0f8b5c1f30ab5f55b1ad0236a8876631" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>recordMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1aae893ab23864e1bb426c7a3fc06dd399" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>registerDeprecation</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a03906bb5bff62b438b182d67b55946f2" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>registerHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a71ce665597c478b39742e1e51a775002" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>RouteTarget</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1adb7f6524590109ed20aaadf0fb15afa3" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>shard_router_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1acbd7095ac0d814d75f26a1bfefd92d1a" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>stripVersionPrefix</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a9c807d4b8bc638db6a722616b77777da" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>successful_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1ac9bb75fee15445415196f96544e48629" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a36bb1c49b11f7f050ee81b5cc4d4f047" prot="public" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_gateway_1a85e5e1eb642bfa80426a9b585cf54c9a" prot="private" virt="non-virtual"><scope>themis::server::APIGateway</scope><name>version_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

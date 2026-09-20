@@ -1,0 +1,847 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::BaseModelAdapter</compoundname>
+    <includes refid="base__model__adapter_8h" local="no">base_model_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a8c31485e778031a2b65ae8af12bdbcfc" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader" kindref="compound">GGUFLoader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GGUFLoader&gt; themis::llm::lora::BaseModelAdapter::gguf_loader_</definition>
+        <argsstring></argsstring>
+        <name>gguf_loader_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::gguf_loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="139" column="21" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1af74711ce2f70f0ec157cf4bf70f25c5d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseModelAdapter::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="140" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a4c6e19b11867abe54b0818e0ab89acb6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseModelAdapter::model_name_</definition>
+        <argsstring></argsstring>
+        <name>model_name_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::model_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="141" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a875ba11dcda937bdd0b2e5391e4de705" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::model_loaded_</definition>
+        <argsstring></argsstring>
+        <name>model_loaded_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::model_loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="142" column="10" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a7fee2456e5123c6c1e512abc5fa3401f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_model_architecture_info" kindref="compound">ModelArchitectureInfo</ref></type>
+        <definition>ModelArchitectureInfo themis::llm::lora::BaseModelAdapter::architecture_</definition>
+        <argsstring></argsstring>
+        <name>architecture_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::architecture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="144" column="27" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a690e8e0f2d1c1dec77e368363b3265d2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kindref="compound">BaseLayerInfo</ref> &gt;</type>
+        <definition>std::vector&lt;BaseLayerInfo&gt; themis::llm::lora::BaseModelAdapter::adaptable_layers_</definition>
+        <argsstring></argsstring>
+        <name>adaptable_layers_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::adaptable_layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="145" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1adfe2842d87f00360a2f5877a00fcd152" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kindref="compound">BaseLayerInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BaseLayerInfo&gt; themis::llm::lora::BaseModelAdapter::layer_map_</definition>
+        <argsstring></argsstring>
+        <name>layer_map_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::layer_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="148" column="24" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a8358545b2680b0f07b524b240def9676" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; int, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::vector&lt;float&gt; &gt; themis::llm::lora::BaseModelAdapter::embedding_cache_</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::embedding_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="151" column="32" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ae2630b72be9a31b0f8939631ca7d5e78" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseModelAdapter::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::cache_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="152" column="20" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0c49ef29ba06c815ebb6259f2c196559" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseModelAdapter::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::cache_misses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="153" column="20" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a5f703fd7fcc5d6b046d7a5a15b5fc199" prot="private" static="no" mutable="yes">
+        <type>const float *</type>
+        <definition>const float* themis::llm::lora::BaseModelAdapter::embedding_matrix_</definition>
+        <argsstring></argsstring>
+        <name>embedding_matrix_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::embedding_matrix_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="157" column="25" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aec04cb190509fb5b99013764c5ae0835" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseModelAdapter::embedding_tensor_name_</definition>
+        <argsstring></argsstring>
+        <name>embedding_tensor_name_</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::embedding_tensor_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="158" column="25" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a47f18176cc792c4fa425b56bf03925c1" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseModelAdapter::MAX_CACHE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_CACHE_SIZE</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::MAX_CACHE_SIZE</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="154" column="29" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1af3ac9a66cbffdd2811b17380248e02b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::BaseModelAdapter::BaseModelAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>BaseModelAdapter</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::BaseModelAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="59" column="5" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a94b67d80bead54acc2703934b317f1fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::BaseModelAdapter::~BaseModelAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>~BaseModelAdapter</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::~BaseModelAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="60" column="5" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a9a7131146fb65fa41b16c01e14c207c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::loadModel</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), parseFile(), spdlog::error(), find_last_of(), substr(), parseArchitecture(), identifyAdaptableLayers(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="67" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="39" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a257ae7177dd32fb83131d5263a89d580" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_model_architecture_info" kindref="compound">ModelArchitectureInfo</ref> &amp;</type>
+        <definition>const ModelArchitectureInfo &amp; themis::llm::lora::BaseModelAdapter::getArchitecture</definition>
+        <argsstring>() const</argsstring>
+        <name>getArchitecture</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getArchitecture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="69" column="33" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa72fe451d9196ef94294f7b5c33773f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kindref="compound">BaseLayerInfo</ref> &gt;</type>
+        <definition>std::vector&lt; BaseLayerInfo &gt; themis::llm::lora::BaseModelAdapter::getAdaptableLayers</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdaptableLayers</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getAdaptableLayers</qualifiedname>
+        <briefdescription>
+<para>Get Adaptable Layers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="75" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="275" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a520c3b519f4887e9724e8e81111f00c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kindref="compound">BaseLayerInfo</ref> &gt;</type>
+        <definition>std::vector&lt; BaseLayerInfo &gt; themis::llm::lora::BaseModelAdapter::getLayersByTargetModules</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;target_modules) const</argsstring>
+        <name>getLayersByTargetModules</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getLayersByTargetModules</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>target_modules</declname>
+        </param>
+        <briefdescription>
+<para>Get Layers By Target Modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_modules</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="82" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="279" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a7fae617b94fbeca14ada5c6797ff831c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt;</type>
+        <definition>std::optional&lt; Tensor &gt; themis::llm::lora::BaseModelAdapter::getLayerWeights</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>getLayerWeights</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getLayerWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Layer Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="90" column="19" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="311" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a87c285a0175f7c367134a43477fb8b04" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::isLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::isLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="92" column="10" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a6b1fb0af9494b01a16b5c5580c8f2131" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::BaseModelAdapter::getModelName</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelName</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getModelName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="94" column="23" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a57ccdd9fe817c554bd96bd89660c7256" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::BaseModelAdapter::getModelPath</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelPath</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getModelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="96" column="23" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0ccdd89d0f608208660ee87e4428938a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseModelAdapter::getTotalParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalParameters</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getTotalParameters</qualifiedname>
+        <briefdescription>
+<para>Get Total Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="102" column="12" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="354" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ad87ae642b89acb16ab9dc6826d935ce8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::BaseModelAdapter::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::unload</qualifiedname>
+        <briefdescription>
+<para>Unload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="107" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="377" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ab4ccd247252391ea06211dc18c15dec4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::BaseModelAdapter::getTokenEmbedding</definition>
+        <argsstring>(int token_id) const</argsstring>
+        <name>getTokenEmbedding</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getTokenEmbedding</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>token_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Token Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="114" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="489" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1acb7945a3b448c8e8cda9fa02acd0d521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::BaseModelAdapter::getTokenEmbeddings</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;token_ids) const</argsstring>
+        <name>getTokenEmbeddings</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getTokenEmbeddings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Get Token Embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="121" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="519" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ac070ca5413eb70712923cd047dc5b786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const float *</type>
+        <definition>const float * themis::llm::lora::BaseModelAdapter::getEmbeddingMatrix</definition>
+        <argsstring>() const</argsstring>
+        <name>getEmbeddingMatrix</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getEmbeddingMatrix</qualifiedname>
+        <briefdescription>
+<para>Get Embedding Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="127" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="539" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa5c924b149046044c18e5b3d03a7984c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::BaseModelAdapter::logCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>logCacheStats</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::logCacheStats</qualifiedname>
+        <briefdescription>
+<para>Log Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="132" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="563" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ac4a99b3cea689f7a4c4539ac87182da0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::BaseModelAdapter::getVocabSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getVocabSize</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getVocabSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="134" column="9" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ae0dd83351ad4e0f27e972e58dee45b2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::BaseModelAdapter::getHiddenSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getHiddenSize</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::getHiddenSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="136" column="9" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a58ce7e390dbcf274823a11497a5df27a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::parseArchitecture</definition>
+        <argsstring>()</argsstring>
+        <name>parseArchitecture</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::parseArchitecture</qualifiedname>
+        <briefdescription>
+<para>Parse Architecture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getMetadata(), find(), end(), std::stoi(), at(), layer_pattern(), std::regex_search(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="165" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="87" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a46c5563ee9b05eb92aa1e5390405710f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::identifyAdaptableLayers</definition>
+        <argsstring>()</argsstring>
+        <name>identifyAdaptableLayers</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::identifyAdaptableLayers</qualifiedname>
+        <briefdescription>
+<para>Identify Adaptable Layers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getMetadata(), clear(), std::regex(), std::regex_search(), parseLayerInfo(), std::stoi(), str(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="170" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="175" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0fcfd18121888a7480195c62dd29da29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::parseLayerInfo</definition>
+        <argsstring>(const TensorMetadata &amp;tensor, BaseLayerInfo &amp;layer_info)</argsstring>
+        <name>parseLayerInfo</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::parseLayerInfo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kindref="compound">BaseLayerInfo</ref> &amp;</type>
+          <declname>layer_info</declname>
+        </param>
+        <briefdescription>
+<para>Parse Layer Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">layer_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="177" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="256" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a5ab19ddc872845c45f54acda7d1a23f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseModelAdapter::standardizeLayerName</definition>
+        <argsstring>(const std::string &amp;model_layer_name) const</argsstring>
+        <name>standardizeLayerName</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::standardizeLayerName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_layer_name</declname>
+        </param>
+        <briefdescription>
+<para>Standardize Layer Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="183" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="577" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a401cd9c024a55040ddea1d468e6c5e38" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::BaseModelAdapter::matchesTargetModule</definition>
+        <argsstring>(const std::string &amp;layer_name, const std::string &amp;target_pattern) const</argsstring>
+        <name>matchesTargetModule</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::matchesTargetModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_pattern</declname>
+        </param>
+        <briefdescription>
+<para>Matches Target Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="190" column="10" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="296" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa148738aa62cb2917265812aef152b5a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseModelAdapter::findEmbeddingTensorName</definition>
+        <argsstring>() const</argsstring>
+        <name>findEmbeddingTensorName</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::findEmbeddingTensorName</qualifiedname>
+        <briefdescription>
+<para>Find Embedding <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="198" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="392" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aeaf356e2dd4f3b4742953b667a36c24e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::BaseModelAdapter::extractEmbeddingFromGGUF</definition>
+        <argsstring>(int token_id) const</argsstring>
+        <name>extractEmbeddingFromGGUF</name>
+        <qualifiedname>themis::llm::lora::BaseModelAdapter::extractEmbeddingFromGGUF</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>token_id</declname>
+        </param>
+        <briefdescription>
+<para>Extract Embedding From GGUF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Embedding. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="204" column="17" bodyfile="src/llm/lora_framework/base_model_adapter.cpp" bodystart="437" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/base_model_adapter.h" line="57" column="1" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="57" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a690e8e0f2d1c1dec77e368363b3265d2" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>adaptable_layers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a7fee2456e5123c6c1e512abc5fa3401f" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>architecture_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1af3ac9a66cbffdd2811b17380248e02b7" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>BaseModelAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ae2630b72be9a31b0f8939631ca7d5e78" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0c49ef29ba06c815ebb6259f2c196559" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a8358545b2680b0f07b524b240def9676" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>embedding_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a5f703fd7fcc5d6b046d7a5a15b5fc199" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>embedding_matrix_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aec04cb190509fb5b99013764c5ae0835" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>embedding_tensor_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aeaf356e2dd4f3b4742953b667a36c24e" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>extractEmbeddingFromGGUF</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa148738aa62cb2917265812aef152b5a" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>findEmbeddingTensorName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa72fe451d9196ef94294f7b5c33773f2" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getAdaptableLayers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a257ae7177dd32fb83131d5263a89d580" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getArchitecture</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ac070ca5413eb70712923cd047dc5b786" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getEmbeddingMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ae0dd83351ad4e0f27e972e58dee45b2a" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getHiddenSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a520c3b519f4887e9724e8e81111f00c2" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getLayersByTargetModules</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a7fae617b94fbeca14ada5c6797ff831c" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getLayerWeights</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a6b1fb0af9494b01a16b5c5580c8f2131" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getModelName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a57ccdd9fe817c554bd96bd89660c7256" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getModelPath</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ab4ccd247252391ea06211dc18c15dec4" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getTokenEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1acb7945a3b448c8e8cda9fa02acd0d521" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getTokenEmbeddings</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0ccdd89d0f608208660ee87e4428938a" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getTotalParameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ac4a99b3cea689f7a4c4539ac87182da0" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>getVocabSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a8c31485e778031a2b65ae8af12bdbcfc" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>gguf_loader_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a46c5563ee9b05eb92aa1e5390405710f" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>identifyAdaptableLayers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a87c285a0175f7c367134a43477fb8b04" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1adfe2842d87f00360a2f5877a00fcd152" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>layer_map_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a9a7131146fb65fa41b16c01e14c207c5" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1aa5c924b149046044c18e5b3d03a7984c" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>logCacheStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a401cd9c024a55040ddea1d468e6c5e38" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>matchesTargetModule</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a47f18176cc792c4fa425b56bf03925c1" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>MAX_CACHE_SIZE</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a875ba11dcda937bdd0b2e5391e4de705" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>model_loaded_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a4c6e19b11867abe54b0818e0ab89acb6" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>model_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1af74711ce2f70f0ec157cf4bf70f25c5d" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a58ce7e390dbcf274823a11497a5df27a" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>parseArchitecture</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a0fcfd18121888a7480195c62dd29da29" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>parseLayerInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a5ab19ddc872845c45f54acda7d1a23f7" prot="private" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>standardizeLayerName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1ad87ae642b89acb16ab9dc6826d935ce8" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>unload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter_1a94b67d80bead54acc2703934b317f1fc" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseModelAdapter</scope><name>~BaseModelAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

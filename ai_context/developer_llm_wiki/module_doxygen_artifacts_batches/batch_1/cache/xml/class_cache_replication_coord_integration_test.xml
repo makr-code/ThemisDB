@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_replication_coord_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>CacheReplicationCoordIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1a0ff24b98a21521b4c8ef493553670daf" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus" kindref="compound">cache::InProcessCacheCoordinator::Bus</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;cache::InProcessCacheCoordinator::Bus&gt; CacheReplicationCoordIntegrationTest::bus_</definition>
+        <argsstring></argsstring>
+        <name>bus_</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::bus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="179" column="21" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1aa03875ef43262ae6163187830b9e7664" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator" kindref="compound">cache::InProcessCacheCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;cache::InProcessCacheCoordinator&gt; CacheReplicationCoordIntegrationTest::coord_a</definition>
+        <argsstring></argsstring>
+        <name>coord_a</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::coord_a</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="180" column="26" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1acd958066a008d29f7b1c19a339268f1f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator" kindref="compound">cache::InProcessCacheCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;cache::InProcessCacheCoordinator&gt; CacheReplicationCoordIntegrationTest::coord_b</definition>
+        <argsstring></argsstring>
+        <name>coord_b</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::coord_b</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="181" column="26" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1a9118d4d5605a60e89d628f36be81635f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AdaptiveQueryCache&gt; CacheReplicationCoordIntegrationTest::cache_a</definition>
+        <argsstring></argsstring>
+        <name>cache_a</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::cache_a</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="182" column="40" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1a7649280445fc56b3e8d8c52bd3113c86" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AdaptiveQueryCache&gt; CacheReplicationCoordIntegrationTest::cache_b</definition>
+        <argsstring></argsstring>
+        <name>cache_b</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::cache_b</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="183" column="40" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1a1a879973cd730e35ba3f0c3d9a08a26d" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheReplicationCoordIntegrationTest::db_path_a_</definition>
+        <argsstring></argsstring>
+        <name>db_path_a_</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::db_path_a_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="184" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_coord_integration_test_1aee44cdfe431ea194d4b5b5da3d75a7a4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheReplicationCoordIntegrationTest::db_path_b_</definition>
+        <argsstring></argsstring>
+        <name>db_path_b_</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::db_path_b_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="185" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cache_replication_coord_integration_test_1a91911a91a7509b0e76a518c258dd12c7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheReplicationCoordIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="152" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="152" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cache_replication_coord_integration_test_1aa89cd5b35961993374fe79fd3f51d1f1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheReplicationCoordIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CacheReplicationCoordIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="172" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="172" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CacheReplicationCoordIntegrationTest</label>
+        <link refid="class_cache_replication_coord_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CacheReplicationCoordIntegrationTest</label>
+        <link refid="class_cache_replication_coord_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_replication.cpp" line="150" column="1" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="150" bodyend="186"/>
+    <listofallmembers>
+      <member refid="class_cache_replication_coord_integration_test_1a0ff24b98a21521b4c8ef493553670daf" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>bus_</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1a9118d4d5605a60e89d628f36be81635f" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>cache_a</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1a7649280445fc56b3e8d8c52bd3113c86" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>cache_b</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1aa03875ef43262ae6163187830b9e7664" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>coord_a</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1acd958066a008d29f7b1c19a339268f1f" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>coord_b</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1a1a879973cd730e35ba3f0c3d9a08a26d" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>db_path_a_</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1aee44cdfe431ea194d4b5b5da3d75a7a4" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>db_path_b_</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1a91911a91a7509b0e76a518c258dd12c7" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_cache_replication_coord_integration_test_1aa89cd5b35961993374fe79fd3f51d1f1" prot="protected" virt="non-virtual"><scope>CacheReplicationCoordIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

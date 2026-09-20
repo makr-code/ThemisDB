@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_update_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatePolicy</compoundname>
+    <includes refid="tenant__update__scheduler_8h" local="no">tenant_update_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_policy_1a9d2ac382cbd225f7fa9efb4ee5311940" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatePolicy::auto_update</definition>
+        <argsstring></argsstring>
+        <name>auto_update</name>
+        <qualifiedname>themis::updates::UpdatePolicy::auto_update</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When false, all updates require explicit approval via <computeroutput>grantConsent()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="104" column="10" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_policy_1a1d1ad4a19c56edb5e67f8ce7955f2a6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatePolicy::critical_auto_update</definition>
+        <argsstring></argsstring>
+        <name>critical_auto_update</name>
+        <qualifiedname>themis::updates::UpdatePolicy::critical_auto_update</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, CRITICAL updates are auto-applied even if <computeroutput><ref refid="structthemis_1_1updates_1_1_update_policy_1a9d2ac382cbd225f7fa9efb4ee5311940" kindref="member">auto_update</ref></computeroutput> is false (tenant approves critical security patches implicitly). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="108" column="10" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_policy_1a2ec0cbb7e539826db50b8808a4913a62" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::updates::UpdatePolicy::notification_lead_time</definition>
+        <argsstring></argsstring>
+        <name>notification_lead_time</name>
+        <qualifiedname>themis::updates::UpdatePolicy::notification_lead_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How far in advance tenants must be notified before a scheduled update can proceed. The scheduler will not apply an update until at least this much time has elapsed since the notification was recorded via <computeroutput>recordNotification()</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="114" column="24" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-tenant consent and notification policy. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/tenant_update_scheduler.h" line="102" column="1" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="102" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_update_policy_1a9d2ac382cbd225f7fa9efb4ee5311940" prot="public" virt="non-virtual"><scope>themis::updates::UpdatePolicy</scope><name>auto_update</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_policy_1a1d1ad4a19c56edb5e67f8ce7955f2a6e" prot="public" virt="non-virtual"><scope>themis::updates::UpdatePolicy</scope><name>critical_auto_update</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_policy_1a2ec0cbb7e539826db50b8808a4913a62" prot="public" virt="non-virtual"><scope>themis::updates::UpdatePolicy</scope><name>notification_lead_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

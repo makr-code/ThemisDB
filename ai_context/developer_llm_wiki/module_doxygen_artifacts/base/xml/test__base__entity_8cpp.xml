@@ -1,0 +1,904 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__base__entity_8cpp" kind="file" language="C++">
+    <compoundname>test_base_entity.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">storage/key_schema.h</includes>
+    <includes local="yes">utils/serialization.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/base/test_base_entity.cpp</label>
+        <link refid="test__base__entity_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>storage/key_schema.h</label>
+      </node>
+      <node id="5">
+        <label>utils/serialization.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_base_entity_test" prot="public">BaseEntityTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ConstructorWithPK)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructorWithPK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="21" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a312197e7c55a0d86dccd5966d68b0ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetPrimaryKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetPrimaryKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="27" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a84c132cdb0f567749ab1b44947d88ed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ConstructorWithFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructorWithFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="33" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="33" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a40ee9cd7d8129c75156c1eb57d321b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetStringField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetStringField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="46" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a90d7b62f6c622180e15765983b7d01f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetIntField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetIntField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="55" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a32c6955b9790fadf44046d182bc7a22f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetDoubleField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetDoubleField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="64" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="64" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a1836621940ebbf924846df83a34ba5d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetBoolField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetBoolField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="73" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a5e3abccc839645799bb1aa6671e550dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SetAndGetVectorField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetVectorField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="82" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a86b4e9440ddf12253e5e1c008c9cf430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, HasField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>HasField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="94" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a1fff85b25183ade8821f27a9108cfa6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, GetAllFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>GetAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="102" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1aa138e15c64f741f0322d8013b7e77353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, FromJsonSimple)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>FromJsonSimple</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="119" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="119" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a414aba5468538c2f2af36dda71f4b96c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, FromJsonWithVector)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>FromJsonWithVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="129" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a936f947a64b55735a68690909a63a4ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ToJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ToJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="140" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="140" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1abb9e5404d1a0402fe6b9849839e29096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SerializeDeserializeRoundtrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SerializeDeserializeRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="160" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="160" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a523ef25c27817856d0f1d38bbe7f2305" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SerializeWithVector)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SerializeWithVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="180" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="180" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1ac5a65db1b69094b334b7a853ad58ef98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ExtractField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ExtractField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="197" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="197" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1ae30736b1155743adcaee35d1e372f618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ExtractAllFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ExtractAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="213" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="213" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a703f98f879adf1f07e4980fdb7205f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ExtractFieldsWithPrefix)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ExtractFieldsWithPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="228" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="228" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a4eac2eb5a5d9ec94f9dc555675e57de3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, Clear)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>Clear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="244" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="244" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a63b9a765d4df42dad97149361d0f8ff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, BlobOperations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>BlobOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="255" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="255" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1aae0b1ce48c602f8017f0a96a313f1df3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, ParseInvalidJsonDoesNotCrash)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>ParseInvalidJsonDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="269" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="269" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1a7dbae0516095134471d19d608a210af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, CacheInvalidationOnSetBlob)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>CacheInvalidationOnSetBlob</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="282" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="282" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1af62fd4cf21176668177b32cb60585630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, SafeUInt64Conversion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>SafeUInt64Conversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="297" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="297" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1ad6e1c8caf5759383d0156c2371cb5123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, UINT64OverflowClamping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>UINT64OverflowClamping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="316" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="316" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1ae94d38ccd33103720836a8dd7c73f3ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, UINT32SafeConversion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>UINT32SafeConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="333" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="333" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__entity_8cpp_1ab36d4de83445d58b0efe88c4de373644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(BaseEntityTest, NonNegativeRotationPosition)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref></type>
+        </param>
+        <param>
+          <type>NonNegativeRotationPosition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="350" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="350" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/key_schema.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/serialization.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="class_base_entity_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_base_entity_test_1ac2c1eee77a4c812999fa888eb5cd37e1" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_base_entity_test_1a003bf4c4ea66443fa8aeb7b90bdc412f" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Constructor<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ConstructorWithPK)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test_pk&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getPrimaryKey(),<sp/></highlight><highlight class="stringliteral">&quot;test_pk&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.isEmpty());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetPrimaryKey)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setPrimaryKey(</highlight><highlight class="stringliteral">&quot;new_pk&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getPrimaryKey(),<sp/></highlight><highlight class="stringliteral">&quot;new_pk&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ConstructorWithFields)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(30);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;user_1&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getPrimaryKey(),<sp/></highlight><highlight class="stringliteral">&quot;user_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entity.isEmpty());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Field<sp/>Access<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetStringField)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsString(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*value,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetIntField)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(25));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*value,<sp/>25);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetDoubleField)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>95.5);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsDouble(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(*value,<sp/>95.5);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetBoolField)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsBool(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(*value);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SetAndGetVectorField)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>embedding<sp/>=<sp/>{0.1f,<sp/>0.2f,<sp/>0.3f,<sp/>0.4f};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/>embedding);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsVector(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value-&gt;size(),<sp/>4);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ((*value)[0],<sp/>0.1f);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ((*value)[3],<sp/>0.4f);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>HasField)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.hasField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entity.hasField(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>GetAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(30);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">]<sp/>=<sp/>95.5;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all_fields<sp/>=<sp/>entity.getAllFields();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_fields.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all_fields.find(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>all_fields.end());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all_fields.find(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>all_fields.end());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all_fields.find(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>all_fields.end());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>JSON<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>FromJsonSimple)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;name&quot;:&quot;Alice&quot;,&quot;age&quot;:30,&quot;active&quot;:true})&quot;;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity<sp/>=<sp/>BaseEntity::fromJson(</highlight><highlight class="stringliteral">&quot;user_1&quot;</highlight><highlight class="normal">,<sp/>json);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getPrimaryKey(),<sp/></highlight><highlight class="stringliteral">&quot;user_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getFieldAsString(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">).value(),<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).value(),<sp/>30);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.getFieldAsBool(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">).value());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>FromJsonWithVector)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;id&quot;:&quot;doc_1&quot;,&quot;embedding&quot;:[0.1,0.2,0.3]})&quot;;</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity<sp/>=<sp/>BaseEntity::fromJson(</highlight><highlight class="stringliteral">&quot;doc_1&quot;</highlight><highlight class="normal">,<sp/>json);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/>=<sp/>entity.getFieldAsVector(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(vec.has_value());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vec-&gt;size(),<sp/>3);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ((*vec)[0],<sp/>0.1f);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ((*vec)[2],<sp/>0.3f);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ToJson)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(25);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json<sp/>=<sp/>entity.toJson();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>that<sp/>JSON<sp/>contains<sp/>expected<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;name\&quot;&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;Bob\&quot;&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;age\&quot;&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;25&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;\&quot;active\&quot;&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json.find(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Serialization<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SerializeDeserializeRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(35);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">]<sp/>=<sp/>88.5;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity1(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>entity1.serialize();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(blob.empty());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity2<sp/>=<sp/>BaseEntity::deserialize(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity2.getFieldAsString(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">).value(),<sp/></highlight><highlight class="stringliteral">&quot;Charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entity2.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).value(),<sp/>35);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(entity2.getFieldAsDouble(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">).value(),<sp/>88.5);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SerializeWithVector)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>embedding<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/>embedding);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;VectorDoc&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>entity.serialize();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity2<sp/>=<sp/>BaseEntity::deserialize(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/>=<sp/>entity2.getFieldAsVector(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(vec.has_value());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vec-&gt;size(),<sp/>5);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ((*vec)[4],<sp/>5.0f);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Index<sp/>Support<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ExtractField)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;dave@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name<sp/>=<sp/>entity.extractField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(name.has_value());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*name,<sp/></highlight><highlight class="stringliteral">&quot;Dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>email<sp/>=<sp/>entity.extractField(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(email.has_value());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*email,<sp/></highlight><highlight class="stringliteral">&quot;dave@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ExtractAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Eve&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(28);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>attrs<sp/>=<sp/>entity.extractAllFields();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(attrs.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(attrs[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Eve&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(attrs[</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;28&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(attrs[</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ExtractFieldsWithPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;meta_author&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;meta_date&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;2025-10-26&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta_fields<sp/>=<sp/>entity.extractFieldsWithPrefix(</highlight><highlight class="stringliteral">&quot;meta_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(meta_fields.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(meta_fields[</highlight><highlight class="stringliteral">&quot;meta_author&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(meta_fields[</highlight><highlight class="stringliteral">&quot;meta_date&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;2025-10-26&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Clear<sp/>and<sp/>Empty<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>Clear)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entity.isEmpty());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.clear();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.isEmpty());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.getPrimaryKey().empty());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>BlobOperations)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>test_blob<sp/>=<sp/>{1,<sp/>2,<sp/>3,<sp/>4,<sp/>5};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setBlob(test_blob);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>blob<sp/>=<sp/>entity.getBlob();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob.size(),<sp/>5);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob[0],<sp/>1);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob[4],<sp/>5);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Error<sp/>Handling<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>ParseInvalidJsonDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>JSON<sp/>should<sp/>be<sp/>handled<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>invalid_json<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;i&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;n&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;v&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;l&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;i&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;d&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setBlob(invalid_json,<sp/>BaseEntity::Format::JSON);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash,<sp/>should<sp/>return<sp/>no<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entity.hasField(</highlight><highlight class="stringliteral">&quot;any_field&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fields<sp/>=<sp/>entity.getAllFields();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fields.empty());</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>CacheInvalidationOnSetBlob)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Original&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>should<sp/>have<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity.hasField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setting<sp/>blob<sp/>should<sp/>invalidate<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>new_blob<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setBlob(new_blob,<sp/>BaseEntity::Format::JSON);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Old<sp/>field<sp/>should<sp/>not<sp/>be<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(entity.hasField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>SafeUInt64Conversion)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>fields;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>BaseEntity::Value<sp/>uses<sp/>int64_t,<sp/>not<sp/>uint64_t,<sp/>as<sp/>a<sp/>design<sp/>choice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>that<sp/>INT64_MAX<sp/>values<sp/>work<sp/>correctly<sp/>within<sp/>that<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>fields[</highlight><highlight class="stringliteral">&quot;large_number&quot;</highlight><highlight class="normal">]<sp/>=<sp/>int64_t(9223372036854775807LL);<sp/></highlight><highlight class="comment">//<sp/>INT64_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;large_number&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*value,<sp/>9223372036854775807LL);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>serialization/deserialization<sp/>round-trip<sp/>for<sp/>large<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>entity.serialize();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>deserialized<sp/>=<sp/>BaseEntity::deserialize(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>roundtrip_value<sp/>=<sp/>deserialized.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;large_number&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(roundtrip_value.has_value());</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*roundtrip_value,<sp/>9223372036854775807LL);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>UINT64OverflowClamping)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>UINT64<sp/>overflow<sp/>clamping<sp/>by<sp/>crafting<sp/>a<sp/>binary<sp/>blob<sp/>with<sp/>UINT64<sp/>&gt;<sp/>INT64_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::Serialization::Encoder<sp/>encoder;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.beginObject(1);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.encodeString(</highlight><highlight class="stringliteral">&quot;overflow_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.encodeUInt64(18446744073709551615ULL);<sp/><sp/></highlight><highlight class="comment">//<sp/>UINT64_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.endObject();</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>encoder.finish();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity<sp/>=<sp/>BaseEntity::deserialize(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>should<sp/>be<sp/>clamped<sp/>to<sp/>INT64_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;overflow_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*value,<sp/>std::numeric_limits&lt;int64_t&gt;::max());</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>UINT32SafeConversion)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>UINT32<sp/>conversion<sp/>(UINT32_MAX<sp/>&lt;<sp/>INT64_MAX,<sp/>so<sp/>no<sp/>clamping<sp/>needed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::Serialization::Encoder<sp/>encoder;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.beginObject(1);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.encodeString(</highlight><highlight class="stringliteral">&quot;uint32_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.encodeUInt32(4294967295U);<sp/><sp/></highlight><highlight class="comment">//<sp/>UINT32_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>encoder.endObject();</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>encoder.finish();</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity<sp/>=<sp/>BaseEntity::deserialize(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>blob);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UINT32_MAX<sp/>fits<sp/>in<sp/>int64_t<sp/>without<sp/>clamping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>entity.getFieldAsInt(</highlight><highlight class="stringliteral">&quot;uint32_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(value.has_value());</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*value,<sp/>4294967295LL);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><ref refid="test__base__entity_8cpp_1a812e5bed18c4840ec501ba7fd784a39e" kindref="member">TEST_F</ref>(<ref refid="class_base_entity_test" kindref="compound">BaseEntityTest</ref>,<sp/>NonNegativeRotationPosition)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>entity(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;embedding_rotation_pos&quot;</highlight><highlight class="normal">,<sp/>int64_t(5));</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>entity.getRotationPosition(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pos.has_value());</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*pos,<sp/>5);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative<sp/>values<sp/>should<sp/>return<sp/>nullopt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;bad_rotation_pos&quot;</highlight><highlight class="normal">,<sp/>int64_t(-1));</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bad_pos<sp/>=<sp/>entity.getRotationPosition(</highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bad_pos.has_value());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/base/test_base_entity.cpp"/>
+  </compounddef>
+</doxygen>

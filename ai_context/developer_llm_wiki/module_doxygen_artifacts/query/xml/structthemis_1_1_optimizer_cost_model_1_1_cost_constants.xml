@@ -1,0 +1,454 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::CostConstants</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1adce2a798cac517d2137d64a959775229" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::cpuCostPerRow</definition>
+        <argsstring></argsstring>
+        <name>cpuCostPerRow</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpuCostPerRow</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="73" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4b5187b9656d6e82513297a2ff93d26a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::cpuCostPerPredicate</definition>
+        <argsstring></argsstring>
+        <name>cpuCostPerPredicate</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpuCostPerPredicate</qualifiedname>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="74" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a49f9a0795e1575150c3b389a45d4cd03" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::cpuCostPerHash</definition>
+        <argsstring></argsstring>
+        <name>cpuCostPerHash</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpuCostPerHash</qualifiedname>
+        <initializer>= 0.005</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="75" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a1eec93ae7e3364c27edc93911a58b8ea" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::cpuCostPerSort</definition>
+        <argsstring></argsstring>
+        <name>cpuCostPerSort</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpuCostPerSort</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="76" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3fef459e419535c984355833b132cc92" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::pageReadCost</definition>
+        <argsstring></argsstring>
+        <name>pageReadCost</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::pageReadCost</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="79" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a18d92b7811b491c362107bcfd795803f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::randomPageReadCost</definition>
+        <argsstring></argsstring>
+        <name>randomPageReadCost</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::randomPageReadCost</qualifiedname>
+        <initializer>= 4.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="80" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a50103be267d139ed434ab37925a92815" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::pageWriteCost</definition>
+        <argsstring></argsstring>
+        <name>pageWriteCost</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::pageWriteCost</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="81" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7bc46d98d48ef8c9bc57713e3dcdf837" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::pageSize</definition>
+        <argsstring></argsstring>
+        <name>pageSize</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::pageSize</qualifiedname>
+        <initializer>= 8192.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="82" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1add5d2e16f227e2a3514583494080ff67" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::memoryPenaltyFactor</definition>
+        <argsstring></argsstring>
+        <name>memoryPenaltyFactor</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::memoryPenaltyFactor</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="85" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ac339d7ef72d00bf8c3a3ed42e141bcee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::availableMemory</definition>
+        <argsstring></argsstring>
+        <name>availableMemory</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::availableMemory</qualifiedname>
+        <initializer>= 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="86" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7ce9b9939bd83617384b5fd49387d473" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::memoryThresholdRatio</definition>
+        <argsstring></argsstring>
+        <name>memoryThresholdRatio</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::memoryThresholdRatio</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="87" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7b254e9e2e1aa59a89a57660aaf0b0bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::networkBandwidth</definition>
+        <argsstring></argsstring>
+        <name>networkBandwidth</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::networkBandwidth</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="90" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1aa212bbf9815521741be2fc1da177b0c6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::networkLatency</definition>
+        <argsstring></argsstring>
+        <name>networkLatency</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::networkLatency</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="91" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab64a77f14904cd7d7ecd279c5e982f4b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::defaultHops</definition>
+        <argsstring></argsstring>
+        <name>defaultHops</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::defaultHops</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="92" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ad842b6da5faa6c0f1471569b46667877" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::scanOverhead</definition>
+        <argsstring></argsstring>
+        <name>scanOverhead</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::scanOverhead</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="95" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a34b77343bd151b18b24a368c09d6b18a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::joinOverhead</definition>
+        <argsstring></argsstring>
+        <name>joinOverhead</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::joinOverhead</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="96" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a419758d054a7d7097c068a47bc697241" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::aggregationOverhead</definition>
+        <argsstring></argsstring>
+        <name>aggregationOverhead</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::aggregationOverhead</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="97" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7a082fa2cfc54a0e18a3d75ee36685e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::sortOverhead</definition>
+        <argsstring></argsstring>
+        <name>sortOverhead</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::sortOverhead</qualifiedname>
+        <initializer>= 30.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="98" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a96a62138af237a8bdff114d9abf37c97" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::hashTableKeySize</definition>
+        <argsstring></argsstring>
+        <name>hashTableKeySize</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::hashTableKeySize</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="101" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a661542251bbd08870872204b7107e49e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::hashTablePointerSize</definition>
+        <argsstring></argsstring>
+        <name>hashTablePointerSize</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::hashTablePointerSize</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="102" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a487d8771cea9e7981cf8ba0f69f11840" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::hashTableGroupOverhead</definition>
+        <argsstring></argsstring>
+        <name>hashTableGroupOverhead</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::hashTableGroupOverhead</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="103" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4e0c925bcdd8f8ae86129ab1e61ef741" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::gpu_row_threshold_low</definition>
+        <argsstring></argsstring>
+        <name>gpu_row_threshold_low</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::gpu_row_threshold_low</qualifiedname>
+        <initializer>= 50&apos;000</initializer>
+        <briefdescription>
+<para>Rows ≥ this value → consider GPU path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="106" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a44de056d1d7a46f2083403d814f6fa27" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::gpu_row_threshold_high</definition>
+        <argsstring></argsstring>
+        <name>gpu_row_threshold_high</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::gpu_row_threshold_high</qualifiedname>
+        <initializer>= 500&apos;000</initializer>
+        <briefdescription>
+<para>Rows ≥ this value → GPU+Parquet (OLAP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="107" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a8cd9e7d668858c3d6c1189b35dd2df12" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::CostConstants::vram_safety_factor</definition>
+        <argsstring></argsstring>
+        <name>vram_safety_factor</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::vram_safety_factor</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+<para>payload_bytes × factor must fit in free VRAM </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="108" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1acb87342ba0ac31a85caf3275b7360871" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::cpu_batch_thread_low</definition>
+        <argsstring></argsstring>
+        <name>cpu_batch_thread_low</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpu_batch_thread_low</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Threads for medium row counts (1k–50k). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="109" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab5bcfa46ce42afe03c2b08c63b6434b9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::cpu_batch_thread_high</definition>
+        <argsstring></argsstring>
+        <name>cpu_batch_thread_high</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::cpu_batch_thread_high</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = std::thread::hardware_concurrency() </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="110" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3f8b923190acfeca138a2799906cdec6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::CostConstants::msgpack_row_threshold</definition>
+        <argsstring></argsstring>
+        <name>msgpack_row_threshold</name>
+        <qualifiedname>themis::OptimizerCostModel::CostConstants::msgpack_row_threshold</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+<para>Rows ≥ this value → binary wire format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="111" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="71" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="71" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a419758d054a7d7097c068a47bc697241" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>aggregationOverhead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ac339d7ef72d00bf8c3a3ed42e141bcee" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>availableMemory</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab5bcfa46ce42afe03c2b08c63b6434b9" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpu_batch_thread_high</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1acb87342ba0ac31a85caf3275b7360871" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpu_batch_thread_low</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a49f9a0795e1575150c3b389a45d4cd03" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpuCostPerHash</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4b5187b9656d6e82513297a2ff93d26a" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpuCostPerPredicate</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1adce2a798cac517d2137d64a959775229" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpuCostPerRow</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a1eec93ae7e3364c27edc93911a58b8ea" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>cpuCostPerSort</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab64a77f14904cd7d7ecd279c5e982f4b" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>defaultHops</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a44de056d1d7a46f2083403d814f6fa27" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>gpu_row_threshold_high</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4e0c925bcdd8f8ae86129ab1e61ef741" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>gpu_row_threshold_low</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a487d8771cea9e7981cf8ba0f69f11840" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>hashTableGroupOverhead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a96a62138af237a8bdff114d9abf37c97" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>hashTableKeySize</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a661542251bbd08870872204b7107e49e" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>hashTablePointerSize</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a34b77343bd151b18b24a368c09d6b18a" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>joinOverhead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1add5d2e16f227e2a3514583494080ff67" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>memoryPenaltyFactor</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7ce9b9939bd83617384b5fd49387d473" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>memoryThresholdRatio</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3f8b923190acfeca138a2799906cdec6" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>msgpack_row_threshold</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7b254e9e2e1aa59a89a57660aaf0b0bc" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>networkBandwidth</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1aa212bbf9815521741be2fc1da177b0c6" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>networkLatency</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3fef459e419535c984355833b132cc92" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>pageReadCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7bc46d98d48ef8c9bc57713e3dcdf837" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>pageSize</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a50103be267d139ed434ab37925a92815" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>pageWriteCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a18d92b7811b491c362107bcfd795803f" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>randomPageReadCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ad842b6da5faa6c0f1471569b46667877" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>scanOverhead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7a082fa2cfc54a0e18a3d75ee36685e3" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>sortOverhead</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a8cd9e7d668858c3d6c1189b35dd2df12" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::CostConstants</scope><name>vram_safety_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

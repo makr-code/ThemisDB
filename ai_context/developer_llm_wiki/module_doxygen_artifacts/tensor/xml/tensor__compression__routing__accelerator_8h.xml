@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__compression__routing__accelerator_8h" kind="file" language="C++">
+    <compoundname>tensor_compression_routing_accelerator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__tensor__compression__routing_8cpp" local="yes">benchmarks/tensor/bench_tensor_compression_routing.cpp</includedby>
+    <includedby refid="tensor__compression__routing__accelerator_8cpp" local="yes">src/tensor/tensor_compression_routing_accelerator.cpp</includedby>
+    <includedby refid="test__tensor__acceleration__observability_8cpp" local="yes">tests/tensor/test_tensor_acceleration_observability.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_compression_routing_accelerator.h</label>
+        <link refid="tensor__compression__routing__accelerator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/tensor/bench_tensor_compression_routing.cpp</label>
+        <link refid="bench__tensor__compression__routing_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_compression_routing_accelerator.h</label>
+        <link refid="tensor__compression__routing__accelerator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/tensor/tensor_compression_routing_accelerator.cpp</label>
+        <link refid="tensor__compression__routing__accelerator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/tensor/test_tensor_acceleration_observability.cpp</label>
+        <link refid="test__tensor__acceleration__observability_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" prot="public">themis::tensor::TensorAccelerationStats</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator" prot="public">themis::tensor::TensorCompressionRoutingAccelerator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Compression + routing score accelerator with CUDA dispatch and CPU fallback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Hardware-accelerated routing for tensor compression operations.</para>
+<para>Declares TensorCompressionRoutingAccelerator, which selects the optimal compression backend (CPU, CUDA, AVX-512) at runtime. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">themis::tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kindref="compound">TensorAccelerationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="10" refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a4396187dcd5a877f0915687ed4381449" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a4396187dcd5a877f0915687ed4381449" kindref="member">gpu_compression_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="11" refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a9586958ce64cace925ec48809d4dffa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a9586958ce64cace925ec48809d4dffa3" kindref="member">gpu_routing_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="12" refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a26058df239957086a654c43a2c606810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a26058df239957086a654c43a2c606810" kindref="member">cpu_fallback_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="13" refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a5a8cda9ba2e5c0cdc135150ee65c5693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats_1a5a8cda9ba2e5c0cdc135150ee65c5693" kindref="member">gpu_error_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a947026c330986e5cf00ec2b70ea27073" kindref="member">TensorCompressionRoutingAccelerator</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a947026c330986e5cf00ec2b70ea27073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a947026c330986e5cf00ec2b70ea27073" kindref="member">TensorCompressionRoutingAccelerator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;int8_t&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a987381c65be60fa6913644c6aa026b58" kindref="member">compressToInt8</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>input,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_cpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1ac33bdfbdb2ace90014abd9ca61ca70e7" kindref="member">computeRoutingScores</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>route_weights,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_cpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a397a85f008aea04730ecc735199eb3a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kindref="compound">TensorAccelerationStats</ref><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a397a85f008aea04730ecc735199eb3a8" kindref="member">stats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;int8_t&gt;<sp/>compressToInt8Cpu(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>input,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;float&gt;<sp/>computeRoutingScoresCpu(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>route_weights)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kindref="compound">TensorAccelerationStats</ref><sp/>stats_{};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::tensor</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_compression_routing_accelerator.h"/>
+  </compounddef>
+</doxygen>

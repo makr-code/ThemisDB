@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_ann_retrieval_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::AnnRetrievalPlan</compoundname>
+    <includes refid="ann__frontdoor_8h" local="no">ann_frontdoor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1abdece3d141271642809b17ad722bfd32" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+        <definition>AnnStrategy themis::index::AnnRetrievalPlan::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">AnnStrategy::FLAT_BRUTE_FORCE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="109" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1a4a7784f18a7a74fcd61cafa26bd0e2af" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+        <definition>IndexTierMeta::Tier themis::index::AnnRetrievalPlan::effective_tier</definition>
+        <argsstring></argsstring>
+        <name>effective_tier</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::effective_tier</qualifiedname>
+        <initializer>= IndexTierMeta::Tier::HOT</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="111" column="25" bodyfile="include/index/ann_frontdoor.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1afc1bf4bd501299183cc4286cf5702c86" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref></type>
+        <definition>AnnScopeKind themis::index::AnnRetrievalPlan::scope_kind</definition>
+        <argsstring></argsstring>
+        <name>scope_kind</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::scope_kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">AnnScopeKind::Generic</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="113" column="18" bodyfile="include/index/ann_frontdoor.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1a8a10aa10a2db8cb35077e042c21032b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnRetrievalPlan::distributed</definition>
+        <argsstring></argsstring>
+        <name>distributed</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::distributed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="115" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1ae81f713ddb9fa9e7a688140f54d1325b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnRetrievalPlan::hot_path</definition>
+        <argsstring></argsstring>
+        <name>hot_path</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::hot_path</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="117" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1a02847c8d71c2d3ae7e0f1caac5cff84e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnRetrievalPlan::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="119" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_retrieval_plan_1aae3a016414578eeb0650e991b406f491" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::index::AnnRetrievalPlan::pruned_shard_ids</definition>
+        <argsstring></argsstring>
+        <name>pruned_shard_ids</name>
+        <qualifiedname>themis::index::AnnRetrievalPlan::pruned_shard_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="121" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="108" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="108" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a8a10aa10a2db8cb35077e042c21032b2" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>distributed</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a4a7784f18a7a74fcd61cafa26bd0e2af" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>effective_tier</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1ae81f713ddb9fa9e7a688140f54d1325b" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>hot_path</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1aae3a016414578eeb0650e991b406f491" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>pruned_shard_ids</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a02847c8d71c2d3ae7e0f1caac5cff84e" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>reason</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1afc1bf4bd501299183cc4286cf5702c86" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>scope_kind</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_retrieval_plan_1abdece3d141271642809b17ad722bfd32" prot="public" virt="non-virtual"><scope>themis::index::AnnRetrievalPlan</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

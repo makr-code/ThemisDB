@@ -1,0 +1,2414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1analytics_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::analytics::test</compoundname>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" prot="public">themis::analytics::test::AggregationException</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" prot="public">themis::analytics::test::AnalyticsException</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_bounded_pointer" prot="public">themis::analytics::test::BoundedPointer</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" prot="public">themis::analytics::test::ConcurrencySafetyTest</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_count_result" prot="public">themis::analytics::test::CountResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_error_context" prot="public">themis::analytics::test::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" prot="public">themis::analytics::test::ErrorHandlingTest</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker" prot="public">themis::analytics::test::LockAcquisitionTracker</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" prot="public">themis::analytics::test::MemorySafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_mock_connection" prot="public">themis::analytics::test::MockConnection</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool" prot="public">themis::analytics::test::MockConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_ordered_lock" prot="public">themis::analytics::test::OrderedLock</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" prot="public">themis::analytics::test::ResourcePoolingTest</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_simple_span" prot="public">themis::analytics::test::SimpleSpan</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1test_1_1_stream_exception" prot="public">themis::analytics::test::StreamException</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AnalyticsErrorCode</name>
+        <qualifiedname>themis::analytics::test::AnalyticsErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" prot="public">
+          <name>AGGREGATION_OVERFLOW</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a2e3e946da020fef435612c1612cb20d8" prot="public">
+          <name>AGGREGATION_NULL_HANDLING</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a3d621098a57eb030d84afa8760fb35b2" prot="public">
+          <name>AGGREGATION_TYPE_MISMATCH</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a57358624a7a02ce9089ea20dfd7baca9" prot="public">
+          <name>STREAM_WINDOW_EXPIRED</name>
+          <initializer>= 2001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" prot="public">
+          <name>STREAM_BACKPRESSURE</name>
+          <initializer>= 2002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a3c0c60ff148a2f4661239cad48f5e462" prot="public">
+          <name>STREAM_SEQUENCE_NOT_FOUND</name>
+          <initializer>= 2003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160aaeed084f04f1d18ce86c61e557f482c9" prot="public">
+          <name>POOL_EXHAUSTED</name>
+          <initializer>= 3001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a60c352e2059abf418d40304682338280" prot="public">
+          <name>POOL_CONNECTION_FAILED</name>
+          <initializer>= 3002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160af295a0c3e37c94f078e1c5476479132d" prot="public">
+          <name>INVALID_ARGUMENT</name>
+          <initializer>= 9001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 9999</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="72" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="72" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6ea" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PoolErrorCode</name>
+        <qualifiedname>themis::analytics::test::PoolErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6eaae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6eaaaeed084f04f1d18ce86c61e557f482c9" prot="public">
+          <name>POOL_EXHAUSTED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6eaa042ec2cfe6c78a6a49b3a6555302947c" prot="public">
+          <name>CONNECTION_FAILED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6eaa070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for pool operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="65" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1_1test_1a88b0e266f40412ac3a70883ad8a7a444" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::analytics::test::kConcurrencySeed</definition>
+        <argsstring></argsstring>
+        <name>kConcurrencySeed</name>
+        <qualifiedname>themis::analytics::test::kConcurrencySeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for reproducibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="61" column="27" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1_1test_1a622f726784f3be4c25da4d561606ae1b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::analytics::test::kAnalyticsContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kAnalyticsContractSeed</name>
+        <qualifiedname>themis::analytics::test::kAnalyticsContractSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all ANC tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="60" column="27" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aba837096a39cf734f67e65d8628cee74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>static std::atomic&lt; int &gt; themis::analytics::test::g_acquisition_counter</definition>
+        <argsstring>(0)</argsstring>
+        <name>g_acquisition_counter</name>
+        <qualifiedname>themis::analytics::test::g_acquisition_counter</qualifiedname>
+        <param>
+          <type>0</type>
+        </param>
+        <briefdescription>
+<para>Global counter for lock acquisition order tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="73" column="20" declfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" declline="73" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a3c2eed0dd324e22e43a12f26f13fec6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_01_SingleThreadLockAcquisition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_01_SingleThreadLockAcquisition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="135" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="135" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab42f1d6172023930f445b2e237f7989c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_02_TwoThreadsConsistentOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="156" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="156" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a2fbc14e0e08578db320fbdbf9b50a684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_03_ThreeThreadCircularDependency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_03_ThreeThreadCircularDependency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="212" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="212" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7c82c4e3d6e890ba148d838538331363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_04_LockAcquisitionTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_04_LockAcquisitionTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="261" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="261" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a32b473e14844f08b20658d084aad9d9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_05_ReaderWriterLockPattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_05_ReaderWriterLockPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="300" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="300" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aef715d1df9b007bb6af3d07ba4bad0e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_06_StreamingWindowInsertFlush)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_06_StreamingWindowInsertFlush</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="374" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="374" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a088a7c642d489bfbc43ff16ca5d24131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_07_MultipleWindowsSeparateLocks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_07_MultipleWindowsSeparateLocks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="424" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="424" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a716db5c1dc81e363b1a8f8bd457c0e51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_08_WindowEvictionLockContention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="463" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="463" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa0de53f85477d0ff8805df11e77ded3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_09_BackpressureSignaling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_09_BackpressureSignaling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="521" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="521" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa11985855857c39b8f5d1b1f89e96f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_10_WatermarkAdvancementNonBlocking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_10_WatermarkAdvancementNonBlocking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="576" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="576" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a415f32288f0a941d5b6960b06ac695ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_11_AggregationStageIndependentLock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="618" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="618" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a73bc150e80e087537520472866699d04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_12_CodeGenerationThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="664" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="664" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aedc3fbf2dee4f4feb96ad6dfd99965cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_13_LockOrderingSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_13_LockOrderingSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="697" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="697" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1af0452d472c8a2838e7e8102edc5378d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_14_ConcurrentAggregationConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_14_ConcurrentAggregationConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="735" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="735" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1adf1c6f34b83570f799a80ec86e1872f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ConcurrencySafetyTest, CS_15_AggregationResourceReleaseUnderLock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kindref="compound">ConcurrencySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CS_15_AggregationResourceReleaseUnderLock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="775" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="775" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aeee2e2f94a75835085fe450afa4b5a28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockSumRows</definition>
+        <argsstring>(const std::vector&lt; std::int64_t &gt; &amp;rows, std::int64_t &amp;out_sum)</argsstring>
+        <name>mockSumRows</name>
+        <qualifiedname>themis::analytics::test::mockSumRows</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::int64_t &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::int64_t &amp;</type>
+          <declname>out_sum</declname>
+        </param>
+        <briefdescription>
+<para>Simulates aggregation overflow detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="67" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="67" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1afd56b7074f33b546bcb4d104a529f505" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>static std::int64_t themis::analytics::test::mockSumNullable</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; std::int64_t &gt; &gt; &amp;rows)</argsstring>
+        <name>mockSumNullable</name>
+        <qualifiedname>themis::analytics::test::mockSumNullable</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::int64_t &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Simulates SUM with NULL exclusion (nullopt = SQL NULL). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="84" column="21" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa3126985d9681f692032dbbd2a9203a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::analytics::test::mockGroupByOrder</definition>
+        <argsstring>(std::vector&lt; std::string &gt; keys)</argsstring>
+        <name>mockGroupByOrder</name>
+        <qualifiedname>themis::analytics::test::mockGroupByOrder</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Simulates GROUP BY ordering — returns key list in stable deterministic order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="95" column="20" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a48a6b2de0df07c41e1de410c9beed2ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1test_1_1_count_result" kindref="compound">CountResult</ref></type>
+        <definition>static CountResult themis::analytics::test::mockCount</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; int &gt; &gt; &amp;rows)</argsstring>
+        <name>mockCount</name>
+        <qualifiedname>themis::analytics::test::mockCount</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; int &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="102" column="20" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aee2a95b59c7562c7834f763a95575160" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>static std::vector&lt; int &gt; themis::analytics::test::mockTumblingWindow</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;events, std::size_t window_size)</argsstring>
+        <name>mockTumblingWindow</name>
+        <qualifiedname>themis::analytics::test::mockTumblingWindow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+<para>Simulates window event delivery — returns event IDs processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="114" column="20" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="114" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a85f5ac7bed77a57bde5ff9153fd90eb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockCheckLateEvent</definition>
+        <argsstring>(std::int64_t event_ts_ms, std::int64_t watermark_ms)</argsstring>
+        <name>mockCheckLateEvent</name>
+        <qualifiedname>themis::analytics::test::mockCheckLateEvent</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>event_ts_ms</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>watermark_ms</declname>
+        </param>
+        <briefdescription>
+<para>Simulates late event detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="130" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1acbe31957b004b544329eddc1620b121b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockCheckBackpressure</definition>
+        <argsstring>(std::size_t queue_depth, std::size_t max_depth)</argsstring>
+        <name>mockCheckBackpressure</name>
+        <qualifiedname>themis::analytics::test::mockCheckBackpressure</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>queue_depth</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>Simulates backpressure check on queue depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="139" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa066aa97c02fb80496bfc203bb818e0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::analytics::test::mockCepMatch</definition>
+        <argsstring>(const std::vector&lt; char &gt; &amp;events)</argsstring>
+        <name>mockCepMatch</name>
+        <qualifiedname>themis::analytics::test::mockCepMatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; char &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Simulates CEP 3-event pattern match (A→B→C). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="148" column="13" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="148" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a2a85d58ffcd18bab111de5a2b5a27a35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>static std::vector&lt; int &gt; themis::analytics::test::mockOlapQuery</definition>
+        <argsstring>(bool empty)</argsstring>
+        <name>mockOlapQuery</name>
+        <qualifiedname>themis::analytics::test::mockOlapQuery</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>empty</declname>
+        </param>
+        <briefdescription>
+<para>Simulates empty OLAP result set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="163" column="20" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a4ca96e74bfc2412a706c59a473f6565d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockForecastValidate</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;series)</argsstring>
+        <name>mockForecastValidate</name>
+        <qualifiedname>themis::analytics::test::mockForecastValidate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>series</declname>
+        </param>
+        <briefdescription>
+<para>Simulates forecast NaN input validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="169" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="169" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a3318d87974b5ad5774c079524d1cd4d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockLoadModel</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>mockLoadModel</name>
+        <qualifiedname>themis::analytics::test::mockLoadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Simulates model lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="180" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="180" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a952a3ffdd91d361713127e0f57b0ec04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160" kindref="member">AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; AnalyticsErrorCode &gt; themis::analytics::test::mockValidateThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>mockValidateThreshold</name>
+        <qualifiedname>themis::analytics::test::mockValidateThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Simulates anomaly threshold validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="188" column="22" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="188" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC01_SumOverflowDetected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC01_SumOverflowDetected</type>
+        </param>
+        <briefdescription>
+<para>ANC-01: SUM overflow is detected and returns AGGREGATION_OVERFLOW. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="200" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="200" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a091dc14f6c263c7cd91d5820772d0d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC02_NullExcludedFromSum)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC02_NullExcludedFromSum</type>
+        </param>
+        <briefdescription>
+<para>ANC-02: NULL values are excluded from SUM aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="213" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="213" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1af175eca0b92a223408ef254edea20a91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC03_GroupByOrderStable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC03_GroupByOrderStable</type>
+        </param>
+        <briefdescription>
+<para>ANC-03: GROUP BY result order is stable across repeated invocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="221" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="221" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a77c68a9f28f2d9181600ee0affb80f92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC04_CountStarIncludesNulls)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC04_CountStarIncludesNulls</type>
+        </param>
+        <briefdescription>
+<para>ANC-04: COUNT(*) includes NULLs; COUNT(col) excludes NULLs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="235" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="235" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7e4da14355e482a5cd67e382e7d27df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC05_WindowBoundaryEventExactlyOnce)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC05_WindowBoundaryEventExactlyOnce</type>
+        </param>
+        <briefdescription>
+<para>ANC-05: Window boundary event is processed exactly once (no duplication). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="247" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="247" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a26d8badf04a826fae37de78eb621b780" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC06_LateEventTriggersWindowExpired)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC06_LateEventTriggersWindowExpired</type>
+        </param>
+        <briefdescription>
+<para>ANC-06: Late event (below watermark) triggers WINDOW_EXPIRED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="261" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="261" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a03753adcacb927cd78ba720561063594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC07_BackpressureSignalled)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC07_BackpressureSignalled</type>
+        </param>
+        <briefdescription>
+<para>ANC-07: Queue at max depth triggers STREAM_BACKPRESSURE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="272" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="272" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a5b2ef6ddbe4abc11f7f43cf8f7b6b6f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC08_CepPatternMatchDeterministic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC08_CepPatternMatchDeterministic</type>
+        </param>
+        <briefdescription>
+<para>ANC-08: CEP 3-event sequence A→B→C is matched deterministically. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="287" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="287" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab752847a9cfec138fa2db18daebbd889" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC09_EmptyResultSetIsNotError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC09_EmptyResultSetIsNotError</type>
+        </param>
+        <briefdescription>
+<para>ANC-09: Empty result set returns empty collection, not an error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="302" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="302" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a35d4a0aca47daf3c7ae8f9e46db6a3fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC10_TypeCoercionIntegerPreserved)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC10_TypeCoercionIntegerPreserved</type>
+        </param>
+        <briefdescription>
+<para>ANC-10: Non-empty result set returns correct rows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="308" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="308" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a91fd90ec80148020d1f3fb2d0653bb49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC11_NestedAggregateValid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC11_NestedAggregateValid</type>
+        </param>
+        <briefdescription>
+<para>ANC-11: Nested aggregate computation is semantically valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="318" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="318" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a9b1fe8e2017a146baf608fccad7a15df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC12_PlanCostStabilityZeroDeviation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC12_PlanCostStabilityZeroDeviation</type>
+        </param>
+        <briefdescription>
+<para>ANC-12: Plan cost estimate is stable for identical input (same value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="332" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="332" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a71e22a2931921d4473cb11ebf1040ef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC13_NanInputForecastError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC13_NanInputForecastError</type>
+        </param>
+        <briefdescription>
+<para>ANC-13: NaN in forecast input raises FORECAST_INPUT_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="348" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="348" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab2dd507daa1fb92c5e3597ea7ab6bce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC14_ThresholdZeroIsValid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC14_ThresholdZeroIsValid</type>
+        </param>
+        <briefdescription>
+<para>ANC-14: Anomaly threshold of 0.0 is valid (fires on every event). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="357" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="357" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a6df7106e593cd1fc6d0f7825c5333471" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC15_ModelNotFoundError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC15_ModelNotFoundError</type>
+        </param>
+        <briefdescription>
+<para>ANC-15: Missing model raises FORECAST_MODEL_NOT_FOUND. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="363" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="363" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab549356cff62b153c6c0e68859e55a85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST</definition>
+        <argsstring>(AnalyticsContractHardening, ANC16_NegativeThresholdError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::analytics::test::TEST</qualifiedname>
+        <param>
+          <type>AnalyticsContractHardening</type>
+        </param>
+        <param>
+          <type>ANC16_NegativeThresholdError</type>
+        </param>
+        <briefdescription>
+<para>ANC-16: Negative anomaly threshold raises ANOMALY_THRESHOLD_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp" line="375" column="1" bodyfile="tests/analytics/test_analytics_contract_hardening_focused.cpp" bodystart="375" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7cf6bf415d960ad0c983d8bc280aaf12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_01_OptionalErrorPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_01_OptionalErrorPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="158" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="158" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab457f8a6819fc4b5521c0ca7f2827667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_02_ChainedErrorPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_02_ChainedErrorPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="177" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="177" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a35ea51f74bff030ce5f85d76a835cfd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_03_ErrorDetailsPreserved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_03_ErrorDetailsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="211" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="211" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1afd211838f8ec1a26384a8a2373d50bdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_04_NestedContextErrorPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_04_NestedContextErrorPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="236" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="236" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a94b733b59002e5e707b3db7f4b0c6cb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_05_MultipleErrorsPriority)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_05_MultipleErrorsPriority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="261" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="261" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aad786663cefc94b7eaa7d12d26594a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_06_SpecificVsGenericCatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_06_SpecificVsGenericCatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="291" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="291" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ad5c3368a21296b82e7a66d96d78a0e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_07_MultipleCatchBlocks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_07_MultipleCatchBlocks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="318" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="318" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a50e961e8f68a4c01d6ec4bc5b851458d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_08_RethrowPreservesContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_08_RethrowPreservesContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="345" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="345" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a5c272d4e6e9a14cdc520b2f088bc06cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_09_NestedTryCatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_09_NestedTryCatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="374" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="374" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aee35bae748bd910f4471039735236005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_10_RAIICleanupWithoutGenericCatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_10_RAIICleanupWithoutGenericCatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="404" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="404" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa8d89b15fecf062b8fb9210f2eb64879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_11_AvoidCatchAll)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_11_AvoidCatchAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="431" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="431" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a81d2a755cc3a92e8b840ac97fd6235e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_12_SpecificHandlingPerType)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_12_SpecificHandlingPerType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="453" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="453" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1acb01b7d1c2af520eb7be8f953a39427a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_13_UnknownExceptionSafeHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_13_UnknownExceptionSafeHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="490" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="490" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a0f11b4158b805f68066546c8dca6299e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_14_ExceptionHierarchyTraversal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_14_ExceptionHierarchyTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="515" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="515" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae29f32bb4fe53b1477b108866ce8734a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_15_CatchOrderDerivedBeforeBase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_15_CatchOrderDerivedBeforeBase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="549" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="549" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a4d131ede207dcf3f71a3559ff6ddfb0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_16_ErrorSerializesToJSON)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_16_ErrorSerializesToJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="577" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="577" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7e21bdc63ad3e3ddcbaeca1fbb54bb07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_17_JSONRequiredFields)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_17_JSONRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="600" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="600" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a93571276d7e77255d7bd63ba123bae20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_18_NestedContextPreserved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_18_NestedContextPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="623" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="623" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a6c358b6bc61b93a4f285a2bf62ca9c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_19_SpecialCharactersEscaped)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_19_SpecialCharactersEscaped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="650" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="650" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aba7180a9fdce7a45c84d178f8d7698cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_20_LargeContextNoTruncation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_20_LargeContextNoTruncation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="671" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="671" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab45e80d4482586d445628a374c1897c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_21_ErrorCodesInValidRange)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_21_ErrorCodesInValidRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="692" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="692" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a47fe90aa53ee637534f9dbcfd8effd82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_22_CategoriesMappedCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_22_CategoriesMappedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="713" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="713" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7f74f7254f3441fde7abf247df6d8fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_23_UniqueMessagesPerCode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_23_UniqueMessagesPerCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="740" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="740" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae404cc42c7020bcb192c13dcc138c35b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_24_RecoveryHintsAccurate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_24_RecoveryHintsAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="765" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="765" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae05c90a597c5a59c507d3f58bb529940" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ErrorHandlingTest, EH_25_ConsistentClassificationAcrossModule)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_error_handling_test" kindref="compound">ErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>EH_25_ConsistentClassificationAcrossModule</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="787" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="787" bodyend="812"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a0b71be9fd8800b5e985465b58fdc2b29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_01_PointerArithmeticWithinBounds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_01_PointerArithmeticWithinBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="158" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a1908b57364f2dd5afc3a65da63b56e0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_02_PointerArithmeticBeyondEndRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_02_PointerArithmeticBeyondEndRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="179" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="179" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a59cb2f69fa406ba3ef6b7abab697c821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_03_NegativeOffsetUnderflowDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_03_NegativeOffsetUnderflowDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="194" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab98f50cb188f77bd839b0eef2d8cb515" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_04_NullPointerDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_04_NullPointerDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="210" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="210" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a4c5a3aba3cdbbffb7c6d2861a0af70a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_05_PointerValidationAggregationPaths)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_05_PointerValidationAggregationPaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="229" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="229" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a4dbb5769b320979e057d0d778845be9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_06_WriteWithinBoundsSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_06_WriteWithinBoundsSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="264" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="264" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a5ff3de9bab4763f94639e2f66d5ac5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_07_WriteBeyondBoundsDetected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_07_WriteBeyondBoundsDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="284" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="284" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ad86e546bf18040205d3e8da747a86bdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_08_BufferReallocationPreservesData)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_08_BufferReallocationPreservesData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="302" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="302" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a1fce07090c614d0c23e7df05bf8730b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_09_StackBufferOverflowDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_09_StackBufferOverflowDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="319" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="319" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a2cb6ae18249558e19b51ecbaef5f8cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_10_HeapCorruptionDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_10_HeapCorruptionDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="341" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="341" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1acf3e6acbc071f6a20df9f99a3fb7e848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_11_IteratorValidAfterNonModifying)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_11_IteratorValidAfterNonModifying</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="363" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="363" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a24f16d2cef8d7075f2c6b270a95ada5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_12_IteratorInvalidAfterReallocation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_12_IteratorInvalidAfterReallocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="383" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="383" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a3760def29e97229a4668d72c8f4f3a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_13_IteratorValidAfterConstAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_13_IteratorValidAfterConstAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="402" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="402" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a549f8e592f15ea8c19385cce5e6bc7a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_14_SpanConstructionPreservesBounds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_14_SpanConstructionPreservesBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="421" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="421" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a376e39088584b004a8e59a7d314d7670" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_15_SpanAccessWithinBoundsSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_15_SpanAccessWithinBoundsSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="436" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="436" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a0c2903198f1441f82a3f311896de9642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_16_SpanOutOfBoundsAccessPrevented)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_16_SpanOutOfBoundsAccessPrevented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="452" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="452" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a4afa95208df118fe87f131274c737c1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_17_SpanSubspanBoundsChecking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_17_SpanSubspanBoundsChecking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="467" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="467" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aeb165913c580dcdf48ad02ab63d88dd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_18_SpanEmptyHandlesZeroLength)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_18_SpanEmptyHandlesZeroLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="489" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="489" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ad8d7d92c33d3195e91a7fabef1c60fc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_19_RAIIPreventUseAfterFree)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_19_RAIIPreventUseAfterFree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="510" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="510" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a3bdda7e86163dc290daf7b34f77cb09e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(MemorySafetyTest, MS_20_CopyOnWriteSemanticsSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_memory_safety_test" kindref="compound">MemorySafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MS_20_CopyOnWriteSemanticsSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_memory_safety_focused.cpp" line="536" column="1" bodyfile="tests/analytics/test_analytics_memory_safety_focused.cpp" bodystart="536" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae9b7e5ab8a9a76372d6c03eaffc47cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_01_SingleConnectionAcquireRelease)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_01_SingleConnectionAcquireRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="206" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="206" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a0a8f01c5fd2f41b0393396f68761cd1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_02_ExceptionSafeRelease)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_02_ExceptionSafeRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="233" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="233" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a8289640d876e1e3a3e7799274141693d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_03_NestedScopeReleaseOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_03_NestedScopeReleaseOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="263" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="263" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7968af2449e6709c1a1798e4181c37ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_04_ConnectionReuseAfterRelease)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_04_ConnectionReuseAfterRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="295" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="295" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a411e8c4852603fb80c1b844926daab4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_05_DestructorReleasesConnections)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_05_DestructorReleasesConnections</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="327" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="327" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1acfa713f7b7bc2f95eb365f228bfa730f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_06_ConnectionCtorInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_06_ConnectionCtorInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="352" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="352" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aeb31ad67291123585f355c7ca7d7c7c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_07_ConnectionDtorCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_07_ConnectionDtorCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="367" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="367" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ab0c8274dea6730aa96e9546867c8babe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_08_MoveSemanticsTransferOwnership)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_08_MoveSemanticsTransferOwnership</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="384" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="384" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aefabe03f96590144fd2f8fe6a724e2ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_09_CopyConstructorDeleted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_09_CopyConstructorDeleted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="405" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="405" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ad9d49514383de8c03c4a5738fb64fee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_10_ResourceCountAfterMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_10_ResourceCountAfterMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="421" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="421" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a5f2ddaeed568737169a1fb184d367591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_11_PoolExhaustionError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_11_PoolExhaustionError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="439" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="439" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a8e76f89222316c23ec742a8780096ef2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_12_WaitForAvailableConnection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_12_WaitForAvailableConnection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="467" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="467" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a69b9bd7f97d5cc627bb7ab7c94523b06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_13_TimeoutPreventsIndefiniteWait)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_13_TimeoutPreventsIndefiniteWait</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="508" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="508" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae1f64133c56e4fcc726cc16340763a85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_14_AllocationFailsAtLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_14_AllocationFailsAtLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="536" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="536" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a65957726f3584c7ec87739c2249bd06f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_15_ConcurrentExhaustionNoCorruption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_15_ConcurrentExhaustionNoCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="568" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="568" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a68273b3aada2ce8718ba7ab8790f2efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_16_DegradedModeReducedThroughput)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_16_DegradedModeReducedThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="607" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="607" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1a7462d47110cd274287b52b04f554fb96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_17_PerOperationPoolingFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_17_PerOperationPoolingFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="633" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="633" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1aa90ba741dbd970a4df84a91ed8ad7abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_18_RetryAfterTransientFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_18_RetryAfterTransientFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="675" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="675" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1ae3e1507598672b9fc5db4c1d259f2376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_19_MemoryPressurePruning)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_19_MemoryPressurePruning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="708" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="708" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1test_1adc645e93445661c051c2dfdd70f08d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::TEST_F</definition>
+        <argsstring>(ResourcePoolingTest, RP_20_MetricsReportPoolState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::analytics::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kindref="compound">ResourcePoolingTest</ref></type>
+        </param>
+        <param>
+          <type>RP_20_MetricsReportPoolState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="738" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="738" bodyend="772"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="54" column="1"/>
+  </compounddef>
+</doxygen>

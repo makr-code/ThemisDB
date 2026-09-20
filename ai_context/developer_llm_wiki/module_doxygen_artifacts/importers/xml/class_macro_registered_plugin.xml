@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_macro_registered_plugin" kind="class" language="C++" prot="public">
+    <compoundname>MacroRegisteredPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer_plugin" prot="public" virt="non-virtual">themis::importers::IImporterPlugin</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_macro_registered_plugin_1a0d91b92eb7df705bef4219165cbf1eb8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MacroRegisteredPlugin::pluginId</definition>
+        <argsstring>() const override</argsstring>
+        <name>pluginId</name>
+        <qualifiedname>MacroRegisteredPlugin::pluginId</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_1a673f9c253e72637cadb21906f366b4ba">pluginId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="711" column="16" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="711" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="class_macro_registered_plugin_1a2d4e37cc3e22c0b9021557e491b96da2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MacroRegisteredPlugin::supportedSchemes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedSchemes</name>
+        <qualifiedname>MacroRegisteredPlugin::supportedSchemes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_1a1d465bdabc03c63fe9aba31856521982">supportedSchemes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="712" column="17" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="712" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="class_macro_registered_plugin_1acf5ccf232cc6edec88b463534f256a62" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_i_importer" kindref="compound">IImporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IImporter &gt; MacroRegisteredPlugin::createImporter</definition>
+        <argsstring>(const ImportConfig &amp;) const override</argsstring>
+        <name>createImporter</name>
+        <qualifiedname>MacroRegisteredPlugin::createImporter</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_1a5e5182e5d2d275195b4d49c0052d6d55">createImporter</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_import_config" kindref="compound">ImportConfig</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="715" column="21" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="715" bodyend="719"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MacroRegisteredPlugin</label>
+        <link refid="class_macro_registered_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MacroRegisteredPlugin</label>
+        <link refid="class_macro_registered_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="709" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="709" bodyend="720"/>
+    <listofallmembers>
+      <member refid="class_macro_registered_plugin_1acf5ccf232cc6edec88b463534f256a62" prot="public" virt="virtual"><scope>MacroRegisteredPlugin</scope><name>createImporter</name></member>
+      <member refid="class_macro_registered_plugin_1a0d91b92eb7df705bef4219165cbf1eb8" prot="public" virt="virtual"><scope>MacroRegisteredPlugin</scope><name>pluginId</name></member>
+      <member refid="class_macro_registered_plugin_1a2d4e37cc3e22c0b9021557e491b96da2" prot="public" virt="virtual"><scope>MacroRegisteredPlugin</scope><name>supportedSchemes</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_plugin_1ad6cdbd1612b8750b8dab97843757c7c9" prot="public" virt="virtual"><scope>MacroRegisteredPlugin</scope><name>~IImporterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

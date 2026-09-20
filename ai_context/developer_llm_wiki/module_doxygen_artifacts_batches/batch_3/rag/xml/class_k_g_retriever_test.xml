@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_k_g_retriever_test" kind="class" language="C++" prot="public">
+    <compoundname>KGRetrieverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_k_g_retriever_test_1a715761289042da7d706a02cd3629b780" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref></type>
+        <definition>KnowledgeGraph KGRetrieverTest::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>KGRetrieverTest::graph</qualifiedname>
+        <initializer>= buildMLGraph()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="304" column="21" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_k_g_retriever_test_1ac6b3f811360a8fc1d8f63ff1fbb5096f" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref></type>
+        <definition>KGRetrieverConfig KGRetrieverTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>KGRetrieverTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="305" column="23" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_k_g_retriever_test_1a79da68afdc1ee5b0db9e38e957e3fc6a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; KGRetrieverTest::makeCandidates</definition>
+        <argsstring>()</argsstring>
+        <name>makeCandidates</name>
+        <qualifiedname>KGRetrieverTest::makeCandidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="307" column="17" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="307" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KGRetrieverTest</label>
+        <link refid="class_k_g_retriever_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KGRetrieverTest</label>
+        <link refid="class_k_g_retriever_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>graph</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::rag::kg::EntityLinkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config"/>
+      </node>
+      <node id="4">
+        <label>themis::rag::kg::KGRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>linker_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::kg::KnowledgeGraph</label>
+        <link refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="302" column="1" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="302" bodyend="320"/>
+    <listofallmembers>
+      <member refid="class_k_g_retriever_test_1ac6b3f811360a8fc1d8f63ff1fbb5096f" prot="protected" virt="non-virtual"><scope>KGRetrieverTest</scope><name>cfg</name></member>
+      <member refid="class_k_g_retriever_test_1a715761289042da7d706a02cd3629b780" prot="protected" virt="non-virtual"><scope>KGRetrieverTest</scope><name>graph</name></member>
+      <member refid="class_k_g_retriever_test_1a79da68afdc1ee5b0db9e38e957e3fc6a" prot="protected" virt="non-virtual"><scope>KGRetrieverTest</scope><name>makeCandidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

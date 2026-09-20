@@ -1,0 +1,757 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_shard_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftShardManager</compoundname>
+    <includes refid="raft__shard__manager_8h" local="no">raft_shard_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" prot="public">themisdb::sharding::RaftShardManager::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a595d886966c44311255d14baa7601257" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::RaftShardManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::config_</qualifiedname>
+        <briefdescription>
+<para>Immutable manager configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="170" column="12" bodyfile="include/sharding/raft_shard_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae4c933375e3747e0aebc371c2897ef30" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus" kindref="compound">RaftConsensus</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;RaftConsensus&gt; &gt; themisdb::sharding::RaftShardManager::raft_instances_</definition>
+        <argsstring></argsstring>
+        <name>raft_instances_</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::raft_instances_</qualifiedname>
+        <briefdescription>
+<para>Managed Raft instances per shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="173" column="14" bodyfile="include/sharding/raft_shard_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae32b383b2a12295139edc734a0349bb4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftShardManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects instance map and lifecycle operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="174" column="24" bodyfile="include/sharding/raft_shard_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a461bd5bf1528c518442c46fe86854831" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftShardManager::RaftShardManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RaftShardManager</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::RaftShardManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct manager for per-shard Raft instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base per-shard configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="74" column="14" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a3b653ef5bc8d61ee70c131072fe7add8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftShardManager::~RaftShardManager</definition>
+        <argsstring>()</argsstring>
+        <name>~RaftShardManager</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::~RaftShardManager</qualifiedname>
+        <briefdescription>
+<para>Stop and destroy all managed Raft shard instances. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="77" column="5" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="28" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a693300e3b519e564bde18acbe59c9886" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftShardManager::RaftShardManager</definition>
+        <argsstring>(const RaftShardManager &amp;)=delete</argsstring>
+        <name>RaftShardManager</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::RaftShardManager</qualifiedname>
+        <param>
+          <type>const RaftShardManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a5addb14b1ef769345306673f1f09e9da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a461bd5bf1528c518442c46fe86854831" kindref="member">RaftShardManager</ref> &amp;</type>
+        <definition>RaftShardManager &amp; themisdb::sharding::RaftShardManager::operator=</definition>
+        <argsstring>(const RaftShardManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a461bd5bf1528c518442c46fe86854831" kindref="member">RaftShardManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="81" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a1332ad1d17c101228bbbe620b95cc0f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftShardManager::initializeShard</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::vector&lt; std::string &gt; &amp;replica_ids)</argsstring>
+        <name>initializeShard</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::initializeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>replica_ids</declname>
+        </param>
+        <briefdescription>
+<para>Initialize Raft for a shard Creates a new Raft consensus instance for the shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of replica shard IDs in Raft group </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), size(), spdlog::error(), createRaftConfig(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="90" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="54" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1aac8659f7715af99006929e14df415eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftShardManager::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Raft instance for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), stop(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="97" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1aaece69ce0fb8822797b7226fa8902e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftShardManager::startShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>startShard</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::startShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Start Raft consensus for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::error(), start(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="104" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="119" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a1d7830a3705fbd56fdf04a0015339a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftShardManager::stopShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>stopShard</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::stopShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Stop Raft consensus for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), stop(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="110" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a102b2de148502cfdeb905f9f1d629619" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftShardManager::isShardLeader</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isShardLeader</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::isShardLeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if a shard is the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this node is leader for the shard </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="117" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="153" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a9d958f5d8fd50193a7b27b0c7b868e4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftShardManager::getShardLeader</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShardLeader</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::getShardLeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the leader shard ID for a given shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Leader shard ID, or empty if unknown </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="124" column="17" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="169" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ad528d0d8a09019fc48b3023dedb11075" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>std::future&lt; bool &gt; themisdb::sharding::RaftShardManager::proposeWrite</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;command)</argsstring>
+        <name>proposeWrite</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::proposeWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>command</declname>
+        </param>
+        <briefdescription>
+<para>Propose a write to a shard (must be leader). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Propose Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command to replicate via Raft log </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future that resolves when committed or fails</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), set_value(), get_future(), propose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="132" column="17" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a6a6d028cc01dbfc1086555aa944bd2d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_raft_info" kindref="compound">ShardRaftInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardRaftInfo &gt; themisdb::sharding::RaftShardManager::getShardRaftInfo</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShardRaftInfo</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::getShardRaftInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Raft info for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raft info if shard exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="140" column="19" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="206" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ab43daefbfc94d38208e065ca107dc77b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_shard_raft_info" kindref="compound">ShardRaftInfo</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ShardRaftInfo &gt; themisdb::sharding::RaftShardManager::getAllShardRaftInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShardRaftInfo</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::getAllShardRaftInfo</qualifiedname>
+        <briefdescription>
+<para>Get Raft info for all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of shard_id to Raft info </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="146" column="14" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="245" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a8a9acddc87243109bf4e2a88ffeb5e1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftShardManager::hasQuorum</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::hasQuorum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if shard has quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if shard has quorum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="153" column="10" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="288" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae4a045b1056ddb069b73b8d53f32a1eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus" kindref="compound">RaftConsensus</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; RaftConsensus &gt; themisdb::sharding::RaftShardManager::getRaftInstance</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getRaftInstance</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::getRaftInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the Raft consensus instance for a shard For advanced operations (testing, debugging). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raft consensus instance or nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="161" column="21" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="304" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ad292bf6826dd45634b70cd083a38a23c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::sharding::RaftShardManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Immutable manager configuration snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="167" column="18" bodyfile="include/sharding/raft_shard_manager.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ab0577fe77c36fdc849a6866e40237499" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" kindref="compound">RaftConsensus::Config</ref></type>
+        <definition>RaftConsensus::Config themisdb::sharding::RaftShardManager::createRaftConfig</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::vector&lt; std::string &gt; &amp;replica_ids)</argsstring>
+        <name>createRaftConfig</name>
+        <qualifiedname>themisdb::sharding::RaftShardManager::createRaftConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>replica_ids</declname>
+        </param>
+        <briefdescription>
+<para>Create Raft configuration for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Raft <ref refid="structthemisdb_1_1sharding_1_1_raft_shard_manager_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier used as local node ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica set for shard consensus group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully populated <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus" kindref="compound">RaftConsensus</ref> configuration for shard.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createRaftConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="182" column="27" bodyfile="src/sharding/raft_shard_manager.cpp" bodystart="327" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages Raft consensus instances per shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class creates and manages one <ref refid="classthemisdb_1_1sharding_1_1_raft_consensus" kindref="compound">RaftConsensus</ref> instance for each shard, enabling per-shard leader election, write enforcement, and failover.</para>
+<para>Key responsibilities:<itemizedlist>
+<listitem><para>Create/destroy Raft instances as shards are added/removed</para>
+</listitem><listitem><para>Track leader status per shard</para>
+</listitem><listitem><para>Route writes to shard leaders</para>
+</listitem><listitem><para>Handle leader elections and failover</para>
+</listitem><listitem><para>Provide Raft health/metrics per shard </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_shard_manager.h" line="58" column="1" bodyfile="include/sharding/raft_shard_manager.h" bodystart="58" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a595d886966c44311255d14baa7601257" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ab0577fe77c36fdc849a6866e40237499" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>createRaftConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ab43daefbfc94d38208e065ca107dc77b" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>getAllShardRaftInfo</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ad292bf6826dd45634b70cd083a38a23c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae4a045b1056ddb069b73b8d53f32a1eb" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>getRaftInstance</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a9d958f5d8fd50193a7b27b0c7b868e4e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>getShardLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a6a6d028cc01dbfc1086555aa944bd2d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>getShardRaftInfo</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a8a9acddc87243109bf4e2a88ffeb5e1c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a1332ad1d17c101228bbbe620b95cc0f6" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>initializeShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a102b2de148502cfdeb905f9f1d629619" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>isShardLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae32b383b2a12295139edc734a0349bb4" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a5addb14b1ef769345306673f1f09e9da" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ad528d0d8a09019fc48b3023dedb11075" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>proposeWrite</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1ae4c933375e3747e0aebc371c2897ef30" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>raft_instances_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a461bd5bf1528c518442c46fe86854831" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>RaftShardManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a693300e3b519e564bde18acbe59c9886" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>RaftShardManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1aac8659f7715af99006929e14df415eeb" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>removeShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1aaece69ce0fb8822797b7226fa8902e81" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>startShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a1d7830a3705fbd56fdf04a0015339a95" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>stopShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_shard_manager_1a3b653ef5bc8d61ee70c131072fe7add8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftShardManager</scope><name>~RaftShardManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_expression" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>Expression</compoundname>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_all_expr" prot="public" virt="non-virtual">themis::query::AllExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_any_expr" prot="public" virt="non-virtual">themis::query::AnyExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_array_literal_expr" prot="public" virt="non-virtual">themis::query::ArrayLiteralExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_binary_op_expr" prot="public" virt="non-virtual">themis::query::BinaryOpExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_compat_function_call_expr" prot="public" virt="non-virtual">themis::query::CompatFunctionCallExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_field_access_expr" prot="public" virt="non-virtual">themis::query::FieldAccessExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_function_call_expr" prot="public" virt="non-virtual">themis::query::FunctionCallExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_json_literal_expr" prot="public" virt="non-virtual">themis::query::JsonLiteralExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_literal_expr" prot="public" virt="non-virtual">themis::query::LiteralExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_object_construct_expr" prot="public" virt="non-virtual">themis::query::ObjectConstructExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_path_field_access_expr" prot="public" virt="non-virtual">themis::query::PathFieldAccessExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_proximity_call_expr" prot="public" virt="non-virtual">themis::query::ProximityCallExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_similarity_call_expr" prot="public" virt="non-virtual">themis::query::SimilarityCallExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_string_binary_op_expr" prot="public" virt="non-virtual">themis::query::StringBinaryOpExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_string_unary_op_expr" prot="public" virt="non-virtual">themis::query::StringUnaryOpExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_subquery_expr" prot="public" virt="non-virtual">themis::query::SubqueryExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_unary_op_expr" prot="public" virt="non-virtual">themis::query::UnaryOpExpr</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_variable_expr" prot="public" virt="non-virtual">themis::query::VariableExpr</derivedcompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <innerclass refid="struct_expression_1_1_literal_expression" prot="public">Expression::LiteralExpression</innerclass>
+    <innerclass refid="struct_expression_1_1_field_access_expression" prot="public">Expression::FieldAccessExpression</innerclass>
+    <innerclass refid="struct_expression_1_1_binary_op_expression" prot="public">Expression::BinaryOpExpression</innerclass>
+    <innerclass refid="struct_expression_1_1_unary_op_expression" prot="public">Expression::UnaryOpExpression</innerclass>
+    <innerclass refid="struct_expression_1_1_function_call_expression" prot="public">Expression::FunctionCallExpression</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::Expression::~Expression</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Expression</name>
+        <qualifiedname>Expression::~Expression</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="180" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_expression_1a2c07561488d972e96dbcbf95fd87ffb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>ASTNodeType</type>
+        <definition>virtual ASTNodeType themis::query::Expression::getType</definition>
+        <argsstring>() const=0</argsstring>
+        <name>getType</name>
+        <qualifiedname>Expression::getType</qualifiedname>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="185" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_expression_1ac39ffd548bde7e8b3176c831d8cbea02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::query::Expression::toJSON</definition>
+        <argsstring>() const=0</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>Expression::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="190" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Expression</label>
+        <link refid="struct_expression"/>
+      </node>
+      <node id="2">
+        <label>themis::query::AllExpr</label>
+        <link refid="structthemis_1_1query_1_1_all_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::AnyExpr</label>
+        <link refid="structthemis_1_1query_1_1_any_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::query::ArrayLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_array_literal_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::BinaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_binary_op_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::query::CompatFunctionCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_compat_function_call_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>themis::query::Expression::BinaryOpExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_binary_op_expression"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>themis::query::Expression::FieldAccessExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::query::Expression::FunctionCallExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_function_call_expression"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::query::Expression::LiteralExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_literal_expression"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>themis::query::Expression::UnaryOpExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_unary_op_expression"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::query::FieldAccessExpr</label>
+        <link refid="structthemis_1_1query_1_1_field_access_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::query::FunctionCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_function_call_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::query::JsonLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_json_literal_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::query::LiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_literal_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::query::ObjectConstructExpr</label>
+        <link refid="structthemis_1_1query_1_1_object_construct_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>themis::query::PathFieldAccessExpr</label>
+        <link refid="structthemis_1_1query_1_1_path_field_access_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>themis::query::ProximityCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_proximity_call_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>themis::query::SimilarityCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_similarity_call_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>themis::query::StringBinaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_string_binary_op_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>themis::query::StringUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_string_unary_op_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>themis::query::SubqueryExpr</label>
+        <link refid="structthemis_1_1query_1_1_subquery_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>themis::query::UnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_unary_op_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>themis::query::VariableExpr</label>
+        <link refid="structthemis_1_1query_1_1_variable_expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/aql_parser.h" line="168" column="1" bodyfile="include/query/aql_parser.h" bodystart="168" bodyend="191"/>
+    <listofallmembers>
+      <member refid="struct_expression_1a2c07561488d972e96dbcbf95fd87ffb8" prot="public" virt="pure-virtual"><scope>Expression</scope><name>getType</name></member>
+      <member refid="struct_expression_1ac39ffd548bde7e8b3176c831d8cbea02" prot="public" virt="pure-virtual"><scope>Expression</scope><name>toJSON</name></member>
+      <member refid="struct_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>Expression</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

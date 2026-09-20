@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref></type>
+        <definition>InferenceRequest themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::base_request</definition>
+        <argsstring></argsstring>
+        <name>base_request</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::base_request</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="148" column="26" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a18955c1f39219b8e2c91a5f0ddd56675" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="149" column="13" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afab4e60ce792fa612e16fe5e563cee0f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="150" column="35" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a1127b58592a0a7c16db6ee1e67cc10b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::allow_caching</definition>
+        <argsstring></argsstring>
+        <name>allow_caching</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::allow_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="151" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a572566bc8e2541a4f22fb09cad450919" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::preferred_model_id</definition>
+        <argsstring></argsstring>
+        <name>preferred_model_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::preferred_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="152" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a0ee53ed770c178698d375ce0d1891a47" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::shard_routing_key</definition>
+        <argsstring></argsstring>
+        <name>shard_routing_key</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::shard_routing_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="157" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a0547a668a75448fa6f018d67378f2f5c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::target_instance_ids</definition>
+        <argsstring></argsstring>
+        <name>target_instance_ids</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::target_instance_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="158" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a686e763fe83452cf6696374f31b8520f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::allow_cross_instance_batching</definition>
+        <argsstring></argsstring>
+        <name>allow_cross_instance_batching</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::allow_cross_instance_batching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="159" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1abb7885e1a22637cbeb974b021210d2d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="162" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a8bbd1be5845fe8d824dea6278e224d59" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::submitted_at</definition>
+        <argsstring></argsstring>
+        <name>submitted_at</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest::submitted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="163" column="47" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>base_request</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::InferenceRequest</label>
+        <link refid="structthemis_1_1llm_1_1_inference_request"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/inference_engine_enhanced.h" line="147" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="147" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a1127b58592a0a7c16db6ee1e67cc10b4" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>allow_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a686e763fe83452cf6696374f31b8520f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>allow_cross_instance_batching</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>base_request</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a572566bc8e2541a4f22fb09cad450919" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>preferred_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a18955c1f39219b8e2c91a5f0ddd56675" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1abb7885e1a22637cbeb974b021210d2d3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a0ee53ed770c178698d375ce0d1891a47" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>shard_routing_key</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a8bbd1be5845fe8d824dea6278e224d59" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>submitted_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1a0547a668a75448fa6f018d67378f2f5c" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>target_instance_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afab4e60ce792fa612e16fe5e563cee0f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

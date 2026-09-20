@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_runtime_fallback_test" kind="class" language="C++" prot="public">
+    <compoundname>RuntimeFallbackTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_runtime_fallback_test_1a5f562187676d4e280b614cfd40b57d78" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RuntimeFallbackTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RuntimeFallbackTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="335" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="335" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="class_runtime_fallback_test_1afc1592f5e2d9063a5b4bb28f461995fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RuntimeFallbackTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RuntimeFallbackTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="343" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="343" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RuntimeFallbackTest</label>
+        <link refid="class_runtime_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RuntimeFallbackTest</label>
+        <link refid="class_runtime_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_regression.cpp" line="333" column="1" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="333" bodyend="346"/>
+    <listofallmembers>
+      <member refid="class_runtime_fallback_test_1a5f562187676d4e280b614cfd40b57d78" prot="protected" virt="non-virtual"><scope>RuntimeFallbackTest</scope><name>SetUp</name></member>
+      <member refid="class_runtime_fallback_test_1afc1592f5e2d9063a5b4bb28f461995fd" prot="protected" virt="non-virtual"><scope>RuntimeFallbackTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

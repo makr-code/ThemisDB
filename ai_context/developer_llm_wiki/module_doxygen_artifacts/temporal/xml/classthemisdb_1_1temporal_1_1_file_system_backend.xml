@@ -1,0 +1,449 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_file_system_backend" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::FileSystemBackend</compoundname>
+    <basecompoundref refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" prot="public" virt="non-virtual">themisdb::temporal::IColdStoreBackend</basecompoundref>
+    <includes refid="temporal__cold__store_8h" local="no">temporal_cold_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a149d91a5099ca1248d3cc0ffd6cd8a62" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themisdb::temporal::FileSystemBackend::base_dir_</definition>
+        <argsstring></argsstring>
+        <name>base_dir_</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::base_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="233" column="27" bodyfile="include/temporal/temporal_cold_store.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a9847c538aa9294571019672d2e8f80f3" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::temporal::FileSystemBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="234" column="31" bodyfile="include/temporal/temporal_cold_store.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a83c225f584b0f1d7b4ac727eec8ae067" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::FileSystemBackend::FileSystemBackend</definition>
+        <argsstring>(std::filesystem::path base_dir)</argsstring>
+        <name>FileSystemBackend</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::FileSystemBackend</qualifiedname>
+        <param>
+          <type>std::filesystem::path</type>
+          <declname>base_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>base_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Root directory for cold-tier data files. Created automatically if it does not exist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="220" column="14" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1ae77c2c3929f11564e3187041dea01507" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::FileSystemBackend::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::put</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1aeecb5c9cc2680fedeb8eae5da1e1a779">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), keyToPath(), fs::create_directories(), parent_path(), fs::path(), string(), ofs(), fs::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="222" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="238" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a1eae0204d79aa2843afd59014f5c9808" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::FileSystemBackend::get</definition>
+        <argsstring>(const std::string &amp;key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::get</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1a183da014cf1d79ddc3958cd3235aa5f3">get</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>composite_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve value for key. Returns empty string if not found. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="223" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="264" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1ae0e1c5c72031f9d40d4f8d893bb97a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::FileSystemBackend::del</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>del</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::del</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1a8165e518a3032d5105254ce8fd6b19ae">del</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), keyToPath(), fs::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="224" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="294" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1ae7a298a01637c88333d68b8f4008edc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::temporal::FileSystemBackend::listKeysWithPrefix</definition>
+        <argsstring>(const std::string &amp;prefix) const override</argsstring>
+        <name>listKeysWithPrefix</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::listKeysWithPrefix</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1a40cc69b351e43cf1acbf419471819313">listKeysWithPrefix</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Reconstruct the directory path the prefix maps to. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+prefix format: table&apos;\x01&apos;doc_key&apos;\x01&apos; (with trailing sep → per-key list) table&apos;\x01&apos; (with one sep → per-table list)</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="226" column="5" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="305" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a048b041ffd8364dfd7311160a7ff1fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::FileSystemBackend::deletePrefix</definition>
+        <argsstring>(const std::string &amp;prefix) override</argsstring>
+        <name>deletePrefix</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::deletePrefix</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1abe1faec3cb1e516e7712a790219bbf24">deletePrefix</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Delete Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), extension(), pathToKey(), substr(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="227" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="341" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a51622609dd8740e9735e9106b928c1e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::FileSystemBackend::clearAll</definition>
+        <argsstring>() override</argsstring>
+        <name>clearAll</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::clearAll</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1a97c4b9270e209e9b5a864080fd53809d">clearAll</reimplements>
+        <briefdescription>
+<para>Clear All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), fs::directory_iterator(), fs::remove_all(), path(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="228" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="371" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a5b119d11303ee5927f776f00ea42e9ac" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::filesystem::path &amp;</type>
+        <definition>const std::filesystem::path &amp; themisdb::temporal::FileSystemBackend::basePath</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>basePath</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::basePath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="230" column="33" bodyfile="include/temporal/temporal_cold_store.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a04e60c3b809a334e3601b975e765770c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>fs::path themisdb::temporal::FileSystemBackend::keyToPath</definition>
+        <argsstring>(const std::string &amp;composite_key) const</argsstring>
+        <name>keyToPath</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::keyToPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>composite_key</declname>
+        </param>
+        <briefdescription>
+<para>Convert a composite key to a filesystem path under base_dir_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="237" column="27" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="184" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a976fc0024539d62f89ba0dc38bdd49aa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::FileSystemBackend::pathToKey</definition>
+        <argsstring>(const std::filesystem::path &amp;rel_path) const</argsstring>
+        <name>pathToKey</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::pathToKey</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct the composite key from a file path relative to base_dir_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="246" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="202" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1a6f628cd7a3a26fc780d8a11d6098685e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::FileSystemBackend::percentEncode</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>percentEncode</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::percentEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Percent-encode a string component so it is safe as a directory name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Percent-encode a string so every byte is safe as a filesystem path component.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~). Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="240" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="128" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_file_system_backend_1af39bb11b11fd63e61a04aefd864d6cf8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::FileSystemBackend::percentDecode</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>percentDecode</name>
+        <qualifiedname>themisdb::temporal::FileSystemBackend::percentDecode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Reverse of percentEncode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Percent Decode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), hexVal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cold_store.h" line="243" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="152" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Disk-backed backend that stores each version as a plain JSON file. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md13_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md13">
+<title>File layout</title><para>{base_dir}/ {table_name}/ {percent_encoded_doc_key}/ {016x_biased_sys_start}.json ← one file per version</para>
+<para>The <computeroutput>{016x_biased_sys_start}</computeroutput> component is the last 16 characters of the composite key, which already encodes the timestamp. The directory hierarchy mirrors the composite-key structure so that the RAM index can be rebuilt by <computeroutput>fs::recursive_directory_iterator</computeroutput> in O(N) time.</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md14_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md14">
+<title>RAM savings vs. InMemoryBackend</title><para>Each value (JSON payload ~400 B average) resides only on disk. The RAM index in <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref> holds only the composite key string (~60 B average), yielding a ~6–7× RAM reduction for the typical workload.</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md15_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md15">
+<title>Crash safety</title><para>Writes use an atomic rename pattern (write to <computeroutput>.tmp</computeroutput>, then rename) so that a crash mid-write never produces a truncated value file.</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md16_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_file_system_backend_1autotoc_md16">
+<title>Construction</title><para>auto backend = std::make_unique&lt;FileSystemBackend&gt;(&quot;/var/lib/themisdb/cold&quot;);</para>
+<para>The constructor creates <computeroutput>base_dir</computeroutput> if it does not exist. It does NOT rebuild the RAM index — that is done by <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref> after calling <computeroutput>rebuildIndexFromBackend()</computeroutput> during its own construction. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::temporal::FileSystemBackend</label>
+        <link refid="classthemisdb_1_1temporal_1_1_file_system_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::IColdStoreBackend</label>
+        <link refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::FileSystemBackend</label>
+        <link refid="classthemisdb_1_1temporal_1_1_file_system_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::IColdStoreBackend</label>
+        <link refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_cold_store.h" line="214" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="214" bodyend="247"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a149d91a5099ca1248d3cc0ffd6cd8a62" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>base_dir_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a5b119d11303ee5927f776f00ea42e9ac" prot="public" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>basePath</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a51622609dd8740e9735e9106b928c1e0" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>clearAll</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1ae0e1c5c72031f9d40d4f8d893bb97a80" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>del</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a048b041ffd8364dfd7311160a7ff1fe3" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>deletePrefix</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a83c225f584b0f1d7b4ac727eec8ae067" prot="public" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>FileSystemBackend</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a1eae0204d79aa2843afd59014f5c9808" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a04e60c3b809a334e3601b975e765770c" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>keyToPath</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1ae7a298a01637c88333d68b8f4008edc9" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>listKeysWithPrefix</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a9847c538aa9294571019672d2e8f80f3" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a976fc0024539d62f89ba0dc38bdd49aa" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>pathToKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1af39bb11b11fd63e61a04aefd864d6cf8" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>percentDecode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1a6f628cd7a3a26fc780d8a11d6098685e" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>percentEncode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_file_system_backend_1ae77c2c3929f11564e3187041dea01507" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>put</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend_1aadc596cd746b475ebf94758f26a6a4bb" prot="public" virt="virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>~IColdStoreBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB GPU-Accelerated Erasure Coding</para>
+<para>CUDA/OpenCL acceleration for Reed-Solomon erasure coding operations providing 10-50× speedup on large data blocks.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Hot Spare Management System</para>
+<para>Provides automatic hot spare activation and rebuild on shard failure for zero-downtime recovery and high availability.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Automatic spare pool management</para>
+</listitem><listitem><para>Fast failover (&lt; 5 seconds)</para>
+</listitem><listitem><para>Background rebuild with throttling</para>
+</listitem><listitem><para>Progress tracking and ETA calculation</para>
+</listitem><listitem><para>Prometheus metrics integration</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Shard Repair / Anti-Entropy Engine</para>
+<para>Implements automated repair and anti-entropy mechanisms for Parity (RAID-5/6) and Mirrored shard setups:</para>
+<para><itemizedlist>
+<listitem><para>Periodic background consistency checks between shards</para>
+</listitem><listitem><para>Automatic detection and queuing of degraded/failed shards</para>
+</listitem><listitem><para>On-demand rebuild / health-check triggers (API &amp; CLI)</para>
+</listitem><listitem><para>Prometheus-compatible metrics and repair reporting</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB GPU-Accelerated Erasure Coding Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Hot Spare Management Implementation</para>
+<para>Note: This file uses the <ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref> namespace internally with a compatibility shim for <ref refid="namespacethemisdb_1_1sharding" kindref="compound">themisdb::sharding</ref> at the end, following the pattern used in <ref refid="redundancy__strategy_8cpp" kindref="compound">redundancy_strategy.cpp</ref> and other sharding components.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB RAID-like Redundancy Strategy Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Shard Repair / Anti-Entropy Engine – Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/sharding/adaptive_shard_router.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

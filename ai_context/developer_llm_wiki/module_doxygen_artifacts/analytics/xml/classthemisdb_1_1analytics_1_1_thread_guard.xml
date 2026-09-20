@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_thread_guard" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ThreadGuard</compoundname>
+    <includes refid="thread__guard_8h" local="no">thread_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_thread_guard_1a6f3a216b711d1d1755bf1047a87dcc13" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::analytics::ThreadGuard::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="23" column="17" bodyfile="include/analytics/thread_guard.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themisdb::analytics::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Thread Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="32" column="14" bodyfile="include/analytics/thread_guard.h" bodystart="32" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a4d1f886aab52c5c9ab86d9c34ec2eade" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themisdb::analytics::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(Func T::*func, T *obj)</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>Func T::*</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="36" column="5" bodyfile="include/analytics/thread_guard.h" bodystart="36" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a28ada723a96ff6765029bc84d9f341b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(const ThreadGuard &amp;)=delete</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>const ThreadGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a4c3ec12e406266f418e7288b8e569df6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref> &amp;</type>
+        <definition>ThreadGuard &amp; themisdb::analytics::ThreadGuard::operator=</definition>
+        <argsstring>(const ThreadGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="41" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a3b7dd94f587f0f9c8bb1235a4336010d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(ThreadGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>ThreadGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="44" column="5" bodyfile="include/analytics/thread_guard.h" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a5b4236dbf9c7203e47ebdd97323eb88a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref> &amp;</type>
+        <definition>ThreadGuard &amp; themisdb::analytics::ThreadGuard::operator=</definition>
+        <argsstring>(ThreadGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="49" column="17" bodyfile="include/analytics/thread_guard.h" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a63c7dfa1ce0dafa4e18b158e82439a84" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ThreadGuard::joinable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>joinable</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::joinable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="57" column="10" bodyfile="include/analytics/thread_guard.h" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1ad29e060b7e0770f347468635adb32a15" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::thread::id</type>
+        <definition>std::thread::id themisdb::analytics::ThreadGuard::get_id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_id</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::get_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="61" column="21" bodyfile="include/analytics/thread_guard.h" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a11387092ca901f340ce1cc599f8da42a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ThreadGuard::join</definition>
+        <argsstring>()</argsstring>
+        <name>join</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::join</qualifiedname>
+        <briefdescription>
+<para>Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a63c7dfa1ce0dafa4e18b158e82439a84" kindref="member">joinable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="69" column="10" bodyfile="include/analytics/thread_guard.h" bodystart="69" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a9385788efdc82c2468bbb194eacc7bb0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ThreadGuard::~ThreadGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~ThreadGuard</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::~ThreadGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="75" column="5" bodyfile="include/analytics/thread_guard.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_thread_guard_1a9599f2660f97d6afedc5f112868414af" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::thread &amp;</type>
+        <definition>std::thread &amp; themisdb::analytics::ThreadGuard::native_handle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>native_handle</name>
+        <qualifiedname>themisdb::analytics::ThreadGuard::native_handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/thread_guard.h" line="79" column="17" bodyfile="include/analytics/thread_guard.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/thread_guard.h" line="21" column="1" bodyfile="include/analytics/thread_guard.h" bodystart="21" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1ad29e060b7e0770f347468635adb32a15" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>get_id</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a11387092ca901f340ce1cc599f8da42a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>join</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a63c7dfa1ce0dafa4e18b158e82439a84" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>joinable</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9599f2660f97d6afedc5f112868414af" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>native_handle</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4c3ec12e406266f418e7288b8e569df6" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a5b4236dbf9c7203e47ebdd97323eb88a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a6f3a216b711d1d1755bf1047a87dcc13" prot="private" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>thread_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4d1f886aab52c5c9ab86d9c34ec2eade" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a28ada723a96ff6765029bc84d9f341b5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a3b7dd94f587f0f9c8bb1235a4336010d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9385788efdc82c2468bbb194eacc7bb0" prot="public" virt="non-virtual"><scope>themisdb::analytics::ThreadGuard</scope><name>~ThreadGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_eviction_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheEvictionEvent</compoundname>
+    <includes refid="eviction__listener_8h" local="no">eviction_listener.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1ac258423dcf2e2dba99aa6f86ee8091e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvictionEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::key</qualifiedname>
+        <briefdescription>
+<para>Evicted cache key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="48" column="17" bodyfile="include/cache/eviction_listener.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a2192337057c1b7b0998dc36ee56e983b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0d" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::cache::CacheEvictionEvent::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::from_tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0da9ec4c0afd450ceac7adb81c3bcfc9732" kindref="member">TierLevel::L1</ref></initializer>
+        <briefdescription>
+<para>Cache tier that evicted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="49" column="15" bodyfile="include/cache/eviction_listener.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a16b1ab54c61c8f68a3618c3e7b51015e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::CacheEvictionEvent::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Size of evicted value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="50" column="17" bodyfile="include/cache/eviction_listener.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a66dfaa024f2ead9ca25689f6e875c01e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheEvictionEvent::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of accesses to this key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="51" column="14" bodyfile="include/cache/eviction_listener.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a6c366014a278119d70f558db03874b90" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cache::CacheEvictionEvent::last_access_age</definition>
+        <argsstring></argsstring>
+        <name>last_access_age</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::last_access_age</qualifiedname>
+        <briefdescription>
+<para>Age since last access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="52" column="26" bodyfile="include/cache/eviction_listener.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a3412320b04db17a5b108ce8fbd8fd142" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417" kindref="member">EvictionReason</ref></type>
+        <definition>EvictionReason themis::cache::CacheEvictionEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a3b8f7696879f77dfc8c74aa8df8db24b" kindref="member">EvictionReason::Capacity</ref></initializer>
+        <briefdescription>
+<para>Why eviction occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="53" column="20" bodyfile="include/cache/eviction_listener.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_event_1a9a978e09f4145346d4925b68da3406c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvictionEvent::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::cache::CacheEvictionEvent::correlation_id</qualifiedname>
+        <briefdescription>
+<para>Trace correlation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="54" column="17" bodyfile="include/cache/eviction_listener.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/eviction_listener.h" line="47" column="1" bodyfile="include/cache/eviction_listener.h" bodystart="47" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a66dfaa024f2ead9ca25689f6e875c01e" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a9a978e09f4145346d4925b68da3406c7" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a2192337057c1b7b0998dc36ee56e983b" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1ac258423dcf2e2dba99aa6f86ee8091e0" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a6c366014a278119d70f558db03874b90" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>last_access_age</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a3412320b04db17a5b108ce8fbd8fd142" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_event_1a16b1ab54c61c8f68a3618c3e7b51015e" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionEvent</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

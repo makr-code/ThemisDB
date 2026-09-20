@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::ConnectionPoolTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test_1a0335795604e7c4fbf2ec07a0bfa78be9" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config" kindref="compound">res::ConnectionPool::Config</ref></type>
+        <definition>res::ConnectionPool::Config themisdb::graph::test::phase3::ConnectionPoolTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>themisdb::graph::test::phase3::ConnectionPoolTest::cfg</qualifiedname>
+        <initializer>{2, 8, 50ms}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1517" column="33" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1517" bodyend="1517"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test_1aa2551b258531c753aa0e554458f7c5ad" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool" kindref="compound">res::ConnectionPool</ref></type>
+        <definition>res::ConnectionPool themisdb::graph::test::phase3::ConnectionPoolTest::pool</definition>
+        <argsstring></argsstring>
+        <name>pool</name>
+        <qualifiedname>themisdb::graph::test::phase3::ConnectionPoolTest::pool</qualifiedname>
+        <initializer>{<ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test_1a0335795604e7c4fbf2ec07a0bfa78be9" kindref="member">cfg</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1518" column="25" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1518" bodyend="1518"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::graph::test::phase3::ConnectionPoolTest</label>
+        <link refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::graph::test::phase3::ConnectionPoolTest</label>
+        <link refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>pool</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::graph::test::phase3::res::ConnectionPool</label>
+        <link refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool"/>
+      </node>
+      <node id="3">
+        <label>themisdb::graph::test::phase3::res::ConnectionPool::Config</label>
+        <link refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1515" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1515" bodyend="1519"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test_1a0335795604e7c4fbf2ec07a0bfa78be9" prot="protected" virt="non-virtual"><scope>themisdb::graph::test::phase3::ConnectionPoolTest</scope><name>cfg</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test_1aa2551b258531c753aa0e554458f7c5ad" prot="protected" virt="non-virtual"><scope>themisdb::graph::test::phase3::ConnectionPoolTest</scope><name>pool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

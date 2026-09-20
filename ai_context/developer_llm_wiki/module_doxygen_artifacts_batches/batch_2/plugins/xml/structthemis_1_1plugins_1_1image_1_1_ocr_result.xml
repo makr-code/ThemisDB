@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_ocr_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::OcrResult</compoundname>
+    <includes refid="tesseract__ocr__plugin_8h" local="no">tesseract_ocr_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a126e0ddb7e9832a1810a6e4c26cdd061" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::OcrResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::plugins::image::OcrResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="75" column="10" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_result_1acb8bccc81d2cc2baa94795c23f0dc6db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::OcrResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::image::OcrResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="76" column="17" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a940e6144311bcd3004a3357d616c7978" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::OcrResult::full_text</definition>
+        <argsstring></argsstring>
+        <name>full_text</name>
+        <qualifiedname>themis::plugins::image::OcrResult::full_text</qualifiedname>
+        <briefdescription>
+<para>Complete page text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="77" column="17" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_result_1ab61a70f3df20403f29c88b4691fbd0ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_word" kindref="compound">OcrWord</ref> &gt;</type>
+        <definition>std::vector&lt;OcrWord&gt; themis::plugins::image::OcrResult::words</definition>
+        <argsstring></argsstring>
+        <name>words</name>
+        <qualifiedname>themis::plugins::image::OcrResult::words</qualifiedname>
+        <briefdescription>
+<para>Per-word detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="78" column="17" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a57a83f0db055c8b0f4c841696d447b7b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::OcrResult::inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::OcrResult::inference_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="79" column="13" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full OCR result for one image. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/tesseract_ocr_plugin.h" line="74" column="1" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="74" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1acb8bccc81d2cc2baa94795c23f0dc6db" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a940e6144311bcd3004a3357d616c7978" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrResult</scope><name>full_text</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a57a83f0db055c8b0f4c841696d447b7b" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrResult</scope><name>inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1a126e0ddb7e9832a1810a6e4c26cdd061" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_ocr_result_1ab61a70f3df20403f29c88b4691fbd0ff" prot="public" virt="non-virtual"><scope>themis::plugins::image::OcrResult</scope><name>words</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

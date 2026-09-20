@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_query_template_library" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLQueryTemplateLibrary</compoundname>
+    <includes refid="aql__query__template__library_8h" local="no">aql_query_template_library.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a48727d22019df7513bc17a7a14d500e4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &gt;</type>
+        <definition>std::vector&lt;AQLQueryTemplate&gt; themis::aql::AQLQueryTemplateLibrary::templates_</definition>
+        <argsstring></argsstring>
+        <name>templates_</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::templates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="99" column="45" bodyfile="include/aql/aql_query_template_library.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a5fa427f52fb400e2d472bfce0cc5c5ad" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::size_t&gt; themis::aql::AQLQueryTemplateLibrary::index_by_id_</definition>
+        <argsstring></argsstring>
+        <name>index_by_id_</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::index_by_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="100" column="37" bodyfile="include/aql/aql_query_template_library.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a4320259d53cf87c0a6565876f499883c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryTemplateLibrary::AQLQueryTemplateLibrary</definition>
+        <argsstring>()</argsstring>
+        <name>AQLQueryTemplateLibrary</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::AQLQueryTemplateLibrary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="40" column="5" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1ab07a7ded8829b084e79d58050e5229d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryTemplateLibrary::~AQLQueryTemplateLibrary</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AQLQueryTemplateLibrary</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::~AQLQueryTemplateLibrary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a1b8edeb2e26a15c20f3fcabeaf9c8813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLQueryTemplateLibrary::registerTemplate</definition>
+        <argsstring>(const AQLQueryTemplate &amp;tmpl)</argsstring>
+        <name>registerTemplate</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::registerTemplate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <briefdescription>
+<para>Register Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), count(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="51" column="10" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="40" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a04df71e6136243e433e1078881125ee3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; AQLQueryTemplate &gt; &amp; themis::aql::AQLQueryTemplateLibrary::all</definition>
+        <argsstring>() const</argsstring>
+        <name>all</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::all</qualifiedname>
+        <briefdescription>
+<para>All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="61" column="23" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a938d2df8129f2360e9ba738fa0beb772" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &gt;</type>
+        <definition>std::vector&lt; AQLQueryTemplate &gt; themis::aql::AQLQueryTemplateLibrary::findByTag</definition>
+        <argsstring>(const std::string &amp;tag) const</argsstring>
+        <name>findByTag</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::findByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Find By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="68" column="17" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="75" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1acb6350341d37abc9ad0c90be99721257" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &gt;</type>
+        <definition>std::vector&lt; AQLQueryTemplate &gt; themis::aql::AQLQueryTemplateLibrary::search</definition>
+        <argsstring>(const std::string &amp;keyword) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="75" column="17" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="92" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1aec8a2415bb54c491c2c742fff19910b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> *</type>
+        <definition>const AQLQueryTemplate * themis::aql::AQLQueryTemplateLibrary::findById</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>findById</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::findById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Find By Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="82" column="28" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a82c007638b3c4f6147bb03d085065805" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplateLibrary::instantiate</definition>
+        <argsstring>(const std::string &amp;id, const std::unordered_map&lt; std::string, std::string &gt; &amp;parameters) const</argsstring>
+        <name>instantiate</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::instantiate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="88" column="17" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="129" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a91dceeec5aa93d1a91ee5447b9aae5a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplateLibrary::instantiate</definition>
+        <argsstring>(const AQLQueryTemplate &amp;tmpl, const std::unordered_map&lt; std::string, std::string &gt; &amp;parameters)</argsstring>
+        <name>instantiate</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::instantiate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_query_template" kindref="compound">AQLQueryTemplate</ref> &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="93" column="24" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="143" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_template_library_1afc0ba7bd65ec680ca617eda9e657ce44" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLQueryTemplateLibrary::registerBuiltins_</definition>
+        <argsstring>()</argsstring>
+        <name>registerBuiltins_</name>
+        <qualifiedname>themis::aql::AQLQueryTemplateLibrary::registerBuiltins_</qualifiedname>
+        <briefdescription>
+<para>Register Builtins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a1b8edeb2e26a15c20f3fcabeaf9c8813" kindref="member">registerTemplate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="105" column="10" bodyfile="src/aql/aql_query_template_library.cpp" bodystart="178" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_template_library.h" line="38" column="1" bodyfile="include/aql/aql_query_template_library.h" bodystart="38" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a04df71e6136243e433e1078881125ee3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>all</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a4320259d53cf87c0a6565876f499883c" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>AQLQueryTemplateLibrary</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1aec8a2415bb54c491c2c742fff19910b8" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>findById</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a938d2df8129f2360e9ba738fa0beb772" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>findByTag</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a5fa427f52fb400e2d472bfce0cc5c5ad" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>index_by_id_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a82c007638b3c4f6147bb03d085065805" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>instantiate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a91dceeec5aa93d1a91ee5447b9aae5a3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>instantiate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1afc0ba7bd65ec680ca617eda9e657ce44" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>registerBuiltins_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a1b8edeb2e26a15c20f3fcabeaf9c8813" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>registerTemplate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1acb6350341d37abc9ad0c90be99721257" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>search</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1a48727d22019df7513bc17a7a14d500e4" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>templates_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_template_library_1ab07a7ded8829b084e79d58050e5229d2" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplateLibrary</scope><name>~AQLQueryTemplateLibrary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

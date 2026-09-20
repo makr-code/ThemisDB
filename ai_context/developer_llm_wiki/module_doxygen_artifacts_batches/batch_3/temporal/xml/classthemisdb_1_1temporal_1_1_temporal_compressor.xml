@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalCompressor</compoundname>
+    <includes refid="temporal__compressor_8h" local="no">temporal_compressor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a45b2863e0a913796789a7555d605b7a2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalCompressor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="249" column="24" bodyfile="include/temporal/temporal_compressor.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCompressor::TemporalCompressor</definition>
+        <argsstring>()=default</argsstring>
+        <name>TemporalCompressor</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::TemporalCompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a25282e5f0575f3165b09eefaa2a816d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCompressor::TemporalCompressor</definition>
+        <argsstring>(const TemporalCompressor &amp;)=delete</argsstring>
+        <name>TemporalCompressor</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::TemporalCompressor</qualifiedname>
+        <param>
+          <type>const TemporalCompressor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a4176a0678fd2d2e16a0fc6306dd8222d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" kindref="member">TemporalCompressor</ref> &amp;</type>
+        <definition>TemporalCompressor &amp; themisdb::temporal::TemporalCompressor::operator=</definition>
+        <argsstring>(const TemporalCompressor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" kindref="member">TemporalCompressor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="179" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a2e1f429c5d888633308468985348f296" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCompressor::TemporalCompressor</definition>
+        <argsstring>(TemporalCompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>TemporalCompressor</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::TemporalCompressor</qualifiedname>
+        <param>
+          <type>TemporalCompressor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1ab78139677caf547a81bc44697ebbbd92" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" kindref="member">TemporalCompressor</ref> &amp;</type>
+        <definition>TemporalCompressor &amp; themisdb::temporal::TemporalCompressor::operator=</definition>
+        <argsstring>(TemporalCompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" kindref="member">TemporalCompressor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="181" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1ab2d5004be7c8a495ce1373ee6ced956c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_compression_stats" kindref="compound">CompressionStats</ref></type>
+        <definition>CompressionStats themisdb::temporal::TemporalCompressor::compressHistory</definition>
+        <argsstring>(SystemVersionedTable &amp;table, const TimeRange &amp;range, const CompressionConfig &amp;config)</argsstring>
+        <name>compressHistory</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::compressHistory</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress historical versions of all keys in the given time range.</para>
+<para>Versions whose <computeroutput>sys_start</computeroutput> timestamp is within the <computeroutput>delay_before_compression</computeroutput> grace window are silently skipped unless <computeroutput>config.compress_immediately == true</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The system-versioned table whose history is compressed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Only versions with sys_start in [range.start, range.end) are considered. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Algorithm and tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated statistics for the compression pass.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), std::chrono::steady_clock::now(), count(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, getAllKeys(), getHistoryInRange(), isCurrent(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="198" column="22" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="486" bodyend="737"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a3bc9b24e7eac26e4c07dfc3f78c94631" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::decompress</definition>
+        <argsstring>(const nlohmann::json &amp;compressed)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::decompress</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>compressed</declname>
+          <defname>doc</defname>
+        </param>
+        <briefdescription>
+<para>Decompress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress a payload that was previously compressed by this class. Returns the original JSON document on success, or the input unchanged if it is not a compressed payload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), decompressZstd(), decompressLz4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="207" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="449" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a6ecde852f9aa709189c54d714c4788da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCompressor::algorithmName</definition>
+        <argsstring>(CompressionAlgorithm algo)</argsstring>
+        <name>algorithmName</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::algorithmName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Algorithm Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the algorithm name as a string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements algorithmName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="212" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="428" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1aea07651e1d538d741ed4fb1a608f610e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::applyDelta</definition>
+        <argsstring>(const nlohmann::json &amp;base, const nlohmann::json &amp;current, const std::string &amp;base_ref)</argsstring>
+        <name>applyDelta</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::applyDelta</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_ref</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Algorithm: DELTA (JSON field-level patch) A delta payload looks like: { &quot;__compressed&quot;: &quot;delta&quot;, &quot;__base_ref&quot;: &quot;&lt;key&gt;@&lt;sys_start_ms&gt;&quot;, &quot;__patch&quot;: { &lt;field&gt;: &lt;new_value&gt;, . </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+.. }, &quot;__removed&quot;: [&lt;field&gt;, ...] } Fields absent from __patch and __removed are unchanged from the base. ============================================================================ Calls: nlohmann::json::object(), nlohmann::json::array(), items(), contains(), at(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="217" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="240" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1acddfbf23c9de5c60a0732f2be6b3b054" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::applyZstd</definition>
+        <argsstring>(const nlohmann::json &amp;doc, int level)</argsstring>
+        <name>applyZstd</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::applyZstd</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Algorithm: ZSTD (simulated via RL-encode + base64) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), base64Encode(), rlEncode(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="221" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1ac1ecccdf9107c2e04c5660696980c467" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::decompressZstd</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>decompressZstd</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::decompressZstd</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), rlDecode(), base64Decode(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="224" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="225" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a1c11bba2302317014e363d0f14e8466b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::applyLz4</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>applyLz4</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::applyLz4</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Compress a JSON document with LZ4 block format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ ============================================================================ Algorithm: LZ4 — high-throughput block compression ============================================================================ Payload format stored in the history table: { &quot;__compressed&quot;: &quot;lz4&quot;, &quot;__original_size&quot;: &lt;int&gt;, // original JSON string byte count &quot;__data&quot;: &quot;&lt;base64-encoded LZ4 compressed block&gt;&quot; }</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), size(), LZ4_compressBound(), dst(), LZ4_compress_default(), data(), resize(), base64Encode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="227" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="353" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a84110e1e7f0e7948e0d0014fb80748f3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::decompressLz4</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>decompressLz4</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::decompressLz4</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Decompress a payload that was compressed with applyLz4(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress Lz4.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data(), size(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="230" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="387" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1ae3775c20b6ef10bb8d64f78bc9ed2729" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::applyGorilla</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; std::pair&lt; Timestamp, double &gt; &gt; &amp;series)</argsstring>
+        <name>applyGorilla</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::applyGorilla</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; <ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>, double &gt; &gt; &amp;</type>
+          <declname>series</declname>
+        </param>
+        <briefdescription>
+<para>Build a Gorilla-encoded payload from a vector of (timestamp, value) pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="233" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="280" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a48fae62e2e0b7ac1d98677479e26bb7d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalCompressor::applyDictionary</definition>
+        <argsstring>(const nlohmann::json &amp;doc, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, int &gt; &gt; &amp;dicts)</argsstring>
+        <name>applyDictionary</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::applyDictionary</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, int &gt; &gt; &amp;</type>
+          <declname>dicts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="237" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="320" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1af3ecb4b1ab5678328d69bd3066edb961" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCompressor::base64Encode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Encode</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::base64Encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), data(), uint32_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="243" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="45" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1aca9493148eeae6c233a5923a5201b0e1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCompressor::base64Decode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), reserve(), base64CharValue(), uint32_t(), char(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="244" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="104" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1aaa6448bc728de0cf199ebf48dc46e5c9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCompressor::rlEncode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>rlEncode</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::rlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Rl Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="246" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="146" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_compressor_1a25bf82b5eafe88430cbd18b62fba523f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCompressor::rlDecode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>rlDecode</name>
+        <qualifiedname>themisdb::temporal::TemporalCompressor::rlDecode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Rl Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="247" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="180" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compresses historical version payloads in a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" kindref="member">TemporalCompressor</ref><sp/>compressor;</highlight></codeline>
+<codeline><highlight class="normal">CompressionConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.algorithm<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57aa789408ec4ddae81bd2f72ad5ec6bf3b" kindref="member">CompressionAlgorithm::DELTA</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.compress_immediately<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>compressor.compressHistory(table,<sp/>{0,<sp/>kMaxTimestamp},<sp/>cfg);</highlight></codeline>
+</programlisting></para>
+<sect1 id="classthemisdb_1_1temporal_1_1_temporal_compressor_1autotoc_md18_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_temporal_compressor_1autotoc_md18">
+<title>Algorithm details</title><para><heading level="3">DELTA</heading>
+</para>
+<para>For each consecutive pair of historical versions of the same key, the payload is replaced with a JSON patch object: <programlisting filename=".json"><codeline><highlight class="normal">{&quot;__compressed&quot;:<sp/>&quot;delta&quot;,<sp/>&quot;__base&quot;:<sp/>&lt;key+version&gt;,<sp/>&quot;__patch&quot;:<sp/>{&lt;field&gt;:<sp/>&lt;new_value&gt;,<sp/>...}}</highlight></codeline>
+</programlisting> Fields unchanged between versions are omitted. Decompression walks the chain from the earliest baseline and applies patches in order.</para>
+<para><heading level="3">ZSTD</heading>
+</para>
+<para>The JSON string is run-length encoded using a simple byte-level LZ77 variant (no external library). The payload is base64-encoded and stored with a <computeroutput>__compressed: "zstd"</computeroutput> marker.</para>
+<para><heading level="3">GORILLA</heading>
+</para>
+<para>Each numeric (double/int) field is extracted across all versions of a key, XOR-delta encoded as a sequence, and stored compactly. Non-numeric fields use verbatim JSON.</para>
+<para><heading level="3">DICTIONARY</heading>
+</para>
+<para>All unique string values for each field in the range are collected into a per-field dictionary; payloads are replaced with integer indices. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/temporal_compressor.h" line="173" column="1" bodyfile="include/temporal/temporal_compressor.h" bodystart="173" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a6ecde852f9aa709189c54d714c4788da" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>algorithmName</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1aea07651e1d538d741ed4fb1a608f610e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>applyDelta</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a48fae62e2e0b7ac1d98677479e26bb7d" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>applyDictionary</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1ae3775c20b6ef10bb8d64f78bc9ed2729" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>applyGorilla</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a1c11bba2302317014e363d0f14e8466b" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>applyLz4</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1acddfbf23c9de5c60a0732f2be6b3b054" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>applyZstd</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1aca9493148eeae6c233a5923a5201b0e1" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>base64Decode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1af3ecb4b1ab5678328d69bd3066edb961" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>base64Encode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1ab2d5004be7c8a495ce1373ee6ced956c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>compressHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a3bc9b24e7eac26e4c07dfc3f78c94631" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>decompress</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a84110e1e7f0e7948e0d0014fb80748f3" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>decompressLz4</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1ac1ecccdf9107c2e04c5660696980c467" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>decompressZstd</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a45b2863e0a913796789a7555d605b7a2" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a4176a0678fd2d2e16a0fc6306dd8222d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1ab78139677caf547a81bc44697ebbbd92" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a25bf82b5eafe88430cbd18b62fba523f" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>rlDecode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1aaa6448bc728de0cf199ebf48dc46e5c9" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>rlEncode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a16b21098f26380b5f713c3a8483b1f55" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>TemporalCompressor</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a25282e5f0575f3165b09eefaa2a816d4" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>TemporalCompressor</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_compressor_1a2e1f429c5d888633308468985348f296" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCompressor</scope><name>TemporalCompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,901 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_s_d_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::SDPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IImageGenerationBackend</basecompoundref>
+    <includes refid="sd__plugin_8h" local="no">sd_plugin.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1a0070c99eb34b57bb4cf107966e6e7be5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::imggen::SDPlugin::generate_mutex_</definition>
+        <argsstring></argsstring>
+        <name>generate_mutex_</name>
+        <qualifiedname>themis::imggen::SDPlugin::generate_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="108" column="35" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1af3745de9179569f17bece8dcba300421" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_i_s_d_generator" kindref="compound">ISDGenerator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ISDGenerator&gt; themis::imggen::SDPlugin::generator_</definition>
+        <argsstring></argsstring>
+        <name>generator_</name>
+        <qualifiedname>themis::imggen::SDPlugin::generator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="109" column="21" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1ad31289b2b26b2b3985d788e914b9a055" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref></type>
+        <definition>SDPromptSanitizer themis::imggen::SDPlugin::base_sanitizer_</definition>
+        <argsstring></argsstring>
+        <name>base_sanitizer_</name>
+        <qualifiedname>themis::imggen::SDPlugin::base_sanitizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="110" column="35" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1a5d0aad8d2cd6416e8a68151791effad1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref></type>
+        <definition>SDPromptSanitizer themis::imggen::SDPlugin::sanitizer_</definition>
+        <argsstring></argsstring>
+        <name>sanitizer_</name>
+        <qualifiedname>themis::imggen::SDPlugin::sanitizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="111" column="35" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1aa774bb6f29f06f4814c453719003779c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::imggen::SDPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="112" column="14" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1a2867f7722488b261aca3faf256e429af" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::imggen::SDPlugin::generation_count_</definition>
+        <argsstring></argsstring>
+        <name>generation_count_</name>
+        <qualifiedname>themis::imggen::SDPlugin::generation_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="113" column="14" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1a2efce5fc3d33d65476a459b9ff5d7a31" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::imggen::SDPlugin::blocked_count_</definition>
+        <argsstring></argsstring>
+        <name>blocked_count_</name>
+        <qualifiedname>themis::imggen::SDPlugin::blocked_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="114" column="14" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1abacb7782b368768d61e1585a89766f55" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::imggen::SDPlugin::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::imggen::SDPlugin::error_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="115" column="14" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_plugin_1ac2d3cd8e660287b3b30dd5ec5b9b8e53" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPlugin::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::imggen::SDPlugin::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="116" column="17" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a51c9cb544a891b25a928abb3db8a4683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPlugin::SDPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>SDPlugin</name>
+        <qualifiedname>themis::imggen::SDPlugin::SDPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor – uses <ref refid="classthemis_1_1imggen_1_1_s_d_stub_generator" kindref="compound">SDStubGenerator</ref> (no model required). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="44" column="5" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1ae2ccfd23c0d098fec0708acb374d770d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPlugin::SDPlugin</definition>
+        <argsstring>(std::unique_ptr&lt; ISDGenerator &gt; generator, SDPromptSanitizer sanitizer)</argsstring>
+        <name>SDPlugin</name>
+        <qualifiedname>themis::imggen::SDPlugin::SDPlugin</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_i_s_d_generator" kindref="compound">ISDGenerator</ref> &gt;</type>
+          <declname>generator</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref></type>
+          <declname>sanitizer</declname>
+        </param>
+        <briefdescription>
+<para>Construct the plugin with an injected generator and baseline sanitizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The provided sanitizer remains the fallback policy across repeated <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kindref="member">initialize()</ref> calls unless a non-empty <computeroutput>blocked_keywords_file</computeroutput> is supplied in the runtime config. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="53" column="5" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1aa3cfbe1ca00af858954e776de385396a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPlugin::~SDPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SDPlugin</name>
+        <qualifiedname>themis::imggen::SDPlugin::~SDPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::initialize</definition>
+        <argsstring>(const std::string &amp;model_path, const nlohmann::json &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::SDPlugin::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the plugin for stub or real-backend generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── initialize ────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional backend model path. Empty paths keep the plugin in stub mode when the active generator supports it. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime configuration. When <computeroutput>blocked_keywords_file</computeroutput> is present and non-empty, it overrides the constructor-provided sanitizer for this initialization cycle; otherwise the baseline sanitizer is restored. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the active generator initializes successfully; false on integrity-check failure or generator init failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1imggen_1_1_s_d_config_1ab78c4b7d74ed3948f67b671c291c8081" kindref="member">SDConfig::fromJson()</ref>, empty(), <ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a9bfee7af8d99f6dfda94412ba77fe604" kindref="member">SDPromptSanitizer::fromFile()</ref>, defined(), normalizeLowerHex(), themis::utils::calculateSHA256(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="70" column="10" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="54" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::imggen::SDPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="73" column="10" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeneratedImage</type>
+        <definition>GeneratedImage themis::imggen::SDPlugin::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const SDGenerationConfig &amp;cfg) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::imggen::SDPlugin::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>── generate ────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="75" column="20" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="509" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a7a2e8fa42667d96da42288644f690171" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; GeneratedImage &gt;</type>
+        <definition>std::vector&lt; GeneratedImage &gt; themis::imggen::SDPlugin::generateBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;prompts, const SDGenerationConfig &amp;cfg) override</argsstring>
+        <name>generateBatch</name>
+        <qualifiedname>themis::imggen::SDPlugin::generateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>prompts</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Generate multiple images from a list of prompts (batch mode). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── generateBatch ─────────────────────────────────────────────────────────────</para>
+<para>Each prompt is screened independently by <ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref>. Results are returned in the same order as the input prompts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), push_back(), generateLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="84" column="17" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="523" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1af39475fc6b918d55cc35340e0ddc73d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeneratedImage</type>
+        <definition>GeneratedImage themis::imggen::SDPlugin::generateImg2Img</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg) override</argsstring>
+        <name>generateImg2Img</name>
+        <qualifiedname>themis::imggen::SDPlugin::generateImg2Img</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const Img2ImgConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Modify an existing image guided by a text prompt (img2img). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── generateImg2Img ───────────────────────────────────────────────────────────</para>
+<para>In v2.1.0 the stub/in-memory generators ignore the input image and produce a normal <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" kindref="member">generate()</ref> result. SDCppGenerator will override this with real denoising in a future release.</para>
+<para>Both the positive prompt and the negative_prompt in cfg are screened by <ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref> before reaching the generator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateImg2ImgLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="98" column="20" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="544" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a9ebee6c97bbf5f185e3dc5fd4048ccc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::isPromptAllowed</definition>
+        <argsstring>(const std::string &amp;prompt) const override</argsstring>
+        <name>isPromptAllowed</name>
+        <qualifiedname>themis::imggen::SDPlugin::isPromptAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="101" column="10" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a383aff776f989c095cbec4decab01dca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPlugin::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::imggen::SDPlugin::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="103" column="17" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="681" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1aef1766d705658d9430c135a9f45584d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPlugin::getPluginVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPluginVersion</name>
+        <qualifiedname>themis::imggen::SDPlugin::getPluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="104" column="17" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a6875d63e50d571dd7233e45a57ad5e72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::imggen::SDPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::imggen::SDPlugin::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="105" column="20" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="685" bodyend="695"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a7d7dcdf329f48c8be1dffb78877a7c03" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeneratedImage</type>
+        <definition>GeneratedImage themis::imggen::SDPlugin::generateLocked</definition>
+        <argsstring>(const std::string &amp;prompt, const SDGenerationConfig &amp;cfg)</argsstring>
+        <name>generateLocked</name>
+        <qualifiedname>themis::imggen::SDPlugin::generateLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>── generateLocked (internal, called with generate_mutex_ held) ─────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1aef1766d705658d9430c135a9f45584d6" kindref="member">getPluginVersion()</ref>, <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a9ebee6c97bbf5f185e3dc5fd4048ccc1" kindref="member">isPromptAllowed()</ref>, sha256Hex(), empty(), sanitize(), validateGenerationDimensions(), validateRgbBufferShape(), std::isfinite(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="119" column="20" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="391" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1afc18863207451dfd14aafdc4a49da530" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeneratedImage</type>
+        <definition>GeneratedImage themis::imggen::SDPlugin::generateImg2ImgLocked</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg)</argsstring>
+        <name>generateImg2ImgLocked</name>
+        <qualifiedname>themis::imggen::SDPlugin::generateImg2ImgLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const Img2ImgConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Generate Img2 Img Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1aef1766d705658d9430c135a9f45584d6" kindref="member">getPluginVersion()</ref>, <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a9ebee6c97bbf5f185e3dc5fd4048ccc1" kindref="member">isPromptAllowed()</ref>, sha256Hex(), empty(), sanitize(), validateRgbBufferShape(), validateGenerationDimensions(), std::isfinite(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="121" column="20" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="557" bodyend="677"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a04b1da0bfab7108a16edd1ebe3629b92" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::validateGenerationDimensions</definition>
+        <argsstring>(int width, int height, std::string &amp;error_out)</argsstring>
+        <name>validateGenerationDimensions</name>
+        <qualifiedname>themis::imggen::SDPlugin::validateGenerationDimensions</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Validate Generation Dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: max(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="123" column="17" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="106" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a29a1d230bf270f88fbf14be6d148ccf9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPlugin::validateRgbBufferShape</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;rgb, int width, int height, std::string &amp;error_out)</argsstring>
+        <name>validateRgbBufferShape</name>
+        <qualifiedname>themis::imggen::SDPlugin::validateRgbBufferShape</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>rgb</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Validate Rgb Buffer Shape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rgb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateGenerationDimensions(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="124" column="17" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="134" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a40aab7e48b83a163cbb79aae54e380fb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPlugin::normalizeLowerHex</definition>
+        <argsstring>(const std::string &amp;hex)</argsstring>
+        <name>normalizeLowerHex</name>
+        <qualifiedname>themis::imggen::SDPlugin::normalizeLowerHex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hex</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Lower Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isspace(), push_back(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="128" column="24" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="156" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a3eb3acb37ea1196990b752bd0ab6d368" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPlugin::sha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::imggen::SDPlugin::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>── sha256Hex (FNV-based hex fingerprint; name kept for API compatibility) ───── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="130" column="24" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a5369d1e51fc62715587dbae7fc1db87e" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::imggen::SDPlugin::computePerceptualHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;rgb, int width, int height) noexcept</argsstring>
+        <name>computePerceptualHash</name>
+        <qualifiedname>themis::imggen::SDPlugin::computePerceptualHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>rgb</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="131" column="26" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="186" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_1a97f6bb6269a901f79148280ad7c60d6f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::imggen::SDPlugin::encodeMinimalPng</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;rgb, int width, int height)</argsstring>
+        <name>encodeMinimalPng</name>
+        <qualifiedname>themis::imggen::SDPlugin::encodeMinimalPng</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>rgb</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+<para>── encodeMinimalPng ────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rgb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validateGenerationDimensions(), push_back(), put_be32(), size(), insert(), end(), crc32_of(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin.h" line="133" column="24" bodyfile="src/stable_diffusion/sd_plugin.cpp" bodystart="243" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Top-level image-generation plugin implementing IImageGenerationBackend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wires together:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1imggen_1_1_i_s_d_generator" kindref="compound">ISDGenerator</ref> (model inference – injected or <ref refid="classthemis_1_1imggen_1_1_s_d_stub_generator" kindref="compound">SDStubGenerator</ref>)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kindref="compound">SDPromptSanitizer</ref> (content policy)</para>
+</listitem></itemizedlist>
+</para>
+<para>All generated images receive mandatory provenance fields:<itemizedlist>
+<listitem><para>generation_timestamp (Unix epoch ms)</para>
+</listitem><listitem><para>prompt_hash (FNV-1a 64-bit hex of the sanitised prompt)</para>
+</listitem><listitem><para>plugin_version &quot;2.3.0&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" kindref="member">generate()</ref>, <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1a7a2e8fa42667d96da42288644f690171" kindref="member">generateBatch()</ref>, and <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1af39475fc6b918d55cc35340e0ddc73d3" kindref="member">generateImg2Img()</ref> are serialised by an internal mutex. Statistics counters are updated atomically under the same lock. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IImageGenerationBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDPlugin</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IImageGenerationBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDPlugin</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/stable_diffusion/sd_plugin.h" line="41" column="1" bodyfile="include/stable_diffusion/sd_plugin.h" bodystart="41" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ad31289b2b26b2b3985d788e914b9a055" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>base_sanitizer_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a2efce5fc3d33d65476a459b9ff5d7a31" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>blocked_count_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a5369d1e51fc62715587dbae7fc1db87e" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>computePerceptualHash</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a97f6bb6269a901f79148280ad7c60d6f" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>encodeMinimalPng</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1abacb7782b368768d61e1585a89766f55" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a0070c99eb34b57bb4cf107966e6e7be5" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generate_mutex_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a7a2e8fa42667d96da42288644f690171" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generateBatch</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1af39475fc6b918d55cc35340e0ddc73d3" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1afc18863207451dfd14aafdc4a49da530" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generateImg2ImgLocked</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a7d7dcdf329f48c8be1dffb78877a7c03" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generateLocked</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a2867f7722488b261aca3faf256e429af" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generation_count_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1af3745de9179569f17bece8dcba300421" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>generator_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a383aff776f989c095cbec4decab01dca" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aef1766d705658d9430c135a9f45584d6" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>getPluginVersion</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a6875d63e50d571dd7233e45a57ad5e72" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aa774bb6f29f06f4814c453719003779c" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a9ebee6c97bbf5f185e3dc5fd4048ccc1" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>isPromptAllowed</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac2d3cd8e660287b3b30dd5ec5b9b8e53" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a40aab7e48b83a163cbb79aae54e380fb" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>normalizeLowerHex</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a5d0aad8d2cd6416e8a68151791effad1" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>sanitizer_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a51c9cb544a891b25a928abb3db8a4683" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>SDPlugin</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ae2ccfd23c0d098fec0708acb374d770d" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>SDPlugin</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a3eb3acb37ea1196990b752bd0ab6d368" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a04b1da0bfab7108a16edd1ebe3629b92" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>validateGenerationDimensions</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a29a1d230bf270f88fbf14be6d148ccf9" prot="private" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>validateRgbBufferShape</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aa3cfbe1ca00af858954e776de385396a" prot="public" virt="non-virtual"><scope>themis::imggen::SDPlugin</scope><name>~SDPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

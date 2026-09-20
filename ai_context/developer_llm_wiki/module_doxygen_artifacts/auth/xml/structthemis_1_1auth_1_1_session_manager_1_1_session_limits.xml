@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::SessionManager::SessionLimits</compoundname>
+    <includes refid="session__manager_8h" local="no">session_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::SessionManager::SessionLimits::max_sessions_per_user</definition>
+        <argsstring></argsstring>
+        <name>max_sessions_per_user</name>
+        <qualifiedname>themis::auth::SessionManager::SessionLimits::max_sessions_per_user</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="32" column="18" bodyfile="include/auth/session_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::SessionManager::SessionLimits::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::auth::SessionManager::SessionLimits::idle_timeout</qualifiedname>
+        <initializer>{std::chrono::hours(8)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="33" column="35" bodyfile="include/auth/session_manager.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::SessionManager::SessionLimits::absolute_timeout</definition>
+        <argsstring></argsstring>
+        <name>absolute_timeout</name>
+        <qualifiedname>themis::auth::SessionManager::SessionLimits::absolute_timeout</qualifiedname>
+        <initializer>{std::chrono::hours(24 * 30)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="34" column="35" bodyfile="include/auth/session_manager.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/session_manager.h" line="31" column="5" bodyfile="include/auth/session_manager.h" bodystart="31" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager::SessionLimits</scope><name>absolute_timeout</name></member>
+      <member refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager::SessionLimits</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager::SessionLimits</scope><name>max_sessions_per_user</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

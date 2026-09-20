@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_i_s_s_m_state_store" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ISSMStateStore</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store" prot="public" virt="non-virtual">themis::llm::InMemorySSMStateStore</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store" prot="public" virt="non-virtual">themis::llm::SSMStateRocksDBStore</derivedcompoundref>
+    <includes refid="ssm__state__store_8h" local="no">ssm_state_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ISSMStateStore::~ISSMStateStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISSMStateStore</name>
+        <qualifiedname>themis::llm::ISSMStateStore::~ISSMStateStore</qualifiedname>
+        <briefdescription>
+<para>ISSMState Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ISSMStateStore::checkpoint</definition>
+        <argsstring>(const std::string &amp;session_id, const SSMStateSnapshot &amp;snapshot)=0</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>themis::llm::ISSMStateStore::checkpoint</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b">checkpoint</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0b6210b19f85cd2d505a8c43a11e5a39">checkpoint</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="36" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt;</type>
+        <definition>virtual std::optional&lt; SSMStateSnapshot &gt; themis::llm::ISSMStateStore::resume</definition>
+        <argsstring>(const std::string &amp;session_id, const std::optional&lt; HLCTimestamp &gt; &amp;snapshot_ts=std::nullopt)=0</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::llm::ISSMStateStore::resume</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447">resume</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a9e3abd225ff6a08eb298d469e1c8c2c6">resume</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; HLCTimestamp &gt; &amp;</type>
+          <declname>snapshot_ts</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="39" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ISSMStateStore::invalidate</definition>
+        <argsstring>(const std::string &amp;session_id)=0</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::llm::ISSMStateStore::invalidate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9">invalidate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1afe9077c01034c176ef922cc29161e112">invalidate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="48" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::llm::ISSMStateStore::compact</definition>
+        <argsstring>(uint64_t retention_window_ms)=0</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::llm::ISSMStateStore::compact</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf">compact</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1adeeb41ab16b7e2e7df88683c12d5320f">compact</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>retention_window_ms</declname>
+        </param>
+        <briefdescription>
+<para>Compact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_window_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="55" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::ISSMStateStore::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::ISSMStateStore::getStats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4">getStats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a79d9e2cd4856195d03448d335ffa2dc5">getStats</reimplementedby>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="61" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::ISSMStateStore</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_state_store"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::InMemorySSMStateStore</label>
+        <link refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::SSMStateRocksDBStore</label>
+        <link refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/ssm_state_store.h" line="23" column="1" bodyfile="include/llm/ssm_state_store.h" bodystart="23" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMStateStore</scope><name>checkpoint</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMStateStore</scope><name>compact</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMStateStore</scope><name>getStats</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMStateStore</scope><name>invalidate</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b" prot="public" virt="pure-virtual"><scope>themis::llm::ISSMStateStore</scope><name>resume</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" prot="public" virt="virtual"><scope>themis::llm::ISSMStateStore</scope><name>~ISSMStateStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

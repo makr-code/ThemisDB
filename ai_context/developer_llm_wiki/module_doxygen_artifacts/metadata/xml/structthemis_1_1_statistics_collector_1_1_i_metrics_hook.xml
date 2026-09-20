@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::StatisticsCollector::IMetricsHook</compoundname>
+    <derivedcompoundref refid="struct_counting_hook" prot="public" virt="non-virtual">CountingHook</derivedcompoundref>
+    <derivedcompoundref refid="struct_recording_hook" prot="public" virt="non-virtual">RecordingHook</derivedcompoundref>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::StatisticsCollector::IMetricsHook::~IMetricsHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMetricsHook</name>
+        <qualifiedname>themis::StatisticsCollector::IMetricsHook::~IMetricsHook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="211" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::StatisticsCollector::IMetricsHook::onCollect</definition>
+        <argsstring>(std::string_view table_name, double duration_ms, size_t rows_sampled, bool success)=0</argsstring>
+        <name>onCollect</name>
+        <qualifiedname>themis::StatisticsCollector::IMetricsHook::onCollect</qualifiedname>
+        <reimplementedby refid="struct_counting_hook_1a0a2f40fd33ce16957adcb2a19b50a66b">onCollect</reimplementedby>
+        <reimplementedby refid="struct_recording_hook_1aaf59f3cb2cca9c2adc52e4882859da0c">onCollect</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_sampled</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called after a successful or failed stats collection attempt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affected table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock duration in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows_sampled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows actually scanned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether collection succeeded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="218" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::StatisticsCollector::IMetricsHook::onCacheHit</definition>
+        <argsstring>(std::string_view table_name)=0</argsstring>
+        <name>onCacheHit</name>
+        <qualifiedname>themis::StatisticsCollector::IMetricsHook::onCacheHit</qualifiedname>
+        <reimplementedby refid="struct_counting_hook_1aa7fa34ee77ffc4ab9b53a49a143ef5c2">onCacheHit</reimplementedby>
+        <reimplementedby refid="struct_recording_hook_1a38ec1f8d403aa3c49e9cebe50217d9d5">onCacheHit</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever in-memory cache satisfies a <ref refid="classthemis_1_1_statistics_collector_1a4839a90bbb2153d39a8ef80813ad026e" kindref="member">getStats()</ref> request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="224" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::StatisticsCollector::IMetricsHook::onCacheMiss</definition>
+        <argsstring>(std::string_view table_name)=0</argsstring>
+        <name>onCacheMiss</name>
+        <qualifiedname>themis::StatisticsCollector::IMetricsHook::onCacheMiss</qualifiedname>
+        <reimplementedby refid="struct_counting_hook_1a625a3ce7f2a8558c717430dfa25dac48">onCacheMiss</reimplementedby>
+        <reimplementedby refid="struct_recording_hook_1a17d91895c28c1f37b1e4fdcfa7f54c39">onCacheMiss</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever <ref refid="classthemis_1_1_statistics_collector_1a4839a90bbb2153d39a8ef80813ad026e" kindref="member">getStats()</ref> results in a cache miss (loads from RocksDB or re-collects). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="227" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::StatisticsCollector::IMetricsHook::onError</definition>
+        <argsstring>(std::string_view table_name, int error_code)=0</argsstring>
+        <name>onError</name>
+        <qualifiedname>themis::StatisticsCollector::IMetricsHook::onError</qualifiedname>
+        <reimplementedby refid="struct_counting_hook_1a6411c0356ee7bb7981e76c7cf91f9536">onError</reimplementedby>
+        <reimplementedby refid="struct_recording_hook_1a7c863da6a38ad013565ed04d6b55eca2">onError</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on any internal error (iterator failure, parse error, etc.). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref> cast to int </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="231" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Lightweight hook interface for emitting Prometheus / OTel metrics.</para>
+<para>Implement this interface and call <ref refid="classthemis_1_1_statistics_collector_1a8ee11e360cf8eab119ff9f712968b564" kindref="member">setMetricsHook()</ref> to receive real-time stats events. A no-op default implementation is used when not set.</para>
+<para>Metric names follow the <computeroutput>themis_stats_*</computeroutput> convention:<itemizedlist>
+<listitem><para><computeroutput>themis_stats_collection_duration_ms</computeroutput> – time for one full scan</para>
+</listitem><listitem><para><computeroutput>themis_stats_cache_hits_total</computeroutput> – in-memory cache hits</para>
+</listitem><listitem><para><computeroutput>themis_stats_errors_total</computeroutput> – collection errors </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>CountingHook</label>
+        <link refid="struct_counting_hook"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>RecordingHook</label>
+        <link refid="struct_recording_hook"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::StatisticsCollector::IMetricsHook</label>
+        <link refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/metadata/statistics_collector.h" line="210" column="5" bodyfile="include/metadata/statistics_collector.h" bodystart="210" bodyend="232"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49" prot="public" virt="pure-virtual"><scope>themis::StatisticsCollector::IMetricsHook</scope><name>onCacheHit</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984" prot="public" virt="pure-virtual"><scope>themis::StatisticsCollector::IMetricsHook</scope><name>onCacheMiss</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5" prot="public" virt="pure-virtual"><scope>themis::StatisticsCollector::IMetricsHook</scope><name>onCollect</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090" prot="public" virt="pure-virtual"><scope>themis::StatisticsCollector::IMetricsHook</scope><name>onError</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" prot="public" virt="virtual"><scope>themis::StatisticsCollector::IMetricsHook</scope><name>~IMetricsHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1metrics" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::metrics</compoundname>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics" prot="public">themis::acceleration::metrics::BackendMetrics</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" prot="public">themis::acceleration::metrics::Counter</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" prot="public">themis::acceleration::metrics::Gauge</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" prot="public">themis::acceleration::metrics::Histogram</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_metric" prot="public">themis::acceleration::metrics::Metric</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector" prot="public">themis::acceleration::metrics::MetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1metrics_1_1_timer" prot="public">themis::acceleration::metrics::Timer</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1acceleration_1_1metrics_1a1dc6144d064ababaf461a9a6c9c0c0fe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetricType</name>
+        <qualifiedname>themis::acceleration::metrics::MetricType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1acceleration_1_1metrics_1a1dc6144d064ababaf461a9a6c9c0c0fea125e831262b4dbbd68c6878c5d3759f6" prot="public">
+          <name>COUNTER</name>
+          <briefdescription>
+<para>Monotonically increasing value (counts, totals). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1_1metrics_1a1dc6144d064ababaf461a9a6c9c0c0fea6a91e159ac40f39402ef860163318744" prot="public">
+          <name>GAUGE</name>
+          <briefdescription>
+<para>Value that can go up or down (current levels, measurements). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1_1metrics_1a1dc6144d064ababaf461a9a6c9c0c0fea7f33aef6b28f7abec2f5d804ab1343c8" prot="public">
+          <name>HISTOGRAM</name>
+          <briefdescription>
+<para>Distribution of observations with configurable buckets. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1acceleration_1_1metrics_1a1dc6144d064ababaf461a9a6c9c0c0fea36cbecb886c3fb994669cd10cdbd9f5f" prot="public">
+          <name>SUMMARY</name>
+          <briefdescription>
+<para>Quantiles of observed values (percentiles). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="27" column="1" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/metrics/backend_metrics.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

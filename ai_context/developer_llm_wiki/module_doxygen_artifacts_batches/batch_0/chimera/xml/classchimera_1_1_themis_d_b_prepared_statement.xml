@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_themis_d_b_prepared_statement" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>chimera::ThemisDBPreparedStatement</compoundname>
+    <basecompoundref refid="classchimera_1_1_i_prepared_statement" prot="public" virt="non-virtual">chimera::IPreparedStatement</basecompoundref>
+    <includes refid="themisdb__adapter_8hpp" local="no">themisdb_adapter.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1a779b97d39e3b7e7d7f31c10781bf5ab9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBPreparedStatement::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="80" column="29" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1afaf7bd81710afaabdf338996b1eb8232" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBPreparedStatement::query_</definition>
+        <argsstring></argsstring>
+        <name>query_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="81" column="29" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1a918f1673c76df24445647eb64a2c1245" prot="private" static="no" mutable="no">
+        <type>IDatabaseAdapter *</type>
+        <definition>IDatabaseAdapter* chimera::ThemisDBPreparedStatement::adapter_</definition>
+        <argsstring></argsstring>
+        <name>adapter_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::adapter_</qualifiedname>
+        <briefdescription>
+<para>Non-owning; adapter outlives stmt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="82" column="28" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1a8b14e84b5560202538794b7515178bb2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Scalar&gt; chimera::ThemisDBPreparedStatement::named_params_</definition>
+        <argsstring></argsstring>
+        <name>named_params_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::named_params_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="84" column="15" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1afc102944a65b081692d2647d565ddbbe" prot="private" static="no" mutable="no">
+        <type>std::map&lt; size_t, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt;</type>
+        <definition>std::map&lt;size_t, Scalar&gt; chimera::ThemisDBPreparedStatement::positional_params_</definition>
+        <argsstring></argsstring>
+        <name>positional_params_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::positional_params_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="85" column="20" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1a70d2308362c67ee3aa72739bf67a634c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::ThemisDBPreparedStatement::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="88" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1a4aaf4e8764618683dabd6fadbf765e72" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::ThemisDBPreparedStatement::exec_count_</definition>
+        <argsstring></argsstring>
+        <name>exec_count_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::exec_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="89" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_prepared_statement_1ab24f2a6fe613c2eb5bb13fabb434546d" prot="private" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds chimera::ThemisDBPreparedStatement::total_exec_time_</definition>
+        <argsstring></argsstring>
+        <name>total_exec_time_</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::total_exec_time_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="90" column="31" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1a8118fc7b26fc55a9db28f6c4c097e8da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::ThemisDBPreparedStatement::ThemisDBPreparedStatement</definition>
+        <argsstring>(std::string id, std::string query, IDatabaseAdapter *adapter)</argsstring>
+        <name>ThemisDBPreparedStatement</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::ThemisDBPreparedStatement</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>IDatabaseAdapter *</type>
+          <declname>adapter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="59" column="5" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1964" bodyend="1972"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1a671262ccfb6b8c31e5e3b38b9e9b58c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBPreparedStatement::get_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_id</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::get_id</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1a080439098b98c72828e274e35b7591ac">get_id</reimplements>
+        <briefdescription>
+<para>Get id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="65" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1974" bodyend="1974"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1a2481b66d0beb822ff27d40816b115026" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBPreparedStatement::get_query</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_query</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::get_query</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1a9e7ec49095f6ca962e10f73555d58b39">get_query</reimplements>
+        <briefdescription>
+<para>Get query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="66" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1975" bodyend="1975"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1adc99bb9848abbb8719f349250047b04d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBPreparedStatement::bind</definition>
+        <argsstring>(const std::string &amp;name, const Scalar &amp;value) override</argsstring>
+        <name>bind</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::bind</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1abd5dcecdddb8399b34278fca149f36d1">bind</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), err(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="68" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1984" bodyend="1993"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1af6cf6e9a41562a8ffb89f5a06c7f2b7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBPreparedStatement::bind</definition>
+        <argsstring>(size_t position, const Scalar &amp;value) override</argsstring>
+        <name>bind</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::bind</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1a1caf8d741e4fc38f0e67ccdf6e3644a3">bind</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="69" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2002" bodyend="2005"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1ae90d787dcb8e1811b47de91ec20fdbe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBPreparedStatement::bind_all</definition>
+        <argsstring>(const std::map&lt; std::string, Scalar &gt; &amp;params) override</argsstring>
+        <name>bind_all</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::bind_all</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1aafb9c998474b8ce81fede75a88c9d251">bind_all</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="70" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2007" bodyend="2018"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1a005985e490009e10cec5901a0da98021" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt;</type>
+        <definition>Result&lt; RelationalTable &gt; chimera::ThemisDBPreparedStatement::execute</definition>
+        <argsstring>() override</argsstring>
+        <name>execute</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::execute</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1a600027edcb889ca4345aad4703ddd445">execute</reimplements>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), apply_named_params(), build_positional_params(), execute_query(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="74" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2025" bodyend="2044"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1afc89832392f7be26bf5552272cec9977" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::future&lt; <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt; &gt;</type>
+        <definition>std::future&lt; Result&lt; RelationalTable &gt; &gt; chimera::ThemisDBPreparedStatement::execute_async</definition>
+        <argsstring>() override</argsstring>
+        <name>execute_async</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::execute_async</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1ab21573eb43327d93ee009aff0a1dc236">execute_async</reimplements>
+        <briefdescription>
+<para>Execute async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::async(), <ref refid="classchimera_1_1_themis_d_b_prepared_statement_1a005985e490009e10cec5901a0da98021" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="75" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2051" bodyend="2055"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1aa3cc5614c9fda21696d4cfeef2f958c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBPreparedStatement::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::reset</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1a641507cba7aa0fd50569f526820316f7">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None.</para>
+</simplesect>
+Calls: clear(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="76" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2062" bodyend="2066"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1adf4b0bf32bd9cf9c1f5104780dbf1515" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_query_statistics" kindref="compound">QueryStatistics</ref> &gt;</type>
+        <definition>Result&lt; QueryStatistics &gt; chimera::ThemisDBPreparedStatement::get_statistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_statistics</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::get_statistics</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_1ae23f2b2ebb664ad24aa3cd8f36bc8e57">get_statistics</reimplements>
+        <briefdescription>
+<para>Get statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="77" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2068" bodyend="2089"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1ad7766d0453a71aff5fb1f5c9a82a3e8e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBPreparedStatement::apply_named_params</definition>
+        <argsstring>() const</argsstring>
+        <name>apply_named_params</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::apply_named_params</qualifiedname>
+        <briefdescription>
+<para>Apply named params. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="96" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2093" bodyend="2134"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_prepared_statement_1a94f4d14cadd28a3ebbd4dd9f6462bc7e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt;</type>
+        <definition>std::vector&lt; Scalar &gt; chimera::ThemisDBPreparedStatement::build_positional_params</definition>
+        <argsstring>() const</argsstring>
+        <name>build_positional_params</name>
+        <qualifiedname>chimera::ThemisDBPreparedStatement::build_positional_params</qualifiedname>
+        <briefdescription>
+<para>Build positional params. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="102" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="2136" bodyend="2144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>chimera::IPreparedStatement</label>
+        <link refid="classchimera_1_1_i_prepared_statement"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBPreparedStatement</label>
+        <link refid="classchimera_1_1_themis_d_b_prepared_statement"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>chimera::IPreparedStatement</label>
+        <link refid="classchimera_1_1_i_prepared_statement"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBPreparedStatement</label>
+        <link refid="classchimera_1_1_themis_d_b_prepared_statement"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/chimera/themisdb_adapter.hpp" line="57" column="1" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="57" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a918f1673c76df24445647eb64a2c1245" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>adapter_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ad7766d0453a71aff5fb1f5c9a82a3e8e" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>apply_named_params</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1adc99bb9848abbb8719f349250047b04d" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>bind</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1af6cf6e9a41562a8ffb89f5a06c7f2b7f" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>bind</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ae90d787dcb8e1811b47de91ec20fdbe8" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>bind_all</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a94f4d14cadd28a3ebbd4dd9f6462bc7e" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>build_positional_params</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a4aaf4e8764618683dabd6fadbf765e72" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>exec_count_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a005985e490009e10cec5901a0da98021" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>execute</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afc89832392f7be26bf5552272cec9977" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>execute_async</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a671262ccfb6b8c31e5e3b38b9e9b58c4" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>get_id</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a2481b66d0beb822ff27d40816b115026" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>get_query</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1adf4b0bf32bd9cf9c1f5104780dbf1515" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>get_statistics</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a779b97d39e3b7e7d7f31c10781bf5ab9" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>id_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a8b14e84b5560202538794b7515178bb2" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>named_params_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afc102944a65b081692d2647d565ddbbe" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>positional_params_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1afaf7bd81710afaabdf338996b1eb8232" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>query_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1aa3cc5614c9fda21696d4cfeef2f958c2" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>reset</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a70d2308362c67ee3aa72739bf67a634c" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>stats_mutex_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1a8118fc7b26fc55a9db28f6c4c097e8da" prot="public" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>ThemisDBPreparedStatement</name></member>
+      <member refid="classchimera_1_1_themis_d_b_prepared_statement_1ab24f2a6fe613c2eb5bb13fabb434546d" prot="private" virt="non-virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>total_exec_time_</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_1a90e15bb3711363dbd5246ca1605b0cf0" prot="public" virt="virtual"><scope>chimera::ThemisDBPreparedStatement</scope><name>~IPreparedStatement</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

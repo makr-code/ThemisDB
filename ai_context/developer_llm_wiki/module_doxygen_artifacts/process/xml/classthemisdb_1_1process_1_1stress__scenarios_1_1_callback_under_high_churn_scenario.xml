@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ab1ce603b3a20103fd6460444b7c57239" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="155" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ada3df2fef597a123c44b070a44a4c1a9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="156" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="156" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conflict Resolution Scenario 3: Callback Under High Churn. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests callback invocation and fallback under concurrent updates (&gt;500 ops).</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>3-node cluster</para>
+</listitem><listitem><para>Application callback registered (custom conflict resolver)</para>
+</listitem><listitem><para>500+ concurrent updates to same model version</para>
+</listitem><listitem><para>Some updates trigger conflicts</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Generate 500 concurrent model updates to same version</para>
+</listitem><listitem><para>Consensus layer detects conflicts (concurrent updates from different nodes)</para>
+</listitem><listitem><para>Invoke callback for each conflict</para>
+</listitem><listitem><para>Callback returns determistically (based on metadata)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Callback invoked for each conflict detected</para>
+</listitem><listitem><para>All callbacks complete within 5s timeout</para>
+</listitem><listitem><para>Deterministic outcome: same metadata → same winner</para>
+</listitem><listitem><para>Conflict resolution latency &lt;50ms (p95)</para>
+</listitem><listitem><para>No deadlock between consensus and callback</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;50ms per conflict resolution </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="153" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="153" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ada3df2fef597a123c44b070a44a4c1a9" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ab1ce603b3a20103fd6460444b7c57239" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,981 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::content::test</compoundname>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" prot="public">themis::content::test::ArchiveProcessorValidationTest</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" prot="public">themis::content::test::CMT_FIN_41_DocumentationPresence</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" prot="public">themis::content::test::CMT_FIN_42_CrossReferenceConsistency</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" prot="public">themis::content::test::CMT_FIN_43_LinkFormatValidation</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" prot="public">themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" prot="public">themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" prot="public">themis::content::test::CMT_FIN_46_DocSyncFreshness</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" prot="public">themis::content::test::DoxygenHeadersValidation</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a5f45db1827a77b3ea832a95615a398fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, DetectZipFormat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DetectZipFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="74" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a0bfe2a72b6e456de9b017174c0eb53c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, DetectTarFormat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DetectTarFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="80" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a3cb442dd8f3e413f9f9cfeed04b1496c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, Detect7ZipFormat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>Detect7ZipFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="86" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a34709b5e53b594f78d65536e55458ba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, DetectGzipFormat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DetectGzipFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="92" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a109cad186ffeac46abfe1efcb0fe18b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, DetectUnknownFormat)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DetectUnknownFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="98" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a81ebd2f8d682e64d784f3aec9369f2df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, DetectFromEmptyBlob)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>DetectFromEmptyBlob</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="103" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a26c2c8ebbcd21f71d42744c1977d67ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, SanitizePathTraversal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>SanitizePathTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="112" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ae14b3fe1e575f56380d86ce7dc963c3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, SanitizeAbsolutePath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>SanitizeAbsolutePath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="118" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a30d5fcf6a8b5bae0f3adb156c6cdbbb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, SanitizeBackslashes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>SanitizeBackslashes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="124" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a0b87a22869e94035aab19923c5b2c512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, SanitizeWindowsPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>SanitizeWindowsPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="130" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a614949d6056096dea6d090cb7c290c39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, SanitizeCleanPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>SanitizeCleanPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="136" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="136" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a176aa058f0a785a5ed28e7f3e165246a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, ValidateMemberNormal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateMemberNormal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="145" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="145" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ab03ef91c57d2aaf430661bd1ce506200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectPathTraversalMember)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectPathTraversalMember</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="160" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a8ca1eb9befde760e3ac1cfdddd82d8cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectTooLargeMember)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectTooLargeMember</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="169" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="169" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ac8df19791b25582eb30d1f35a5c38678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectEncryptedMember)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectEncryptedMember</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="178" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="178" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ae173cab019fcdee1c333ddaead8562c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, ValidateMetadataGood)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateMetadataGood</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="194" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="194" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a5ca35f20b7a351d22af1c763dadfd6be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectZipBomb)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectZipBomb</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="208" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="208" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1afc93feb8d08e5333bb366ac9f0b2aba2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectTooManyFiles)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectTooManyFiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="221" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a0bfdb3372e6f4251ddf60dd2264ceb19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, RejectEncryptedArchive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>RejectEncryptedArchive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="231" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="231" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ab61f1173ddcbd1cc2cde09ea86a89c2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, CleanupTempDirectory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CleanupTempDirectory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="246" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="246" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1affa1b21acc1dd0116a7cf9b48607f838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, ProcessorConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ProcessorConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="282" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="282" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a8d39b701fd351ad6f96636f878529788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, CanHandleMimeTypes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CanHandleMimeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="290" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="290" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1aa88f5afd236d9485e56cd2a5ecbb58b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(ArchiveProcessorValidationTest, GetSupportedCategories)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kindref="compound">ArchiveProcessorValidationTest</ref></type>
+        </param>
+        <param>
+          <type>GetSupportedCategories</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="302" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="302" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ad3343bb22b7d48d961fa3b434faf0a50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_01_AllFilesHaveHeaders)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_01_AllFilesHaveHeaders</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="136" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="136" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1aad73d613601de353ceae3f24ee3e2835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_02_AllRequiredNotesPresent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_02_AllRequiredNotesPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="164" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="164" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a887f006f3eba1a46191d78a94372cd70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_03_MaturityClassificationVerified)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_03_MaturityClassificationVerified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="189" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="189" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a89be930d6d76946d55d3d825a38bc84d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_04_GapSummaryFormatValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_04_GapSummaryFormatValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="229" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="229" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a2234cff75d8eceafd87cf56092d2ed6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_05_ScoreInValidRange)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_05_ScoreInValidRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="261" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="261" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a5b3077d7ae8d56b2bf70ad3a66f80c2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(DoxygenHeadersValidation, CMT_FIN_06_MaturityDistribution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kindref="compound">DoxygenHeadersValidation</ref></type>
+        </param>
+        <param>
+          <type>CMT_FIN_06_MaturityDistribution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="279" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="279" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ada4a8e4b7ef3c6eda3342de8fbca5983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_41_DocumentationPresence, ContentModuleReadmeExists)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref></type>
+        </param>
+        <param>
+          <type>ContentModuleReadmeExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="44" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1af8fb83fcf6664272302d6d094234cadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_41_DocumentationPresence, ContentModuleRoadmapExists)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref></type>
+        </param>
+        <param>
+          <type>ContentModuleRoadmapExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="50" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ace0536510080c6ef943fc85a5670f746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_41_DocumentationPresence, ContentModuleFutureEnhancementsExists)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref></type>
+        </param>
+        <param>
+          <type>ContentModuleFutureEnhancementsExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="56" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a5b223f9b6f7a75b5ab64b178a7e9d24b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_41_DocumentationPresence, ContentModuleArchitectureExists)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref></type>
+        </param>
+        <param>
+          <type>ContentModuleArchitectureExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="62" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a264f979dd52f98b3f89e269af0325f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_41_DocumentationPresence, RootRoadmapExists)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__41___documentation_presence" kindref="compound">CMT_FIN_41_DocumentationPresence</ref></type>
+        </param>
+        <param>
+          <type>RootRoadmapExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="68" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ab34ff5150682875dce82472f87df08ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_42_CrossReferenceConsistency, ReadmeReferencesRoadmap)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref></type>
+        </param>
+        <param>
+          <type>ReadmeReferencesRoadmap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="99" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1acc354a51be11e95da88d93a69fcc049c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_42_CrossReferenceConsistency, ReadmeReferencesFutureEnhancements)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref></type>
+        </param>
+        <param>
+          <type>ReadmeReferencesFutureEnhancements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="106" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ac85e384f2ba0cd2b514fe0e3a7210692" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_42_CrossReferenceConsistency, RoadmapReferencesReadme)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref></type>
+        </param>
+        <param>
+          <type>RoadmapReferencesReadme</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="113" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a126a1b8e5b103a85bb0dfc181611b0f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_42_CrossReferenceConsistency, ContentPhaseStatusInRoadmap)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref></type>
+        </param>
+        <param>
+          <type>ContentPhaseStatusInRoadmap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="120" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a5fb446a87d98b5fdcfc346b4e1cc65c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_42_CrossReferenceConsistency, ProcessorInventoryInReadme)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kindref="compound">CMT_FIN_42_CrossReferenceConsistency</ref></type>
+        </param>
+        <param>
+          <type>ProcessorInventoryInReadme</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="127" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a2d6882888ba92ac2d599f14b21dbc143" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_43_LinkFormatValidation, ReadmeLinksWellFormed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" kindref="compound">CMT_FIN_43_LinkFormatValidation</ref></type>
+        </param>
+        <param>
+          <type>ReadmeLinksWellFormed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="163" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="163" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ab6f39aa4a1f178f89d22aeb3322bc5f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_43_LinkFormatValidation, RoadmapLinksWellFormed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" kindref="compound">CMT_FIN_43_LinkFormatValidation</ref></type>
+        </param>
+        <param>
+          <type>RoadmapLinksWellFormed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="185" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="185" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1aa2e9315c97aeff54221d64df2d359371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_44_ProcessorInventoryCoverage, ReadmeListsMultipleProcessors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" kindref="compound">CMT_FIN_44_ProcessorInventoryCoverage</ref></type>
+        </param>
+        <param>
+          <type>ReadmeListsMultipleProcessors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="242" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="242" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1aa4c092e4499dcf6e8cd8f59a373ec208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_44_ProcessorInventoryCoverage, CoreProcessorsDocumented)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" kindref="compound">CMT_FIN_44_ProcessorInventoryCoverage</ref></type>
+        </param>
+        <param>
+          <type>CoreProcessorsDocumented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="258" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="258" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1ab9df3805ac0190abfd72d1d7c9c5633b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsBatch5References)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref></type>
+        </param>
+        <param>
+          <type>RoadmapContainsBatch5References</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="293" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="293" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a8d16d743ebd32358def061fef966a21e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7504Reference)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref></type>
+        </param>
+        <param>
+          <type>RoadmapContainsCMT7504Reference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="306" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="306" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a2bb63643f3a4303a46879d0915c9a369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7505Reference)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref></type>
+        </param>
+        <param>
+          <type>RoadmapContainsCMT7505Reference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="319" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="319" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1a59694112e277ec2888336c5e14e40512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_45_Batch5TrackingCompleteness, RoadmapContainsCMT7506Reference)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kindref="compound">CMT_FIN_45_Batch5TrackingCompleteness</ref></type>
+        </param>
+        <param>
+          <type>RoadmapContainsCMT7506Reference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="332" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="332" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1content_1_1test_1aed3a5d2554edb542c4ec72f182e5ceb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::test::TEST_F</definition>
+        <argsstring>(CMT_FIN_46_DocSyncFreshness, DocumentationUpdatedRecently)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::content::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__46___doc_sync_freshness" kindref="compound">CMT_FIN_46_DocSyncFreshness</ref></type>
+        </param>
+        <param>
+          <type>DocumentationUpdatedRecently</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="359" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="359" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/content/test_archive_processor_validation.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

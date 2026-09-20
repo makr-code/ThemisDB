@@ -1,0 +1,838 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::SchemaAwareCDCBridge</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public" virt="non-virtual">themisdb::replication::IReplicationListener</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; SchemaAwareCDCBridge &gt;</basecompoundref>
+    <includes refid="schema__cdc_8h" local="no">schema_cdc.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" prot="public">themisdb::replication::SchemaAwareCDCBridge::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_subscription" prot="private">themisdb::replication::SchemaAwareCDCBridge::Subscription</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event" kindref="compound">SchemaEncodedEvent</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::SchemaAwareCDCBridge::EncodedCallback = std::function&lt;void(const SchemaEncodedEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EncodedCallback</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::EncodedCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="66" column="5" bodyfile="include/replication/schema_cdc.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1af876e8e8ec78f5cfdb2b31519dae9c59" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicationManager&gt; themisdb::replication::SchemaAwareCDCBridge::repl_mgr_</definition>
+        <argsstring></argsstring>
+        <name>repl_mgr_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::repl_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="157" column="31" bodyfile="include/replication/schema_cdc.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a0a2595e3edd7fe7f92c5e0acdec3d517" prot="private" static="no" mutable="no">
+        <type>themis::cdc::SchemaRegistryConfig</type>
+        <definition>themis::cdc::SchemaRegistryConfig themisdb::replication::SchemaAwareCDCBridge::reg_cfg_</definition>
+        <argsstring></argsstring>
+        <name>reg_cfg_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::reg_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="158" column="51" bodyfile="include/replication/schema_cdc.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ae6ea96f2c540cff6e274d43034ff12c7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::cdc::SchemaRegistryClient &gt;</type>
+        <definition>std::shared_ptr&lt;themis::cdc::SchemaRegistryClient&gt; themisdb::replication::SchemaAwareCDCBridge::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="159" column="21" bodyfile="include/replication/schema_cdc.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab69bd9ac86f2ec7f5a516c4448358573" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::SchemaAwareCDCBridge::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="161" column="24" bodyfile="include/replication/schema_cdc.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a23d9e57c9597df80bf88c07994dbd5b5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themisdb::replication::SchemaAwareCDCBridge::registered_</definition>
+        <argsstring></argsstring>
+        <name>registered_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::registered_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="164" column="24" bodyfile="include/replication/schema_cdc.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a04058840b9efbc66736e79f0fc0372df" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Subscription &gt;</type>
+        <definition>std::vector&lt;Subscription&gt; themisdb::replication::SchemaAwareCDCBridge::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="171" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a93b1b32cff9bc56b2e316a9754c604a2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::SchemaAwareCDCBridge::next_sub_id_</definition>
+        <argsstring></argsstring>
+        <name>next_sub_id_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::next_sub_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="172" column="21" bodyfile="include/replication/schema_cdc.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a918af9dd9e5144e1583143052b73b516" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::SchemaAwareCDCBridge::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="176" column="24" bodyfile="include/replication/schema_cdc.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a66384e701b07bd1ddb6bf92d8ed4ba8b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::replication::SchemaAwareCDCBridge::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="177" column="11" bodyfile="include/replication/schema_cdc.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4b637d021941c633ad23168cd9370865" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::SchemaAwareCDCBridge::skipped_events_</definition>
+        <argsstring></argsstring>
+        <name>skipped_events_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::skipped_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="178" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ada764d9eb4eef11e3e899b58893c18ac" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::SchemaAwareCDCBridge::started_</definition>
+        <argsstring></argsstring>
+        <name>started_</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::started_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="180" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab194bd53c486832c3a6a19b408c1d949" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::SchemaAwareCDCBridge::SchemaAwareCDCBridge</definition>
+        <argsstring>(std::shared_ptr&lt; ReplicationManager &gt; repl_mgr, const themis::cdc::SchemaRegistryConfig &amp;reg_cfg)</argsstring>
+        <name>SchemaAwareCDCBridge</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::SchemaAwareCDCBridge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+          <declname>repl_mgr</declname>
+        </param>
+        <param>
+          <type>const themis::cdc::SchemaRegistryConfig &amp;</type>
+          <declname>reg_cfg</declname>
+        </param>
+        <briefdescription>
+<para>Construct the bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>repl_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The replication manager whose CDC events to capture. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Schema registry configuration (URL, format, auth …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="74" column="5" bodyfile="src/replication/schema_cdc.cpp" bodystart="26" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8ce2a7692aae725d06bd36a2c6ffe2a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::SchemaAwareCDCBridge::~SchemaAwareCDCBridge</definition>
+        <argsstring>()</argsstring>
+        <name>~SchemaAwareCDCBridge</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::~SchemaAwareCDCBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="78" column="5" bodyfile="src/replication/schema_cdc.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a2f7d38151cad1ae4cfc29be54b7371fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::SchemaAwareCDCBridge::registerCollection</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;schema_def=&quot;&quot;)</argsstring>
+        <name>registerCollection</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::registerCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_def</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Register a collection for schema-encoded CDC output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Collection.</para>
+<para>If <computeroutput>schema_def</computeroutput> is empty the encoder uses the default Avro/JSON/Protobuf template from <computeroutput>CdcSchemaEncoder::defaultAvroSchema()</computeroutput> etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name to watch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional explicit schema definition string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Registered schema ID.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="92" column="14" bodyfile="src/replication/schema_cdc.cpp" bodystart="46" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aa191d4bd54abee1bfa20fb6568bc243f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::deregisterCollection</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>deregisterCollection</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::deregisterCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Deregister a collection. Future WAL entries for that collection are silently dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deregister Collection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="100" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d303bba3730f83abea917146663b564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::SchemaAwareCDCBridge::subscribe</definition>
+        <argsstring>(const std::string &amp;collection, EncodedCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::subscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" kindref="member">EncodedCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe to encoded CDC events for <computeroutput>collection</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Subscribe.</para>
+<para>Use an empty string to subscribe to all registered collections.</para>
+<para><simplesect kind="return"><para>Subscription ID that can be passed to <ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab7eda7b2efe050d45799ab7d08da966b" kindref="member">unsubscribe()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="111" column="14" bodyfile="src/replication/schema_cdc.cpp" bodystart="97" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab7eda7b2efe050d45799ab7d08da966b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::unsubscribe</definition>
+        <argsstring>(uint64_t subscription_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::unsubscribe</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscription_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe a previously registered callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unsubscribe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="115" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac46ba425bf89153f330e16f00aa91c36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::start</qualifiedname>
+        <briefdescription>
+<para>Register this bridge as a listener on the replication manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: lock(), addListener(), shared_from_this(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="122" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="131" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a1b361c5e133a7209033bc83dfa0201aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::stop</qualifiedname>
+        <briefdescription>
+<para>Deregister from the replication manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="127" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="146" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1acde9280743cc71dda791120bc73b9cf9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>SchemaAwareCDCBridge::Stats themisdb::replication::SchemaAwareCDCBridge::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="137" column="11" bodyfile="src/replication/schema_cdc.cpp" bodystart="153" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac55fd6725f3fb18770313165c59d57fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;entry) override</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onWALEntryApplied</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8">onWALEntryApplied</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+          <defname>wal_entry</defname>
+        </param>
+        <briefdescription>
+<para>On <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), encoder(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="141" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="170" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a35b8a85783973f0bb8950da818c589e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onRoleChange</definition>
+        <argsstring>(ReplicationRole, ReplicationRole) override</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onRoleChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a">onRoleChange</reimplements>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="142" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8604d559425ed3661bce06a4b128ee2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onLeaderElected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f">onLeaderElected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="143" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a215e68632ba9a2e669257a0dcb39c2b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;) override</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onReplicaAdded</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43">onReplicaAdded</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="144" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5ea7bc7f4757c22b2d20a5cb07b9a7eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onReplicaRemoved</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931">onReplicaRemoved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="145" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aae274d6ccc7cdcc3f176982be78e520f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onConflictDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f">onConflictDetected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="146" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5b5e8a73cc1f6ca44f99c902d82ab9ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onReplicationLagWarning</definition>
+        <argsstring>(int64_t) override</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onReplicationLagWarning</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375">onReplicationLagWarning</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="147" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9ed8d40b7ca171bbf326f607351bc485" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;, HealthStatus, HealthStatus) override</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onReplicaHealthChanged</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139">onReplicaHealthChanged</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="148" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="148" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a13e8a9b30103eceaca6eb4aa091b1d0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onFailoverStarted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d">onFailoverStarted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="150" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="150" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d9fc89d904a2f28a956f19afd9c98b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;, bool) override</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onFailoverCompleted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f">onFailoverCompleted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="152" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ad097bfe64e1d11cf1b0dc8d51beb2e38" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::onNetworkPartitionDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c">onNetworkPartitionDetected</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="153" column="10" bodyfile="include/replication/schema_cdc.h" bodystart="153" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a46d38fac0120e8791686ef063ba15d55" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::SchemaAwareCDCBridge::dispatch</definition>
+        <argsstring>(const SchemaEncodedEvent &amp;ev)</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::dispatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event" kindref="compound">SchemaEncodedEvent</ref> &amp;</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="182" column="10" bodyfile="src/replication/schema_cdc.cpp" bodystart="240" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bridges WAL-based CDC events with schema-encoded output. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a <computeroutput><ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref></computeroutput> (or its <computeroutput><ref refid="classthemisdb_1_1replication_1_1_c_d_c_manager" kindref="compound">CDCManager</ref></computeroutput>) and intercepts WAL entries. For each entry whose collection is registered, the bridge:<orderedlist>
+<listitem><para>Resolves (or auto-registers) the collection&apos;s schema via <computeroutput>SchemaRegistryClient</computeroutput>.</para>
+</listitem><listitem><para>Encodes the event using <computeroutput>CdcSchemaEncoder</computeroutput>.</para>
+</listitem><listitem><para>Dispatches the resulting <computeroutput><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event" kindref="compound">SchemaEncodedEvent</ref></computeroutput> to all registered subscriber callbacks. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SchemaAwareCDCBridge &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::SchemaAwareCDCBridge</label>
+        <link refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SchemaAwareCDCBridge &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::SchemaAwareCDCBridge</label>
+        <link refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/schema_cdc.h" line="63" column="1" bodyfile="include/replication/schema_cdc.h" bodystart="64" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aa191d4bd54abee1bfa20fb6568bc243f" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>deregisterCollection</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a46d38fac0120e8791686ef063ba15d55" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>dispatch</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>EncodedCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1acde9280743cc71dda791120bc73b9cf9" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab69bd9ac86f2ec7f5a516c4448358573" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a93b1b32cff9bc56b2e316a9754c604a2" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>next_sub_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aae274d6ccc7cdcc3f176982be78e520f" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d9fc89d904a2f28a956f19afd9c98b1" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a13e8a9b30103eceaca6eb4aa091b1d0c" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8604d559425ed3661bce06a4b128ee2f" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ad097bfe64e1d11cf1b0dc8d51beb2e38" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a215e68632ba9a2e669257a0dcb39c2b0" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9ed8d40b7ca171bbf326f607351bc485" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5ea7bc7f4757c22b2d20a5cb07b9a7eb" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5b5e8a73cc1f6ca44f99c902d82ab9ed" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a35b8a85783973f0bb8950da818c589e8" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac55fd6725f3fb18770313165c59d57fd" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a0a2595e3edd7fe7f92c5e0acdec3d517" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>reg_cfg_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a2f7d38151cad1ae4cfc29be54b7371fd" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>registerCollection</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a23d9e57c9597df80bf88c07994dbd5b5" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>registered_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ae6ea96f2c540cff6e274d43034ff12c7" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>registry_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1af876e8e8ec78f5cfdb2b31519dae9c59" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>repl_mgr_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab194bd53c486832c3a6a19b408c1d949" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>SchemaAwareCDCBridge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4b637d021941c633ad23168cd9370865" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>skipped_events_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac46ba425bf89153f330e16f00aa91c36" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ada764d9eb4eef11e3e899b58893c18ac" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>started_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a66384e701b07bd1ddb6bf92d8ed4ba8b" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a918af9dd9e5144e1583143052b73b516" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a1b361c5e133a7209033bc83dfa0201aa" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d303bba3730f83abea917146663b564" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>subscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a04058840b9efbc66736e79f0fc0372df" prot="private" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>subscriptions_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab7eda7b2efe050d45799ab7d08da966b" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>unsubscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>~IReplicationListener</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8ce2a7692aae725d06bd36a2c6ffe2a9" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge</scope><name>~SchemaAwareCDCBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

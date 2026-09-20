@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_process_link" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessLink</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_link_1a94b8ed40755ddd111acca10d720c23a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessLink::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::process::benchmark::ProcessLink::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="31" column="17" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_link_1a6861aef0348f167c840c54f2028892d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessLink::target_id</definition>
+        <argsstring></argsstring>
+        <name>target_id</name>
+        <qualifiedname>themis::process::benchmark::ProcessLink::target_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="32" column="17" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_link_1a474c918c3830f23b6a19bbf0c49415ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessLink::link_type</definition>
+        <argsstring></argsstring>
+        <name>link_type</name>
+        <qualifiedname>themis::process::benchmark::ProcessLink::link_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="33" column="17" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_link_1a3e376681ee70315f12f4fc58e09b1e01" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessLink::created_ms</definition>
+        <argsstring></argsstring>
+        <name>created_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessLink::created_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="34" column="13" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_link_1a34ccc771571fda2980cb550b05474f24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ProcessLink::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::process::benchmark::ProcessLink::is_valid</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="35" column="10" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a link between two process models. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_linker_gates.cpp" line="30" column="1" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_link_1a3e376681ee70315f12f4fc58e09b1e01" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLink</scope><name>created_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_link_1a34ccc771571fda2980cb550b05474f24" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLink</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_link_1a474c918c3830f23b6a19bbf0c49415ec" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLink</scope><name>link_type</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_link_1a94b8ed40755ddd111acca10d720c23a8" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLink</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_link_1a6861aef0348f167c840c54f2028892d0" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLink</scope><name>target_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="input__validator_8hpp" kind="file" language="C++">
+    <compoundname>input_validator.hpp</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">regex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="input__validator_8cpp" local="yes">src/security/input_validator.cpp</includedby>
+    <includedby refid="test__input__validation_8cpp" local="yes">tests/security/test_input_validation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/input_validator.hpp</label>
+        <link refid="input__validator_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>regex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/input_validator.hpp</label>
+        <link refid="input__validator_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/input_validator.cpp</label>
+        <link refid="input__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/test_input_validation.cpp</label>
+        <link refid="test__input__validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_validation_result" prot="public">themis::security::ValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_input_validator" prot="public">themis::security::InputValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52be" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52be" kindref="member">ValidationContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beadff004f94221ec8bfe36f7353b337a1a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beadff004f94221ec8bfe36f7353b337a1a" kindref="member">SQL_QUERY</ref>,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beae1c1c323d137f9d5a6ce6cd23c614f48" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beae1c1c323d137f9d5a6ce6cd23c614f48" kindref="member">SQL_IDENTIFIER</ref>,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea0476b642d3c3152c5d52b310f377493b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea0476b642d3c3152c5d52b310f377493b" kindref="member">JSON_PAYLOAD</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea716d483fbf26470970d7b46df75d1e7f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea716d483fbf26470970d7b46df75d1e7f" kindref="member">FILE_UPLOAD</ref>,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beac88a3fb7aacb016e04b5ed4087349a69" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beac88a3fb7aacb016e04b5ed4087349a69" kindref="member">URI_PARAMETER</ref>,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beab842a2d87715b8738e118c26e4245d22" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52beab842a2d87715b8738e118c26e4245d22" kindref="member">SEARCH_QUERY</ref>,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea1ec50a32c82db06d11398c4f487c830a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea1ec50a32c82db06d11398c4f487c830a" kindref="member">CONFIG_PATH</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea9d9445f1cf947d5994deb3072dd96ff6" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52bea9d9445f1cf947d5994deb3072dd96ff6" kindref="member">REQUEST_HEADER</ref>,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1security_1_1_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1security_1_1_validation_result_1a2d6c535a2b35716971d979627b5251a2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result_1a2d6c535a2b35716971d979627b5251a2" kindref="member">is_valid</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1security_1_1_validation_result_1a210f7ace6b1ed0806bd163451da55211" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_validation_result_1a210f7ace6b1ed0806bd163451da55211" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1security_1_1_validation_result_1ad5e842f4f15183d559e7a3c9a0fbec5a" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_validation_result_1ad5e842f4f15183d559e7a3c9a0fbec5a" kindref="member">remediation_hint</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1security_1_1_validation_result_1ad86a62136f5cc97ff075273892051984" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result_1a2d6c535a2b35716971d979627b5251a2" kindref="member">is_valid</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1security_1_1_input_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_input_validator_1a1b3702a6976cdf9d45b181128be0ada3" kindref="member">InputValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1security_1_1_input_validator_1a1b3702a6976cdf9d45b181128be0ada3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a1b3702a6976cdf9d45b181128be0ada3" kindref="member">InputValidator</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Static<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>USER<sp/>INPUT<sp/>VALIDATION<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1afedf27745b64b7ba6d131de3580d2952" kindref="member">validateUserInput</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52be" kindref="member">ValidationContext</ref><sp/>context);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a22080c2a21797ce14416cf2ddd03622e" kindref="member">validateJsonPayload</ref>(std::string_view<sp/>payload);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a5751b61ac7dcfa3a099f0320c061de74" kindref="member">validateFileUpload</ref>(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>filename,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>file_size,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>mime_type);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a3224a9da1d6315b96beaeb529563e618" kindref="member">validateUriParameter</ref>(std::string_view<sp/>uri_param);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1afc5c94ad0b2b52c88aa58abd1aa25169" kindref="member">validateRequestHeader</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>header_name,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>header_value);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1af7767a9ade009fb92592c76c9a59376e" kindref="member">validateSearchQuery</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>query,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_wildcards<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>OUTPUT<sp/>SANITIZATION<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a2c34daba7280fea4d51f889439861859" kindref="member">sanitizeForHtml</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_input_validator_1acca6f1987a52fc9c0dee035da836d4f4" kindref="member">sanitizeForSqlLogging</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_input_validator_1affc453c06740ef7c285e7cda8a68bff1" kindref="member">sanitizeForShell</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a2e2368f16719eeda10f42cd29594e23e" kindref="member">sanitizeForJson</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>IDENTIFIER<sp/>VALIDATION<sp/>(whitelist-based)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1aa68120c082ea9cd9b327d5b44493d183" kindref="member">validateIdentifier</ref>(std::string_view<sp/>identifier);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a53ed1b10f4371b8800e0b350a688966e" kindref="member">validateConfigPath</ref>(</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>path,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>allowed_extension<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;.conf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>UTILITY<sp/>METHODS<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a99688c9a462c2eaf01e5c43d6dd853c8" kindref="member">isAlphanumericWithUnderscore</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" kindref="member">containsNullBytes</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1a746f8d7f28cf4bf4d0aba85f84914a9e" kindref="member">containsControlCharacters</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_input_validator_1ad92a2d3f68522863e14e37f47403f033" kindref="member">isValidUtf8</ref>(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_FIELD_SIZE<sp/>=<sp/>10&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>KB<sp/>per<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_JSON_SIZE<sp/>=<sp/>100&apos;000&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_IDENTIFIER_LENGTH<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_URI_PARAMETER_SIZE<sp/>=<sp/>8&apos;192;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_HEADER_VALUE_SIZE<sp/>=<sp/>8&apos;192;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_JSON_NESTING_DEPTH<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_FILE_UPLOAD_SIZE<sp/>=<sp/>500&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>500<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Allowed<sp/>file<sp/>extensions<sp/>for<sp/>upload<sp/>(whitelist)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/>ALLOWED_UPLOAD_EXTENSIONS[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.txt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.csv&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.json&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.xml&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.pdf&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.docx&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.jpg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.jpeg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.png&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.gif&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.zip&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.tar&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.gz&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateSqlQueryPattern(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateSqlInjectionRisk(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateXssRisk(std::string_view<sp/>input);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validatePathTraversal(std::string_view<sp/>path);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::security</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/input_validator.hpp"/>
+  </compounddef>
+</doxygen>

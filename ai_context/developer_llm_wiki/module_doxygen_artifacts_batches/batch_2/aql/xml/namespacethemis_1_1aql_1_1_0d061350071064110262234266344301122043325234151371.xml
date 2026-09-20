@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_0d061350071064110262234266344301122043325234151371" kind="namespace" language="C++">
+    <compoundname>themis::aql::@061350071064110262234266344301122043325234151371</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/aql_lora_finetuner.cpp" line="49" column="1"/>
+  </compounddef>
+</doxygen>

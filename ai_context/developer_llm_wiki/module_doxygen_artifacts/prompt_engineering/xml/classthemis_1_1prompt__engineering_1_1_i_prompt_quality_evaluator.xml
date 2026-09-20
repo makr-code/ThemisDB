@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IPromptQualityEvaluator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator" prot="public" virt="non-virtual">themis::prompt_engineering::PromptQualityEvaluator</derivedcompoundref>
+    <includes refid="prompt__quality__evaluator_8h" local="no">prompt_quality_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a0868134ca10567b11459e408e4155b05" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IPromptQualityEvaluator::~IPromptQualityEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPromptQualityEvaluator</name>
+        <qualifiedname>themis::prompt_engineering::IPromptQualityEvaluator::~IPromptQualityEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="104" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a5d979d713b04e21caa71c2f3d8819ed8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></type>
+        <definition>virtual QualityReport themis::prompt_engineering::IPromptQualityEvaluator::evaluate</definition>
+        <argsstring>(const IPromptTemplate &amp;tmpl, const QualityConfig &amp;config) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::prompt_engineering::IPromptQualityEvaluator::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ac880dc0ad9c4d318039ff292f970461a">evaluate</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref> &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_quality_config" kindref="compound">QualityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate quality of a compiled prompt template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The template is rendered against an empty <computeroutput><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref></computeroutput>; slots that are not filled are treated as empty strings. Rendering errors are captured as structural failures rather than propagated as exceptions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Template to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></computeroutput>; no internal state is retained. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="117" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1abe79367085395c6193f64c0f753de783" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></type>
+        <definition>virtual QualityReport themis::prompt_engineering::IPromptQualityEvaluator::evaluateText</definition>
+        <argsstring>(const std::string &amp;text, const QualityConfig &amp;config) const =0</argsstring>
+        <name>evaluateText</name>
+        <qualifiedname>themis::prompt_engineering::IPromptQualityEvaluator::evaluateText</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ab4c1569b53300c4bb6e03b59aea2cfa0">evaluateText</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_quality_config" kindref="compound">QualityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate quality of a raw text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful when the prompt text is already assembled and no <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref></computeroutput> object is available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw prompt text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="130" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless prompt quality regression evaluation interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations must not persist any raw prompt content after <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a5d979d713b04e21caa71c2f3d8819ed8" kindref="member">evaluate()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1abe79367085395c6193f64c0f753de783" kindref="member">evaluateText()</ref></computeroutput> returns. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IPromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::PromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="102" column="1" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="102" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a5d979d713b04e21caa71c2f3d8819ed8" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptQualityEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1abe79367085395c6193f64c0f753de783" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptQualityEvaluator</scope><name>evaluateText</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a0868134ca10567b11459e408e4155b05" prot="public" virt="virtual"><scope>themis::prompt_engineering::IPromptQualityEvaluator</scope><name>~IPromptQualityEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

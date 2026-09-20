@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="consistent__hash_8h" kind="file" language="C++">
+    <compoundname>consistent_hash.h</compoundname>
+    <includes refid="urn_8h" local="yes">sharding/urn.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="bench__shard__routing_8cpp" local="yes">benchmarks/sharding/bench_shard_routing.cpp</includedby>
+    <includedby refid="bench__sharding__performance_8cpp" local="yes">benchmarks/sharding/bench_sharding_performance.cpp</includedby>
+    <includedby refid="auto__recovery__manager_8h" local="yes">include/sharding/auto_recovery_manager.h</includedby>
+    <includedby refid="hardware__migration__manager_8h" local="yes">include/sharding/hardware_migration_manager.h</includedby>
+    <includedby refid="raft__shard__manager_8h" local="yes">include/sharding/raft_shard_manager.h</includedby>
+    <includedby refid="shard__repair__engine_8h" local="yes">include/sharding/shard_repair_engine.h</includedby>
+    <includedby refid="sharding__manager_8h" local="yes">include/sharding/sharding_manager.h</includedby>
+    <includedby refid="urn__resolver_8h" local="yes">include/sharding/urn_resolver.h</includedby>
+    <includedby refid="consistent__hash_8cpp" local="yes">src/sharding/consistent_hash.cpp</includedby>
+    <includedby refid="hot__spare__manager_8cpp" local="yes">src/sharding/hot_spare_manager.cpp</includedby>
+    <includedby refid="redundancy__strategy_8cpp" local="yes">src/sharding/redundancy_strategy.cpp</includedby>
+    <includedby refid="test__sharding__core_8cpp" local="yes">tests/sharding/test_sharding_core.cpp</includedby>
+    <includedby refid="test__sharding__e2e_8cpp" local="yes">tests/sharding/test_sharding_e2e.cpp</includedby>
+    <includedby refid="test__sharding__integration_8cpp" local="yes">tests/sharding/test_sharding_integration.cpp</includedby>
+    <includedby refid="test__sharding__phase5_8cpp" local="yes">tests/sharding/test_sharding_phase5.cpp</includedby>
+    <includedby refid="test__sharding__repair_8cpp" local="yes">tests/sharding/test_sharding_repair.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/urn.h</label>
+        <link refid="urn_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>regex</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="21">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/auto_recovery_manager.h</label>
+        <link refid="auto__recovery__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/hardware_migration_manager.h</label>
+        <link refid="hardware__migration__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/sharding/raft_shard_manager.h</label>
+        <link refid="raft__shard__manager_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/sharding/shard_repair_engine.h</label>
+        <link refid="shard__repair__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/sharding/sharding_manager.h</label>
+        <link refid="sharding__manager_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/sharding/urn_resolver.h</label>
+        <link refid="urn__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/sharding/consistent_hash.cpp</label>
+        <link refid="consistent__hash_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/hardware_migration_manager.cpp</label>
+        <link refid="hardware__migration__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/sharding/hot_spare_manager.cpp</label>
+        <link refid="hot__spare__manager_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/sharding/raft_shard_manager.cpp</label>
+        <link refid="raft__shard__manager_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/redundancy_strategy.cpp</label>
+        <link refid="redundancy__strategy_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/sharding/shard_repair_engine.cpp</label>
+        <link refid="shard__repair__engine_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/sharding/sharding_manager_edition.cpp</label>
+        <link refid="sharding__manager__edition_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/sharding/urn_resolver.cpp</label>
+        <link refid="urn__resolver_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/sharding/test_sharding_core.cpp</label>
+        <link refid="test__sharding__core_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_consistent_hash_ring" prot="public">themis::sharding::ConsistentHashRing</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_consistent_hash" prot="public">themis::sharding::ConsistentHash</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="urn_8h" kindref="compound">sharding/urn.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1sharding_1_1_consistent_hash_ring" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a41ec184e6a065bc0a3693dc4a72ecaa4" kindref="member">ConsistentHashRing</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a41ec184e6a065bc0a3693dc4a72ecaa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a41ec184e6a065bc0a3693dc4a72ecaa4" kindref="member">ConsistentHashRing</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*virtual_nodes_hint*/</highlight><highlight class="normal"><sp/>=<sp/>150)<sp/>{}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa5dde5754d463fef5f557a3f86c2b69f" kindref="member">addShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>virtual_nodes<sp/>=<sp/>150);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backward-compat<sp/>alias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a2b81929f66949edaa76af5bb4c280297" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a2b81929f66949edaa76af5bb4c280297" kindref="member">addNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>virtual_nodes<sp/>=<sp/>150)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa5dde5754d463fef5f557a3f86c2b69f" kindref="member">addShard</ref>(shard_id,<sp/>virtual_nodes);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1af14bb9306a3d1b3ef1c58e2ced4c32c3" kindref="member">removeShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a745830a9c9b56083e8eb3a5f50c01395" kindref="member">getShardForHash</ref>(uint64_t<sp/>hash)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa2df0f153892f10e2889a6e02e41518c" kindref="member">getShardForURN</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref>&amp;<sp/>urn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a94d08cb3c7c50c17b4d22b5a154728ad" kindref="member">getNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a982e741efc16bf0ee24834010df318fa" kindref="member">getReplicaNodes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1afc51d53c28027d84a0900d1df0d3a46b" kindref="member">getSuccessors</ref>(uint64_t<sp/>hash,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;uint64_t,<sp/>uint64_t&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1acfed5ebe2a5b1c983c4622516986a772" kindref="member">getShardRange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a0af1dac0140cf34164794ad00afcd4b9" kindref="member">getAllShards</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1af559e552efa38012f64b832d543ab19c" kindref="member">getShardsInRange</ref>(uint64_t<sp/>hash_start,<sp/>uint64_t<sp/>hash_end)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ad6512ec4c4a26a4d7d63d409679977e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ad6512ec4c4a26a4d7d63d409679977e7" kindref="member">hashKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hash(key);<sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a33e4f5ec2f4658deaa153fa0e93b400d" kindref="member">getBalanceFactor</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1add6a256592241ffaee84a58a86ce1823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1add6a256592241ffaee84a58a86ce1823" kindref="member">getVirtualNodeCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ring_.size();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a09a4071e047563b74e52c5e8d5065776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a09a4071e047563b74e52c5e8d5065776" kindref="member">getShardCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_tokens_.size();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ab71906e070b42950559d5cde7f84b8ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ab71906e070b42950559d5cde7f84b8ac" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ring_.clear();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_tokens_.clear();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>(hash)<sp/>→<sp/>Shard<sp/>ID<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>ring<sp/>is<sp/>represented<sp/>as<sp/>a<sp/>sorted<sp/>map<sp/>where<sp/>keys<sp/>are<sp/>hash<sp/>positions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;uint64_t,<sp/>std::string&gt;<sp/>ring_;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>ID<sp/>→<sp/>Virtual<sp/>Node<sp/>Tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tracks<sp/>which<sp/>hash<sp/>positions<sp/>belong<sp/>to<sp/>each<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;uint64_t&gt;&gt;<sp/>shard_tokens_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutex<sp/>for<sp/>thread-safe<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>hash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1sharding_1_1_consistent_hash" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1a879a211c9b6d7e84f81da57ded50ed3b" kindref="member">ConsistentHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1sharding_1_1_consistent_hash_1a879a211c9b6d7e84f81da57ded50ed3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1a879a211c9b6d7e84f81da57ded50ed3b" kindref="member">ConsistentHash</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*expected_shards*/</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1sharding_1_1_consistent_hash_1a5bdfaaca92dc101224d787f513f5468b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1a5bdfaaca92dc101224d787f513f5468b" kindref="member">addNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>virtual_nodes<sp/>=<sp/>150)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoints_[shard_id]<sp/>=<sp/>endpoint;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ring_.addShard(shard_id,<sp/>virtual_nodes);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1sharding_1_1_consistent_hash_1a3bfd91da9a42932b41191de1fe198948" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1a3bfd91da9a42932b41191de1fe198948" kindref="member">removeNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endpoints_.erase(shard_id);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ring_.removeShard(shard_id);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1sharding_1_1_consistent_hash_1a577c64898e369299e3d4aa9fcaf762b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ShardInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1a577c64898e369299e3d4aa9fcaf762b4" kindref="member">getNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ring_.getShardCount()<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard<sp/>=<sp/>ring_.getNode(key).value_or(std::string{});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shard.empty())<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>endpoints_.find(shard);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>endpoint<sp/>=<sp/>(it<sp/>!=<sp/>endpoints_.end())<sp/>?<sp/>it-&gt;second<sp/>:<sp/>std::string();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>info{};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ae0dc4d91166407118570fcbf15925139" kindref="member">shard_id</ref><sp/>=<sp/>shard;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">primary_endpoint</ref><sp/>=<sp/>endpoint;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1sharding_1_1_consistent_hash_1ad12b7049e6560ce7e7bf716e9180a118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1ad12b7049e6560ce7e7bf716e9180a118" kindref="member">getShardCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ring_.getShardCount();<sp/>}</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1sharding_1_1_consistent_hash_1aa3c18509bc1cd798ae59703aedee0e08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_1aa3c18509bc1cd798ae59703aedee0e08" kindref="member">getVirtualNodeCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ring_.getVirtualNodeCount();<sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref><sp/>ring_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>endpoints_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/consistent_hash.h"/>
+  </compounddef>
+</doxygen>

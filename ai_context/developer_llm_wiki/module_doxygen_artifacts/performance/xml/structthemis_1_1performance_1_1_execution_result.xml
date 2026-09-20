@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_execution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ExecutionResult</compoundname>
+    <includes refid="hardware__accelerator_8h" local="no">hardware_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1ab47c47c4d2509e1adf0bc473089624b8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1ad0b29cf012eb42840266ee9e49d1265b" kindref="member">Row</ref> &gt;</type>
+        <definition>std::vector&lt;Row&gt; themis::performance::ExecutionResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::performance::ExecutionResult::rows</qualifiedname>
+        <briefdescription>
+<para>Output rows (join / filter / sort). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="98" column="25" bodyfile="include/performance/hardware_accelerator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a56e33125fb08e851b10876a7dbcab03c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExecutionResult::agg_value</definition>
+        <argsstring></argsstring>
+        <name>agg_value</name>
+        <qualifiedname>themis::performance::ExecutionResult::agg_value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Aggregate value (SUM / AVG). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="101" column="15" bodyfile="include/performance/hardware_accelerator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a19ece78a19fa011454b731255aef4ec4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::performance::ExecutionResult::agg_count</definition>
+        <argsstring></argsstring>
+        <name>agg_count</name>
+        <qualifiedname>themis::performance::ExecutionResult::agg_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>COUNT result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="102" column="15" bodyfile="include/performance/hardware_accelerator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1ac479f37f5db2fb75f89f91b66480c8c2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExecutionResult::agg_min</definition>
+        <argsstring></argsstring>
+        <name>agg_min</name>
+        <qualifiedname>themis::performance::ExecutionResult::agg_min</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>MIN result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="103" column="15" bodyfile="include/performance/hardware_accelerator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1affd70d9f22d0706984b44510c0f6ed0c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExecutionResult::agg_max</definition>
+        <argsstring></argsstring>
+        <name>agg_max</name>
+        <qualifiedname>themis::performance::ExecutionResult::agg_max</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>MAX result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="104" column="15" bodyfile="include/performance/hardware_accelerator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a778085b67351d461d118dc366fdc146a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::performance::ExecutionResult::match_indices</definition>
+        <argsstring></argsstring>
+        <name>match_indices</name>
+        <qualifiedname>themis::performance::ExecutionResult::match_indices</qualifiedname>
+        <briefdescription>
+<para>Indices of matching strings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="107" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a5d589cbbf565d952842d9c8c445a7f9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::ExecutionResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::performance::ExecutionResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="110" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1acbb307cf2a8566b6e10567144631eae8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ExecutionResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::performance::ExecutionResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="111" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a7dac215662e55d07235edf4c493298dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::ExecutionResult::used_hw_path</definition>
+        <argsstring></argsstring>
+        <name>used_hw_path</name>
+        <qualifiedname>themis::performance::ExecutionResult::used_hw_path</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the result was produced by the hardware-accelerated path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="114" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1a70785d464ed21dc8cb0f2debd0e4a656" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExecutionResult::speedup</definition>
+        <argsstring></argsstring>
+        <name>speedup</name>
+        <qualifiedname>themis::performance::ExecutionResult::speedup</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Estimated speedup factor (≥ 1.0) relative to the CPU baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="117" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_execution_result_1aa54ad4e1b19d6d859c8f62cd1c2b8c76" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExecutionResult::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::performance::ExecutionResult::elapsed_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock execution time in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="120" column="17" bodyfile="include/performance/hardware_accelerator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by <ref refid="classthemis_1_1performance_1_1_hardware_accelerator_1a654590c19527460ff109ef96b7316ce6" kindref="member">HardwareAccelerator::execute()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/hardware_accelerator.h" line="96" column="1" bodyfile="include/performance/hardware_accelerator.h" bodystart="96" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a19ece78a19fa011454b731255aef4ec4" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>agg_count</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1affd70d9f22d0706984b44510c0f6ed0c" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>agg_max</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1ac479f37f5db2fb75f89f91b66480c8c2" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>agg_min</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a56e33125fb08e851b10876a7dbcab03c" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>agg_value</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1aa54ad4e1b19d6d859c8f62cd1c2b8c76" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1acbb307cf2a8566b6e10567144631eae8" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a778085b67351d461d118dc366fdc146a" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>match_indices</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a5d589cbbf565d952842d9c8c445a7f9a" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1ab47c47c4d2509e1adf0bc473089624b8" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a70785d464ed21dc8cb0f2debd0e4a656" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>speedup</name></member>
+      <member refid="structthemis_1_1performance_1_1_execution_result_1a7dac215662e55d07235edf4c493298dd" prot="public" virt="non-virtual"><scope>themis::performance::ExecutionResult</scope><name>used_hw_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

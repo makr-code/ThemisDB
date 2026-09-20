@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_tensor_rag_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TensorRagConfig</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1a55ced320af1734b3d81b0f9f16038908" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRagConfig::num_chunks</definition>
+        <argsstring></argsstring>
+        <name>num_chunks</name>
+        <qualifiedname>themis::rag::TensorRagConfig::num_chunks</qualifiedname>
+        <initializer>{32}</initializer>
+        <briefdescription>
+<para>Number of candidate chunks retrieved from the ANN index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="34" column="17" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1a6121a552717dd031ccf5eb6b05d79d8b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TensorRagConfig::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::rag::TensorRagConfig::embedding_dim</qualifiedname>
+        <initializer>{768}</initializer>
+        <briefdescription>
+<para>Embedding vector dimensionality (informational; reserved for future use). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="37" column="17" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1a142dad17b8dfe7c3b87611af058b6ddd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TensorRagConfig::reranker_enabled</definition>
+        <argsstring></argsstring>
+        <name>reranker_enabled</name>
+        <qualifiedname>themis::rag::TensorRagConfig::reranker_enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>When true, the cross-encoder reranker phase is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="40" column="10" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1a48f68806129479f17ee06e5abb532f3a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagConfig::cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate</name>
+        <qualifiedname>themis::rag::TensorRagConfig::cache_hit_rate</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Fraction of retrieval results served from cache (0.0 = cold, 1.0 = full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="43" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1a0c900b932413fd36db6aad40695b8c47" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagConfig::llm_baseline_ttft_ms</definition>
+        <argsstring></argsstring>
+        <name>llm_baseline_ttft_ms</name>
+        <qualifiedname>themis::rag::TensorRagConfig::llm_baseline_ttft_ms</qualifiedname>
+        <initializer>{275.0f}</initializer>
+        <briefdescription>
+<para>LLM time-to-first-token baseline (ms) — midpoint of 150–400 ms range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="46" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_rag_config_1ad9970e68d7c68b06442c2723ba9636c3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagConfig::cached_ttft_ms</definition>
+        <argsstring></argsstring>
+        <name>cached_ttft_ms</name>
+        <qualifiedname>themis::rag::TensorRagConfig::cached_ttft_ms</qualifiedname>
+        <initializer>{65.0f}</initializer>
+        <briefdescription>
+<para>LLM time-to-first-token when KV-cache is warm — midpoint of 40–90 ms range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="49" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-query configuration passed to <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" kindref="member">TensorRagCostModel::estimate()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_cost_model.h" line="32" column="1" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="32" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1a48f68806129479f17ee06e5abb532f3a" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>cache_hit_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1ad9970e68d7c68b06442c2723ba9636c3" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>cached_ttft_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1a6121a552717dd031ccf5eb6b05d79d8b" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1a0c900b932413fd36db6aad40695b8c47" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>llm_baseline_ttft_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1a55ced320af1734b3d81b0f9f16038908" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>num_chunks</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_rag_config_1a142dad17b8dfe7c3b87611af058b6ddd" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagConfig</scope><name>reranker_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

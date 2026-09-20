@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_layer_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorLayerSummary</compoundname>
+    <includes refid="tensor__mid__layer_8h" local="no">tensor_mid_layer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a93c51e5c43314d957ec420cb3464c04e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerSummary::scope_key</definition>
+        <argsstring></argsstring>
+        <name>scope_key</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::scope_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="66" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a756db7bc09072dfb106c420eb46f8a57" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref></type>
+        <definition>TensorLayerKind themis::tensor::TensorLayerSummary::layer_kind</definition>
+        <argsstring></argsstring>
+        <name>layer_kind</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::layer_kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" kindref="member">TensorLayerKind::Adapter</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="67" column="21" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a485065a693595b31315518caa3613cb6" prot="public" static="no" mutable="no">
+        <type>index::AnnScopeKind</type>
+        <definition>index::AnnScopeKind themis::tensor::TensorLayerSummary::ann_scope_kind</definition>
+        <argsstring></argsstring>
+        <name>ann_scope_kind</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::ann_scope_kind</qualifiedname>
+        <initializer>= index::AnnScopeKind::Adapter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="68" column="25" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1aae773912e3f4308a3f4da5cecdde6023" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt;SimilarityResult&gt; themis::tensor::TensorLayerSummary::similar_adapters</definition>
+        <argsstring></argsstring>
+        <name>similar_adapters</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::similar_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="69" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a0634f99c34fbdfc63e006b726da8c649" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerSummary::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="70" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1ae76a3474e7e7f36d755995c50230c2a7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorLayerSummary::candidate_count</definition>
+        <argsstring></argsstring>
+        <name>candidate_count</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::candidate_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="71" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a7c365fd3d69e89cf0ec59021179ca0b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorLayerSummary::federated</definition>
+        <argsstring></argsstring>
+        <name>federated</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::federated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="72" column="10" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_summary_1a64e51b611f2600f5d4fead6121d08c92" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorLayerSummary::participating_shards</definition>
+        <argsstring></argsstring>
+        <name>participating_shards</name>
+        <qualifiedname>themis::tensor::TensorLayerSummary::participating_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="73" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary of a tensor-layer retrieval step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mid_layer.h" line="65" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="65" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a485065a693595b31315518caa3613cb6" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>ann_scope_kind</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1ae76a3474e7e7f36d755995c50230c2a7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>candidate_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a7c365fd3d69e89cf0ec59021179ca0b3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>federated</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a756db7bc09072dfb106c420eb46f8a57" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>layer_kind</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a64e51b611f2600f5d4fead6121d08c92" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>participating_shards</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a0634f99c34fbdfc63e006b726da8c649" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a93c51e5c43314d957ec420cb3464c04e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>scope_key</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1aae773912e3f4308a3f4da5cecdde6023" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerSummary</scope><name>similar_adapters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_sanitize_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::SanitizeFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="security__functions_8h" local="no">security_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1abfde41ebe6c6b9f3a28ec0be293090ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::SanitizeFunction::~SanitizeFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SanitizeFunction</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::~SanitizeFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="350" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aeba2d47350bc42b31bb25865af3437b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::SanitizeFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="351" column="23" bodyfile="include/query/functions/security_functions.h" bodystart="351" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aa3bf6106a64fca105b814e98ef8c5f0c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::SanitizeFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="364" column="20" bodyfile="include/query/functions/security_functions.h" bodystart="364" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aa31842c0d7a3b097494b954fdd72816a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::SanitizeFunction::escapeHtml</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>escapeHtml</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::escapeHtml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Escape Html. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="396" column="24" bodyfile="include/query/functions/security_functions.h" bodystart="396" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1a3e4835ee135b844669b4b7454386476a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::SanitizeFunction::escapeSql</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>escapeSql</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::escapeSql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Escape Sql. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="418" column="24" bodyfile="include/query/functions/security_functions.h" bodystart="418" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1abd0b347014f6fe60fc8425fc2a807862" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::SanitizeFunction::escapeJson</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>escapeJson</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::escapeJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Escape Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="439" column="24" bodyfile="include/query/functions/security_functions.h" bodystart="439" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_sanitize_function_1a3983c5693c08c3ca2e84b48e3e5961b2" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::SanitizeFunction::sanitizeFilename</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>sanitizeFilename</name>
+        <qualifiedname>themis::query::functions::SanitizeFunction::sanitizeFilename</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Filename. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="463" column="24" bodyfile="include/query/functions/security_functions.h" bodystart="463" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::SanitizeFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_sanitize_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::SanitizeFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_sanitize_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/security_functions.h" line="348" column="1" bodyfile="include/query/functions/security_functions.h" bodystart="348" bodyend="477"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aa31842c0d7a3b097494b954fdd72816a" prot="private" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>escapeHtml</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1abd0b347014f6fe60fc8425fc2a807862" prot="private" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>escapeJson</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1a3e4835ee135b844669b4b7454386476a" prot="private" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>escapeSql</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aa3bf6106a64fca105b814e98ef8c5f0c" prot="public" virt="virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1a3983c5693c08c3ca2e84b48e3e5961b2" prot="private" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>sanitizeFilename</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1aeba2d47350bc42b31bb25865af3437b5" prot="public" virt="virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" prot="public" virt="virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_sanitize_function_1abfde41ebe6c6b9f3a28ec0be293090ba" prot="public" virt="non-virtual"><scope>themis::query::functions::SanitizeFunction</scope><name>~SanitizeFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

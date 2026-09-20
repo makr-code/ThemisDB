@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c9b6d1f3525b7d54178060ccb4defa1c" kind="dir">
+    <compoundname>include/cdc</compoundname>
+    <innerfile refid="cdc__admin_8h">cdc_admin.h</innerfile>
+    <innerfile refid="cdc__delivery__contract_8h">cdc_delivery_contract.h</innerfile>
+    <innerfile refid="cdc__error_8h">cdc_error.h</innerfile>
+    <innerfile refid="cdc__materialized__view_8h">cdc_materialized_view.h</innerfile>
+    <innerfile refid="cdc__metrics_8h">cdc_metrics.h</innerfile>
+    <innerfile refid="cdc__ws__handler_8h">cdc_ws_handler.h</innerfile>
+    <innerfile refid="change__stream__compressor_8h">change_stream_compressor.h</innerfile>
+    <innerfile refid="changefeed_8h">changefeed.h</innerfile>
+    <innerfile refid="changefeed__buffer_8h">changefeed_buffer.h</innerfile>
+    <innerfile refid="consumer__group_8h">consumer_group.h</innerfile>
+    <innerfile refid="cross__collection__stream_8h">cross_collection_stream.h</innerfile>
+    <innerfile refid="dead__letter__queue_8h">dead_letter_queue.h</innerfile>
+    <innerfile refid="debezium__format_8h">debezium_format.h</innerfile>
+    <innerfile refid="delivery__tracker_8h">delivery_tracker.h</innerfile>
+    <innerfile refid="icdc__backpressure__signal_8h">icdc_backpressure_signal.h</innerfile>
+    <innerfile refid="icdc__batch__commit__coordinator_8h">icdc_batch_commit_coordinator.h</innerfile>
+    <innerfile refid="icdc__event__schema_8h">icdc_event_schema.h</innerfile>
+    <innerfile refid="icdc__fan__in_8h">icdc_fan_in.h</innerfile>
+    <innerfile refid="icdc__filter__pipeline_8h">icdc_filter_pipeline.h</innerfile>
+    <innerfile refid="icdc__pause__control_8h">icdc_pause_control.h</innerfile>
+    <innerfile refid="icdc__replay__controller_8h">icdc_replay_controller.h</innerfile>
+    <innerfile refid="icdc__transport_8h">icdc_transport.h</innerfile>
+    <innerfile refid="idelivery__guarantee__config_8h">idelivery_guarantee_config.h</innerfile>
+    <innerfile refid="kafka__cdc__producer_8h">kafka_cdc_producer.h</innerfile>
+    <innerfile refid="outbox_8h">outbox.h</innerfile>
+    <innerfile refid="schema__registry_8h">schema_registry.h</innerfile>
+    <innerfile refid="tenant__buffer__manager_8h">tenant_buffer_manager.h</innerfile>
+    <innerfile refid="ws__transport_8h">ws_transport.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/"/>
+  </compounddef>
+</doxygen>

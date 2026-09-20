@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_i_auth_event_bus" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::auth::IAuthEventBus</compoundname>
+    <derivedcompoundref refid="classthemis_1_1auth_1_1_default_auth_event_bus" prot="public" virt="non-virtual">themis::auth::DefaultAuthEventBus</derivedcompoundref>
+    <includes refid="auth__event__bus_8h" local="no">auth_event_bus.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_bus_1af0e4d3d948b9129bc39bd0e413914dab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::auth::IAuthEventBus::~IAuthEventBus</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAuthEventBus</name>
+        <qualifiedname>themis::auth::IAuthEventBus::~IAuthEventBus</qualifiedname>
+        <briefdescription>
+<para>IAuth Event Bus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="93" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_bus_1a1024c0b2ab9d65baad0d8aa43d064eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::auth::IAuthEventBus::publish</definition>
+        <argsstring>(const AuthEvent &amp;event)=0</argsstring>
+        <name>publish</name>
+        <qualifiedname>themis::auth::IAuthEventBus::publish</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_default_auth_event_bus_1a61c01cf956ac40ad9095deee5737b442">publish</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_event" kindref="compound">AuthEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Publish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_bus_1af843344e78332ad04fc9c8c89723754a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::auth::IAuthEventBus::subscribe</definition>
+        <argsstring>(std::shared_ptr&lt; IAuthEventSubscriber &gt; subscriber)=0</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::auth::IAuthEventBus::subscribe</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_default_auth_event_bus_1a6bbcf5d392aa092a0defc957cbc2be8e">subscribe</reimplementedby>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_i_auth_event_subscriber" kindref="compound">IAuthEventSubscriber</ref> &gt;</type>
+          <declname>subscriber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="101" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_bus_1a7452129936558c3b90f846283e48a5ef" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::auth::IAuthEventBus::unsubscribe</definition>
+        <argsstring>(const std::string &amp;subscriber_id)=0</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themis::auth::IAuthEventBus::unsubscribe</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_default_auth_event_bus_1a1550b9ae7b8866f5055849a592d37f44">unsubscribe</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subscriber_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="103" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_bus_1a3b1fa2404e8aa1a31415f728977defc3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::auth::IAuthEventBus::subscriberCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>subscriberCount</name>
+        <qualifiedname>themis::auth::IAuthEventBus::subscriberCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_default_auth_event_bus_1a9218ca23b27caf89a0037f43504794ed">subscriberCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="105" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::auth::DefaultAuthEventBus</label>
+        <link refid="classthemis_1_1auth_1_1_default_auth_event_bus"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::auth::IAuthEventBus</label>
+        <link refid="classthemis_1_1auth_1_1_i_auth_event_bus"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/auth/auth_event_bus.h" line="87" column="1" bodyfile="include/auth/auth_event_bus.h" bodystart="87" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a1024c0b2ab9d65baad0d8aa43d064eb5" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventBus</scope><name>publish</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af843344e78332ad04fc9c8c89723754a" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventBus</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a3b1fa2404e8aa1a31415f728977defc3" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventBus</scope><name>subscriberCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a7452129936558c3b90f846283e48a5ef" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventBus</scope><name>unsubscribe</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af0e4d3d948b9129bc39bd0e413914dab" prot="public" virt="virtual"><scope>themis::auth::IAuthEventBus</scope><name>~IAuthEventBus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

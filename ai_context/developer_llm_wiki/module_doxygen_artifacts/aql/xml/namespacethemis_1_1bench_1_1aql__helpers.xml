@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1aql__helpers" kind="namespace" language="C++">
+    <compoundname>themis::bench::aql_helpers</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_confidence_scorer" prot="public">themis::bench::aql_helpers::MockConfidenceScorer</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library" prot="public">themis::bench::aql_helpers::MockFewShotLibrary</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter" prot="public">themis::bench::aql_helpers::MockAQLHighlighter</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_token_estimator" prot="public">themis::bench::aql_helpers::MockTokenEstimator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__helpers_1abb97797b824da4f728fe544a3ac1d33f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::aql_helpers::kW7CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kW7CanonicalSeed</name>
+        <qualifiedname>themis::bench::aql_helpers::kW7CanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="38" column="27" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1a5fe0c4c8788926707eefc98336ff0436" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_helpers::BM_AQLConfidenceScorerSimple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLConfidenceScorerSimple</name>
+        <qualifiedname>themis::bench::aql_helpers::BM_AQLConfidenceScorerSimple</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLConfidenceScorerSimple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50 latency of computing confidence score for a single NL→AQL translation result.</para>
+<para>Release gate: p95 ≤ 100 µs (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="258" column="13" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="258" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1a4059ccc6a6c40f9528c3926b66014ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_helpers::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(3) -&gt;DisplayAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::aql_helpers::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="276" column="5" declfile="benchmarks/aql/bench_aql_helper_paths.cpp" declline="276" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1a47592930016f87648b43a4387dfdb039" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_helpers::BM_AQLFewShotRetrieval</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLFewShotRetrieval</name>
+        <qualifiedname>themis::bench::aql_helpers::BM_AQLFewShotRetrieval</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLFewShotRetrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50 latency of retrieving top-K few-shot examples by Jaccard similarity against a library of 8 examples.</para>
+<para>Release gate: p95 ≤ 500 µs (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="292" column="13" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="292" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1ac79892bcdbf5d7f4e2a545a6a363147f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_helpers::Arg</definition>
+        <argsstring>(3) -&gt; Arg(5) -&gt;UseRealTime() -&gt;Repetitions(3) -&gt;DisplayAggregatesOnly(true)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::aql_helpers::Arg</qualifiedname>
+        <param>
+          <type>3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="314" column="5" declfile="benchmarks/aql/bench_aql_helper_paths.cpp" declline="314" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1ae71cc93b084bff82493909a10f0f1510" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_helpers::BM_AQLHighlighterSimple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLHighlighterSimple</name>
+        <qualifiedname>themis::bench::aql_helpers::BM_AQLHighlighterSimple</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLHighlighterSimple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the p50 latency of annotating an AQL query string using the no-ANSI highlighter path.</para>
+<para>Release gate: p95 ≤ 200 µs (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="332" column="13" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="332" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1ab28e06738d41665b02cec9d62c85978c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_helpers::BM_AQLTokenEstimation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AQLTokenEstimation</name>
+        <qualifiedname>themis::bench::aql_helpers::BM_AQLTokenEstimation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>BM_AQLTokenEstimation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the throughput of token count estimation for conversation history entries (NL + AQL pairs).</para>
+<para>Release gate: p95 ≤ 50 µs per turn (see PERFORMANCE_EXPECTATIONS.md) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="366" column="13" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="366" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__helpers_1a8080570696ba615b15cdf54ef5f53d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_helpers::Arg</definition>
+        <argsstring>(5) -&gt; Arg(20) -&gt;Arg(50) -&gt;UseRealTime() -&gt;Repetitions(3) -&gt;DisplayAggregatesOnly(true)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::aql_helpers::Arg</qualifiedname>
+        <param>
+          <type>5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="387" column="5" declfile="benchmarks/aql/bench_aql_helper_paths.cpp" declline="387" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

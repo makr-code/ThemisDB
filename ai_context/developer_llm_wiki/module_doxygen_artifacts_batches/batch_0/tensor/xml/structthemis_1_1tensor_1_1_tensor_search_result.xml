@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorSearchResult</compoundname>
+    <includes refid="tensor__index_8h" local="no">tensor_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_search_result_1a1bfe9e5a844dccd1c0b55886d782b456" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::tensor::TensorSearchResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::tensor::TensorSearchResult::id</qualifiedname>
+        <briefdescription>
+<para>User-assigned vector ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="28" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_search_result_1af6a3cda0d8e0b836bf8d0744a616d1aa" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::TensorSearchResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::tensor::TensorSearchResult::distance</qualifiedname>
+        <briefdescription>
+<para>Approximate distance (smaller = closer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="29" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_search_result_1ab8b3e56da96aa0b86a8c6ded63be05f7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::TensorSearchResult::tt_norm</definition>
+        <argsstring></argsstring>
+        <name>tt_norm</name>
+        <qualifiedname>themis::tensor::TensorSearchResult::tt_norm</qualifiedname>
+        <briefdescription>
+<para>Frobenius norm of the stored TT-train. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="30" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_index.h" line="27" column="1" bodyfile="include/tensor/tensor_index.h" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_search_result_1af6a3cda0d8e0b836bf8d0744a616d1aa" prot="public" virt="non-virtual"><scope>themis::tensor::TensorSearchResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_search_result_1a1bfe9e5a844dccd1c0b55886d782b456" prot="public" virt="non-virtual"><scope>themis::tensor::TensorSearchResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_search_result_1ab8b3e56da96aa0b86a8c6ded63be05f7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorSearchResult</scope><name>tt_norm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

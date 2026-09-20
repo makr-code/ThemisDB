@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalSource</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a38f6d55172d0b141cdc654cd3bbce723" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fd" kindref="member">Modality</ref></type>
+        <definition>Modality themis::rag::multimodal::MultiModalSource::modality</definition>
+        <argsstring></argsstring>
+        <name>modality</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::modality</qualifiedname>
+        <briefdescription>
+<para>Source modality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="91" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7476b5a86b088cc97b0e6c79d76486c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalSource::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::document_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the originating document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="92" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1aff7681a5726d48eb0b1b21efc41043bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::MultiModalSource::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fused relevance score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="93" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7d213324a477850742b546c131c64535" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalSource::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::content</qualifiedname>
+        <briefdescription>
+<para>Text passage content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="96" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a6466eedbd90ced3950520476ca0a7ad7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalSource::table_data</definition>
+        <argsstring></argsstring>
+        <name>table_data</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::table_data</qualifiedname>
+        <briefdescription>
+<para>Serialised table (CSV / markdown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="97" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ab377682b78e0d14fb2c84e3e9a8c6502" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalSource::image_path</definition>
+        <argsstring></argsstring>
+        <name>image_path</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::image_path</qualifiedname>
+        <briefdescription>
+<para>Path or URI to the image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="100" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ae852616afd5c087da3d83b2a10140ee3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalSource::caption</definition>
+        <argsstring></argsstring>
+        <name>caption</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::caption</qualifiedname>
+        <briefdescription>
+<para>Natural-language caption for the image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="101" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a390e2a5ea73e85614eccc500c990ed92" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::multimodal::MultiModalSource::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalSource::metadata</qualifiedname>
+        <briefdescription>
+<para>Pass-through metadata from the original document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="104" column="24" bodyfile="include/rag/multimodal_rag.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single multi-modal source item in the RAG result. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Which fields are populated depends on <computeroutput>modality:</computeroutput> <itemizedlist>
+<listitem><para>TEXT: <computeroutput>content</computeroutput> is populated.</para>
+</listitem><listitem><para>IMAGE: <computeroutput>image_path</computeroutput> and <computeroutput>caption</computeroutput> are populated.</para>
+</listitem><listitem><para>TABLE: <computeroutput>table_data</computeroutput> is populated. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="90" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="90" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ae852616afd5c087da3d83b2a10140ee3" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>caption</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7d213324a477850742b546c131c64535" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7476b5a86b088cc97b0e6c79d76486c1" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ab377682b78e0d14fb2c84e3e9a8c6502" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>image_path</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a390e2a5ea73e85614eccc500c990ed92" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a38f6d55172d0b141cdc654cd3bbce723" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>modality</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1aff7681a5726d48eb0b1b21efc41043bc" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a6466eedbd90ced3950520476ca0a7ad7" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalSource</scope><name>table_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache::Statistics</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1afcc573573da911580b98867cd16ef023" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::query::PlanCache::Statistics::table_cardinalities</definition>
+        <argsstring></argsstring>
+        <name>table_cardinalities</name>
+        <qualifiedname>themis::query::PlanCache::Statistics::table_cardinalities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="35" column="28" bodyfile="include/query/plan_cache.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1a6d33625cafc96f2a17e4c5ce998ff85d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::Statistics::Statistics</definition>
+        <argsstring>()=default</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::query::PlanCache::Statistics::Statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="37" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1a71c73427a2950a765c6b51d0229f09f4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::Statistics::Statistics</definition>
+        <argsstring>(std::unordered_map&lt; std::string, size_t &gt; cards)</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::query::PlanCache::Statistics::Statistics</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+          <declname>cards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="39" column="18" bodyfile="include/query/plan_cache.h" bodystart="39" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="34" column="5" bodyfile="include/query/plan_cache.h" bodystart="34" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1a6d33625cafc96f2a17e4c5ce998ff85d" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Statistics</scope><name>Statistics</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1a71c73427a2950a765c6b51d0229f09f4" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Statistics</scope><name>Statistics</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics_1afcc573573da911580b98867cd16ef023" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::Statistics</scope><name>table_cardinalities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

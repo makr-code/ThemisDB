@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_llm_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::LlmOptions</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_llm_options_1af3dc8e9882a6cf1248c5a84d98170a36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::LlmOptions::quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>quality_threshold</name>
+        <qualifiedname>themis::scraper::LlmOptions::quality_threshold</qualifiedname>
+        <initializer>= 0.65</initializer>
+        <briefdescription>
+<para>Documents below this are discarded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="97" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_llm_options_1ac3714640fc24e8571d50842d85941b6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::LlmOptions::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::scraper::LlmOptions::model_path</qualifiedname>
+        <briefdescription>
+<para>GGUF path; empty = use plugin manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="98" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_llm_options_1a207d7c7abf6a1071410240a0150375d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::LlmOptions::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::scraper::LlmOptions::temperature</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="99" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="96" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="96" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_llm_options_1ac3714640fc24e8571d50842d85941b6b" prot="public" virt="non-virtual"><scope>themis::scraper::LlmOptions</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1scraper_1_1_llm_options_1af3dc8e9882a6cf1248c5a84d98170a36" prot="public" virt="non-virtual"><scope>themis::scraper::LlmOptions</scope><name>quality_threshold</name></member>
+      <member refid="structthemis_1_1scraper_1_1_llm_options_1a207d7c7abf6a1071410240a0150375d9" prot="public" virt="non-virtual"><scope>themis::scraper::LlmOptions</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

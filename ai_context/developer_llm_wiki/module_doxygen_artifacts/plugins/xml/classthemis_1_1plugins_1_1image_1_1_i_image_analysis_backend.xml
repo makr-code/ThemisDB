@@ -1,0 +1,610 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::image::IImageAnalysisBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" prot="public" virt="non-virtual">themis::plugins::image::TesseractOCRPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" prot="public" virt="non-virtual">themis::plugins::image::YOLOv8OnnxPlugin</derivedcompoundref>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a99dc62ca5a3a4ea24cbb4e9d189d01ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::image::IImageAnalysisBackend::~IImageAnalysisBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IImageAnalysisBackend</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::~IImageAnalysisBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="304" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ac664bdf7a977de578a81ba3d96cd31d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>virtual PluginInfo themis::plugins::image::IImageAnalysisBackend::getInfo</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::getInfo</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a102e04ee512c306f7620583430021e86">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a6868e3678529544d4de6742a3d65fbc1">getInfo</reimplementedby>
+        <briefdescription>
+<para>Get plugin information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="309" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a36b385163cfc2ca851e0c0d8fbfb9d47" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::image::IImageAnalysisBackend::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend=BackendType::AUTO)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called once when plugin is loaded. Should load models and allocate resources.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration from YAML </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Preferred backend (CPU, CUDA, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="321" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a69422fd58faae539c471593633105f8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::image::IImageAnalysisBackend::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a81a84e99bb942abab5ed58d62e91bd04">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a7df7ecf85abc8009aa7db6e2bd51df4d">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called when plugin is unloaded. Clean up resources and deallocate memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="329" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a68d426d8bcfd7f3ab282040bb8b68f43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::image::IImageAnalysisBackend::isReady</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::isReady</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a5135729111d305190474e85ac1d338cf">isReady</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3460addb9137fbfe1118deca385a9f9f">isReady</reimplementedby>
+        <briefdescription>
+<para>Check if plugin is ready for inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="334" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a322978d54abc5e1c2e7100251d554a73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+        <definition>virtual BackendType themis::plugins::image::IImageAnalysisBackend::getBackend</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::getBackend</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac71f736d0149f045272138c162b9722a">getBackend</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a269376c34bb021b093cb7b8a98524612">getBackend</reimplementedby>
+        <briefdescription>
+<para>Get current backend type in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="339" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ad2cd652429ba25ff254c395b33ab2405" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>virtual EmbeddingResult themis::plugins::image::IImageAnalysisBackend::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr)=0</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::generateEmbedding</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a98bcd8ea26266d43f9b2f5a27ca7d85c">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a08c77415be319eae9dc07162f5375f8a">generateEmbedding</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Generate embedding vector for an image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses models like CLIP to generate semantic embeddings suitable for similarity search.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes (JPEG, PNG, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata (can be nullptr) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Embedding result with vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="355" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5718e9255a235d2702d9c75cbd83621" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_caption_result" kindref="compound">CaptionResult</ref></type>
+        <definition>virtual CaptionResult themis::plugins::image::IImageAnalysisBackend::generateCaption</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr, int max_length=50)</argsstring>
+        <name>generateCaption</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::generateCaption</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_length</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+<para>Generate text caption for an image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses models like LLaVA, BLIP-2, etc. to generate natural language descriptions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum caption length </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Caption result with text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="371" column="27" bodyfile="include/plugins/image_analysis_interface.h" bodystart="371" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5a267413dbf1c09545d923306a4293f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>virtual DetectionResult themis::plugins::image::IImageAnalysisBackend::detectObjects</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr, float confidence_threshold=0.5f)</argsstring>
+        <name>detectObjects</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::detectObjects</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b">detectObjects</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764">detectObjects</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence_threshold</declname>
+          <defval>0.5f</defval>
+        </param>
+        <briefdescription>
+<para>Detect objects in an image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses models like YOLO, Faster R-CNN, etc. to detect and localize objects.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum confidence (0-1) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result with bounding boxes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="394" column="29" bodyfile="include/plugins/image_analysis_interface.h" bodystart="394" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a6895112fadb2adc1dcd59ae22471d9fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_segmentation_result" kindref="compound">SegmentationResult</ref></type>
+        <definition>virtual SegmentationResult themis::plugins::image::IImageAnalysisBackend::segmentImage</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr)</argsstring>
+        <name>segmentImage</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::segmentImage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Segment image into regions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses models like Segment Anything, Mask R-CNN, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Segmentation result with mask </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="415" column="32" bodyfile="include/plugins/image_analysis_interface.h" bodystart="415" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a130fa298b597b4188e0f87469f2aa658" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_generation_result" kindref="compound">GenerationResult</ref></type>
+        <definition>virtual GenerationResult themis::plugins::image::IImageAnalysisBackend::generateImage</definition>
+        <argsstring>(const GenerationParams &amp;params)</argsstring>
+        <name>generateImage</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::generateImage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_generation_params" kindref="compound">GenerationParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Generate image from text prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses models like Stable Diffusion, DALL-E, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generation result with image data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="434" column="30" bodyfile="include/plugins/image_analysis_interface.h" bodystart="434" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a29e9ae0fedaaa3307a67a05ebfef9897" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::image::IImageAnalysisBackend::answerVisualQuestion</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const std::string &amp;question, const ImageMetadata *metadata=nullptr)</argsstring>
+        <name>answerVisualQuestion</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::answerVisualQuestion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Answer question about an image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Visual Question Answering (VQA) using models like LLaVA.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Question in natural language </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Answer as text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="452" column="25" bodyfile="include/plugins/image_analysis_interface.h" bodystart="452" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1abeaf477311e0ef7bfe82937acff4995c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; EmbeddingResult &gt; themis::plugins::image::IImageAnalysisBackend::generateEmbeddingBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;images)</argsstring>
+        <name>generateEmbeddingBatch</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::generateEmbeddingBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>images</declname>
+        </param>
+        <briefdescription>
+<para>Generate embeddings for multiple images (batch). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>More efficient than calling <ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ad2cd652429ba25ff254c395b33ab2405" kindref="member">generateEmbedding()</ref> multiple times.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>images</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of image data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of embedding results </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="473" column="25" bodyfile="include/plugins/image_analysis_interface.h" bodystart="473" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1adffa0e43217733fb94f9591d89c67922" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>virtual EmbeddingResult themis::plugins::image::IImageAnalysisBackend::generateTextEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateTextEmbedding</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::generateTextEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate embedding vector for a text query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the CLIP text encoder to generate a semantic embedding compatible with the image embedding space, enabling cross-modal similarity search.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural language query string (max 77 tokens for CLIP) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Embedding result with float vector in the same space as image embeddings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="495" column="29" bodyfile="include/plugins/image_analysis_interface.h" bodystart="495" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae8a4a1518f9f743bc80e761fb386c71f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::image::IImageAnalysisBackend::healthCheck</definition>
+        <argsstring>() const =0</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::healthCheck</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3fe34076a6f721481487574c0a40b6ae">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aebef02b4cdc20a0aa89cb82ebe44b9d6">healthCheck</reimplementedby>
+        <briefdescription>
+<para>Health check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify that plugin is operational and model is loaded.</para>
+<para><simplesect kind="return"><para>true if healthy and ready for inference </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="514" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a4dd70719358570f90287a3128219fdaa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1a839b0379ce6c20247f2227d0f3c8474c" kindref="member">json</ref></type>
+        <definition>virtual json themis::plugins::image::IImageAnalysisBackend::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::getStatistics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3dd5e80131112df175220fd308cfc83d">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acff6853281281a89b9957b81fadc8ff5">getStatistics</reimplementedby>
+        <briefdescription>
+<para>Get plugin statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns statistics about plugin usage:<itemizedlist>
+<listitem><para>Total inferences</para>
+</listitem><listitem><para>Average inference time</para>
+</listitem><listitem><para>Memory usage</para>
+</listitem><listitem><para>Error count </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="525" column="18" bodyfile="include/plugins/image_analysis_interface.h" bodystart="525" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a8b168db20202728f716815962cc116ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::image::IImageAnalysisBackend::warmup</definition>
+        <argsstring>()</argsstring>
+        <name>warmup</name>
+        <qualifiedname>themis::plugins::image::IImageAnalysisBackend::warmup</qualifiedname>
+        <briefdescription>
+<para>Warm up the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run a dummy inference to ensure model is loaded and GPU kernels are compiled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="535" column="18" bodyfile="include/plugins/image_analysis_interface.h" bodystart="535" bodyend="535"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Image Analysis Backend Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All image analysis plugins must implement this interface. Plugins are loaded as dynamic libraries (DLL/SO/DYLIB).</para>
+<para>Thread-Safety: Implementations should be thread-safe for concurrent calls. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::image::IImageAnalysisBackend</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::image::TesseractOCRPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::image::YOLOv8OnnxPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/plugins/image_analysis_interface.h" line="302" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="302" bodyend="536"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a29e9ae0fedaaa3307a67a05ebfef9897" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>answerVisualQuestion</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5a267413dbf1c09545d923306a4293f" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>detectObjects</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5718e9255a235d2702d9c75cbd83621" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>generateCaption</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ad2cd652429ba25ff254c395b33ab2405" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1abeaf477311e0ef7bfe82937acff4995c" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a130fa298b597b4188e0f87469f2aa658" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>generateImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1adffa0e43217733fb94f9591d89c67922" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>generateTextEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a322978d54abc5e1c2e7100251d554a73" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ac664bdf7a977de578a81ba3d96cd31d9" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a4dd70719358570f90287a3128219fdaa" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae8a4a1518f9f743bc80e761fb386c71f" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a36b385163cfc2ca851e0c0d8fbfb9d47" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a68d426d8bcfd7f3ab282040bb8b68f43" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a6895112fadb2adc1dcd59ae22471d9fc" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>segmentImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a69422fd58faae539c471593633105f8b" prot="public" virt="pure-virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a8b168db20202728f716815962cc116ec" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a99dc62ca5a3a4ea24cbb4e9d189d01ca" prot="public" virt="virtual"><scope>themis::plugins::image::IImageAnalysisBackend</scope><name>~IImageAnalysisBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

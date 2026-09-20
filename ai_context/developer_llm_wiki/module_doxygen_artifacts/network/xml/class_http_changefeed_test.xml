@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_changefeed_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpChangefeedTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_changefeed_test_1a639021d91c030c6b66ebd9a334cfc1d3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpChangefeedTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpChangefeedTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="158" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_changefeed_test_1a2f407f1cc8f07f7b93732a72e1d2e9f0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpChangefeedTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpChangefeedTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="159" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_changefeed_test_1a5138ab5cabcc99128745967cf1cd4436" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpChangefeedTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpChangefeedTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="160" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_changefeed_test_1adb499fdfc2027e71bac325a2e68d234a" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpChangefeedTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpChangefeedTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="161" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_changefeed_test_1a27da813b09170e1a70f40977958dac0d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpChangefeedTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpChangefeedTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="162" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_changefeed_test_1af18e15b9dabf163dc6f4fc4af13548e2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpChangefeedTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpChangefeedTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="163" column="21" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_changefeed_test_1a09f5ab9ad30d54544ae0cbbd14b7f8f3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpChangefeedTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpChangefeedTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="24" column="10" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="24" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_changefeed_test_1a11f0f20dd523572ae366666b887958e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpChangefeedTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpChangefeedTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="53" column="10" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_changefeed_test_1a91bb8cb4d6dcf06c76f154c0a660ccac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpChangefeedTest::httpGet</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpChangefeedTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="60" column="20" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="60" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_changefeed_test_1ad401b019506647ae017beedc1322f3ed" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpChangefeedTest::httpPost</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpChangefeedTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="83" column="20" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="83" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_changefeed_test_1a5cfe7acc3f4b3983ed47800661ebb50c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpChangefeedTest::httpPut</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPut</name>
+        <qualifiedname>HttpChangefeedTest::httpPut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="109" column="20" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="109" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_changefeed_test_1a2589cf437d1b3229d2bb3bbdf2de76b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpChangefeedTest::httpDelete</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpDelete</name>
+        <qualifiedname>HttpChangefeedTest::httpDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_changefeed.cpp" line="135" column="20" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="135" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpChangefeedTest</label>
+        <link refid="class_http_changefeed_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpChangefeedTest</label>
+        <link refid="class_http_changefeed_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_changefeed.cpp" line="22" column="1" bodyfile="tests/network/test_http_changefeed.cpp" bodystart="22" bodyend="164"/>
+    <listofallmembers>
+      <member refid="class_http_changefeed_test_1adb499fdfc2027e71bac325a2e68d234a" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_changefeed_test_1a2589cf437d1b3229d2bb3bbdf2de76b6" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>httpDelete</name></member>
+      <member refid="class_http_changefeed_test_1a91bb8cb4d6dcf06c76f154c0a660ccac" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>httpGet</name></member>
+      <member refid="class_http_changefeed_test_1ad401b019506647ae017beedc1322f3ed" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>httpPost</name></member>
+      <member refid="class_http_changefeed_test_1a5cfe7acc3f4b3983ed47800661ebb50c" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>httpPut</name></member>
+      <member refid="class_http_changefeed_test_1a5138ab5cabcc99128745967cf1cd4436" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_changefeed_test_1a639021d91c030c6b66ebd9a334cfc1d3" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>server_</name></member>
+      <member refid="class_http_changefeed_test_1a09f5ab9ad30d54544ae0cbbd14b7f8f3" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>SetUp</name></member>
+      <member refid="class_http_changefeed_test_1a2f407f1cc8f07f7b93732a72e1d2e9f0" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>storage_</name></member>
+      <member refid="class_http_changefeed_test_1a11f0f20dd523572ae366666b887958e7" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>TearDown</name></member>
+      <member refid="class_http_changefeed_test_1af18e15b9dabf163dc6f4fc4af13548e2" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_changefeed_test_1a27da813b09170e1a70f40977958dac0d" prot="protected" virt="non-virtual"><scope>HttpChangefeedTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_file_header" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::FileHeader</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_file_header_1adbd87f076a49dfc977ef5c9f11c3b00c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::FileHeader::magic</definition>
+        <argsstring></argsstring>
+        <name>magic</name>
+        <qualifiedname>themis::examples::FileHeader::magic</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="294" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_file_header_1ab796c2602eb9d0a25d77aac49796520c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::FileHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::examples::FileHeader::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="295" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_file_header_1a43490095cd6c86f98a9d3238e9a99008" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::examples::FileHeader::file_size</definition>
+        <argsstring></argsstring>
+        <name>file_size</name>
+        <qualifiedname>themis::examples::FileHeader::file_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="296" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_file_header_1abe55bdff2a696c03b64a30879b28f626" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::examples::FileHeader::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::examples::FileHeader::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="297" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_file_header_1a4cebd5a29782436bab8d76de0d16a266" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::examples::FileHeader::reserved[40]</definition>
+        <argsstring>[40]</argsstring>
+        <name>reserved</name>
+        <qualifiedname>themis::examples::FileHeader::reserved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="298" column="10" bodyfile="include/performance/alignment_examples.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixed-size structure with explicit padding. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Useful for:<itemizedlist>
+<listitem><para>Binary file formats</para>
+</listitem><listitem><para>Network protocols</para>
+</listitem><listitem><para>Memory-mapped I/O</para>
+</listitem></itemizedlist>
+</para>
+<para>Static assertions catch layout changes during development </para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="293" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="293" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_file_header_1a43490095cd6c86f98a9d3238e9a99008" prot="public" virt="non-virtual"><scope>themis::examples::FileHeader</scope><name>file_size</name></member>
+      <member refid="structthemis_1_1examples_1_1_file_header_1adbd87f076a49dfc977ef5c9f11c3b00c" prot="public" virt="non-virtual"><scope>themis::examples::FileHeader</scope><name>magic</name></member>
+      <member refid="structthemis_1_1examples_1_1_file_header_1a4cebd5a29782436bab8d76de0d16a266" prot="public" virt="non-virtual"><scope>themis::examples::FileHeader</scope><name>reserved</name></member>
+      <member refid="structthemis_1_1examples_1_1_file_header_1abe55bdff2a696c03b64a30879b28f626" prot="public" virt="non-virtual"><scope>themis::examples::FileHeader</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1examples_1_1_file_header_1ab796c2602eb9d0a25d77aac49796520c" prot="public" virt="non-virtual"><scope>themis::examples::FileHeader</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

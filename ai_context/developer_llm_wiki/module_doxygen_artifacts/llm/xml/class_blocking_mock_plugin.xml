@@ -1,0 +1,569 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_blocking_mock_plugin" kind="class" language="C++" prot="public">
+    <compoundname>BlockingMockPlugin</compoundname>
+    <basecompoundref refid="class_immediate_mock_plugin" prot="public" virt="non-virtual">ImmediateMockPlugin</basecompoundref>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a0d40788f1d07cfff2c54ca584c0ad46d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; BlockingMockPlugin::released_</definition>
+        <argsstring></argsstring>
+        <name>released_</name>
+        <qualifiedname>BlockingMockPlugin::released_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="116" column="17" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a06a4ef80cc7fce79da59edd519133df7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; BlockingMockPlugin::in_flight_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_</name>
+        <qualifiedname>BlockingMockPlugin::in_flight_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="117" column="18" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="117" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a2626d1ff11b303dc021aa43496bc9d10" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int BlockingMockPlugin::max_wait_ms_</definition>
+        <argsstring></argsstring>
+        <name>max_wait_ms_</name>
+        <qualifiedname>BlockingMockPlugin::max_wait_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="150" column="29" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a7a17d185c4d8662f0ccaba6a7ad646d6" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex BlockingMockPlugin::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>BlockingMockPlugin::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="151" column="29" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a274bbfc124d911eb3dd6b937303773ef" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable BlockingMockPlugin::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>BlockingMockPlugin::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="152" column="29" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_blocking_mock_plugin_1a38ed41bbdc3e69fd669597f501d8fd2b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::blocked_</definition>
+        <argsstring></argsstring>
+        <name>blocked_</name>
+        <qualifiedname>BlockingMockPlugin::blocked_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="153" column="29" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a87dc11a1a0c912f9e0e388e908ca8f4a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>BlockingMockPlugin::BlockingMockPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>BlockingMockPlugin</name>
+        <qualifiedname>BlockingMockPlugin::BlockingMockPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="98" column="14" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse BlockingMockPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;req) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>BlockingMockPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="100" column="23" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="100" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a304b5127440657387fd82e3264b8f57e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BlockingMockPlugin::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>BlockingMockPlugin::release</qualifiedname>
+        <briefdescription>
+<para>Unblock all waiting <ref refid="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9" kindref="member">generate()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="111" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1ac66ee1a0cdff8e53f2398011f9e7714c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int BlockingMockPlugin::inFlight</definition>
+        <argsstring>() const</argsstring>
+        <name>inFlight</name>
+        <qualifiedname>BlockingMockPlugin::inFlight</qualifiedname>
+        <briefdescription>
+<para>How many <ref refid="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9" kindref="member">generate()</ref> calls are currently blocking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="114" column="9" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1ae2a2852b06effe6f00087db86ac43ddd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>BlockingMockPlugin::BlockingMockPlugin</definition>
+        <argsstring>(int max_wait_ms=400)</argsstring>
+        <name>BlockingMockPlugin</name>
+        <qualifiedname>BlockingMockPlugin::BlockingMockPlugin</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_wait_ms</declname>
+          <defval>400</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="101" column="14" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="101" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1ac1a2a93094f2e6e3a555f33d3edc8550" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BlockingMockPlugin::unblock</definition>
+        <argsstring>()</argsstring>
+        <name>unblock</name>
+        <qualifiedname>BlockingMockPlugin::unblock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="105" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1aaea0d0fa7bec2c94c77d80618d49210b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>BlockingMockPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="111" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a0e5d4ff471d46f2f81d4388f7cc6a1e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void BlockingMockPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>BlockingMockPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="112" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1aa5aa6e08e1a09212a6dc2583083421e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; BlockingMockPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>BlockingMockPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="113" column="19" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a12f47e86ea7402d6982475030c96224a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>BlockingMockPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="119" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a2d6adcb889a4894c36a96394b4aaa249" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse BlockingMockPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>BlockingMockPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="121" column="23" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="121" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1afc8bda9f68e48805f7c092b909fa3250" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse BlockingMockPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>BlockingMockPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="133" column="23" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="133" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a5a59c5d3b4943f46da51988630e07231" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; BlockingMockPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>BlockingMockPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="138" column="17" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a3ce3d62512e78bd3dee5450a564e05bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities BlockingMockPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>BlockingMockPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="139" column="24" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1aefce5fd89b9a971a4ac3a2c6d140591a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json BlockingMockPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>BlockingMockPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="140" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a11f9bccc94ea2c8fabe93c106e0330a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json BlockingMockPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>BlockingMockPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="141" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a086753d85cbaea8b4f19e8d7401e5050" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>BlockingMockPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="142" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1ac92671fc0991834f0032adda453d42bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>BlockingMockPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="143" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a48423f1424c2e5fb53638f0f2879b005" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; BlockingMockPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>BlockingMockPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="144" column="17" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a668d77744c66a99202a513eb3286f701" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; BlockingMockPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>BlockingMockPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="145" column="18" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="class_blocking_mock_plugin_1a95ace623f20adc409f27aff3ede94c78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BlockingMockPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>BlockingMockPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_single_model_integration.cpp" line="146" column="10" bodyfile="tests/llm/test_llm_single_model_integration.cpp" bodystart="146" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blocking mock plugin — holds inference until released via <ref refid="class_blocking_mock_plugin_1a304b5127440657387fd82e3264b8f57e" kindref="member">release()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Slow mock that blocks until explicitly unblocked — used for cancellation and timeout tests.</para>
+<para>Useful for tests that need to keep requests in-flight.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_wait_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound on how long <ref refid="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9" kindref="member">generate()</ref> will block even if <ref refid="class_blocking_mock_plugin_1ac1a2a93094f2e6e3a555f33d3edc8550" kindref="member">unblock()</ref> is never called. Keeping this small (e.g. 400 ms) ensures tests run quickly even when <ref refid="class_blocking_mock_plugin_1ac1a2a93094f2e6e3a555f33d3edc8550" kindref="member">unblock()</ref> is not invoked before handle.get(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BlockingMockPlugin</label>
+        <link refid="class_blocking_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ImmediateMockPlugin</label>
+        <link refid="class_immediate_mock_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BlockingMockPlugin</label>
+        <link refid="class_blocking_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ImmediateMockPlugin</label>
+        <link refid="class_immediate_mock_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_hardening_phase4.cpp" line="96" column="1" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="96" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_blocking_mock_plugin_1a38ed41bbdc3e69fd669597f501d8fd2b" prot="private" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>blocked_</name></member>
+      <member refid="class_blocking_mock_plugin_1a87dc11a1a0c912f9e0e388e908ca8f4a" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>BlockingMockPlugin</name></member>
+      <member refid="class_blocking_mock_plugin_1ae2a2852b06effe6f00087db86ac43ddd" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>BlockingMockPlugin</name></member>
+      <member refid="class_immediate_mock_plugin_1adb9058e0d3bf38d4540e93003fe1d59d" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>call_count_</name></member>
+      <member refid="class_blocking_mock_plugin_1a274bbfc124d911eb3dd6b937303773ef" prot="private" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>cv_</name></member>
+      <member refid="class_blocking_mock_plugin_1a5a59c5d3b4943f46da51988630e07231" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>embed</name></member>
+      <member refid="class_blocking_mock_plugin_1a668d77744c66a99202a513eb3286f701" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_blocking_mock_plugin_1a868a9d0f956f288152a9f8143dfcced9" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>generate</name></member>
+      <member refid="class_blocking_mock_plugin_1a2d6adcb889a4894c36a96394b4aaa249" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_blocking_mock_plugin_1afc8bda9f68e48805f7c092b909fa3250" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_blocking_mock_plugin_1a3ce3d62512e78bd3dee5450a564e05bf" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_blocking_mock_plugin_1aefce5fd89b9a971a4ac3a2c6d140591a" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_blocking_mock_plugin_1aa5aa6e08e1a09212a6dc2583083421e3" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_blocking_mock_plugin_1a11f9bccc94ea2c8fabe93c106e0330a8" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_immediate_mock_plugin_1a6b159b93901f2a87e2d781ba45698b39" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>ImmediateMockPlugin</name></member>
+      <member refid="class_blocking_mock_plugin_1a95ace623f20adc409f27aff3ede94c78" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_blocking_mock_plugin_1a06a4ef80cc7fce79da59edd519133df7" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>in_flight_</name></member>
+      <member refid="class_blocking_mock_plugin_1ac66ee1a0cdff8e53f2398011f9e7714c" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>inFlight</name></member>
+      <member refid="class_blocking_mock_plugin_1a12f47e86ea7402d6982475030c96224a" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_blocking_mock_plugin_1a48423f1424c2e5fb53638f0f2879b005" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_blocking_mock_plugin_1a086753d85cbaea8b4f19e8d7401e5050" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_blocking_mock_plugin_1aaea0d0fa7bec2c94c77d80618d49210b" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>loadModel</name></member>
+      <member refid="class_blocking_mock_plugin_1a2626d1ff11b303dc021aa43496bc9d10" prot="private" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>max_wait_ms_</name></member>
+      <member refid="class_blocking_mock_plugin_1a7a17d185c4d8662f0ccaba6a7ad646d6" prot="private" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>operator=</name></member>
+      <member refid="class_blocking_mock_plugin_1a304b5127440657387fd82e3264b8f57e" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>release</name></member>
+      <member refid="class_blocking_mock_plugin_1a0d40788f1d07cfff2c54ca584c0ad46d" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>released_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual" ambiguityscope="ImmediateMockPlugin::"><scope>BlockingMockPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual" ambiguityscope="themis::llm::ILLMPlugin::"><scope>BlockingMockPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_blocking_mock_plugin_1ac1a2a93094f2e6e3a555f33d3edc8550" prot="public" virt="non-virtual"><scope>BlockingMockPlugin</scope><name>unblock</name></member>
+      <member refid="class_blocking_mock_plugin_1ac92671fc0991834f0032adda453d42bc" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_blocking_mock_plugin_1a0e5d4ff471d46f2f81d4388f7cc6a1e4" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>BlockingMockPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

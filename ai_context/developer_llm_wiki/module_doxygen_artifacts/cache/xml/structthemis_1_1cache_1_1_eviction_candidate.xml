@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_eviction_candidate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::EvictionCandidate</compoundname>
+    <includes refid="eviction_8h" local="no">eviction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_candidate_1ada0920e73a632fe0b9201368411257cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::EvictionCandidate::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::EvictionCandidate::key</qualifiedname>
+        <briefdescription>
+<para>Cache entry key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="39" column="17" bodyfile="include/cache/eviction.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_candidate_1ac6a42e3e4278b61c06ec2be059b76bb9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::EvictionCandidate::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::cache::EvictionCandidate::size_bytes</qualifiedname>
+        <briefdescription>
+<para>Memory footprint of this entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="40" column="17" bodyfile="include/cache/eviction.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_candidate_1acbc83eaaab0deda6c2c13fe3635f4eb3" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::cache::EvictionCandidate::last_access_ns</definition>
+        <argsstring></argsstring>
+        <name>last_access_ns</name>
+        <qualifiedname>themis::cache::EvictionCandidate::last_access_ns</qualifiedname>
+        <briefdescription>
+<para>Last access timestamp (nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="41" column="18" bodyfile="include/cache/eviction.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_candidate_1aa0fa92c25aecdb0298ccb7b9277d7511" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::cache::EvictionCandidate::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::cache::EvictionCandidate::access_count</qualifiedname>
+        <briefdescription>
+<para>Total number of accesses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="42" column="19" bodyfile="include/cache/eviction.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_candidate_1a8bed58b23de7b1bf1af2656f1c4f660c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::EvictionCandidate::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::cache::EvictionCandidate::score</qualifiedname>
+        <briefdescription>
+<para>Eviction urgency score (higher → evict first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="43" column="19" bodyfile="include/cache/eviction.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/eviction.h" line="38" column="1" bodyfile="include/cache/eviction.h" bodystart="38" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_eviction_candidate_1aa0fa92c25aecdb0298ccb7b9277d7511" prot="public" virt="non-virtual"><scope>themis::cache::EvictionCandidate</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_eviction_candidate_1ada0920e73a632fe0b9201368411257cd" prot="public" virt="non-virtual"><scope>themis::cache::EvictionCandidate</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_eviction_candidate_1acbc83eaaab0deda6c2c13fe3635f4eb3" prot="public" virt="non-virtual"><scope>themis::cache::EvictionCandidate</scope><name>last_access_ns</name></member>
+      <member refid="structthemis_1_1cache_1_1_eviction_candidate_1a8bed58b23de7b1bf1af2656f1c4f660c" prot="public" virt="non-virtual"><scope>themis::cache::EvictionCandidate</scope><name>score</name></member>
+      <member refid="structthemis_1_1cache_1_1_eviction_candidate_1ac6a42e3e4278b61c06ec2be059b76bb9" prot="public" virt="non-virtual"><scope>themis::cache::EvictionCandidate</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,551 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::FlashLoRA</compoundname>
+    <includes refid="flash__lora_8h" local="no">flash_lora.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config" prot="public">themis::llm::lora::FlashLoRA::Config</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1aa7703e627014836fffeb699076090f44" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::FlashLoRA::forward</definition>
+        <argsstring>(const GPUTensor &amp;input, const GPUTensor &amp;B, const GPUTensor &amp;A, float scaling)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements forward without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="47" column="22" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1ad1fd7dcc66e2d5849c090be61c725058" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::FlashLoRA::forward</definition>
+        <argsstring>(const GPUTensor &amp;input, const GPUTensor &amp;B, const GPUTensor &amp;A, float scaling, const Config &amp;config)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>W1-L01: Forward pass implementation with comprehensive false-positive annotation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Scanner flags ~24 &quot;prompt_injection&quot; findings on tensor parameter names. These are reviewed false positives: - &quot;input&quot;, &quot;B&quot;, &quot;A&quot; are GPU tensor computations, not LLM prompts - Parameter names containing &quot;input&quot; do not indicate injection risk - <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> shape operations (input_shape[i]) are dimension indexing, not text processing - <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> constructors and device() calls are tensor operations, not user input handling - static_cast operations on gpu_ptr() are pointer type coercion, not prompt processing All findings dismissed as scanner misclassification of tensor compute API as text/prompt API. Calls: validate_shapes(), <ref refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1abdd8c11636e0e62ac72b21558fc7cd74" kindref="member">is_available()</ref>, device(), shape(), size(), GPUTensor(), gpu_ptr(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="62" column="22" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="114" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a861b30bbc5ff2d38664fda1ccb541244" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::tuple&lt; GPUTensor, GPUTensor, GPUTensor &gt; themis::llm::lora::FlashLoRA::backward</definition>
+        <argsstring>(const GPUTensor &amp;grad_output, const GPUTensor &amp;input, const GPUTensor &amp;B, const GPUTensor &amp;A, float scaling)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="70" column="23" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="249" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1abfb461fc9de3dc576410d2d3b9d59fb4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::tuple&lt; GPUTensor, GPUTensor, GPUTensor &gt; themis::llm::lora::FlashLoRA::backward</definition>
+        <argsstring>(const GPUTensor &amp;grad_output, const GPUTensor &amp;input, const GPUTensor &amp;B, const GPUTensor &amp;A, float scaling, const Config &amp;config)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="78" column="23" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="267" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1abdd8c11636e0e62ac72b21558fc7cd74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::FlashLoRA::is_available</definition>
+        <argsstring>(const Device &amp;device)</argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::is_available</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: cudaGetDeviceProperties(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="92" column="17" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="436" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a9f70a12b21cbc395b55f16e9b4b699a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1_1_config" kindref="compound">Config</ref></type>
+        <definition>FlashLoRA::Config themis::llm::lora::FlashLoRA::get_recommended_config</definition>
+        <argsstring>(const Device &amp;device, size_t rank, size_t seq_len)</argsstring>
+        <name>get_recommended_config</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::get_recommended_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>seq_len</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: cudaGetDeviceProperties(), spdlog::warn(), cudaGetErrorString(), auto_tune_for_device(), std::string(), std::min(), size_t(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="101" column="19" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="479" bodyend="518"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a2eddd765954a8f8128f9abbe6969d319" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::FlashLoRA::validate_shapes</definition>
+        <argsstring>(const GPUTensor &amp;input, const GPUTensor &amp;B, const GPUTensor &amp;A)</argsstring>
+        <name>validate_shapes</name>
+        <qualifiedname>themis::llm::lora::FlashLoRA::validate_shapes</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Internal helper for shape validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate shapes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shape(), size(), back(), std::to_string(), device(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/flash_lora.h" line="114" column="17" bodyfile="src/llm/lora_framework/flash_lora.cpp" bodystart="532" bodyend="582"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/flash_lora.h" line="22" column="1" bodyfile="include/llm/lora_framework/flash_lora.h" bodystart="22" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a861b30bbc5ff2d38664fda1ccb541244" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1abfb461fc9de3dc576410d2d3b9d59fb4" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1aa7703e627014836fffeb699076090f44" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1ad1fd7dcc66e2d5849c090be61c725058" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a9f70a12b21cbc395b55f16e9b4b699a7" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>get_recommended_config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1abdd8c11636e0e62ac72b21558fc7cd74" prot="public" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>is_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_flash_lo_r_a_1a2eddd765954a8f8128f9abbe6969d319" prot="private" virt="non-virtual"><scope>themis::llm::lora::FlashLoRA</scope><name>validate_shapes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

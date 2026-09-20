@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_high_concurrency_fixture" kind="class" language="C++" prot="public">
+    <compoundname>HighConcurrencyFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_high_concurrency_fixture_1a76f7d0c33995d6fc8ce55d8d8e8310f5" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        <definition>IngestionToolbox HighConcurrencyFixture::toolbox_</definition>
+        <argsstring></argsstring>
+        <name>toolbox_</name>
+        <qualifiedname>HighConcurrencyFixture::toolbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="291" column="22" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_high_concurrency_fixture_1a82ec2f4cfc0a270a4eff68592070ec7b" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; HighConcurrencyFixture::operations_completed_</definition>
+        <argsstring></argsstring>
+        <name>operations_completed_</name>
+        <qualifiedname>HighConcurrencyFixture::operations_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="292" column="17" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_high_concurrency_fixture_1aa7d54bb6913f12ed6bec8cfae97189f8" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; HighConcurrencyFixture::operations_failed_</definition>
+        <argsstring></argsstring>
+        <name>operations_failed_</name>
+        <qualifiedname>HighConcurrencyFixture::operations_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="293" column="17" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="293" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_high_concurrency_fixture_1a3792e21d4a6370c9f1e32e37a8b9ed9a" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t HighConcurrencyFixture::kNumThreads</definition>
+        <argsstring></argsstring>
+        <name>kNumThreads</name>
+        <qualifiedname>HighConcurrencyFixture::kNumThreads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="295" column="34" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_high_concurrency_fixture_1a594354c371da367cfa6610c9a4b85361" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t HighConcurrencyFixture::kOpsPerThread</definition>
+        <argsstring></argsstring>
+        <name>kOpsPerThread</name>
+        <qualifiedname>HighConcurrencyFixture::kOpsPerThread</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_phase5.cpp" line="296" column="34" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="296" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HighConcurrencyFixture</label>
+        <link refid="class_high_concurrency_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HighConcurrencyFixture</label>
+        <link refid="class_high_concurrency_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>toolbox_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::toolbox::IngestionToolbox</label>
+        <link refid="classthemis_1_1toolbox_1_1_ingestion_toolbox"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/toolbox/test_toolbox_phase5.cpp" line="289" column="1" bodyfile="tests/toolbox/test_toolbox_phase5.cpp" bodystart="289" bodyend="297"/>
+    <listofallmembers>
+      <member refid="class_high_concurrency_fixture_1a3792e21d4a6370c9f1e32e37a8b9ed9a" prot="protected" virt="non-virtual"><scope>HighConcurrencyFixture</scope><name>kNumThreads</name></member>
+      <member refid="class_high_concurrency_fixture_1a594354c371da367cfa6610c9a4b85361" prot="protected" virt="non-virtual"><scope>HighConcurrencyFixture</scope><name>kOpsPerThread</name></member>
+      <member refid="class_high_concurrency_fixture_1a82ec2f4cfc0a270a4eff68592070ec7b" prot="protected" virt="non-virtual"><scope>HighConcurrencyFixture</scope><name>operations_completed_</name></member>
+      <member refid="class_high_concurrency_fixture_1aa7d54bb6913f12ed6bec8cfae97189f8" prot="protected" virt="non-virtual"><scope>HighConcurrencyFixture</scope><name>operations_failed_</name></member>
+      <member refid="class_high_concurrency_fixture_1a76f7d0c33995d6fc8ce55d8d8e8310f5" prot="protected" virt="non-virtual"><scope>HighConcurrencyFixture</scope><name>toolbox_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

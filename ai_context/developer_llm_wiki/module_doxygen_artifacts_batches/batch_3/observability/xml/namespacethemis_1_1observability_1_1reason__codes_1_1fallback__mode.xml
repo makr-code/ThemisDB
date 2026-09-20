@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes_1_1fallback__mode" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes::fallback_mode</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1fallback__mode_1ae0b94e67b258b02db49ac3732d88b300" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::fallback_mode::kNone</definition>
+        <argsstring></argsstring>
+        <name>kNone</name>
+        <qualifiedname>themis::observability::reason_codes::fallback_mode::kNone</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="18" column="35" bodyfile="include/observability/reason_codes.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1fallback__mode_1a75e6fbe7cc3dc93cb067c4e284ecb587" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::fallback_mode::kDegradedContinue</definition>
+        <argsstring></argsstring>
+        <name>kDegradedContinue</name>
+        <qualifiedname>themis::observability::reason_codes::fallback_mode::kDegradedContinue</qualifiedname>
+        <initializer>= &quot;degraded_continue&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="19" column="35" bodyfile="include/observability/reason_codes.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1fallback__mode_1afcda8d05f5f8f40c927d71d945c6ef59" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::fallback_mode::kFailClosed</definition>
+        <argsstring></argsstring>
+        <name>kFailClosed</name>
+        <qualifiedname>themis::observability::reason_codes::fallback_mode::kFailClosed</qualifiedname>
+        <initializer>= &quot;fail_closed&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="20" column="35" bodyfile="include/observability/reason_codes.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

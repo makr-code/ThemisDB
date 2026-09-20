@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1_1_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubLlmEngine::Token</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1_1_token_1a1af9c09f24517d14a90afa7b912c6309" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::StubLlmEngine::Token::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::bench::llm_hp::StubLlmEngine::Token::id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="120" column="20" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="120" column="5" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="120" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1_1_token_1a1af9c09f24517d14a90afa7b912c6309" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubLlmEngine::Token</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

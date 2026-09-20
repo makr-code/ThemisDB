@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::IIdempotentCDCListener</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" prot="public" virt="non-virtual">themis::cdc::InMemoryIdempotentListener</derivedcompoundref>
+    <includes refid="idelivery__guarantee__config_8h" local="no">idelivery_guarantee_config.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a804edc88eca889fb7766ff9870b56270" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::IIdempotentCDCListener::~IIdempotentCDCListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIdempotentCDCListener</name>
+        <qualifiedname>themis::cdc::IIdempotentCDCListener::~IIdempotentCDCListener</qualifiedname>
+        <briefdescription>
+<para>IIdempotent CDCListener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="58" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1ae519fd50cd32fbd913c757a65d1c7a0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::IIdempotentCDCListener::isDuplicate</definition>
+        <argsstring>(const std::string &amp;collection, uint64_t sequence) const =0</argsstring>
+        <name>isDuplicate</name>
+        <qualifiedname>themis::cdc::IIdempotentCDCListener::isDuplicate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee">isDuplicate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Is Duplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a1c30d0d8bd0bec797a58b945d0fe5ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cdc::IIdempotentCDCListener::markProcessed</definition>
+        <argsstring>(const std::string &amp;collection, uint64_t sequence)=0</argsstring>
+        <name>markProcessed</name>
+        <qualifiedname>themis::cdc::IIdempotentCDCListener::markProcessed</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb">markProcessed</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Mark Processed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="74" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::IIdempotentCDCListener</label>
+        <link refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener"/>
+      </node>
+      <node id="2">
+        <label>themis::cdc::InMemoryIdempotentListener</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/idelivery_guarantee_config.h" line="52" column="1" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="52" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1ae519fd50cd32fbd913c757a65d1c7a0b" prot="public" virt="pure-virtual"><scope>themis::cdc::IIdempotentCDCListener</scope><name>isDuplicate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a1c30d0d8bd0bec797a58b945d0fe5ee2" prot="public" virt="pure-virtual"><scope>themis::cdc::IIdempotentCDCListener</scope><name>markProcessed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a804edc88eca889fb7766ff9870b56270" prot="public" virt="virtual"><scope>themis::cdc::IIdempotentCDCListener</scope><name>~IIdempotentCDCListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode</compoundname>
+    <includes refid="polyglot__mapper_8h" local="no">polyglot_mapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1a2b9e4c9e3f63aae28a16c5125af2789b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="74" column="25" bodyfile="include/importers/polyglot_mapper.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1a59c7189179384ee09aef900ca94608a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="75" column="25" bodyfile="include/importers/polyglot_mapper.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1abb764081b6f1f879c282ac60c0708fa6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="76" column="18" bodyfile="include/importers/polyglot_mapper.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/polyglot_mapper.h" line="73" column="9" bodyfile="include/importers/polyglot_mapper.h" bodystart="73" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1a2b9e4c9e3f63aae28a16c5125af2789b" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1a59c7189179384ee09aef900ca94608a5" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode</scope><name>label</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer_1_1_graph_node_1abb764081b6f1f879c282ac60c0708fa6" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::ModelTransformer::GraphNode</scope><name>properties</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

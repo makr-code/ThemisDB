@@ -1,0 +1,842 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__load__balancing__phase3_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_load_balancing_phase3.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__load__balancer_8h" local="yes">graph/graph_load_balancer.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/graph_load_balancer.h</label>
+        <link refid="graph__load__balancer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_load_balancing_phase3.cpp</label>
+        <link refid="test__graph__load__balancing__phase3_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>queue</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, InitiallyNoPendingTasks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>InitiallyNoPendingTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="16" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="16" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ac528dfec17cc71b68f15e6e8eed4d15a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, SubmitIncreasesPendingCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>SubmitIncreasesPendingCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="21" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ae30501b313c1be5611edbca96cf1d10b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, SubmittedCountIncrements)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>SubmittedCountIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="27" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a82db2f7eec301dd5780655b80f50bf88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, HighPriorityDispatchedBeforeLow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>HighPriorityDispatchedBeforeLow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="34" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="34" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a8ddbbe613d12b64397a1abf3a7c421f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, UrgentPriorityDispatchedFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>UrgentPriorityDispatchedFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="51" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a22b09f7c1d56df16d29dd4657cf762e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, FIFOWithinSamePriority)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>FIFOWithinSamePriority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="61" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="61" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ada86a7db24e23ea65d17e4a8ca805b16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, CompletedCountAfterExecute)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>CompletedCountAfterExecute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="78" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a4e66b643b65c3d028053d2478bebfedc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, NextNonBlockingOnEmptyReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>NextNonBlockingOnEmptyReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="87" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ab78ade4ebcb386b50a3f8a98832cccce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, ClearPendingRemovesAllTasks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>ClearPendingRemovesAllTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="93" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1aef635fa2f589f5aa1f16fe882d2d17da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, QueueDepthLimitEnforcedOnOverflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>QueueDepthLimitEnforcedOnOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="102" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1adb9e1334384315efc3bf173804375ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QuerySchedulerTest, StopUnblocksWaitingNext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QuerySchedulerTest</type>
+        </param>
+        <param>
+          <type>StopUnblocksWaitingNext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="112" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a0fa0fe61eed222146bc9f717c7894680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, EmptyShardListThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>EmptyShardListThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="129" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="129" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a1ea6aadce137aa42557da3c74c5c380f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, ShardCountMatchesInitialList)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>ShardCountMatchesInitialList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="135" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ab31029064f212d05f56d4008e93e003d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, AddShardIncreasesCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>AddShardIncreasesCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="140" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a389a662e03cb8b78f50f3ee5869c6fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, RemoveShardDecreasesCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>RemoveShardDecreasesCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="146" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ab2fd2a2954d4c6434e973e128c806b39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, RemoveNonexistentShardReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>RemoveNonexistentShardReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="152" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ad26697903865667593e24bb87e7acd3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, RoundRobinCyclesThroughAllShards)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>RoundRobinCyclesThroughAllShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="161" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="161" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1aae63574f3dcb1121228f0465bc5ba8d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, RoundRobinSkipsUnhealthyShard)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>RoundRobinSkipsUnhealthyShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="175" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a33e8ec826ce14d52f29ddcb41d30b41e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, LeastLoadedSelectsIdleShard)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>LeastLoadedSelectsIdleShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="187" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1af7628b6ecd43f2daee903fb13649f3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, LeastLoadedTracksInflight)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>LeastLoadedTracksInflight</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="197" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a9ab3c0442cbae3beb3c55850e5bd0b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, QueryCompletedDecrementsInflight)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>QueryCompletedDecrementsInflight</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="205" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="205" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1a4f3d13b7a63c5887526af70357269e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, LatencyAwareSelectsLowestEMA)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>LatencyAwareSelectsLowestEMA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="218" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="218" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1ac6e11883c7d3d7c627ca6086bb52a65f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, LatencyRecordedInShardStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>LatencyRecordedInShardStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="233" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="233" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1acbf56d457f11a4b6206d8d3a66865c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, SetStrategyAtRuntime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>SetStrategyAtRuntime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="242" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="242" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__load__balancing__phase3_8cpp_1acc69657e8014eb4b34184da8d19ff357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ShardBalancerTest, AllStatsReturnsOnePerShard)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ShardBalancerTest</type>
+        </param>
+        <param>
+          <type>AllStatsReturnsOnePerShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_load_balancing_phase3.cpp" line="248" column="1" bodyfile="tests/graph/test_graph_load_balancing_phase3.cpp" bodystart="248" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__load__balancer_8h" kindref="compound">graph/graph_load_balancer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-04<sp/>Group<sp/>1:<sp/>GraphQueryScheduler<sp/>–<sp/>basic<sp/>submit<sp/>and<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>InitiallyNoPendingTasks)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" kindref="member">pending</ref>());</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>SubmitIncreasesPendingCount)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q1&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" kindref="member">pending</ref>());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>SubmittedCountIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q1&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q2&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">GraphQueryScheduler::Priority::LOW</ref>,<sp/><sp/><sp/><sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae4ab1243b01420e813d6b059afaf4185" kindref="member">submittedCount</ref>());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>HighPriorityDispatchedBeforeLow)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>order;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">GraphQueryScheduler::Priority::LOW</ref>,<sp/><sp/>[&amp;]<sp/>{<sp/>order.push_back(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ceab89de3b4b81c4facfac906edf29aec8c" kindref="member">GraphQueryScheduler::Priority::HIGH</ref>,<sp/>[&amp;]<sp/>{<sp/>order.push_back(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;norm&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,[&amp;]{<sp/>order.push_back(</highlight><highlight class="stringliteral">&quot;norm&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(3u,<sp/>order.size());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/>order[0]);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;norm&quot;</highlight><highlight class="normal">,<sp/>order[1]);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/><sp/>order[2]);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>UrgentPriorityDispatchedFirst)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>order;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;norm&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[&amp;]<sp/>{<sp/>order.push_back(1);<sp/>});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;urgent&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ceae395eb26ae42d923ae1bdc51933984dc" kindref="member">GraphQueryScheduler::Priority::URGENT</ref>,<sp/>[&amp;]<sp/>{<sp/>order.push_back(0);<sp/>});</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(order.empty());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>order[0]);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>FIFOWithinSamePriority)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[i,<sp/>&amp;ids]<sp/>{<sp/>ids.push_back(i);<sp/>});</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" kindref="member">pending</ref>()<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FIFO<sp/>ordering<sp/>expected<sp/>within<sp/>NORMAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(i,<sp/>ids[i]);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>CompletedCountAfterExecute)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" kindref="member">executeNext</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ac6d218c18e2ffc9bb745ceede7a65800" kindref="member">completedCount</ref>());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>NextNonBlockingOnEmptyReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>task<sp/>=<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a24ddfb4d27d31281025472a6a5d0d97e" kindref="member">next</ref>(</highlight><highlight class="comment">/*block=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(task.has_value());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>ClearPendingRemovesAllTasks)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">GraphQueryScheduler::Priority::LOW</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cleared<sp/>=<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1aa865f995187a35e98fc1a771d6d6355c" kindref="member">clearPending</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(5u,<sp/>cleared);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" kindref="member">pending</ref>());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>QueueDepthLimitEnforcedOnOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched(3);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q1&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q2&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q3&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" kindref="member">submit</ref>(</highlight><highlight class="stringliteral">&quot;q4&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" kindref="member">GraphQueryScheduler::Priority::NORMAL</ref>,<sp/>[]<sp/>{}),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::overflow_error);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(QuerySchedulerTest,<sp/>StopUnblocksWaitingNext)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler" kindref="compound">GraphQueryScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>returned{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a24ddfb4d27d31281025472a6a5d0d97e" kindref="member">next</ref>(</highlight><highlight class="comment">/*block=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>returned.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{20});</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a7d353c0ea153f388a31a0b243a95a785" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(returned.load());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-04<sp/>Group<sp/>2:<sp/>GraphShardBalancer<sp/>–<sp/>construction<sp/>and<sp/>shard<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>EmptyShardListThrows)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{}),</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>ShardCountMatchesInitialList)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>b.shardCount());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>AddShardIncreasesCount)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a531afe5c3e44ec74c685fca16fb359c4" kindref="member">addShard</ref>(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>b.shardCount());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>RemoveShardDecreasesCount)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(b.removeShard(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>b.shardCount());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>RemoveNonexistentShardReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.removeShard(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-04<sp/>Group<sp/>3:<sp/>Round-robin<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>RoundRobinCyclesThroughAllShards)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>selected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>selected.push_back(b.selectShard());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>shard<sp/>must<sp/>appear<sp/>exactly<sp/>twice<sp/>in<sp/>6<sp/>round-robin<sp/>selections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>std::count(selected.begin(),<sp/>selected.end(),<sp/>s);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>count)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Shard<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>selected<sp/>exactly<sp/>2<sp/>times&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>RoundRobinSkipsUnhealthyShard)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a632b147a686f175eff2da29485645970" kindref="member">setShardHealth</ref>(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sel<sp/>=<sp/>b.selectShard();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s2<sp/>should<sp/>never<sp/>be<sp/>selected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>sel);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-04<sp/>Group<sp/>4:<sp/>Least-loaded<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>LeastLoadedSelectsIdleShard)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">GraphShardBalancer::Strategy::LEAST_LOADED</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>s1<sp/>and<sp/>s2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1aadd663dd3960b81c24c3e1e355fb1de1" kindref="member">onQueryStarted</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>b.onQueryStarted(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>b.onQueryStarted(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sel<sp/>=<sp/>b.selectShard();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">,<sp/>sel);<sp/></highlight><highlight class="comment">//<sp/>s3<sp/>has<sp/>0<sp/>in-flight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>LeastLoadedTracksInflight)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">GraphShardBalancer::Strategy::LEAST_LOADED</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1aadd663dd3960b81c24c3e1e355fb1de1" kindref="member">onQueryStarted</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>b.shardStats(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.has_value());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>stats-&gt;inflight);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>QueryCompletedDecrementsInflight)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">GraphShardBalancer::Strategy::LEAST_LOADED</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1aadd663dd3960b81c24c3e1e355fb1de1" kindref="member">onQueryStarted</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>b.onQueryCompleted(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>10.0);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>b.shardStats(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.has_value());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>stats-&gt;inflight);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-04<sp/>Group<sp/>5:<sp/>Latency-aware<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>LatencyAwareSelectsLowestEMA)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a7275e03f420169910b6a20c1812fb0b4" kindref="member">GraphShardBalancer::Strategy::LATENCY_AWARE</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>latency<sp/>observations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryStarted(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryCompleted(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>100.0);<sp/></highlight><highlight class="comment">//<sp/>high<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryStarted(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryCompleted(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>5.0);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>low<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryStarted(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.onQueryCompleted(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">,<sp/>50.0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sel<sp/>=<sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1af373827a0516a4906f86b9eb2811be26" kindref="member">selectShard</ref>();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>sel);<sp/></highlight><highlight class="comment">//<sp/>s2<sp/>has<sp/>lowest<sp/>EMA<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>LatencyRecordedInShardStats)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a7275e03f420169910b6a20c1812fb0b4" kindref="member">GraphShardBalancer::Strategy::LATENCY_AWARE</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1aadd663dd3960b81c24c3e1e355fb1de1" kindref="member">onQueryStarted</ref>(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>b.onQueryCompleted(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>25.0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>b.shardStats(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.has_value());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats-&gt;ema_latency_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>SetStrategyAtRuntime)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a9bf33b790a7ea4a56b9a3b3a1cf75483" kindref="member">setStrategy</ref>(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">GraphShardBalancer::Strategy::LEAST_LOADED</ref>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">GraphShardBalancer::Strategy::LEAST_LOADED</ref>,<sp/>b.strategy());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__graph__load__balancing__phase3_8cpp_1addcdeb7520919dce00278cf440b46078" kindref="member">TEST</ref>(ShardBalancerTest,<sp/>AllStatsReturnsOnePerShard)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_shard_balancer" kindref="compound">GraphShardBalancer</ref><sp/>b(<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1a69ef84da772fa7ad533f15c7e9fb61d2a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">GraphShardBalancer::Strategy::ROUND_ROBIN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>b.<ref refid="classthemis_1_1graph_1_1_graph_shard_balancer_1aa465c21109f987af8d3180a52e808f5e" kindref="member">allStats</ref>();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>all.size());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_load_balancing_phase3.cpp"/>
+  </compounddef>
+</doxygen>

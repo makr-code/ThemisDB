@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9a7b7c4c8c5256322655462abe7dcdde" kind="dir">
+    <compoundname>tests/replication</compoundname>
+    <innerfile refid="bench__replication__geo__wal__baselines_8cpp">bench_replication_geo_wal_baselines.cpp</innerfile>
+    <innerfile refid="test__replication__async__wal__lag__alerts_8cpp">test_replication_async_wal_lag_alerts.cpp</innerfile>
+    <innerfile refid="test__replication__chaos_8cpp">test_replication_chaos.cpp</innerfile>
+    <innerfile refid="test__replication__chaos__failover__focused_8cpp">test_replication_chaos_failover_focused.cpp</innerfile>
+    <innerfile refid="test__replication__conflict__focused_8cpp">test_replication_conflict_focused.cpp</innerfile>
+    <innerfile refid="test__replication__contract__hardening__focused_8cpp">test_replication_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__replication__coordinator__focused_8cpp">test_replication_coordinator_focused.cpp</innerfile>
+    <innerfile refid="test__replication__crdt__types_8cpp">test_replication_crdt_types.cpp</innerfile>
+    <innerfile refid="test__replication__fail__closed__behavior_8cpp">test_replication_fail_closed_behavior.cpp</innerfile>
+    <innerfile refid="test__replication__geo__placement__wal__shipping__focused_8cpp">test_replication_geo_placement_wal_shipping_focused.cpp</innerfile>
+    <innerfile refid="test__replication__ha_8cpp">test_replication_ha.cpp</innerfile>
+    <innerfile refid="test__replication__highcardinality__stress_8cpp">test_replication_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__replication__manager__add_replica__simple_8cpp">test_replication_manager_addReplica_simple.cpp</innerfile>
+    <innerfile refid="test__replication__new__features_8cpp">test_replication_new_features.cpp</innerfile>
+    <innerfile refid="test__replication__raft__v2_8cpp">test_replication_raft_v2.cpp</innerfile>
+    <innerfile refid="test__replication__topology__api__handler_8cpp">test_replication_topology_api_handler.cpp</innerfile>
+    <innerfile refid="test__replication__wave1__critical__fixes_8cpp">test_replication_wave1_critical_fixes.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/"/>
+  </compounddef>
+</doxygen>

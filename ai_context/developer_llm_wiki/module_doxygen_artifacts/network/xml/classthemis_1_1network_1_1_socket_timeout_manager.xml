@@ -1,0 +1,902 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_socket_timeout_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::SocketTimeoutManager</compoundname>
+    <includes refid="socket__timeout__manager_8h" local="no">socket_timeout_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1a8e75b0cf73ed407be8e35fe52a22ff95" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref></type>
+        <definition>SocketTimeoutConfig themis::network::SocketTimeoutManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="252" column="25" bodyfile="include/network/socket_timeout_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1a332eac1303ced7cd10f65275d7236f91" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_socket_timeout_stats" kindref="compound">SocketTimeoutStats</ref></type>
+        <definition>SocketTimeoutStats themis::network::SocketTimeoutManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="253" column="24" bodyfile="include/network/socket_timeout_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1a493244b5aeedef4f227361db665984b6" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref></type>
+        <definition>SocketHealthState themis::network::SocketTimeoutManager::health_state_</definition>
+        <argsstring></argsstring>
+        <name>health_state_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::health_state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="254" column="23" bodyfile="include/network/socket_timeout_manager.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1ae5f485ed95b23baed1117391131ef8b0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::network::SocketTimeoutManager::consecutive_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_timeouts_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::consecutive_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="255" column="17" bodyfile="include/network/socket_timeout_manager.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1a57508e84fdd0eaec96578a2f07759b94" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::SocketTimeoutManager::last_circuit_open_time_</definition>
+        <argsstring></argsstring>
+        <name>last_circuit_open_time_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::last_circuit_open_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="256" column="43" bodyfile="include/network/socket_timeout_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_manager_1aceadd6935fecb3441c1f0ac92ef50d90" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref>, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(SocketHealthState, const std::string&amp;)&gt; themis::network::SocketTimeoutManager::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="257" column="19" bodyfile="include/network/socket_timeout_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutManager::SocketTimeoutManager</definition>
+        <argsstring>(const SocketTimeoutConfig &amp;config=SocketTimeoutConfig())</argsstring>
+        <name>SocketTimeoutManager</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::SocketTimeoutManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="130" column="14" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ac6b9489d02612ea78ce863fc458fc891" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutManager::~SocketTimeoutManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~SocketTimeoutManager</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::~SocketTimeoutManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="131" column="13" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ad2c119a9c838f18196fcf20d62b2f4e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutManager::SocketTimeoutManager</definition>
+        <argsstring>(const SocketTimeoutManager &amp;)=delete</argsstring>
+        <name>SocketTimeoutManager</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::SocketTimeoutManager</qualifiedname>
+        <param>
+          <type>const SocketTimeoutManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a799e50debad7627a15421d767ae13e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref> &amp;</type>
+        <definition>SocketTimeoutManager &amp; themis::network::SocketTimeoutManager::operator=</definition>
+        <argsstring>(const SocketTimeoutManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="135" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ae3e1b9c3ecfd7525a267aa99b8f1b653" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutManager::SocketTimeoutManager</definition>
+        <argsstring>(SocketTimeoutManager &amp;&amp;) noexcept=default</argsstring>
+        <name>SocketTimeoutManager</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::SocketTimeoutManager</qualifiedname>
+        <param>
+          <type>SocketTimeoutManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a7ff8909e889be6665bf38896e3832b0c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref> &amp;</type>
+        <definition>SocketTimeoutManager &amp; themis::network::SocketTimeoutManager::operator=</definition>
+        <argsstring>(SocketTimeoutManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="137" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a1c77d79060788a386d224259d81d3d70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutManager::configureSocket</definition>
+        <argsstring>(socket_t socket)</argsstring>
+        <name>configureSocket</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::configureSocket</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+<para>Configure socket with timeouts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure Socket.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Socket to configure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), count(), setsockopt(), spdlog::warn(), WSAGetLastError(), strerror(), configureTCPKeepalive(), configureTCPNoDelay(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="144" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="56" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1abc05e4f0549e3044f42a8df11d959df3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+        <definition>socket_t themis::network::SocketTimeoutManager::acceptWithTimeout</definition>
+        <argsstring>(socket_t server_socket, std::chrono::milliseconds timeout_ms=std::chrono::milliseconds(0))</argsstring>
+        <name>acceptWithTimeout</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::acceptWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>server_socket</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Accept connection with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Accept With Timeout.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server_socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server socket to accept on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (0 = use config default) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Accepted socket or INVALID_SOCKET_VALUE on timeout/error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server_socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6d5189e8c4ec85bd987d0f12799371d9" kindref="member">shouldAcceptConnection()</ref>, spdlog::warn(), count(), FD_ZERO(), FD_SET(), select(), <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" kindref="member">recordTimeout()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="152" column="14" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="226" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1aa7893acd2e4907b948561caf6b28fe59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t themis::network::SocketTimeoutManager::readWithTimeout</definition>
+        <argsstring>(socket_t socket, void *buffer, size_t size, std::chrono::milliseconds timeout_ms=std::chrono::milliseconds(0))</argsstring>
+        <name>readWithTimeout</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::readWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Read from socket with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read With Timeout.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Socket to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to read into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (0 = use config default) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes read, -1 on error, 0 on connection close</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: recv(), WSAGetLastError(), <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" kindref="member">recordTimeout()</ref>, spdlog::debug(), spdlog::error(), strerror(), <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a83d41d352a8658a74b4e68769b8518af" kindref="member">recordSuccess()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="163" column="13" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="331" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a848802ebdc38222fe47ffa59520e5013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ssize_t</type>
+        <definition>ssize_t themis::network::SocketTimeoutManager::writeWithTimeout</definition>
+        <argsstring>(socket_t socket, const void *buffer, size_t size, std::chrono::milliseconds timeout_ms=std::chrono::milliseconds(0))</argsstring>
+        <name>writeWithTimeout</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::writeWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Write to socket with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write With Timeout.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Socket to write to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to write from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (0 = use config default) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes written, -1 on error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: send(), WSAGetLastError(), <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" kindref="member">recordTimeout()</ref>, spdlog::debug(), spdlog::error(), strerror(), <ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a83d41d352a8658a74b4e68769b8518af" kindref="member">recordSuccess()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="174" column="13" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="385" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a3a9906f05fdfdeab49a1bf59f174e5fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::closeSocket</definition>
+        <argsstring>(socket_t socket)</argsstring>
+        <name>closeSocket</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::closeSocket</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+<para>Close socket with proper cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Close Socket.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Socket to close</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: closesocket(), close(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="181" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="435" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a6d5189e8c4ec85bd987d0f12799371d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutManager::shouldAcceptConnection</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldAcceptConnection</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::shouldAcceptConnection</qualifiedname>
+        <briefdescription>
+<para>Check if should accept new connections (circuit breaker). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if healthy enough to accept, false if circuit is open </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="187" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="449" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::recordTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>recordTimeout</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::recordTimeout</qualifiedname>
+        <briefdescription>
+<para>Record timeout for circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Timeout.</para>
+<para>Calls: updateHealthState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="192" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="464" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a83d41d352a8658a74b4e68769b8518af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record successful operation for circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Success.</para>
+<para>Calls: updateHealthState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="197" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="473" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ac065c4b93e72d4aad1a45bacf65d7059" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref></type>
+        <definition>SocketHealthState themis::network::SocketTimeoutManager::getHealthState</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthState</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::getHealthState</qualifiedname>
+        <briefdescription>
+<para>Get current health state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="202" column="23" bodyfile="include/network/socket_timeout_manager.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ade25dcc662f9068808cb58cd46e99203" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_socket_timeout_stats" kindref="compound">SocketTimeoutStats</ref> &amp;</type>
+        <definition>const SocketTimeoutStats &amp; themis::network::SocketTimeoutManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get timeout statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="207" column="30" bodyfile="include/network/socket_timeout_manager.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1aa6a4232d128a430d23514f7b1f5acb28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="212" column="10" bodyfile="include/network/socket_timeout_manager.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a34ba261f746b33cd5eb32a124622d6e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref> &amp;</type>
+        <definition>const SocketTimeoutConfig &amp; themis::network::SocketTimeoutManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="217" column="31" bodyfile="include/network/socket_timeout_manager.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a7a4fbd07cbc930bafd53eb66a9214e54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::setAlertCallback</definition>
+        <argsstring>(std::function&lt; void(SocketHealthState, const std::string &amp;)&gt; callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::setAlertCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref>, const std::string &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set alert callback for circuit breaker state changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="222" column="10" bodyfile="include/network/socket_timeout_manager.h" bodystart="222" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a4d756a31d457f335b1ddc7a7773cf3e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutManager::setNonBlocking</definition>
+        <argsstring>(socket_t socket)</argsstring>
+        <name>setNonBlocking</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::setNonBlocking</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+<para>Set socket to non-blocking mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Non Blocking.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: ioctlsocket(), spdlog::error(), WSAGetLastError(), fcntl(), strerror(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="230" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="124" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a74cb047d422148c80a66b8331a178c01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutManager::configureTCPKeepalive</definition>
+        <argsstring>(socket_t socket)</argsstring>
+        <name>configureTCPKeepalive</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::configureTCPKeepalive</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+<para>Configure TCP keepalive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure TCPKeepalive.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: setsockopt(), spdlog::error(), WSAGetLastError(), count(), WSAIoctl(), spdlog::warn(), strerror(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="235" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="151" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1ada3ba1674a51ba44f6010cfba3dfe682" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutManager::configureTCPNoDelay</definition>
+        <argsstring>(socket_t socket)</argsstring>
+        <name>configureTCPNoDelay</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::configureTCPNoDelay</qualifiedname>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+<para>Configure TCP nodelay (disable Nagle&apos;s algorithm). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure TCPNo Delay.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: setsockopt(), spdlog::error(), WSAGetLastError(), strerror(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="240" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="202" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a45d38687b2ae2ae5be41a971cba6d420" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::updateHealthState</definition>
+        <argsstring>()</argsstring>
+        <name>updateHealthState</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::updateHealthState</qualifiedname>
+        <briefdescription>
+<para>Update health state based on timeout count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Health State.</para>
+<para>Calls: load(), std::chrono::steady_clock::now(), std::to_string(), spdlog::warn(), triggerAlert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="245" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="483" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_manager_1a76ada16d3893df8735fdce152a656425" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::SocketTimeoutManager::triggerAlert</definition>
+        <argsstring>(SocketHealthState new_state, const std::string &amp;message)</argsstring>
+        <name>triggerAlert</name>
+        <qualifiedname>themis::network::SocketTimeoutManager::triggerAlert</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Trigger alert if callback is set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Alert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: alert_callback_(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="250" column="10" bodyfile="src/network/socket_timeout_manager.cpp" bodystart="519" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Socket Timeout Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages socket timeouts to prevent hanging connections and resource exhaustion. Implements circuit breaker pattern for connections with repeated timeouts.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Accept timeout (non-blocking accept with timeout)</para>
+</listitem><listitem><para>Read timeout (SO_RCVTIMEO)</para>
+</listitem><listitem><para>Write timeout (SO_SNDTIMEO)</para>
+</listitem><listitem><para>TCP keepalive configuration</para>
+</listitem><listitem><para>Circuit breaker for problematic connections</para>
+</listitem><listitem><para>Platform-independent implementation (Windows/Unix)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref><sp/>manager(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Accept<sp/>with<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>client_socket<sp/>=<sp/>manager.acceptWithTimeout(server_socket);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_socket<sp/>==<sp/><ref refid="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" kindref="member">INVALID_SOCKET_VALUE</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>or<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Read<sp/>with<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;char&gt;<sp/>buffer(4096);</highlight></codeline>
+<codeline><highlight class="normal">ssize_t<sp/>bytes<sp/>=<sp/>manager.readWithTimeout(client_socket,<sp/>buffer.data(),<sp/>buffer.size());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Write<sp/>with<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ssize_t<sp/>sent<sp/>=<sp/>manager.writeWithTimeout(client_socket,<sp/>data.data(),<sp/>data.size());</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/socket_timeout_manager.h" line="128" column="1" bodyfile="include/network/socket_timeout_manager.h" bodystart="128" bodyend="258"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1abc05e4f0549e3044f42a8df11d959df3" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>acceptWithTimeout</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1aceadd6935fecb3441c1f0ac92ef50d90" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>alert_callback_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a3a9906f05fdfdeab49a1bf59f174e5fd" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>closeSocket</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a8e75b0cf73ed407be8e35fe52a22ff95" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a1c77d79060788a386d224259d81d3d70" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>configureSocket</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a74cb047d422148c80a66b8331a178c01" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>configureTCPKeepalive</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ada3ba1674a51ba44f6010cfba3dfe682" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>configureTCPNoDelay</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ae5f485ed95b23baed1117391131ef8b0" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>consecutive_timeouts_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a34ba261f746b33cd5eb32a124622d6e7" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ac065c4b93e72d4aad1a45bacf65d7059" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>getHealthState</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ade25dcc662f9068808cb58cd46e99203" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a493244b5aeedef4f227361db665984b6" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>health_state_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a57508e84fdd0eaec96578a2f07759b94" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>last_circuit_open_time_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a799e50debad7627a15421d767ae13e91" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a7ff8909e889be6665bf38896e3832b0c" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1aa7893acd2e4907b948561caf6b28fe59" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>readWithTimeout</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a83d41d352a8658a74b4e68769b8518af" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>recordTimeout</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1aa6a4232d128a430d23514f7b1f5acb28" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a7a4fbd07cbc930bafd53eb66a9214e54" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>setAlertCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a4d756a31d457f335b1ddc7a7773cf3e4" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>setNonBlocking</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6d5189e8c4ec85bd987d0f12799371d9" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>shouldAcceptConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>SocketTimeoutManager</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ad2c119a9c838f18196fcf20d62b2f4e2" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>SocketTimeoutManager</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ae3e1b9c3ecfd7525a267aa99b8f1b653" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>SocketTimeoutManager</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a332eac1303ced7cd10f65275d7236f91" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a76ada16d3893df8735fdce152a656425" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>triggerAlert</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a45d38687b2ae2ae5be41a971cba6d420" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>updateHealthState</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1a848802ebdc38222fe47ffa59520e5013" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutManager</scope><name>writeWithTimeout</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_manager_1ac6b9489d02612ea78ce863fc458fc891" prot="public" virt="virtual"><scope>themis::network::SocketTimeoutManager</scope><name>~SocketTimeoutManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

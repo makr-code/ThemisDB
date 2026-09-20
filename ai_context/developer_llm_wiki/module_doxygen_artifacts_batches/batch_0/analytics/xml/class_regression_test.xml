@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_regression_test" kind="class" language="C++" prot="public">
+    <compoundname>RegressionTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_regression_test_1a90323ec22d6b5fcae987a7bae46b99cc" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l" kindref="compound">AutoML</ref></type>
+        <definition>AutoML RegressionTest::automl</definition>
+        <argsstring></argsstring>
+        <name>automl</name>
+        <qualifiedname>RegressionTest::automl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="373" column="12" bodyfile="tests/analytics/test_automl.cpp" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_regression_test_1a1a1b7304f2bef87cdc7b70bcbf70eaa5" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt;DataPoint&gt; RegressionTest::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>RegressionTest::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="374" column="17" bodyfile="tests/analytics/test_automl.cpp" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_regression_test_1a03fae3c9876870c6a6863f0c37681edd" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref></type>
+        <definition>AutoMLConfig RegressionTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>RegressionTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="375" column="18" bodyfile="tests/analytics/test_automl.cpp" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_regression_test_1ac3240440aec9269a414a0deabc338757" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref></type>
+        <definition>AutoMLModel RegressionTest::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>RegressionTest::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="376" column="17" bodyfile="tests/analytics/test_automl.cpp" bodystart="376" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_regression_test_1a27d786caf6ca1a60b4bc14df6a66ccb5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RegressionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RegressionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="367" column="10" bodyfile="tests/analytics/test_automl.cpp" bodystart="367" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RegressionTest</label>
+        <link refid="class_regression_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RegressionTest</label>
+        <link refid="class_regression_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>automl</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::AutoML</label>
+        <link refid="classthemisdb_1_1analytics_1_1_auto_m_l"/>
+      </node>
+      <node id="4">
+        <label>themisdb::analytics::AutoMLConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_auto_m_l_config"/>
+      </node>
+      <node id="5">
+        <label>themisdb::analytics::AutoMLModel</label>
+        <link refid="classthemisdb_1_1analytics_1_1_auto_m_l_model"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_automl.cpp" line="365" column="1" bodyfile="tests/analytics/test_automl.cpp" bodystart="365" bodyend="377"/>
+    <listofallmembers>
+      <member refid="class_regression_test_1a90323ec22d6b5fcae987a7bae46b99cc" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>automl</name></member>
+      <member refid="class_regression_test_1a03fae3c9876870c6a6863f0c37681edd" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>cfg</name></member>
+      <member refid="class_regression_test_1a1a1b7304f2bef87cdc7b70bcbf70eaa5" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>data</name></member>
+      <member refid="class_regression_test_1ac3240440aec9269a414a0deabc338757" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>model</name></member>
+      <member refid="class_regression_test_1a27d786caf6ca1a60b4bc14df6a66ccb5" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>RegressionTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

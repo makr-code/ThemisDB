@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::test::CanonicalResolverExceptionSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1ab6f30ef1a80b3f72dde6b3381327d113" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_canonical_entity_resolver" kindref="compound">CanonicalEntityResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CanonicalEntityResolver&gt; themis::importers::test::CanonicalResolverExceptionSafetyTest::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themis::importers::test::CanonicalResolverExceptionSafetyTest::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="124" column="21" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1a26b201a550487091bf112d8fa1f3b598" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::test::CanonicalResolverExceptionSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::importers::test::CanonicalResolverExceptionSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="120" column="10" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::CanonicalResolverExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::CanonicalResolverExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="118" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="118" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1ab6f30ef1a80b3f72dde6b3381327d113" prot="protected" virt="non-virtual"><scope>themis::importers::test::CanonicalResolverExceptionSafetyTest</scope><name>resolver_</name></member>
+      <member refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1a26b201a550487091bf112d8fa1f3b598" prot="protected" virt="non-virtual"><scope>themis::importers::test::CanonicalResolverExceptionSafetyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

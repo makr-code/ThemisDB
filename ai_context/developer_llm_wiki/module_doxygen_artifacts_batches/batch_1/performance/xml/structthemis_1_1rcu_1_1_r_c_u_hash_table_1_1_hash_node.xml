@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node" kind="struct" language="C++" prot="private">
+    <compoundname>themis::rcu::RCUHashTable::HashNode</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a5eba8ea6e198af6b088c51f13227c798" prot="public" static="no" mutable="no">
+        <type>Key</type>
+        <definition>Key themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::rcu::RCUHashTable::HashNode::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="204" column="13" bodyfile="include/performance/rcu_hash_table.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a70fc7c81e4c40a48832cc5b713d0b1bb" prot="public" static="no" mutable="no">
+        <type>Value</type>
+        <definition>Value themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::rcu::RCUHashTable::HashNode::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="205" column="15" bodyfile="include/performance/rcu_hash_table.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1af04d293b76485b4fdcc63ef1149e2f34" prot="public" static="no" mutable="no">
+        <type>HashNode *</type>
+        <definition>HashNode* themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>themis::rcu::RCUHashTable::HashNode::next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="206" column="18" bodyfile="include/performance/rcu_hash_table.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a0d8929babdef4b601cea379bd11c5b37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode::HashNode</definition>
+        <argsstring>(const Key &amp;k, const Value &amp;v)</argsstring>
+        <name>HashNode</name>
+        <qualifiedname>themis::rcu::RCUHashTable::HashNode::HashNode</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="208" column="9" bodyfile="include/performance/rcu_hash_table.h" bodystart="208" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::rcu::RCUHashTable&lt; Key, Value &gt;::HashNode</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/rcu_hash_table.h" line="203" column="5" bodyfile="include/performance/rcu_hash_table.h" bodystart="203" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a0d8929babdef4b601cea379bd11c5b37" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable::HashNode</scope><name>HashNode</name></member>
+      <member refid="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a5eba8ea6e198af6b088c51f13227c798" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable::HashNode</scope><name>key</name></member>
+      <member refid="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1af04d293b76485b4fdcc63ef1149e2f34" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable::HashNode</scope><name>next</name></member>
+      <member refid="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node_1a70fc7c81e4c40a48832cc5b713d0b1bb" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable::HashNode</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

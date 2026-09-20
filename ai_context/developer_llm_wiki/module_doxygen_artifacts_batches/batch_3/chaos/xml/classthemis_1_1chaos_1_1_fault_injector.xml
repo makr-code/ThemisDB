@@ -1,0 +1,618 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1chaos_1_1_fault_injector" kind="class" language="C++" prot="public">
+    <compoundname>themis::chaos::FaultInjector</compoundname>
+    <includes refid="chaos__framework_8h" local="no">chaos_framework.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref> &amp;, bool)&gt;</type>
+        <definition>using themis::chaos::FaultInjector::EventCallback = std::function&lt;void(const FaultSpec&amp;, bool )&gt;</definition>
+        <argsstring></argsstring>
+        <name>EventCallback</name>
+        <qualifiedname>themis::chaos::FaultInjector::EventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="78" column="5" bodyfile="include/chaos/chaos_framework.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1chaos_1_1_fault_injector_1a029866b78c399a95f475e6e56746b239" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::chaos::FaultInjector::injector_id_</definition>
+        <argsstring></argsstring>
+        <name>injector_id_</name>
+        <qualifiedname>themis::chaos::FaultInjector::injector_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="153" column="19" bodyfile="include/chaos/chaos_framework.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1chaos_1_1_fault_injector_1a17954b303c16d1ed7271f771dda80e0b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::chaos::FaultInjector::fault_mutex_</definition>
+        <argsstring></argsstring>
+        <name>fault_mutex_</name>
+        <qualifiedname>themis::chaos::FaultInjector::fault_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="154" column="24" bodyfile="include/chaos/chaos_framework.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1chaos_1_1_fault_injector_1a8e08d86a2f1aee9dd4ffd6f8e2bf2da4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1chaos_1_1_active_fault" kindref="compound">ActiveFault</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ActiveFault&gt; themis::chaos::FaultInjector::active_faults_</definition>
+        <argsstring></argsstring>
+        <name>active_faults_</name>
+        <qualifiedname>themis::chaos::FaultInjector::active_faults_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="157" column="24" bodyfile="include/chaos/chaos_framework.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1chaos_1_1_fault_injector_1ac422b5a1f8e55b331f4dfc08804ae024" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" kindref="member">EventCallback</ref> &gt;</type>
+        <definition>std::vector&lt;EventCallback&gt; themis::chaos::FaultInjector::callbacks_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_</name>
+        <qualifiedname>themis::chaos::FaultInjector::callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="159" column="17" bodyfile="include/chaos/chaos_framework.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1aabd1ed1c53e4987424aa3f828800f561" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::chaos::FaultInjector::FaultInjector</definition>
+        <argsstring>(std::string injector_id=&quot;default&quot;)</argsstring>
+        <name>FaultInjector</name>
+        <qualifiedname>themis::chaos::FaultInjector::FaultInjector</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>injector_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="80" column="14" bodyfile="src/chaos/chaos_framework.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1ae35c6bea3335e791ab36692e5bbb0f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::chaos::FaultInjector::~FaultInjector</definition>
+        <argsstring>()</argsstring>
+        <name>~FaultInjector</name>
+        <qualifiedname>themis::chaos::FaultInjector::~FaultInjector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="81" column="5" bodyfile="src/chaos/chaos_framework.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::FaultInjector::injectFault</definition>
+        <argsstring>(const FaultSpec &amp;fault)</argsstring>
+        <name>injectFault</name>
+        <qualifiedname>themis::chaos::FaultInjector::injectFault</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref> &amp;</type>
+          <declname>fault</declname>
+        </param>
+        <briefdescription>
+<para>Inject a fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject Fault.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fault</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+If the same node + type is already active, the existing entry is updated in-place (last-writer-wins) and true is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fault</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), makeKey(), std::chrono::steady_clock::now(), count(), std::chrono::steady_clock::time_point::max(), lock(), emplace(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="89" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="77" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::FaultInjector::recoverFault</definition>
+        <argsstring>(const std::string &amp;target_node_id)</argsstring>
+        <name>recoverFault</name>
+        <qualifiedname>themis::chaos::FaultInjector::recoverFault</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear the active fault on target_node_id (all types). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover Fault.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns false if no fault was registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), begin(), end(), cb(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="97" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="118" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1ad007dc783e96e0f7e589f3f93e05eb7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::FaultInjector::recoverFault</definition>
+        <argsstring>(const std::string &amp;target_node_id, FaultType type)</argsstring>
+        <name>recoverFault</name>
+        <qualifiedname>themis::chaos::FaultInjector::recoverFault</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Clear the active fault for a specific type on target_node_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover Fault.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), lock(), find(), end(), cb(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="105" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::FaultInjector::isFaultActive</definition>
+        <argsstring>(const std::string &amp;target_node_id) const</argsstring>
+        <name>isFaultActive</name>
+        <qualifiedname>themis::chaos::FaultInjector::isFaultActive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when target_node_id currently has any active, non-expired fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fault_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="112" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a803da31ec48cd049215e1c6966b686be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::FaultInjector::isFaultActive</definition>
+        <argsstring>(const std::string &amp;target_node_id, FaultType type) const</argsstring>
+        <name>isFaultActive</name>
+        <qualifiedname>themis::chaos::FaultInjector::isFaultActive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when target_node_id has an active fault of the given type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fault_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="120" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a031717a45d9267e837cbae6f273380e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1chaos_1_1_active_fault" kindref="compound">ActiveFault</ref> &gt;</type>
+        <definition>std::vector&lt; ActiveFault &gt; themis::chaos::FaultInjector::getActiveFaults</definition>
+        <argsstring>()</argsstring>
+        <name>getActiveFaults</name>
+        <qualifiedname>themis::chaos::FaultInjector::getActiveFaults</qualifiedname>
+        <briefdescription>
+<para>Snapshot of all faults (expires ones are pruned on access). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Active Faults.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: pruneExpired(), lock(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="126" column="17" bodyfile="src/chaos/chaos_framework.cpp" bodystart="192" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::chaos::FaultInjector::activeFaultCount</definition>
+        <argsstring>()</argsstring>
+        <name>activeFaultCount</name>
+        <qualifiedname>themis::chaos::FaultInjector::activeFaultCount</qualifiedname>
+        <briefdescription>
+<para>Total active (non-expired) fault count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Active Fault Count.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: pruneExpired(), lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="132" column="12" bodyfile="src/chaos/chaos_framework.cpp" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::chaos::FaultInjector::clearAllFaults</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllFaults</name>
+        <qualifiedname>themis::chaos::FaultInjector::clearAllFaults</qualifiedname>
+        <briefdescription>
+<para>Remove all active faults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear All Faults.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="137" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::chaos::FaultInjector::registerEventCallback</definition>
+        <argsstring>(EventCallback cb)</argsstring>
+        <name>registerEventCallback</name>
+        <qualifiedname>themis::chaos::FaultInjector::registerEventCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" kindref="member">EventCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked on every inject/recover event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Event Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="143" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::chaos::FaultInjector::id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::chaos::FaultInjector::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="145" column="23" bodyfile="include/chaos/chaos_framework.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a4825edca38eb78d4056d678ad3fd8883" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::chaos::FaultInjector::pruneExpired</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpired</name>
+        <qualifiedname>themis::chaos::FaultInjector::pruneExpired</qualifiedname>
+        <briefdescription>
+<para>Prune Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), begin(), end(), isExpired(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="151" column="10" bodyfile="src/chaos/chaos_framework.cpp" bodystart="237" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a6cbdbe60bbad70fa1fa22aa34f5a7118" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::chaos::FaultInjector::makeKey</definition>
+        <argsstring>(const std::string &amp;node_id, FaultType type)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::chaos::FaultInjector::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: faultTypeName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="167" column="24" bodyfile="src/chaos/chaos_framework.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1chaos_1_1_fault_injector_1a04618c21d6cda8946d38580020348fcc" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::chaos::FaultInjector::faultTypeName</definition>
+        <argsstring>(FaultType type) noexcept</argsstring>
+        <name>faultTypeName</name>
+        <qualifiedname>themis::chaos::FaultInjector::faultTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Fault Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="174" column="24" bodyfile="src/chaos/chaos_framework.cpp" bodystart="32" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chaos/chaos_framework.h" line="76" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="76" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a8e08d86a2f1aee9dd4ffd6f8e2bf2da4" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>active_faults_</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>activeFaultCount</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1ac422b5a1f8e55b331f4dfc08804ae024" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>callbacks_</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>clearAllFaults</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a2959c2e3d5ebce62f37ba83c144ec6b6" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>EventCallback</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a17954b303c16d1ed7271f771dda80e0b" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>fault_mutex_</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1aabd1ed1c53e4987424aa3f828800f561" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>FaultInjector</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a04618c21d6cda8946d38580020348fcc" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>faultTypeName</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a031717a45d9267e837cbae6f273380e9" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>getActiveFaults</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>id</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>injectFault</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a029866b78c399a95f475e6e56746b239" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>injector_id_</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>isFaultActive</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a803da31ec48cd049215e1c6966b686be" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>isFaultActive</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a6cbdbe60bbad70fa1fa22aa34f5a7118" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a4825edca38eb78d4056d678ad3fd8883" prot="private" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>pruneExpired</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>recoverFault</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1ad007dc783e96e0f7e589f3f93e05eb7b" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>recoverFault</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>registerEventCallback</name></member>
+      <member refid="classthemis_1_1chaos_1_1_fault_injector_1ae35c6bea3335e791ab36692e5bbb0f2d" prot="public" virt="non-virtual"><scope>themis::chaos::FaultInjector</scope><name>~FaultInjector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

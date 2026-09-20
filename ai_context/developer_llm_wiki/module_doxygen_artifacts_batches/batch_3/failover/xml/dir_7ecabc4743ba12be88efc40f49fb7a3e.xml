@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7ecabc4743ba12be88efc40f49fb7a3e" kind="dir">
+    <compoundname>tests/failover</compoundname>
+    <innerfile refid="test__failover__chaos__scenarios_8cpp">test_failover_chaos_scenarios.cpp</innerfile>
+    <innerfile refid="test__failover__contract__hardening__focused_8cpp">test_failover_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__failover__dr__edge__scenarios_8cpp">test_failover_dr_edge_scenarios.cpp</innerfile>
+    <innerfile refid="test__failover__phase2__phase3__focused_8cpp">test_failover_phase2_phase3_focused.cpp</innerfile>
+    <innerfile refid="test__failover__wave__a__fencing_8cpp">test_failover_wave_a_fencing.cpp</innerfile>
+    <innerfile refid="test__failover__wave__a__health__timeout_8cpp">test_failover_wave_a_health_timeout.cpp</innerfile>
+    <innerfile refid="test__failover__wave__a__quorum__persistence_8cpp">test_failover_wave_a_quorum_persistence.cpp</innerfile>
+    <innerfile refid="test__failover__wave__a__topology__versioning_8cpp">test_failover_wave_a_topology_versioning.cpp</innerfile>
+    <innerfile refid="test__failover__wave__b__adaptive__health_8cpp">test_failover_wave_b_adaptive_health.cpp</innerfile>
+    <innerfile refid="test__failover__wave__b__consensus_8cpp">test_failover_wave_b_consensus.cpp</innerfile>
+    <innerfile refid="test__failover__wave__c__fencing__security_8cpp">test_failover_wave_c_fencing_security.cpp</innerfile>
+    <innerfile refid="test__failover__wave__d__observability_8cpp">test_failover_wave_d_observability.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/failover/"/>
+  </compounddef>
+</doxygen>

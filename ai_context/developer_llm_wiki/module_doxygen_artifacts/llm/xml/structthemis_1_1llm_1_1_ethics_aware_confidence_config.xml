@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicsAwareConfidenceConfig</compoundname>
+    <includes refid="ethics__aware__confidence__detector_8h" local="no">ethics_aware_confidence_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a0767bef8bee21ad711f364891c29d962" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::min_autonomy_respect</definition>
+        <argsstring></argsstring>
+        <name>min_autonomy_respect</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::min_autonomy_respect</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Minimum autonomy respect score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="24" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1af6e68eacf58fc68fa77225fdbf3762f0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::min_transparency</definition>
+        <argsstring></argsstring>
+        <name>min_transparency</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::min_transparency</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Minimum transparency score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="25" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a04f79c2467e46dc5e3bff5b62732d623" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::min_technical_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_technical_confidence</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::min_technical_confidence</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Minimum technical confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="26" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1aa0b0ec225871301ee5d7b3a86eedcf44" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::technical_weight</definition>
+        <argsstring></argsstring>
+        <name>technical_weight</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::technical_weight</qualifiedname>
+        <initializer>= 0.40f</initializer>
+        <briefdescription>
+<para>Weight for technical confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="29" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a0cafc4da4b08857c814c110b60f53a07" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::autonomy_weight</definition>
+        <argsstring></argsstring>
+        <name>autonomy_weight</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::autonomy_weight</qualifiedname>
+        <initializer>= 0.35f</initializer>
+        <briefdescription>
+<para>Weight for autonomy respect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="30" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1ad94d5371deff79e72538cdbb9020d017" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceConfig::transparency_weight</definition>
+        <argsstring></argsstring>
+        <name>transparency_weight</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::transparency_weight</qualifiedname>
+        <initializer>= 0.25f</initializer>
+        <briefdescription>
+<para>Weight for transparency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="31" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1aed8a34f21232dceb96a2f16d948e1f57" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceConfig::enable_patronizing_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_patronizing_detection</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::enable_patronizing_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable patronizing language detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="34" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a79ff4a35b0c8f891d29309bcdc25ca82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceConfig::enable_entropy_analysis</definition>
+        <argsstring></argsstring>
+        <name>enable_entropy_analysis</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::enable_entropy_analysis</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable token entropy analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="35" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a25547e6238623f28570ac90bfff79ff9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceConfig::enable_uncertainty_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_uncertainty_detection</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::enable_uncertainty_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable uncertainty acknowledgment detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="36" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a20a4549af17fad304349d1f083f8fe7f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceConfig::cache_results</definition>
+        <argsstring></argsstring>
+        <name>cache_results</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::cache_results</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Cache confidence scores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="39" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a39d3c621ab3ee31b75f6de6a2109ea7d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::EthicsAwareConfidenceConfig::max_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::max_cache_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum cache entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="40" column="12" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a374a44ee721d81be47adf5b62e2f11d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceConfig::validateWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>validateWeights</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceConfig::validateWeights</qualifiedname>
+        <briefdescription>
+<para>Validate Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="46" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethics_aware_confidence_detector.h" line="22" column="1" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="22" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a0cafc4da4b08857c814c110b60f53a07" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>autonomy_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a20a4549af17fad304349d1f083f8fe7f" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>cache_results</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a79ff4a35b0c8f891d29309bcdc25ca82" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>enable_entropy_analysis</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1aed8a34f21232dceb96a2f16d948e1f57" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>enable_patronizing_detection</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a25547e6238623f28570ac90bfff79ff9" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>enable_uncertainty_detection</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a39d3c621ab3ee31b75f6de6a2109ea7d" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>max_cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a0767bef8bee21ad711f364891c29d962" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>min_autonomy_respect</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a04f79c2467e46dc5e3bff5b62732d623" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>min_technical_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1af6e68eacf58fc68fa77225fdbf3762f0" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>min_transparency</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1aa0b0ec225871301ee5d7b3a86eedcf44" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>technical_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1ad94d5371deff79e72538cdbb9020d017" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>transparency_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config_1a374a44ee721d81be47adf5b62e2f11d9" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceConfig</scope><name>validateWeights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

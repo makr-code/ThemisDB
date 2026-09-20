@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_rollback_state" kind="struct" language="C++" prot="public">
+    <compoundname>llm::RollbackState</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_rollback_state_1a61bd51a0858484604ab5657c6aa172c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::RollbackState::deployment_id</definition>
+        <argsstring></argsstring>
+        <name>deployment_id</name>
+        <qualifiedname>llm::RollbackState::deployment_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="156" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_rollback_state_1a0d487d7a5e5f252825bb6143ad187b24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::RollbackState::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::RollbackState::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="157" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_rollback_state_1a49b7328ff2d0ea237bffac9f0ba8f70e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; llm::RollbackState::previous_adapter_versions</definition>
+        <argsstring></argsstring>
+        <name>previous_adapter_versions</name>
+        <qualifiedname>llm::RollbackState::previous_adapter_versions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="158" column="14" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_rollback_state_1a6c4ddd5a53ba29c29a2cdd2670b58329" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::RollbackState::snapshot_timestamp</definition>
+        <argsstring></argsstring>
+        <name>snapshot_timestamp</name>
+        <qualifiedname>llm::RollbackState::snapshot_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="159" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_rollback_state_1a253768e25d1aea0b9722c1c15d68e392" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::RollbackState::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>llm::RollbackState::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="160" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="155" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="155" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_rollback_state_1a0d487d7a5e5f252825bb6143ad187b24" prot="public" virt="non-virtual"><scope>llm::RollbackState</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_rollback_state_1a61bd51a0858484604ab5657c6aa172c7" prot="public" virt="non-virtual"><scope>llm::RollbackState</scope><name>deployment_id</name></member>
+      <member refid="structllm_1_1_rollback_state_1a49b7328ff2d0ea237bffac9f0ba8f70e" prot="public" virt="non-virtual"><scope>llm::RollbackState</scope><name>previous_adapter_versions</name></member>
+      <member refid="structllm_1_1_rollback_state_1a253768e25d1aea0b9722c1c15d68e392" prot="public" virt="non-virtual"><scope>llm::RollbackState</scope><name>reason</name></member>
+      <member refid="structllm_1_1_rollback_state_1a6c4ddd5a53ba29c29a2cdd2670b58329" prot="public" virt="non-virtual"><scope>llm::RollbackState</scope><name>snapshot_timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

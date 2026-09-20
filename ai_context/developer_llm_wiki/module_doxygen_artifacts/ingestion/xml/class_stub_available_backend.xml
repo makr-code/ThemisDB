@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_available_backend" kind="class" language="C++" prot="public">
+    <compoundname>StubAvailableBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" prot="public" virt="non-virtual">themis::ingestion::ITextGenerationBackend</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_available_backend_1a075efbc4b92d852e578aad1fdd1d9b64" prot="public" static="no" mutable="yes">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; StubAvailableBackend::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>StubAvailableBackend::call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="53" column="25" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_available_backend_1a6fe6fa3a2c99a55724a3afcb0805c301" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubAvailableBackend::fixed_response</definition>
+        <argsstring></argsstring>
+        <name>fixed_response</name>
+        <qualifiedname>StubAvailableBackend::fixed_response</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="54" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_available_backend_1ad66de7218571f897e07e355ce77a5ac0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubAvailableBackend::StubAvailableBackend</definition>
+        <argsstring>(const std::string &amp;response=R&quot;(
+        {&quot;deontic_category&quot;:&quot;obligation&quot;,&quot;confidence&quot;:0.9,&quot;entities&quot;:[],&quot;obligations&quot;:[]})&quot;)</argsstring>
+        <name>StubAvailableBackend</name>
+        <qualifiedname>StubAvailableBackend::StubAvailableBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+          <defval>R&quot;(        {&quot;deontic_category&quot;:&quot;obligation&quot;,&quot;confidence&quot;:0.9,&quot;entities&quot;:[],&quot;obligations&quot;:[]})&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="56" column="14" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="56" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_available_backend_1aed2b8c05170f25b8d9dd9d18cd213a2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string StubAvailableBackend::generate</definition>
+        <argsstring>(const std::string &amp;, int, double, const std::string &amp;) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>StubAvailableBackend::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a01b400d97ed57231d367aa2b6ed6f9f5">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_adapter</declname>
+        </param>
+        <briefdescription>
+<para>Generate text from a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full prompt string (already assembled by caller). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of tokens to generate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sampling temperature (lower = more deterministic). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lora_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LoRA adapter identifier / path. Empty string means no adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text. On unrecoverable error, implementations SHOULD return an empty string rather than throwing, so the ingestion pipeline can degrade gracefully. Exceptions are caught and wrapped by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="59" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_available_backend_1a45f81e4d8850eec8dea18d50e3d12399" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubAvailableBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>StubAvailableBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1adfb52bcdcfe752d7580e884926c74046">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether a real backend is available at this moment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>true</computeroutput> when the underlying backend is configured and ready for inference (e.g. model loaded, GPU memory available). Returns <computeroutput>false</computeroutput> during warm-up or when the model has not been configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="67" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_available_backend_1afd70a01538c0817d24cce15fc3ab9f0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string StubAvailableBackend::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>StubAvailableBackend::description</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1abcb7e4ed1be01bc9debb32afebde93ae">description</reimplements>
+        <briefdescription>
+<para>Human-readable description of the backend for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;llama.cpp/mistral-7b-Q4_K_M + legal-lora-v2&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="68" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An always-available stub backend that echoes a fixed JSON response. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubAvailableBackend</label>
+        <link refid="class_stub_available_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubAvailableBackend</label>
+        <link refid="class_stub_available_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="51" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="51" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_stub_available_backend_1a075efbc4b92d852e578aad1fdd1d9b64" prot="public" virt="non-virtual"><scope>StubAvailableBackend</scope><name>call_count</name></member>
+      <member refid="class_stub_available_backend_1afd70a01538c0817d24cce15fc3ab9f0b" prot="public" virt="virtual"><scope>StubAvailableBackend</scope><name>description</name></member>
+      <member refid="class_stub_available_backend_1a6fe6fa3a2c99a55724a3afcb0805c301" prot="public" virt="non-virtual"><scope>StubAvailableBackend</scope><name>fixed_response</name></member>
+      <member refid="class_stub_available_backend_1aed2b8c05170f25b8d9dd9d18cd213a2e" prot="public" virt="virtual"><scope>StubAvailableBackend</scope><name>generate</name></member>
+      <member refid="class_stub_available_backend_1a45f81e4d8850eec8dea18d50e3d12399" prot="public" virt="virtual"><scope>StubAvailableBackend</scope><name>isAvailable</name></member>
+      <member refid="class_stub_available_backend_1ad66de7218571f897e07e355ce77a5ac0" prot="public" virt="non-virtual"><scope>StubAvailableBackend</scope><name>StubAvailableBackend</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a79f5d95e68a8300ac610d45b26fce9bd" prot="public" virt="virtual"><scope>StubAvailableBackend</scope><name>~ITextGenerationBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

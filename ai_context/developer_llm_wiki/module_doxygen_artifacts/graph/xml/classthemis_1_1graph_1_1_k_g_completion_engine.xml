@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_k_g_completion_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::KGCompletionEngine</compoundname>
+    <includes refid="rotate__completion_8h" local="no">rotate_completion.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_k_g_completion_engine_1aebe716414a9b6cd447e41af23208de9c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref></type>
+        <definition>RotatEConfig themis::graph::KGCompletionEngine::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="259" column="25" bodyfile="include/graph/rotate_completion.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_k_g_completion_engine_1ae0326df840ef4ce6c4faa8b04f744cf9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref></type>
+        <definition>RotatEModel themis::graph::KGCompletionEngine::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="260" column="25" bodyfile="include/graph/rotate_completion.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a80aa316afc5060bbcdfb4e347b63722c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_link_prediction_head" kindref="compound">LinkPredictionHead</ref></type>
+        <definition>LinkPredictionHead themis::graph::KGCompletionEngine::link_head_</definition>
+        <argsstring></argsstring>
+        <name>link_head_</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::link_head_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="261" column="25" bodyfile="include/graph/rotate_completion.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_k_g_completion_engine_1af9e675b3d2f2bb7265042db6727cd552" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kindref="compound">KnowledgeGraphReasoner</ref> *</type>
+        <definition>KnowledgeGraphReasoner* themis::graph::KGCompletionEngine::reasoner_</definition>
+        <argsstring></argsstring>
+        <name>reasoner_</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::reasoner_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="262" column="28" bodyfile="include/graph/rotate_completion.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_k_g_completion_engine_1ab98a51ec2d84ef84d2629264b0bd247f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::KGCompletionEngine::inject_threshold_</definition>
+        <argsstring></argsstring>
+        <name>inject_threshold_</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::inject_threshold_</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="263" column="29" bodyfile="include/graph/rotate_completion.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a58aad47e94931609a3da49bae5c92bb0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::KGCompletionEngine::KGCompletionEngine</definition>
+        <argsstring>(RotatEConfig cfg={})</argsstring>
+        <name>KGCompletionEngine</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::KGCompletionEngine</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="204" column="14" bodyfile="src/graph/rotate_completion.cpp" bodystart="638" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a47c2473e19eaa9fa9dc60b85502af82f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KGCompletionEngine::setReasoner</definition>
+        <argsstring>(KnowledgeGraphReasoner *reasoner, double inject_threshold=2.0)</argsstring>
+        <name>setReasoner</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::setReasoner</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kindref="compound">KnowledgeGraphReasoner</ref> *</type>
+          <declname>reasoner</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>inject_threshold</declname>
+          <defval>2.0</defval>
+        </param>
+        <briefdescription>
+<para>Set Reasoner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reasoner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">inject_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="210" column="10" bodyfile="src/graph/rotate_completion.cpp" bodystart="646" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a58b4b5a0fc2a1c1ae6bb7236f13ff994" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::KGCompletionEngine::addEntity</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>addEntity</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::addEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements addEntity without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="222" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="659" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1af789ddfb83e4bbd4f807d377cbafad3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::KGCompletionEngine::addRelation</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>addRelation</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::addRelation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Relation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements addRelation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="229" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="666" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1afa4af0eca56276fd616747ad4776ae10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_rotat_e_train_result" kindref="compound">RotatETrainResult</ref></type>
+        <definition>RotatETrainResult themis::graph::KGCompletionEngine::train</definition>
+        <argsstring>(const std::vector&lt; KGTriple &gt; &amp;triples)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_k_g_triple" kindref="compound">KGTriple</ref> &gt; &amp;</type>
+          <declname>triples</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">triples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">triples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements train without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="236" column="23" bodyfile="src/graph/rotate_completion.cpp" bodystart="674" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a861ee8710abe3e5d987cd0adcd388911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_link_prediction" kindref="compound">LinkPrediction</ref> &gt;</type>
+        <definition>std::vector&lt; LinkPrediction &gt; themis::graph::KGCompletionEngine::completeTail</definition>
+        <argsstring>(const std::string &amp;head, const std::string &amp;relation, size_t top_k=10)</argsstring>
+        <name>completeTail</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::completeTail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>head</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Complete Tail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">head</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">relation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="242" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="685" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a398ba8200bc087ca95c7488af05be08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_link_prediction" kindref="compound">LinkPrediction</ref> &gt;</type>
+        <definition>std::vector&lt; LinkPrediction &gt; themis::graph::KGCompletionEngine::completeHead</definition>
+        <argsstring>(const std::string &amp;relation, const std::string &amp;tail, size_t top_k=10)</argsstring>
+        <name>completeHead</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::completeHead</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tail</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Complete Head. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">relation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="246" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="723" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a34c1d8c23c4478de9b3e0a7b752b2503" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_rotat_e_model" kindref="compound">RotatEModel</ref> &amp;</type>
+        <definition>RotatEModel &amp; themis::graph::KGCompletionEngine::model</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>model</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="254" column="27" bodyfile="include/graph/rotate_completion.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1aabdeb84f0188b100d11151566202a147" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_link_prediction_head" kindref="compound">LinkPredictionHead</ref> &amp;</type>
+        <definition>LinkPredictionHead &amp; themis::graph::KGCompletionEngine::linkHead</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>linkHead</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::linkHead</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="255" column="27" bodyfile="include/graph/rotate_completion.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_k_g_completion_engine_1a965788103b6ac79824c3a9527e7ac417" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref> &amp;</type>
+        <definition>const RotatEConfig &amp; themis::graph::KGCompletionEngine::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::graph::KGCompletionEngine::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="256" column="27" bodyfile="include/graph/rotate_completion.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/rotate_completion.h" line="202" column="1" bodyfile="include/graph/rotate_completion.h" bodystart="202" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a58b4b5a0fc2a1c1ae6bb7236f13ff994" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>addEntity</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1af789ddfb83e4bbd4f807d377cbafad3a" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>addRelation</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1aebe716414a9b6cd447e41af23208de9c" prot="private" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a398ba8200bc087ca95c7488af05be08d" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>completeHead</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a861ee8710abe3e5d987cd0adcd388911" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>completeTail</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a965788103b6ac79824c3a9527e7ac417" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>config</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1ab98a51ec2d84ef84d2629264b0bd247f" prot="private" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>inject_threshold_</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a58aad47e94931609a3da49bae5c92bb0" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>KGCompletionEngine</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a80aa316afc5060bbcdfb4e347b63722c" prot="private" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>link_head_</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1aabdeb84f0188b100d11151566202a147" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>linkHead</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a34c1d8c23c4478de9b3e0a7b752b2503" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>model</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1ae0326df840ef4ce6c4faa8b04f744cf9" prot="private" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>model_</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1af9e675b3d2f2bb7265042db6727cd552" prot="private" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>reasoner_</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1a47c2473e19eaa9fa9dc60b85502af82f" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>setReasoner</name></member>
+      <member refid="classthemis_1_1graph_1_1_k_g_completion_engine_1afa4af0eca56276fd616747ad4776ae10" prot="public" virt="non-virtual"><scope>themis::graph::KGCompletionEngine</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_partition_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::PartitionDetectionResult</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>PartitionRole</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::PartitionRole</qualifiedname>
+        <enumvalue id="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3a8223c692c152fc6f8b387c19cdd7e8b2" prot="public">
+          <name>kMajority</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Part of quorum; can operate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3abb405e4cf8626119f06788093f02ac21" prot="public">
+          <name>kMinority</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Part of split; read-only degraded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3afec310ee7baf1811254eeca29aa6ea0f" prot="public">
+          <name>kIsolated</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>No quorum available; read-only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Is this node in minority or majority partition? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="299" column="3" bodyfile="include/process/process_federation_contract.h" bodystart="299" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_partition_detection_result_1a773a320daac5d1f3d0d0470aebff95a1" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3" kindref="member">themisdb::process::PartitionDetectionResult::PartitionRole</ref></type>
+        <definition>enum themisdb::process::PartitionDetectionResult::PartitionRole themisdb::process::PartitionDetectionResult::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="303" column="8"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_partition_detection_result_1a3998b661417baa575477d2418d3a34bd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::process::PartitionDetectionResult::reachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>reachable_nodes</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::reachable_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes currently reachable (for majority partition). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="306" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_partition_detection_result_1a309dea5b37e2aa6eb1aef5b07fafd72c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::process::PartitionDetectionResult::unreachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>unreachable_nodes</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::unreachable_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes currently unreachable (for minority partition). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="309" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_partition_detection_result_1a336c6efd14826a552e4e79ed648e94a0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::process::PartitionDetectionResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Confidence in partition detection (0.0 - 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="312" column="9" bodyfile="include/process/process_federation_contract.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_partition_detection_result_1adeb88f7e33e93fb7834b37d0c0ad67bb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::PartitionDetectionResult::detection_time</definition>
+        <argsstring></argsstring>
+        <name>detection_time</name>
+        <qualifiedname>themisdb::process::PartitionDetectionResult::detection_time</qualifiedname>
+        <briefdescription>
+<para>Timestamp of detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="315" column="41" bodyfile="include/process/process_federation_contract.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Partition detection result. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1af86f254a26c77ecfd5d7deafff324b63" kindref="member">FederationConsensusManager::DetectPartition()</ref>. </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="297" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="297" bodyend="316"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1a336c6efd14826a552e4e79ed648e94a0" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>confidence</name></member>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1adeb88f7e33e93fb7834b37d0c0ad67bb" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>detection_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>PartitionRole</name></member>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1a3998b661417baa575477d2418d3a34bd" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>reachable_nodes</name></member>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1a773a320daac5d1f3d0d0470aebff95a1" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>role</name></member>
+      <member refid="structthemisdb_1_1process_1_1_partition_detection_result_1a309dea5b37e2aa6eb1aef5b07fafd72c" prot="public" virt="non-virtual"><scope>themisdb::process::PartitionDetectionResult</scope><name>unreachable_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

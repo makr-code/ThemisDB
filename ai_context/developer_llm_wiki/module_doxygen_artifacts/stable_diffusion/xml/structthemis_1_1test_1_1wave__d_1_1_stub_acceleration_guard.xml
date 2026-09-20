@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubAccelerationGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adead4fa2b212740b9de7336725cc6ab6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubAccelerationGuard::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="121" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a6fa5b1f9f20457fa681c67025c14a6fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubAccelerationGuard::attempts_</definition>
+        <argsstring></argsstring>
+        <name>attempts_</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="122" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a19e1e0660ce93d7c4327cbf6ec84a15d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubAccelerationGuard::accelerated_</definition>
+        <argsstring></argsstring>
+        <name>accelerated_</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::accelerated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="123" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a74ce83bdab183124a59c1f5faa1484d3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubAccelerationGuard::fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>fallbacks_</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::fallbacks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="124" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adae5fb9e66d45c9c036228df50a63368" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::StubAccelerationGuard::StubAccelerationGuard</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>StubAccelerationGuard</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::StubAccelerationGuard</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="103" column="14" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a51bc6d2015e1fa9be2e8a85ea8917a52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubAccelerationGuard::handleRequest</definition>
+        <argsstring>(uint64_t)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::handleRequest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+<para>Returns true if the request was handled (accelerated OR CPU fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="106" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1ac41cdefbb36e68433d2e8bf773672252" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubAccelerationGuard::attempts</definition>
+        <argsstring>() const</argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="116" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a0fb4a4773084c8fb68b8f50c91a15dec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubAccelerationGuard::accelerated</definition>
+        <argsstring>() const</argsstring>
+        <name>accelerated</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::accelerated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="117" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1aeac32d344e50d783267ec3806cb4d861" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubAccelerationGuard::fallbacks</definition>
+        <argsstring>() const</argsstring>
+        <name>fallbacks</name>
+        <qualifiedname>themis::test::wave_d::StubAccelerationGuard::fallbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="118" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="102" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="102" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a0fb4a4773084c8fb68b8f50c91a15dec" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>accelerated</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a19e1e0660ce93d7c4327cbf6ec84a15d" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>accelerated_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1ac41cdefbb36e68433d2e8bf773672252" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>attempts</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a6fa5b1f9f20457fa681c67025c14a6fc" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>attempts_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adead4fa2b212740b9de7336725cc6ab6" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>available_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1aeac32d344e50d783267ec3806cb4d861" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>fallbacks</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a74ce83bdab183124a59c1f5faa1484d3" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>fallbacks_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a51bc6d2015e1fa9be2e8a85ea8917a52" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>handleRequest</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adae5fb9e66d45c9c036228df50a63368" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubAccelerationGuard</scope><name>StubAccelerationGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

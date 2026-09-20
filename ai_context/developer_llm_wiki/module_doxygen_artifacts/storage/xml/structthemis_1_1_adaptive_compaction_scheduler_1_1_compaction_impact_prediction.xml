@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1abc62535eb17e469ca7dd5cf8c2b20dd4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::estimated_cpu_overhead</definition>
+        <argsstring></argsstring>
+        <name>estimated_cpu_overhead</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::estimated_cpu_overhead</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimated fractional CPU overhead [0.0, 1.0]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="162" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1aebff0fd4395ec1b977828e97e26a8cfe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::estimated_duration_s</definition>
+        <argsstring></argsstring>
+        <name>estimated_duration_s</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::estimated_duration_s</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimated wall-clock duration of the compaction pass (seconds). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="165" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1acfe773e55b8e199b5566ec8d4322d477" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::write_amplification</definition>
+        <argsstring></argsstring>
+        <name>write_amplification</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::write_amplification</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write-amplification factor used for this prediction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="168" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1a2f664e47a546a28d103d7fc203ba16a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::is_urgent</definition>
+        <argsstring></argsstring>
+        <name>is_urgent</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::is_urgent</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True if compaction is urgently required (WA exceeds urgent threshold). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="171" column="14" bodyfile="include/storage/adaptive_compaction.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1a920b7784809df3fdfb961296075dbe7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::is_low_impact</definition>
+        <argsstring></argsstring>
+        <name>is_low_impact</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction::is_low_impact</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True when current load is low enough that compaction impact will be minimal and scheduling is recommended. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="177" column="14" bodyfile="include/storage/adaptive_compaction.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Predicted impact of running a compaction pass right now. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are estimates based on the current EMA rates and the write-amplification supplied by the caller. </para>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="160" column="5" bodyfile="include/storage/adaptive_compaction.h" bodystart="160" bodyend="178"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1abc62535eb17e469ca7dd5cf8c2b20dd4" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</scope><name>estimated_cpu_overhead</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1aebff0fd4395ec1b977828e97e26a8cfe" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</scope><name>estimated_duration_s</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1a920b7784809df3fdfb961296075dbe7e" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</scope><name>is_low_impact</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1a2f664e47a546a28d103d7fc203ba16a2" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</scope><name>is_urgent</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction_1acfe773e55b8e199b5566ec8d4322d477" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</scope><name>write_amplification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

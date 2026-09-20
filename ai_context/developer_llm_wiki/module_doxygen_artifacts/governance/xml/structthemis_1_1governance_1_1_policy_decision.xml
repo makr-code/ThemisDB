@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyDecision</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a6c3e042e4ef220b687c584a82d7aced0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyDecision::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::governance::PolicyDecision::classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="58" column="17" bodyfile="include/governance/policy_engine.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1ab652165a2e2882932ea684b90eeb40ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyDecision::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::governance::PolicyDecision::mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="60" column="17" bodyfile="include/governance/policy_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a524235c1360ef8ffd98a51a40f714cbe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::encrypt_logs</definition>
+        <argsstring></argsstring>
+        <name>encrypt_logs</name>
+        <qualifiedname>themis::governance::PolicyDecision::encrypt_logs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="62" column="10" bodyfile="include/governance/policy_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a758c56fe14b6079d145f353fad7aed3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyDecision::redaction</definition>
+        <argsstring></argsstring>
+        <name>redaction</name>
+        <qualifiedname>themis::governance::PolicyDecision::redaction</qualifiedname>
+        <initializer>= &quot;standard&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="64" column="17" bodyfile="include/governance/policy_engine.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a2386acce8ecfa9cee8931d2654a26017" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::ann_allowed</definition>
+        <argsstring></argsstring>
+        <name>ann_allowed</name>
+        <qualifiedname>themis::governance::PolicyDecision::ann_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="67" column="10" bodyfile="include/governance/policy_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a5bab3313ea53e9f983877e5fa22ed1c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::require_content_encryption</definition>
+        <argsstring></argsstring>
+        <name>require_content_encryption</name>
+        <qualifiedname>themis::governance::PolicyDecision::require_content_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="68" column="10" bodyfile="include/governance/policy_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1ad9eabc4f55936682ad836a721df6be94" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::export_allowed</definition>
+        <argsstring></argsstring>
+        <name>export_allowed</name>
+        <qualifiedname>themis::governance::PolicyDecision::export_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="69" column="10" bodyfile="include/governance/policy_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1a3a6f5f962fcb05b712831598722be259" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::cache_allowed</definition>
+        <argsstring></argsstring>
+        <name>cache_allowed</name>
+        <qualifiedname>themis::governance::PolicyDecision::cache_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="70" column="10" bodyfile="include/governance/policy_engine.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1ac8ecf7b79af4742e9f0604815e134204" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyDecision::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::governance::PolicyDecision::retention_days</qualifiedname>
+        <initializer>= 365</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="71" column="9" bodyfile="include/governance/policy_engine.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_decision_1adf2ee560b1c011cc17451a43a61d4371" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyDecision::ccpa_opted_out</definition>
+        <argsstring></argsstring>
+        <name>ccpa_opted_out</name>
+        <qualifiedname>themis::governance::PolicyDecision::ccpa_opted_out</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="78" column="10" bodyfile="include/governance/policy_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_engine.h" line="56" column="1" bodyfile="include/governance/policy_engine.h" bodystart="56" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a2386acce8ecfa9cee8931d2654a26017" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>ann_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a3a6f5f962fcb05b712831598722be259" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>cache_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1adf2ee560b1c011cc17451a43a61d4371" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>ccpa_opted_out</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a6c3e042e4ef220b687c584a82d7aced0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a524235c1360ef8ffd98a51a40f714cbe" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>encrypt_logs</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1ad9eabc4f55936682ad836a721df6be94" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>export_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1ab652165a2e2882932ea684b90eeb40ef" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>mode</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a758c56fe14b6079d145f353fad7aed3a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>redaction</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1a5bab3313ea53e9f983877e5fa22ed1c3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>require_content_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_decision_1ac8ecf7b79af4742e9f0604815e134204" prot="public" virt="non-virtual"><scope>themis::governance::PolicyDecision</scope><name>retention_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

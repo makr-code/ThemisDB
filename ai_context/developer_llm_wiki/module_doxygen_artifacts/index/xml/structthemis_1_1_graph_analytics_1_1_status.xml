@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_analytics_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphAnalytics::Status</compoundname>
+    <includes refid="graph__analytics_8h" local="no">graph_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_status_1a3b0837514495ddbaeac946f69d9e1223" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GraphAnalytics::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::GraphAnalytics::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="33" column="14" bodyfile="include/index/graph_analytics.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_status_1a96213229232b9b9cd88a380a7604c7a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphAnalytics::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::GraphAnalytics::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="34" column="21" bodyfile="include/index/graph_analytics.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_graph_analytics_1_1_status_1a52099d71d84e7e668b116d067c520ad1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_analytics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::GraphAnalytics::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::GraphAnalytics::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="40" column="23" bodyfile="include/index/graph_analytics.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_graph_analytics_1_1_status_1aa71ec9e60ead12761a061dc6516b1c51" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_analytics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::GraphAnalytics::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::GraphAnalytics::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="47" column="23" bodyfile="include/index/graph_analytics.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_analytics.h" line="32" column="5" bodyfile="include/index/graph_analytics.h" bodystart="32" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_analytics_1_1_status_1aa71ec9e60ead12761a061dc6516b1c51" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_status_1a96213229232b9b9cd88a380a7604c7a7" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_status_1a52099d71d84e7e668b116d067c520ad1" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_status_1a3b0837514495ddbaeac946f69d9e1223" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

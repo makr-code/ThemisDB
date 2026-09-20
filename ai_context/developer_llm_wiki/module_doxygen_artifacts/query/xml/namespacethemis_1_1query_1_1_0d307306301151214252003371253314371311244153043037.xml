@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1_0d307306301151214252003371253314371311244153043037" kind="namespace" language="C++">
+    <compoundname>themis::query::@307306301151214252003371253314371311244153043037</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/aql_safety_validator.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

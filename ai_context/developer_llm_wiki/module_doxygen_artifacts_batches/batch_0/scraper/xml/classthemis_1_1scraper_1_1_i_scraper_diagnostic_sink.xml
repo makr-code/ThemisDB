@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperDiagnosticSink</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" prot="public" virt="non-virtual">themis::scraper::ListeningScraperDiagnosticSink</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" prot="public" virt="non-virtual">themis::scraper::NullScraperDiagnosticSink</derivedcompoundref>
+    <includes refid="scraper__diagnostics_8h" local="no">scraper_diagnostics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperDiagnosticSink::~IScraperDiagnosticSink</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperDiagnosticSink</name>
+        <qualifiedname>themis::scraper::IScraperDiagnosticSink::~IScraperDiagnosticSink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="130" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::scraper::IScraperDiagnosticSink::emit</definition>
+        <argsstring>(const ScraperDiagnosticEvent &amp;event) noexcept=0</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::scraper::IScraperDiagnosticSink::emit</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a281edc5121cfa721f21d6fa0a63dab4a">emit</reimplementedby>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink_1a4ab7998a8c78c34a71ab53a3583c212d">emit</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event to the sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structured event. <computeroutput>event.message</computeroutput> must be non-empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implementations MUST NOT throw. Any internal error during emit should be swallowed and counted (not propagated to the scraper pipeline). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="140" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Operator-visible sink for scraper diagnostic events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations must be thread-safe. The default <ref refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" kindref="compound">NullScraperDiagnosticSink</ref> is a no-op suitable for unit tests. The <ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" kindref="compound">ListeningScraperDiagnosticSink</ref> supports injecting listener callbacks for integration tests and metrics. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::IScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::ListeningScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::scraper::NullScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_diagnostics.h" line="128" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="128" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperDiagnosticSink</scope><name>emit</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" prot="public" virt="virtual"><scope>themis::scraper::IScraperDiagnosticSink</scope><name>~IScraperDiagnosticSink</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

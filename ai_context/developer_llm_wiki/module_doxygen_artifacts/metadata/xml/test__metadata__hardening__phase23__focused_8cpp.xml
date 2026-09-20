@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__metadata__hardening__phase23__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_metadata_hardening_phase23_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="schema__consistency__checker_8h" local="yes">metadata/schema_consistency_checker.h</includes>
+    <includes refid="column__lineage_8h" local="yes">metadata/column_lineage.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>metadata/column_lineage.h</label>
+        <link refid="column__lineage_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>metadata/schema_consistency_checker.h</label>
+        <link refid="schema__consistency__checker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_metadata_hardening_phase23_focused.cpp</label>
+        <link refid="test__metadata__hardening__phase23__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH01_ConsistencyIssueJsonHasAllFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH01_ConsistencyIssueJsonHasAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="64" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1ae4770df5f7f748404e9b65beaba87b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH02_ConsistencyIssueEmptyColumnSerializes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH02_ConsistencyIssueEmptyColumnSerializes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="77" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="77" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a459c61f2b955a2483c863ea19422cd77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH03_IssueTypeOrphanKeyPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH03_IssueTypeOrphanKeyPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="88" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a14e143c8d6f4b92b85b9b9cd0c9d40c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH04_IssueTypeStaleStatsPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH04_IssueTypeStaleStatsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="96" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a44ba4f4f2547ee7332ab49e78b4cb19c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH05_IssueTypeMissingConstraintPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH05_IssueTypeMissingConstraintPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="104" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a11d1c16100c258f9318259da486c2ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH06_IssueTypeSchemaMismatchPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH06_IssueTypeSchemaMismatchPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="112" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a15e1fc4b76534c466c318a4123487757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH07_ColumnRefToStringFormat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH07_ColumnRefToStringFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="121" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__hardening__phase23__focused_8cpp_1a03a6a6c42f0299e7207d7d4ca845e767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataHardeningPhase23Test, MCH08_ColumnRefJsonRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataHardeningPhase23Test</type>
+        </param>
+        <param>
+          <type>MCH08_ColumnRefJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp" line="132" column="1" bodyfile="tests/metadata/test_metadata_hardening_phase23_focused.cpp" bodystart="132" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 2/3 hardening focused tests for the metadata module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-01..MCH-08</para>
+</simplesect>
+Validates hardening items delivered in Phase 2 (Core Implementation) and Phase 3 (Error Handling and Edge Cases):</para>
+<para>MCH-01 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> toJSON produces all required diagnostic fields MCH-02 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> with empty column_name serializes without crash MCH-03 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> issue_type &quot;orphan_key&quot; is preserved round-trip MCH-04 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> issue_type &quot;stale_stats&quot; is preserved round-trip MCH-05 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> issue_type &quot;missing_constraint&quot; is preserved round-trip MCH-06 <ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref> issue_type &quot;schema_mismatch&quot; is preserved round-trip MCH-07 <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> toString returns canonical &quot;table.column&quot; format MCH-08 <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> toJSON / fromJSON round-trip preserves both fields</para>
+<para>All tests are self-contained: no network I/O, no filesystem I/O, no RocksDB. Canonical PRNG seed: kPhase23Seed = 42 (unused here; declared for governance).</para>
+<para><simplesect kind="see"><para><ref refid="schema__consistency__checker_8h" kindref="compound">include/metadata/schema_consistency_checker.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="column__lineage_8h" kindref="compound">include/metadata/column_lineage.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase 2 / Phase 3 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__consistency__checker_8h" kindref="compound">metadata/schema_consistency_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="column__lineage_8h" kindref="compound">metadata/column_lineage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>seed<sp/>—<sp/>retained<sp/>for<sp/>governance<sp/>parity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kPhase23Seed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>populated<sp/>ConsistencyIssue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>makeIssue(std::string_view<sp/>type,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>detail)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>ci;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" kindref="member">issue_type</ref><sp/><sp/><sp/>=<sp/>std::string(type);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" kindref="member">table_name</ref><sp/><sp/><sp/>=<sp/>std::string(table);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" kindref="member">column_name</ref><sp/><sp/>=<sp/>std::string(column);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" kindref="member">detail</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(detail);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ci;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-01:<sp/>ConsistencyIssue<sp/>toJSON<sp/>produces<sp/>all<sp/>required<sp/>diagnostic<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH01_ConsistencyIssueJsonHasAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Key<sp/>prefix<sp/>unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/>=<sp/>ci.toJSON();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">))<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>missing<sp/>&apos;issue_type&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">))<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>missing<sp/>&apos;table_name&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;column_name&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>missing<sp/>&apos;column_name&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;detail&quot;</highlight><highlight class="normal">))<sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>missing<sp/>&apos;detail&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-02:<sp/>ConsistencyIssue<sp/>with<sp/>empty<sp/>column_name<sp/>serializes<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH02_ConsistencyIssueEmptyColumnSerializes)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*column=*/</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>stats<sp/>refresh&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>ci.toJSON();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;column_name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-03:<sp/>ConsistencyIssue<sp/>issue_type<sp/>&quot;orphan_key&quot;<sp/>is<sp/>preserved<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH03_IssueTypeOrphanKeyPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sku&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Prefix<sp/>mismatch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;orphan_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-04:<sp/>ConsistencyIssue<sp/>issue_type<sp/>&quot;stale_stats&quot;<sp/>is<sp/>preserved<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH04_IssueTypeStaleStatsPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;events&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>&gt;<sp/>24<sp/>h<sp/>old&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-05:<sp/>ConsistencyIssue<sp/>issue_type<sp/>&quot;missing_constraint&quot;<sp/>is<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH05_IssueTypeMissingConstraintPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sessions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>constraints&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;missing_constraint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-06:<sp/>ConsistencyIssue<sp/>issue_type<sp/>&quot;schema_mismatch&quot;<sp/>is<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH06_IssueTypeSchemaMismatchPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ci<sp/>=<sp/>makeIssue(</highlight><highlight class="stringliteral">&quot;schema_mismatch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;catalog&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Schema<sp/>version<sp/>incompatible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ci.toJSON()[</highlight><highlight class="stringliteral">&quot;issue_type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;schema_mismatch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-07:<sp/>ColumnRef<sp/>toString<sp/>returns<sp/>canonical<sp/>&quot;table.column&quot;<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH07_ColumnRefToStringFormat)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>ref;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;customer_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ref.<ref refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" kindref="member">toString</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;orders.customer_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-08:<sp/>ColumnRef<sp/>toJSON<sp/>/<sp/>fromJSON<sp/>round-trip<sp/>preserves<sp/>both<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__metadata__hardening__phase23__focused_8cpp_1aea6b64346e4abc765a901fc474b0eceb" kindref="member">TEST</ref>(MetadataHardeningPhase23Test,<sp/>MCH08_ColumnRefJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>original;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shipments&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tracking_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1metadata_1_1_column_ref_1a00e621f48a9816b40baac364c3a3b3c8" kindref="member">ColumnRef::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.table_name,<sp/><sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" kindref="member">table_name</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.column_name,<sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" kindref="member">column_name</ref>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored,<sp/>original);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_metadata_hardening_phase23_focused.cpp"/>
+  </compounddef>
+</doxygen>

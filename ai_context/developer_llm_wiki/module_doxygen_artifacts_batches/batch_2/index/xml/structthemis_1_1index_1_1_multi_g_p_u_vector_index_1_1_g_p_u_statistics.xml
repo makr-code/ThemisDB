@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::MultiGPUVectorIndex::GPUStatistics</compoundname>
+    <includes refid="multi__gpu__vector__index_8h" local="no">multi_gpu_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a2d8a711819ead8a6b2952ec2231a8f95" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::GPUStatistics::deviceId</definition>
+        <argsstring></argsstring>
+        <name>deviceId</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::deviceId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="124" column="13" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a2747455272fbebcde90f2708634d2ccc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MultiGPUVectorIndex::GPUStatistics::numVectors</definition>
+        <argsstring></argsstring>
+        <name>numVectors</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::numVectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="125" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a7aa759503e552886e38980848c0e6c4e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MultiGPUVectorIndex::GPUStatistics::vramUsageBytes</definition>
+        <argsstring></argsstring>
+        <name>vramUsageBytes</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::vramUsageBytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="126" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a4474f7a31dfeb9618aa0c8224bb7aed2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::MultiGPUVectorIndex::GPUStatistics::avgQueryTimeMs</definition>
+        <argsstring></argsstring>
+        <name>avgQueryTimeMs</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::avgQueryTimeMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="127" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a3247dada19f9e27fcafb07a78276400a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::MultiGPUVectorIndex::GPUStatistics::utilizationPercent</definition>
+        <argsstring></argsstring>
+        <name>utilizationPercent</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::utilizationPercent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="128" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1ad88aab168828cf4b3604f1187a3856f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::GPUStatistics::isActive</definition>
+        <argsstring></argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::isActive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="129" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1ae1bd68843641943a9b3294731e13e91f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::GPUStatistics::hasFailed</definition>
+        <argsstring></argsstring>
+        <name>hasFailed</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::GPUStatistics::hasFailed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="130" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Per-GPU statistics </para>
+    </detaileddescription>
+    <location file="include/index/multi_gpu_vector_index.h" line="123" column="5" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="123" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a4474f7a31dfeb9618aa0c8224bb7aed2" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>avgQueryTimeMs</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a2d8a711819ead8a6b2952ec2231a8f95" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>deviceId</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1ae1bd68843641943a9b3294731e13e91f" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>hasFailed</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1ad88aab168828cf4b3604f1187a3856f9" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>isActive</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a2747455272fbebcde90f2708634d2ccc" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>numVectors</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a3247dada19f9e27fcafb07a78276400a" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>utilizationPercent</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_g_p_u_statistics_1a7aa759503e552886e38980848c0e6c4e" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::GPUStatistics</scope><name>vramUsageBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

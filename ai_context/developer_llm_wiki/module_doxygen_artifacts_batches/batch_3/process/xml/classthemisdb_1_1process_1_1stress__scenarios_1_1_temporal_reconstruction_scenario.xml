@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::TemporalReconstructionScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1ae70cceb0bd50d83656a46ec5559b8c1d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::TemporalReconstructionScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::TemporalReconstructionScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="255" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1afb992b3f4e6dd7bdbfce5bddd2ed1abc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::TemporalReconstructionScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::TemporalReconstructionScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="256" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="256" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Incremental Evolution Scenario 6: Temporal Reconstruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests point-in-time model reconstruction with large delta sequences.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>1000+ deltas for single model</para>
+</listitem><listitem><para>Temporal queries at various historical points</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Create baseline model</para>
+</listitem><listitem><para>Apply 1000 sequential deltas (mutations)</para>
+</listitem><listitem><para>Query model state at 10 different historical timestamps</para>
+</listitem><listitem><para>Verify reconstructed models match expected state</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>All reconstructions semantically equivalent to direct updates</para>
+</listitem><listitem><para>Delta composition property holds (no state drift)</para>
+</listitem><listitem><para>Reconstruction latency O(log N) for snapshot lookup</para>
+</listitem><listitem><para>Multiple concurrent temporal queries work correctly</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;100ms reconstruction (1K deltas) </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="253" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="253" bodyend="259"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1afb992b3f4e6dd7bdbfce5bddd2ed1abc" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::TemporalReconstructionScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1ae70cceb0bd50d83656a46ec5559b8c1d" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::TemporalReconstructionScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

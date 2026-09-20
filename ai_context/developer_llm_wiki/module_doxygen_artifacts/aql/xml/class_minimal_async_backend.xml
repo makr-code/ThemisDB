@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_minimal_async_backend" kind="class" language="C++" prot="public">
+    <compoundname>MinimalAsyncBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend" prot="public" virt="non-virtual">themis::aql::IAsyncLLMBackend</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_minimal_async_backend_1aa11f64777c4dee51f69c400250972bf3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MinimalAsyncBackend::response_text</definition>
+        <argsstring></argsstring>
+        <name>response_text</name>
+        <qualifiedname>MinimalAsyncBackend::response_text</qualifiedname>
+        <initializer>= &quot;hello&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_async_backend.cpp" line="102" column="17" bodyfile="tests/aql/test_aql_async_backend.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_minimal_async_backend_1a2ef3430f17605e2f050ecb941a03ecfa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; MinimalAsyncBackend::embed_vec</definition>
+        <argsstring></argsstring>
+        <name>embed_vec</name>
+        <qualifiedname>MinimalAsyncBackend::embed_vec</qualifiedname>
+        <initializer>= {1.0f, 2.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_async_backend.cpp" line="103" column="17" bodyfile="tests/aql/test_aql_async_backend.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_minimal_async_backend_1a80c5f6afefb1767a18e5768ca8699ef9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::future&lt; themis::Result&lt; std::string &gt; &gt;</type>
+        <definition>std::future&lt; themis::Result&lt; std::string &gt; &gt; MinimalAsyncBackend::inferAsync</definition>
+        <argsstring>(const InferenceRequest &amp;) override</argsstring>
+        <name>inferAsync</name>
+        <qualifiedname>MinimalAsyncBackend::inferAsync</qualifiedname>
+        <param>
+          <type>const InferenceRequest &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_async_backend.cpp" line="106" column="5" bodyfile="tests/aql/test_aql_async_backend.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_async_backend_1aa251bbe757c3e2080d9e558653a7598a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; themis::Result&lt; std::vector&lt; float &gt; &gt; &gt;</type>
+        <definition>std::future&lt; themis::Result&lt; std::vector&lt; float &gt; &gt; &gt; MinimalAsyncBackend::embedAsync</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embedAsync</name>
+        <qualifiedname>MinimalAsyncBackend::embedAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ab98e384f3c23cccaef8dc97eecd97ee5">embedAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_async_backend.cpp" line="113" column="5" bodyfile="tests/aql/test_aql_async_backend.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Simplest possible concrete implementation of <ref refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend" kindref="compound">IAsyncLLMBackend</ref>. Returns pre-set values synchronously via a ready-future. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MinimalAsyncBackend</label>
+        <link refid="class_minimal_async_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAsyncLLMBackend</label>
+        <link refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MinimalAsyncBackend</label>
+        <link refid="class_minimal_async_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAsyncLLMBackend</label>
+        <link refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_async_backend.cpp" line="100" column="1" bodyfile="tests/aql/test_aql_async_backend.cpp" bodystart="100" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_minimal_async_backend_1a2ef3430f17605e2f050ecb941a03ecfa" prot="public" virt="non-virtual"><scope>MinimalAsyncBackend</scope><name>embed_vec</name></member>
+      <member refid="class_minimal_async_backend_1aa251bbe757c3e2080d9e558653a7598a" prot="public" virt="virtual"><scope>MinimalAsyncBackend</scope><name>embedAsync</name></member>
+      <member refid="class_minimal_async_backend_1a80c5f6afefb1767a18e5768ca8699ef9" prot="public" virt="non-virtual"><scope>MinimalAsyncBackend</scope><name>inferAsync</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ad51812a78d5073e55489f2f352917c85" prot="public" virt="pure-virtual" ambiguityscope="themis::aql::IAsyncLLMBackend::"><scope>MinimalAsyncBackend</scope><name>inferAsync</name></member>
+      <member refid="class_minimal_async_backend_1aa11f64777c4dee51f69c400250972bf3" prot="public" virt="non-virtual"><scope>MinimalAsyncBackend</scope><name>response_text</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a60e13f74ccf4d42bd07c128ec76e6c25" prot="public" virt="virtual"><scope>MinimalAsyncBackend</scope><name>supportsMultiModal</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a5897fcb2687ee036a64a8dee69c39358" prot="public" virt="virtual"><scope>MinimalAsyncBackend</scope><name>~IAsyncLLMBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

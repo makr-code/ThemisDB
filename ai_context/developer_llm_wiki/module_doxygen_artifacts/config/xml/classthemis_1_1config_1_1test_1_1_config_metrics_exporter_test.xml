@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_metrics_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigMetricsExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_metrics_exporter_test_1a47996caeb37f3678fe399efcc09d5b36" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigMetricsExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigMetricsExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="946" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="946" bodyend="950"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigMetricsExporterTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_metrics_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigMetricsExporterTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_metrics_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_path_resolver.cpp" line="944" column="1" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="944" bodyend="951"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_metrics_exporter_test_1a47996caeb37f3678fe399efcc09d5b36" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigMetricsExporterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

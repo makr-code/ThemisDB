@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b2_role_perm_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4B2RolePermAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b2_role_perm_audit_test_1ade9cd7e57dc5e43eee5c03e8e4909246" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4B2RolePermAuditTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4B2RolePermAuditTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="303" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_role_perm_audit_test_1a914bfeeaa25061ac33fe51096bc4a341" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4B2RolePermAuditTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4B2RolePermAuditTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="304" column="25" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_role_perm_audit_test_1ae91f3e1a341d7db5c394b1c7f7c59167" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthAuditLogger&gt; Wave4B2RolePermAuditTest::al_</definition>
+        <argsstring></argsstring>
+        <name>al_</name>
+        <qualifiedname>Wave4B2RolePermAuditTest::al_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="305" column="21" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b2_role_perm_audit_test_1ae5e49d1c0e799daf713d5e8f6880eb69" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2RolePermAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4B2RolePermAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="307" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="307" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b2_role_perm_audit_test_1a3a5157565dba8ca68f64950025c6acbf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2RolePermAuditTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4B2RolePermAuditTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="313" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="313" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4B2RolePermAuditTest</label>
+        <link refid="class_wave4_b2_role_perm_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4B2RolePermAuditTest</label>
+        <link refid="class_wave4_b2_role_perm_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="301" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="301" bodyend="316"/>
+    <listofallmembers>
+      <member refid="class_wave4_b2_role_perm_audit_test_1ae91f3e1a341d7db5c394b1c7f7c59167" prot="protected" virt="non-virtual"><scope>Wave4B2RolePermAuditTest</scope><name>al_</name></member>
+      <member refid="class_wave4_b2_role_perm_audit_test_1ade9cd7e57dc5e43eee5c03e8e4909246" prot="protected" virt="non-virtual"><scope>Wave4B2RolePermAuditTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b2_role_perm_audit_test_1ae5e49d1c0e799daf713d5e8f6880eb69" prot="protected" virt="non-virtual"><scope>Wave4B2RolePermAuditTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b2_role_perm_audit_test_1a3a5157565dba8ca68f64950025c6acbf" prot="protected" virt="non-virtual"><scope>Wave4B2RolePermAuditTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b2_role_perm_audit_test_1a914bfeeaa25061ac33fe51096bc4a341" prot="protected" virt="non-virtual"><scope>Wave4B2RolePermAuditTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

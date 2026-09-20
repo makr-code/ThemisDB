@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockEmbeddingProvider</compoundname>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1_1_embedding_result" prot="public">themis::aql::testing::MockEmbeddingProvider::EmbeddingResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureMode</name>
+        <qualifiedname>themis::aql::testing::MockEmbeddingProvider::FailureMode</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008a4a739fa42dcdbdb8dfe5a5e4d9c5a627" prot="public">
+          <name>RESOURCE_EXHAUSTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008ab4467cd9c69e4a6f5dd224de569c9a2c" prot="public">
+          <name>PROVIDER_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="31" column="5" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a59fba99fe08be6838fc383ba9280dd63" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008" kindref="member">FailureMode</ref></type>
+        <definition>FailureMode themis::aql::testing::MockEmbeddingProvider::failure_mode_</definition>
+        <argsstring></argsstring>
+        <name>failure_mode_</name>
+        <qualifiedname>themis::aql::testing::MockEmbeddingProvider::failure_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="64" column="17" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a26a760489fb6fdca3cbe25c218e9a5c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::MockEmbeddingProvider::MockEmbeddingProvider</definition>
+        <argsstring>(FailureMode mode=FailureMode::SUCCESS)</argsstring>
+        <name>MockEmbeddingProvider</name>
+        <qualifiedname>themis::aql::testing::MockEmbeddingProvider::MockEmbeddingProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008" kindref="member">FailureMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">FailureMode::SUCCESS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="44" column="5" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="44" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a4937cda5cd0766e714ea3ec7a9f8d72a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>EmbeddingResult themis::aql::testing::MockEmbeddingProvider::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::aql::testing::MockEmbeddingProvider::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="47" column="21" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="47" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock embedding provider for testing degradation scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_bridge_degradation.cpp" line="29" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="29" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a59fba99fe08be6838fc383ba9280dd63" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockEmbeddingProvider</scope><name>failure_mode_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a3ac2fb1a05ea2a9336b85cc962a6a008" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbeddingProvider</scope><name>FailureMode</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a4937cda5cd0766e714ea3ec7a9f8d72a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbeddingProvider</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider_1a26a760489fb6fdca3cbe25c218e9a5c7" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockEmbeddingProvider</scope><name>MockEmbeddingProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

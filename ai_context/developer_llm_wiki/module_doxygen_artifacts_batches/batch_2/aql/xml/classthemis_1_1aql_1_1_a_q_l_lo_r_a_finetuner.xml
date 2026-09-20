@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLLoRAFinetuner</compoundname>
+    <includes refid="aql__lora__finetuner_8h" local="no">aql_lora_finetuner.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config" prot="public">themis::aql::AQLLoRAFinetuner::Config</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_impl" prot="public">themis::aql::AQLLoRAFinetuner::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ab18357dcab148d85c415b5c89aaec751" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::aql::AQLLoRAFinetuner::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="298" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</definition>
+        <argsstring>(const Config &amp;config=Config{})</argsstring>
+        <name>AQLLoRAFinetuner</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="217" column="14" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="636" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1adaf0356817b3bdd2ef33b2ff93afeb91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt;::themis::llm::lora::LoRATrainingService &gt; training_service)</argsstring>
+        <name>AQLLoRAFinetuner</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::llm::lora::LoRATrainingService &gt;</type>
+          <declname>training_service</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="219" column="5" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="639" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1acff27165ca65ccd9f860ea81ebaa0ebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::~AQLLoRAFinetuner</definition>
+        <argsstring>()</argsstring>
+        <name>~AQLLoRAFinetuner</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::~AQLLoRAFinetuner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="224" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a2398d81b08cabdbf852060f72267fe04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</definition>
+        <argsstring>(const AQLLoRAFinetuner &amp;)=delete</argsstring>
+        <name>AQLLoRAFinetuner</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</qualifiedname>
+        <param>
+          <type>const AQLLoRAFinetuner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="227" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aca687aff1b50862429e46d2b5bf5cb4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" kindref="member">AQLLoRAFinetuner</ref> &amp;</type>
+        <definition>AQLLoRAFinetuner &amp; themis::aql::AQLLoRAFinetuner::operator=</definition>
+        <argsstring>(const AQLLoRAFinetuner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" kindref="member">AQLLoRAFinetuner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="228" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1af902b969579b0cf2ed80072183bc2e33" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</definition>
+        <argsstring>(AQLLoRAFinetuner &amp;&amp;) noexcept</argsstring>
+        <name>AQLLoRAFinetuner</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::AQLLoRAFinetuner</qualifiedname>
+        <param>
+          <type>AQLLoRAFinetuner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="229" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a8988f80cfe9341bbbf525e1dc0efd000" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" kindref="member">AQLLoRAFinetuner</ref> &amp;</type>
+        <definition>AQLLoRAFinetuner &amp; themis::aql::AQLLoRAFinetuner::operator=</definition>
+        <argsstring>(AQLLoRAFinetuner &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" kindref="member">AQLLoRAFinetuner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="230" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a6d4fceffbe00c9c5d2cdb6523a3c1150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TrainingResult</type>
+        <definition>TrainingResult themis::aql::AQLLoRAFinetuner::train</definition>
+        <argsstring>()</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::train</qualifiedname>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), build(), size(), std::to_string(), <ref refid="aql__lora__finetuner_8cpp_1a3bd6fd0cf0d7c1e6e3fb62e2d0be458f" kindref="member">AQL_LOG_INFO()</ref>, registerCallback(), cb(), trainOnTheFly(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="240" column="20" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="658" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a93e89b2a02f0027f80f304e58bccf3d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLLoRAFinetuner::addCustomSample</definition>
+        <argsstring>(const std::string &amp;nl_input, const std::string &amp;aql_output, AQLSampleCategory category=AQLSampleCategory::NL_TO_AQL)</argsstring>
+        <name>addCustomSample</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::addCustomSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_input</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_output</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1aql_1a8e4fb3a0a3f54ea64e301d0f2ef86bd0" kindref="member">AQLSampleCategory</ref></type>
+          <declname>category</declname>
+          <defval><ref refid="namespacethemis_1_1aql_1a8e4fb3a0a3f54ea64e301d0f2ef86bd0af484fe759c4b427acb3951a04f7bf580" kindref="member">AQLSampleCategory::NL_TO_AQL</ref></defval>
+        </param>
+        <briefdescription>
+<para>Add Custom Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nl_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="242" column="10" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="737" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a2bd7799d77e52301fb6b7a00e11e2106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLLoRAFinetuner::loadExtraDataset</definition>
+        <argsstring>(const std::string &amp;json_path)</argsstring>
+        <name>loadExtraDataset</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::loadExtraDataset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Extra Dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the json.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the json.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), loadFromJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="252" column="10" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="748" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a057612645b8b7141ee272fff492324c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLLoRAFinetuner::getAdapterID</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdapterID</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::getAdapterID</qualifiedname>
+        <briefdescription>
+<para>Get Adapter ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="262" column="17" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="757" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a6b734bed86af9ac787eab80a9a62b6a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLLoRAFinetuner::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::isTrained</qualifiedname>
+        <briefdescription>
+<para>Is Trained. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="268" column="10" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="762" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aa0a23d27926ebbff2b4d2443dd00e50c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>TrainingData</type>
+        <definition>TrainingData themis::aql::AQLLoRAFinetuner::buildDataset</definition>
+        <argsstring>() const</argsstring>
+        <name>buildDataset</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::buildDataset</qualifiedname>
+        <briefdescription>
+<para>Build Dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="278" column="18" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="771" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aace3ac3ba3d328f95ad9f9491a10cd83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref></type>
+        <definition>json themis::aql::AQLLoRAFinetuner::exportDatasetJson</definition>
+        <argsstring>() const</argsstring>
+        <name>exportDatasetJson</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::exportDatasetJson</qualifiedname>
+        <briefdescription>
+<para>Export Dataset Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="284" column="10" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="776" bodyend="779"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a1901caaeae603da666172e83b94c5392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLLoRAFinetuner::setAdapterRegistry</definition>
+        <argsstring>(std::shared_ptr&lt;::themis::llm::AdapterRegistry &gt; registry)</argsstring>
+        <name>setAdapterRegistry</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::setAdapterRegistry</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt;::themis::llm::AdapterRegistry &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="294" column="10" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="790" bodyend="793"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_lora_finetuner.h" line="166" column="1" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="166" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a93e89b2a02f0027f80f304e58bccf3d2" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>addCustomSample</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ad9bf5575ef6b8dd02c2c3266f57a8793" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>AQLLoRAFinetuner</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1adaf0356817b3bdd2ef33b2ff93afeb91" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>AQLLoRAFinetuner</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a2398d81b08cabdbf852060f72267fe04" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>AQLLoRAFinetuner</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1af902b969579b0cf2ed80072183bc2e33" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>AQLLoRAFinetuner</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aa0a23d27926ebbff2b4d2443dd00e50c" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>buildDataset</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aace3ac3ba3d328f95ad9f9491a10cd83" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>exportDatasetJson</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a057612645b8b7141ee272fff492324c4" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>getAdapterID</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1ab18357dcab148d85c415b5c89aaec751" prot="private" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a6b734bed86af9ac787eab80a9a62b6a5" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a2bd7799d77e52301fb6b7a00e11e2106" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>loadExtraDataset</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1aca687aff1b50862429e46d2b5bf5cb4e" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a8988f80cfe9341bbbf525e1dc0efd000" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a1901caaeae603da666172e83b94c5392" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>setAdapterRegistry</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1a6d4fceffbe00c9c5d2cdb6523a3c1150" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>train</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1acff27165ca65ccd9f860ea81ebaa0ebe" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner</scope><name>~AQLLoRAFinetuner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

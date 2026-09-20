@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_conversational_search_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConversationalSearch::Config</compoundname>
+    <includes refid="conversational__search_8h" local="no">conversational_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_config_1ad90d74eb25959b696ea3faba8bc6b57e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ConversationalSearch::Config::context_window</definition>
+        <argsstring></argsstring>
+        <name>context_window</name>
+        <qualifiedname>themis::ConversationalSearch::Config::context_window</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of past query turns to include in context rewriting. 0 disables context rewriting (pure stateless search per turn). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="85" column="16" bodyfile="include/search/conversational_search.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_config_1ae4f14b5d784882e796d2b94201075358" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ConversationalSearch::Config::max_history</definition>
+        <argsstring></argsstring>
+        <name>max_history</name>
+        <qualifiedname>themis::ConversationalSearch::Config::max_history</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum turns retained in history; oldest turns are evicted when this limit is reached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="89" column="16" bodyfile="include/search/conversational_search.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_config_1a676a2a5bb5ff62f798c7fc89a98d936a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConversationalSearch::Config::context_separator</definition>
+        <argsstring></argsstring>
+        <name>context_separator</name>
+        <qualifiedname>themis::ConversationalSearch::Config::context_separator</qualifiedname>
+        <initializer>= &quot; &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Separator inserted between historical query terms in the reformulated query string. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="93" column="21" bodyfile="include/search/conversational_search.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/conversational_search.h" line="82" column="5" bodyfile="include/search/conversational_search.h" bodystart="82" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_conversational_search_1_1_config_1a676a2a5bb5ff62f798c7fc89a98d936a" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Config</scope><name>context_separator</name></member>
+      <member refid="structthemis_1_1_conversational_search_1_1_config_1ad90d74eb25959b696ea3faba8bc6b57e" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Config</scope><name>context_window</name></member>
+      <member refid="structthemis_1_1_conversational_search_1_1_config_1ae4f14b5d784882e796d2b94201075358" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Config</scope><name>max_history</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

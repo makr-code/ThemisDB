@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SecuritySignatureManager::VerifyAllResult</compoundname>
+    <includes refid="security__signature__manager_8h" local="no">security_signature_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a8403ca4c44213f60829dfe30ac40a2c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::SecuritySignatureManager::VerifyAllResult::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total signatures scanned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="82" column="13" bodyfile="include/storage/security_signature_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1ac9f88fedeac3972c348af8d044ec7fbc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::SecuritySignatureManager::VerifyAllResult::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::verified</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Signatures whose files matched their stored hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="83" column="13" bodyfile="include/storage/security_signature_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a6fab979c92e88df26d85dbb635982b38" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::SecuritySignatureManager::VerifyAllResult::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Signatures with hash mismatches or missing files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="84" column="13" bodyfile="include/storage/security_signature_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1add7307cf1a987d93b7c4d736203e898d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::VerifyAllResult::backend_available</definition>
+        <argsstring></argsstring>
+        <name>backend_available</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::backend_available</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>False when no persistent backend exists and fallback was not enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="85" column="14" bodyfile="include/storage/security_signature_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1ae25ea96af42e85e6fad95fa851d22ff8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::VerifyAllResult::used_fallback_memory_store</definition>
+        <argsstring></argsstring>
+        <name>used_fallback_memory_store</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::used_fallback_memory_store</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when verification ran against the explicit in-memory fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="86" column="14" bodyfile="include/storage/security_signature_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a90e3c019a53382daea9bb51902f3d873" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignatureManager::VerifyAllResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Operator-facing reason when verification cannot execute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="87" column="21" bodyfile="include/storage/security_signature_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a5a8637eed986245006a76e792d006acb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::SecuritySignatureManager::VerifyAllResult::failed_resource_ids</definition>
+        <argsstring></argsstring>
+        <name>failed_resource_ids</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::failed_resource_ids</qualifiedname>
+        <briefdescription>
+<para>resource_ids that failed verification </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="88" column="21" bodyfile="include/storage/security_signature_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a53c03c2b5ad00dec099b7e548fbd0748" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::VerifyAllResult::success</definition>
+        <argsstring>() const</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::VerifyAllResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="89" column="14" bodyfile="include/storage/security_signature_manager.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1storage_1_1_security_signature_manager_1a997de4165600842ddb6f71f821c6f074" kindref="member">verifyAll()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/security_signature_manager.h" line="81" column="5" bodyfile="include/storage/security_signature_manager.h" bodystart="81" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1add7307cf1a987d93b7c4d736203e898d" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>backend_available</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a90e3c019a53382daea9bb51902f3d873" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a6fab979c92e88df26d85dbb635982b38" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>failed</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a5a8637eed986245006a76e792d006acb" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>failed_resource_ids</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a53c03c2b5ad00dec099b7e548fbd0748" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1a8403ca4c44213f60829dfe30ac40a2c8" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>total</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1ae25ea96af42e85e6fad95fa851d22ff8" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>used_fallback_memory_store</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_verify_all_result_1ac9f88fedeac3972c348af8d044ec7fbc" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::VerifyAllResult</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

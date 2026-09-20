@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_federation_routing_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryFederationRoutingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_federation_routing_test_1ad41b03f66f35fe0f98b701149f058fe6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_shard_router" kindref="compound">MockShardRouter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockShardRouter&gt; QueryFederationRoutingTest::mock_router_</definition>
+        <argsstring></argsstring>
+        <name>mock_router_</name>
+        <qualifiedname>QueryFederationRoutingTest::mock_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="167" column="24" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_routing_test_1a8838f473826d545fba17817d27220ecc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_federation" kindref="compound">QueryFederation</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryFederation&gt; QueryFederationRoutingTest::federation_</definition>
+        <argsstring></argsstring>
+        <name>federation_</name>
+        <qualifiedname>QueryFederationRoutingTest::federation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="168" column="24" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_federation_routing_test_1a3563bc772f981fed7cf3b5eadfae1e98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryFederationRoutingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryFederationRoutingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="130" column="10" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="130" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_federation_routing_test_1a3b3cff39afc8961a4663d237b097f4b7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryFederationRoutingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>QueryFederationRoutingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_routing.cpp" line="160" column="10" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="160" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryFederationRoutingTest</label>
+        <link refid="class_query_federation_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryFederationRoutingTest</label>
+        <link refid="class_query_federation_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_routing.cpp" line="128" column="1" bodyfile="tests/query/test_query_federation_routing.cpp" bodystart="128" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_query_federation_routing_test_1a8838f473826d545fba17817d27220ecc" prot="protected" virt="non-virtual"><scope>QueryFederationRoutingTest</scope><name>federation_</name></member>
+      <member refid="class_query_federation_routing_test_1ad41b03f66f35fe0f98b701149f058fe6" prot="protected" virt="non-virtual"><scope>QueryFederationRoutingTest</scope><name>mock_router_</name></member>
+      <member refid="class_query_federation_routing_test_1a3563bc772f981fed7cf3b5eadfae1e98" prot="protected" virt="non-virtual"><scope>QueryFederationRoutingTest</scope><name>SetUp</name></member>
+      <member refid="class_query_federation_routing_test_1a3b3cff39afc8961a4663d237b097f4b7" prot="protected" virt="non-virtual"><scope>QueryFederationRoutingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

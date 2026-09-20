@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_benchmark_mock_plugin" kind="class" language="C++" prot="public">
+    <compoundname>BenchmarkMockPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IImageAnalysisBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_benchmark_mock_plugin_1a1cdd41f8332ab7693c79a87acfa3393e" prot="private" static="no" mutable="no">
+        <type>BackendType</type>
+        <definition>BackendType BenchmarkMockPlugin::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>BenchmarkMockPlugin::backend_</qualifiedname>
+        <initializer>= BackendType::CPU</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="119" column="17" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1a847c4c53e272c035ecfb84b409bbb3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BenchmarkMockPlugin::BenchmarkMockPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>BenchmarkMockPlugin</name>
+        <qualifiedname>BenchmarkMockPlugin::BenchmarkMockPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1a38f4751fe01b7486a8078ba8a2d24959" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginInfo</type>
+        <definition>PluginInfo BenchmarkMockPlugin::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>BenchmarkMockPlugin::getInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="33" column="16" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1afa3a6b48150d3886a243b752312f8c56" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchmarkMockPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>BenchmarkMockPlugin::initialize</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>BackendType</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="47" column="10" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1ac80cb9638950eb6121843e8cc2b99ee7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchmarkMockPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>BenchmarkMockPlugin::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="52" column="10" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1a0f20cb2936c77379a3e816e93e3b16bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchmarkMockPlugin::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>BenchmarkMockPlugin::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="53" column="10" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1afcfac8ebe2f3be33e496e6f3f4d69624" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>BackendType</type>
+        <definition>BackendType BenchmarkMockPlugin::getBackend</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>BenchmarkMockPlugin::getBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="54" column="17" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1a5d014432c66ba1abf1b833a30fe8173a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult BenchmarkMockPlugin::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>BenchmarkMockPlugin::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="56" column="21" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="56" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1afdbe8d8f771dcbd05b1b9fd98a111db9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CaptionResult</type>
+        <definition>CaptionResult BenchmarkMockPlugin::generateCaption</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr, int max_length=50) override</argsstring>
+        <name>generateCaption</name>
+        <qualifiedname>BenchmarkMockPlugin::generateCaption</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_length</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="82" column="19" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="82" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1af17ee818b55df29a06dbc7bcdc655089" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; EmbeddingResult &gt;</type>
+        <definition>std::vector&lt; EmbeddingResult &gt; BenchmarkMockPlugin::generateEmbeddingBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;images) override</argsstring>
+        <name>generateEmbeddingBatch</name>
+        <qualifiedname>BenchmarkMockPlugin::generateEmbeddingBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>images</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="102" column="17" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1af31cd025e3f9f0e8985735582362f908" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchmarkMockPlugin::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>BenchmarkMockPlugin::healthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="114" column="10" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1a614d83cc2df3a5a7f1a4dc80e8edab8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json BenchmarkMockPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>BenchmarkMockPlugin::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="115" column="20" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_mock_plugin_1af1b0d545f9f840846a666eabf4f52030" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchmarkMockPlugin::warmup</definition>
+        <argsstring>() override</argsstring>
+        <name>warmup</name>
+        <qualifiedname>BenchmarkMockPlugin::warmup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="116" column="10" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BenchmarkMockPlugin</label>
+        <link refid="class_benchmark_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BenchmarkMockPlugin</label>
+        <link refid="class_benchmark_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/image_analysis/benchmark_image_analysis.cpp" line="29" column="1" bodyfile="benchmarks/image_analysis/benchmark_image_analysis.cpp" bodystart="29" bodyend="120"/>
+    <listofallmembers>
+      <member refid="class_benchmark_mock_plugin_1a1cdd41f8332ab7693c79a87acfa3393e" prot="private" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>backend_</name></member>
+      <member refid="class_benchmark_mock_plugin_1a847c4c53e272c035ecfb84b409bbb3e0" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>BenchmarkMockPlugin</name></member>
+      <member refid="class_benchmark_mock_plugin_1afdbe8d8f771dcbd05b1b9fd98a111db9" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>generateCaption</name></member>
+      <member refid="class_benchmark_mock_plugin_1a5d014432c66ba1abf1b833a30fe8173a" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="class_benchmark_mock_plugin_1af17ee818b55df29a06dbc7bcdc655089" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="class_benchmark_mock_plugin_1afcfac8ebe2f3be33e496e6f3f4d69624" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>getBackend</name></member>
+      <member refid="class_benchmark_mock_plugin_1a38f4751fe01b7486a8078ba8a2d24959" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>getInfo</name></member>
+      <member refid="class_benchmark_mock_plugin_1a614d83cc2df3a5a7f1a4dc80e8edab8e" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>getStatistics</name></member>
+      <member refid="class_benchmark_mock_plugin_1af31cd025e3f9f0e8985735582362f908" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>healthCheck</name></member>
+      <member refid="class_benchmark_mock_plugin_1afa3a6b48150d3886a243b752312f8c56" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>initialize</name></member>
+      <member refid="class_benchmark_mock_plugin_1a0f20cb2936c77379a3e816e93e3b16bb" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>isReady</name></member>
+      <member refid="class_benchmark_mock_plugin_1ac80cb9638950eb6121843e8cc2b99ee7" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>shutdown</name></member>
+      <member refid="class_benchmark_mock_plugin_1af1b0d545f9f840846a666eabf4f52030" prot="public" virt="non-virtual"><scope>BenchmarkMockPlugin</scope><name>warmup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

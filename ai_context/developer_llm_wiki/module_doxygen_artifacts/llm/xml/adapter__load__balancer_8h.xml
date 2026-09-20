@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__load__balancer_8h" kind="file" language="C++">
+    <compoundname>adapter_load_balancer.h</compoundname>
+    <includes refid="decision__record__yaml__processor_8h" local="yes">llm/decision_record_yaml_processor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="lora__router_8h" local="yes">include/llm/lora_router.h</includedby>
+    <includedby refid="adapter__load__balancer_8cpp" local="yes">src/llm/adapter_load_balancer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/adapter_load_balancer.h</label>
+        <link refid="adapter__load__balancer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/decision_record_yaml_processor.h</label>
+        <link refid="decision__record__yaml__processor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>queue</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/adapter_load_balancer.h</label>
+        <link refid="adapter__load__balancer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_router.h</label>
+        <link refid="lora__router_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/adapter_load_balancer.cpp</label>
+        <link refid="adapter__load__balancer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_router.cpp</label>
+        <link refid="lora__router_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_adapter_load_balancer" prot="public">themis::llm::AdapterLoadBalancer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" prot="public">themis::llm::AdapterLoadBalancer::AdapterPlacement</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" prot="public">themis::llm::AdapterLoadBalancer::LoadBalanceStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" prot="public">themis::llm::AdapterLoadBalancer::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="decision__record__yaml__processor_8h" kindref="compound">llm/decision_record_yaml_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1_adapter_load_balancer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a5605e7e3bbb10c48cee7c6a52cbe40e3" kindref="member">AdapterLoadBalancer</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" kindref="compound">AdapterPlacement</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1af164c62a89c73f88d4130a4ba31cc769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1af164c62a89c73f88d4130a4ba31cc769" kindref="member">adapter_id</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a17219006103b93eadc2a252e8decafa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a17219006103b93eadc2a252e8decafa8" kindref="member">gpu_device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1abc0a8b4192be7b4286a6416cab548f7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1abc0a8b4192be7b4286a6416cab548f7e" kindref="member">vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a8bb89c701c7770f6624832aa12e927d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a8bb89c701c7770f6624832aa12e927d8" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>=<sp/>more<sp/>important</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a07a3b5c7fc6190ea87a4fef54fb21a0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a07a3b5c7fc6190ea87a4fef54fb21a0b" kindref="member">is_pinned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cannot<sp/>be<sp/>evicted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1af8efb4218e000fed82508e7140eaf016" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1af8efb4218e000fed82508e7140eaf016" kindref="member">last_access_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a1c2fad8a49dd072f624cb7f04376a8ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement_1a1c2fad8a49dd072f624cb7f04376a8ee" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" kindref="compound">LoadBalanceStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a33338f0e7f87845af0a73f32d2679ede" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a33338f0e7f87845af0a73f32d2679ede" kindref="member">num_adapters</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1acc244a61bb0e03bc65377b83bd2c5f1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1acc244a61bb0e03bc65377b83bd2c5f1b" kindref="member">num_gpus</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a8e1ffb7c928a894f7c317f63bd0e120f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a8e1ffb7c928a894f7c317f63bd0e120f" kindref="member">average_gpu_load</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1abbdc6ab96c887d568d4a646934fed50f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1abbdc6ab96c887d568d4a646934fed50f" kindref="member">max_gpu_load</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a68247b3f2aee16694e7316b1e8146392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a68247b3f2aee16694e7316b1e8146392" kindref="member">min_gpu_load</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a0f1e963c4069282ea9d1e9f7b3844303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a0f1e963c4069282ea9d1e9f7b3844303" kindref="member">num_migrations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1aa70df7ebe3779acdbc80b6a185c06947" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1aa70df7ebe3779acdbc80b6a185c06947" kindref="member">num_evictions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a35eaec7f5ad4a167f2ab2ac9dd5ffe4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats_1a35eaec7f5ad4a167f2ab2ac9dd5ffe4b" kindref="member">last_balance_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ae1f05ec4150a4641ef1d09b092839c6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ae1f05ec4150a4641ef1d09b092839c6c" kindref="member">enable_dynamic_balancing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a3a4b000e4c132f28864924cfa89b3b98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a3a4b000e4c132f28864924cfa89b3b98" kindref="member">rebalance_threshold</ref><sp/>=<sp/>0.8f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>at<sp/>80%<sp/>avg<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ac7de6fd9562c460188dc32c586666bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ac7de6fd9562c460188dc32c586666bf1" kindref="member">rebalance_interval_ms</ref><sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>every<sp/>5<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a722aea99717f177a6c96374c82d79406" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a722aea99717f177a6c96374c82d79406" kindref="member">enable_jit_eviction</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a26a20f1dd72326e33e61311aaf606e4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a26a20f1dd72326e33e61311aaf606e4d" kindref="member">max_adapters_per_gpu</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1aba6cb8df08975f004b5512a86032a26a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1aba6cb8df08975f004b5512a86032a26a" kindref="member">eviction_threshold</ref><sp/>=<sp/>0.9f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Evict<sp/>when<sp/>VRAM<sp/>&gt;<sp/>90%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ace7191575cc44c64c6d0af7a65de622a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ace7191575cc44c64c6d0af7a65de622a" kindref="member">enable_migration</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a2250bbf5298fe53e0fc655c50bba325f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1a2250bbf5298fe53e0fc655c50bba325f" kindref="member">migration_threshold</ref><sp/>=<sp/>0.3f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Migrate<sp/>if<sp/>load<sp/>diff<sp/>&gt;<sp/>30%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ae861dd6e32418f51fd03c44f2357a7eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config_1ae861dd6e32418f51fd03c44f2357a7eb" kindref="member">respect_pinning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a5605e7e3bbb10c48cee7c6a52cbe40e3" kindref="member">AdapterLoadBalancer</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GPUMemoryManager&gt;<sp/>memory_manager,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1acb4eee96ebfea2bb14c8a82ed6ea3e06" kindref="member">~AdapterLoadBalancer</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>placement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a9361ef43641043f281bd04cde2fa18e2" kindref="member">selectGPUForAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_bytes,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a95ccbe348b7ca42d486fe319c01f4ee7" kindref="member">placeAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_bytes,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>pinned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a668f3974cc0dd32c5cbc3ed610cf268a" kindref="member">removeAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a039c614f4b8868a4c12881777b79c278" kindref="member">getAdapterGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab062cb2c51efb3a76b4be1978cc539c4" kindref="member">getGPUAdapters</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" kindref="compound">AdapterPlacement</ref><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a44f8b09ef6a1b4d94c229277fc944429" kindref="member">getAdapterPlacement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a001747343d36c097c5a88f6b737efabd" kindref="member">isAdapterLoaded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pinning<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a268368d8d7252dddd8432a4a0e522b45" kindref="member">pinAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a996d82d9fc1011d530df4a8d718c3447" kindref="member">unpinAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a26d4a81bc583bd271dcb01629ae94ad0" kindref="member">isAdapterPinned</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>balancing<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a6dea2985ba45341004899eac3a87a5ae" kindref="member">rebalance</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>load<sp/>balancing<sp/>across<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a6889e4e4dc5dba2aff67daebb1b3345a" kindref="member">migrateAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>target_gpu_id);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a293d72fcb3704e22636b19ae5651f83c" kindref="member">evictLRUAdapters</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_bytes);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa2fe0db2b0869b2852d400d025a65746" kindref="member">recordAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" kindref="compound">LoadBalanceStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1af896d804dba0888290b275babbf0cfc9" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a7a713861cb984e02d3433948fcacc20b" kindref="member">getGPULoad</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health-aware<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a411abfdc38bfa3d5029f9f1f89e89ff2" kindref="member">markGPUUnhealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa53140f40024e20aeba63aad93be8fd2" kindref="member">markGPUHealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a9477feba8a0fb6f42aa5f2422a96dc49" kindref="member">shouldMigrateFromGPU</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a880f038a0768efd0ce80f96f1391c60a" kindref="member">setDecisionRecordProcessor</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DecisionRecordYamlProcessor&gt;<sp/>processor);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot-load<sp/>in-progress<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa7c06c22e0573d48ec45f7f389bbd39b" kindref="member">beginHotLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fallback_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1abe1a22d6ae91779ac4eaa96cbb933991" kindref="member">endHotLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab2e9b14c08b5f659817e97199ba30af0" kindref="member">isHotLoadInProgress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab7c4322f9808041a4010c4f24addfc4f" kindref="member">resolveAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GPUMemoryManager&gt;<sp/>memory_manager_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>AdapterPlacement&gt;<sp/>placements_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>gpu_to_adapters_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_migrations_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_evictions_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_rebalance_time_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot-load<sp/>in-progress<sp/>tracking:<sp/>adapter_id<sp/>→<sp/>fallback_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>hot_loading_adapters_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decision<sp/>traceability<sp/>(optional,<sp/>non-blocking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DecisionRecordYamlProcessor&gt;<sp/>dr_processor_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>canPlaceOnGPU(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_bytes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>selectAdaptersForEviction(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_bytes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldRebalance()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateGPULoad(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>findLeastLoadedHealthyGPU()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Migration<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>performMigration(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>source_gpu,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>target_gpu);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>performEviction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimeMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitRebalanceRecord(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>migrations,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_gpus,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>avg_load)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/adapter_load_balancer.h"/>
+  </compounddef>
+</doxygen>

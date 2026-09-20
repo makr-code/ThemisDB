@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentMetrics</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a59ecc51cfa423df6c50679026da3a71f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::SubagentMetrics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="186" column="14" bodyfile="include/llm/subagent_config.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a1f9f7cfa3fdf1c111243fb3166f62b7a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::successful_inferences</definition>
+        <argsstring></argsstring>
+        <name>successful_inferences</name>
+        <qualifiedname>themis::llm::SubagentMetrics::successful_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="187" column="14" bodyfile="include/llm/subagent_config.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a750e5ca374ac30a3160622d7c51d0393" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::failed_inferences</definition>
+        <argsstring></argsstring>
+        <name>failed_inferences</name>
+        <qualifiedname>themis::llm::SubagentMetrics::failed_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="188" column="14" bodyfile="include/llm/subagent_config.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a20a4e95269ea2127f57b2387f60d3719" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::policy_blocks</definition>
+        <argsstring></argsstring>
+        <name>policy_blocks</name>
+        <qualifiedname>themis::llm::SubagentMetrics::policy_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="189" column="14" bodyfile="include/llm/subagent_config.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a295e2c4b1de942b7820529c38366033d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::quota_blocks</definition>
+        <argsstring></argsstring>
+        <name>quota_blocks</name>
+        <qualifiedname>themis::llm::SubagentMetrics::quota_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="190" column="14" bodyfile="include/llm/subagent_config.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a264f5e377daf32f724623f42b70552ba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentMetrics::tokens_consumed</definition>
+        <argsstring></argsstring>
+        <name>tokens_consumed</name>
+        <qualifiedname>themis::llm::SubagentMetrics::tokens_consumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="191" column="12" bodyfile="include/llm/subagent_config.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1ac963b8a2133bfacf4abb6108f125d5ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::vram_used_bytes</definition>
+        <argsstring></argsstring>
+        <name>vram_used_bytes</name>
+        <qualifiedname>themis::llm::SubagentMetrics::vram_used_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="192" column="14" bodyfile="include/llm/subagent_config.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a8cbf4c1dc6def27fc028ee17461ddd66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::vram_peak_bytes</definition>
+        <argsstring></argsstring>
+        <name>vram_peak_bytes</name>
+        <qualifiedname>themis::llm::SubagentMetrics::vram_peak_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="193" column="14" bodyfile="include/llm/subagent_config.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1ad78a96007e696c6a12dbcfd55f516ea5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentMetrics::total_tokens_processed</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_processed</name>
+        <qualifiedname>themis::llm::SubagentMetrics::total_tokens_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="194" column="14" bodyfile="include/llm/subagent_config.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1a1887d87e2e6832364d0fcf83c09c5774" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::SubagentMetrics::last_request_time</definition>
+        <argsstring></argsstring>
+        <name>last_request_time</name>
+        <qualifiedname>themis::llm::SubagentMetrics::last_request_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="195" column="43" bodyfile="include/llm/subagent_config.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_metrics_1ab7aa1c5c8e9105ebdc0422604e94cb90" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::SubagentMetrics::load_time</definition>
+        <argsstring></argsstring>
+        <name>load_time</name>
+        <qualifiedname>themis::llm::SubagentMetrics::load_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="196" column="43" bodyfile="include/llm/subagent_config.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_config.h" line="185" column="1" bodyfile="include/llm/subagent_config.h" bodystart="185" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a750e5ca374ac30a3160622d7c51d0393" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>failed_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a1887d87e2e6832364d0fcf83c09c5774" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>last_request_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1ab7aa1c5c8e9105ebdc0422604e94cb90" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>load_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a20a4e95269ea2127f57b2387f60d3719" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>policy_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a295e2c4b1de942b7820529c38366033d" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>quota_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a1f9f7cfa3fdf1c111243fb3166f62b7a" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>successful_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a264f5e377daf32f724623f42b70552ba" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>tokens_consumed</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a59ecc51cfa423df6c50679026da3a71f" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1ad78a96007e696c6a12dbcfd55f516ea5" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>total_tokens_processed</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1a8cbf4c1dc6def27fc028ee17461ddd66" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>vram_peak_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_metrics_1ac963b8a2133bfacf4abb6108f125d5ba" prot="public" virt="non-virtual"><scope>themis::llm::SubagentMetrics</scope><name>vram_used_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

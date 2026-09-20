@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream" kind="struct" language="C++" prot="private">
+    <compoundname>themis::gpu::GPUStreamManager::Stream</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a932f4cf3a1661ca72579454198b3a4fe" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+        <definition>StreamConfig themis::gpu::GPUStreamManager::Stream::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::Stream::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="195" column="36" bodyfile="include/themis/gpu/stream_manager.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a2f4dfd455c8439905926fb23e1054437" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPULauncher&gt; themis::gpu::GPUStreamManager::Stream::launcher</definition>
+        <argsstring></argsstring>
+        <name>launcher</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::Stream::launcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="196" column="25" bodyfile="include/themis/gpu/stream_manager.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a3f4eae922083c64221d47df20ef69036" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kindref="compound">StreamStats</ref></type>
+        <definition>StreamStats themis::gpu::GPUStreamManager::Stream::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::Stream::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="197" column="36" bodyfile="include/themis/gpu/stream_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1abb2aa4a22ba7a02ee037293398878476" prot="public" static="no" mutable="no">
+        <type>::themis::gpu::CudaStreamGuard</type>
+        <definition>::themis::gpu::CudaStreamGuard themis::gpu::GPUStreamManager::Stream::cuda_stream_guard</definition>
+        <argsstring></argsstring>
+        <name>cuda_stream_guard</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::Stream::cuda_stream_guard</qualifiedname>
+        <briefdescription>
+<para>RAII CUDA stream ownership (CUDA builds); replaces former raw uintptr_t field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="198" column="40" bodyfile="include/themis/gpu/stream_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a06925ecced40f5ef23db37955792a8c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::Stream::uses_rocm_stream</definition>
+        <argsstring></argsstring>
+        <name>uses_rocm_stream</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::Stream::uses_rocm_stream</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when a HIP stream was registered via <ref refid="classthemis_1_1gpu_1_1_r_o_cm_backend" kindref="compound">ROCmBackend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="199" column="36" bodyfile="include/themis/gpu/stream_manager.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::gpu::GPUStreamManager::Stream</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::gpu::GPUStreamManager::StreamConfig</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config"/>
+      </node>
+      <node id="3">
+        <label>themis::gpu::GPUStreamManager::StreamStats</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/stream_manager.h" line="194" column="5" bodyfile="include/themis/gpu/stream_manager.h" bodystart="194" bodyend="200"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a932f4cf3a1661ca72579454198b3a4fe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::Stream</scope><name>config</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1abb2aa4a22ba7a02ee037293398878476" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::Stream</scope><name>cuda_stream_guard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a2f4dfd455c8439905926fb23e1054437" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::Stream</scope><name>launcher</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a3f4eae922083c64221d47df20ef69036" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::Stream</scope><name>stats</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_1a06925ecced40f5ef23db37955792a8c6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::Stream</scope><name>uses_rocm_stream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

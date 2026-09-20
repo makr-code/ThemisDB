@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentChunk</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1a9eaf795806880decb26d10f0a3ab4e82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentChunk::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::ContentChunk::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="120" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1aa9bbdd27da2f3f23f79bda2d5e14aab3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentChunk::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::content::ContentChunk::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="121" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1aff0fceaf60ac436706a34a4da0247489" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentChunk::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::content::ContentChunk::start_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="122" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1afd3f77de1112ec74c3066c0c60d1c487" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentChunk::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::content::ContentChunk::end_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="123" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1ac6dbc98033e6e1358ba5047a135a4933" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentChunk::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::content::ContentChunk::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="124" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1a1f805f0ca5edfbbdc0e0a66c7d02d7fb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentChunk::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::content::ContentChunk::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="125" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_chunk_1a7198a662fd14b7588b7d5a0a25ba76fb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::content::ContentChunk::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::content::ContentChunk::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="126" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="119" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="119" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1a7198a662fd14b7588b7d5a0a25ba76fb" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1afd3f77de1112ec74c3066c0c60d1c487" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1a1f805f0ca5edfbbdc0e0a66c7d02d7fb" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1aa9bbdd27da2f3f23f79bda2d5e14aab3" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>sequence</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1aff0fceaf60ac436706a34a4da0247489" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1a9eaf795806880decb26d10f0a3ab4e82" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>text</name></member>
+      <member refid="structthemis_1_1content_1_1_content_chunk_1ac6dbc98033e6e1358ba5047a135a4933" prot="public" virt="non-virtual"><scope>themis::content::ContentChunk</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

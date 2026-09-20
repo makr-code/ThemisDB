@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::test::wave7::OOMCallbackInstaller</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1afbb173d478871cee0cfa62e9e1a27606" prot="public" static="no" mutable="no">
+        <type>std::once_flag</type>
+        <definition>std::once_flag themis::server::test::wave7::OOMCallbackInstaller::flag_</definition>
+        <argsstring></argsstring>
+        <name>flag_</name>
+        <qualifiedname>themis::server::test::wave7::OOMCallbackInstaller::flag_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="134" column="22" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1a86df44f73a9ee50832becaef8a4ac19e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::server::test::wave7::OOMCallbackInstaller::install_count_</definition>
+        <argsstring></argsstring>
+        <name>install_count_</name>
+        <qualifiedname>themis::server::test::wave7::OOMCallbackInstaller::install_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="135" column="17" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1a1edac90c392a27dc555c7931955ba38e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::test::wave7::OOMCallbackInstaller::ensureInstalled</definition>
+        <argsstring>()</argsstring>
+        <name>ensureInstalled</name>
+        <qualifiedname>themis::server::test::wave7::OOMCallbackInstaller::ensureInstalled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="137" column="10" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulates the fixed call_once pattern from LLMPluginManager::instance(). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="133" column="1" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="133" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1a1edac90c392a27dc555c7931955ba38e" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::OOMCallbackInstaller</scope><name>ensureInstalled</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1afbb173d478871cee0cfa62e9e1a27606" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::OOMCallbackInstaller</scope><name>flag_</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer_1a86df44f73a9ee50832becaef8a4ac19e" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::OOMCallbackInstaller</scope><name>install_count_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

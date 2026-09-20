@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::ContentGeoCostResult</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1a4eb86a0ac39137af47d80e46d30b2fa8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::ContentGeoCostResult::costFulltextThenSpatial</definition>
+        <argsstring></argsstring>
+        <name>costFulltextThenSpatial</name>
+        <qualifiedname>themis::query::QueryOptimizer::ContentGeoCostResult::costFulltextThenSpatial</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="178" column="16" bodyfile="include/query/query_optimizer.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1a40f10af32a9383efb537b019177c412b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::ContentGeoCostResult::costSpatialThenFulltext</definition>
+        <argsstring></argsstring>
+        <name>costSpatialThenFulltext</name>
+        <qualifiedname>themis::query::QueryOptimizer::ContentGeoCostResult::costSpatialThenFulltext</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="179" column="16" bodyfile="include/query/query_optimizer.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1ae3010c21bb663fed267f5208d4d37fb1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::ContentGeoCostResult::chooseFulltextFirst</definition>
+        <argsstring></argsstring>
+        <name>chooseFulltextFirst</name>
+        <qualifiedname>themis::query::QueryOptimizer::ContentGeoCostResult::chooseFulltextFirst</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="180" column="14" bodyfile="include/query/query_optimizer.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="177" column="5" bodyfile="include/query/query_optimizer.h" bodystart="177" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1ae3010c21bb663fed267f5208d4d37fb1" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::ContentGeoCostResult</scope><name>chooseFulltextFirst</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1a4eb86a0ac39137af47d80e46d30b2fa8" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::ContentGeoCostResult</scope><name>costFulltextThenSpatial</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result_1a40f10af32a9383efb537b019177c412b" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::ContentGeoCostResult</scope><name>costSpatialThenFulltext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

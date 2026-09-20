@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_alert" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::Alert</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1a95db5767ddd54409b05b2ece47de75bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Alert::alert_id</definition>
+        <argsstring></argsstring>
+        <name>alert_id</name>
+        <qualifiedname>themisdb::analytics::Alert::alert_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="281" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1a342ca620e0105ffd24d1bf7b8b6ed1fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Alert::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themisdb::analytics::Alert::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="282" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1a622fffd62e93ca2eeb0cac95529d569d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Alert::rule_name</definition>
+        <argsstring></argsstring>
+        <name>rule_name</name>
+        <qualifiedname>themisdb::analytics::Alert::rule_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="283" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1a8f56579766e2c0dea91c813f13c454e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Alert::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themisdb::analytics::Alert::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="284" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1ab720186d0281d23da55b73a5ec6a8567" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Alert::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themisdb::analytics::Alert::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="285" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1ae08a86c5a643e18c708749ee1169db42" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::Alert::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::analytics::Alert::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="286" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1af5813673faac9dc98b2b6e3a5d432b37" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_pattern_match" kindref="compound">PatternMatch</ref></type>
+        <definition>PatternMatch themisdb::analytics::Alert::match</definition>
+        <argsstring></argsstring>
+        <name>match</name>
+        <qualifiedname>themisdb::analytics::Alert::match</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="287" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1a3511836ea457ac7dd122c7ac8f26ad95" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CepFieldValue&gt; themisdb::analytics::Alert::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themisdb::analytics::Alert::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="288" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_alert_1aedfd55db6e1b3f60a6397a26f9fa00d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::Alert::acknowledged</definition>
+        <argsstring></argsstring>
+        <name>acknowledged</name>
+        <qualifiedname>themisdb::analytics::Alert::acknowledged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="289" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::Alert</label>
+        <link refid="structthemisdb_1_1analytics_1_1_alert"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>match</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::PatternMatch</label>
+        <link refid="structthemisdb_1_1analytics_1_1_pattern_match"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/cep_engine.h" line="280" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="280" bodyend="290"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1aedfd55db6e1b3f60a6397a26f9fa00d2" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>acknowledged</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1a95db5767ddd54409b05b2ece47de75bb" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>alert_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1a3511836ea457ac7dd122c7ac8f26ad95" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>context</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1af5813673faac9dc98b2b6e3a5d432b37" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>match</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1ab720186d0281d23da55b73a5ec6a8567" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>message</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1a342ca620e0105ffd24d1bf7b8b6ed1fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>rule_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1a622fffd62e93ca2eeb0cac95529d569d" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>rule_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1a8f56579766e2c0dea91c813f13c454e6" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>severity</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_alert_1ae08a86c5a643e18c708749ee1169db42" prot="public" virt="non-virtual"><scope>themisdb::analytics::Alert</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

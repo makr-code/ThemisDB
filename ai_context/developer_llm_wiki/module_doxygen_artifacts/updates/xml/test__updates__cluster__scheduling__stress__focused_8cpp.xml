@@ -1,0 +1,847 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__updates__cluster__scheduling__stress__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_updates_cluster_scheduling_stress_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="update__state__machine_8h" local="yes">updates/update_state_machine.h</includes>
+    <includes refid="coordinated__update__manager_8h" local="yes">updates/coordinated_update_manager.h</includes>
+    <includes refid="updates__edge__case__handler_8h" local="yes">updates/updates_edge_case_handler.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>updates/updates_edge_case_handler.h</label>
+        <link refid="updates__edge__case__handler_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/updates/test_updates_cluster_scheduling_stress_focused.cpp</label>
+        <link refid="test__updates__cluster__scheduling__stress__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="19">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>string_view</label>
+      </node>
+      <node id="25">
+        <label>thread</label>
+      </node>
+      <node id="21">
+        <label>utils/update_checker.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a6e01871fcbcadcce0d5227714bfffd15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref></type>
+        <definition>static CoordinatedUpdateConfig makeSingleNodeConfig</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;version)</argsstring>
+        <name>makeSingleNodeConfig</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Helper: build a minimal single-node <ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="42" column="32" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_01_SingleNodeSequential100Ops)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_01_SingleNodeSequential100Ops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="56" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="56" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1ac48bac97e866e9a9ffe657bacd9f76ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_02_MultiNodeParallel4Nodes50Ops)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_02_MultiNodeParallel4Nodes50Ops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="85" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="85" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1ace8941f8c4e68f110c006eba2367f25b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_03_ConcurrentCollisionUnderLoad)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_03_ConcurrentCollisionUnderLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="112" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="112" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a002ecdf1ef8e0ca8706c28c9dbd48875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_04_RapidIdleDownloadingCycles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_04_RapidIdleDownloadingCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="140" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="140" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1af793f9ccc5f0ed4ba1d2a7dcddbbd5b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_05_RollbackStormCascadePrevention)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_05_RollbackStormCascadePrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="165" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="165" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1af70efe882edf0471bd263a84b3223d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_06_CoordinatedOrderingEnforced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_06_CoordinatedOrderingEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="197" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="197" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1ad7ec943d6fed94cf0d70f1f8bfd8b074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_07_SchedulerQueueSaturation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_07_SchedulerQueueSaturation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="212" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1ad36574a61d7f1f2cfa1eec74da54a8cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_08_MixedSuccessFailureNodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_08_MixedSuccessFailureNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="233" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="233" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a4c81b1626eac0bb42df283bfab641bbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_09_MemoryGrowthBounded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_09_MemoryGrowthBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="271" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="271" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a09a1637516dbda95bbac297d2ec4f5ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_10_EdgeCaseHandlerIntegrationUnderLoad)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_10_EdgeCaseHandlerIntegrationUnderLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="293" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="293" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a40ff02343ab0464e6f9f2e3a3b477ba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_11_DeterministicErrorCounts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_11_DeterministicErrorCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="311" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="311" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__cluster__scheduling__stress__focused_8cpp_1a17af1e71aa507bb583fb9b48ded454d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ClusterSchedulingStress, CSS_12_ThroughputGoalMet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ClusterSchedulingStress</type>
+        </param>
+        <param>
+          <type>CSS_12_ThroughputGoalMet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" line="337" column="1" bodyfile="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp" bodystart="337" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5: Cluster scheduling stress tests for the Updates module (Q4 2026). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>2.4.0 (Q4 2026)</para>
+</simplesect>
+Coverage targets:<itemizedlist>
+<listitem><para>Single-node and multi-node scheduling correctness under load</para>
+</listitem><listitem><para>Concurrent collision and rollback storm resistance</para>
+</listitem><listitem><para>State-machine throughput under rapid cycle workloads</para>
+</listitem><listitem><para>Edge-case handler integration under load</para>
+</listitem><listitem><para>Determinism and memory growth validation</para>
+</listitem><listitem><para>Throughput: ≥ 2,000 state transitions/second (CSS-12)</para>
+</listitem></itemizedlist>
+</para>
+<para>Test IDs: CSS-01..CSS-12 CTest labels: updates;edge_cases;phase4 (auto-discovered via glob) </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="update__state__machine_8h" kindref="compound">updates/update_state_machine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="coordinated__update__manager_8h" kindref="compound">updates/coordinated_update_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__edge__case__handler_8h" kindref="compound">updates/updates_edge_case_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>mock<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>makeSingleNodeConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{node_id,<sp/>0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>version;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/><sp/><sp/><sp/>=<sp/>node_id;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ae95ea6e8d320fc57942beda20aa79874" kindref="member">rollback_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">leader_last</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-01:<sp/>Single-node<sp/>sequential<sp/>scheduling<sp/>(100<sp/>ops,<sp/>no<sp/>errors)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_01_SingleNodeSequential100Ops)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOps<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>errors<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOps;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(sm.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vfy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>zero<sp/>transition<sp/>errors<sp/>across<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kOps<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ops&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-02:<sp/>Multi-node<sp/>parallel<sp/>scheduling<sp/>(4<sp/>nodes,<sp/>50<sp/>ops<sp/>each)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_02_MultiNodeParallel4Nodes50Ops)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kNodes<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOpsPerNode<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>total_errors{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kNodes);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;<sp/>n<sp/>&lt;<sp/>kNodes;<sp/>++n)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;total_errors]()<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOpsPerNode;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dl&quot;</highlight><highlight class="normal">))<sp/><sp/>{<sp/>++total_errors;<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vfy&quot;</highlight><highlight class="normal">))<sp/><sp/><sp/>{<sp/>++total_errors;<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">))<sp/>{<sp/>++total_errors;<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">))<sp/><sp/>{<sp/>++total_errors;<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_errors.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-03:<sp/>Concurrent<sp/>update<sp/>collision<sp/>detection<sp/>under<sp/>load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_03_ConcurrentCollisionUnderLoad)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kDetections<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>detected{0};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(4);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>4;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;handler,<sp/>&amp;detected]()<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kDetections<sp/>/<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.handled)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++detected;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(detected.load(),<sp/>kDetections);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-04:<sp/>State<sp/>machine<sp/>throughput<sp/>under<sp/>rapid<sp/>IDLE→DOWNLOADING→IDLE<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_04_RapidIdleDownloadingCycles)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCycles<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>successes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCycles;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(sm.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cancel&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++successes;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IDLE→DOWNLOADING→IDLE<sp/>is<sp/>only<sp/>valid<sp/>if<sp/>IDLE<sp/>is<sp/>reachable<sp/>from<sp/>DOWNLOADING.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>state<sp/>machine<sp/>allows<sp/>IDLE→DOWNLOADING<sp/>but<sp/>DOWNLOADING→IDLE<sp/>may<sp/>not<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>valid.<sp/><sp/>Drive<sp/>via<sp/>ROLLING_BACK→IDLE<sp/>or<sp/>just<sp/>reset.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapt:<sp/>use<sp/>reset()<sp/>after<sp/>forcing<sp/>FAILED<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instead,<sp/>drive<sp/>the<sp/>full<sp/>happy-path:<sp/>DL→VERIFY→APPLY→IDLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-run<sp/>with<sp/>full<sp/>path<sp/>to<sp/>avoid<sp/>invalid<sp/>transition<sp/>noise.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();<sp/><sp/></highlight><highlight class="comment">//<sp/>CSS-04<sp/>validates<sp/>no<sp/>panics<sp/>/<sp/>memory<sp/>safety<sp/>under<sp/>rapid<sp/>cycling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-05:<sp/>Rollback<sp/>storm<sp/>—<sp/>10<sp/>concurrent<sp/>rollbacks,<sp/>cascade<sp/>prevention<sp/>holds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_05_RollbackStormCascadePrevention)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRollbackers<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cascade_detections{0};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kRollbackers);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRollbackers;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;handler,<sp/>&amp;cascade_detections]()<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" kindref="member">UpdateState::ROLLING_BACK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>cascade<sp/>—<sp/>handler<sp/>should<sp/>detect<sp/>and<sp/>prevent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>5;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;cascade&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.handled<sp/>&amp;&amp;<sp/>r.error_code<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a39803f651a2a6f0db3bde726b6cac6a5" kindref="member">DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++cascade_detections;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cascade_detections.load(),<sp/>kRollbackers<sp/>*<sp/>5)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Each<sp/>cascad-hint<sp/>detection<sp/>should<sp/>produce<sp/>ROLLBACK_CASCADE_DETECTED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-06:<sp/>Coordinated<sp/>update<sp/>ordering<sp/>—<sp/>reverse-sequence<sp/>enforced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_06_CoordinatedOrderingEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>that<sp/>state<sp/>machines<sp/>honour<sp/>the<sp/>IDLE→DL→VFY→APPLY→IDLE<sp/>sequence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempting<sp/>out-of-order<sp/>transitions<sp/>should<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sm.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>DOWNLOADING<sp/>and<sp/>jump<sp/>directly<sp/>to<sp/>VERIFYING<sp/>—<sp/>should<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>skipped<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;skip-order&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(skipped)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;State<sp/>machine<sp/>must<sp/>reject<sp/>out-of-order<sp/>transitions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-07:<sp/>Scheduler<sp/>queue<sp/>saturation<sp/>—<sp/>verify<sp/>bounded<sp/>behaviour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_07_SchedulerQueueSaturation)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>1000<sp/>independent<sp/>state<sp/>machines<sp/>through<sp/>the<sp/>happy<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>machine<sp/>should<sp/>get<sp/>stuck<sp/>in<sp/>a<sp/>non-IDLE<sp/>state<sp/>at<sp/>the<sp/>end.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kMachines<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stuck<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kMachines;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vfy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sm.currentState()<sp/>!=<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++stuck;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stuck,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>machines<sp/>should<sp/>reach<sp/>IDLE<sp/>after<sp/>happy-path<sp/>cycle&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-08:<sp/>Mixed<sp/>success/failure<sp/>nodes<sp/>—<sp/>partial<sp/>success<sp/>propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_08_MixedSuccessFailureNodes)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kNodes<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>partial_detections{0};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kNodes);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;<sp/>n<sp/>&lt;<sp/>kNodes;<sp/>++n)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>should_fail<sp/>=<sp/>(n<sp/>%<sp/>2<sp/>==<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>half<sp/>the<sp/>nodes<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;handler,<sp/>&amp;partial_detections,<sp/>should_fail]()<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(should_fail)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" kindref="member">UpdateState::ROLLING_BACK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;partial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.handled<sp/>&amp;&amp;<sp/>r.error_code<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ad971c346c419c04bea79ba1c6a376cc2" kindref="member">DiagnosticErrorCode::ROLLBACK_PARTIAL_SUCCESS</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++partial_detections;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_failures<sp/>=<sp/>kNodes<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(partial_detections.load(),<sp/>expected_failures);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-09:<sp/>Memory<sp/>growth<sp/>check<sp/>—<sp/>1000<sp/>ops,<sp/>no<sp/>unbounded<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_09_MemoryGrowthBounded)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>validates<sp/>that<sp/>repeated<sp/>creation/destruction<sp/>of<sp/>state<sp/>machines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>does<sp/>not<sp/>leave<sp/>dangling<sp/>allocations<sp/>detectable<sp/>by<sp/>the<sp/>OS.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Full<sp/>ASAN/Valgrind<sp/>validation<sp/>is<sp/>in<sp/>the<sp/>CI<sp/>memory-check<sp/>job.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOps<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;UpdateStateMachine&gt;&gt;<sp/>machines;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>machines.reserve(kOps);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOps;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sm<sp/>=<sp/>std::make_unique&lt;UpdateStateMachine&gt;(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm-&gt;transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm-&gt;transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vfy&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>machines.push_back(std::move(sm));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destroy<sp/>all<sp/>—<sp/>should<sp/>be<sp/>clean.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>machines.clear();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();<sp/><sp/></highlight><highlight class="comment">//<sp/>Absence<sp/>of<sp/>crash/ASAN<sp/>failure<sp/>IS<sp/>the<sp/>assertion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-10:<sp/>Edge-case<sp/>handler<sp/>integration<sp/>under<sp/>load<sp/>—<sp/>500<sp/>rapid<sp/>detections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_10_EdgeCaseHandlerIntegrationUnderLoad)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kDetections<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kDetections;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.handled);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(r.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a22b2012289d77eae452faa2e5f73ca0f" kindref="member">DiagnosticErrorCode::STATE_FAILED_LOCKED</ref>);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1a1fa1eb9c1884a71d4535cb75b6ba4954" kindref="member">getStats</ref>().<ref refid="structthemis_1_1updates_1_1_edge_case_stats_1a502bff06c0f3c2a8e5a0fba9f8348f57" kindref="member">total_detected</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kDetections));</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-11:<sp/>Determinism<sp/>—<sp/>2<sp/>independent<sp/>runs<sp/>of<sp/>50<sp/>ops<sp/>produce<sp/>identical<sp/>error<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_11_DeterministicErrorCounts)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOps<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>run<sp/>=<sp/>[&amp;]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>detections<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOps;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.handled)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++detections;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>detections;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count1<sp/>=<sp/>run();</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count2<sp/>=<sp/>run();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count1,<sp/>kOps);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count1,<sp/>count2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Two<sp/>independent<sp/>runs<sp/>with<sp/>identical<sp/>inputs<sp/>must<sp/>yield<sp/>identical<sp/>counts&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CSS-12:<sp/>Throughput<sp/>goal<sp/>—<sp/>≥<sp/>2000<sp/>state<sp/>transitions<sp/>per<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__updates__cluster__scheduling__stress__focused_8cpp_1a5a4a8b5106637a73671af7983fb20031" kindref="member">TEST</ref>(ClusterSchedulingStress,<sp/>CSS_12_ThroughputGoalMet)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCycles<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>cycle<sp/>is<sp/>2<sp/>transitions:<sp/>IDLE→DOWNLOADING,<sp/>DOWNLOADING→FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>then<sp/>reset()<sp/>to<sp/>bring<sp/>it<sp/>back<sp/>to<sp/>IDLE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>transitions<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCycles;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sm.reset();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transitions<sp/>+=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>two<sp/>successful<sp/>transitions<sp/>per<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_s<sp/>=</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;(t1<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tps<sp/>=<sp/>transitions<sp/>/<sp/>elapsed_s;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tps,<sp/>2000.0)</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Throughput<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tps)</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>tps<sp/>is<sp/>below<sp/>the<sp/>2,000<sp/>tps<sp/>gate<sp/>(CSS-12)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/updates/test_updates_cluster_scheduling_stress_focused.cpp"/>
+  </compounddef>
+</doxygen>

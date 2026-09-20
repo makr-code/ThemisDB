@@ -1,0 +1,578 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ann__index_8h" kind="file" language="C++">
+    <compoundname>ann_index.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">limits</includes>
+    <includedby refid="ann__frontdoor_8h" local="yes">include/index/ann_frontdoor.h</includedby>
+    <includedby refid="distributed__vector__index_8h" local="yes">include/index/distributed_vector_index.h</includedby>
+    <includedby refid="matryoshka__truncation_8h" local="yes">include/index/matryoshka_truncation.h</includedby>
+    <includedby refid="vector__index_8h" local="yes">include/index/vector_index.h</includedby>
+    <includedby refid="ann__index_8cpp" local="yes">src/index/ann_index.cpp</includedby>
+    <includedby refid="distributed__vector__index_8cpp" local="yes">src/index/distributed_vector_index.cpp</includedby>
+    <includedby refid="vector__index_8cpp" local="yes">src/index/vector_index.cpp</includedby>
+    <includedby refid="test__ann__index_8cpp" local="yes">tests/index/test_ann_index.cpp</includedby>
+    <includedby refid="test__distributed__vector__index_8cpp" local="yes">tests/index/test_distributed_vector_index.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/index/ann_frontdoor.h</label>
+        <link refid="ann__frontdoor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/index/distributed_vector_index.h</label>
+        <link refid="distributed__vector__index_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/index/gnn_embeddings.h</label>
+        <link refid="gnn__embeddings_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/index/gpu_vector_index.h</label>
+        <link refid="gpu__vector__index_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/index/gpu_vector_index_vulkan.h</label>
+        <link refid="gpu__vector__index__vulkan_8h"/>
+      </node>
+      <node id="11">
+        <label>include/index/matryoshka_truncation.h</label>
+        <link refid="matryoshka__truncation_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/index/multi_gpu_vector_index.h</label>
+        <link refid="multi__gpu__vector__index_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/index/vector_auto_buffer.h</label>
+        <link refid="vector__auto__buffer_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/index/vector_index.h</label>
+        <link refid="vector__index_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/index/vector_index_manager.h</label>
+        <link refid="vector__index__manager_8h"/>
+      </node>
+      <node id="3">
+        <label>src/index/ann_frontdoor.cpp</label>
+        <link refid="ann__frontdoor_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/index/ann_index.cpp</label>
+        <link refid="ann__index_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/index/approximate_radius_search.cpp</label>
+        <link refid="approximate__radius__search_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/index/distributed_vector_index.cpp</label>
+        <link refid="distributed__vector__index_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/index/gnn_embeddings.cpp</label>
+        <link refid="gnn__embeddings_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/index/gpu_vector_index.cpp</label>
+        <link refid="gpu__vector__index_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/index/gpu_vector_index_vulkan.cpp</label>
+        <link refid="gpu__vector__index__vulkan_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/index/index_manager.cpp</label>
+        <link refid="index__manager_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/index/multi_gpu_vector_index.cpp</label>
+        <link refid="multi__gpu__vector__index_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/index/multi_vector_search.cpp</label>
+        <link refid="multi__vector__search_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/index/vector_auto_buffer.cpp</label>
+        <link refid="vector__auto__buffer_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/index/vector_index.cpp</label>
+        <link refid="vector__index_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/index/test_ann_cpu_parity.cpp</label>
+        <link refid="test__ann__cpu__parity_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/index/test_ann_frontdoor.cpp</label>
+        <link refid="test__ann__frontdoor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/index/test_ann_frontdoor_single_shard.cpp</label>
+        <link refid="test__ann__frontdoor__single__shard_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/index/test_ann_frontdoor_validation_focused.cpp</label>
+        <link refid="test__ann__frontdoor__validation__focused_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/index/test_ann_index.cpp</label>
+        <link refid="test__ann__index_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/index/test_distributed_vector_index.cpp</label>
+        <link refid="test__distributed__vector__index_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/index/test_gpu_memory_oversubscription.cpp</label>
+        <link refid="test__gpu__memory__oversubscription_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/index/test_gpu_vector_index_llm_paths_focused.cpp</label>
+        <link refid="test__gpu__vector__index__llm__paths__focused_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/index/test_index_destructor_safety.cpp</label>
+        <link refid="test__index__destructor__safety_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/index/test_index_gpu_memory_safety.cpp</label>
+        <link refid="test__index__gpu__memory__safety_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/index/test_index_iterator_validity.cpp</label>
+        <link refid="test__index__iterator__validity_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/index/test_matryoshka_truncation.cpp</label>
+        <link refid="test__matryoshka__truncation_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/index/test_wave3c_index_raii.cpp</label>
+        <link refid="test__wave3c__index__raii_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1index_1_1_ann_search_result" prot="public">themis::index::AnnSearchResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_i_ann_index" prot="public">themis::index::IAnnIndex</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_config" prot="public">themis::index::ScaNNConfig</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_sca_n_n" prot="public">themis::index::ScaNN</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_1_1_p_q_codebook" prot="private">themis::index::ScaNN::PQCodebook</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_1_1_leaf" prot="private">themis::index::ScaNN::Leaf</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANN<sp/>(Approximate<sp/>Nearest<sp/>Neighbor)<sp/>Index<sp/>Backends<sp/>for<sp/>the<sp/>ThemisDB<sp/>Index<sp/>Module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>a<sp/>unified<sp/>IAnnIndex<sp/>interface<sp/>and<sp/>two<sp/>alternative<sp/>ANN<sp/>backends:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>ScaNN<sp/><sp/>–<sp/>Scalable<sp/>Nearest<sp/>Neighbors<sp/>(tree-AH,<sp/>Google<sp/>ICML&apos;20)<sp/>–<sp/>pure<sp/>C++<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>DiskAnnAdapter<sp/>–<sp/>thin<sp/>adapter<sp/>over<sp/>DiskANNIndex<sp/>from<sp/>performance/phase3<sp/>(requires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ENABLE_DISKANN<sp/>compile-time<sp/>flag)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>with<sp/>VectorIndexManager<sp/>is<sp/>through<sp/>AdvancedIndexConfig::Type::SCANN<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdvancedIndexConfig::Type::DISKANN.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>References:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ScaNN<sp/>:<sp/>&quot;Accelerating<sp/>Large-Scale<sp/>Inference<sp/>with<sp/>Anisotropic<sp/>Vector<sp/>Quantization&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Guo<sp/>et<sp/>al.,<sp/>ICML<sp/>2020<sp/><sp/>https://arxiv.org/abs/1908.10396</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>DiskANN:<sp/>&quot;DiskANN:<sp/>Fast<sp/>Accurate<sp/>Billion-point<sp/>Nearest<sp/>Neighbor<sp/>Search<sp/>on<sp/>a<sp/>Single<sp/>Node&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Subramanya<sp/>et<sp/>al.,<sp/>NeurIPS<sp/>2019</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;performance/phase3/diskann.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAnnIndex<sp/>–<sp/>common<sp/>interface<sp/>for<sp/>ANN<sp/>backends<sp/>used<sp/>by<sp/>VectorIndexManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1index_1_1_ann_search_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1index_1_1_ann_search_result_1a40802eeddee4b33cb431c224e9b3eaf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1index_1_1_ann_search_result_1a40802eeddee4b33cb431c224e9b3eaf9" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1index_1_1_ann_search_result_1ae8c1f1693d93aab75d8e554ac0fa33c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_ann_search_result_1ae8c1f1693d93aab75d8e554ac0fa33c7" kindref="member">distance</ref>;<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1index_1_1_i_ann_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" kindref="member">~IAnnIndex</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2" kindref="member">build</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t*<sp/>ids,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f" kindref="member">add</ref>(int64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;AnnSearchResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7" kindref="member">search</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*path*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*path*/</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaNN<sp/>–<sp/>Scalable<sp/>Nearest<sp/>Neighbors<sp/>(Google<sp/>ICML&apos;20)<sp/>–<sp/>pure<sp/>C++<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Algorithm<sp/>outline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Phase<sp/>1<sp/><sp/>K-means<sp/>partitioning:<sp/>divide<sp/>the<sp/>dataset<sp/>into<sp/>`num_leaves`<sp/>Voronoi</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cells<sp/>whose<sp/>centroids<sp/>are<sp/>computed<sp/>with<sp/>Lloyd&apos;s<sp/>algorithm.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Phase<sp/>2<sp/><sp/>Asymmetric<sp/>Hashing<sp/>(AH):<sp/>residual<sp/>vectors<sp/>inside<sp/>every<sp/>cell<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compressed<sp/>using<sp/>product<sp/>quantization<sp/>(PQ)<sp/>so<sp/>that<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimation<sp/>is<sp/>cheap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Search<sp/><sp/><sp/>(a)<sp/>Score<sp/>all<sp/>centroids,<sp/>keep<sp/>top<sp/>`num_leaves_to_search`<sp/>cells.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(b)<sp/>Scan<sp/>compressed<sp/>vectors<sp/>in<sp/>those<sp/>cells<sp/>with<sp/>AH<sp/>distance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(c)<sp/>Re-rank<sp/>the<sp/>raw<sp/>top-`reorder_num_neighbors`<sp/>candidates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>using<sp/>exact<sp/>float<sp/>distances.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>implementation<sp/>is<sp/>a<sp/>pure<sp/>C++17<sp/>self-contained<sp/>version<sp/>that<sp/>does<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>depend<sp/>on<sp/>TensorFlow<sp/>or<sp/>any<sp/>external<sp/>library,<sp/>making<sp/>it<sp/>suitable<sp/>for<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>build<sp/>system.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1index_1_1_sca_n_n_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partitioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" kindref="member">num_leaves</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;<sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" kindref="member">num_leaves_to_search</ref><sp/><sp/>=<sp/>100;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1index_1_1_sca_n_n_config_1a31c148d84753a58837538b9d2cf909a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1a31c148d84753a58837538b9d2cf909a4" kindref="member">kmeans_iters</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Asymmetric<sp/>hashing<sp/>(product<sp/>quantization)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1index_1_1_sca_n_n_config_1ae3446486bd5dbbb1390b55fe4a6fe8e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae3446486bd5dbbb1390b55fe4a6fe8e9" kindref="member">enable_ah</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1index_1_1_sca_n_n_config_1a083562ddc53f57d2bf74ca206261a5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1a083562ddc53f57d2bf74ca206261a5dc" kindref="member">pq_num_subspaces</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1index_1_1_sca_n_n_config_1a7c8330933ff5f4f852d8bae2a05e8950" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1a7c8330933ff5f4f852d8bae2a05e8950" kindref="member">pq_bits_per_subspace</ref><sp/><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-ranking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1index_1_1_sca_n_n_config_1ab3bb6b3212c5602424b66e03c70ebeff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ab3bb6b3212c5602424b66e03c70ebeff" kindref="member">reorder_num_neighbors</ref><sp/>=<sp/>200;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distance<sp/>metric<sp/>(L2<sp/>only<sp/>in<sp/>this<sp/>implementation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104ea7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104e" kindref="member">Metric</ref><sp/>{<sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104ea7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref><sp/>}<sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1a009f2a10c3a5c2b6b49ec9fdbe451130" kindref="member">metric</ref><sp/>=<sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ac4bba54e42b07b7d75c3ecc38785104ea7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">Metric::L2</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1index_1_1_sca_n_n" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_sca_n_n_1ac5f6de18baa990ee13427f392ead275c" kindref="member">ScaNN</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1ac5f6de18baa990ee13427f392ead275c" kindref="member">ScaNN</ref>(<ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1index_1_1_sca_n_n_1ac91ee228016695fc8120372becab883a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1ac91ee228016695fc8120372becab883a" kindref="member">~ScaNN</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t*<sp/>ids,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(int64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnnSearchResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1aff787a126aeac3f4c144a390fdcaa0d8" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1ad54553961d133fcec969ab1409b82760" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg_;<sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>internal<sp/>types<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PQCodebook<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_subspaces<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sub_dim<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dim<sp/>/<sp/>num_subspaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_centroids<sp/>=<sp/>256;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2^pq_bits_per_subspace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>centroids[s][c][d]<sp/><sp/>s=subspace,<sp/>c=centroid,<sp/>d=sub_dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::vector&lt;float&gt;&gt;&gt;<sp/>centroids;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>train(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>d,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>nss,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bits,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iters);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>encode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vec,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>d)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>decode_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Leaf<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>centroid;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>vectors;<sp/></highlight><highlight class="comment">//<sp/>full<sp/>(for<sp/>rerank)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>codes;<sp/></highlight><highlight class="comment">//<sp/>PQ-compressed<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>l2sq(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>d);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>kmeans(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>d,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iters,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>centroids,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;&amp;<sp/>assignments);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>state<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ScaNNConfig<sp/>cfg_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Leaf&gt;<sp/><sp/><sp/><sp/><sp/>leaves_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>PQCodebook<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>codebook_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trained_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>flat<sp/>storage<sp/>before<sp/>training<sp/>(accumulates<sp/>vectors<sp/>via<sp/>add())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flat_ids_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>flat_vectors_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DiskAnnAdapter<sp/>–<sp/>wraps<sp/>DiskANNIndex<sp/>(performance/phase3)<sp/>as<sp/>IAnnIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Only<sp/>available<sp/>when<sp/>THEMIS_ENABLE_DISKANN<sp/>is<sp/>defined.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">DiskAnnAdapter<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>DiskAnnAdapter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_path,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cache_mb<sp/>=<sp/>1024)</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>index_path_(index_path),<sp/>cache_mb_(cache_mb)<sp/>{}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>build(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t*<sp/>ids,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim_<sp/>=<sp/>dim;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_<sp/>=<sp/>std::make_unique&lt;performance::phase3::DiskANNIndex&gt;(dim,<sp/>index_path_,<sp/>cache_mb_);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;performance::phase3::VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vecs;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vecs.reserve(count);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>label<sp/>=<sp/>ids<sp/>?<sp/>ids[i]<sp/>:<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(vectors<sp/>+<sp/>i<sp/>*<sp/>dim,<sp/>vectors<sp/>+<sp/>i<sp/>*<sp/>dim<sp/>+<sp/>dim);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vecs.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">performance::phase3::VectorID</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(label),<sp/>std::move(v));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;build(vecs);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_<sp/>=<sp/>count;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add(int64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vector,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim_<sp/>=<sp/>dim;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_<sp/>=<sp/>std::make_unique&lt;performance::phase3::DiskANNIndex&gt;(dim,<sp/>index_path_,<sp/>cache_mb_);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(vector,<sp/>vector<sp/>+<sp/>dim);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">performance::phase3::VectorID</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">),<sp/>v);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnnSearchResult&gt;<sp/>search(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>q(query,<sp/>query<sp/>+<sp/>dim);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>raw<sp/>=<sp/>impl_-&gt;search(q,<sp/>k);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AnnSearchResult&gt;<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.reserve(raw.size());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>raw)</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back({</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(r.id),<sp/>r.distance});</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>save(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;flush();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;save(path);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>load(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Peek<sp/>the<sp/>dimension<sp/>stored<sp/>in<sp/>the<sp/>metadata<sp/>sidecar<sp/>so<sp/>we<sp/>create<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DiskANNIndex<sp/>with<sp/>the<sp/>correct<sp/>dimension<sp/>even<sp/>when<sp/>build()<sp/>was<sp/>never<sp/>called.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>meta_path<sp/>=<sp/>path<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.meta&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dim_<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>peek(meta_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(peek)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stored_dim<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>peek.read(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;stored_dim),<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(stored_dim));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(peek<sp/>&amp;&amp;<sp/>stored_dim<sp/>&gt;<sp/>0)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim_<sp/>=<sp/>stored_dim;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_<sp/>=<sp/>std::make_unique&lt;performance::phase3::DiskANNIndex&gt;(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim_<sp/>&gt;<sp/>0<sp/>?<sp/>dim_<sp/>:<sp/>1,<sp/>index_path_,<sp/>cache_mb_);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_-&gt;load(path))<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_<sp/>=<sp/>impl_-&gt;get_stats().num_vectors;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count_;<sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>index_path_;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cache_mb_;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;performance::phase3::DiskANNIndex&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/ann_index.h"/>
+  </compounddef>
+</doxygen>

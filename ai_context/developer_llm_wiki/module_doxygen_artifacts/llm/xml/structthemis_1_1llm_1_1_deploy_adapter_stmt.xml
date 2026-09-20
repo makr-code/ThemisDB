@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_deploy_adapter_stmt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DeployAdapterStmt</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a2c2e7a81f246a935052b46402f2ce397" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeployAdapterStmt::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="199" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aa394190370d4c2a532ee1d2378c2d60d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::DeployAdapterStmt::target_shards</definition>
+        <argsstring></argsstring>
+        <name>target_shards</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::target_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="200" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4ec84967ebd50530b5d5c1d815216b38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DeployAdapterStmt::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::strategy</qualifiedname>
+        <initializer>= &quot;CO_LOCATED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="201" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a3ef9c1497846fd53482fe8b21f0645a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeployAdapterStmt::validate_compatibility</definition>
+        <argsstring></argsstring>
+        <name>validate_compatibility</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::validate_compatibility</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="202" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4c064dac6c6b97e1efe4b6fa6ac1950a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DeployAdapterStmt::verify_signature</definition>
+        <argsstring></argsstring>
+        <name>verify_signature</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::verify_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="203" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aab7f1a6ff7a94927b961f6fb508f533d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::DeployAdapterStmt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="209" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="537" bodyend="545"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_deploy_adapter_stmt_1afb44cd88b153e86fb2ddceed6d6eb538" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt" kindref="compound">DeployAdapterStmt</ref></type>
+        <definition>DeployAdapterStmt themis::llm::DeployAdapterStmt::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::DeployAdapterStmt::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="215" column="30" bodyfile="src/llm/aql_train_parser.cpp" bodystart="554" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="198" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="198" bodyend="216"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a2c2e7a81f246a935052b46402f2ce397" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1afb44cd88b153e86fb2ddceed6d6eb538" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4ec84967ebd50530b5d5c1d815216b38" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aa394190370d4c2a532ee1d2378c2d60d" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>target_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aab7f1a6ff7a94927b961f6fb508f533d" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a3ef9c1497846fd53482fe8b21f0645a9" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>validate_compatibility</name></member>
+      <member refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4c064dac6c6b97e1efe4b6fa6ac1950a" prot="public" virt="non-virtual"><scope>themis::llm::DeployAdapterStmt</scope><name>verify_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

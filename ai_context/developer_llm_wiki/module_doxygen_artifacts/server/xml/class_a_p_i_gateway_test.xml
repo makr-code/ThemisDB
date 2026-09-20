@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_p_i_gateway_test" kind="class" language="C++" prot="public">
+    <compoundname>APIGatewayTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_p_i_gateway_test_1aea0d548255f15d549fc36bc889d8e01c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; APIGatewayTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>APIGatewayTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="56" column="21" bodyfile="tests/server/test_api_gateway.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_p_i_gateway_test_1a48b4b407c48b7986a527f9c3d607a879" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_rate_limiter" kindref="compound">RateLimiter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RateLimiter&gt; APIGatewayTest::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>APIGatewayTest::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="57" column="21" bodyfile="tests/server/test_api_gateway.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_p_i_gateway_test_1a8d2aa6ff63365f265776bcf0022a38a3" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_load_shedder" kindref="compound">LoadShedder</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoadShedder&gt; APIGatewayTest::load_shedder_</definition>
+        <argsstring></argsstring>
+        <name>load_shedder_</name>
+        <qualifiedname>APIGatewayTest::load_shedder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="58" column="21" bodyfile="tests/server/test_api_gateway.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_p_i_gateway_test_1af7c404bc86d6482ab394cad4af3d14b2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_a_p_i_gateway" kindref="compound">APIGateway</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;APIGateway&gt; APIGatewayTest::gateway_</definition>
+        <argsstring></argsstring>
+        <name>gateway_</name>
+        <qualifiedname>APIGatewayTest::gateway_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="59" column="21" bodyfile="tests/server/test_api_gateway.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_p_i_gateway_test_1a86bdb4692bb40a8bf9c2b009cd9b2bdc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void APIGatewayTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>APIGatewayTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="29" column="10" bodyfile="tests/server/test_api_gateway.cpp" bodystart="29" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_p_i_gateway_test_1a955bc986a4ae55ed7fdd3cd60a33b71f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void APIGatewayTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>APIGatewayTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_gateway.cpp" line="52" column="10" bodyfile="tests/server/test_api_gateway.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for API Gateway tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>APIGatewayTest</label>
+        <link refid="class_a_p_i_gateway_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>APIGatewayTest</label>
+        <link refid="class_a_p_i_gateway_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_api_gateway.cpp" line="27" column="1" bodyfile="tests/server/test_api_gateway.cpp" bodystart="27" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_p_i_gateway_test_1aea0d548255f15d549fc36bc889d8e01c" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>auth_</name></member>
+      <member refid="class_a_p_i_gateway_test_1af7c404bc86d6482ab394cad4af3d14b2" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>gateway_</name></member>
+      <member refid="class_a_p_i_gateway_test_1a8d2aa6ff63365f265776bcf0022a38a3" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>load_shedder_</name></member>
+      <member refid="class_a_p_i_gateway_test_1a48b4b407c48b7986a527f9c3d607a879" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>rate_limiter_</name></member>
+      <member refid="class_a_p_i_gateway_test_1a86bdb4692bb40a8bf9c2b009cd9b2bdc" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>SetUp</name></member>
+      <member refid="class_a_p_i_gateway_test_1a955bc986a4ae55ed7fdd3cd60a33b71f" prot="protected" virt="non-virtual"><scope>APIGatewayTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering</compoundname>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_a_b_test" prot="public">themis::prompt_engineering::ABTest</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" prot="public">themis::prompt_engineering::ABVariant</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case" prot="public">themis::prompt_engineering::AdversarialTestCase</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_report" prot="public">themis::prompt_engineering::AdversarialTestReport</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_result" prot="public">themis::prompt_engineering::AdversarialTestResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics" prot="public">themis::prompt_engineering::AggregatedMetrics</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker" prot="public">themis::prompt_engineering::BackgroundOptimizationWorker</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_branch_info" prot="public">themis::prompt_engineering::BranchInfo</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_budget_allocation" prot="public">themis::prompt_engineering::BudgetAllocation</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error" prot="public">themis::prompt_engineering::BudgetExhaustedError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_budget_handle" prot="public">themis::prompt_engineering::BudgetHandle</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot" prot="public">themis::prompt_engineering::BudgetSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder" prot="public">themis::prompt_engineering::ChainOfThoughtBuilder</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_char_division_counter" prot="public">themis::prompt_engineering::CharDivisionCounter</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" prot="public">themis::prompt_engineering::CompiledPromptTemplate</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_compression_result" prot="public">themis::prompt_engineering::CompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager" prot="public">themis::prompt_engineering::ContextWindowBudgetManager</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_co_t_config" prot="public">themis::prompt_engineering::CoTConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record" prot="public">themis::prompt_engineering::CoTSpanRecord</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_co_t_step" prot="public">themis::prompt_engineering::CoTStep</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector" prot="public">themis::prompt_engineering::CoTTraceCollector</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dictionary_rewrite_rule" prot="public">themis::prompt_engineering::DictionaryRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought" prot="public">themis::prompt_engineering::DspyChainOfThought</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_dspy_field" prot="public">themis::prompt_engineering::DspyField</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error" prot="public">themis::prompt_engineering::DspyMissingFieldError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_module" prot="public">themis::prompt_engineering::DspyModule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_predict" prot="public">themis::prompt_engineering::DspyPredict</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" prot="public">themis::prompt_engineering::DspySignature</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" prot="public">themis::prompt_engineering::DynamicReflectionPromptBuilder</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider" prot="public">themis::prompt_engineering::EchoDspyLLMProvider</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics" prot="public">themis::prompt_engineering::EvaluationMetrics</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_evaluator_config" prot="public">themis::prompt_engineering::EvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_execution_context" prot="public">themis::prompt_engineering::ExecutionContext</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_context" prot="public">themis::prompt_engineering::ExperimentContext</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" prot="public">themis::prompt_engineering::ExperimentDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" prot="public">themis::prompt_engineering::ExperimentOutcome</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_summary" prot="public">themis::prompt_engineering::ExperimentSummary</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_export_result" prot="public">themis::prompt_engineering::ExportResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" prot="public">themis::prompt_engineering::FailedQueryPattern</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" prot="public">themis::prompt_engineering::FeedbackCollector</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" prot="public">themis::prompt_engineering::FeedbackEntry</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" prot="public">themis::prompt_engineering::FeedbackStats</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_fixture_delta" prot="public">themis::prompt_engineering::FixtureDelta</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider" prot="public">themis::prompt_engineering::HeuristicProTeGiProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator" prot="public">themis::prompt_engineering::HeuristicThoughtGenerator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator" prot="public">themis::prompt_engineering::HeuristicToTEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_adversarial_prompt_tester" prot="public">themis::prompt_engineering::IAdversarialPromptTester</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" prot="public">themis::prompt_engineering::IChainOfThoughtTracer</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" prot="public">themis::prompt_engineering::IDspyLLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_embedding_provider" prot="public">themis::prompt_engineering::IEmbeddingProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" prot="public">themis::prompt_engineering::ILLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" prot="public">themis::prompt_engineering::ILLMProviderReflectionAdapter</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_import_result" prot="public">themis::prompt_engineering::ImportResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_improvement_config" prot="public">themis::prompt_engineering::ImprovementConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_integration_config" prot="public">themis::prompt_engineering::IntegrationConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_integration_status" prot="public">themis::prompt_engineering::IntegrationStatus</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" prot="public">themis::prompt_engineering::IPromptABFramework</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" prot="public">themis::prompt_engineering::IPromptCompressor</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator" prot="public">themis::prompt_engineering::IPromptQualityEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" prot="public">themis::prompt_engineering::IPromptTemplate</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider" prot="public">themis::prompt_engineering::IProTeGiLLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager" prot="public">themis::prompt_engineering::IRAGContextBudgetManager</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" prot="public">themis::prompt_engineering::IReflectionProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" prot="public">themis::prompt_engineering::IReflectionScorer</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" prot="public">themis::prompt_engineering::IRewriteEngine</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" prot="public">themis::prompt_engineering::IRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" prot="public">themis::prompt_engineering::IStructuredOutputEnforcer</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_token_counter" prot="public">themis::prompt_engineering::ITokenCounter</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" prot="public">themis::prompt_engineering::IToTEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" prot="public">themis::prompt_engineering::IToTThoughtGenerator</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" prot="public">themis::prompt_engineering::JsonSchemaConstraint</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_merge_result" prot="public">themis::prompt_engineering::MergeResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" prot="public">themis::prompt_engineering::MetaPromptConfig</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator" prot="public">themis::prompt_engineering::MetaPromptGenerator</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_result" prot="public">themis::prompt_engineering::MetaPromptResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" prot="public">themis::prompt_engineering::ModelTokenBudget</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_optimization_config" prot="public">themis::prompt_engineering::OptimizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_optimization_result" prot="public">themis::prompt_engineering::OptimizationResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_optimizer_result" prot="public">themis::prompt_engineering::OptimizerResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_policy_rewrite_rule" prot="public">themis::prompt_engineering::PolicyRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework" prot="public">themis::prompt_engineering::PromptABExperimentFramework</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error" prot="public">themis::prompt_engineering::PromptBudgetExceededError</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" prot="public">themis::prompt_engineering::PromptCompressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" prot="public">themis::prompt_engineering::PromptContextValue</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_diff" prot="public">themis::prompt_engineering::PromptDiff</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_error_context" prot="public">themis::prompt_engineering::PromptEngineeringErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_integration" prot="public">themis::prompt_engineering::PromptEngineeringIntegration</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" prot="public">themis::prompt_engineering::PromptEngineeringMetrics</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" prot="public">themis::prompt_engineering::PromptEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" prot="public">themis::prompt_engineering::PromptExperiment</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector" prot="public">themis::prompt_engineering::PromptInjectionDetector</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" prot="public">themis::prompt_engineering::PromptLibraryBundle</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o" prot="public">themis::prompt_engineering::PromptLibraryIO</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" prot="public">themis::prompt_engineering::PromptManager</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" prot="public">themis::prompt_engineering::PromptMetrics</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" prot="public">themis::prompt_engineering::PromptOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" prot="public">themis::prompt_engineering::PromptPerformanceTracker</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator" prot="public">themis::prompt_engineering::PromptQualityEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner" prot="public">themis::prompt_engineering::PromptRegressionRunner</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error" prot="public">themis::prompt_engineering::PromptTemplateCompileError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler" prot="public">themis::prompt_engineering::PromptTemplateCompiler</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error" prot="public">themis::prompt_engineering::PromptTemplateMissingSlotError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error" prot="public">themis::prompt_engineering::PromptTemplateTypeMismatchError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" prot="public">themis::prompt_engineering::PromptTemplateValidator</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_version" prot="public">themis::prompt_engineering::PromptVersion</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" prot="public">themis::prompt_engineering::PromptVersionControl</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" prot="public">themis::prompt_engineering::ProTeGiConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" prot="public">themis::prompt_engineering::ProTeGiGradient</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer" prot="public">themis::prompt_engineering::ProTeGiOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result" prot="public">themis::prompt_engineering::ProTeGiResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_quality_check" prot="public">themis::prompt_engineering::QualityCheck</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_quality_config" prot="public">themis::prompt_engineering::QualityConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_quality_report" prot="public">themis::prompt_engineering::QualityReport</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager" prot="public">themis::prompt_engineering::RagContextBudgetManager</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder" prot="public">themis::prompt_engineering::RAGPromptBuilder</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" prot="public">themis::prompt_engineering::RAGPromptConfig</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer" prot="public">themis::prompt_engineering::RecordingCoTTracer</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_reflection_config" prot="public">themis::prompt_engineering::ReflectionConfig</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard" prot="public">themis::prompt_engineering::ReflectionHallucinationGuard</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_reflection_result" prot="public">themis::prompt_engineering::ReflectionResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_reflection_step" prot="public">themis::prompt_engineering::ReflectionStep</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner" prot="public">themis::prompt_engineering::ReflectionTuner</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" prot="public">themis::prompt_engineering::RegexGrammarConstraint</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_regex_rewrite_rule" prot="public">themis::prompt_engineering::RegexRewriteRule</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_regression_config" prot="public">themis::prompt_engineering::RegressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_regression_fixture" prot="public">themis::prompt_engineering::RegressionFixture</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_regression_result" prot="public">themis::prompt_engineering::RegressionResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" prot="public">themis::prompt_engineering::RetrievedChunk</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" prot="public">themis::prompt_engineering::RewriteContext</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" prot="public">themis::prompt_engineering::RewriteDocument</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine" prot="public">themis::prompt_engineering::RewriteEngine</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics" prot="public">themis::prompt_engineering::RewriteMetrics</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" prot="public">themis::prompt_engineering::RewriteResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader" prot="public">themis::prompt_engineering::RewriteRuleLoader</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" prot="public">themis::prompt_engineering::RewriteTrace</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" prot="public">themis::prompt_engineering::SelfAwareContext</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" prot="public">themis::prompt_engineering::SelfImprovementOrchestrator</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule" prot="public">themis::prompt_engineering::SemanticRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_simple_adversarial_tester" prot="public">themis::prompt_engineering::SimpleAdversarialTester</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" prot="public">themis::prompt_engineering::SimplePromptABFramework</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor" prot="public">themis::prompt_engineering::SimplePromptCompressor</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_slot_definition" prot="public">themis::prompt_engineering::SlotDefinition</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" prot="public">themis::prompt_engineering::StructuredOutputConfig</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" prot="public">themis::prompt_engineering::StructuredOutputEnforcer</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" prot="public">themis::prompt_engineering::StructuredOutputResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_system_prompt" prot="public">themis::prompt_engineering::SystemPrompt</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager" prot="public">themis::prompt_engineering::SystemPromptManager</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_template_validation_result" prot="public">themis::prompt_engineering::TemplateValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_test_case" prot="public">themis::prompt_engineering::TestCase</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_thesis_injection" prot="public">themis::prompt_engineering::ThesisInjection</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_to_t_config" prot="public">themis::prompt_engineering::ToTConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_to_t_node" prot="public">themis::prompt_engineering::ToTNode</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_to_t_result" prot="public">themis::prompt_engineering::ToTResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder" prot="public">themis::prompt_engineering::TreeOfThoughtsBuilder</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_worker_status" prot="public">themis::prompt_engineering::WorkerStatus</innerclass>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering_1_1detail">themis::prompt_engineering::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering_1_1testing">themis::prompt_engineering::testing</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AttackCategory</name>
+        <qualifiedname>themis::prompt_engineering::AttackCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0a6af9a6eda9574218a7bbfdd796719ba5" prot="public">
+          <name>JAILBREAK</name>
+          <briefdescription>
+<para>Bypass safety/alignment constraints. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0af3103856d7710579a7124e818cfe0102" prot="public">
+          <name>ROLE_OVERRIDE</name>
+          <briefdescription>
+<para>Impersonation / &quot;act-as&quot; role hijack. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0ad32ff99a75eba6b7fe8aab6decbcfdd9" prot="public">
+          <name>INDIRECT_INJECTION</name>
+          <briefdescription>
+<para>Payload embedded in retrieved tool/context data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0a877acbf073c7bc5bb08d4ad322c0e3e5" prot="public">
+          <name>PROMPT_LEAKING</name>
+          <briefdescription>
+<para>Exfiltrate system or developer instructions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0a97d1e5eba93f1de6dc9ea19b42e3c249" prot="public">
+          <name>DATA_EXTRACTION</name>
+          <briefdescription>
+<para>Extract training data, PII, or secrets. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>High-level category of an adversarial test case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Aligned with the OWASP LLM Top 10 (2023) vulnerability taxonomy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="27" column="1" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DspyFieldType</name>
+        <qualifiedname>themis::prompt_engineering::DspyFieldType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+<para>Arbitrary text. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a53f93baa3057821107c750323892fa92" prot="public">
+          <name>INT</name>
+          <briefdescription>
+<para>Whole number. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8ae738c26bf4ce1037fa81b039a915cbf6" prot="public">
+          <name>FLOAT</name>
+          <briefdescription>
+<para>Floating-point number. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8aa97b2c144243b2b9d2c593ec268b62f5" prot="public">
+          <name>BOOL</name>
+          <briefdescription>
+<para>True / False. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a298cb25408234de02baf2085803a464a" prot="public">
+          <name>LIST</name>
+          <briefdescription>
+<para>Comma-separated list of items. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>Structured JSON object. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Semantic type of a DSPy signature field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="31" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="31" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FeedbackType</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" prot="public">
+          <name>USER_POSITIVE</name>
+          <briefdescription>
+<para>User explicitly marked as good/helpful. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469aa8bbe6ea211bb91ac31ea0c1ba43a51c" prot="public">
+          <name>USER_NEGATIVE</name>
+          <briefdescription>
+<para>User explicitly marked as bad/unhelpful. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469ab2233f0a5e245163672ebb866bf350de" prot="public">
+          <name>HALLUCINATION_DETECTED</name>
+          <briefdescription>
+<para>System detected potential hallucination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Query execution timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a551530ec1af53eaa77c1bde0ca457b4b" prot="public">
+          <name>PARSE_ERROR</name>
+          <briefdescription>
+<para>Failed to parse LLM response. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a970e10849021cf32e9c0ef6cf4cf930a" prot="public">
+          <name>VALIDATION_FAILED</name>
+          <briefdescription>
+<para>Response failed validation checks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a3cd12a798e0e34af8482ca999a53b11c" prot="public">
+          <name>CONTEXT_MISSING</name>
+          <briefdescription>
+<para>Required context was missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469add69b0c7e0699415d6d8aed80c9915b8" prot="public">
+          <name>AMBIGUOUS_OUTPUT</name>
+          <briefdescription>
+<para>Output was ambiguous or unclear. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a0a0f7b960890552f9e2afe1d920ef2f5" prot="public">
+          <name>SECURITY_ISSUE</name>
+          <briefdescription>
+<para>Security-related concern detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a23ff72db1d0fbdc643a1459ecf3eb0fc" prot="public">
+          <name>PERFORMANCE_ISSUE</name>
+          <briefdescription>
+<para>Performance degradation observed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Types of feedback that can be recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="36" column="1" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExperimentVariant</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentVariant</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49ac861cd34025f9002df5912d623326130" prot="public">
+          <name>CONTROL</name>
+          <briefdescription>
+<para>Current (baseline) template version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49acffcfcd0a5befb8fed6679e0d65ef07a" prot="public">
+          <name>TREATMENT</name>
+          <briefdescription>
+<para>Candidate (new) template version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The two sides of an A/B experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="34" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExperimentStatus</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+<para>Still collecting observations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba38bf10f8cb1316633af11ea95d3e0cc5" prot="public">
+          <name>WINNER_CONTROL</name>
+          <briefdescription>
+<para>Control won at configured significance level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba35408f91891bb73be17272340a42c3b2" prot="public">
+          <name>WINNER_TREATMENT</name>
+          <briefdescription>
+<para>Treatment won at configured significance level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718baa67714e020eef0eddfffea13a8abb52b" prot="public">
+          <name>INCONCLUSIVE</name>
+          <briefdescription>
+<para>Stopped without reaching significance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Manually stopped; winner already promoted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle state of a <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="65" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionStrategy</name>
+        <qualifiedname>themis::prompt_engineering::CompressionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca7be66255e9086d26ebe7594696a68fe1" prot="public">
+          <name>TRUNCATE_HEAD</name>
+          <briefdescription>
+<para>Remove leading tokens. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca6278dedff74149cbec8d704ab3669ac3" prot="public">
+          <name>TRUNCATE_TAIL</name>
+          <briefdescription>
+<para>Remove trailing tokens. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca14cb1f7f49ae4ae5b3971ad7d48032da" prot="public">
+          <name>SELECTIVE_TRIM</name>
+          <briefdescription>
+<para>Drop middle paragraphs; keep system prompt + last N turns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca36cbecb886c3fb994669cd10cdbd9f5f" prot="public">
+          <name>SUMMARY</name>
+          <briefdescription>
+<para>Replace middle with a summary placeholder / real LLM call. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca8c808b3010f4efbc21323826df2a71cd" prot="public">
+          <name>EMBEDDING_PRUNE</name>
+          <briefdescription>
+<para>Semantic relevance pruning (falls back to SELECTIVE_TRIM). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression strategy applied by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998" kindref="member">IPromptCompressor::compress()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="25" column="1" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10" prot="public" static="no" strong="yes">
+        <type>std::uint32_t</type>
+        <name>PromptEngineeringErrorCode</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a622cc3571e653a1db699cbe8561194bc" prot="public">
+          <name>TEMPLATE_INVALID_ID</name>
+          <initializer>= 9500</initializer>
+          <briefdescription>
+<para>Template ID missing or malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a26818ef6be2dad743a4de26ad1cf81a5" prot="public">
+          <name>TEMPLATE_NOT_FOUND</name>
+          <initializer>= 9501</initializer>
+          <briefdescription>
+<para>Template ID not in registry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a7bed628f1c158ac88aa2260a8aed10f2" prot="public">
+          <name>TEMPLATE_ALREADY_EXISTS</name>
+          <initializer>= 9502</initializer>
+          <briefdescription>
+<para>Template ID already registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a3a1239fb6f8e82807195783bb9c3621e" prot="public">
+          <name>TEMPLATE_VALIDATION_FAILED</name>
+          <initializer>= 9503</initializer>
+          <briefdescription>
+<para>Template structure validation failed (missing placeholders, cycles). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a157c182bfbb8ee8c0eaeb7fdb8f9b14d" prot="public">
+          <name>TEMPLATE_OVERSIZED</name>
+          <initializer>= 9504</initializer>
+          <briefdescription>
+<para>Template exceeds max byte/token limits. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a285946c4514f095b5186ad2d879714b9" prot="public">
+          <name>TEMPLATE_PLACEHOLDER_MISSING</name>
+          <initializer>= 9505</initializer>
+          <briefdescription>
+<para>Required placeholder not found in template. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a1d1a758181f82e7fe0487ddddbf8be05" prot="public">
+          <name>TEMPLATE_PLACEHOLDER_RECURSIVE</name>
+          <initializer>= 9506</initializer>
+          <briefdescription>
+<para>Recursive placeholder reference detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a8f45253de918b3618158801a8f144c53" prot="public">
+          <name>TEMPLATE_INJECTION_MISMATCH</name>
+          <initializer>= 9507</initializer>
+          <briefdescription>
+<para>Injected context doesn&apos;t match placeholder signature. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10abee23df6c33e8c289fc027a8cc379ca8" prot="public">
+          <name>TEMPLATE_MALFORMED_JSON</name>
+          <initializer>= 9508</initializer>
+          <briefdescription>
+<para>Template JSON parse error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10abe22fd96e7d4e75722a916c2793492ca" prot="public">
+          <name>TEMPLATE_UNSUPPORTED_MIME_TYPE</name>
+          <initializer>= 9509</initializer>
+          <briefdescription>
+<para>Unsupported MIME type in multi-modal context. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ab364ffc261440a5fee6ab315c0d052c0" prot="public">
+          <name>INJECTION_CONTEXT_MISSING</name>
+          <initializer>= 9550</initializer>
+          <briefdescription>
+<para>Required context key not provided. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ac1f6b07e1b3b94c694a256b84f2f098d" prot="public">
+          <name>INJECTION_CONTEXT_TYPE_MISMATCH</name>
+          <initializer>= 9551</initializer>
+          <briefdescription>
+<para>Context value type doesn&apos;t match placeholder expectation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ab97449e1720691cd882ec74d61e17e40" prot="public">
+          <name>INJECTION_SUBSTITUTION_FAILED</name>
+          <initializer>= 9552</initializer>
+          <briefdescription>
+<para>Template variable substitution failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae1b746a294f9a174afebe465c54e2cb3" prot="public">
+          <name>INJECTION_ENCODING_ERROR</name>
+          <initializer>= 9553</initializer>
+          <briefdescription>
+<para>Text encoding error during injection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10aa82c2ffbd974ba2d0b2d79bb7671ef69" prot="public">
+          <name>INJECTION_SIZE_EXCEEDED</name>
+          <initializer>= 9554</initializer>
+          <briefdescription>
+<para>Injected context exceeds size bounds. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a901d6e47877ddadb151644b4d676f690" prot="public">
+          <name>INJECTION_SEMANTIC_MISMATCH</name>
+          <initializer>= 9555</initializer>
+          <briefdescription>
+<para>Semantic constraint violation (e.g. enum value out of range). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a130baa8bce701f1ad1583f4be7d7a003" prot="public">
+          <name>INJECTION_CIRCULAR_REFERENCE</name>
+          <initializer>= 9556</initializer>
+          <briefdescription>
+<para>Circular dependency in context injection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a66fbe5a405526eed54ab691091b77e1e" prot="public">
+          <name>VERSION_CONFLICT</name>
+          <initializer>= 9600</initializer>
+          <briefdescription>
+<para>Conflicting edits to same version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a7c6a3ae846584386503b9fac79f88143" prot="public">
+          <name>VERSION_NOT_FOUND</name>
+          <initializer>= 9601</initializer>
+          <briefdescription>
+<para>Requested version ID doesn&apos;t exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ac9802e4e4b8449a0ab2b6e3856d60a80" prot="public">
+          <name>VERSION_COMMIT_FAILED</name>
+          <initializer>= 9602</initializer>
+          <briefdescription>
+<para>Commit to version history failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a4450ab735930cb982ce9e0543f5cb67e" prot="public">
+          <name>VERSION_HISTORY_CORRUPTED</name>
+          <initializer>= 9603</initializer>
+          <briefdescription>
+<para>Version history integrity violation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a07043b0e01d0d94a0a83d8de4250c715" prot="public">
+          <name>VERSION_MERGE_CONFLICT</name>
+          <initializer>= 9604</initializer>
+          <briefdescription>
+<para>Automatic merge of concurrent edits failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a827b0e63fb930242dcb96d53fac4fea9" prot="public">
+          <name>VERSION_DRIFT_DETECTED</name>
+          <initializer>= 9605</initializer>
+          <briefdescription>
+<para>Version branch has diverged beyond threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a8eab625ca70342f8bcea0b2a53571cb2" prot="public">
+          <name>VERSION_ROLLBACK_FAILED</name>
+          <initializer>= 9606</initializer>
+          <briefdescription>
+<para>Unable to rollback to target version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a9a0fadef19e106164760667ee2c13969" prot="public">
+          <name>VERSION_CLEANUP_FAILED</name>
+          <initializer>= 9607</initializer>
+          <briefdescription>
+<para>Garbage collection of old versions failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a84d94d929d71d5524c20a26268d3a91d" prot="public">
+          <name>OPTIMIZATION_DIVERGED</name>
+          <initializer>= 9650</initializer>
+          <briefdescription>
+<para>Optimizer diverged instead of converging. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a79f048daed10ec677aa8de86777b0358" prot="public">
+          <name>OPTIMIZATION_NON_CONVERGENT</name>
+          <initializer>= 9651</initializer>
+          <briefdescription>
+<para>Optimizer failed to converge within iteration budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10aa71742a9a0d7c5a9f92c61d2038a9a95" prot="public">
+          <name>OPTIMIZATION_INVALID_PARAMETERS</name>
+          <initializer>= 9652</initializer>
+          <briefdescription>
+<para>Optimizer config invalid or incompatible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a5bd0de84fb5e81efc48718d3fe757e73" prot="public">
+          <name>OPTIMIZATION_FEEDBACK_CORRUPT</name>
+          <initializer>= 9653</initializer>
+          <briefdescription>
+<para>Feedback signal corrupted or inconsistent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae7cab07a28c7c8260cb50a06e27c070f" prot="public">
+          <name>OPTIMIZATION_TIMEOUT</name>
+          <initializer>= 9654</initializer>
+          <briefdescription>
+<para>Optimization exceeded time budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10af5789c73127c3b42d828927e3815a7a1" prot="public">
+          <name>OPTIMIZATION_OUT_OF_MEMORY</name>
+          <initializer>= 9655</initializer>
+          <briefdescription>
+<para>Insufficient memory for optimization state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a1901a856edb47832d57646a73b5a0dd8" prot="public">
+          <name>OPTIMIZATION_INITIALIZATION_FAILED</name>
+          <initializer>= 9656</initializer>
+          <briefdescription>
+<para>Optimizer failed to initialize. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a782a3c155fb5c3e97fc7acd9020340a1" prot="public">
+          <name>OPTIMIZATION_EARLY_TERMINATION</name>
+          <initializer>= 9657</initializer>
+          <briefdescription>
+<para>Optimizer stopped due to safety/policy constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae20d94fa50336f3acefd750664fb6b26" prot="public">
+          <name>EVALUATION_INCONSISTENT</name>
+          <initializer>= 9700</initializer>
+          <briefdescription>
+<para>Multiple evaluations of same prompt diverge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10aaebcd2e34aba04d4b81606f6fb2f7a7b" prot="public">
+          <name>EVALUATION_SCORE_INVALID</name>
+          <initializer>= 9701</initializer>
+          <briefdescription>
+<para>Evaluation score out of valid range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a4a1c6068632cb0532e06aa3887099303" prot="public">
+          <name>EVALUATION_TIMEOUT</name>
+          <initializer>= 9702</initializer>
+          <briefdescription>
+<para>Evaluation exceeded time budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10abaaa09bcf1ccf7c1a485ba7b3eea0280" prot="public">
+          <name>EVALUATION_MODEL_UNAVAILABLE</name>
+          <initializer>= 9703</initializer>
+          <briefdescription>
+<para>Evaluation model not loaded or unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae8fc8f930c385253eb69381a390cf24a" prot="public">
+          <name>EVALUATION_CORRUPTED_STATE</name>
+          <initializer>= 9704</initializer>
+          <briefdescription>
+<para>Evaluator internal state corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a7625929159b07b7419117239aa3b0bc9" prot="public">
+          <name>EVALUATION_MEMORY_ERROR</name>
+          <initializer>= 9705</initializer>
+          <briefdescription>
+<para>Insufficient memory for evaluation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a4a75cf75b27dd097d65a244140870f7b" prot="public">
+          <name>EVALUATION_CONSTRAINT_VIOLATION</name>
+          <initializer>= 9706</initializer>
+          <briefdescription>
+<para>Evaluation result violates domain constraint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ad8b9aea7e2a794cb0153452f8982750a" prot="public">
+          <name>EVALUATION_SAMPLING_FAILED</name>
+          <initializer>= 9707</initializer>
+          <briefdescription>
+<para>Monte-Carlo/sampling evaluation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10acd959bdb25fea64d758c7dc1cc4817ed" prot="public">
+          <name>REWRITE_RULE_NOT_FOUND</name>
+          <initializer>= 9750</initializer>
+          <briefdescription>
+<para>Rewrite rule ID not registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10abb8dbf4a332df183eb84752dda027d73" prot="public">
+          <name>REWRITE_RULE_INVALID</name>
+          <initializer>= 9751</initializer>
+          <briefdescription>
+<para>Rewrite rule definition malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a4a577b616644575750046a4ad35aa1cb" prot="public">
+          <name>REWRITE_PHASE_VIOLATION</name>
+          <initializer>= 9752</initializer>
+          <briefdescription>
+<para>Attempted execution out of phase order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10add3262c41ce17c3dd2e8ba2027d80d8d" prot="public">
+          <name>REWRITE_MAX_STEPS_EXCEEDED</name>
+          <initializer>= 9753</initializer>
+          <briefdescription>
+<para>Rewrite exceeded max step bound. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae06aa702c69732b4567554d5b6203608" prot="public">
+          <name>REWRITE_DOCUMENT_INVALID</name>
+          <initializer>= 9754</initializer>
+          <briefdescription>
+<para>Document state invalid for rewrite. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ad9b6daf80507afd2e05d4eea333f9b24" prot="public">
+          <name>REWRITE_UNSAFE_TRANSFORMATION</name>
+          <initializer>= 9755</initializer>
+          <briefdescription>
+<para>Rewrite produced unsafe/blocked content. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ab49d65b34a2d4d01d44bbf4d8abfc227" prot="public">
+          <name>REWRITE_TRACE_FAILED</name>
+          <initializer>= 9756</initializer>
+          <briefdescription>
+<para>Rewrite trace generation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ad24fbcf1fb0e32269425863d854d1efc" prot="public">
+          <name>REWRITE_YAML_PARSE_ERROR</name>
+          <initializer>= 9757</initializer>
+          <briefdescription>
+<para>YAML rule config parse error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ae372724d34ce92e7fee91d09bc5143ff" prot="public">
+          <name>REWRITE_REGEX_PATHOLOGICAL</name>
+          <initializer>= 9758</initializer>
+          <briefdescription>
+<para>Regex pattern triggers pathological behavior. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ad58c7ef17ab24a4638523926d7272800" prot="public">
+          <name>CONCURRENCY_RACE_DETECTED</name>
+          <initializer>= 9800</initializer>
+          <briefdescription>
+<para>Concurrent mutation race condition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a31b2f722589c50479b52efac2973afe4" prot="public">
+          <name>CONCURRENCY_DEADLOCK</name>
+          <initializer>= 9801</initializer>
+          <briefdescription>
+<para>Deadlock detected in concurrent access. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a59fb990e641eef258af3c07a342f7ecc" prot="public">
+          <name>CONCURRENCY_STARVATION</name>
+          <initializer>= 9802</initializer>
+          <briefdescription>
+<para>Thread starvation under contention. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10af17397f279d0e3ac8c7e3acc840a24f1" prot="public">
+          <name>CONCURRENCY_ORDERING_VIOLATION</name>
+          <initializer>= 9803</initializer>
+          <briefdescription>
+<para>Concurrent ops completed in invalid order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a40bdb946e5a26624656052988f6fcade" prot="public">
+          <name>CONCURRENCY_STATE_INCONSISTENT</name>
+          <initializer>= 9804</initializer>
+          <briefdescription>
+<para>State machine inconsistency from concurrent access. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a4d8f0d662f0124f2541b87440511448d" prot="public">
+          <name>CONFIG_INVALID_YAML</name>
+          <initializer>= 9850</initializer>
+          <briefdescription>
+<para>YAML configuration parse error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a9e4532d151cb7747b9a467b24ad23750" prot="public">
+          <name>CONFIG_MISSING_REQUIRED_FIELD</name>
+          <initializer>= 9851</initializer>
+          <briefdescription>
+<para>Required config field not provided. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a9e88acc4db878b857d836adb4f5fe52e" prot="public">
+          <name>CONFIG_INVALID_VALUE</name>
+          <initializer>= 9852</initializer>
+          <briefdescription>
+<para>Config value out of valid range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a9e01bcb44383b2bae5ca2aad4102b74f" prot="public">
+          <name>CONFIG_INCOMPATIBLE_OPTIONS</name>
+          <initializer>= 9853</initializer>
+          <briefdescription>
+<para>Mutually incompatible config options. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a022f6830ade5e1bc36315589e84499ae" prot="public">
+          <name>CONFIG_FILE_NOT_FOUND</name>
+          <initializer>= 9854</initializer>
+          <briefdescription>
+<para>Configuration file not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10a8d7f016a0268bcfbc032b170079abd41" prot="public">
+          <name>CONFIG_PERMISSION_DENIED</name>
+          <initializer>= 9855</initializer>
+          <briefdescription>
+<para>Insufficient permissions to read config. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10ab8bc83c774b9fe96e23ef5bfbcaf3160" prot="public">
+          <name>CONFIG_SCHEMA_MISMATCH</name>
+          <initializer>= 9856</initializer>
+          <briefdescription>
+<para>Config doesn&apos;t match expected schema version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error taxonomy for prompt engineering module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All error codes are stable within major release line. New error codes MUST be approved in code review and documented in this header. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_errors.h" line="38" column="1" bodyfile="include/prompt_engineering/prompt_engineering_errors.h" bodystart="38" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExportFormat</name>
+        <qualifiedname>themis::prompt_engineering::ExportFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2e4aa3ee42c80c88ad1c81b855195206a9463f87bbed1fcdacfb8d40e185ca2bc" prot="public">
+          <name>YAML</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Target serialisation format for <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o_1ae3832e69abadbc586929300ca8f11db5" kindref="member">PromptLibraryIO::exportToFile()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="30" column="1" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SlotType</name>
+        <qualifiedname>themis::prompt_engineering::SlotType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+<para>A single string value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba298cb25408234de02baf2085803a464a" prot="public">
+          <name>LIST</name>
+          <briefdescription>
+<para>An ordered list of strings. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba4e3ba1a58ed633af80122d6691f83528" prot="public">
+          <name>DOCUMENT_CHUNK</name>
+          <briefdescription>
+<para>A list of (content, source) pairs from a RAG retriever. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The runtime type of a named variable slot in a compiled template. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="32" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReflectionStrategy</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" prot="public">
+          <name>SELF_REFINE</name>
+          <briefdescription>
+<para>Generate → critique → refine (Madaan et al., NeurIPS 2023). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921faece65a2dff2c0356d2ead07c0fa4b6c2" prot="public">
+          <name>REFLEXION</name>
+          <briefdescription>
+<para>Act → reflect → episodic memory → act (Shinn et al., NeurIPS 2023). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa573a7b59b44b642c09b422007d78337f" prot="public">
+          <name>CONSTITUTIONAL</name>
+          <briefdescription>
+<para>Critique against explicit principles (Bai et al., Anthropic 2022). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa9de71b1dc28c65d3085c8920b88e54a0" prot="public">
+          <name>SOCRATIC</name>
+          <briefdescription>
+<para>Expose hidden assumptions via questioning. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Selects the prompt template family used for the critique step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Strategy  </para>
+</entry><entry thead="yes"><para>Paper  </para>
+</entry><entry thead="yes"><para>Critique style  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SELF_REFINE  </para>
+</entry><entry thead="no"><para>Madaan et al. NeurIPS 2023  </para>
+</entry><entry thead="no"><para>General quality critique  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>REFLEXION  </para>
+</entry><entry thead="no"><para>Shinn et al. NeurIPS 2023  </para>
+</entry><entry thead="no"><para>Verbal reinforcement memory  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONSTITUTIONAL  </para>
+</entry><entry thead="no"><para>Bai et al. Anthropic 2022  </para>
+</entry><entry thead="no"><para>Principle-guided critique  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SOCRATIC  </para>
+</entry><entry thead="no"><para>Socratic method  </para>
+</entry><entry thead="no"><para>Probing assumption questions  </para>
+</entry></row>
+</table>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="36" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RewritePhase</name>
+        <qualifiedname>themis::prompt_engineering::RewritePhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29acc6ccb78843064148f3ff5ba504173dc" prot="public">
+          <name>PHASE_1_INPUT_NORMALIZATION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Lexical/encoding normalization (YAML-configurable rules). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a8eb474c3a1b117113ef4018f541c03b2" prot="public">
+          <name>PHASE_2_POLICY_ENFORCEMENT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Safety and policy enforcement (compiled C++ rules). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29ae1f7f147338c42de53e416180166486e" prot="public">
+          <name>PHASE_3_NL_AQL_PREPROCESSING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>NL→AQL semantic preprocessing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a53445d203682d08ec7b6d821a056ffb7" prot="public">
+          <name>PHASE_4_POST_GENERATION</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Post-generation output canonicalization. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Ordered execution phases for rewrite rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phases must execute in this order. No out-of-order or phase-skipping execution is allowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="39" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RewriteRuleType</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7af176338d29d8c14985e566b91bdb7991" prot="public">
+          <name>LEXICAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Safe lexical rule (regex/dictionary, no semantic knowledge required). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0dfb69ba8b5b824dfb9c6a2f63532707" prot="public">
+          <name>SEMANTIC</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Semantic rule (requires NL understanding, compiled C++ only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7aaad76255cae74d57c49d545ce1334093" prot="public">
+          <name>POLICY_TERMINAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Terminal rule: matched content is blocked and cannot be transformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0c492362198c078f15d252a1cb0ab331" prot="public">
+          <name>POLICY_ALLOW_LIST</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Allow-list rule: only matched patterns are permitted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of rewrite rule safety and mutability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="50" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OptimizationStatus</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13a06972acc3aafeb3a65dbd996c8dedc73" prot="public">
+          <name>NOT_STARTED</name>
+          <briefdescription>
+<para>Optimization not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13aca69f96c768067fbff6c911ca87bccc9" prot="public">
+          <name>IN_PROGRESS</name>
+          <briefdescription>
+<para>Optimization currently running. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Optimization completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13a624e82ae449286dd02d92e534bf9629a" prot="public">
+          <name>AB_TESTING</name>
+          <briefdescription>
+<para>A/B testing in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13a90ed2d7a17a0f9a3f787aac3f7c39608" prot="public">
+          <name>DEPLOYED</name>
+          <briefdescription>
+<para>New version deployed to production. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13aed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+<para>Rolled back due to poor performance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Optimization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Status of an optimization operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="63" column="1" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OutputConstraintType</name>
+        <qualifiedname>themis::prompt_engineering::OutputConstraintType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aad50412d73dedf3e191f712be4d30d677" prot="public">
+          <name>JSON_SCHEMA</name>
+          <briefdescription>
+<para>Enforce JSON validity + schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aa17746ad0201dc8a388f2f979b50b071c" prot="public">
+          <name>REGEX</name>
+          <briefdescription>
+<para>Enforce regex match. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No constraint; always passes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="44" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Role</name>
+        <qualifiedname>themis::prompt_engineering::Role</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da5b39c8b553c821e7cddc6da64b5bd2ee" prot="public">
+          <name>DEFAULT</name>
+          <briefdescription>
+<para>Fallback role; returned when no role-specific prompt exists. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da2e40ad879e955201df4dedbf8d479a12" prot="public">
+          <name>USER</name>
+          <briefdescription>
+<para>End-user facing role. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45dac1af95e2b7f8a385263807fc8bdd66c5" prot="public">
+          <name>ASSISTANT</name>
+          <briefdescription>
+<para>AI-assistant persona. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da73acd9a5972130b75066c82595a1fae3" prot="public">
+          <name>ADMIN</name>
+          <briefdescription>
+<para>Administrative / privileged role. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45dafa177138f94a7ea01f549b1aa7893d03" prot="public">
+          <name>SYSTEM</name>
+          <briefdescription>
+<para>Low-level system / infrastructure role. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Sentinel; use custom-role APIs. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Predefined roles for system prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>CUSTOM</computeroutput> is a sentinel value; use <computeroutput>setCustomPrompt()</computeroutput> / <computeroutput>getCustomPrompt()</computeroutput> with an arbitrary string key instead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="29" column="1" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ToTSearchStrategy</name>
+        <qualifiedname>themis::prompt_engineering::ToTSearchStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07a838fea3c1a3e8dd6c22fe9605a701668" prot="public">
+          <name>BFS</name>
+          <briefdescription>
+<para>Breadth-first search – explores all nodes at each depth before going deeper. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07ac1bb62b63c65be3760b715faad0bdf8d" prot="public">
+          <name>DFS</name>
+          <briefdescription>
+<para>Depth-first search with backtracking – follows one path to max depth. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a607bf84f0c1e03c06ad9bffd59440f07a59de9e0e05e51c206484b2350c3fa77a" prot="public">
+          <name>BEAM</name>
+          <briefdescription>
+<para>Beam search – retains only the top-k nodes at each level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Search strategy for tree exploration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="30" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="30" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ToTVerdict</name>
+        <qualifiedname>themis::prompt_engineering::ToTVerdict</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61aaf3485b3211016b8aa828ac77500f7f6" prot="public">
+          <name>SURE</name>
+          <briefdescription>
+<para>This thought is accepted as a valid solution; stop expanding from this node. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61a2bdc01416a885dbb723dc23f956b78f2" prot="public">
+          <name>MAYBE</name>
+          <briefdescription>
+<para>This thought might lead to a solution; worth exploring. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61ae23b33dee677e4477f0f7ddeb6cf87bd" prot="public">
+          <name>IMPOSSIBLE</name>
+          <briefdescription>
+<para>This thought cannot lead to a valid solution; prune it. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Node evaluation verdict returned by <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="39" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="39" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" prot="public" static="no">
+        <type>std::size_t</type>
+        <definition>using themis::prompt_engineering::StepId = std::size_t</definition>
+        <argsstring></argsstring>
+        <name>StepId</name>
+        <qualifiedname>themis::prompt_engineering::StepId</qualifiedname>
+        <briefdescription>
+<para>0-based index that identifies a reasoning step within one build(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="31" column="1" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::prompt_engineering::UserId = std::string</definition>
+        <argsstring></argsstring>
+        <name>UserId</name>
+        <qualifiedname>themis::prompt_engineering::UserId</qualifiedname>
+        <briefdescription>
+<para>Opaque user identifier (any UTF-8 string; typically a session or tenant ID; never stored by the framework). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="384" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::prompt_engineering::ExperimentKey = std::string</definition>
+        <argsstring></argsstring>
+        <name>ExperimentKey</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentKey</qualifiedname>
+        <briefdescription>
+<para>Opaque experiment key (e.g. <computeroutput>"rag-system-prompt-v2"</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="389" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1a57816934201209c26107444f149c499e" prot="public" static="no">
+        <type>std::function&lt; double( const std::string &amp;prompt, const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;test_cases)&gt;</type>
+        <definition>using themis::prompt_engineering::EvaluationFunction =  std::function&lt;double(
+    const std::string&amp; prompt,
+    const std::vector&lt;TestCase&gt;&amp; test_cases
+)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvaluationFunction</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationFunction</qualifiedname>
+        <briefdescription>
+<para>Evaluation function type Takes a prompt and test cases, returns a score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="59" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1a402103a5be2cbf0dfd7e1241962e7ae5" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;current_prompt, double current_score, const std::string &amp;feedback)&gt;</type>
+        <definition>using themis::prompt_engineering::ImprovementFunction =  std::function&lt;std::string(
+    const std::string&amp; current_prompt,
+    double current_score,
+    const std::string&amp; feedback
+)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImprovementFunction</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementFunction</qualifiedname>
+        <briefdescription>
+<para>Prompt improvement function type Takes current prompt, score, and feedback, returns improved prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="68" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref> &gt;</type>
+        <definition>using themis::prompt_engineering::PromptContext = std::unordered_map&lt;std::string, PromptContextValue&gt;</definition>
+        <argsstring></argsstring>
+        <name>PromptContext</name>
+        <qualifiedname>themis::prompt_engineering::PromptContext</qualifiedname>
+        <briefdescription>
+<para>Map from slot name to its runtime value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="112" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1prompt__engineering_1a2e729cb50c9bba9d2be38d39dfa92e77" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::prompt_engineering::kMurmurSeed</definition>
+        <argsstring></argsstring>
+        <name>kMurmurSeed</name>
+        <qualifiedname>themis::prompt_engineering::kMurmurSeed</qualifiedname>
+        <initializer>= 0x9747b28cu</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_ab_experiment.cpp" line="157" column="32" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1prompt__engineering_1a54c7f7ee94fdfac2ef2530f8b1e6f58f" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics" kindref="compound">RewriteMetrics</ref></type>
+        <definition>RewriteMetrics themis::prompt_engineering::g_metrics</definition>
+        <argsstring></argsstring>
+        <name>g_metrics</name>
+        <qualifiedname>themis::prompt_engineering::g_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="163" column="23" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1adc4a103aefe7b697f6e3f3edd6d653a7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::prompt_engineering::attackCategoryName</definition>
+        <argsstring>(AttackCategory category) noexcept</argsstring>
+        <name>attackCategoryName</name>
+        <qualifiedname>themis::prompt_engineering::attackCategoryName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0" kindref="member">AttackCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Convert <computeroutput>category</computeroutput> to a human-readable string (e.g., &quot;JAILBREAK&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/adversarial_prompt_tester.cpp" line="25" column="12" bodyfile="src/prompt_engineering/adversarial_prompt_tester.cpp" bodystart="25" bodyend="34" declfile="include/prompt_engineering/adversarial_prompt_tester.h" declline="36" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a5216878ee7044725f2ce42bdc3b38367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::feedbackTypeToString</definition>
+        <argsstring>(FeedbackType type)</argsstring>
+        <name>feedbackTypeToString</name>
+        <qualifiedname>themis::prompt_engineering::feedbackTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Feedback Type To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements feedbackTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/feedback_collector.cpp" line="38" column="13" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="38" bodyend="52" declfile="include/prompt_engineering/feedback_collector.h" declline="52" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a0ad370753ccccf535cd2480a15d03739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> &gt;</type>
+        <definition>std::optional&lt; FeedbackType &gt; themis::prompt_engineering::stringToFeedbackType</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>stringToFeedbackType</name>
+        <qualifiedname>themis::prompt_engineering::stringToFeedbackType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Convert string to <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>String To Feedback Type.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/feedback_collector.cpp" line="60" column="15" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="60" bodyend="79" declfile="include/prompt_engineering/feedback_collector.h" declline="57" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1aa954a4c6de6a240ee787c2bfc7a583ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::stripMarkdownFences</definition>
+        <argsstring>(const std::string &amp;text, std::string *language_tag=nullptr)</argsstring>
+        <name>stripMarkdownFences</name>
+        <qualifiedname>themis::prompt_engineering::stripMarkdownFences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>language_tag</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Strip markdown code fence markers from text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strip Markdown Fences.</para>
+<para>Removes outer code-fence delimiters (<computeroutput> or </computeroutput>language). Handles both Unix (LF) and Windows (CRLF) line endings automatically.</para>
+<para>Examples:<itemizedlist>
+<listitem><para>Input: &quot;```\nselect * from foo\n```&quot; Output: &quot;select * from foo&quot;</para>
+</listitem><listitem><para>Input: &quot;```json\n{\&quot;a\&quot;: 1}\n```&quot; Output: &quot;{\&quot;a\&quot;: 1}&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text possibly wrapped in markdown code fences. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional output parameter filled with language tag if present (e.g., &quot;json&quot;, &quot;aql&quot;, &quot;sql&quot;). Empty string if no tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Text with fences removed and trimmed of leading/trailing whitespace. Returns empty string if input contains only fence markers.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">language_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), size(), open_fence(), close_fence(), std::regex_search(), str(), std::regex_replace(), themis::utils::trim(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/markdown_utils.cpp" line="27" column="13" bodyfile="src/prompt_engineering/markdown_utils.cpp" bodystart="27" bodyend="61" declfile="include/prompt_engineering/markdown_utils.h" declline="39" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a5089f18ddd48fbbdde7474c6640c9831" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::stripMarkdownAndComments</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>stripMarkdownAndComments</name>
+        <qualifiedname>themis::prompt_engineering::stripMarkdownAndComments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Strip markdown code fences and remove line comments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Strip Markdown And Comments.</para>
+<para>Combines fence stripping with removal of C++-style line comments (// ...). Useful for processing LLM-generated code that may include explanatory comments.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text (possibly wrapped in fences, possibly with comments). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cleaned text with fences and comments removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1prompt__engineering_1aa954a4c6de6a240ee787c2bfc7a583ab" kindref="member">stripMarkdownFences()</ref>, line_comment(), std::regex_replace(), themis::utils::trim(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/markdown_utils.cpp" line="69" column="13" bodyfile="src/prompt_engineering/markdown_utils.cpp" bodystart="69" bodyend="80" declfile="include/prompt_engineering/markdown_utils.h" declline="51" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a79fe39546adf792b5f48ef46dc9486e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::isWrappedInMarkdownFences</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>isWrappedInMarkdownFences</name>
+        <qualifiedname>themis::prompt_engineering::isWrappedInMarkdownFences</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check if text appears to be wrapped in markdown code fences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Wrapped In Markdown Fences.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if text starts with <computeroutput> and ends with </computeroutput>, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), substr(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/markdown_utils.cpp" line="88" column="6" bodyfile="src/prompt_engineering/markdown_utils.cpp" bodystart="88" bodyend="106" declfile="include/prompt_engineering/markdown_utils.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a1e5ece457ad32f665d00b2f81914f6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::variantToString</definition>
+        <argsstring>(ExperimentVariant v)</argsstring>
+        <name>variantToString</name>
+        <qualifiedname>themis::prompt_engineering::variantToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref> to string (&quot;control&quot; / &quot;treatment&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Variant To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements variantToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_ab_experiment.cpp" line="35" column="13" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="35" bodyend="37" declfile="include/prompt_engineering/prompt_ab_experiment.h" declline="40" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a7764bf64080d236399980d0cc5463f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref> &gt;</type>
+        <definition>std::optional&lt; ExperimentVariant &gt; themis::prompt_engineering::stringToVariant</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stringToVariant</name>
+        <qualifiedname>themis::prompt_engineering::stringToVariant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref> from string; returns nullopt on unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>String To Variant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToVariant without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_ab_experiment.cpp" line="45" column="15" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="45" bodyend="49" declfile="include/prompt_engineering/prompt_ab_experiment.h" declline="43" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a7ca7c90d5e550043eebcc0f3cec548b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::statusToString</definition>
+        <argsstring>(ExperimentStatus s)</argsstring>
+        <name>statusToString</name>
+        <qualifiedname>themis::prompt_engineering::statusToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref> to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Status To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements statusToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_ab_experiment.cpp" line="61" column="13" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="61" bodyend="70" declfile="include/prompt_engineering/prompt_ab_experiment.h" declline="74" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1add3b8a92e5ced7d8a43db4d00b24b4a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::error_code_to_string</definition>
+        <argsstring>(PromptEngineeringErrorCode code)</argsstring>
+        <name>error_code_to_string</name>
+        <qualifiedname>themis::prompt_engineering::error_code_to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10" kindref="member">PromptEngineeringErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert error code to human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code from <ref refid="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10" kindref="member">PromptEngineeringErrorCode</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String description of the error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_errors.h" line="123" column="20" bodyfile="include/prompt_engineering/prompt_engineering_errors.h" bodystart="123" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1ae0b76e648b50caadeb45517b95d97dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" kindref="compound">IRewriteEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IRewriteEngine &gt; themis::prompt_engineering::create_rewrite_engine</definition>
+        <argsstring>()</argsstring>
+        <name>create_rewrite_engine</name>
+        <qualifiedname>themis::prompt_engineering::create_rewrite_engine</qualifiedname>
+        <briefdescription>
+<para>Factory function to create a <ref refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine" kindref="compound">RewriteEngine</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create rewrite engine.</para>
+<para><simplesect kind="return"><para>Newly allocated engine (caller takes ownership)</para>
+</simplesect>
+Allocator/deallocator must be same DLL/compilation unit for safety.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create_rewrite_engine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="375" column="17" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="375" bodyend="377" declfile="include/prompt_engineering/rewrite_engine.h" declline="330" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a096ad121d67bd10a46c8d98b0d611600" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::prompt_engineering::containsIgnoreCase</definition>
+        <argsstring>(const std::string &amp;haystack, const std::string &amp;needle)</argsstring>
+        <name>containsIgnoreCase</name>
+        <qualifiedname>themis::prompt_engineering::containsIgnoreCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Helper utilities for injection detection ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::search(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_validator.cpp" line="30" column="13" bodyfile="src/prompt_engineering/prompt_template_validator.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a16bc5bc0c674ae66eec152fc4d06f6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::record_rewrite_rule_match</definition>
+        <argsstring>(const std::string &amp;rule_id, RewritePhase phase)</argsstring>
+        <name>record_rewrite_rule_match</name>
+        <qualifiedname>themis::prompt_engineering::record_rewrite_rule_match</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Utility functions for external access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: record_rule_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="171" column="6" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a181fdf2ec7f66f2d39c1667382ef763b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::record_rewrite_rule_apply</definition>
+        <argsstring>(const std::string &amp;rule_id, RewritePhase phase, uint64_t latency_micros)</argsstring>
+        <name>record_rewrite_rule_apply</name>
+        <qualifiedname>themis::prompt_engineering::record_rewrite_rule_apply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_micros</declname>
+        </param>
+        <briefdescription>
+<para>Record rewrite rule apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_micros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: record_rule_apply(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="182" column="6" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1ae6f3dff7f8fc7527824e8eb8d3fff207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::record_rewrite_rule_error</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>record_rewrite_rule_error</name>
+        <qualifiedname>themis::prompt_engineering::record_rewrite_rule_error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Record rewrite rule error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: record_rule_error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="191" column="6" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1a916ae923cdc4f3b3518c299312b7fd71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::export_rewrite_metrics_json</definition>
+        <argsstring>()</argsstring>
+        <name>export_rewrite_metrics_json</name>
+        <qualifiedname>themis::prompt_engineering::export_rewrite_metrics_json</qualifiedname>
+        <briefdescription>
+<para>Export rewrite metrics json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: export_json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="200" column="13" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1ada183048ac19b7e10d94486110f912a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::reset_rewrite_metrics</definition>
+        <argsstring>()</argsstring>
+        <name>reset_rewrite_metrics</name>
+        <qualifiedname>themis::prompt_engineering::reset_rewrite_metrics</qualifiedname>
+        <briefdescription>
+<para>Reset rewrite metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="208" column="6" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="208" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="18" column="1"/>
+  </compounddef>
+</doxygen>

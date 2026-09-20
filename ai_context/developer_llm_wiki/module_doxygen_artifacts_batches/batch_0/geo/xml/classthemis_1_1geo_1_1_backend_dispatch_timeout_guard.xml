@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::BackendDispatchTimeoutGuard</compoundname>
+    <includes refid="phase2__phase3__hardening_8h" local="no">phase2_phase3_hardening.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a6498baf7eb4af6d0b2a6f1e4ea66a17a" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::geo::BackendDispatchTimeoutGuard::deadline_</definition>
+        <argsstring></argsstring>
+        <name>deadline_</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::deadline_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="84" column="52" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1adfb668d9a5cfc9dcc52caedbeff5c7ee" prot="private" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::geo::BackendDispatchTimeoutGuard::timeout_us_</definition>
+        <argsstring></argsstring>
+        <name>timeout_us_</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::timeout_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="85" column="53" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1ae2fcf3e131cf2611f333db9421d818ae" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::geo::BackendDispatchTimeoutGuard::expired_cached_</definition>
+        <argsstring></argsstring>
+        <name>expired_cached_</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::expired_cached_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="86" column="47" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a61043a2db11660374cf76a93eb758c19" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::geo::BackendDispatchTimeoutGuard::checked_</definition>
+        <argsstring></argsstring>
+        <name>checked_</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::checked_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="87" column="47" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a5497c2c6e3b927b229f960b1c4295f91" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::BackendDispatchTimeoutGuard::BackendDispatchTimeoutGuard</definition>
+        <argsstring>(std::chrono::microseconds timeout_micros) noexcept</argsstring>
+        <name>BackendDispatchTimeoutGuard</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::BackendDispatchTimeoutGuard</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>timeout_micros</declname>
+        </param>
+        <briefdescription>
+<para>Construct a timeout guard with a deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout_micros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum microseconds to wait before falling back. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="52" column="14" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::BackendDispatchTimeoutGuard::expired</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>expired</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::expired</qualifiedname>
+        <briefdescription>
+<para>Check if the timeout has been exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the deadline has passed; cached after first call. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="63" column="11" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a9e963602539d84f101dcd7ed21ba4103" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::geo::BackendDispatchTimeoutGuard::timeoutMicros</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>timeoutMicros</name>
+        <qualifiedname>themis::geo::BackendDispatchTimeoutGuard::timeoutMicros</qualifiedname>
+        <briefdescription>
+<para>Get the timeout budget in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>timeout value passed at construction. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="79" column="19" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Timeout guard for GPU backend operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures all GPU dispatch operations complete within a bounded time envelope. If a GPU operation exceeds the timeout, the dispatcher silently falls back to the CPU path and records the incident for diagnostic purposes.</para>
+<para>Contract per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> §2:<itemizedlist>
+<listitem><para>Backend selection latency must not exceed kBackendSelectionBudget (100µs)</para>
+</listitem><listitem><para>GPU fallback must be silent (no error logged to user)</para>
+</listitem><listitem><para>Result consistency must be preserved (CPU and GPU produce equivalent results)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: const methods are thread-safe; state is immutable after construction. </para>
+    </detaileddescription>
+    <location file="include/geo/phase2_phase3_hardening.h" line="46" column="1" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="46" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a5497c2c6e3b927b229f960b1c4295f91" prot="public" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>BackendDispatchTimeoutGuard</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a61043a2db11660374cf76a93eb758c19" prot="private" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>checked_</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a6498baf7eb4af6d0b2a6f1e4ea66a17a" prot="private" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>deadline_</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" prot="public" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>expired</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1ae2fcf3e131cf2611f333db9421d818ae" prot="private" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>expired_cached_</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1adfb668d9a5cfc9dcc52caedbeff5c7ee" prot="private" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>timeout_us_</name></member>
+      <member refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a9e963602539d84f101dcd7ed21ba4103" prot="public" virt="non-virtual"><scope>themis::geo::BackendDispatchTimeoutGuard</scope><name>timeoutMicros</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

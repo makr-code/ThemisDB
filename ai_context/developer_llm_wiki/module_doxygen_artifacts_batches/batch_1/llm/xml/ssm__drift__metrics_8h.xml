@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ssm__drift__metrics_8h" kind="file" language="C++">
+    <compoundname>ssm_drift_metrics.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="ssm__drift__metrics_8cpp" local="yes">src/llm/ssm_drift_metrics.cpp</includedby>
+    <includedby refid="test__ssm__plugin__interface_8cpp" local="yes">tests/llm/test_ssm_plugin_interface.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/ssm_drift_metrics.h</label>
+        <link refid="ssm__drift__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/ssm_drift_metrics.h</label>
+        <link refid="ssm__drift__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/ssm_drift_metrics.cpp</label>
+        <link refid="ssm__drift__metrics_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_ssm_plugin_interface.cpp</label>
+        <link refid="test__ssm__plugin__interface_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics" prot="public">themis::llm::metrics::SSMDriftMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1metrics">themis::llm::metrics</innernamespace>
+    <briefdescription>
+<para>SSM drift metrics for Prometheus export (Phase 1 PoC). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0-alpha </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: EXPERIMENTAL </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 1 PoC metrics </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="namespacethemis_1_1llm_1_1metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1metrics" kindref="compound">themis::llm::metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SSMDriftMetrics<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>SSMDriftMetrics&amp;<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac48909d9c32eedc39c2a875c83aa64eb" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a4eba87f7abc788200b9933394bf3a12b" kindref="member">recordFactualDriftScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>drift_value);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a84b13b65a2a355b860671104a0eec3e5" kindref="member">recordSSMStateCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>snapshot_size_bytes);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ae5dd512814eb490b00140108906db5a1" kindref="member">recordHybridRouterDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>architecture_path);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a06a389f920a0ebea17940ea4781cb3d8" kindref="member">getFactualDriftScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a678098051db89d883fadbbe49d67aa2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a678098051db89d883fadbbe49d67aa2c" kindref="member">getTotalCheckpoints</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_checkpoints_.load();<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1abafdab03016c90ec4d24de11d32c3716" kindref="member">getRouterDecisionStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac1fd2acc9fd49ff510220cc881d24d29" kindref="member">exportPrometheus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics" kindref="compound">SSMDriftMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters<sp/>(atomic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_checkpoints_{0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>checkpoint_size_sum_{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>average<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Router<sp/>decisions<sp/>(atomic<sp/>for<sp/>each<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>router_transformer_count_{0};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>router_infini_count_{0};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>router_ssm_count_{0};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drift<sp/>tracking<sp/>(simplified:<sp/>global<sp/>EMA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>global_drift_ema_{0.0};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inline<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1metrics" kindref="compound">themis::llm::metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac48909d9c32eedc39c2a875c83aa64eb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>SSMDriftMetrics&amp;<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac48909d9c32eedc39c2a875c83aa64eb" kindref="member">SSMDriftMetrics::instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>SSMDriftMetrics<sp/>inst;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a4eba87f7abc788200b9933394bf3a12b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a4eba87f7abc788200b9933394bf3a12b" kindref="member">SSMDriftMetrics::recordFactualDriftScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*session_id*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>drift_value)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>simple<sp/>EMA:<sp/>alpha<sp/>=<sp/>0.1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>old<sp/>=<sp/>global_drift_ema_.load();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>next<sp/>=<sp/>old<sp/>*<sp/>0.9<sp/>+<sp/>drift_value<sp/>*<sp/>0.1;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>global_drift_ema_.store(next);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a84b13b65a2a355b860671104a0eec3e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a84b13b65a2a355b860671104a0eec3e5" kindref="member">SSMDriftMetrics::recordSSMStateCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*session_id*/</highlight><highlight class="normal">,<sp/>uint64_t<sp/>snapshot_size_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>total_checkpoints_.fetch_add(1);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>checkpoint_size_sum_.fetch_add(snapshot_size_bytes);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ae5dd512814eb490b00140108906db5a1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ae5dd512814eb490b00140108906db5a1" kindref="member">SSMDriftMetrics::recordHybridRouterDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>architecture_path)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(architecture_path<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;transformer&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>router_transformer_count_.fetch_add(1);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(architecture_path<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;infini&quot;</highlight><highlight class="normal">)<sp/>router_infini_count_.fetch_add(1);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(architecture_path<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ssm&quot;</highlight><highlight class="normal">)<sp/>router_ssm_count_.fetch_add(1);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a06a389f920a0ebea17940ea4781cb3d8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a06a389f920a0ebea17940ea4781cb3d8" kindref="member">SSMDriftMetrics::getFactualDriftScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*session_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>global_drift_ema_.load();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1abafdab03016c90ec4d24de11d32c3716" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1abafdab03016c90ec4d24de11d32c3716" kindref="member">SSMDriftMetrics::getRouterDecisionStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;{\&quot;router_transformer\&quot;:&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(router_transformer_count_.load())<sp/>+</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,\&quot;router_infini\&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(router_infini_count_.load())<sp/>+</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,\&quot;router_ssm\&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(router_ssm_count_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac1fd2acc9fd49ff510220cc881d24d29" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac1fd2acc9fd49ff510220cc881d24d29" kindref="member">SSMDriftMetrics::exportPrometheus</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_factual_drift_score<sp/>Global<sp/>factual<sp/>drift<sp/>EMA\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;themis_factual_drift_score<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(global_drift_ema_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_ssm_state_checkpoints_total<sp/>Total<sp/>SSM<sp/>checkpoints\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;themis_ssm_state_checkpoints_total<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(total_checkpoints_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;#<sp/>HELP<sp/>themis_hybrid_router_decision_total<sp/>Router<sp/>decision<sp/>counts\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;themis_hybrid_router_decision_total{path=\&quot;transformer\&quot;}<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(router_transformer_count_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;themis_hybrid_router_decision_total{path=\&quot;infini\&quot;}<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(router_infini_count_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>out<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;themis_hybrid_router_decision_total{path=\&quot;ssm\&quot;}<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(router_ssm_count_.load())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/ssm_drift_metrics.h"/>
+  </compounddef>
+</doxygen>

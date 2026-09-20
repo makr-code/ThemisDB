@@ -1,0 +1,1734 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1exporters" kind="namespace" language="C++">
+    <compoundname>themis::exporters</compoundname>
+    <innerclass refid="classthemis_1_1exporters_1_1_alpaca_template" prot="public">themis::exporters::AlpacaTemplate</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_aql_predicate_filter" prot="public">themis::exporters::AqlPredicateFilter</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception" prot="public">themis::exporters::AqlPredicateFilterException</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" prot="public">themis::exporters::ArrowIPCExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter" prot="public">themis::exporters::ArrowIPCExporter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_config" prot="public">themis::exporters::AugmentationConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_stats" prot="public">themis::exporters::AugmentationStats</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_augmentation_strategy_config" prot="public">themis::exporters::AugmentationStrategyConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_chat_m_l_template" prot="public">themis::exporters::ChatMLTemplate</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_config_exception" prot="public">themis::exporters::ConfigException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline" prot="public">themis::exporters::DataAugmentationPipeline</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_export_cursor" prot="public">themis::exporters::ExportCursor</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_export_encryption" prot="public">themis::exporters::ExportEncryption</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_encryption_config" prot="public">themis::exporters::ExportEncryptionConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_export_encryptor" prot="public">themis::exporters::ExportEncryptor</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public">themis::exporters::ExporterException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_exporter_metrics" prot="public">themis::exporters::ExporterMetrics</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_export_format_registry" prot="public">themis::exporters::ExportFormatRegistry</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_export_i_o_exception" prot="public">themis::exporters::ExportIOException</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_options" prot="public">themis::exporters::ExportOptions</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_stats" prot="public">themis::exporters::ExportStats</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_tenant_context" prot="public">themis::exporters::ExportTenantContext</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_format_exception" prot="public">themis::exporters::FormatException</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_format_template_field_mapping" prot="public">themis::exporters::FormatTemplateFieldMapping</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_hub_upload_config" prot="public">themis::exporters::HubUploadConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_hub_upload_result" prot="public">themis::exporters::HubUploadResult</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_hugging_face_exporter" prot="public">themis::exporters::HuggingFaceExporter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" prot="public">themis::exporters::HuggingFaceExporterConfig</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_hugging_face_feature" prot="public">themis::exporters::HuggingFaceFeature</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_hugging_face_hub_client" prot="public">themis::exporters::HuggingFaceHubClient</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_i_exporter" prot="public">themis::exporters::IExporter</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_i_format_template" prot="public">themis::exporters::IFormatTemplate</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_incremental_export_config" prot="public">themis::exporters::IncrementalExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_incremental_exporter" prot="public">themis::exporters::IncrementalExporter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_join_export_config" prot="public">themis::exporters::JoinExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_join_exporter" prot="public">themis::exporters::JoinExporter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_format" prot="public">themis::exporters::JSONLFormat</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" prot="public">themis::exporters::JSONLLLMConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" prot="public">themis::exporters::JSONLLLMExporter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_memory_shard_spec" prot="public">themis::exporters::MemoryShardSpec</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_open_a_i_fine_tuning_template" prot="public">themis::exporters::OpenAIFineTuningTemplate</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_parquet_column_hint" prot="public">themis::exporters::ParquetColumnHint</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_parquet_export_config" prot="public">themis::exporters::ParquetExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_parquet_exporter" prot="public">themis::exporters::ParquetExporter</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_p_i_i_detector" prot="public">themis::exporters::PIIDetector</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_p_i_i_metrics" prot="public">themis::exporters::PIIMetrics</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_policy_denied_exception" prot="public">themis::exporters::PolicyDeniedException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_quality_filter_exception" prot="public">themis::exporters::QualityFilterException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_schema_validation_exception" prot="public">themis::exporters::SchemaValidationException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_share_g_p_t_template" prot="public">themis::exporters::ShareGPTTemplate</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_size_limit_exception" prot="public">themis::exporters::SizeLimitException</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_streaming_export_config" prot="public">themis::exporters::StreamingExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_streaming_exporter" prot="public">themis::exporters::StreamingExporter</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_stream_writer" prot="public">themis::exporters::StreamWriter</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_template_validation_result" prot="public">themis::exporters::TemplateValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_vector_export_cursor" prot="public">themis::exporters::VectorExportCursor</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1aeb2e7032d8f3f5b5d1e915d8afc65fce" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArrowIPCFormat</name>
+        <qualifiedname>themis::exporters::ArrowIPCFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1aeb2e7032d8f3f5b5d1e915d8afc65fcea9fc5887c030f7a3e19821ebec457e719" prot="public">
+          <name>FILE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1aeb2e7032d8f3f5b5d1e915d8afc65fcea2f05998d2a71cdc19b7109549bbe2646" prot="public">
+          <name>STREAM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="24" column="1" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AugmentationStrategy</name>
+        <qualifiedname>themis::exporters::AugmentationStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeabbe42f9616aa20cf80eb47f324b30022" prot="public">
+          <name>SYNONYM_REPLACEMENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea1e7119d7dd19aa1dd693bc3c730f507d" prot="public">
+          <name>QUESTION_REFORMULATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea2eafdf94c5d642e45814513663495568" prot="public">
+          <name>WHITESPACE_NORMALIZATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeea13740c53e0080fab7e5d80ac3cb5d6c7" prot="public">
+          <name>LOWERCASE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aeeae70fa403933d6b78a5b8b27813baa4df" prot="public">
+          <name>SENTENCE_CASING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="23" column="1" bodyfile="include/exporters/data_augmentation.h" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ExporterErrorCode</name>
+        <qualifiedname>themis::exporters::ExporterErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" prot="public">
+          <name>EXPORT_FORMAT_UNSUPPORTED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>The requested export format is not supported by this installation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" prot="public">
+          <name>EXPORT_WRITE_FAILED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>An I/O write failure occurred while producing export output. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" prot="public">
+          <name>STREAM_INTERRUPTED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>A streaming export was interrupted mid-stream (network, timeout, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa9dd2006f93ad6581cd4b1d5d93cfa5bd" prot="public">
+          <name>SCHEMA_MISMATCH</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>The source schema does not match the declared export schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" prot="public">
+          <name>QUOTA_EXCEEDED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>The export would exceed the configured row or byte quota. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aac8477198d53c8f2b004da7a7c5f14bc1" prot="public">
+          <name>COLUMN_NOT_FOUND</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>A required column is missing from the source data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa0711c70d5395e80dbef2bd18feb1a6ce" prot="public">
+          <name>SCHEMA_SERIALIZATION_FAILED</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>The Parquet or Arrow schema could not be serialised. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaba5d1c4b0fed8d2e53cf8d494f0f161e" prot="public">
+          <name>EXPORT_ABORTED</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+<para>Export was aborted by the caller (clean cancellation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+<para>Internal exporter error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the exporters module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="118" column="1" bodyfile="include/exporters/exporters_api_contract.h" bodystart="118" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73c" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>CsvDeterministicOrder</name>
+        <qualifiedname>themis::exporters::CsvDeterministicOrder</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73cad816fd669088887c714378250c70164b" prot="public">
+          <name>PrimaryKeyAsc</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Sort by primary key ascending (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca07ca98431b9f4f9f6bdfd2de4a66a5b7" prot="public">
+          <name>InsertionOrder</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Sort by insertion order (only valid for append-only tables). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>No ordering applied — output is non-deterministic (disabled by default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Identifies the canonical sort order for deterministic CSV export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the source query does not supply an explicit ORDER BY, the exporter applies this default ordering to guarantee byte-level determinism. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="172" column="1" bodyfile="include/exporters/exporters_api_contract.h" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FormatTemplateType</name>
+        <qualifiedname>themis::exporters::FormatTemplateType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No template — use <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2" kindref="member">JSONLFormat::Style</ref> directly. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a7c80105b450d2a7097856f0c1a47f684" prot="public">
+          <name>ALPACA</name>
+          <briefdescription>
+<para>{&quot;instruction&quot;:…,&quot;input&quot;:…,&quot;output&quot;:…} </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a6bf102810c451bcbe854d58144f86c92" prot="public">
+          <name>SHAREGPT</name>
+          <briefdescription>
+<para>{&quot;conversations&quot;:[{&quot;from&quot;:&quot;human&quot;,&quot;value&quot;:…},{&quot;from&quot;:&quot;gpt&quot;,&quot;value&quot;:…}]} </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a6992181699746ce78f7ae139068a578a" prot="public">
+          <name>CHATML</name>
+          <briefdescription>
+<para>{&quot;messages&quot;:[{&quot;role&quot;:&quot;system&quot;,&quot;content&quot;:…},…]} </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855a9fefc7a706eb444ecdb92df7afd75743" prot="public">
+          <name>OPENAI_FINETUNING</name>
+          <briefdescription>
+<para>OpenAI fine-tuning JSONL (same shape as ChatML). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="22" column="1" bodyfile="include/exporters/format_template.h" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ParquetColumnType</name>
+        <qualifiedname>themis::exporters::ParquetColumnType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Auto-detect from entity field values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96a4e866b275c85fbb439f6484251cfb31c" prot="public">
+          <name>INT64</name>
+          <briefdescription>
+<para>64-bit signed integer </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96afd3e4ece78a7d422280d5ed379482229" prot="public">
+          <name>DOUBLE</name>
+          <briefdescription>
+<para>64-bit IEEE 754 floating point </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+<para>UTF-8 string (BYTE_ARRAY in Parquet). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96ac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <briefdescription>
+<para>Boolean. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/parquet_exporter.h" line="24" column="1" bodyfile="include/exporters/parquet_exporter.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionType</name>
+        <qualifiedname>themis::exporters::CompressionType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5af1cd28417b03cfab3a8e16d66e34e18a" prot="public">
+          <name>GZIP</name>
+          <briefdescription>
+<para>Accepted for backward compatibility; produces ZSTD output (not gzip format). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1exporters_1afd4318f568c7f64aa815f40e7455ffe5a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/stream_writer.h" line="21" column="1" bodyfile="include/exporters/stream_writer.h" bodystart="21" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1exporters_1a0213fb0463f15ec04699412b98bfcf90" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::exporters::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::exporters::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="18" column="1" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1ad2a5206087c93e0c6677def8245e2c38" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::exporters::kCsvFormatVersion</definition>
+        <argsstring></argsstring>
+        <name>kCsvFormatVersion</name>
+        <qualifiedname>themis::exporters::kCsvFormatVersion</qualifiedname>
+        <initializer>= 1u</initializer>
+        <briefdescription>
+<para>Current CSV format version encoded in export metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="58" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a339e4e80545183238268c223ae314a70" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::exporters::kParquetFormatVersion</definition>
+        <argsstring></argsstring>
+        <name>kParquetFormatVersion</name>
+        <qualifiedname>themis::exporters::kParquetFormatVersion</qualifiedname>
+        <initializer>= 2u</initializer>
+        <briefdescription>
+<para>Current Parquet format version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="61" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1ada97da5620c50df1d142f0b642457ead" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::exporters::kArrowFormatVersion</definition>
+        <argsstring></argsstring>
+        <name>kArrowFormatVersion</name>
+        <qualifiedname>themis::exporters::kArrowFormatVersion</qualifiedname>
+        <initializer>= 1u</initializer>
+        <briefdescription>
+<para>Current Arrow/IPC format version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="64" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a43e2d56a01b38d8d6e2db7c2575eb338" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::exporters::kCsvDefaultDelimiter</definition>
+        <argsstring></argsstring>
+        <name>kCsvDefaultDelimiter</name>
+        <qualifiedname>themis::exporters::kCsvDefaultDelimiter</qualifiedname>
+        <initializer>= &apos;,&apos;</initializer>
+        <briefdescription>
+<para>CSV default field delimiter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="71" column="23" bodyfile="include/exporters/exporters_api_contract.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::exporters::kCsvQuoteChar</definition>
+        <argsstring></argsstring>
+        <name>kCsvQuoteChar</name>
+        <qualifiedname>themis::exporters::kCsvQuoteChar</qualifiedname>
+        <initializer>= &apos;&quot;&apos;</initializer>
+        <briefdescription>
+<para>CSV quote character used for fields containing the delimiter or newlines. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="74" column="23" bodyfile="include/exporters/exporters_api_contract.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1ac349de8c98142f5d8359393a398b21fc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::exporters::kCsvEscapeChar</definition>
+        <argsstring></argsstring>
+        <name>kCsvEscapeChar</name>
+        <qualifiedname>themis::exporters::kCsvEscapeChar</qualifiedname>
+        <initializer>= &apos;&quot;&apos;</initializer>
+        <briefdescription>
+<para>CSV escape character for embedded quote characters (RFC 4180 doubling). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="77" column="23" bodyfile="include/exporters/exporters_api_contract.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a5c1fa81d0e4e26c2224213749a937126" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::exporters::kCsvDefaultLineSep[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kCsvDefaultLineSep</name>
+        <qualifiedname>themis::exporters::kCsvDefaultLineSep</qualifiedname>
+        <initializer>= &quot;\r\n&quot;</initializer>
+        <briefdescription>
+<para>CSV line terminator — CRLF per RFC 4180; LF acceptable when declared. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="80" column="23" bodyfile="include/exporters/exporters_api_contract.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1ac27caba014ed01decd686b7d76cf5f83" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::exporters::kCsvMaxColumns</definition>
+        <argsstring></argsstring>
+        <name>kCsvMaxColumns</name>
+        <qualifiedname>themis::exporters::kCsvMaxColumns</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum number of columns in a single CSV export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="83" column="30" bodyfile="include/exporters/exporters_api_contract.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a970eadf842ff1cc900387e4469af4a81" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::kCsvHeaderRequired</definition>
+        <argsstring></argsstring>
+        <name>kCsvHeaderRequired</name>
+        <qualifiedname>themis::exporters::kCsvHeaderRequired</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Header row MUST appear as the very first row of every CSV export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="86" column="23" bodyfile="include/exporters/exporters_api_contract.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1acc3e00e454a0ff5ec69e81a7ea9c8a7a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::exporters::kDefaultChunkBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultChunkBytes</name>
+        <qualifiedname>themis::exporters::kDefaultChunkBytes</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Default chunk size for streaming exports (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="93" column="30" bodyfile="include/exporters/exporters_api_contract.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a2255a3917cb1239f409f4aecdb3fcf1a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::exporters::kMaxChunkBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxChunkBytes</name>
+        <qualifiedname>themis::exporters::kMaxChunkBytes</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum chunk size (operator-configurable upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="96" column="30" bodyfile="include/exporters/exporters_api_contract.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::exporters::kFirstChunkSequence</definition>
+        <argsstring></argsstring>
+        <name>kFirstChunkSequence</name>
+        <qualifiedname>themis::exporters::kFirstChunkSequence</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Chunk sequence numbers start at 0 and increment by 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="99" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a81a4e26c41e9ad9d8fe2f2c4ba92ef5b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::exporters::kDefaultExportRowLimit</definition>
+        <argsstring></argsstring>
+        <name>kDefaultExportRowLimit</name>
+        <qualifiedname>themis::exporters::kDefaultExportRowLimit</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Default maximum rows per single export operation (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="106" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1aa41672ca1b891dc3acd9cb997a64689a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::exporters::kDefaultExportByteLimit</definition>
+        <argsstring></argsstring>
+        <name>kDefaultExportByteLimit</name>
+        <qualifiedname>themis::exporters::kDefaultExportByteLimit</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Default maximum bytes per single export operation (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="109" column="32" bodyfile="include/exporters/exporters_api_contract.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a527aff69a506f22240dcbc301dbf21e7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::LATENCY_0_10MS_MIDPOINT</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_0_10MS_MIDPOINT</name>
+        <qualifiedname>themis::exporters::LATENCY_0_10MS_MIDPOINT</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="27" column="18" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a67a660b054d64a7ad5c35fa3e56bb497" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::LATENCY_10_50MS_MIDPOINT</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_10_50MS_MIDPOINT</name>
+        <qualifiedname>themis::exporters::LATENCY_10_50MS_MIDPOINT</qualifiedname>
+        <initializer>= 30.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="28" column="18" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1ad7f27fb6b2dbbde7f088998949a5ccac" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::LATENCY_50_100MS_MIDPOINT</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_50_100MS_MIDPOINT</name>
+        <qualifiedname>themis::exporters::LATENCY_50_100MS_MIDPOINT</qualifiedname>
+        <initializer>= 75.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="29" column="18" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1aefacb07317b47bc06713b190bb7df26a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::LATENCY_100_500MS_MIDPOINT</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_100_500MS_MIDPOINT</name>
+        <qualifiedname>themis::exporters::LATENCY_100_500MS_MIDPOINT</qualifiedname>
+        <initializer>= 300.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="30" column="18" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a402668715fa08fd361b24401749f2d31" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::LATENCY_500PLUS_MIDPOINT</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_500PLUS_MIDPOINT</name>
+        <qualifiedname>themis::exporters::LATENCY_500PLUS_MIDPOINT</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/exporter_metrics.cpp" line="31" column="18" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a6267b0256633500d9de8049a9d35dea4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::exporters::MAGIC[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>MAGIC</name>
+        <qualifiedname>themis::exporters::MAGIC</qualifiedname>
+        <initializer>= {&apos;T&apos;, &apos;E&apos;, &apos;N&apos;, &apos;C&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="34" column="26" bodyfile="src/exporters/export_encryption.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1af4ef43a9c7c826834d50e08d5a0b0c4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::exporters::FORMAT_VER</definition>
+        <argsstring></argsstring>
+        <name>FORMAT_VER</name>
+        <qualifiedname>themis::exporters::FORMAT_VER</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="35" column="27" bodyfile="src/exporters/export_encryption.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a9e819221fcc80e15561198b2edb0e06d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::IV_LEN</definition>
+        <argsstring></argsstring>
+        <name>IV_LEN</name>
+        <qualifiedname>themis::exporters::IV_LEN</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="36" column="25" bodyfile="src/exporters/export_encryption.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a7acefcb49812e59fcc9a9cd0e16fbe46" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::TAG_LEN</definition>
+        <argsstring></argsstring>
+        <name>TAG_LEN</name>
+        <qualifiedname>themis::exporters::TAG_LEN</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="37" column="25" bodyfile="src/exporters/export_encryption.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1a41c6ca6a0b7bf6c9d5c60e5e9c4c023c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::KEY_LEN</definition>
+        <argsstring></argsstring>
+        <name>KEY_LEN</name>
+        <qualifiedname>themis::exporters::KEY_LEN</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="38" column="25" bodyfile="src/exporters/export_encryption.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1exporters_1adca7dc917485d3ca730039f3e4c4b1cf" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::exporters::MAX_HEADER_STRING_LEN</definition>
+        <argsstring></argsstring>
+        <name>MAX_HEADER_STRING_LEN</name>
+        <qualifiedname>themis::exporters::MAX_HEADER_STRING_LEN</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="117" column="27" bodyfile="src/exporters/export_encryption.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::isResumableError</definition>
+        <argsstring>(ExporterErrorCode code) noexcept</argsstring>
+        <name>isResumableError</name>
+        <qualifiedname>themis::exporters::isResumableError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true for errors from which an export can be resumed at the last successfully acknowledged chunk. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="152" column="24" bodyfile="include/exporters/exporters_api_contract.h" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aeb6fca96f9a0d48ce477cd9715d4a364" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::isTransientError</definition>
+        <argsstring>(ExporterErrorCode code) noexcept</argsstring>
+        <name>isTransientError</name>
+        <qualifiedname>themis::exporters::isTransientError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true for errors that should be retried with the same parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporters_api_contract.h" line="157" column="24" bodyfile="include/exporters/exporters_api_contract.h" bodystart="157" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::enforceExportPolicy</definition>
+        <argsstring>(const ExportOptions &amp;options)</argsstring>
+        <name>enforceExportPolicy</name>
+        <qualifiedname>themis::exporters::enforceExportPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Enforce Export Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), checkExportPermission(), logSecurityEvent(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/jsonl_llm_exporter.cpp" line="64" column="6" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="64" bodyend="97" declfile="include/exporters/exporter_interface.h" declline="133" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aa55f3e885fbfe60f76f62f4fff7159da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_i_format_template" kindref="compound">IFormatTemplate</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IFormatTemplate &gt; themis::exporters::makeFormatTemplate</definition>
+        <argsstring>(FormatTemplateType type)</argsstring>
+        <name>makeFormatTemplate</name>
+        <qualifiedname>themis::exporters::makeFormatTemplate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855" kindref="member">FormatTemplateType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Make Format Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeFormatTemplate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/format_template.cpp" line="212" column="17" bodyfile="src/exporters/format_template.cpp" bodystart="212" bodyend="225" declfile="include/exporters/format_template.h" declline="148" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aef47b299850686d89968c7bee6505b29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></type>
+        <definition>TemplateValidationResult themis::exporters::validateTemplate</definition>
+        <argsstring>(FormatTemplateType type, const FormatTemplateFieldMapping &amp;mapping, const std::vector&lt; BaseEntity &gt; &amp;sample)</argsstring>
+        <name>validateTemplate</name>
+        <qualifiedname>themis::exporters::validateTemplate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1exporters_1a6aab9dec3cc3ae92ecb0dce365803855" kindref="member">FormatTemplateType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Validate Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mapping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mapping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1exporters_1aa55f3e885fbfe60f76f62f4fff7159da" kindref="member">makeFormatTemplate()</ref>, validateFields(), insert(), assign(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/format_template.cpp" line="239" column="26" bodyfile="src/exporters/format_template.cpp" bodystart="239" bodyend="273" declfile="include/exporters/format_template.h" declline="171" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a26a91d7b694370b147d7131bcb3fd815" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeU32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint32_t v)</argsstring>
+        <name>writeU32</name>
+        <qualifiedname>themis::exporters::writeU32</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Little-endian I/O helpers ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="47" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a231ac3f131f6869bced5171c42296e36" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeU64</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint64_t v)</argsstring>
+        <name>writeU64</name>
+        <qualifiedname>themis::exporters::writeU64</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Write U64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="60" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a296ed9d4ba51d5ad016056609692f4da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeBytes</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, const uint8_t *data, size_t len)</argsstring>
+        <name>writeBytes</name>
+        <qualifiedname>themis::exporters::writeBytes</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Write Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="73" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="73" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a371612f5b81e51cafaed64d27932f140" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeString</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, const std::string &amp;s)</argsstring>
+        <name>writeString</name>
+        <qualifiedname>themis::exporters::writeString</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Write String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeU32(), size(), writeBytes(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="84" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a5a6f7a2f88c5af477f666261ebe5c311" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::exporters::readU32</definition>
+        <argsstring>(const uint8_t *p)</argsstring>
+        <name>readU32</name>
+        <qualifiedname>themis::exporters::readU32</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Read U32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements readU32 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="95" column="17" bodyfile="src/exporters/export_encryption.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a688f707d6ed56fce4583ec0c56df85c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::exporters::readU64</definition>
+        <argsstring>(const uint8_t *p)</argsstring>
+        <name>readU64</name>
+        <qualifiedname>themis::exporters::readU64</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Read U64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements readU64 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="107" column="17" bodyfile="src/exporters/export_encryption.cpp" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a4f3933ab3d0fd8077387d96b3a6b9ca5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::exporters::readString</definition>
+        <argsstring>(const uint8_t *buf, size_t buf_size, size_t &amp;offset)</argsstring>
+        <name>readString</name>
+        <qualifiedname>themis::exporters::readString</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>buf_size</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Read String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: readU32(), std::to_string(), s(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="128" column="20" bodyfile="src/exporters/export_encryption.cpp" bodystart="128" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aa4856cc5b55527755c0443ea1749bc40" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeU8</definition>
+        <argsstring>(std::ostream &amp;out, uint8_t v)</argsstring>
+        <name>writeU8</name>
+        <qualifiedname>themis::exporters::writeU8</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Helper: little-endian binary I/O ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="731" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="731" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a8dfb1e925c33e3001fdb651d9f327afc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeU16LE</definition>
+        <argsstring>(std::ostream &amp;out, uint16_t v)</argsstring>
+        <name>writeU16LE</name>
+        <qualifiedname>themis::exporters::writeU16LE</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Write U16 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="741" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="741" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aeb5424b7ec8b494e080dff38507036f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeU32LE</definition>
+        <argsstring>(std::ostream &amp;out, uint32_t v)</argsstring>
+        <name>writeU32LE</name>
+        <qualifiedname>themis::exporters::writeU32LE</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Write U32 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="752" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="752" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a9fe19830af788ce156e2140c1d9d545d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::exporters::readU8</definition>
+        <argsstring>(std::istream &amp;in, uint8_t &amp;v)</argsstring>
+        <name>readU8</name>
+        <qualifiedname>themis::exporters::readU8</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>uint8_t &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read U8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="766" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="766" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1aeb1051f992028c5a4e33feae92ec7825" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::exporters::readU16LE</definition>
+        <argsstring>(std::istream &amp;in, uint16_t &amp;v)</argsstring>
+        <name>readU16LE</name>
+        <qualifiedname>themis::exporters::readU16LE</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>uint16_t &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read U16 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="782" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="782" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a14788b0c660712d091f5ca774b4a626b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::exporters::readU32LE</definition>
+        <argsstring>(std::istream &amp;in, uint32_t &amp;v)</argsstring>
+        <name>readU32LE</name>
+        <qualifiedname>themis::exporters::readU32LE</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read U32 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/export_encryption.cpp" line="800" column="13" bodyfile="src/exporters/export_encryption.cpp" bodystart="800" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a1852b8866c5d41a709b9ba57f2482c71" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::exporters::yamlQuote</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>yamlQuote</name>
+        <qualifiedname>themis::exporters::yamlQuote</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> README. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+md (dataset card) generation ------------------------------------------------------------------------<mdash/> Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/huggingface_exporter.cpp" line="204" column="20" bodyfile="src/exporters/huggingface_exporter.cpp" bodystart="204" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a71e7e95b57b79f0da9a35e310f041a94" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::exporters::writeHubUploadAuditEntry</definition>
+        <argsstring>(themis::utils::AuditLogger &amp;audit_log, const HubUploadConfig &amp;config, const std::string &amp;dataset_dir, const HubUploadResult &amp;result, const std::string &amp;outcome)</argsstring>
+        <name>writeHubUploadAuditEntry</name>
+        <qualifiedname>themis::exporters::writeHubUploadAuditEntry</qualifiedname>
+        <param>
+          <type>themis::utils::AuditLogger &amp;</type>
+          <declname>audit_log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_hub_upload_config" kindref="compound">HubUploadConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_hub_upload_result" kindref="compound">HubUploadResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>── Main upload ────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">audit_log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/huggingface_hub_client.cpp" line="431" column="13" bodyfile="src/exporters/huggingface_hub_client.cpp" bodystart="431" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1exporters_1a4ce6450ed8bc27bd302ef448466e3d05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::exporters::computeToxicityScore</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computeToxicityScore</name>
+        <qualifiedname>themis::exporters::computeToxicityScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic toxicity score: counts hostile/offensive term occurrences and maps to [0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+0, 1.0]. Returns 0.0 for benign text. 5+ hits saturates to 1.0. Markers cover both English and German to support multilingual training corpora. Calls: std::transform(), begin(), end(), find(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/exporters/jsonl_llm_exporter.cpp" line="758" column="15" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="758" bodyend="778"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/aql_predicate_filter.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

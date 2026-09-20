@@ -1,0 +1,872 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1failover" kind="namespace" language="C++">
+    <compoundname>themis::failover</compoundname>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_config" prot="public">themis::failover::AutoFailoverConfig</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_auto_failover_manager" prot="public">themis::failover::AutoFailoverManager</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_config" prot="public">themis::failover::DisasterRecoveryConfig</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_disaster_recovery_manager" prot="public">themis::failover::DisasterRecoveryManager</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_plan" prot="public">themis::failover::DisasterRecoveryPlan</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_result" prot="public">themis::failover::DisasterRecoveryResult</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" prot="public">themis::failover::DisasterRecoveryStepResult</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_failover_result" prot="public">themis::failover::FailoverResult</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_quorum_entry" prot="public">themis::failover::QuorumEntry</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_quorum_log" prot="public">themis::failover::QuorumLog</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_quorum_state" prot="public">themis::failover::QuorumState</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_topology_snapshot" prot="public">themis::failover::TopologySnapshot</innerclass>
+    <innernamespace refid="namespacethemis_1_1failover_1_1test">themis::failover::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailoverEventType</name>
+        <qualifiedname>themis::failover::FailoverEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a525ea54cb438fa2c162f3a58807748f5" prot="public">
+          <name>NODE_FAILURE_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac365a723376219ad542ea3eea431008e" prot="public">
+          <name>QUORUM_CHECK_PASSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a9950c183a921303acf8c812d08d2c938" prot="public">
+          <name>QUORUM_CHECK_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab732abb995b2ad026b080be1e6e07184" prot="public">
+          <name>LEADER_ELECTION_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3154460e008063d518b5e659504c58e8" prot="public">
+          <name>LEADER_ELECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a666456c51d2f8c3ffe3a10a448d2de59" prot="public">
+          <name>SPARE_ACTIVATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a33d285ab97e16d74291c1b8936019453" prot="public">
+          <name>SPARE_ACTIVATION_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3986ad9bab09619982e5b4fe230e93c0" prot="public">
+          <name>FAILOVER_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a984b2dcdbfd219ee28ca3c0fa63549fd" prot="public">
+          <name>FAILOVER_CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a4b610a4613fcf11d25506c94d47f6d9b" prot="public">
+          <name>RECOVERY_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab5f7c8acadb75ff41d83c04da98ca895" prot="public">
+          <name>RECOVERY_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a0dee95ae77d0baff6db0d5186a30704e" prot="public">
+          <name>NETWORK_PARTITION_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a96e55045ca31be4a17e285c280611f7a" prot="public">
+          <name>QUEUE_PRESSURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac3f8a1d7a36d4f74b5a5a7ec44204005" prot="public">
+          <name>HEARTBEAT_MISSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a14d0d4ad987868a4c16ba615f997caeb" prot="public">
+          <name>SPLIT_BRAIN_RISK_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ad457aa9b34aaa594e96e83542c35e2e1" prot="public">
+          <name>NODE_REJOIN_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="41" column="1" bodyfile="include/failover/auto_failover_manager.h" bodystart="41" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailoverOrchestratorState</name>
+        <qualifiedname>themis::failover::FailoverOrchestratorState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac5180bd8e8f315dd948c1dbffb071c50" prot="public">
+          <name>DETECTING_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" prot="public">
+          <name>VERIFYING_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" prot="public">
+          <name>CHECKING_QUORUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" prot="public">
+          <name>STARTING_LEADER_ELECTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" prot="public">
+          <name>LEADER_ELECTION_IN_PROGRESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da5c8c2f6b4c9276b2010c0828e190b651" prot="public">
+          <name>ACTIVATING_SPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daca0d5dcb6025fc537360dab45ceb0451" prot="public">
+          <name>REDIRECTING_TRAFFIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" prot="public">
+          <name>UPDATING_METADATA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" prot="public">
+          <name>COMPLETING_FAILOVER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="60" column="1" bodyfile="include/failover/auto_failover_manager.h" bodystart="60" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DisasterRecoveryState</name>
+        <qualifiedname>themis::failover::DisasterRecoveryState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa95dd7ceac214d9668600481386bdbfd" prot="public">
+          <name>PRECHECKS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326af274237df90551b4c1690102a80f9f0e" prot="public">
+          <name>SNAPSHOT_VALIDATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a560ed638a779af425820b814c3283a17" prot="public">
+          <name>EPOCH_FENCING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ac95fa04340c629ddfa2d38e285e59245" prot="public">
+          <name>RESTORE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a40343c9dbda4a2a7cefca793adb8308a" prot="public">
+          <name>REPLICA_CATCHUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a0ec2edd0a73692758839c12efb1a284d" prot="public">
+          <name>TRAFFIC_SHIFT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a38e546ad5ae30263739bc07b278a910e" prot="public">
+          <name>VERIFICATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="30" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="30" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DisasterRecoveryStep</name>
+        <qualifiedname>themis::failover::DisasterRecoveryStep</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" prot="public">
+          <name>PRECHECKS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66af274237df90551b4c1690102a80f9f0e" prot="public">
+          <name>SNAPSHOT_VALIDATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a560ed638a779af425820b814c3283a17" prot="public">
+          <name>EPOCH_FENCING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66ac95fa04340c629ddfa2d38e285e59245" prot="public">
+          <name>RESTORE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a40343c9dbda4a2a7cefca793adb8308a" prot="public">
+          <name>REPLICA_CATCHUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a0ec2edd0a73692758839c12efb1a284d" prot="public">
+          <name>TRAFFIC_SHIFT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66a38e546ad5ae30263739bc07b278a910e" prot="public">
+          <name>VERIFICATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="44" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>NodeRole</name>
+        <qualifiedname>themis::failover::NodeRole</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Role not yet determined (start-up only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa829e620db67faa54c8ca8441f1239d41" prot="public">
+          <name>Follower</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Passive participant; accepts log entries from leader. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa25befec7033aa9feec4a5a586d4e1366" prot="public">
+          <name>Candidate</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Actively seeking votes to become leader. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa5158a250e30f1fb4415d86ded2c8e0c5" prot="public">
+          <name>Leader</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Authoritative node for current epoch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaad7c8c85bf79bbe1b7188497c32c3b0ca" prot="public">
+          <name>Failed</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Node has been declared failed; not yet rejoined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Role that a node occupies at any given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A node may hold exactly one role at a time. Transitions are: Unknown / Follower → Candidate → Leader (on election win) Leader → Follower (on stepping down or detecting a higher epoch) Failed → Follower (on successful rejoin + state sync — never directly to Leader) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="124" column="1" bodyfile="include/failover/failover_api_contract.h" bodystart="124" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>FailoverErrorCode</name>
+        <qualifiedname>themis::failover::FailoverErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" prot="public">
+          <name>ELECTION_TIMEOUT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Election did not complete within kElectionTimeoutBudget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae1060c291804dc70e39623f1078fd270" prot="public">
+          <name>SPLIT_BRAIN_DETECTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Two or more nodes simultaneously believe they are leader for the same epoch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccabbaefc9258ba25d647648dda0b553dee" prot="public">
+          <name>HANDOVER_INCOMPLETE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Leader handover did not complete; in-flight requests may be at risk. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccad457aa9b34aaa594e96e83542c35e2e1" prot="public">
+          <name>NODE_REJOIN_FAILED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>A failed node attempted to rejoin directly as leader (contract violation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac3f8a1d7a36d4f74b5a5a7ec44204005" prot="public">
+          <name>HEARTBEAT_MISSED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>A heartbeat was missed; counter is incremented toward leader-loss threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" prot="public">
+          <name>STATE_SYNC_TIMEOUT</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>State synchronisation from leader to rejoining follower timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" prot="public">
+          <name>QUORUM_UNAVAILABLE</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>A quorum could not be established (insufficient live nodes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccaba9cd57b65da001f23d76d5fb33f2231" prot="public">
+          <name>INVALID_EPOCH</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+<para>The epoch value supplied was invalid (zero) or stale. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+<para>Internal failover component error; always treated as fail-safe. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the failover module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes are assigned contiguous integers for easy serialisation. New codes must be appended; existing values must never be renumbered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="155" column="1" bodyfile="include/failover/failover_api_contract.h" bodystart="155" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a715fec3b25222f58fe59d24f21f7ce7a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kHeartbeatInterval</definition>
+        <argsstring></argsstring>
+        <name>kHeartbeatInterval</name>
+        <qualifiedname>themis::failover::kHeartbeatInterval</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Default heartbeat interval — how often a leader broadcasts liveness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="67" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a4e188c44861fb7d760ee97270cc09b4b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kHeartbeatTimeout</definition>
+        <argsstring></argsstring>
+        <name>kHeartbeatTimeout</name>
+        <qualifiedname>themis::failover::kHeartbeatTimeout</qualifiedname>
+        <initializer>{3&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default heartbeat timeout — leader-loss is declared after this period elapses with no heartbeat received from the current leader. Contract: ≤ 3 000 ms (3 s). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="72" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a8a24fc2e4cdf8982d0e222278811a22b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kMinHeartbeatTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMinHeartbeatTimeout</name>
+        <qualifiedname>themis::failover::kMinHeartbeatTimeout</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+<para>Minimum allowed heartbeat timeout (operator-configurable lower bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="75" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a11e2e73dc0d10cedf7acae427c401c41" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kMaxHeartbeatTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMaxHeartbeatTimeout</name>
+        <qualifiedname>themis::failover::kMaxHeartbeatTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum allowed heartbeat timeout (operator-configurable upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="78" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1afb302df324514943368f024901f79681" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kElectionTimeoutBudget</definition>
+        <argsstring></argsstring>
+        <name>kElectionTimeoutBudget</name>
+        <qualifiedname>themis::failover::kElectionTimeoutBudget</qualifiedname>
+        <initializer>{5&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum wall-clock budget for a leader election round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="81" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a77eb6d15b10b62fe4f309b2e6fbe00b0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::failover::kStateSyncDeadline</definition>
+        <argsstring></argsstring>
+        <name>kStateSyncDeadline</name>
+        <qualifiedname>themis::failover::kStateSyncDeadline</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>State-sync completion deadline for a rejoining follower. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="84" column="39" bodyfile="include/failover/failover_api_contract.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a43c2932af1e3941079a42588c450ea2b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::failover::kInvalidEpoch</definition>
+        <argsstring></argsstring>
+        <name>kInvalidEpoch</name>
+        <qualifiedname>themis::failover::kInvalidEpoch</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Reserved invalid epoch sentinel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="95" column="32" bodyfile="include/failover/failover_api_contract.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a96705c0d00320ad61f269ccf4a36aa83" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::failover::kFirstValidEpoch</definition>
+        <argsstring></argsstring>
+        <name>kFirstValidEpoch</name>
+        <qualifiedname>themis::failover::kFirstValidEpoch</qualifiedname>
+        <initializer>= 1u</initializer>
+        <briefdescription>
+<para>First valid epoch number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="98" column="32" bodyfile="include/failover/failover_api_contract.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1a87eb9a69cdc18d5a3b7d692a96855489" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::failover::kMaxInFlightRequests</definition>
+        <argsstring></argsstring>
+        <name>kMaxInFlightRequests</name>
+        <qualifiedname>themis::failover::kMaxInFlightRequests</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum in-flight request buffer size per leader node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="228" column="30" bodyfile="include/failover/failover_api_contract.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1failover_1aea8052e89ca3064de4b82c5f2a7d054c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::kHandoverDrainDeadline</definition>
+        <argsstring></argsstring>
+        <name>kHandoverDrainDeadline</name>
+        <qualifiedname>themis::failover::kHandoverDrainDeadline</qualifiedname>
+        <initializer>{1&apos;000}</initializer>
+        <briefdescription>
+<para>Budget for the outgoing leader to drain its in-flight buffer on handover. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="231" column="44" bodyfile="include/failover/failover_api_contract.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1failover_1a38e15e18ea99230b1dbf9f6caf38689c" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isValidEpoch</definition>
+        <argsstring>(std::uint64_t epoch) noexcept</argsstring>
+        <name>isValidEpoch</name>
+        <qualifiedname>themis::failover::isValidEpoch</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given epoch value is valid (non-zero). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="101" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1ace83577a0da379ee05da9a4a68b43e70" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isNewerEpoch</definition>
+        <argsstring>(std::uint64_t newer, std::uint64_t current) noexcept</argsstring>
+        <name>isNewerEpoch</name>
+        <qualifiedname>themis::failover::isNewerEpoch</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>newer</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>newer</computeroutput> is strictly higher than <computeroutput>current</computeroutput>, i.e. the caller should step down and accept <computeroutput>newer</computeroutput> as authoritative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="107" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1aaed361cb05e980d4be7c686f96516061" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isWriteEligible</definition>
+        <argsstring>(NodeRole role) noexcept</argsstring>
+        <name>isWriteEligible</name>
+        <qualifiedname>themis::failover::isWriteEligible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the role allows a node to accept write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="133" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1ae6eaef154c2ab2c1dde541256b56f9f7" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isVoteEligible</definition>
+        <argsstring>(NodeRole role) noexcept</argsstring>
+        <name>isVoteEligible</name>
+        <qualifiedname>themis::failover::isVoteEligible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the role allows a node to cast votes in elections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="138" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1a7b6b33c2a70210030bc868d88484161b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isFailSafeCode</definition>
+        <argsstring>(FailoverErrorCode code) noexcept</argsstring>
+        <name>isFailSafeCode</name>
+        <qualifiedname>themis::failover::isFailSafeCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true for error codes that mandate a fail-safe (no-leader) outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="188" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1ac3bdc2a2063b2eec7c96793ce9e547e9" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::isRetryEscalationCode</definition>
+        <argsstring>(FailoverErrorCode code) noexcept</argsstring>
+        <name>isRetryEscalationCode</name>
+        <qualifiedname>themis::failover::isRetryEscalationCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true for failover errors that indicate retry escalation paths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="197" column="24" bodyfile="include/failover/failover_api_contract.h" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1aca1debc6e42aa0e9413a676769fe9c2f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>themis::utils::RetryTimeoutSource</type>
+        <definition>themis::utils::RetryTimeoutSource themis::failover::toRetryTimeoutSource</definition>
+        <argsstring>(FailoverErrorCode code) noexcept</argsstring>
+        <name>toRetryTimeoutSource</name>
+        <qualifiedname>themis::failover::toRetryTimeoutSource</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Map failover errors to canonical timeout-source taxonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="206" column="53" bodyfile="include/failover/failover_api_contract.h" bodystart="206" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1abcdf0f31195d1e2da55d7ed7bd0debff" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::failover::quorumSize</definition>
+        <argsstring>(std::size_t cluster_size) noexcept</argsstring>
+        <name>quorumSize</name>
+        <qualifiedname>themis::failover::quorumSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cluster_size</declname>
+        </param>
+        <briefdescription>
+<para>Compute the quorum size required for a cluster of <computeroutput>cluster_size</computeroutput> nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/failover_api_contract.h" line="241" column="31" bodyfile="include/failover/failover_api_contract.h" bodystart="241" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/auto_failover_manager.h" line="39" column="1"/>
+  </compounddef>
+</doxygen>

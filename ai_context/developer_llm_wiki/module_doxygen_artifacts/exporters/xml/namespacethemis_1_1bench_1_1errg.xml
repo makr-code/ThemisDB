@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1errg" kind="namespace" language="C++">
+    <compoundname>themis::bench::errg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1errg_1_1_parquet_cell" prot="public">themis::bench::errg::ParquetCell</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1errg_1_1_parquet_row_group" prot="public">themis::bench::errg::ParquetRowGroup</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1errg_1_1_schema_col" prot="public">themis::bench::errg::SchemaCol</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1errg_1_1_incoming_row" prot="public">themis::bench::errg::IncomingRow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1errg_1_1_export_quota" prot="public">themis::bench::errg::ExportQuota</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1errg_1a5dd04054f0a3433f659dafe8c7d5eea1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NullTarget</name>
+        <qualifiedname>themis::bench::errg::NullTarget</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1errg_1a5dd04054f0a3433f659dafe8c7d5eea1ab20daea8bfacec3891fcf5b7be4adca0" prot="public">
+          <name>Csv</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1errg_1a5dd04054f0a3433f659dafe8c7d5eea1aace780da4816e1e457db8c57d60b5d66" prot="public">
+          <name>Parquet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1errg_1a5dd04054f0a3433f659dafe8c7d5eea1a0f4e1aaabd074689b7d3ead824d1ee8e" prot="public">
+          <name>Arrow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="166" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1errg_1a5eaba7212fb70b8f0a0453003e536e8b" prot="public" static="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>using themis::bench::errg::CsvCell = std::optional&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>CsvCell</name>
+        <qualifiedname>themis::bench::errg::CsvCell</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="78" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1errg_1a644faff1f4b72199a429c9a2590d062a" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1bench_1_1errg_1a5eaba7212fb70b8f0a0453003e536e8b" kindref="member">CsvCell</ref> &gt;</type>
+        <definition>using themis::bench::errg::CsvRow = std::vector&lt;CsvCell&gt;</definition>
+        <argsstring></argsstring>
+        <name>CsvRow</name>
+        <qualifiedname>themis::bench::errg::CsvRow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="79" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1errg_1a35f8170ba54472131846b03b6ca1f4ec" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::errg::kExportersCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kExportersCanonicalSeed</name>
+        <qualifiedname>themis::bench::errg::kExportersCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="70" column="27" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1errg_1a6e6a1b15c15039f1d9b30f519d8621e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::errg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::errg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="71" column="27" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1errg_1a6a9d20eaa660d515c5f0886e4d3a2496" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::errg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::errg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="72" column="27" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1errg_1a8c0a81ff639b54c15e844866af49ba4c" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="structthemis_1_1bench_1_1errg_1_1_schema_col" kindref="compound">SchemaCol</ref></type>
+        <definition>const SchemaCol themis::bench::errg::kSchema10[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>kSchema10</name>
+        <qualifiedname>themis::bench::errg::kSchema10</qualifiedname>
+        <initializer>                                 = {
+    {&quot;id&quot;,    0, true},  {&quot;name&quot;,  1, true},  {&quot;ts&quot;,    0, true},
+    {&quot;val_a&quot;, 2, false}, {&quot;val_b&quot;, 2, false}, {&quot;val_c&quot;, 2, false},
+    {&quot;tag1&quot;,  1, false}, {&quot;tag2&quot;,  1, false}, {&quot;tag3&quot;,  1, false}, {&quot;extra&quot;, 1, false},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="143" column="24" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="143" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1ab567c0f7004d630510219d7fbb92f5b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1errg_1a644faff1f4b72199a429c9a2590d062a" kindref="member">CsvRow</ref></type>
+        <definition>static CsvRow themis::bench::errg::makeCsvRow</definition>
+        <argsstring>(int idx)</argsstring>
+        <name>makeCsvRow</name>
+        <qualifiedname>themis::bench::errg::makeCsvRow</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="81" column="15" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a285453ca6edf79901bfe9eccf67b2976" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::errg::serializeCsvRow</definition>
+        <argsstring>(const CsvRow &amp;row)</argsstring>
+        <name>serializeCsvRow</name>
+        <qualifiedname>themis::bench::errg::serializeCsvRow</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1errg_1a644faff1f4b72199a429c9a2590d062a" kindref="member">CsvRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="91" column="20" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="91" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a8e0a6c8663b58f72a4ecb7d3ad944348" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::errg::validateSchema</definition>
+        <argsstring>(const IncomingRow &amp;row) noexcept</argsstring>
+        <name>validateSchema</name>
+        <qualifiedname>themis::bench::errg::validateSchema</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1errg_1_1_incoming_row" kindref="compound">IncomingRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="154" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="154" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1ad41a7bb6b4df84ef4bf6d87fc74aa4b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::errg::handleNull</definition>
+        <argsstring>(bool is_null, NullTarget target)</argsstring>
+        <name>handleNull</name>
+        <qualifiedname>themis::bench::errg::handleNull</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_null</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1errg_1a5dd04054f0a3433f659dafe8c7d5eea1" kindref="member">NullTarget</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="168" column="20" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="168" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a0d20847b1f33956bf13cda743e8a358f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::errg::serializeArrowBatch</definition>
+        <argsstring>(int n_rows, int n_cols)</argsstring>
+        <name>serializeArrowBatch</name>
+        <qualifiedname>themis::bench::errg::serializeArrowBatch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n_rows</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n_cols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="184" column="20" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a4cfd21dc482969bdd527238534f9952b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG01_CsvRowSerialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG01_CsvRowSerialize</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG01_CsvRowSerialize</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-01: serializeCsvRow() for a 10-column row. GATE-ERRG-01: ≥ 1M rows/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="219" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="219" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1ae38c49baac9483b0ee260fc962376105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::errg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::errg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="236" column="5" declfile="benchmarks/exporters/bench_exporters_release_gates.cpp" declline="236" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a0233f847e49dbfec6481d48727652fe7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG02_ParquetRowGroupWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG02_ParquetRowGroupWrite</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG02_ParquetRowGroupWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-02: Build and serialize a 100-row <ref refid="structthemis_1_1bench_1_1errg_1_1_parquet_row_group" kindref="compound">ParquetRowGroup</ref>. <ref refid="namespacethemis_1_1bench_1_1errg_1a04b772f3b928410e221e7a6911b2f38d" kindref="member">UseRealTime()</ref> because this involves memory allocation. GATE-ERRG-02: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="248" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="248" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a04b772f3b928410e221e7a6911b2f38d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::errg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::errg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="267" column="5" declfile="benchmarks/exporters/bench_exporters_release_gates.cpp" declline="267" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1ad7d65a8db851b39e1418e3245fa9c091" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG03_SchemaValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG03_SchemaValidation</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG03_SchemaValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-03: validateSchema() for a 10-column <ref refid="structthemis_1_1bench_1_1errg_1_1_incoming_row" kindref="compound">IncomingRow</ref>. GATE-ERRG-03: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="279" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="279" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1a458fa9f01f587247417c702a82a3b063" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG04_NullHandlingDecision</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG04_NullHandlingDecision</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG04_NullHandlingDecision</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-04: handleNull() decision for CSV/Parquet/Arrow targets. GATE-ERRG-04: p99 ≤ 10 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="303" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="303" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1aeee38627f0a7b0de13142df1253ad35c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG05_ArrowBatchSerialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG05_ArrowBatchSerialize</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG05_ArrowBatchSerialize</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-05: serializeArrowBatch() for 100 rows × 10 columns. GATE-ERRG-05: p99 ≤ 1 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="327" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="327" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1errg_1afb5c1a0dd109b0657249bba7bd1c14ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::errg::BM_ERRG06_ExportQuotaCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ERRG06_ExportQuotaCheck</name>
+        <qualifiedname>themis::bench::errg::BM_ERRG06_ExportQuotaCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ERRG-06: <ref refid="structthemis_1_1bench_1_1errg_1_1_export_quota_1a7d7b74225543ffcfc1fb01405be04fb6" kindref="member">ExportQuota::check()</ref> — atomic load + compare. GATE-ERRG-06: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="348" column="13" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="348" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="64" column="1"/>
+  </compounddef>
+</doxygen>

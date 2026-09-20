@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_i_decision_audit" kind="struct" language="C++" prot="public">
+    <compoundname>AIDecisionAudit</compoundname>
+    <includes refid="ai__decision__auditor_8h" local="no">ai_decision_auditor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::decision_id</definition>
+        <argsstring></argsstring>
+        <name>decision_id</name>
+        <qualifiedname>AIDecisionAudit::decision_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="40" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a7f0ebb630aa32183cef4ebaffbdb9118" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>AIDecisionAudit::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="41" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a29af61defa52e678079df3aa0d6c7789" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>AIDecisionAudit::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="42" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1ac23f0b8f66bbe9485c85cfbc21725184" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::AIDecisionAudit::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>AIDecisionAudit::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="43" column="43" bodyfile="include/llm/ai_decision_auditor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>AIDecisionAudit::trace_id</qualifiedname>
+        <briefdescription>
+<para>W3C traceparent trace-id (128-bit hex, 32 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="55" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>AIDecisionAudit::span_id</qualifiedname>
+        <briefdescription>
+<para>W3C traceparent parent-id (64-bit hex, 16 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="56" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AIDecisionAudit::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="59" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a52a365fbd98d060df47b832cec31c06e" prot="public" static="no" mutable="no">
+        <type>json</type>
+        <definition>json themis::llm::AIDecisionAudit::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>AIDecisionAudit::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="60" column="10" bodyfile="include/llm/ai_decision_auditor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a41afe4e7b2e4946bc3f3aa77dbb5e188" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>AIDecisionAudit::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="63" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a222390b3aa24d278d445449be7cca5df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>AIDecisionAudit::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="64" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1aa1de38a906a835ba731db7fd928e3498" prot="public" static="no" mutable="no">
+        <type>json</type>
+        <definition>json themis::llm::AIDecisionAudit::model_params</definition>
+        <argsstring></argsstring>
+        <name>model_params</name>
+        <qualifiedname>AIDecisionAudit::model_params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="65" column="10" bodyfile="include/llm/ai_decision_auditor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>AIDecisionAudit::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="68" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1aaa07116caf51570e1906b93cd702735c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AIDecisionAudit::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>AIDecisionAudit::confidence_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="69" column="11" bodyfile="include/llm/ai_decision_auditor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1ab4410b21cb36f18186d34223c9293022" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::AIDecisionAudit::alternatives</definition>
+        <argsstring></argsstring>
+        <name>alternatives</name>
+        <qualifiedname>AIDecisionAudit::alternatives</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="70" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1ade78a7c57a03878991e1e865eaf145fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>AIDecisionAudit::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="73" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a77260d4a7c6b4849e3d14271815e63c5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::AIDecisionAudit::reasoning_steps</definition>
+        <argsstring></argsstring>
+        <name>reasoning_steps</name>
+        <qualifiedname>AIDecisionAudit::reasoning_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="74" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1aed8c981ffa9095389d6af46bf6c5e7e8" prot="public" static="no" mutable="no">
+        <type>json</type>
+        <definition>json themis::llm::AIDecisionAudit::key_factors</definition>
+        <argsstring></argsstring>
+        <name>key_factors</name>
+        <qualifiedname>AIDecisionAudit::key_factors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="75" column="10" bodyfile="include/llm/ai_decision_auditor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a932977996b107c2282c8bf957a7e9bc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>AIDecisionAudit::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="78" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1ae4ee3c7f73b04d77284704735501bebe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAudit::requires_human_review</definition>
+        <argsstring></argsstring>
+        <name>requires_human_review</name>
+        <qualifiedname>AIDecisionAudit::requires_human_review</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="79" column="10" bodyfile="include/llm/ai_decision_auditor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a96d890ca7c57ca2804acd6c7b95681a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::human_override</definition>
+        <argsstring></argsstring>
+        <name>human_override</name>
+        <qualifiedname>AIDecisionAudit::human_override</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="80" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a38b4ac11f0a9887f1a4acfc5486233a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAudit::reviewer_id</definition>
+        <argsstring></argsstring>
+        <name>reviewer_id</name>
+        <qualifiedname>AIDecisionAudit::reviewer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="81" column="17" bodyfile="include/llm/ai_decision_auditor.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a18ef5a5fd75c2483c5192c51b5aa70ed" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::AIDecisionAudit::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>AIDecisionAudit::latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="84" column="13" bodyfile="include/llm/ai_decision_auditor.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_i_decision_audit_1a29341cca7662f105ba97b02356957291" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AIDecisionAudit::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>AIDecisionAudit::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="85" column="9" bodyfile="include/llm/ai_decision_auditor.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_i_decision_audit_1a43f372841f5965809b96247c70a4bc7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::AIDecisionAudit::~AIDecisionAudit</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AIDecisionAudit</name>
+        <qualifiedname>AIDecisionAudit::~AIDecisionAudit</qualifiedname>
+        <briefdescription>
+<para>AIDecision Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="38" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>json</type>
+        <definition>json themis::llm::AIDecisionAudit::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>AIDecisionAudit::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="92" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="25" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref></type>
+        <definition>AIDecisionAudit themis::llm::AIDecisionAudit::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>AIDecisionAudit::fromJson</qualifiedname>
+        <param>
+          <type>const json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), std::chrono::system_clock::from_time_t(), is_array(), int64_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="98" column="28" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="68" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_decision_auditor.h" line="33" column="1" bodyfile="include/llm/ai_decision_auditor.h" bodystart="33" bodyend="99"/>
+    <listofallmembers>
+      <member refid="struct_a_i_decision_audit_1ab4410b21cb36f18186d34223c9293022" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>alternatives</name></member>
+      <member refid="struct_a_i_decision_audit_1aaa07116caf51570e1906b93cd702735c" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>confidence_score</name></member>
+      <member refid="struct_a_i_decision_audit_1a52a365fbd98d060df47b832cec31c06e" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>context</name></member>
+      <member refid="struct_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>decision_id</name></member>
+      <member refid="struct_a_i_decision_audit_1ade78a7c57a03878991e1e865eaf145fd" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>explanation</name></member>
+      <member refid="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>fromJson</name></member>
+      <member refid="struct_a_i_decision_audit_1a96d890ca7c57ca2804acd6c7b95681a2" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>human_override</name></member>
+      <member refid="struct_a_i_decision_audit_1aed8c981ffa9095389d6af46bf6c5e7e8" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>key_factors</name></member>
+      <member refid="struct_a_i_decision_audit_1a18ef5a5fd75c2483c5192c51b5aa70ed" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>latency_ms</name></member>
+      <member refid="struct_a_i_decision_audit_1a41afe4e7b2e4946bc3f3aa77dbb5e188" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>model_name</name></member>
+      <member refid="struct_a_i_decision_audit_1aa1de38a906a835ba731db7fd928e3498" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>model_params</name></member>
+      <member refid="struct_a_i_decision_audit_1a222390b3aa24d278d445449be7cca5df" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>model_version</name></member>
+      <member refid="struct_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>query</name></member>
+      <member refid="struct_a_i_decision_audit_1a77260d4a7c6b4849e3d14271815e63c5" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>reasoning_steps</name></member>
+      <member refid="struct_a_i_decision_audit_1ae4ee3c7f73b04d77284704735501bebe" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>requires_human_review</name></member>
+      <member refid="struct_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>response</name></member>
+      <member refid="struct_a_i_decision_audit_1a38b4ac11f0a9887f1a4acfc5486233a9" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>reviewer_id</name></member>
+      <member refid="struct_a_i_decision_audit_1a29af61defa52e678079df3aa0d6c7789" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>session_id</name></member>
+      <member refid="struct_a_i_decision_audit_1a932977996b107c2282c8bf957a7e9bc1" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>signature</name></member>
+      <member refid="struct_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>span_id</name></member>
+      <member refid="struct_a_i_decision_audit_1ac23f0b8f66bbe9485c85cfbc21725184" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>timestamp</name></member>
+      <member refid="struct_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>toJson</name></member>
+      <member refid="struct_a_i_decision_audit_1a29341cca7662f105ba97b02356957291" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>token_count</name></member>
+      <member refid="struct_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>trace_id</name></member>
+      <member refid="struct_a_i_decision_audit_1a7f0ebb630aa32183cef4ebaffbdb9118" prot="public" virt="non-virtual"><scope>AIDecisionAudit</scope><name>user_id</name></member>
+      <member refid="struct_a_i_decision_audit_1a43f372841f5965809b96247c70a4bc7b" prot="public" virt="virtual"><scope>AIDecisionAudit</scope><name>~AIDecisionAudit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

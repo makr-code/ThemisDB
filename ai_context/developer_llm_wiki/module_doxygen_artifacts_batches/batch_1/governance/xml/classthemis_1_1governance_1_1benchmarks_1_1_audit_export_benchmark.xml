@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::benchmarks::AuditExportBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a49879196d91cc051a515fc84cc5d39cc" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_integrity_manager" kindref="compound">AuditIntegrityManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuditIntegrityManager&gt; themis::governance::benchmarks::AuditExportBenchmark::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::governance::benchmarks::AuditExportBenchmark::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="69" column="21" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a016faaf13ac34dd68b9bd02dd7a18b66" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_batch_writer" kindref="compound">AuditBatchWriter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuditBatchWriter&gt; themis::governance::benchmarks::AuditExportBenchmark::writer_</definition>
+        <argsstring></argsstring>
+        <name>writer_</name>
+        <qualifiedname>themis::governance::benchmarks::AuditExportBenchmark::writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="70" column="21" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1acaab3cc16706aece7d4a10f0a3030fb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::benchmarks::AuditExportBenchmark::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::governance::benchmarks::AuditExportBenchmark::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="37" column="10" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="37" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a56089a175a52173b7af1cca2eb83f4d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::benchmarks::AuditExportBenchmark::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::governance::benchmarks::AuditExportBenchmark::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="62" column="10" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a4f14b92bdc42f61a85f61afc61cd1e0d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref></type>
+        <definition>ImmutableAuditEntry themis::governance::benchmarks::AuditExportBenchmark::createTestEntry</definition>
+        <argsstring>(int sequence)</argsstring>
+        <name>createTestEntry</name>
+        <qualifiedname>themis::governance::benchmarks::AuditExportBenchmark::createTestEntry</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="72" column="25" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::benchmarks::AuditExportBenchmark</label>
+        <link refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::benchmarks::AuditExportBenchmark</label>
+        <link refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="35" column="1" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="35" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a4f14b92bdc42f61a85f61afc61cd1e0d" prot="protected" virt="non-virtual"><scope>themis::governance::benchmarks::AuditExportBenchmark</scope><name>createTestEntry</name></member>
+      <member refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a49879196d91cc051a515fc84cc5d39cc" prot="protected" virt="non-virtual"><scope>themis::governance::benchmarks::AuditExportBenchmark</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1acaab3cc16706aece7d4a10f0a3030fb1" prot="public" virt="non-virtual"><scope>themis::governance::benchmarks::AuditExportBenchmark</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a56089a175a52173b7af1cca2eb83f4d3" prot="public" virt="non-virtual"><scope>themis::governance::benchmarks::AuditExportBenchmark</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark_1a016faaf13ac34dd68b9bd02dd7a18b66" prot="protected" virt="non-virtual"><scope>themis::governance::benchmarks::AuditExportBenchmark</scope><name>writer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

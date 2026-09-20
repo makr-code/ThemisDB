@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_file_raii" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::FileRaii</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_file_raii_1ac539a131171ce93d7e948e26d4b4fdb2" prot="private" static="no" mutable="no">
+        <type>FILE *</type>
+        <definition>FILE* themis::updates::FileRaii::fp_</definition>
+        <argsstring></argsstring>
+        <name>fp_</name>
+        <qualifiedname>themis::updates::FileRaii::fp_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="84" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::FileRaii::FileRaii</definition>
+        <argsstring>(FILE *fp=nullptr)</argsstring>
+        <name>FileRaii</name>
+        <qualifiedname>themis::updates::FileRaii::FileRaii</qualifiedname>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="52" column="14" bodyfile="src/updates/parallel_downloader.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1ab76e3314591849f906eb6f2b9e1f27fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::FileRaii::~FileRaii</definition>
+        <argsstring>()</argsstring>
+        <name>~FileRaii</name>
+        <qualifiedname>themis::updates::FileRaii::~FileRaii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="54" column="5" bodyfile="src/updates/parallel_downloader.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1aaacb7c775ec338f4d37f4b7fe1679ff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::FileRaii::FileRaii</definition>
+        <argsstring>(const FileRaii &amp;)=delete</argsstring>
+        <name>FileRaii</name>
+        <qualifiedname>themis::updates::FileRaii::FileRaii</qualifiedname>
+        <param>
+          <type>const FileRaii &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1a978a02d5f2ef353c54edfc4b1683721d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" kindref="member">FileRaii</ref> &amp;</type>
+        <definition>FileRaii &amp; themis::updates::FileRaii::operator=</definition>
+        <argsstring>(const FileRaii &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::FileRaii::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" kindref="member">FileRaii</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="62" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1a82232e547b5921376836d5bfbd0a2de2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::FileRaii::FileRaii</definition>
+        <argsstring>(FileRaii &amp;&amp;other) noexcept</argsstring>
+        <name>FileRaii</name>
+        <qualifiedname>themis::updates::FileRaii::FileRaii</qualifiedname>
+        <param>
+          <type>FileRaii &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="65" column="5" bodyfile="src/updates/parallel_downloader.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1a9ad80770142d6374edc4cd6a6416ee00" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" kindref="member">FileRaii</ref> &amp;</type>
+        <definition>FileRaii &amp; themis::updates::FileRaii::operator=</definition>
+        <argsstring>(FileRaii &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::FileRaii::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" kindref="member">FileRaii</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="66" column="14" bodyfile="src/updates/parallel_downloader.cpp" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1a6ca6623b17fb5653bd198f87e6d69ec3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>FILE *</type>
+        <definition>FILE * themis::updates::FileRaii::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::FileRaii::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="76" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_file_raii_1aca43bcdf169cea3938f17e33d91cc2ca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>FILE *</type>
+        <definition>FILE * themis::updates::FileRaii::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::updates::FileRaii::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/parallel_downloader.cpp" line="77" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/updates/parallel_downloader.cpp" line="50" column="1" bodyfile="src/updates/parallel_downloader.cpp" bodystart="50" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1aa7ee5e71507be7315dbedc4cd26f1ca3" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>FileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1aaacb7c775ec338f4d37f4b7fe1679ff9" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>FileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1a82232e547b5921376836d5bfbd0a2de2" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>FileRaii</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1ac539a131171ce93d7e948e26d4b4fdb2" prot="private" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>fp_</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1a6ca6623b17fb5653bd198f87e6d69ec3" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1a978a02d5f2ef353c54edfc4b1683721d" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1a9ad80770142d6374edc4cd6a6416ee00" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1aca43bcdf169cea3938f17e33d91cc2ca" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>release</name></member>
+      <member refid="classthemis_1_1updates_1_1_file_raii_1ab76e3314591849f906eb6f2b9e1f27fa" prot="public" virt="non-virtual"><scope>themis::updates::FileRaii</scope><name>~FileRaii</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

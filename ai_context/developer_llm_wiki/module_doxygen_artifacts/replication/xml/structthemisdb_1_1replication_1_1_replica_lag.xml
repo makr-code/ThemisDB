@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replica_lag" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicaLag</compoundname>
+    <includes refid="lag__alert__manager_8h" local="no">lag_alert_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_lag_1aa7b87bfe93a4c8262c96ee6c5ca680e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaLag::replica_id</definition>
+        <argsstring></argsstring>
+        <name>replica_id</name>
+        <qualifiedname>themisdb::replication::ReplicaLag::replica_id</qualifiedname>
+        <briefdescription>
+<para>Unique replica identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="57" column="29" bodyfile="include/replication/lag_alert_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_lag_1a753063876f467229526978911dbb8928" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicaLag::lag_ms</definition>
+        <argsstring></argsstring>
+        <name>lag_ms</name>
+        <qualifiedname>themisdb::replication::ReplicaLag::lag_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current lag in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="58" column="29" bodyfile="include/replication/lag_alert_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_lag_1adc265904769799f37f5b7afc678ea82a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicaLag::last_update_ms</definition>
+        <argsstring></argsstring>
+        <name>last_update_ms</name>
+        <qualifiedname>themisdb::replication::ReplicaLag::last_update_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix epoch ms of last update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="59" column="29" bodyfile="include/replication/lag_alert_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_lag_1ad9dc659cc12af9e912c7f59c18d800b2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicaLag::max_lag_since_alert_ms</definition>
+        <argsstring></argsstring>
+        <name>max_lag_since_alert_ms</name>
+        <qualifiedname>themisdb::replication::ReplicaLag::max_lag_since_alert_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak lag since last alert. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="60" column="29" bodyfile="include/replication/lag_alert_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Current replication lag for a single replica. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lag is measured as the time elapsed since the latest committed transaction on the leader minus the time it was applied on the replica (or an approximation thereof based on sequence numbers and wall-clock time). </para>
+    </detaileddescription>
+    <location file="include/replication/lag_alert_manager.h" line="56" column="1" bodyfile="include/replication/lag_alert_manager.h" bodystart="56" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replica_lag_1a753063876f467229526978911dbb8928" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaLag</scope><name>lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_lag_1adc265904769799f37f5b7afc678ea82a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaLag</scope><name>last_update_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_lag_1ad9dc659cc12af9e912c7f59c18d800b2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaLag</scope><name>max_lag_since_alert_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_lag_1aa7b87bfe93a4c8262c96ee6c5ca680e4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaLag</scope><name>replica_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

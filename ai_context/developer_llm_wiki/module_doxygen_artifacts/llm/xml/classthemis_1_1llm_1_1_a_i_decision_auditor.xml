@@ -1,0 +1,685 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_a_i_decision_auditor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AIDecisionAuditor</compoundname>
+    <includes refid="ai__decision__auditor_8h" local="no">ai_decision_auditor.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" prot="public">themis::llm::AIDecisionAuditor::QueryFilter</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" prot="public">themis::llm::AIDecisionAuditor::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1ab45ba784695aac6646ce37b882a96847" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::llm::AIDecisionAuditor::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="200" column="28" bodyfile="include/llm/ai_decision_auditor.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a294a2c29835febf2b925063603dda125" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::llm::AIDecisionAuditor::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="201" column="33" bodyfile="include/llm/ai_decision_auditor.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1afa8959abc67948ed0920bd2b4374f9e1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VCCPKIClient &gt;</type>
+        <definition>std::shared_ptr&lt;VCCPKIClient&gt; themis::llm::AIDecisionAuditor::pki_client_</definition>
+        <argsstring></argsstring>
+        <name>pki_client_</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::pki_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="202" column="21" bodyfile="include/llm/ai_decision_auditor.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a920363643e85109d16e2524da8dec682" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::AIDecisionAuditor::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;ai_decision:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="204" column="33" bodyfile="include/llm/ai_decision_auditor.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1aad1a48f9a73a85fd1dc376e4e6cd2361" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AIDecisionAuditor::AIDecisionAuditor</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr, std::shared_ptr&lt; VCCPKIClient &gt; pki_client=nullptr)</argsstring>
+        <name>AIDecisionAuditor</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::AIDecisionAuditor</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VCCPKIClient &gt;</type>
+          <declname>pki_client</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="113" column="14" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="123" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a2d3f03269630c755fdb93c3ac18a755e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AIDecisionAuditor::~AIDecisionAuditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AIDecisionAuditor</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::~AIDecisionAuditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="119" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a9f198110968c2b5419357f3eb31f9be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref></type>
+        <definition>AIDecisionAudit themis::llm::AIDecisionAuditor::logDecision</definition>
+        <argsstring>(AIDecisionAudit audit)</argsstring>
+        <name>logDecision</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::logDecision</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref></type>
+          <declname>audit</declname>
+        </param>
+        <briefdescription>
+<para>Log Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), generateId(), std::chrono::system_clock::now(), THEMIS_WARN(), signDecision(), toJson(), dump(), makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="126" column="21" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="208" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1ae1dc615446150f7fbd14fc0df68a9825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAuditor::generateExplanation</definition>
+        <argsstring>(const std::string &amp;decision_id)</argsstring>
+        <name>generateExplanation</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::generateExplanation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+<para>Generate Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" kindref="member">getDecision()</ref>, has_value(), empty(), std::setprecision(), size(), items(), dump(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="133" column="17" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="262" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a672514ac9c756c082a754ba927d82c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref> &gt;</type>
+        <definition>std::vector&lt; AIDecisionAudit &gt; themis::llm::AIDecisionAuditor::queryAuditLog</definition>
+        <argsstring>(const QueryFilter &amp;filter)</argsstring>
+        <name>queryAuditLog</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::queryAuditLog</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kindref="compound">QueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Query Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), NewIterator(), Seek(), Valid(), size(), Next(), key(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="140" column="17" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="345" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a324b01170f0525d2fdcaa388d5801c98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAuditor::flagForReview</definition>
+        <argsstring>(const std::string &amp;decision_id, const std::string &amp;reason)</argsstring>
+        <name>flagForReview</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::flagForReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Flag For Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" kindref="member">getDecision()</ref>, has_value(), THEMIS_WARN(), is_null(), json::object(), signDecision(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="148" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="420" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1aadffc24f4ef9463b286c7343c1bebd6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAuditor::recordOverride</definition>
+        <argsstring>(const std::string &amp;decision_id, const std::string &amp;override_reason, const std::string &amp;reviewer_id)</argsstring>
+        <name>recordOverride</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::recordOverride</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>override_reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewer_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">override_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the reviewer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">override_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the reviewer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" kindref="member">getDecision()</ref>, has_value(), THEMIS_WARN(), signDecision(), toJson(), dump(), makeKey(), Put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="157" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="471" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref> &gt;</type>
+        <definition>std::optional&lt; AIDecisionAudit &gt; themis::llm::AIDecisionAuditor::getDecision</definition>
+        <argsstring>(const std::string &amp;decision_id) const</argsstring>
+        <name>getDecision</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::getDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="168" column="19" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="308" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a4d8f4462a5e5e0ac8b12e4e94f5e6375" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAuditor::verifyIntegrity</definition>
+        <argsstring>(const std::string &amp;decision_id) const</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::verifyIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="175" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="514" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1addecf26c437938be00155d4703f2bffc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAuditor::exportForCompliance</definition>
+        <argsstring>(const std::string &amp;output_path, const QueryFilter &amp;filter)</argsstring>
+        <name>exportForCompliance</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::exportForCompliance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kindref="compound">QueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Export For Compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a672514ac9c756c082a754ba927d82c4a" kindref="member">queryAuditLog()</ref>, out(), is_open(), THEMIS_ERROR(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), size(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="183" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="530" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1a709e520fcd6d84dc272e017d5ba55c5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AIDecisionAuditor::Stats themis::llm::AIDecisionAuditor::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="197" column="11" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="566" bodyend="626"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1ac24602e32d146a5fd4c9b8f31454b1a7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAuditor::makeKey</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="211" column="17" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1aee5e3b66894dfbd9215bec02e8ff0582" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAuditor::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="216" column="17" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="141" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1ace46b4476a8b8be5c525815d607cea74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AIDecisionAuditor::signDecision</definition>
+        <argsstring>(const AIDecisionAudit &amp;audit)</argsstring>
+        <name>signDecision</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::signDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref> &amp;</type>
+          <declname>audit</declname>
+        </param>
+        <briefdescription>
+<para>Sign Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toJson(), erase(), dump(), SHA256(), c_str(), length(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="222" column="17" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="165" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_a_i_decision_auditor_1aef788a66f486d410bc75c432fab75e75" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AIDecisionAuditor::verifySignature</definition>
+        <argsstring>(const AIDecisionAudit &amp;audit) const</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::llm::AIDecisionAuditor::verifySignature</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref> &amp;</type>
+          <declname>audit</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_decision_auditor.h" line="228" column="10" bodyfile="src/llm/ai_decision_auditor.cpp" bodystart="191" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_decision_auditor.h" line="101" column="1" bodyfile="include/llm/ai_decision_auditor.h" bodystart="101" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aad1a48f9a73a85fd1dc376e4e6cd2361" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>AIDecisionAuditor</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a294a2c29835febf2b925063603dda125" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1ab45ba784695aac6646ce37b882a96847" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1addecf26c437938be00155d4703f2bffc" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>exportForCompliance</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a324b01170f0525d2fdcaa388d5801c98" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>flagForReview</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1ae1dc615446150f7fbd14fc0df68a9825" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>generateExplanation</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aee5e3b66894dfbd9215bec02e8ff0582" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>getDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a709e520fcd6d84dc272e017d5ba55c5d" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a920363643e85109d16e2524da8dec682" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a9f198110968c2b5419357f3eb31f9be6" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>logDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1ac24602e32d146a5fd4c9b8f31454b1a7" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1afa8959abc67948ed0920bd2b4374f9e1" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>pki_client_</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a672514ac9c756c082a754ba927d82c4a" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>queryAuditLog</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aadffc24f4ef9463b286c7343c1bebd6f" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>recordOverride</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1ace46b4476a8b8be5c525815d607cea74" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>signDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a4d8f4462a5e5e0ac8b12e4e94f5e6375" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>verifyIntegrity</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aef788a66f486d410bc75c432fab75e75" prot="private" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>verifySignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a2d3f03269630c755fdb93c3ac18a755e" prot="public" virt="non-virtual"><scope>themis::llm::AIDecisionAuditor</scope><name>~AIDecisionAuditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

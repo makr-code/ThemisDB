@@ -1,0 +1,2035 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1failover_1_1_auto_failover_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::failover::AutoFailoverManager</compoundname>
+    <includes refid="auto__failover__manager_8h" local="no">auto_failover_manager.h</includes>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" prot="public">themis::failover::AutoFailoverManager::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task" prot="private">themis::failover::AutoFailoverManager::FailoverTask</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" prot="public" static="no">
+        <type>std::function&lt; void( <ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref>, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::failover::AutoFailoverManager::FailoverEventCallback = std::function&lt;void(
+       FailoverEventType,
+       const std::string&amp;,  
+       const std::string&amp;   
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>FailoverEventCallback</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::FailoverEventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="242" column="5" bodyfile="include/failover/auto_failover_manager.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a9160fd74d9140ef02ca4186ecaa5a714" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref></type>
+        <definition>AutoFailoverConfig themis::failover::AutoFailoverManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="368" column="24" bodyfile="include/failover/auto_failover_manager.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a415d283fc1c4dd3d07a99f44f9bd2103" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1failover_1_1_quorum_log" kindref="compound">QuorumLog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QuorumLog&gt; themis::failover::AutoFailoverManager::quorum_log_</definition>
+        <argsstring></argsstring>
+        <name>quorum_log_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::quorum_log_</qualifiedname>
+        <briefdescription>
+<para>Optional durable quorum WAL; null if path not configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="369" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a0bc2742d699a57da7b0dbdafe950506e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt;</type>
+        <definition>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt; themis::failover::AutoFailoverManager::replication_mgr_</definition>
+        <argsstring></argsstring>
+        <name>replication_mgr_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::replication_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="370" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1acf38978f125cb1d896317249f23c156e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::HealthMonitor &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::HealthMonitor&gt; themis::failover::AutoFailoverManager::health_monitor_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::health_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="371" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac8d58823765233ca808be88838bf612c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::HotSpareManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::HotSpareManager&gt; themis::failover::AutoFailoverManager::spare_manager_</definition>
+        <argsstring></argsstring>
+        <name>spare_manager_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::spare_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="372" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ae3f436ad3f2ab07163df55d9d60c1000" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::EpochFencingManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::EpochFencingManager&gt; themis::failover::AutoFailoverManager::fencing_manager_</definition>
+        <argsstring></argsstring>
+        <name>fencing_manager_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::fencing_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="373" column="21" bodyfile="include/failover/auto_failover_manager.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac3bfba79a6727b83f2b01f67adf6654b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref> &gt;</type>
+        <definition>std::atomic&lt;FailoverOrchestratorState&gt; themis::failover::AutoFailoverManager::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="376" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="376" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1aed0f8bbc2326454d528d071ecfd471b3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::failover::AutoFailoverManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="377" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="377" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1acc45703d6abde888a52641924b7db484" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::failover::AutoFailoverManager::failover_in_progress_</definition>
+        <argsstring></argsstring>
+        <name>failover_in_progress_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_in_progress_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="378" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="378" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1adab8493ac39a860f8554a4c58aabbdc4" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::failover::AutoFailoverManager::monitoring_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitoring_thread_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::monitoring_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="381" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ab0c3da40b0800d0b853380e00ee41691" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::failover::AutoFailoverManager::failover_thread_</definition>
+        <argsstring></argsstring>
+        <name>failover_thread_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="382" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a8702e5a9926fafdad0e5fb494a6b7b9a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::AutoFailoverManager::monitor_mutex_</definition>
+        <argsstring></argsstring>
+        <name>monitor_mutex_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::monitor_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="383" column="24" bodyfile="include/failover/auto_failover_manager.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac0d83ec901c9bf4dd974b7f00c66de3e" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::AutoFailoverManager::failover_mutex_</definition>
+        <argsstring></argsstring>
+        <name>failover_mutex_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="384" column="16" bodyfile="include/failover/auto_failover_manager.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a62e3db197c6996d569d222d0125fd1ef" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::failover::AutoFailoverManager::failover_cv_</definition>
+        <argsstring></argsstring>
+        <name>failover_cv_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="385" column="29" bodyfile="include/failover/auto_failover_manager.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a213617b29680be181f7909ee79273434" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; FailoverTask &gt;</type>
+        <definition>std::queue&lt;FailoverTask&gt; themis::failover::AutoFailoverManager::failover_queue_</definition>
+        <argsstring></argsstring>
+        <name>failover_queue_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_queue_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="394" column="16" bodyfile="include/failover/auto_failover_manager.h" bodystart="394" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ada0e47e87f13d7f9eec272a59fdf475c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::failover::AutoFailoverManager::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::consecutive_failures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="397" column="24" bodyfile="include/failover/auto_failover_manager.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a3d1c7bfd411f362ce715f7b547efc69b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::failover::AutoFailoverManager::tracking_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tracking_mutex_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::tracking_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="398" column="31" bodyfile="include/failover/auto_failover_manager.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a8b85bba7008e52a0cf015294f744a110" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::failover::AutoFailoverManager::topology_version_</definition>
+        <argsstring></argsstring>
+        <name>topology_version_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::topology_version_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="400" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="400" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a43241f54026410aeaf09de89ef42596f" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1failover_1_1_failover_result" kindref="compound">FailoverResult</ref> &gt;</type>
+        <definition>std::optional&lt;FailoverResult&gt; themis::failover::AutoFailoverManager::last_failover_result_</definition>
+        <argsstring></argsstring>
+        <name>last_failover_result_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::last_failover_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="407" column="19" bodyfile="include/failover/auto_failover_manager.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a7fa28f0a6c6c7d472a2b78dadfc19ea3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::vector&lt;std::chrono::milliseconds&gt; themis::failover::AutoFailoverManager::health_check_latency_samples_</definition>
+        <argsstring></argsstring>
+        <name>health_check_latency_samples_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::health_check_latency_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="410" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a6cc2023c5ee212bb64d726499304e580" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::vector&lt;std::chrono::steady_clock::time_point&gt; themis::failover::AutoFailoverManager::recent_failure_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>recent_failure_timestamps_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::recent_failure_timestamps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="411" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a30cd9cdb60f79acf10c6ac5080d2f1fd" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::failover::AutoFailoverManager::gc_grace_expiry_</definition>
+        <argsstring></argsstring>
+        <name>gc_grace_expiry_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::gc_grace_expiry_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="412" column="43" bodyfile="include/failover/auto_failover_manager.h" bodystart="412" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1aea558044cfaf39239be46bbfc8c57273" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::AutoFailoverManager::current_check_interval_</definition>
+        <argsstring></argsstring>
+        <name>current_check_interval_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::current_check_interval_</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="413" column="31" bodyfile="include/failover/auto_failover_manager.h" bodystart="413" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1aa41da45ba771a788696fcf249344d677" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::failover::AutoFailoverManager::heartbeat_coalesce_window_start_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_coalesce_window_start_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::heartbeat_coalesce_window_start_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="416" column="43" bodyfile="include/failover/auto_failover_manager.h" bodystart="416" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a0d9acd2581ca99472b64f119528d1d2c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::AutoFailoverManager::heartbeat_coalesce_count_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_coalesce_count_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::heartbeat_coalesce_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="417" column="14" bodyfile="include/failover/auto_failover_manager.h" bodystart="417" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a3c8a7bf716641e82ae144de4e4bbf234" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::AutoFailoverManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="420" column="24" bodyfile="include/failover/auto_failover_manager.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a11beebf1e82641f61f56bee04f559706" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::failover::AutoFailoverManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="421" column="16" bodyfile="include/failover/auto_failover_manager.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ad2dec2b1b77410ccd86cb0b7925aef8f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::vector&lt;std::chrono::milliseconds&gt; themis::failover::AutoFailoverManager::failover_durations_</definition>
+        <argsstring></argsstring>
+        <name>failover_durations_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failover_durations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="422" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a62cf756994d325d66f5028ab213d7c13" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::AutoFailoverManager::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="425" column="24" bodyfile="include/failover/auto_failover_manager.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1ad67fff6d39790ce41ef830395f016d56" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kindref="member">FailoverEventCallback</ref> &gt;</type>
+        <definition>std::vector&lt;FailoverEventCallback&gt; themis::failover::AutoFailoverManager::event_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>event_callbacks_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::event_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="426" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_auto_failover_manager_1a6e10f485f0b51c2e989ae91634c5be06" prot="private" static="no" mutable="no">
+        <type>std::future&lt; std::map&lt; std::string, bool &gt; &gt;</type>
+        <definition>std::future&lt;std::map&lt;std::string, bool&gt; &gt; themis::failover::AutoFailoverManager::abandoned_health_check_future_</definition>
+        <argsstring></argsstring>
+        <name>abandoned_health_check_future_</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::abandoned_health_check_future_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="594" column="17" bodyfile="include/failover/auto_failover_manager.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::AutoFailoverManager::AutoFailoverManager</definition>
+        <argsstring>(const AutoFailoverConfig &amp;config, std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt; replication_mgr, std::shared_ptr&lt; sharding::HealthMonitor &gt; health_monitor, std::shared_ptr&lt; sharding::HotSpareManager &gt; spare_manager, std::shared_ptr&lt; sharding::EpochFencingManager &gt; fencing_manager)</argsstring>
+        <name>AutoFailoverManager</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::AutoFailoverManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt;</type>
+          <declname>replication_mgr</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::HealthMonitor &gt;</type>
+          <declname>health_monitor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::HotSpareManager &gt;</type>
+          <declname>spare_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::EpochFencingManager &gt;</type>
+          <declname>fencing_manager</declname>
+        </param>
+        <briefdescription>
+<para>Auto Failover Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replication_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">health_monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spare_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fencing_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="138" column="14" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="25" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a814bf2bd52e3b6e44a42aa83f98de217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::AutoFailoverManager::~AutoFailoverManager</definition>
+        <argsstring>()</argsstring>
+        <name>~AutoFailoverManager</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::~AutoFailoverManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="146" column="5" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ad3057625feddc42f242049975c1bb8fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: exchange(), spdlog::warn(), transitionState(), std::thread(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="153" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="59" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a78757a4d2251f5923727d6058895d9c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: exchange(), notify_all(), std::chrono::steady_clock::now(), std::chrono::seconds(), joinable(), count(), spdlog::warn(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="158" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="83" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac04c22a9ce8dc4e8756751f26d58cfae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="163" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac9cebd4ecd8a157c4d24516f3eb56256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::triggerManualFailover</definition>
+        <argsstring>(const std::string &amp;failed_node_id, const std::string &amp;target_promote_id=&quot;&quot;)</argsstring>
+        <name>triggerManualFailover</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::triggerManualFailover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_promote_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Trigger Manual Failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_promote_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target promote. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::error(), lock(), config_lock(), size(), stats_lock(), std::chrono::steady_clock::now(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="166" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="144" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a31d122398d066b94de8f3eb05904be28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+        <definition>FailoverOrchestratorState themis::failover::AutoFailoverManager::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::getState</qualifiedname>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="176" column="31" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a7088ec0ecc3a320b03b3e8223dcbed71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::isFailoverInProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>isFailoverInProgress</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::isFailoverInProgress</qualifiedname>
+        <briefdescription>
+<para>Is Failover In Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="181" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="233" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a59a416df84a1c5a820162b4ae2e17aea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::failover::AutoFailoverManager::getFailingNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailingNodes</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::getFailingNodes</qualifiedname>
+        <briefdescription>
+<para>Get Failing Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tracking_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="186" column="17" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="237" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1af3deb301bf6c1d07ea9709b4de93eddb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1failover_1_1_failover_result" kindref="compound">FailoverResult</ref> &gt;</type>
+        <definition>std::optional&lt; FailoverResult &gt; themis::failover::AutoFailoverManager::getLastFailoverResult</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastFailoverResult</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::getLastFailoverResult</qualifiedname>
+        <briefdescription>
+<para>Get Last Failover Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="191" column="19" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="255" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a0c248a17293d0ff9e2cbb5b26b51d064" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::updateConfig</definition>
+        <argsstring>(const AutoFailoverConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="198" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="270" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref></type>
+        <definition>AutoFailoverConfig themis::failover::AutoFailoverManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">monitor_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="203" column="24" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="278" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a3d3a739df9f18ad19bc0e72047ac166b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>AutoFailoverManager::Statistics themis::failover::AutoFailoverManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="235" column="16" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="288" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a18b1b0d1c43e06186e3c38c1e4e819f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="239" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1263" bodyend="1267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1af8388238862d134f335381edddbd2120" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::registerEventCallback</definition>
+        <argsstring>(FailoverEventCallback callback)</argsstring>
+        <name>registerEventCallback</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::registerEventCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kindref="member">FailoverEventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register Event Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="252" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="303" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::canTransition</definition>
+        <argsstring>(FailoverOrchestratorState from, FailoverOrchestratorState to) const</argsstring>
+        <name>canTransition</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::canTransition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Can Transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="260" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1027" bodyend="1088"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a3d7746d4f4cb3b09b7c1afe3d1e0b892" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref></type>
+        <definition>TopologySnapshot themis::failover::AutoFailoverManager::captureTopologySnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>captureTopologySnapshot</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::captureTopologySnapshot</qualifiedname>
+        <briefdescription>
+<para>Capture Topology Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="406" column="22" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="457" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a7827b3a0376f8e09b316e2cba35ee800" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::monitoringLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitoringLoop</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::monitoringLoop</qualifiedname>
+        <briefdescription>
+<para>Monitoring Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), performHealthChecks(), checkForNetworkPartitions(), detectNodeFailures(), std::this_thread::sleep_for(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="431" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="312" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ae3bc5cf3a8d188a9e19e2c5d6a418b48" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::performHealthChecks</definition>
+        <argsstring>()</argsstring>
+        <name>performHealthChecks</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::performHealthChecks</qualifiedname>
+        <briefdescription>
+<para>Perform Health Checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: valid(), wait_for(), std::chrono::seconds(), get(), spdlog::debug(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" kindref="member">getConfig()</ref>, std::chrono::steady_clock::now(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="435" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="330" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a467588a53c352016c580834b77d1a882" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::checkForNetworkPartitions</definition>
+        <argsstring>()</argsstring>
+        <name>checkForNetworkPartitions</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::checkForNetworkPartitions</qualifiedname>
+        <briefdescription>
+<para>Check For Network Partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: isNetworkPartitionedFromQuorum(), spdlog::warn(), emitEvent(), lock(), handleNetworkPartition(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="439" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="403" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a17c34b250d1d9f5c47be05938f4d7ed5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::detectNodeFailures</definition>
+        <argsstring>()</argsstring>
+        <name>detectNodeFailures</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::detectNodeFailures</qualifiedname>
+        <briefdescription>
+<para>Detect Node Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), captureTopologySnapshot(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a59a416df84a1c5a820162b4ae2e17aea" kindref="member">getFailingNodes()</ref>, has_topology_change(), spdlog::warn(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac9cebd4ecd8a157c4d24516f3eb56256" kindref="member">triggerManualFailover()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="443" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="426" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a212010b7cef29f05f023a95775a03e55" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::updateFailureTracking</definition>
+        <argsstring>(const std::string &amp;node_id, bool is_healthy)</argsstring>
+        <name>updateFailureTracking</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::updateFailureTracking</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_healthy</declname>
+        </param>
+        <briefdescription>
+<para>Update Failure Tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_healthy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_healthy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), fetch_add(), checkAndApplyGcGrace(), emitEvent(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="449" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="469" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ac5770eda19aa55fa09504648a1715e96" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::performBoundedHealthCheck</definition>
+        <argsstring>(const std::string &amp;node_id) noexcept</argsstring>
+        <name>performBoundedHealthCheck</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::performBoundedHealthCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Perform Bounded Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="457" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1aa59550808c8529220ef533eb878ae34a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::updateAdaptiveInterval</definition>
+        <argsstring>(std::chrono::milliseconds last_latency)</argsstring>
+        <name>updateAdaptiveInterval</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::updateAdaptiveInterval</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>last_latency</declname>
+        </param>
+        <briefdescription>
+<para>Update Adaptive Interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">last_latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(), std::sort(), end(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="463" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1095" bodyend="1114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1ae1ead9c865b9b957a5af671b85f6c6b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::checkAndApplyGcGrace</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>checkAndApplyGcGrace</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::checkAndApplyGcGrace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Check And Apply Gc Grace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), spdlog::debug(), push_back(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="470" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1122" bodyend="1150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a783284945cf27dc87ca34d14596fc38a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::failoverLoop</definition>
+        <argsstring>()</argsstring>
+        <name>failoverLoop</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::failoverLoop</qualifiedname>
+        <briefdescription>
+<para>Failover Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), std::chrono::seconds(), empty(), front(), pop(), stats_lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="475" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="494" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a52cceda3c0cd5647fe946f61e7a490d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_failover_result" kindref="compound">FailoverResult</ref></type>
+        <definition>FailoverResult themis::failover::AutoFailoverManager::processFailover</definition>
+        <argsstring>(const FailoverTask &amp;task)</argsstring>
+        <name>processFailover</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::processFailover</qualifiedname>
+        <param>
+          <type>const FailoverTask &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Process Failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), transitionState(), spdlog::info(), emitEvent(), checkAndWaitForQuorum(), spdlog::error(), preventSplitBrain(), selectAndPromoteReplica(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="481" column="20" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="561" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a1b4b0ba2d8896e17422bc5151ed8229d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::checkAndWaitForQuorum</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndWaitForQuorum</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::checkAndWaitForQuorum</qualifiedname>
+        <briefdescription>
+<para>Check And Wait For Quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" kindref="member">getConfig()</ref>, std::chrono::steady_clock::now(), hasQuorum(), append(), spdlog::error(), emitDiagnostic(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="486" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="658" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a76abc7615c427c55e5fabfafa0d8ddd5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::startLeaderElection</definition>
+        <argsstring>(const std::string &amp;failed_node_id)</argsstring>
+        <name>startLeaderElection</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::startLeaderElection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Start Leader Election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: transitionState(), emitEvent(), triggerFailover(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="492" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="694" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a3c055d0e327eee5b4ce58334996f491c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::selectAndPromoteReplica</definition>
+        <argsstring>(const std::string &amp;failed_node_id, std::string &amp;promoted_id)</argsstring>
+        <name>selectAndPromoteReplica</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::selectAndPromoteReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>promoted_id</declname>
+        </param>
+        <briefdescription>
+<para>Select And Promote Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">promoted_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the promoted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">promoted_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the promoted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getReplicas(), getReplicaHealthStatus(), push_back(), empty(), spdlog::error(), size(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" kindref="member">getConfig()</ref>, front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="499" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="719" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a0b18f979e4f55e47b04876ef8e02733e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::activateSpareIfNeeded</definition>
+        <argsstring>(const std::string &amp;failed_node_id)</argsstring>
+        <name>activateSpareIfNeeded</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::activateSpareIfNeeded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Activate Spare If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), emitEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="505" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="800" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a20940769eaf3ea68aec1709d5d0e2039" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::updateMetadata</definition>
+        <argsstring>(const std::string &amp;old_leader_id, const std::string &amp;new_leader_id)</argsstring>
+        <name>updateMetadata</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::updateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_leader_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader_id</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the old leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new leader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the old leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new leader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="512" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="823" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a2e3b15bd193efebba41ace63012e1bc3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::verifyFailoverCompletion</definition>
+        <argsstring>(const FailoverTask &amp;task)</argsstring>
+        <name>verifyFailoverCompletion</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::verifyFailoverCompletion</qualifiedname>
+        <param>
+          <type>const FailoverTask &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Verify Failover Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), hasQuorum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="518" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="836" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1aa7bd178377a328abcaf13abd317753ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::preventSplitBrain</definition>
+        <argsstring>(const std::string &amp;failed_node_id)</argsstring>
+        <name>preventSplitBrain</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::preventSplitBrain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Prevent Split Brain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: emitDiagnostic(), spdlog::error(), spdlog::info(), bumpEpoch(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="526" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="847" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a887ef7e056d45a87a788421eea9993ee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::failover::AutoFailoverManager::resolveSplitVote</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;candidates) const</argsstring>
+        <name>resolveSplitVote</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::resolveSplitVote</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Split Vote. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="533" column="17" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1152" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a97fa86d4ea828fe8b6b3e15c302881a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::handleNetworkPartition</definition>
+        <argsstring>()</argsstring>
+        <name>handleNetworkPartition</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::handleNetworkPartition</qualifiedname>
+        <briefdescription>
+<para>Handle Network Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), isNetworkPartitionedFromQuorum(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="540" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="887" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a0e9a1df12005f6ebaf9a0800d0e9dd08" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::isNetworkPartitionedFromQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>isNetworkPartitionedFromQuorum</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::isNetworkPartitionedFromQuorum</qualifiedname>
+        <briefdescription>
+<para>Is Network Partitioned From Quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="545" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="899" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a67616d97d4fa72a5325e69af5fbc4af5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::attemptRecovery</definition>
+        <argsstring>(const std::string &amp;failed_node_id)</argsstring>
+        <name>attemptRecovery</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::attemptRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Attempt Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), recovery_override_(), stats_lock(), emitDiagnostic(), waitForNodeRecovery(), updateFailureTracking(), emitEvent(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="553" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="909" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a2f6f9614c41c274f41bc4c432b2592a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::AutoFailoverManager::waitForNodeRecovery</definition>
+        <argsstring>(const std::string &amp;node_id, uint32_t max_attempts)</argsstring>
+        <name>waitForNodeRecovery</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::waitForNodeRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_attempts</declname>
+        </param>
+        <briefdescription>
+<para>Wait For Node Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getHealthStatus(), isHealthy(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="560" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="992" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1afd93acb64941d39a3599e4f90bdacfed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::transitionState</definition>
+        <argsstring>(FailoverOrchestratorState new_state)</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Transition State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" kindref="member">canTransition()</ref>, spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="567" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1012" bodyend="1025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a481c68ea3007f96162d8852ccd35f605" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::emitDiagnostic</definition>
+        <argsstring>(FailoverErrorCode code, const std::string &amp;node_id, const std::string &amp;detail) noexcept</argsstring>
+        <name>emitDiagnostic</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::emitDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Emit Diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="576" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1159" bodyend="1193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a2c48ad4966cedadf4d1fccec75884631" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::emitEvent</definition>
+        <argsstring>(FailoverEventType type, const std::string &amp;node_id, const std::string &amp;detail) noexcept</argsstring>
+        <name>emitEvent</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::emitEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Emit Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="587" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1195" bodyend="1224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_auto_failover_manager_1a4be9be5180d3f8c2bcfdbbd7d6b000d2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::AutoFailoverManager::updateStatistics</definition>
+        <argsstring>(const FailoverResult &amp;result)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::updateStatistics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_failover_result" kindref="compound">FailoverResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(), empty(), std::accumulate(), end(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="592" column="10" bodyfile="src/failover/auto_failover_manager.cpp" bodystart="1231" bodyend="1257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/auto_failover_manager.h" line="127" column="1" bodyfile="include/failover/auto_failover_manager.h" bodystart="127" bodyend="600"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a6e10f485f0b51c2e989ae91634c5be06" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>abandoned_health_check_future_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0b18f979e4f55e47b04876ef8e02733e" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>activateSpareIfNeeded</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a67616d97d4fa72a5325e69af5fbc4af5" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>attemptRecovery</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>AutoFailoverManager</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a62cf756994d325d66f5028ab213d7c13" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>canTransition</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d7746d4f4cb3b09b7c1afe3d1e0b892" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>captureTopologySnapshot</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae1ead9c865b9b957a5af671b85f6c6b3" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>checkAndApplyGcGrace</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1b4b0ba2d8896e17422bc5151ed8229d" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>checkAndWaitForQuorum</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a467588a53c352016c580834b77d1a882" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>checkForNetworkPartitions</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a9160fd74d9140ef02ca4186ecaa5a714" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ada0e47e87f13d7f9eec272a59fdf475c" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aea558044cfaf39239be46bbfc8c57273" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>current_check_interval_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a17c34b250d1d9f5c47be05938f4d7ed5" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>detectNodeFailures</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a481c68ea3007f96162d8852ccd35f605" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>emitDiagnostic</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2c48ad4966cedadf4d1fccec75884631" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>emitEvent</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad67fff6d39790ce41ef830395f016d56" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>event_callbacks_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a62e3db197c6996d569d222d0125fd1ef" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_cv_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad2dec2b1b77410ccd86cb0b7925aef8f" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_durations_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1acc45703d6abde888a52641924b7db484" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_in_progress_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac0d83ec901c9bf4dd974b7f00c66de3e" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a213617b29680be181f7909ee79273434" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_queue_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ab0c3da40b0800d0b853380e00ee41691" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failover_thread_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>FailoverEventCallback</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a783284945cf27dc87ca34d14596fc38a" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>failoverLoop</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae3f436ad3f2ab07163df55d9d60c1000" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>fencing_manager_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a30cd9cdb60f79acf10c6ac5080d2f1fd" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>gc_grace_expiry_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a59a416df84a1c5a820162b4ae2e17aea" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>getFailingNodes</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1af3deb301bf6c1d07ea9709b4de93eddb" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>getLastFailoverResult</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a31d122398d066b94de8f3eb05904be28" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>getState</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d3a739df9f18ad19bc0e72047ac166b" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a97fa86d4ea828fe8b6b3e15c302881a1" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>handleNetworkPartition</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7fa28f0a6c6c7d472a2b78dadfc19ea3" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>health_check_latency_samples_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1acf38978f125cb1d896317249f23c156e" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>health_monitor_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0d9acd2581ca99472b64f119528d1d2c" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>heartbeat_coalesce_count_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa41da45ba771a788696fcf249344d677" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>heartbeat_coalesce_window_start_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7088ec0ecc3a320b03b3e8223dcbed71" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>isFailoverInProgress</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0e9a1df12005f6ebaf9a0800d0e9dd08" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>isNetworkPartitionedFromQuorum</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac04c22a9ce8dc4e8756751f26d58cfae" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a43241f54026410aeaf09de89ef42596f" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>last_failover_result_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a8702e5a9926fafdad0e5fb494a6b7b9a" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>monitor_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1adab8493ac39a860f8554a4c58aabbdc4" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>monitoring_thread_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7827b3a0376f8e09b316e2cba35ee800" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>monitoringLoop</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac5770eda19aa55fa09504648a1715e96" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>performBoundedHealthCheck</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ae3bc5cf3a8d188a9e19e2c5d6a418b48" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>performHealthChecks</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa7bd178377a328abcaf13abd317753ac" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>preventSplitBrain</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a52cceda3c0cd5647fe946f61e7a490d0" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>processFailover</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a415d283fc1c4dd3d07a99f44f9bd2103" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>quorum_log_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a6cc2023c5ee212bb64d726499304e580" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>recent_failure_timestamps_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1af8388238862d134f335381edddbd2120" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>registerEventCallback</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0bc2742d699a57da7b0dbdafe950506e" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>replication_mgr_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a18b1b0d1c43e06186e3c38c1e4e819f7" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a887ef7e056d45a87a788421eea9993ee" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>resolveSplitVote</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aed0f8bbc2326454d528d071ecfd471b3" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3c055d0e327eee5b4ce58334996f491c" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>selectAndPromoteReplica</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac8d58823765233ca808be88838bf612c" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>spare_manager_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad3057625feddc42f242049975c1bb8fb" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a76abc7615c427c55e5fabfafa0d8ddd5" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>startLeaderElection</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac3bfba79a6727b83f2b01f67adf6654b" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>state_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a11beebf1e82641f61f56bee04f559706" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3c8a7bf716641e82ae144de4e4bbf234" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a78757a4d2251f5923727d6058895d9c9" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a8b85bba7008e52a0cf015294f744a110" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>topology_version_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d1c7bfd411f362ce715f7b547efc69b" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>tracking_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1afd93acb64941d39a3599e4f90bdacfed" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>transitionState</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac9cebd4ecd8a157c4d24516f3eb56256" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>triggerManualFailover</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa59550808c8529220ef533eb878ae34a" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>updateAdaptiveInterval</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0c248a17293d0ff9e2cbb5b26b51d064" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a212010b7cef29f05f023a95775a03e55" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>updateFailureTracking</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a20940769eaf3ea68aec1709d5d0e2039" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>updateMetadata</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a4be9be5180d3f8c2bcfdbbd7d6b000d2" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2e3b15bd193efebba41ace63012e1bc3" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>verifyFailoverCompletion</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a2f6f9614c41c274f41bc4c432b2592a6" prot="private" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>waitForNodeRecovery</name></member>
+      <member refid="classthemis_1_1failover_1_1_auto_failover_manager_1a814bf2bd52e3b6e44a42aa83f98de217" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager</scope><name>~AutoFailoverManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

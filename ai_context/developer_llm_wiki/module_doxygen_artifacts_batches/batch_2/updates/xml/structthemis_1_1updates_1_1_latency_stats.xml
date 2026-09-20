@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_latency_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::LatencyStats</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_latency_stats_1a3e470362ae9efaa1cc24a5d7fd29e415" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::updates::LatencyStats::p50</definition>
+        <argsstring></argsstring>
+        <name>p50</name>
+        <qualifiedname>themis::updates::LatencyStats::p50</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="310" column="31" bodyfile="include/updates/canary_rollout.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_latency_stats_1a67ab53ea4f66b70f4e9643329a9dabf1" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::updates::LatencyStats::p95</definition>
+        <argsstring></argsstring>
+        <name>p95</name>
+        <qualifiedname>themis::updates::LatencyStats::p95</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="311" column="31" bodyfile="include/updates/canary_rollout.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_latency_stats_1a210abeb91d7499cac23131c37c0e95a9" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::updates::LatencyStats::p99</definition>
+        <argsstring></argsstring>
+        <name>p99</name>
+        <qualifiedname>themis::updates::LatencyStats::p99</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="312" column="31" bodyfile="include/updates/canary_rollout.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_latency_stats_1a1413ad8381d0813fc6216031d2a74812" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::LatencyStats::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::updates::LatencyStats::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="313" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Percentile latency statistics computed from observed samples. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="309" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="309" bodyend="314"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_latency_stats_1a3e470362ae9efaa1cc24a5d7fd29e415" prot="public" virt="non-virtual"><scope>themis::updates::LatencyStats</scope><name>p50</name></member>
+      <member refid="structthemis_1_1updates_1_1_latency_stats_1a67ab53ea4f66b70f4e9643329a9dabf1" prot="public" virt="non-virtual"><scope>themis::updates::LatencyStats</scope><name>p95</name></member>
+      <member refid="structthemis_1_1updates_1_1_latency_stats_1a210abeb91d7499cac23131c37c0e95a9" prot="public" virt="non-virtual"><scope>themis::updates::LatencyStats</scope><name>p99</name></member>
+      <member refid="structthemis_1_1updates_1_1_latency_stats_1a1413ad8381d0813fc6216031d2a74812" prot="public" virt="non-virtual"><scope>themis::updates::LatencyStats</scope><name>sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

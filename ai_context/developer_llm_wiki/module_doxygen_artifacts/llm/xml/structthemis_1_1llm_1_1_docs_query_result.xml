@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_docs_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DocsQueryResult</compoundname>
+    <includes refid="docs__assistant_8h" local="no">docs_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1adcb397cc41a2a93722d8b81918f2dd55" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_document_entry" kindref="compound">DocumentEntry</ref> &gt;</type>
+        <definition>std::vector&lt;DocumentEntry&gt; themis::llm::DocsQueryResult::relevant_docs</definition>
+        <argsstring></argsstring>
+        <name>relevant_docs</name>
+        <qualifiedname>themis::llm::DocsQueryResult::relevant_docs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="105" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1a04b555a12ac1745899e0ef0c18d485b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocsQueryResult::generated_answer</definition>
+        <argsstring></argsstring>
+        <name>generated_answer</name>
+        <qualifiedname>themis::llm::DocsQueryResult::generated_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="106" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1a54fbd098411f671221ebca8ad822fede" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DocsQueryResult::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::llm::DocsQueryResult::confidence_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="107" column="11" bodyfile="include/llm/docs_assistant.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1a1e32bb0c4d9a5dca603b793d08a456c0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocsQueryResult::total_docs_searched</definition>
+        <argsstring></argsstring>
+        <name>total_docs_searched</name>
+        <qualifiedname>themis::llm::DocsQueryResult::total_docs_searched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="108" column="9" bodyfile="include/llm/docs_assistant.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1ae8b26e1efd23e2f5d47d66dccd9832a3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocsQueryResult::docs_included_in_context</definition>
+        <argsstring></argsstring>
+        <name>docs_included_in_context</name>
+        <qualifiedname>themis::llm::DocsQueryResult::docs_included_in_context</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="109" column="9" bodyfile="include/llm/docs_assistant.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1ae1c31f675e37aadcedd317062d0a82d5" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::DocsQueryResult::search_time_ms</definition>
+        <argsstring></argsstring>
+        <name>search_time_ms</name>
+        <qualifiedname>themis::llm::DocsQueryResult::search_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="110" column="31" bodyfile="include/llm/docs_assistant.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_query_result_1a326bb19100153277db07af9cd0f1e96d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::DocsQueryResult::generation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>generation_time_ms</name>
+        <qualifiedname>themis::llm::DocsQueryResult::generation_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="111" column="31" bodyfile="include/llm/docs_assistant.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_query_result_1a09413de2f3fbc090d2c6a469eca2431c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::DocsQueryResult::~DocsQueryResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DocsQueryResult</name>
+        <qualifiedname>themis::llm::DocsQueryResult::~DocsQueryResult</qualifiedname>
+        <briefdescription>
+<para>Docs Query Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="104" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/docs_assistant.h" line="99" column="1" bodyfile="include/llm/docs_assistant.h" bodystart="99" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1a54fbd098411f671221ebca8ad822fede" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1ae8b26e1efd23e2f5d47d66dccd9832a3" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>docs_included_in_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1a04b555a12ac1745899e0ef0c18d485b0" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>generated_answer</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1a326bb19100153277db07af9cd0f1e96d" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>generation_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1adcb397cc41a2a93722d8b81918f2dd55" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>relevant_docs</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1ae1c31f675e37aadcedd317062d0a82d5" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>search_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1a1e32bb0c4d9a5dca603b793d08a456c0" prot="public" virt="non-virtual"><scope>themis::llm::DocsQueryResult</scope><name>total_docs_searched</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_query_result_1a09413de2f3fbc090d2c6a469eca2431c" prot="public" virt="virtual"><scope>themis::llm::DocsQueryResult</scope><name>~DocsQueryResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

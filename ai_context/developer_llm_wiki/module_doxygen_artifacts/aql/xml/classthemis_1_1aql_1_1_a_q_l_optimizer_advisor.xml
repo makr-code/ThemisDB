@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLOptimizerAdvisor</compoundname>
+    <includes refid="aql__optimizer__advisor_8h" local="no">aql_optimizer_advisor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1a43c929acc6a7aa11e1c4acb5b4fe85c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLOptimizerAdvisor::AQLOptimizerAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLOptimizerAdvisor</name>
+        <qualifiedname>themis::aql::AQLOptimizerAdvisor::AQLOptimizerAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_optimizer_advisor.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1ab3a24bbb378a14b0bccf26da41c1c3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLOptimizerAdvisor::~AQLOptimizerAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AQLOptimizerAdvisor</name>
+        <qualifiedname>themis::aql::AQLOptimizerAdvisor::~AQLOptimizerAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_optimizer_advisor.h" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1a9a133da24a5030022f95413d6c0eb9c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_validation_issue" kindref="compound">ValidationIssue</ref> &gt;</type>
+        <definition>std::vector&lt; ValidationIssue &gt; themis::aql::AQLOptimizerAdvisor::suggest</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>suggest</name>
+        <qualifiedname>themis::aql::AQLOptimizerAdvisor::suggest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Suggest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_optimizer_advisor.h" line="32" column="17" bodyfile="src/aql/aql_optimizer_advisor.cpp" bodystart="98" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_optimizer_advisor.h" line="22" column="1" bodyfile="include/aql/aql_optimizer_advisor.h" bodystart="22" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1a43c929acc6a7aa11e1c4acb5b4fe85c8" prot="public" virt="non-virtual"><scope>themis::aql::AQLOptimizerAdvisor</scope><name>AQLOptimizerAdvisor</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1a9a133da24a5030022f95413d6c0eb9c6" prot="public" virt="non-virtual"><scope>themis::aql::AQLOptimizerAdvisor</scope><name>suggest</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_optimizer_advisor_1ab3a24bbb378a14b0bccf26da41c1c3cb" prot="public" virt="non-virtual"><scope>themis::aql::AQLOptimizerAdvisor</scope><name>~AQLOptimizerAdvisor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_view_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ViewDefinition</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1a5afe444b87974daf56892de590355397" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ViewDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="121" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1a94cd286c7141eef8f2b4dde20de8dbd6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ViewDefinition::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::source_collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="122" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1ad313e0a4f01da3115702cc46089b7919" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::ViewDefinition::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="124" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1aed34aba9bbf85f26664d4efab66a76ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_view_agg_spec" kindref="compound">ViewAggSpec</ref> &gt;</type>
+        <definition>std::vector&lt;ViewAggSpec&gt; themisdb::analytics::ViewDefinition::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="126" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1a2bc3517a6bb62828672f102da6cf1122" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_view_filter" kindref="compound">ViewFilter</ref> &gt;</type>
+        <definition>std::vector&lt;ViewFilter&gt; themisdb::analytics::ViewDefinition::base_filters</definition>
+        <argsstring></argsstring>
+        <name>base_filters</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::base_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="128" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_definition_1a735bfacc4c0fb2736a9ec4d61325b8eb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ViewDefinition::staleness_seconds</definition>
+        <argsstring></argsstring>
+        <name>staleness_seconds</name>
+        <qualifiedname>themisdb::analytics::ViewDefinition::staleness_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="130" column="13" bodyfile="include/analytics/incremental_view.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="120" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="120" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1aed34aba9bbf85f26664d4efab66a76ca" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>aggregations</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1a2bc3517a6bb62828672f102da6cf1122" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>base_filters</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1ad313e0a4f01da3115702cc46089b7919" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>dimensions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1a5afe444b87974daf56892de590355397" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1a94cd286c7141eef8f2b4dde20de8dbd6" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>source_collection</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_definition_1a735bfacc4c0fb2736a9ec4d61325b8eb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewDefinition</scope><name>staleness_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

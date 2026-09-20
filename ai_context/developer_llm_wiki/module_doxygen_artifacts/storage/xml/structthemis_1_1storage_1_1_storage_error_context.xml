@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_storage_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::StorageErrorContext</compoundname>
+    <includes refid="storage__error__diagnostics_8h" local="no">storage_error_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a0964731c6653b13faa436e8f0c4a56f9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+        <definition>StorageErrorCode themis::storage::StorageErrorContext::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::storage::StorageErrorContext::error_code</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StorageErrorCode::OK</ref>}</initializer>
+        <briefdescription>
+<para>The error code (from <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref> enum). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="110" column="22" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1ac00a6ffe44d806f8f0f9118e7a52c70c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageErrorContext::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::storage::StorageErrorContext::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="113" column="17" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a59961738020588dae007735432130c14" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref></type>
+        <definition>ErrorIncidentType themis::storage::StorageErrorContext::incident_type</definition>
+        <argsstring></argsstring>
+        <name>incident_type</name>
+        <qualifiedname>themis::storage::StorageErrorContext::incident_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ae8c0c70879b5895c615677261d64a1ee" kindref="member">ErrorIncidentType::INTERNAL_ERROR</ref>}</initializer>
+        <briefdescription>
+<para>Incident classification (recovery fault, storage pressure, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="116" column="23" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1aebc8d662567f752b44b49910890c01bf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref></type>
+        <definition>ErrorSeverity themis::storage::StorageErrorContext::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::storage::StorageErrorContext::severity</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ErrorSeverity::LOW</ref>}</initializer>
+        <briefdescription>
+<para>Severity level for alerting and prioritization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="119" column="19" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1ace3e42082d26d92c98a33590357d1572" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageErrorContext::operation_context</definition>
+        <argsstring></argsstring>
+        <name>operation_context</name>
+        <qualifiedname>themis::storage::StorageErrorContext::operation_context</qualifiedname>
+        <briefdescription>
+<para>Optional operation context (e.g., &quot;put(key=foo)&quot;, &quot;restore(timestamp=...)&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="122" column="17" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a2c874ed23f571c336b2ed8f08af4150f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageErrorContext::affected_resource</definition>
+        <argsstring></argsstring>
+        <name>affected_resource</name>
+        <qualifiedname>themis::storage::StorageErrorContext::affected_resource</qualifiedname>
+        <briefdescription>
+<para>Optional affected resource (e.g., WAL path, key, partition ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="125" column="17" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1aa01f9751168c82074977a63146c53b44" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::StorageErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::storage::StorageErrorContext::timestamp</qualifiedname>
+        <initializer>{
+        std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Timestamp when error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="128" column="43" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="128" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1aa5bdffcb75affc51cd2665e1f91a1726" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageErrorContext::recovery_suggestion</definition>
+        <argsstring></argsstring>
+        <name>recovery_suggestion</name>
+        <qualifiedname>themis::storage::StorageErrorContext::recovery_suggestion</qualifiedname>
+        <briefdescription>
+<para>Optional suggestion for operator or automated recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="132" column="17" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a8f163d7c9f4435a8341c8187d9b59d63" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::StorageErrorContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::storage::StorageErrorContext::retry_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Retry policy recommendation (0 = don&apos;t retry, N &gt; 0 = max retries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="135" column="9" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a0344a5c5b017b1ecad289c6f6691bb77" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::StorageErrorContext::is_durability_threat</definition>
+        <argsstring></argsstring>
+        <name>is_durability_threat</name>
+        <qualifiedname>themis::storage::StorageErrorContext::is_durability_threat</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether error represents a durability threat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="138" column="10" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_error_context_1a37b61989e16bd7a17e0fb32ca043cd41" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::StorageErrorContext::is_retryable</definition>
+        <argsstring></argsstring>
+        <name>is_retryable</name>
+        <qualifiedname>themis::storage::StorageErrorContext::is_retryable</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether error is retryable without manual intervention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="141" column="10" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detailed context information for a storage error. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides comprehensive diagnostic data to assist with error recovery and root-cause analysis. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_error_diagnostics.h" line="108" column="1" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="108" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a2c874ed23f571c336b2ed8f08af4150f" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>affected_resource</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a0964731c6653b13faa436e8f0c4a56f9" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a59961738020588dae007735432130c14" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>incident_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a0344a5c5b017b1ecad289c6f6691bb77" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>is_durability_threat</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a37b61989e16bd7a17e0fb32ca043cd41" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>is_retryable</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1ac00a6ffe44d806f8f0f9118e7a52c70c" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>message</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1ace3e42082d26d92c98a33590357d1572" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>operation_context</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1aa5bdffcb75affc51cd2665e1f91a1726" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>recovery_suggestion</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1a8f163d7c9f4435a8341c8187d9b59d63" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1aebc8d662567f752b44b49910890c01bf" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>severity</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_error_context_1aa01f9751168c82074977a63146c53b44" prot="public" virt="non-virtual"><scope>themis::storage::StorageErrorContext</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,663 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_forecast_model" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastModel</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_model_info" prot="public">themisdb::analytics::ForecastModel::ModelInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl" prot="public">themisdb::analytics::ForecastModel::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_forecast_model_1ab18abf64cba5c834bff06198d4b6c18a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themisdb::analytics::ForecastModel::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="362" column="21" bodyfile="include/analytics/forecasting.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ForecastModel::ForecastModel</definition>
+        <argsstring>(ForecastMethod method=ForecastMethod::LINEAR_REGRESSION)</argsstring>
+        <name>ForecastModel</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::ForecastModel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" kindref="member">ForecastMethod</ref></type>
+          <declname>method</declname>
+          <defval><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a8fdbe96b7ca9c61d8b8231ee046e0c64" kindref="member">ForecastMethod::LINEAR_REGRESSION</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="251" column="14" bodyfile="src/analytics/forecasting.cpp" bodystart="1941" bodyend="1943"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a82e21dd8129088fa58af41689c6f785e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ForecastModel::ForecastModel</definition>
+        <argsstring>(const ForecastConfig &amp;config, ForecastMethod method=ForecastMethod::LINEAR_REGRESSION)</argsstring>
+        <name>ForecastModel</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::ForecastModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" kindref="member">ForecastMethod</ref></type>
+          <declname>method</declname>
+          <defval><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a8fdbe96b7ca9c61d8b8231ee046e0c64" kindref="member">ForecastMethod::LINEAR_REGRESSION</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="252" column="14" bodyfile="src/analytics/forecasting.cpp" bodystart="1945" bodyend="1948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a5f63822499daaab65ae292b1df7d402f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ForecastModel::~ForecastModel</definition>
+        <argsstring>()</argsstring>
+        <name>~ForecastModel</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::~ForecastModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="254" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ab08c45ce5d5eb5fc0970d6098edd0fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ForecastModel::ForecastModel</definition>
+        <argsstring>(const ForecastModel &amp;)=delete</argsstring>
+        <name>ForecastModel</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::ForecastModel</qualifiedname>
+        <param>
+          <type>const ForecastModel &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ab768c134256ef4449bcdd091815c0668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref> &amp;</type>
+        <definition>ForecastModel &amp; themisdb::analytics::ForecastModel::operator=</definition>
+        <argsstring>(const ForecastModel &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="258" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ae676b81835ebd985599c8dacc81c31c8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ForecastModel::ForecastModel</definition>
+        <argsstring>(ForecastModel &amp;&amp;) noexcept</argsstring>
+        <name>ForecastModel</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::ForecastModel</qualifiedname>
+        <param>
+          <type>ForecastModel &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="259" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a4f7ce3b88d41e620fded794577e078a3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref> &amp;</type>
+        <definition>ForecastModel &amp; themisdb::analytics::ForecastModel::operator=</definition>
+        <argsstring>(ForecastModel &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="260" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1aeb6ed90379c9b53d99025f298050be9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::fit</definition>
+        <argsstring>(const TimeSeries &amp;ts)</argsstring>
+        <name>fit</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::fit</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref> &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Fit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements fit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="267" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1959" bodyend="1961"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a6236b043405c0f379a9aa74b203974ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::fit</definition>
+        <argsstring>(const TimeSeries &amp;ts, const ForecastConfig &amp;config)</argsstring>
+        <name>fit</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::fit</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref> &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Fit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), size(), values(), timestamps(), computeCacheKey(), std::async(), std::sqrt(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="273" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1970" bodyend="2072"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a638fc3523d61fd7bd783cc69b5ef2093" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastModel::isFitted</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isFitted</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::isFitted</qualifiedname>
+        <briefdescription>
+<para>Is Fitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="280" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="2074" bodyend="2077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ad805517c5cfb00a7dbb51b074deaf901" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_forecast_point" kindref="compound">ForecastPoint</ref> &gt;</type>
+        <definition>std::vector&lt; ForecastPoint &gt; themisdb::analytics::ForecastModel::predict</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predict</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::predict</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+<para>Predict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="288" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="2079" bodyend="2111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1afcc03ff2e28e70ac14a3fc3202460ef9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_forecast_point" kindref="compound">ForecastPoint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; ForecastPoint &gt; &gt; themisdb::analytics::ForecastModel::predictBatch</definition>
+        <argsstring>(const std::vector&lt; TimeSeries &gt; &amp;batch, int steps) const</argsstring>
+        <name>predictBatch</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::predictBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+<para>Predict Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>M. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="296" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="2113" bodyend="2147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1a97e30d526e75f5427c110b28bcf7a597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::update</definition>
+        <argsstring>(double new_value)</argsstring>
+        <name>update</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::update</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), medianInterval(), empty(), back(), push_back(), std::abs(), std::sqrt(), themisdb::analytics::fitLinear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="303" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="2154" bodyend="2286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1af48fe14406e7d76de47c4265315a794e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_metrics" kindref="compound">ForecastMetrics</ref></type>
+        <definition>ForecastMetrics themisdb::analytics::ForecastModel::evaluate</definition>
+        <argsstring>(const TimeSeries &amp;test_ts) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref> &amp;</type>
+          <declname>test_ts</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="311" column="21" bodyfile="src/analytics/forecasting.cpp" bodystart="2288" bodyend="2300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1abeea269833798f0fd6690ca08b514313" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_decomposition_result" kindref="compound">DecompositionResult</ref></type>
+        <definition>DecompositionResult themisdb::analytics::ForecastModel::decompose</definition>
+        <argsstring>(bool multiplicative=false) const</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::decompose</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>multiplicative</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="315" column="25" bodyfile="src/analytics/forecasting.cpp" bodystart="2302" bodyend="2377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ac51b64914f9ccdad6ab2e05517795d3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ForecastModel::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_digits10</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+std::fixed is intentionally NOT used here so integers (e.g. timestamps) and small fractions both serialise without unnecessary padding.</para>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="322" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="2379" bodyend="2502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1aaff04e0f4c8bdaf9776e179febec4e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_model_info" kindref="compound">ModelInfo</ref></type>
+        <definition>ForecastModel::ModelInfo themisdb::analytics::ForecastModel::info</definition>
+        <argsstring>() const</argsstring>
+        <name>info</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::info</qualifiedname>
+        <briefdescription>
+<para>Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="346" column="22" bodyfile="src/analytics/forecasting.cpp" bodystart="2743" bodyend="2756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1af27624750d699a9026329d586cbd62ad" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" kindref="member">ForecastMethod</ref></type>
+        <definition>ForecastMethod themisdb::analytics::ForecastModel::method</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>method</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::method</qualifiedname>
+        <briefdescription>
+<para>Method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="352" column="22" bodyfile="src/analytics/forecasting.cpp" bodystart="2758" bodyend="2761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1ab8ac16295111627d6ebcb0f2c3129cff" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref> &amp;</type>
+        <definition>const ForecastConfig &amp; themisdb::analytics::ForecastModel::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::config</qualifiedname>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="358" column="26" bodyfile="src/analytics/forecasting.cpp" bodystart="2763" bodyend="2766"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref></type>
+        <definition>ForecastModel themisdb::analytics::ForecastModel::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), ss(), std::getline(), find(), emplace(), substr(), end(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="328" column="26" bodyfile="src/analytics/forecasting.cpp" bodystart="2511" bodyend="2741"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemisdb_1_1analytics_1_1_forecast_model_1a153f9580ddb152d6561c5234daa9072d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; exponentialSmoothing</definition>
+        <argsstring>(ForecastModel &amp;model, const std::vector&lt; double &gt; &amp;timeseries, double alpha, double beta=0.0, double gamma=0.0)</argsstring>
+        <name>exponentialSmoothing</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::exponentialSmoothing</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" kindref="member">ForecastModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>timeseries</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="364" column="22" bodyfile="src/analytics/forecasting.cpp" bodystart="2864" bodyend="2938"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="248" column="1" bodyfile="include/analytics/forecasting.h" bodystart="248" bodyend="370"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ab8ac16295111627d6ebcb0f2c3129cff" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1abeea269833798f0fd6690ca08b514313" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>decompose</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>deserialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1af48fe14406e7d76de47c4265315a794e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>evaluate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a153f9580ddb152d6561c5234daa9072d" prot="private" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>exponentialSmoothing</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1aeb6ed90379c9b53d99025f298050be9f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>fit</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a6236b043405c0f379a9aa74b203974ba" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>fit</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae90fb808e239e425359290ab13f42d0b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>ForecastModel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a82e21dd8129088fa58af41689c6f785e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>ForecastModel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ab08c45ce5d5eb5fc0970d6098edd0fa2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>ForecastModel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ae676b81835ebd985599c8dacc81c31c8" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>ForecastModel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ab18abf64cba5c834bff06198d4b6c18a" prot="private" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>impl_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1aaff04e0f4c8bdaf9776e179febec4e86" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>info</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a638fc3523d61fd7bd783cc69b5ef2093" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>isFitted</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1af27624750d699a9026329d586cbd62ad" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>method</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ab768c134256ef4449bcdd091815c0668" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a4f7ce3b88d41e620fded794577e078a3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ad805517c5cfb00a7dbb51b074deaf901" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>predict</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1afcc03ff2e28e70ac14a3fc3202460ef9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>predictBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1ac51b64914f9ccdad6ab2e05517795d3e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>serialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a97e30d526e75f5427c110b28bcf7a597" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>update</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_forecast_model_1a5f63822499daaab65ae292b1df7d402f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel</scope><name>~ForecastModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaDeadWeightDetector::Config</compoundname>
+    <includes refid="schema__dead__weight__detector_8h" local="no">schema_dead_weight_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1ac55009e28e0e2331fa0a72b625bf7e70" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::SchemaDeadWeightDetector::Config::analysis_window_days</definition>
+        <argsstring></argsstring>
+        <name>analysis_window_days</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::Config::analysis_window_days</qualifiedname>
+        <initializer>{180}</initializer>
+        <briefdescription>
+<para>Rolling window for dead-weight analysis (default: 180 days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="133" column="18" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a55adec55de865c51e5c705b1b961f0b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::SchemaDeadWeightDetector::Config::seasonality_exclusion_threshold</definition>
+        <argsstring></argsstring>
+        <name>seasonality_exclusion_threshold</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::Config::seasonality_exclusion_threshold</qualifiedname>
+        <initializer>{0.7}</initializer>
+        <briefdescription>
+<para>Seasonality score threshold above which a field is NOT a candidate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="136" column="16" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a2dc407bb4890ad2b953272f42baaa5fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::SchemaDeadWeightDetector::Config::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::Config::min_confidence</qualifiedname>
+        <initializer>{0.1}</initializer>
+        <briefdescription>
+<para>Minimum confidence required to include a candidate in the report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="139" column="16" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1aad6add7d8132f805f53fc4e42fbccbea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SchemaDeadWeightDetector::Config::fourier_harmonics</definition>
+        <argsstring></argsstring>
+        <name>fourier_harmonics</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::Config::fourier_harmonics</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Number of Fourier harmonics used for seasonality detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="142" column="16" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/schema_dead_weight_detector.h" line="131" column="5" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="131" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1ac55009e28e0e2331fa0a72b625bf7e70" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::Config</scope><name>analysis_window_days</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1aad6add7d8132f805f53fc4e42fbccbea" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::Config</scope><name>fourier_harmonics</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a2dc407bb4890ad2b953272f42baaa5fe" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::Config</scope><name>min_confidence</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a55adec55de865c51e5c705b1b961f0b6" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::Config</scope><name>seasonality_exclusion_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

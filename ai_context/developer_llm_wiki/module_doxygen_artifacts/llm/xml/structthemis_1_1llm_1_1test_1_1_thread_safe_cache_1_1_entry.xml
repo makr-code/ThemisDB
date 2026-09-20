@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::test::ThreadSafeCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry_1a242a633457e1c71b0e09625e6a5645b5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::test::ThreadSafeCache::Entry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::Entry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="212" column="17" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry_1aac15f5276668adf993a0af99ce6471f0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::test::ThreadSafeCache::Entry::ref_count</definition>
+        <argsstring></argsstring>
+        <name>ref_count</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::Entry::ref_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="213" column="17" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="211" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="211" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry_1a242a633457e1c71b0e09625e6a5645b5" prot="public" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache::Entry</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry_1aac15f5276668adf993a0af99ce6471f0" prot="public" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache::Entry</scope><name>ref_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

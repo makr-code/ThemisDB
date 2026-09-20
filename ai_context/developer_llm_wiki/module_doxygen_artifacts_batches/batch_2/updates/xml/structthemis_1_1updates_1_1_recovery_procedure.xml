@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_recovery_procedure" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::RecoveryProcedure</compoundname>
+    <includes refid="updates__operator__diagnostics_8h" local="no">updates_operator_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1a6b8d1a2c431941b0e7f262b9d887ee82" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::RecoveryProcedure::scenario</definition>
+        <argsstring></argsstring>
+        <name>scenario</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::scenario</qualifiedname>
+        <briefdescription>
+<para>Failure scenario addressed by this procedure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="110" column="21" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1ac422c2229e7cf0b90c00156ae40d5697" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RecoveryProcedure::symptoms</definition>
+        <argsstring></argsstring>
+        <name>symptoms</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::symptoms</qualifiedname>
+        <briefdescription>
+<para>Brief description of symptoms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="113" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1a306c940d9fe71fb41f03825328710934" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::RecoveryProcedure::root_cause_analysis</definition>
+        <argsstring></argsstring>
+        <name>root_cause_analysis</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::root_cause_analysis</qualifiedname>
+        <briefdescription>
+<para>Root cause analysis steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="116" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1aa0e343314e0a9613e04fe79c11477db5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::RecoveryProcedure::recovery_steps</definition>
+        <argsstring></argsstring>
+        <name>recovery_steps</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::recovery_steps</qualifiedname>
+        <briefdescription>
+<para>Recovery steps in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="119" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1afce347c15a6ee58029ae1f67470f55cf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::RecoveryProcedure::prevention_tips</definition>
+        <argsstring></argsstring>
+        <name>prevention_tips</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::prevention_tips</qualifiedname>
+        <briefdescription>
+<para>Prevention recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="122" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_recovery_procedure_1ab231e6cc31f04e80f610797f18773b1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RecoveryProcedure::expected_outcome</definition>
+        <argsstring></argsstring>
+        <name>expected_outcome</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::expected_outcome</qualifiedname>
+        <briefdescription>
+<para>Expected outcomes after recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="125" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_recovery_procedure_1a64e235c671968c7a5edf0aee2b963a92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::RecoveryProcedure::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::updates::RecoveryProcedure::to_json</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON for documentation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="128" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Recovery procedure for a failure scenario. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Documented steps that have been validated through Phase 4-5 testing. </para>
+    </detaileddescription>
+    <location file="include/updates/updates_operator_diagnostics.h" line="108" column="1" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="108" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1ab231e6cc31f04e80f610797f18773b1c" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>expected_outcome</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1afce347c15a6ee58029ae1f67470f55cf" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>prevention_tips</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1aa0e343314e0a9613e04fe79c11477db5" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>recovery_steps</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1a306c940d9fe71fb41f03825328710934" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>root_cause_analysis</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1a6b8d1a2c431941b0e7f262b9d887ee82" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>scenario</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1ac422c2229e7cf0b90c00156ae40d5697" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>symptoms</name></member>
+      <member refid="structthemis_1_1updates_1_1_recovery_procedure_1a64e235c671968c7a5edf0aee2b963a92" prot="public" virt="non-virtual"><scope>themis::updates::RecoveryProcedure</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

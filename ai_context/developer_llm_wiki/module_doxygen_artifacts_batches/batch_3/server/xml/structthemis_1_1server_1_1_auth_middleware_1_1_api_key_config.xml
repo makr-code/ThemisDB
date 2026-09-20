@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AuthMiddleware::ApiKeyConfig</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1ab71e3b8db8194546fd1ba8037732ab7d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::ApiKeyConfig::check_expiry</definition>
+        <argsstring></argsstring>
+        <name>check_expiry</name>
+        <qualifiedname>themis::server::AuthMiddleware::ApiKeyConfig::check_expiry</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Reject keys whose expiry has passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="87" column="14" bodyfile="include/server/auth_middleware.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a3822c6de8cd744a2dd679ea8ec465c2e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AuthMiddleware::ApiKeyConfig::max_key_id_length</definition>
+        <argsstring></argsstring>
+        <name>max_key_id_length</name>
+        <qualifiedname>themis::server::AuthMiddleware::ApiKeyConfig::max_key_id_length</qualifiedname>
+        <initializer>{128}</initializer>
+        <briefdescription>
+<para>Maximum allowed key_id length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="88" column="16" bodyfile="include/server/auth_middleware.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a89cfd6891b1dbd361126779d1c0a9036" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AuthMiddleware::ApiKeyConfig::max_secret_length</definition>
+        <argsstring></argsstring>
+        <name>max_secret_length</name>
+        <qualifiedname>themis::server::AuthMiddleware::ApiKeyConfig::max_secret_length</qualifiedname>
+        <initializer>{512}</initializer>
+        <briefdescription>
+<para>Maximum allowed secret length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="89" column="16" bodyfile="include/server/auth_middleware.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config" kindref="compound">ApiKeyConfig</ref></type>
+        <definition>static ApiKeyConfig themis::AuthMiddleware::ApiKeyConfig::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::server::AuthMiddleware::ApiKeyConfig::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="95" column="29" bodyfile="include/server/auth_middleware.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="86" column="5" bodyfile="include/server/auth_middleware.h" bodystart="86" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1ab71e3b8db8194546fd1ba8037732ab7d" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::ApiKeyConfig</scope><name>check_expiry</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::ApiKeyConfig</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a3822c6de8cd744a2dd679ea8ec465c2e" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::ApiKeyConfig</scope><name>max_key_id_length</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_api_key_config_1a89cfd6891b1dbd361126779d1c0a9036" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::ApiKeyConfig</scope><name>max_secret_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

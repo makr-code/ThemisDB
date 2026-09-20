@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "description": "Pull request governance rules for ThemisDB.",
+  "scope": "pull_request",
+  "required_metadata": {
+    "required_sections": [
+      "summary",
+      "changes",
+      "testing",
+      "risk",
+      "breaking_changes",
+      "migration_notes"
+    ],
+    "minimum_body_length": 120,
+    "must_link_related_issues": true,
+    "must_state_impact_on_release_or_security": true
+  },
+  "branch_rules": {
+    "protected_branches": [
+      "develop",
+      "community",
+      "enterprise",
+      "hyperscaler",
+      "military",
+      "release/*"
+    ],
+    "require_branch_policy": true,
+    "forbid_legacy_branch_names": [
+      "main",
+      "millitary"
+    ],
+    "require_linear_history_for_release": true
+  },
+  "review_rules": {
+    "required_approvers": 2,
+    "require_code_owner_review": true,
+    "require_conversation_resolution": true,
+    "dismiss_stale_reviews": true
+  },
+  "status_checks": {
+    "required": [
+      "build-windows-msvc",
+      "build-linux-gcc",
+      "test-unit",
+      "static-analysis",
+      "security-scan",
+      "validate-ai-guardrails",
+      "validate-roadmap"
+    ],
+    "required_for_release": [
+      "build-docker",
+      "test-integration",
+      "test-performance"
+    ]
+  },
+  "labels": {
+    "required": [
+      "status/needs-review"
+    ],
+    "allowed": [
+      "type/feature",
+      "type/bugfix",
+      "type/docs",
+      "type/security",
+      "type/ops",
+      "governance/waiver-requested",
+      "status/blocked",
+      "status/needs-info"
+    ],
+    "forbidden": [
+      "do-not-merge",
+      "wip"
+    ]
+  },
+  "content_rules": {
+    "block_hardcoded_secrets": true,
+    "must_not_modify_legacy_paths_without_explicit_approval": true,
+    "must_document_stub_mock_or_simulation_paths": true,
+    "must_update_related_docs_when_public_api_changes": true,
+    "must_not_use_global_allowlists_without_review": true
+  },
+  "workflows": {
+    "commenting": "Use .github/actions/status-flags-and-issues for tracker comments and status labels.",
+    "concurrency_required": true,
+    "least_privilege_permissions_required": true,
+    "paths_and_branches_must_be_specific": true
+  }
+}

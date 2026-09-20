@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_liveness_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceLivenessChecker</compoundname>
+    <includes refid="voice__liveness__checker_8h" local="no">voice_liveness_checker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1aa8bd1c71526362cea94696d9e7ebee56" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessChecker::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::session_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="222" column="17" bodyfile="include/voice/voice_liveness_checker.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a381a2403693cc606d09d0cb75a2d1055" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessChecker::speaker_profile_</definition>
+        <argsstring></argsstring>
+        <name>speaker_profile_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::speaker_profile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="223" column="17" bodyfile="include/voice/voice_liveness_checker.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a7fb30c27b5e863a6d0542a879696d00c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceLivenessChecker::chunks_checked_</definition>
+        <argsstring></argsstring>
+        <name>chunks_checked_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::chunks_checked_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="224" column="14" bodyfile="include/voice/voice_liveness_checker.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a01ee23ebff00ee0939c457afcd0d34b3" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceLivenessChecker::chunks_rejected_</definition>
+        <argsstring></argsstring>
+        <name>chunks_rejected_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::chunks_rejected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="225" column="14" bodyfile="include/voice/voice_liveness_checker.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a432b8477d7d4e0407a1f2c2006b5c1f5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::VoiceLivenessChecker::audio_hash_history_</definition>
+        <argsstring></argsstring>
+        <name>audio_hash_history_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::audio_hash_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="226" column="17" bodyfile="include/voice/voice_liveness_checker.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a9b6712db612a570701a0874c5fb8f77f" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::voice::VoiceLivenessChecker::last_chunk_time_</definition>
+        <argsstring></argsstring>
+        <name>last_chunk_time_</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::last_chunk_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="227" column="52" bodyfile="include/voice/voice_liveness_checker.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a0973e8f0f2f6b190dccbe4edfb96a273" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceLivenessChecker::VoiceLivenessChecker</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;speaker_profile=&quot;&quot;)</argsstring>
+        <name>VoiceLivenessChecker</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::VoiceLivenessChecker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>speaker_profile</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a liveness checker for a voice session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speaker_profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference profile of expected speaker (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="139" column="14" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="18" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1afffec044a8452792c16f9c2a3fba3e98" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_liveness_check_result" kindref="compound">LivenessCheckResult</ref></type>
+        <definition>LivenessCheckResult themis::voice::VoiceLivenessChecker::check_audio_chunk</definition>
+        <argsstring>(const uint8_t *audio_data, size_t audio_size, uint32_t sample_rate)</argsstring>
+        <name>check_audio_chunk</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::check_audio_chunk</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>audio_size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Check if audio chunk is live and not spoofed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check audio chunk.</para>
+<para>Analyzes acoustic properties to detect:<itemizedlist>
+<listitem><para>Replay attacks (same audio repeated)</para>
+</listitem><listitem><para>Synthetic/TTS speech</para>
+</listitem><listitem><para>Extreme audio conditions</para>
+</listitem><listitem><para>Silence or noise</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio samples </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of audio in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample rate in Hz</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_liveness_check_result" kindref="compound">LivenessCheckResult</ref> with detection outcome</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if parameters are invalid</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a15b92ce3427e8a13d98cc819978c5493" kindref="member">is_silence_or_noise_only()</ref>, estimate_liveness_confidence(), detect_spoof_indicators(), <ref refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a2a227bf1ef102c2b763116985b4db290" kindref="member">compute_audio_hash()</ref>, <ref refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a8702fe267179329c11868b5756c9481e" kindref="member">is_replay_detected()</ref>, std::max(), uint8_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="159" column="26" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="121" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a8702fe267179329c11868b5756c9481e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceLivenessChecker::is_replay_detected</definition>
+        <argsstring>(const std::string &amp;audio_hash) noexcept</argsstring>
+        <name>is_replay_detected</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::is_replay_detected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_hash</declname>
+        </param>
+        <briefdescription>
+<para>Check for replay attacks by comparing to session history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyzes spectral and temporal features to detect if audio matches previously seen patterns (replay detection).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Computed hash of current audio chunk </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if replay is suspected; false if appears novel </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="173" column="11" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="179" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a15b92ce3427e8a13d98cc819978c5493" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceLivenessChecker::is_silence_or_noise_only</definition>
+        <argsstring>(const uint8_t *audio_data, size_t audio_size, uint32_t sample_rate) const noexcept</argsstring>
+        <name>is_silence_or_noise_only</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::is_silence_or_noise_only</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>audio_size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Check if audio is pure silence or noise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audio samples </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample rate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if silence/noise detected; false if has speech </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="184" column="11" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="196" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a2a227bf1ef102c2b763116985b4db290" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessChecker::compute_audio_hash</definition>
+        <argsstring>(const uint8_t *audio_data, size_t audio_size) const noexcept</argsstring>
+        <name>compute_audio_hash</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::compute_audio_hash</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>audio_size</declname>
+        </param>
+        <briefdescription>
+<para>Compute acoustic hash of audio chunk for replay detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audio samples </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size in bytes</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hex string hash of audio features </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="197" column="18" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="215" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1adfdf9a51259f178e7b130530f1e8dcfe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceLivenessChecker::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset liveness checker state (for new stream). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="204" column="10" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="235" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1aa34543adffe47ba1842740b5a30b6ba9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::voice::VoiceLivenessChecker::session_id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::session_id</qualifiedname>
+        <briefdescription>
+<para>Get session ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="209" column="24" bodyfile="include/voice/voice_liveness_checker.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1af97e015eb0b257e2b7d627965cf41c84" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceLivenessChecker::chunks_checked</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>chunks_checked</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::chunks_checked</qualifiedname>
+        <briefdescription>
+<para>Get number of chunks checked so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="214" column="15" bodyfile="include/voice/voice_liveness_checker.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1aa57d90ecd1988941473379bcd4a18f1b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceLivenessChecker::chunks_rejected</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>chunks_rejected</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::chunks_rejected</qualifiedname>
+        <briefdescription>
+<para>Get number of chunks rejected due to liveness failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="219" column="15" bodyfile="include/voice/voice_liveness_checker.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1a8f44ace199b898ead742c0259be6edea" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::VoiceLivenessChecker::detect_spoof_indicators</definition>
+        <argsstring>(const uint8_t *audio_data, size_t audio_size, uint32_t sample_rate) const noexcept</argsstring>
+        <name>detect_spoof_indicators</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::detect_spoof_indicators</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>audio_size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="230" column="14" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="31" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_liveness_checker_1ac902b1b36466a25a1427e98bdc6c00c7" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::VoiceLivenessChecker::estimate_liveness_confidence</definition>
+        <argsstring>(const uint8_t *audio_data, size_t audio_size, uint32_t sample_rate) const noexcept</argsstring>
+        <name>estimate_liveness_confidence</name>
+        <qualifiedname>themis::voice::VoiceLivenessChecker::estimate_liveness_confidence</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>audio_size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="235" column="14" bodyfile="src/voice/voice_liveness_checker.cpp" bodystart="81" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performs liveness detection and anti-spoof verification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates that audio is:<orderedlist>
+<listitem><para>Live speech (not pre-recorded or synthetic)</para>
+</listitem><listitem><para>Not a replay of previous audio</para>
+</listitem><listitem><para>From the expected speaker</para>
+</listitem><listitem><para>Within expected acoustic characteristics </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_checker.h" line="131" column="1" bodyfile="include/voice/voice_liveness_checker.h" bodystart="131" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a432b8477d7d4e0407a1f2c2006b5c1f5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>audio_hash_history_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1afffec044a8452792c16f9c2a3fba3e98" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>check_audio_chunk</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1af97e015eb0b257e2b7d627965cf41c84" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>chunks_checked</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a7fb30c27b5e863a6d0542a879696d00c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>chunks_checked_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1aa57d90ecd1988941473379bcd4a18f1b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>chunks_rejected</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a01ee23ebff00ee0939c457afcd0d34b3" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>chunks_rejected_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a2a227bf1ef102c2b763116985b4db290" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>compute_audio_hash</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a8f44ace199b898ead742c0259be6edea" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>detect_spoof_indicators</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1ac902b1b36466a25a1427e98bdc6c00c7" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>estimate_liveness_confidence</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a8702fe267179329c11868b5756c9481e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>is_replay_detected</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a15b92ce3427e8a13d98cc819978c5493" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>is_silence_or_noise_only</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a9b6712db612a570701a0874c5fb8f77f" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>last_chunk_time_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1adfdf9a51259f178e7b130530f1e8dcfe" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1aa34543adffe47ba1842740b5a30b6ba9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>session_id</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1aa8bd1c71526362cea94696d9e7ebee56" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>session_id_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a381a2403693cc606d09d0cb75a2d1055" prot="private" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>speaker_profile_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_liveness_checker_1a0973e8f0f2f6b190dccbe4edfb96a273" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessChecker</scope><name>VoiceLivenessChecker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

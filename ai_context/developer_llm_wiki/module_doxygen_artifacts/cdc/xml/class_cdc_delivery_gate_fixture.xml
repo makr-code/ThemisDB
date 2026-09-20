@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdc_delivery_gate_fixture" kind="class" language="C++" prot="public">
+    <compoundname>CdcDeliveryGateFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path CdcDeliveryGateFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CdcDeliveryGateFixture::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="143" column="43" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CdcDeliveryGateFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CdcDeliveryGateFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="144" column="27" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CdcDeliveryGateFixture::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CdcDeliveryGateFixture::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="145" column="31" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_delivery_gate_fixture_1ae325f4d951114cef256c9f29522fcdfb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsumerGroupManager&gt; CdcDeliveryGateFixture::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>CdcDeliveryGateFixture::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="146" column="21" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_cdc_delivery_gate_fixture_1a98f95cc07841f53bf806ec38331f1b1c" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt; int &gt; CdcDeliveryGateFixture::instance_counter_</definition>
+        <argsstring></argsstring>
+        <name>instance_counter_</name>
+        <qualifiedname>CdcDeliveryGateFixture::instance_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="149" column="24" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cdc_delivery_gate_fixture_1ad6a20e9758738a66d0a0ca9f51d1ae11" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcDeliveryGateFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CdcDeliveryGateFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="82" column="10" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="82" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_delivery_gate_fixture_1aa86896e77877feb468e594a7f26f8bf1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcDeliveryGateFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CdcDeliveryGateFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="105" column="10" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_delivery_gate_fixture_1a76d392640eef97778e4bc01cbab72d66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcDeliveryGateFixture::seedEvents</definition>
+        <argsstring>(int n)</argsstring>
+        <name>seedEvents</name>
+        <qualifiedname>CdcDeliveryGateFixture::seedEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="115" column="10" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="115" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_cdc_delivery_gate_fixture_1a416ffbf5983d7f0d64babcb4a78171d6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>static std::vector&lt; Changefeed::ChangeEvent &gt; CdcDeliveryGateFixture::makeSyntheticEvents</definition>
+        <argsstring>(int count, uint64_t base_seq=1)</argsstring>
+        <name>makeSyntheticEvents</name>
+        <qualifiedname>CdcDeliveryGateFixture::makeSyntheticEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_seq</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="126" column="24" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="126" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdcDeliveryGateFixture</label>
+        <link refid="class_cdc_delivery_gate_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdcDeliveryGateFixture</label>
+        <link refid="class_cdc_delivery_gate_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="80" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="80" bodyend="150"/>
+    <listofallmembers>
+      <member refid="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" prot="protected" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>changefeed_</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" prot="protected" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>db_</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" prot="protected" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>db_path_</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1a98f95cc07841f53bf806ec38331f1b1c" prot="private" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>instance_counter_</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1a416ffbf5983d7f0d64babcb4a78171d6" prot="public" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>makeSyntheticEvents</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1ae325f4d951114cef256c9f29522fcdfb" prot="protected" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>manager_</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1a76d392640eef97778e4bc01cbab72d66" prot="public" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>seedEvents</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1ad6a20e9758738a66d0a0ca9f51d1ae11" prot="public" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>SetUp</name></member>
+      <member refid="class_cdc_delivery_gate_fixture_1aa86896e77877feb468e594a7f26f8bf1" prot="public" virt="non-virtual"><scope>CdcDeliveryGateFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

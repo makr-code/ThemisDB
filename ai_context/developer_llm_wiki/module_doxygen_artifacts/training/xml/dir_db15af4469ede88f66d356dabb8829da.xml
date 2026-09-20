@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_db15af4469ede88f66d356dabb8829da" kind="dir">
+    <compoundname>benchmarks/training</compoundname>
+    <innerfile refid="bench__training__dedicated__gates_8cpp">bench_training_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__training__lifecycle__gates_8cpp">bench_training_lifecycle_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/training/"/>
+  </compounddef>
+</doxygen>

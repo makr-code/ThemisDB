@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_plugin_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginLoader</compoundname>
+    <includes refid="plugin__loader_8h" local="no">plugin_loader.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_plugin_loader_1_1_plugin_handle" prot="private">themis::acceleration::PluginLoader::PluginHandle</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_plugin_loader_1ae0ce168de99e5b3cb2ba5b73a38fe4b0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; PluginHandle &gt;</type>
+        <definition>std::vector&lt;PluginHandle&gt; themis::acceleration::PluginLoader::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>themis::acceleration::PluginLoader::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="123" column="17" bodyfile="include/acceleration/plugin_loader.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::PluginLoader::PluginLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginLoader</name>
+        <qualifiedname>themis::acceleration::PluginLoader::PluginLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1aab98ebb195cd9b4ab195530216d75686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::PluginLoader::~PluginLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginLoader</name>
+        <qualifiedname>themis::acceleration::PluginLoader::~PluginLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="74" column="5" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1ae69fa55a99974c9391a6ef96380a4993" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginLoader::loadPlugin</definition>
+        <argsstring>(const std::string &amp;libraryPath)</argsstring>
+        <name>loadPlugin</name>
+        <qualifiedname>themis::acceleration::PluginLoader::loadPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>libraryPath</declname>
+        </param>
+        <briefdescription>
+<para>Load Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">libraryPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">libraryPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_plugin_security_verifier_1a9ce03771515f7b322fa9e5dc3374cfaa" kindref="member">PluginSecurityVerifier::validatePluginPath()</ref>, <ref refid="classthemis_1_1acceleration_1_1_plugin_security_auditor_1a463ee575d9d25dd1a6126557a133393b" kindref="member">PluginSecurityAuditor::instance()</ref>, logEvent(), std::time(), stat(), c_str(), verifier(), verifyPlugin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="81" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="118" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1aa5d8bb174a093ddcbd0344f42e5e15fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::PluginLoader::loadPluginsFromDirectory</definition>
+        <argsstring>(const std::string &amp;directoryPath)</argsstring>
+        <name>loadPluginsFromDirectory</name>
+        <qualifiedname>themis::acceleration::PluginLoader::loadPluginsFromDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directoryPath</declname>
+        </param>
+        <briefdescription>
+<para>Load Plugins From Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directoryPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directoryPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::exists(), fs::is_directory(), fs::canonical(), defined(), fs::directory_iterator(), is_symlink(), path(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="88" column="12" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="238" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a3ac756700e560b448f00c291d911f23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::PluginLoader::unloadPlugin</definition>
+        <argsstring>(const std::string &amp;pluginName)</argsstring>
+        <name>unloadPlugin</name>
+        <qualifiedname>themis::acceleration::PluginLoader::unloadPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pluginName</declname>
+        </param>
+        <briefdescription>
+<para>Unload Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pluginName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pluginName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), unloadLibrary(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="94" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="314" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a16d64911a5fb491168a382eb2fad95bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::PluginLoader::unloadAllPlugins</definition>
+        <argsstring>()</argsstring>
+        <name>unloadAllPlugins</name>
+        <qualifiedname>themis::acceleration::PluginLoader::unloadAllPlugins</qualifiedname>
+        <briefdescription>
+<para>Unload All Plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: unloadLibrary(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="99" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="329" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a49419fd2d284a07748b78543cf8d7dd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref> *</type>
+        <definition>BackendPlugin * themis::acceleration::PluginLoader::getPlugin</definition>
+        <argsstring>(const std::string &amp;pluginName) const</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::acceleration::PluginLoader::getPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pluginName</declname>
+        </param>
+        <briefdescription>
+<para>Get Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pluginName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="106" column="19" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="337" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a4bdfe3639503804d8144153c39b29206" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1acceleration_1_1_backend_plugin" kindref="compound">BackendPlugin</ref> * &gt;</type>
+        <definition>std::vector&lt; BackendPlugin * &gt; themis::acceleration::PluginLoader::getLoadedPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>getLoadedPlugins</name>
+        <qualifiedname>themis::acceleration::PluginLoader::getLoadedPlugins</qualifiedname>
+        <briefdescription>
+<para>Get Loaded Plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="112" column="17" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="346" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a8de844cacd8d0142583a3c2b3f52bce1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::acceleration::PluginLoader::loadLibrary</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadLibrary</name>
+        <qualifiedname>themis::acceleration::PluginLoader::loadLibrary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="130" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a18fdd235c1f90f96c6daf08969127c8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::acceleration::PluginLoader::getSymbol</definition>
+        <argsstring>(void *handle, const std::string &amp;symbolName)</argsstring>
+        <name>getSymbol</name>
+        <qualifiedname>themis::acceleration::PluginLoader::getSymbol</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbolName</declname>
+        </param>
+        <briefdescription>
+<para>Get Symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">symbolName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="138" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_plugin_loader_1a8415d12e1af573055444af690e5e411f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::PluginLoader::unloadLibrary</definition>
+        <argsstring>(void *handle)</argsstring>
+        <name>unloadLibrary</name>
+        <qualifiedname>themis::acceleration::PluginLoader::unloadLibrary</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unload Library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: FreeLibrary(), dlclose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="144" column="10" bodyfile="src/acceleration/plugin_loader.cpp" bodystart="100" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_loader.h" line="70" column="1" bodyfile="include/acceleration/plugin_loader.h" bodystart="70" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a4bdfe3639503804d8144153c39b29206" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>getLoadedPlugins</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a49419fd2d284a07748b78543cf8d7dd3" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a18fdd235c1f90f96c6daf08969127c8d" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>getSymbol</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a8de844cacd8d0142583a3c2b3f52bce1" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>loadLibrary</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1ae69fa55a99974c9391a6ef96380a4993" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>loadPlugin</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1aa5d8bb174a093ddcbd0344f42e5e15fb" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>loadPluginsFromDirectory</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a43914281ba6cefb59fe51ddea64bf814" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>PluginLoader</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1ae0ce168de99e5b3cb2ba5b73a38fe4b0" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>plugins_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a16d64911a5fb491168a382eb2fad95bc" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>unloadAllPlugins</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a8415d12e1af573055444af690e5e411f" prot="private" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>unloadLibrary</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1a3ac756700e560b448f00c291d911f23f" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>unloadPlugin</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_plugin_loader_1aab98ebb195cd9b4ab195530216d75686" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginLoader</scope><name>~PluginLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="policy_8h" kind="file" language="C++">
+    <compoundname>policy.h</compoundname>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="policy_8cpp" local="yes">src/replication/policy.cpp</includedby>
+    <includedby refid="test__replication__new__features_8cpp" local="yes">tests/replication/test_replication_new_features.cpp</includedby>
+    <includedby refid="test__replication__wave1__critical__fixes_8cpp" local="yes">tests/replication/test_replication_wave1_critical_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/replication/policy.h</label>
+        <link refid="policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>queue</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/replication/policy.h</label>
+        <link refid="policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/replication/policy.cpp</label>
+        <link refid="policy_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/replication/test_replication_new_features.cpp</label>
+        <link refid="test__replication__new__features_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/replication/test_replication_wave1_critical_fixes.cpp</label>
+        <link refid="test__replication__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_policy" prot="public">themisdb::replication::ReplicationPolicy</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" prot="public">themisdb::replication::ReplicationPolicy::Policy</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" prot="public">themisdb::replication::ReplicationPolicy::ValidationResult</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemisdb_1_1replication_1_1_replication_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a0684b4a078eab398b2bd1ab39297bddf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a0684b4a078eab398b2bd1ab39297bddf" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replica<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6060eb06346d0dd72292407387980e8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6060eb06346d0dd72292407387980e8c" kindref="member">min_replicas</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="84" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa79f0339ddf7b6ab964428ecd4c4ffff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa79f0339ddf7b6ab964428ecd4c4ffff" kindref="member">desired_replicas</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1ad8a0bb864b74343d03222258e292c56a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1ad8a0bb864b74343d03222258e292c56a" kindref="member">max_replicas</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geographic<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a1ce01a6038fecf22ae96771ea38d70ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a1ce01a6038fecf22ae96771ea38d70ab" kindref="member">required_datacenters</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aef799e7aed620e7c7c05a713f6fe4777" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aef799e7aed620e7c7c05a713f6fe4777" kindref="member">preferred_datacenters</ref>;<sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a8e2189e192da6fd2c22dea6839311762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a8e2189e192da6fd2c22dea6839311762" kindref="member">min_datacenters</ref><sp/><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6c1493fcb362e192f578692efde73cf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" kindref="member">ReplicationMode</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6c1493fcb362e192f578692efde73cf7" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca767c2b6654e7bd7ac3dae9cbaa2c390b" kindref="member">ReplicationMode::SEMI_SYNC</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1afeac3c43158496cea8e910eba4672ab3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1afeac3c43158496cea8e910eba4672ab3" kindref="member">write_quorum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa2725fbdcb56369b8767cbf66ca7939a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa2725fbdcb56369b8767cbf66ca7939a" kindref="member">read_quorum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a539f44cd816a2184fac6f9b9d4c2f8ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a539f44cd816a2184fac6f9b9d4c2f8ed" kindref="member">max_replication_lag_ms</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a939985c1d8f7a35594368ec97beac51d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a939985c1d8f7a35594368ec97beac51d" kindref="member">enable_compression</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6b16259051e6bb3528e962388b33ca64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6b16259051e6bb3528e962388b33ca64" kindref="member">enable_encryption</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a78ef069bdb07a61758b340dfcc0194ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a78ef069bdb07a61758b340dfcc0194ac" kindref="member">wal_retention</ref><sp/>=<sp/>std::chrono::hours(168);<sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a4e44d755aec2f070214915be54bcd6e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a4e44d755aec2f070214915be54bcd6e2" kindref="member">enable_pitr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1af6fe4255630c28ad3c60baca73388f98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1af6fe4255630c28ad3c60baca73388f98" kindref="member">is_valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1a7c325ba6a6261960f7355a8d31b7ba32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1a7c325ba6a6261960f7355a8d31b7ba32" kindref="member">violations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1a582f9746cedbae24f2c773f2c395ac63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result_1a582f9746cedbae24f2c773f2c395ac63" kindref="member">recommendations</ref>;<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>(std::shared_ptr&lt;ReplicationManager&gt;<sp/>manager);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemisdb_1_1replication_1_1_replication_policy_1a6bd5355ca37315f356af4f8e11c60832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6bd5355ca37315f356af4f8e11c60832" kindref="member">ReplicationPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="classthemisdb_1_1replication_1_1_replication_policy_1aa8d5f8e784155c76a1940433bde80ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1aa8d5f8e784155c76a1940433bde80ccd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="classthemisdb_1_1replication_1_1_replication_policy_1a762c60234103b24edf0688b686e841ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a762c60234103b24edf0688b686e841ce" kindref="member">ReplicationPolicy</ref>(<ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="132" refid="classthemisdb_1_1replication_1_1_replication_policy_1ad160f41d6582f1645e9b4a774d0308c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a068c4dcf727fa2e8a4d7b1497f1c91b9" kindref="member">definePolicy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>policy_name,<sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a2f67b0053cd6031a3235c4f148cde80f" kindref="member">removePolicy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>policy_name);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6b3b62e6f5606a90416664540d0cbef6" kindref="member">assignPolicy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>policy_name);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a2edd3d54a711da33cb3cf127e92a1b6b" kindref="member">getPolicy</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection)<sp/>const;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a1d222a483c3b4aeacf24152b7e05765a" kindref="member">listPolicies</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a0401becee9f7194bf0e345961351abbd" kindref="member">validatePolicy</ref>(const<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref>&amp;<sp/>policy)<sp/>const;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref>&gt;<sp/>manager_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policies_mutex_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>policies_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><sp/>assignments_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref><sp/>defaultPolicy();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/policy.h"/>
+  </compounddef>
+</doxygen>

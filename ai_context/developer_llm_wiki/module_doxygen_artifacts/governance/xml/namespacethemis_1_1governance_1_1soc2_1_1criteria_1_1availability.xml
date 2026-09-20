@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1availability" kind="namespace" language="C++">
+    <compoundname>themis::governance::soc2::criteria::availability</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1availability_1a116d0a30196cc4ee7bb9cec81493fa0c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::soc2::criteria::availability::kAvailability</definition>
+        <argsstring></argsstring>
+        <name>kAvailability</name>
+        <qualifiedname>themis::governance::soc2::criteria::availability::kAvailability</qualifiedname>
+        <initializer>= &quot;A1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="226" column="24" bodyfile="include/governance/compliance_mapping.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="225" column="5"/>
+  </compounddef>
+</doxygen>

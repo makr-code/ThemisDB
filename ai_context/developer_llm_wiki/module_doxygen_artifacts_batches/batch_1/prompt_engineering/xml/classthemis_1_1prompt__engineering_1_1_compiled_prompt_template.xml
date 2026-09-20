@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::CompiledPromptTemplate</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" prot="public" virt="non-virtual">themis::prompt_engineering::IPromptTemplate</basecompoundref>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa044a6efe8d39b63540a7cf4e7441515" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class PromptTemplateCompiler</definition>
+        <argsstring></argsstring>
+        <name>PromptTemplateCompiler</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::PromptTemplateCompiler</qualifiedname>
+        <param>
+          <type>PromptTemplateCompiler</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="224" column="18" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a0def46dfc156b40cf290602fadd1d777" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CompiledPromptTemplate::source_</definition>
+        <argsstring></argsstring>
+        <name>source_</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::source_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="226" column="54" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1af22cf60c91cb53e884c667197fb29425" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref> &gt;</type>
+        <definition>std::vector&lt;SlotDefinition&gt; themis::prompt_engineering::CompiledPromptTemplate::slots_</definition>
+        <argsstring></argsstring>
+        <name>slots_</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="227" column="38" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa9b93aaf7a7b6a9e7e5ccafb6e5135c0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" kindref="member">detail::ASTNodePtr</ref> &gt;</type>
+        <definition>std::vector&lt;detail::ASTNodePtr&gt; themis::prompt_engineering::CompiledPromptTemplate::ast_</definition>
+        <argsstring></argsstring>
+        <name>ast_</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::ast_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="228" column="34" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1afa530145422013ac2882a0d3209f5f73" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SlotDefinition&gt; themis::prompt_engineering::CompiledPromptTemplate::slot_index_</definition>
+        <argsstring></argsstring>
+        <name>slot_index_</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::slot_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="229" column="25" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</definition>
+        <argsstring>()=default</argsstring>
+        <name>CompiledPromptTemplate</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="204" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad4fd1a189d06ddb17d8347de875149e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::CompiledPromptTemplate::~CompiledPromptTemplate</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CompiledPromptTemplate</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::~CompiledPromptTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="205" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aec4622508556c28fd9daf22dcdf80239" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</definition>
+        <argsstring>(const CompiledPromptTemplate &amp;)=default</argsstring>
+        <name>CompiledPromptTemplate</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</qualifiedname>
+        <param>
+          <type>const CompiledPromptTemplate &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aaebc8fabb05167b0af93992a7f98f484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref> &amp;</type>
+        <definition>CompiledPromptTemplate &amp; themis::prompt_engineering::CompiledPromptTemplate::operator=</definition>
+        <argsstring>(const CompiledPromptTemplate &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="208" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ab5b8b6367437c0d5eda10a243edff0b3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</definition>
+        <argsstring>(CompiledPromptTemplate &amp;&amp;) noexcept=default</argsstring>
+        <name>CompiledPromptTemplate</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::CompiledPromptTemplate</qualifiedname>
+        <param>
+          <type>CompiledPromptTemplate &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="209" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a8b0a682d56479d854bfa56a9329afcdf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref> &amp;</type>
+        <definition>CompiledPromptTemplate &amp; themis::prompt_engineering::CompiledPromptTemplate::operator=</definition>
+        <argsstring>(CompiledPromptTemplate &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="210" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a39e2e91a4515fa36df0ceb0012e9713e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::CompiledPromptTemplate::source</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>source</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::source</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1ab8b77f0243e914195fef686940314254">source</reimplements>
+        <briefdescription>
+<para>Return the raw source string that was compiled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="214" column="36" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a18043a43a832e3307b86f2970402620b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; SlotDefinition &gt; &amp; themis::prompt_engineering::CompiledPromptTemplate::slots</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>slots</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::slots</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a229908c9b1173e471a23831c8b2e65e5">slots</reimplements>
+        <briefdescription>
+<para>Return the list of declared slot definitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="215" column="23" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="500" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a27ff3e34f688024856aff027d24516b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CompiledPromptTemplate::render</definition>
+        <argsstring>(const PromptContext &amp;ctx) const override</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::render</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a17b0f664bebbbbfc63e24d51c6be7c5f">render</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Render the template using the supplied context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>PromptTemplateMissingSlotError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a required slot is absent. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>PromptTemplateTypeMismatchError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a slot value has the wrong type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="216" column="37" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="504" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a3816e14e24b60ab4c3ecfdfe600251fe" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::CompiledPromptTemplate::validate</definition>
+        <argsstring>(const PromptContext &amp;ctx) const noexcept override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a75ba03017f89fd40f235618a2f38f239">validate</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate the context without rendering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an empty vector on success; returns error messages when required slots are missing or types are wrong. Never throws. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="217" column="24" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="511" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a64817b603745de32c9d2bb284bee09c7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::CompiledPromptTemplate::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::CompiledPromptTemplate::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="221" column="20" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="517" bodyend="526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A compiled, type-validated prompt template. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler_1a651b5195f7f78a64884d9a7ea7dfd27e" kindref="member">PromptTemplateCompiler::compile()</ref></computeroutput>. The internal AST is immutable; the object is cheap to copy (the AST is shared through <computeroutput>shared_ptr</computeroutput>). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::CompiledPromptTemplate</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptTemplate</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::CompiledPromptTemplate</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptTemplate</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="202" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="202" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa9b93aaf7a7b6a9e7e5ccafb6e5135c0" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>ast_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>CompiledPromptTemplate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aec4622508556c28fd9daf22dcdf80239" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>CompiledPromptTemplate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ab5b8b6367437c0d5eda10a243edff0b3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>CompiledPromptTemplate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aaebc8fabb05167b0af93992a7f98f484" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a8b0a682d56479d854bfa56a9329afcdf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa044a6efe8d39b63540a7cf4e7441515" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>PromptTemplateCompiler</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a27ff3e34f688024856aff027d24516b4" prot="public" virt="virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>render</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1afa530145422013ac2882a0d3209f5f73" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>slot_index_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a18043a43a832e3307b86f2970402620b" prot="public" virt="virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>slots</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1af22cf60c91cb53e884c667197fb29425" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>slots_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a39e2e91a4515fa36df0ceb0012e9713e" prot="public" virt="virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>source</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a0def46dfc156b40cf290602fadd1d777" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>source_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a64817b603745de32c9d2bb284bee09c7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a3816e14e24b60ab4c3ecfdfe600251fe" prot="public" virt="virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>validate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad4fd1a189d06ddb17d8347de875149e9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>~CompiledPromptTemplate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a8ceed5de8e52f43a5518b2d3dbf75451" prot="public" virt="virtual"><scope>themis::prompt_engineering::CompiledPromptTemplate</scope><name>~IPromptTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

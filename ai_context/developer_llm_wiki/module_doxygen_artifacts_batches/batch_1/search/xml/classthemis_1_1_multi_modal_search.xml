@@ -1,0 +1,437 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_multi_modal_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::MultiModalSearch</compoundname>
+    <includes refid="multi__modal__search_8h" local="no">multi_modal_search.h</includes>
+    <innerclass refid="structthemis_1_1_multi_modal_search_1_1_config" prot="public">themis::MultiModalSearch::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_multi_modal_search_1ad8152196ef6172dc36ac3fbe53e87840" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::MultiModalSearch::sec_index_</definition>
+        <argsstring></argsstring>
+        <name>sec_index_</name>
+        <qualifiedname>themis::MultiModalSearch::sec_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="158" column="27" bodyfile="include/search/multi_modal_search.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_multi_modal_search_1a51d306a8fc03f45efb95462ef3fcb4c7" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager *</type>
+        <definition>VectorIndexManager* themis::MultiModalSearch::vec_index_</definition>
+        <argsstring></argsstring>
+        <name>vec_index_</name>
+        <qualifiedname>themis::MultiModalSearch::vec_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="159" column="27" bodyfile="include/search/multi_modal_search.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_multi_modal_search_1a84bb9c3acef5ed56f33a6d3fe43cdde5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_multi_modal_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::MultiModalSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::MultiModalSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="160" column="12" bodyfile="include/search/multi_modal_search.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1a404bb11fbc688170d9ee8d11261e7281" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MultiModalSearch::MultiModalSearch</definition>
+        <argsstring>(SecondaryIndexManager *sec_index, VectorIndexManager *vec_index)</argsstring>
+        <name>MultiModalSearch</name>
+        <qualifiedname>themis::MultiModalSearch::MultiModalSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>sec_index</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vec_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. May be null if no TEXT modality queries are used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a VectorIndexManager. May be null if no embedding modalities are used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="97" column="14" bodyfile="src/search/multi_modal_search.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1a8fb579badc3bfd9123b227bac1000b03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MultiModalSearch::MultiModalSearch</definition>
+        <argsstring>(SecondaryIndexManager *sec_index, VectorIndexManager *vec_index, const Config &amp;config)</argsstring>
+        <name>MultiModalSearch</name>
+        <qualifiedname>themis::MultiModalSearch::MultiModalSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>sec_index</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vec_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_multi_modal_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. May be null if no TEXT modality queries are used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a VectorIndexManager. May be null if no embedding modalities are used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="107" column="5" bodyfile="src/search/multi_modal_search.cpp" bodystart="28" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1acec8e0ce438b60baad134a6b3b3f1fd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_multi_modal_result" kindref="compound">MultiModalResult</ref> &gt;</type>
+        <definition>std::vector&lt; MultiModalResult &gt; themis::MultiModalSearch::search</definition>
+        <argsstring>(const std::vector&lt; ModalQuery &gt; &amp;queries, const std::string &amp;table=&quot;&quot;, const std::string &amp;column=&quot;&quot;) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::MultiModalSearch::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_modal_query" kindref="compound">ModalQuery</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Execute a multi-modal search and return fused results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each <computeroutput><ref refid="structthemis_1_1_modal_query" kindref="compound">ModalQuery</ref></computeroutput> in <computeroutput>queries</computeroutput> is executed independently:<itemizedlist>
+<listitem><para>TEXT queries use <computeroutput>SecondaryIndexManager::scanFulltextWithScores</computeroutput>.</para>
+</listitem><listitem><para>IMAGE / AUDIO / CUSTOM queries use <computeroutput>VectorIndexManager::searchKnn</computeroutput> on the specified <computeroutput>embedding_namespace</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para>Results from all modalities are fused via RRF and the top-k returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One or more modal query components. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name for TEXT modality fulltext lookup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name for TEXT modality fulltext lookup. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused result list sorted by score descending. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="130" column="17" bodyfile="src/search/multi_modal_search.cpp" bodystart="47" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1ac5dcd404c650c38c681b426e1cda7203" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_multi_modal_result" kindref="compound">MultiModalResult</ref> &gt;</type>
+        <definition>std::vector&lt; MultiModalResult &gt; themis::MultiModalSearch::searchTextAndImage</definition>
+        <argsstring>(const std::string &amp;text_query, const std::vector&lt; float &gt; &amp;image_embedding, const std::string &amp;image_namespace, const std::string &amp;table, const std::string &amp;column, double text_weight=0.5, double image_weight=1.0) const</argsstring>
+        <name>searchTextAndImage</name>
+        <qualifiedname>themis::MultiModalSearch::searchTextAndImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text_query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>image_embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_namespace</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>text_weight</declname>
+          <defval>0.5</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>image_weight</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Convenience: search with a single text + single image embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BM25 query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>image_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed image embedding. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>image_namespace</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VectorIndexManager object name for images. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name for fulltext. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name for fulltext. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contribution weight for the text result list. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>image_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contribution weight for the image result list. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="145" column="17" bodyfile="src/search/multi_modal_search.cpp" bodystart="82" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1aa54cd066e1f4b0a4bfa13916058e435a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_multi_modal_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::MultiModalSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::MultiModalSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="155" column="18" bodyfile="include/search/multi_modal_search.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1abc92f32fcb91e3b35e034929d194ac89" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, double &gt; &gt; themis::MultiModalSearch::executeModal</definition>
+        <argsstring>(const ModalQuery &amp;query, const std::string &amp;table, const std::string &amp;column) const</argsstring>
+        <name>executeModal</name>
+        <qualifiedname>themis::MultiModalSearch::executeModal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_modal_query" kindref="compound">ModalQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="163" column="17" bodyfile="src/search/multi_modal_search.cpp" bodystart="134" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_modal_search_1a3fd13ef94b8c62a229219a1efdc7c807" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_multi_modal_result" kindref="compound">MultiModalResult</ref> &gt;</type>
+        <definition>std::vector&lt; MultiModalResult &gt; themis::MultiModalSearch::fuseRRF</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &gt; &amp;ranked_lists, const std::vector&lt; double &gt; &amp;weights, const std::vector&lt; std::string &gt; &amp;modality_names) const</argsstring>
+        <name>fuseRRF</name>
+        <qualifiedname>themis::MultiModalSearch::fuseRRF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &gt; &amp;</type>
+          <declname>ranked_lists</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>modality_names</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="170" column="17" bodyfile="src/search/multi_modal_search.cpp" bodystart="202" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified search across text, image, and arbitrary-embedding modalities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_multi_modal_search" kindref="compound">MultiModalSearch</ref> accepts a list of <computeroutput><ref refid="structthemis_1_1_modal_query" kindref="compound">ModalQuery</ref></computeroutput> components, executes each query against the appropriate backend (fulltext index for TEXT modality, VectorIndexManager for embedding modalities), and fuses the per-modality result lists using Reciprocal Rank Fusion (RRF).</para>
+<para>This design keeps the module independent of any specific embedding model: callers are responsible for generating the embeddings (e.g. via a CLIP or Whisper model) and supplying the resulting float vectors.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Text<sp/>+<sp/>image<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">MultiModalSearch::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.k<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_multi_modal_search_1a404bb11fbc688170d9ee8d11261e7281" kindref="member">MultiModalSearch</ref><sp/>mms(&amp;sec_index,<sp/>&amp;vec_index,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;ModalQuery&gt;<sp/>queries<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><ref refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">Modality::TEXT</ref>,<sp/><sp/></highlight><highlight class="stringliteral">&quot;sunset<sp/>beach&quot;</highlight><highlight class="normal">,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;text_ns&quot;</highlight><highlight class="normal">,<sp/><sp/>0.6<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><ref refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">Modality::IMAGE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>clip_vec,<sp/></highlight><highlight class="stringliteral">&quot;image_ns&quot;</highlight><highlight class="normal">,<sp/>1.0<sp/>},</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>mms.search(queries);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_multi_modal_search" kindref="compound">MultiModalSearch</ref> instance is NOT thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> never throws; errors are returned as an empty result list. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/multi_modal_search.h" line="82" column="1" bodyfile="include/search/multi_modal_search.h" bodystart="82" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_multi_modal_search_1a84bb9c3acef5ed56f33a6d3fe43cdde5" prot="private" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1abc92f32fcb91e3b35e034929d194ac89" prot="private" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>executeModal</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1a3fd13ef94b8c62a229219a1efdc7c807" prot="private" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>fuseRRF</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1aa54cd066e1f4b0a4bfa13916058e435a" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1a404bb11fbc688170d9ee8d11261e7281" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>MultiModalSearch</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1a8fb579badc3bfd9123b227bac1000b03" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>MultiModalSearch</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1acec8e0ce438b60baad134a6b3b3f1fd7" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1ac5dcd404c650c38c681b426e1cda7203" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>searchTextAndImage</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1ad8152196ef6172dc36ac3fbe53e87840" prot="private" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>sec_index_</name></member>
+      <member refid="classthemis_1_1_multi_modal_search_1a51d306a8fc03f45efb95462ef3fcb4c7" prot="private" virt="non-virtual"><scope>themis::MultiModalSearch</scope><name>vec_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

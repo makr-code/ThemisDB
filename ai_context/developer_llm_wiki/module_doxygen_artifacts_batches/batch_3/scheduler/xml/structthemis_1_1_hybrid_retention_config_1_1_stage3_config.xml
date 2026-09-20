@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HybridRetentionConfig::Stage3Config</compoundname>
+    <includes refid="hybrid__retention__manager_8h" local="no">hybrid_retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a4dedc7db5c54c24f7e0a24b93b6aabcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridRetentionConfig::Stage3Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::HybridRetentionConfig::Stage3Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="64" column="14" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1aa9525e4979746bd4a58b94a233f11677" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::HybridRetentionConfig::Stage3Config::min_age</definition>
+        <argsstring></argsstring>
+        <name>min_age</name>
+        <qualifiedname>themis::HybridRetentionConfig::Stage3Config::min_age</qualifiedname>
+        <initializer>{24 * 365}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="65" column="28" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1ac57a437664d4b993f41ef419fa72df3a" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::HybridRetentionConfig::Stage3Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::HybridRetentionConfig::Stage3Config::check_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="66" column="28" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a1eb92bc83016f2fb4fbf285109ff362c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridRetentionConfig::Stage3Config::target_resolution</definition>
+        <argsstring></argsstring>
+        <name>target_resolution</name>
+        <qualifiedname>themis::HybridRetentionConfig::Stage3Config::target_resolution</qualifiedname>
+        <initializer>= &quot;1d&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="67" column="21" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/hybrid_retention_manager.h" line="63" column="5" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1ac57a437664d4b993f41ef419fa72df3a" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig::Stage3Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a4dedc7db5c54c24f7e0a24b93b6aabcd" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig::Stage3Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1aa9525e4979746bd4a58b94a233f11677" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig::Stage3Config</scope><name>min_age</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a1eb92bc83016f2fb4fbf285109ff362c" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig::Stage3Config</scope><name>target_resolution</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

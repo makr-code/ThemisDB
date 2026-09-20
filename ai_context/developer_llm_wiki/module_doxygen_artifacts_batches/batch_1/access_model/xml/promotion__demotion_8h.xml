@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="promotion__demotion_8h" kind="file" language="C++">
+    <compoundname>promotion_demotion.h</compoundname>
+    <includes refid="access__tier__interface_8h" local="yes">access_tier_interface.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="access__coordinator_8h" local="yes">include/access_model/access_coordinator.h</includedby>
+    <includedby refid="promotion__demotion_8cpp" local="yes">src/access_model/promotion_demotion.cpp</includedby>
+    <includedby refid="test__access__coordinator_8cpp" local="yes">tests/access_model/test_access_coordinator.cpp</includedby>
+    <includedby refid="test__cache__storage__integration_8cpp" local="yes">tests/access_model/test_cache_storage_integration.cpp</includedby>
+    <includedby refid="test__promotion__demotion_8cpp" local="yes">tests/access_model/test_promotion_demotion.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>access_tier_interface.h</label>
+        <link refid="access__tier__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/access_model/promotion_demotion.h</label>
+        <link refid="promotion__demotion_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>limits</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/access_model/bench_access_coordinator_gates.cpp</label>
+        <link refid="bench__access__coordinator__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/access_model/access_coordinator.h</label>
+        <link refid="access__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/access_model/promotion_demotion.h</label>
+        <link refid="promotion__demotion_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/access_model/access_coordinator.cpp</label>
+        <link refid="access__coordinator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/access_model/promotion_demotion.cpp</label>
+        <link refid="promotion__demotion_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/access_model/test_access_coordinator.cpp</label>
+        <link refid="test__access__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/access_model/test_access_coordinator_focused.cpp</label>
+        <link refid="test__access__coordinator__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/access_model/test_access_model_e2e.cpp</label>
+        <link refid="test__access__model__e2e_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/access_model/test_cache_storage_integration.cpp</label>
+        <link refid="test__cache__storage__integration_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/access_model/test_coordination_concurrency.cpp</label>
+        <link refid="test__coordination__concurrency_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/access_model/test_promotion_demotion.cpp</label>
+        <link refid="test__promotion__demotion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1access__model_1_1_demotion_plan" prot="public">themis::access_model::DemotionPlan</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_demotion_result" prot="public">themis::access_model::DemotionResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1access__model">themis::access_model</innernamespace>
+    <briefdescription>
+<para>Data structures for promotion/demotion operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB | File: <ref refid="promotion__demotion_8h" kindref="compound">promotion_demotion.h</ref> | Version: 1.0.0 Maturity: 🟡 ALPHA (Phase 1 API Definition) | Status: Frozen for v1.x Author: Copilot | Date: 2026-08-03</para>
+<para><simplesect kind="see"><para><ref refid="access__coordinator_8h" kindref="compound">include/access_model/access_coordinator.h</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="access__tier__interface_8h" kindref="compound">access_tier_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model" kindref="compound">access_model</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Demotion<sp/>Plan<sp/>&amp;<sp/>Execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1access__model_1_1_demotion_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1access__model_1_1_demotion_plan_1a558fbc48e0d85c0d47c3e767bec5edd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a558fbc48e0d85c0d47c3e767bec5edd0" kindref="member">plan_id</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1access__model_1_1_demotion_plan_1aaff07a27a9ab82fd0809dfb2d64420ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1aaff07a27a9ab82fd0809dfb2d64420ea" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1access__model_1_1_demotion_plan_1a9b1d54b0ad4b893a67bbab5a5ff0abb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a9b1d54b0ad4b893a67bbab5a5ff0abb1" kindref="member">from_tier</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1access__model_1_1_demotion_plan_1aac60612e47a85045cf67ce523591784d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1aac60612e47a85045cf67ce523591784d" kindref="member">to_tier</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1access__model_1_1_demotion_plan_1ae7f62dda3a0dd2ad5ed953a8273fc690" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1ae7f62dda3a0dd2ad5ed953a8273fc690" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1access__model_1_1_demotion_plan_1ad29742f8bbf267cbbab4341e9ad507f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1ad29742f8bbf267cbbab4341e9ad507f3" kindref="member">grace_period_secs</ref>{600};<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>10<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1access__model_1_1_demotion_plan_1a32b38fcff8749d302998a75277730828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a32b38fcff8749d302998a75277730828" kindref="member">data_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1access__model_1_1_demotion_plan_1a60588eec284e431b79546a0b94c70f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a60588eec284e431b79546a0b94c70f4e" kindref="member">access_count_at_plan</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1access__model_1_1_demotion_plan_1abfd8269ac8a9da22ae01492936b3e588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1abfd8269ac8a9da22ae01492936b3e588" kindref="member">is_scheduled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1access__model_1_1_demotion_plan_1a3f0df2edad8f6f21da48a0355053614e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a3f0df2edad8f6f21da48a0355053614e" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1access__model_1_1_demotion_plan_1a0b6a69354491273cc88799debac43223" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a0b6a69354491273cc88799debac43223" kindref="member">scheduled_execution_time</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1access__model_1_1_demotion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1access__model_1_1_demotion_result_1a92f2587a145ce78a62db4892fa512b1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1a92f2587a145ce78a62db4892fa512b1d" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1access__model_1_1_demotion_result_1abf5ddd384e6c4f6ca778d3c37d867eff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1abf5ddd384e6c4f6ca778d3c37d867eff" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1access__model_1_1_demotion_result_1aa1bdfd4b04cf7e59ba86dce0101c4eac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1aa1bdfd4b04cf7e59ba86dce0101c4eac" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1access__model_1_1_demotion_result_1a6d13905db063d92ecc37cc04e678c7af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1a6d13905db063d92ecc37cc04e678c7af" kindref="member">from_tier</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1access__model_1_1_demotion_result_1a9a22e08447f0d32b872602559da7d2cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1a9a22e08447f0d32b872602559da7d2cc" kindref="member">to_tier</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1access__model_1_1_demotion_result_1a5ec98341281f50d67e1763bed041ada5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1a5ec98341281f50d67e1763bed041ada5" kindref="member">total_latency_ms</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1access__model_1_1_demotion_result_1aff839c156a45c408677c2cd3c1126fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1aff839c156a45c408677c2cd3c1126fd5" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1access__model_1_1_demotion_result_1a18075f1723b38ee2cd958626fb414bb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result_1a18075f1723b38ee2cd958626fb414bb2" kindref="member">completed_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access_model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/access_model/promotion_demotion.h"/>
+  </compounddef>
+</doxygen>

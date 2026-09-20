@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::VerificationResult</compoundname>
+    <includes refid="hot__reload__engine_8h" local="no">hot_reload_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1af04d3e064bb72ac1521b16f2bbe2ab5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::VerificationResult::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::updates::VerificationResult::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="41" column="10" bodyfile="include/updates/hot_reload_engine.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1a1c30197c99bcde4278000384f674049c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::VerificationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::VerificationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="42" column="17" bodyfile="include/updates/hot_reload_engine.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1a25a74e8e18615c7833a16a973c1e2d01" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::VerificationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::updates::VerificationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="43" column="17" bodyfile="include/updates/hot_reload_engine.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::VerificationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::updates::VerificationResult::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_api_contract.h" line="81" column="17" bodyfile="include/updates/updates_api_contract.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::VerificationResult::signatureToken</definition>
+        <argsstring></argsstring>
+        <name>signatureToken</name>
+        <qualifiedname>themis::updates::VerificationResult::signatureToken</qualifiedname>
+        <briefdescription>
+<para>Non-empty if valid == true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_api_contract.h" line="82" column="17" bodyfile="include/updates/updates_api_contract.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_verification_result_1a12e642dfb1d334881be6a9350e836ae1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref></type>
+        <definition>UpdatesError themis::updates::VerificationResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::updates::VerificationResult::error</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_api_contract.h" line="83" column="18" bodyfile="include/updates/updates_api_contract.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of manifest verification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of a build verification. </para>
+    </detaileddescription>
+    <location file="include/updates/hot_reload_engine.h" line="40" column="1" bodyfile="include/updates/hot_reload_engine.h" bodystart="40" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1a12e642dfb1d334881be6a9350e836ae1" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1a1c30197c99bcde4278000384f674049c" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>signatureToken</name></member>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1af04d3e064bb72ac1521b16f2bbe2ab5d" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>verified</name></member>
+      <member refid="structthemis_1_1updates_1_1_verification_result_1a25a74e8e18615c7833a16a973c1e2d01" prot="public" virt="non-virtual"><scope>themis::updates::VerificationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

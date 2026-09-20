@@ -1,0 +1,1176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_path_constraints" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::PathConstraints</compoundname>
+    <includes refid="path__constraints_8h" local="no">path_constraints.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" prot="public">themis::graph::PathConstraints::Constraint</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" prot="public">themis::graph::PathConstraints::PathResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" prot="public">themis::graph::PathConstraints::ConstraintViolation</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConstraintType</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintType</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37a170272952c0bc76414ec30e422e1b" prot="public">
+          <name>MIN_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a4aba510a03033f785222cd6286058e24" prot="public">
+          <name>MAX_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8e1497021b36fe1fa81b9ee776692648" prot="public">
+          <name>NODE_PROPERTY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172acd76e9bf4c1c8e22d56a537c38704e77" prot="public">
+          <name>EDGE_PROPERTY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa9a5492fe24fc1ef6c821c698c5116cb" prot="public">
+          <name>FORBIDDEN_NODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a895cc7235085cc7ab46738eb440ee4b2" prot="public">
+          <name>REQUIRED_NODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a802f32b4ea690f81f95ea47c2330dc0a" prot="public">
+          <name>FORBIDDEN_EDGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa4e429edd1e103b12f8eacb0cb8a6131" prot="public">
+          <name>REQUIRED_EDGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37f8a2e960a9c8a3ac899fdfb0f8f20d" prot="public">
+          <name>NO_CYCLES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a29c8563080452e78cd0acd3177cf6d0b" prot="public">
+          <name>UNIQUE_NODES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a27867b19456b4d1d3eaf827b8cb2539c" prot="public">
+          <name>UNIQUE_EDGES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8fd536800a031838e53456ef87ff1a4a" prot="public">
+          <name>CUSTOM_PREDICATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a715cd43ad13a8a92773059868f417eba" prot="public">
+          <name>MAX_WEIGHT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a55d356c39cea4eef3411c7c7db51c817" prot="public">
+          <name>MIN_WEIGHT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="32" column="5" bodyfile="include/graph/path_constraints.h" bodystart="32" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a523c51dcd99d0bd4ee59bb11af9608c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::PathConstraints::MAX_ID_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_ID_LENGTH</name>
+        <qualifiedname>themis::graph::PathConstraints::MAX_ID_LENGTH</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="220" column="29" bodyfile="include/graph/path_constraints.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a5c8aec7125ea9bc8ed4a850399d16067" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::PathConstraints::MAX_FIELD_NAME_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_FIELD_NAME_LENGTH</name>
+        <qualifiedname>themis::graph::PathConstraints::MAX_FIELD_NAME_LENGTH</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="221" column="29" bodyfile="include/graph/path_constraints.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a6e17e5cdc43844e5ab6d42d6f7a758fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::PathConstraints::MAX_FIELD_VALUE_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_FIELD_VALUE_LENGTH</name>
+        <qualifiedname>themis::graph::PathConstraints::MAX_FIELD_VALUE_LENGTH</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="222" column="29" bodyfile="include/graph/path_constraints.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a832a2e0652ec7db5e9b3459d87c1ce18" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::PathConstraints::MAX_RESULTS_LIMIT</definition>
+        <argsstring></argsstring>
+        <name>MAX_RESULTS_LIMIT</name>
+        <qualifiedname>themis::graph::PathConstraints::MAX_RESULTS_LIMIT</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="223" column="26" bodyfile="include/graph/path_constraints.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a0978edc656d40f6ad923f2b4d525cb16" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kindref="compound">Constraint</ref> &gt;</type>
+        <definition>std::vector&lt;Constraint&gt; themis::graph::PathConstraints::constraints_</definition>
+        <argsstring></argsstring>
+        <name>constraints_</name>
+        <qualifiedname>themis::graph::PathConstraints::constraints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="226" column="17" bodyfile="include/graph/path_constraints.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a5bbd32919493450d11d5e57a2620c3ec" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graph::PathConstraints::forbidden_nodes_</definition>
+        <argsstring></argsstring>
+        <name>forbidden_nodes_</name>
+        <qualifiedname>themis::graph::PathConstraints::forbidden_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="227" column="24" bodyfile="include/graph/path_constraints.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a2fcbcef12daca81f951920e594b246e9" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graph::PathConstraints::required_nodes_</definition>
+        <argsstring></argsstring>
+        <name>required_nodes_</name>
+        <qualifiedname>themis::graph::PathConstraints::required_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="228" column="24" bodyfile="include/graph/path_constraints.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1ad68525e65d8ea04aeb95a2dd27940632" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graph::PathConstraints::forbidden_edges_</definition>
+        <argsstring></argsstring>
+        <name>forbidden_edges_</name>
+        <qualifiedname>themis::graph::PathConstraints::forbidden_edges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="229" column="24" bodyfile="include/graph/path_constraints.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a846ccf2db13a12d3866b72c48901668e" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graph::PathConstraints::required_edges_</definition>
+        <argsstring></argsstring>
+        <name>required_edges_</name>
+        <qualifiedname>themis::graph::PathConstraints::required_edges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="230" column="24" bodyfile="include/graph/path_constraints.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1aa574e49027aa1eca98c8f7445e75acb7" prot="private" static="no" mutable="no">
+        <type>GraphIndexManager *</type>
+        <definition>GraphIndexManager* themis::graph::PathConstraints::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>themis::graph::PathConstraints::graph_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="231" column="23" bodyfile="include/graph/path_constraints.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a34eafc4248a2e8d862fcf1347ce92149" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref> *</type>
+        <definition>const OntologyManager* themis::graph::PathConstraints::ontology_</definition>
+        <argsstring></argsstring>
+        <name>ontology_</name>
+        <qualifiedname>themis::graph::PathConstraints::ontology_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="234" column="27" bodyfile="include/graph/path_constraints.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a2395b610ff7be60cdaf6743ffe4b5795" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" kindref="member">OntologyManager::Ruleset</ref></type>
+        <definition>OntologyManager::Ruleset themis::graph::PathConstraints::ontology_ruleset_</definition>
+        <argsstring></argsstring>
+        <name>ontology_ruleset_</name>
+        <qualifiedname>themis::graph::PathConstraints::ontology_ruleset_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="235" column="30" bodyfile="include/graph/path_constraints.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_path_constraints_1a0320a3b079956f906ab8d78f89a2d066" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt;</type>
+        <definition>std::vector&lt;ConstraintViolation&gt; themis::graph::PathConstraints::last_violations_</definition>
+        <argsstring></argsstring>
+        <name>last_violations_</name>
+        <qualifiedname>themis::graph::PathConstraints::last_violations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="236" column="25" bodyfile="include/graph/path_constraints.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::PathConstraints</definition>
+        <argsstring>()=default</argsstring>
+        <name>PathConstraints</name>
+        <qualifiedname>themis::graph::PathConstraints::PathConstraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a28c35ca3af0930ab8e9f19dd5b36ccdf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::PathConstraints</definition>
+        <argsstring>(GraphIndexManager *graph_mgr)</argsstring>
+        <name>PathConstraints</name>
+        <qualifiedname>themis::graph::PathConstraints::PathConstraints</qualifiedname>
+        <param>
+          <type>GraphIndexManager *</type>
+          <declname>graph_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Path Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="80" column="14" bodyfile="src/graph/path_constraints.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a3c38a6a52f6cb322f957bcec9f2ed90e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::setGraphManager</definition>
+        <argsstring>(GraphIndexManager *graph_mgr)</argsstring>
+        <name>setGraphManager</name>
+        <qualifiedname>themis::graph::PathConstraints::setGraphManager</qualifiedname>
+        <param>
+          <type>GraphIndexManager *</type>
+          <declname>graph_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Graph Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGraphManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="86" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1aeb760861a367afffff02f8d666ea93fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addMinLength</definition>
+        <argsstring>(int min_length)</argsstring>
+        <name>addMinLength</name>
+        <qualifiedname>themis::graph::PathConstraints::addMinLength</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>min_length</declname>
+        </param>
+        <briefdescription>
+<para>Add Min Length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="92" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1af837e9ab52e790e6ff1806304c0973a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addMaxLength</definition>
+        <argsstring>(int max_length)</argsstring>
+        <name>addMaxLength</name>
+        <qualifiedname>themis::graph::PathConstraints::addMaxLength</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_length</declname>
+        </param>
+        <briefdescription>
+<para>Add Max Length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="98" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a6eb399fedcd43227d2aa9e07c0610fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addForbiddenNode</definition>
+        <argsstring>(std::string_view node_id)</argsstring>
+        <name>addForbiddenNode</name>
+        <qualifiedname>themis::graph::PathConstraints::addForbiddenNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Forbidden Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidIdentifier(), insert(), std::string(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="104" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ae0ffbb5838d6f8f8859caf0e0fbd6505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addRequiredNode</definition>
+        <argsstring>(std::string_view node_id)</argsstring>
+        <name>addRequiredNode</name>
+        <qualifiedname>themis::graph::PathConstraints::addRequiredNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Required Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidIdentifier(), insert(), std::string(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="110" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1acbbd5f591d26fb87562a5517dfca4996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addForbiddenEdge</definition>
+        <argsstring>(std::string_view edge_id)</argsstring>
+        <name>addForbiddenEdge</name>
+        <qualifiedname>themis::graph::PathConstraints::addForbiddenEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Forbidden <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the edge.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the edge.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidIdentifier(), insert(), std::string(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="116" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a574de96415d1edd19a6a7bf42eb8a102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addRequiredEdge</definition>
+        <argsstring>(std::string_view edge_id)</argsstring>
+        <name>addRequiredEdge</name>
+        <qualifiedname>themis::graph::PathConstraints::addRequiredEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Required <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the edge.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the edge.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidIdentifier(), insert(), std::string(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="122" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a24b27fb2916acafeca0812ed72e60164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addEdgePropertyConstraint</definition>
+        <argsstring>(std::string_view field_name, std::string_view expected_value)</argsstring>
+        <name>addEdgePropertyConstraint</name>
+        <qualifiedname>themis::graph::PathConstraints::addEdgePropertyConstraint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>expected_value</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> Property <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kindref="compound">Constraint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidFieldName(), size(), find(), c(), std::string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="129" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="165" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1abdcaefa1eb638ab264a17bef22e53fd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addNodePropertyConstraint</definition>
+        <argsstring>(std::string_view field_name, std::string_view expected_value)</argsstring>
+        <name>addNodePropertyConstraint</name>
+        <qualifiedname>themis::graph::PathConstraints::addNodePropertyConstraint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>expected_value</declname>
+        </param>
+        <briefdescription>
+<para>Add Node Property <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kindref="compound">Constraint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidFieldName(), size(), find(), c(), std::string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="136" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="185" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ad807973fe65e12b5e724d88b07c2bfd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addMaxWeight</definition>
+        <argsstring>(double max_weight)</argsstring>
+        <name>addMaxWeight</name>
+        <qualifiedname>themis::graph::PathConstraints::addMaxWeight</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>max_weight</declname>
+        </param>
+        <briefdescription>
+<para>Add Max Weight. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="142" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a50b3073c6b2782cd192c5271172f9c5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addMinWeight</definition>
+        <argsstring>(double min_weight)</argsstring>
+        <name>addMinWeight</name>
+        <qualifiedname>themis::graph::PathConstraints::addMinWeight</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>min_weight</declname>
+        </param>
+        <briefdescription>
+<para>Add Min Weight. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="148" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ad1e3194f29e357cdee6a4427f66c3510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::requireAcyclic</definition>
+        <argsstring>()</argsstring>
+        <name>requireAcyclic</name>
+        <qualifiedname>themis::graph::PathConstraints::requireAcyclic</qualifiedname>
+        <briefdescription>
+<para>Require Acyclic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="153" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ad4483c5e746bfea05e2c5d6766e671f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::requireUniqueNodes</definition>
+        <argsstring>()</argsstring>
+        <name>requireUniqueNodes</name>
+        <qualifiedname>themis::graph::PathConstraints::requireUniqueNodes</qualifiedname>
+        <briefdescription>
+<para>Require Unique Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="158" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ad487201b8de1017793525969e07ba3b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::requireUniqueEdges</definition>
+        <argsstring>()</argsstring>
+        <name>requireUniqueEdges</name>
+        <qualifiedname>themis::graph::PathConstraints::requireUniqueEdges</qualifiedname>
+        <briefdescription>
+<para>Require Unique Edges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="163" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ab728317db5a1d2df80093eb1ad3cab91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addCustomPredicate</definition>
+        <argsstring>(std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; predicate)</argsstring>
+        <name>addCustomPredicate</name>
+        <qualifiedname>themis::graph::PathConstraints::addCustomPredicate</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>C. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">CUSTOM_PREDICATE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="165" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="231" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1aa8a2f051a89e28c1f55ac1160dc6506e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::graph::PathConstraints::validatePath</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;nodes, const std::vector&lt; std::string &gt; &amp;edges) const</argsstring>
+        <name>validatePath</name>
+        <qualifiedname>themis::graph::PathConstraints::validatePath</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Validate Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="173" column="12" bodyfile="src/graph/path_constraints.cpp" bodystart="242" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1aab26db066f042b01f0b8f35225d5f26b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathResult</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; PathConstraints::PathResult &gt; &gt; themis::graph::PathConstraints::findConstrainedPaths</definition>
+        <argsstring>(std::string_view start_node, std::string_view end_node, int max_results=10) const</argsstring>
+        <name>findConstrainedPaths</name>
+        <qualifiedname>themis::graph::PathConstraints::findConstrainedPaths</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_node</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_results</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="176" column="12" bodyfile="src/graph/path_constraints.cpp" bodystart="416" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a8bafef53cfacf035a287479e0154bee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::addSemanticConstraint</definition>
+        <argsstring>(const OntologyManager *ontology, OntologyManager::Ruleset ruleset=OntologyManager::Ruleset::Strict)</argsstring>
+        <name>addSemanticConstraint</name>
+        <qualifiedname>themis::graph::PathConstraints::addSemanticConstraint</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref> *</type>
+          <declname>ontology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" kindref="member">OntologyManager::Ruleset</ref></type>
+          <declname>ruleset</declname>
+          <defval><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref></defval>
+        </param>
+        <briefdescription>
+<para>Add Semantic <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kindref="compound">Constraint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ontology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ruleset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addSemanticConstraint without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="190" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="806" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1ae52cb6ef96efad582b4a0eec4a1e4bb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt;</type>
+        <definition>std::vector&lt; PathConstraints::ConstraintViolation &gt; themis::graph::PathConstraints::validateSemanticPath</definition>
+        <argsstring>(const PathResult &amp;result) const</argsstring>
+        <name>validateSemanticPath</name>
+        <qualifiedname>themis::graph::PathConstraints::validateSemanticPath</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Semantic Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="198" column="17" bodyfile="src/graph/path_constraints.cpp" bodystart="812" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a27bee180005ed672f3715a789616de7e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ConstraintViolation &gt; &amp; themis::graph::PathConstraints::lastViolations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastViolations</name>
+        <qualifiedname>themis::graph::PathConstraints::lastViolations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="200" column="23" bodyfile="include/graph/path_constraints.h" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a75271d2f6666cb4e2e301021b05708ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::PathConstraints::clearConstraints</definition>
+        <argsstring>()</argsstring>
+        <name>clearConstraints</name>
+        <qualifiedname>themis::graph::PathConstraints::clearConstraints</qualifiedname>
+        <briefdescription>
+<para>Clear Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="207" column="10" bodyfile="src/graph/path_constraints.cpp" bodystart="714" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a9ed65b005894c0d7fb7eb4149ffbfcf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::describeConstraints</definition>
+        <argsstring>() const</argsstring>
+        <name>describeConstraints</name>
+        <qualifiedname>themis::graph::PathConstraints::describeConstraints</qualifiedname>
+        <briefdescription>
+<para>Describe Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="213" column="17" bodyfile="src/graph/path_constraints.cpp" bodystart="724" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1aa2e4ae0163b490b6e3ff5f0461af26ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kindref="compound">Constraint</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Constraint &gt; &amp; themis::graph::PathConstraints::getConstraints</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConstraints</name>
+        <qualifiedname>themis::graph::PathConstraints::getConstraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="215" column="24" bodyfile="include/graph/path_constraints.h" bodystart="215" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a2645801ded103baf86ff0da40c788115" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::PathConstraints::isValidIdentifier</definition>
+        <argsstring>(std::string_view s) noexcept</argsstring>
+        <name>isValidIdentifier</name>
+        <qualifiedname>themis::graph::PathConstraints::isValidIdentifier</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="244" column="17" bodyfile="src/graph/path_constraints.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_path_constraints_1a6e44ed645eb165f493e2b687d6c8f994" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::PathConstraints::isValidFieldName</definition>
+        <argsstring>(std::string_view s) noexcept</argsstring>
+        <name>isValidFieldName</name>
+        <qualifiedname>themis::graph::PathConstraints::isValidFieldName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Field Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="252" column="17" bodyfile="src/graph/path_constraints.cpp" bodystart="77" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/path_constraints.h" line="30" column="1" bodyfile="include/graph/path_constraints.h" bodystart="30" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ab728317db5a1d2df80093eb1ad3cab91" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addCustomPredicate</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a24b27fb2916acafeca0812ed72e60164" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addEdgePropertyConstraint</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1acbbd5f591d26fb87562a5517dfca4996" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addForbiddenEdge</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a6eb399fedcd43227d2aa9e07c0610fd5" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addForbiddenNode</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1af837e9ab52e790e6ff1806304c0973a7" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addMaxLength</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ad807973fe65e12b5e724d88b07c2bfd0" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addMaxWeight</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1aeb760861a367afffff02f8d666ea93fd" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addMinLength</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a50b3073c6b2782cd192c5271172f9c5c" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addMinWeight</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1abdcaefa1eb638ab264a17bef22e53fd8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addNodePropertyConstraint</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a574de96415d1edd19a6a7bf42eb8a102" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addRequiredEdge</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ae0ffbb5838d6f8f8859caf0e0fbd6505" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addRequiredNode</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a8bafef53cfacf035a287479e0154bee8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>addSemanticConstraint</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a75271d2f6666cb4e2e301021b05708ae" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>clearConstraints</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a0978edc656d40f6ad923f2b4d525cb16" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>constraints_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>ConstraintType</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a9ed65b005894c0d7fb7eb4149ffbfcf5" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>describeConstraints</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1aab26db066f042b01f0b8f35225d5f26b" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>findConstrainedPaths</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ad68525e65d8ea04aeb95a2dd27940632" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>forbidden_edges_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a5bbd32919493450d11d5e57a2620c3ec" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>forbidden_nodes_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1aa2e4ae0163b490b6e3ff5f0461af26ae" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>getConstraints</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1aa574e49027aa1eca98c8f7445e75acb7" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>graph_mgr_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a6e44ed645eb165f493e2b687d6c8f994" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>isValidFieldName</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a2645801ded103baf86ff0da40c788115" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>isValidIdentifier</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a0320a3b079956f906ab8d78f89a2d066" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>last_violations_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a27bee180005ed672f3715a789616de7e" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>lastViolations</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a5c8aec7125ea9bc8ed4a850399d16067" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>MAX_FIELD_NAME_LENGTH</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a6e17e5cdc43844e5ab6d42d6f7a758fe" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>MAX_FIELD_VALUE_LENGTH</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a523c51dcd99d0bd4ee59bb11af9608c8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>MAX_ID_LENGTH</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a832a2e0652ec7db5e9b3459d87c1ce18" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>MAX_RESULTS_LIMIT</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a34eafc4248a2e8d862fcf1347ce92149" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>ontology_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a2395b610ff7be60cdaf6743ffe4b5795" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>ontology_ruleset_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>PathConstraints</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a28c35ca3af0930ab8e9f19dd5b36ccdf" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>PathConstraints</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ad1e3194f29e357cdee6a4427f66c3510" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>requireAcyclic</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a846ccf2db13a12d3866b72c48901668e" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>required_edges_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a2fcbcef12daca81f951920e594b246e9" prot="private" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>required_nodes_</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ad487201b8de1017793525969e07ba3b8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>requireUniqueEdges</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ad4483c5e746bfea05e2c5d6766e671f4" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>requireUniqueNodes</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1a3c38a6a52f6cb322f957bcec9f2ed90e" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>setGraphManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1aa8a2f051a89e28c1f55ac1160dc6506e" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>validatePath</name></member>
+      <member refid="classthemis_1_1graph_1_1_path_constraints_1ae52cb6ef96efad582b4a0eec4a1e4bb8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints</scope><name>validateSemanticPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

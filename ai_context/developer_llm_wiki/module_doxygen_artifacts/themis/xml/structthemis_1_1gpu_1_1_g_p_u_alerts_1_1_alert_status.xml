@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAlerts::AlertStatus</compoundname>
+    <includes refid="alerts_8h" local="no">alerts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a90208f5f4c2e06641bc5db506c8e4a36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAlerts::AlertStatus::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="62" column="21" bodyfile="include/themis/gpu/alerts.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a3c6eaa028ab68a6f7f746aaed8219d4e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722b" kindref="member">AlertState</ref></type>
+        <definition>AlertState themis::gpu::GPUAlerts::AlertStatus::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::state</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722ba6b273343c454f9c53dcfc9c4ccf171d2" kindref="member">AlertState::INACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="63" column="21" bodyfile="include/themis/gpu/alerts.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a817b5d918348a5c338b8bb1606974869" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::AlertStatus::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::value</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Current metric value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="64" column="21" bodyfile="include/themis/gpu/alerts.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a0257d63097f73070c818fbb2a2905a5f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::AlertStatus::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::threshold</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="65" column="21" bodyfile="include/themis/gpu/alerts.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a3c5560b849871f698220e7b0d35a72df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAlerts::AlertStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="66" column="21" bodyfile="include/themis/gpu/alerts.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1ad5d0be8ae00785d0788a6eb8b1b90f77" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::gpu::GPUAlerts::AlertStatus::fired_at</definition>
+        <argsstring></argsstring>
+        <name>fired_at</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertStatus::fired_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="67" column="47" bodyfile="include/themis/gpu/alerts.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/alerts.h" line="61" column="5" bodyfile="include/themis/gpu/alerts.h" bodystart="61" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1ad5d0be8ae00785d0788a6eb8b1b90f77" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>fired_at</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a3c5560b849871f698220e7b0d35a72df" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a90208f5f4c2e06641bc5db506c8e4a36" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a3c6eaa028ab68a6f7f746aaed8219d4e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>state</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a0257d63097f73070c818fbb2a2905a5f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status_1a817b5d918348a5c338b8bb1606974869" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::AlertStatus</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

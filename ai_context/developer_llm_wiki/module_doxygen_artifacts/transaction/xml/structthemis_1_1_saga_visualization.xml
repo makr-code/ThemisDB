@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_saga_visualization" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SagaVisualization</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_saga_visualization_1ae81133b78c0d5784d65c356355186539" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SagaVisualization::dot_graph</definition>
+        <argsstring></argsstring>
+        <name>dot_graph</name>
+        <qualifiedname>themis::SagaVisualization::dot_graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="189" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_saga_visualization_1ab89da219c0d8a20742f28a08eb2e9298" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SagaVisualization::text_summary</definition>
+        <argsstring></argsstring>
+        <name>text_summary</name>
+        <qualifiedname>themis::SagaVisualization::text_summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="191" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="188" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="188" bodyend="192"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_saga_visualization_1ae81133b78c0d5784d65c356355186539" prot="public" virt="non-virtual"><scope>themis::SagaVisualization</scope><name>dot_graph</name></member>
+      <member refid="structthemis_1_1_saga_visualization_1ab89da219c0d8a20742f28a08eb2e9298" prot="public" virt="non-virtual"><scope>themis::SagaVisualization</scope><name>text_summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_anti_spoof_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAntiSpoofEngine</compoundname>
+    <includes refid="voice__anti__spoof__engine_8h" local="no">voice_anti_spoof_engine.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" prot="public">themis::voice::VoiceAntiSpoofEngine::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a97e65d7f575d87c36ecde93d481d8fc4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::voice::VoiceAntiSpoofEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="148" column="12" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a3920b638959b094f34dacc18d90e05d0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceAntiSpoofEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="149" column="24" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>VoiceAntiSpoofEngine</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</qualifiedname>
+        <briefdescription>
+<para>Construct engine with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a6583e8a628c5dfa7990d092eed4b7bc4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>VoiceAntiSpoofEngine</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct engine with custom config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Anti-spoofing configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="104" column="14" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a50ef4de8d9869ccba5c96f5c1007c6a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAntiSpoofEngine::~VoiceAntiSpoofEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceAntiSpoofEngine</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::~VoiceAntiSpoofEngine</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1ab261cd78bb3e12f18f5e2ac09b002bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</definition>
+        <argsstring>(const VoiceAntiSpoofEngine &amp;)=delete</argsstring>
+        <name>VoiceAntiSpoofEngine</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</qualifiedname>
+        <param>
+          <type>const VoiceAntiSpoofEngine &amp;</type>
+        </param>
+        <briefdescription>
+<para>Delete copy, allow move. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a99133dcf1f93573a565b2a2d8cfd9a75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref> &amp;</type>
+        <definition>VoiceAntiSpoofEngine &amp; themis::voice::VoiceAntiSpoofEngine::operator=</definition>
+        <argsstring>(const VoiceAntiSpoofEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="111" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5ed3b5d9094558904ece9daf48c9f355" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</definition>
+        <argsstring>(VoiceAntiSpoofEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>VoiceAntiSpoofEngine</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::VoiceAntiSpoofEngine</qualifiedname>
+        <param>
+          <type>VoiceAntiSpoofEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a528c324daf82227fe6a37177a4c09909" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref> &amp;</type>
+        <definition>VoiceAntiSpoofEngine &amp; themis::voice::VoiceAntiSpoofEngine::operator=</definition>
+        <argsstring>(VoiceAntiSpoofEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" kindref="member">VoiceAntiSpoofEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="113" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a4848c37309dcbd443dfd9c4a44f2a924" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_spoof_analysis" kindref="compound">SpoofAnalysis</ref></type>
+        <definition>SpoofAnalysis themis::voice::VoiceAntiSpoofEngine::analyzeSpoofRisk</definition>
+        <argsstring>(const std::string &amp;audio_data, const std::string &amp;speaker_baseline)</argsstring>
+        <name>analyzeSpoofRisk</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::analyzeSpoofRisk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>speaker_baseline</declname>
+        </param>
+        <briefdescription>
+<para>Analyze audio for spoofing risk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Spoof Risk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio bytes (PCM or WAV format) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speaker_baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Known voice embedding from enrollment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_spoof_analysis" kindref="compound">SpoofAnalysis</ref> with detailed verdict and scores @error 7200: Spoofing analysis failed @error 7201: Speaker verification failed @error 7202: Audio quality too low for analysis @error 7203: Synthetic/recorded audio detected</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">speaker_baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), lock(), <ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a504344a59dff9a7d4ac4f3f86b439dde" kindref="member">analyzeAudioFreshness()</ref>, <ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1addc972d534b75052c28d5d49dea06138" kindref="member">analyzeSpeakerMatch()</ref>, <ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a987ded3e0d786ce974679d7fc6a5ad69" kindref="member">analyzeNoisePattern()</ref>, clamp01(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="123" column="20" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="112" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a504344a59dff9a7d4ac4f3f86b439dde" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::analyzeAudioFreshness</definition>
+        <argsstring>(const std::string &amp;audio_data)</argsstring>
+        <name>analyzeAudioFreshness</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::analyzeAudioFreshness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <briefdescription>
+<para>Analyze audio freshness (live vs. synthetic/recorded). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Audio Freshness.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Freshness score (0.0 = definitely synthetic, 1.0 = definitely live) </para>
+</simplesect>
+<simplesect kind="note"><para>Uses spectral analysis to detect digital artifacts</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpectralFeatures(), empty(), clamp01(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="132" column="13" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="172" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1addc972d534b75052c28d5d49dea06138" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::analyzeSpeakerMatch</definition>
+        <argsstring>(const std::string &amp;audio_data, const std::string &amp;baseline)</argsstring>
+        <name>analyzeSpeakerMatch</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::analyzeSpeakerMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <briefdescription>
+<para>Verify speaker matches baseline voice. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Speaker Match.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio bytes from speaker </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Voice embedding from enrollment session </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Match score (0.0 = different speaker, 1.0 = same speaker) </para>
+</simplesect>
+<simplesect kind="note"><para>Uses speaker embedding model for comparison</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeVector(), extractSpeakerEmbedding(), parseNumericVector(), empty(), clamp01(), cosineSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="139" column="13" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="204" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a987ded3e0d786ce974679d7fc6a5ad69" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::analyzeNoisePattern</definition>
+        <argsstring>(const std::string &amp;audio_data)</argsstring>
+        <name>analyzeNoisePattern</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::analyzeNoisePattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <briefdescription>
+<para>Analyze background noise consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Noise Pattern.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Consistency score (0.0 = discontinuous/edited, 1.0 = perfectly consistent) </para>
+</simplesect>
+<simplesect kind="note"><para>Detects spliced or edited audio by analyzing noise patterns</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractNoiseProfile(), size(), std::accumulate(), begin(), end(), std::max(), std::abs(), clamp01(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="145" column="13" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="227" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5536c9665cdc5bea1f942b5f5792be87" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::voice::VoiceAntiSpoofEngine::extractSpectralFeatures</definition>
+        <argsstring>(const std::string &amp;audio)</argsstring>
+        <name>extractSpectralFeatures</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::extractSpectralFeatures</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+<para>Extract spectral features from audio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Spectral Features.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of spectral coefficients used by the anti-spoof check</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parsePcm16Le(), size(), std::abs(), std::max(), std::log(), std::sqrt(), std::exp(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="154" column="18" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="257" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a3fb8b73382e38d018e4b760d17ae87b1" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::voice::VoiceAntiSpoofEngine::extractSpeakerEmbedding</definition>
+        <argsstring>(const std::string &amp;audio)</argsstring>
+        <name>extractSpeakerEmbedding</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::extractSpeakerEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+<para>Extract speaker embedding from audio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Speaker Embedding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Speaker embedding vector used for similarity scoring</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parsePcm16Le(), size(), embedding(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="159" column="18" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="329" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a695fcdb20325c4e8d1f1e961706f30a8" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::voice::VoiceAntiSpoofEngine::extractNoiseProfile</definition>
+        <argsstring>(const std::string &amp;audio)</argsstring>
+        <name>extractNoiseProfile</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::extractNoiseProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+<para>Extract noise profile from audio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Noise Profile.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw audio data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Noise characteristics used for consistency analysis</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parsePcm16Le(), size(), push_back(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="164" column="18" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="367" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a9421e036a4f88672df8e920e7ee728c0" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;v1, const std::vector&lt; double &gt; &amp;v2) const</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Compute cosine similarity between two vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Similarity score (0.0 = orthogonal, 1.0 = identical) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="170" column="13" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="387" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a38383c77497b89ac213d1bdb733f2179" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::voice::VoiceAntiSpoofEngine::normalizeVector</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;vec) const</argsstring>
+        <name>normalizeVector</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::normalizeVector</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Normalize vector to unit length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to normalize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="175" column="18" bodyfile="src/voice/voice_anti_spoof_engine.cpp" bodystart="414" bodyend="428"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detects and rejects spoofed audio. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides multi-factor spoofing detection:<itemizedlist>
+<listitem><para>Spectral analysis to detect synthetic audio</para>
+</listitem><listitem><para>Speaker embedding comparison to detect voice mismatch</para>
+</listitem><listitem><para>Noise pattern analysis to detect edited/spliced audio</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe: all methods acquire internal mutex.</para>
+<para>The implementation accepts 16-bit little-endian PCM payloads or a comma-separated numeric baseline embedding. Inputs that cannot be parsed are rejected fail-closed. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_anti_spoof_engine.h" line="87" column="1" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="87" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a504344a59dff9a7d4ac4f3f86b439dde" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>analyzeAudioFreshness</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a987ded3e0d786ce974679d7fc6a5ad69" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>analyzeNoisePattern</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1addc972d534b75052c28d5d49dea06138" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>analyzeSpeakerMatch</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a4848c37309dcbd443dfd9c4a44f2a924" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>analyzeSpoofRisk</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a97e65d7f575d87c36ecde93d481d8fc4" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a9421e036a4f88672df8e920e7ee728c0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a695fcdb20325c4e8d1f1e961706f30a8" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>extractNoiseProfile</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a3fb8b73382e38d018e4b760d17ae87b1" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>extractSpeakerEmbedding</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5536c9665cdc5bea1f942b5f5792be87" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>extractSpectralFeatures</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a3920b638959b094f34dacc18d90e05d0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a38383c77497b89ac213d1bdb733f2179" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>normalizeVector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a99133dcf1f93573a565b2a2d8cfd9a75" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a528c324daf82227fe6a37177a4c09909" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a760dc847bad17d405d83e607347356a6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>VoiceAntiSpoofEngine</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a6583e8a628c5dfa7990d092eed4b7bc4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>VoiceAntiSpoofEngine</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1ab261cd78bb3e12f18f5e2ac09b002bec" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>VoiceAntiSpoofEngine</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a5ed3b5d9094558904ece9daf48c9f355" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>VoiceAntiSpoofEngine</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a50ef4de8d9869ccba5c96f5c1007c6a0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine</scope><name>~VoiceAntiSpoofEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

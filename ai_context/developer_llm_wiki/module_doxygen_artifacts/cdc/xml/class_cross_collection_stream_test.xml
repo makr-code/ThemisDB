@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cross_collection_stream_test" kind="class" language="C++" prot="public">
+    <compoundname>CrossCollectionStreamTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1a8be09dcab8ed76cef473552015735b76" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CrossCollectionStreamTest::orders_db_</definition>
+        <argsstring></argsstring>
+        <name>orders_db_</name>
+        <qualifiedname>CrossCollectionStreamTest::orders_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="107" column="21" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1adc74a8aeb1f0975bf02364bc0b472fa2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CrossCollectionStreamTest::inventory_db_</definition>
+        <argsstring></argsstring>
+        <name>inventory_db_</name>
+        <qualifiedname>CrossCollectionStreamTest::inventory_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="108" column="21" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1aae387f8b878b953e6827c8e5aa1fc06c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CrossCollectionStreamTest::users_db_</definition>
+        <argsstring></argsstring>
+        <name>users_db_</name>
+        <qualifiedname>CrossCollectionStreamTest::users_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="109" column="21" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1ac51c3bfebfa043c159e57f161a476d64" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CrossCollectionStreamTest::orders_feed_</definition>
+        <argsstring></argsstring>
+        <name>orders_feed_</name>
+        <qualifiedname>CrossCollectionStreamTest::orders_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="111" column="25" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1afa159ba5b8921ca51210771c9a2e8610" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CrossCollectionStreamTest::inventory_feed_</definition>
+        <argsstring></argsstring>
+        <name>inventory_feed_</name>
+        <qualifiedname>CrossCollectionStreamTest::inventory_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="112" column="25" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1a954d9b2f3f0f38dd6dc89d1fe44c0937" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CrossCollectionStreamTest::users_feed_</definition>
+        <argsstring></argsstring>
+        <name>users_feed_</name>
+        <qualifiedname>CrossCollectionStreamTest::users_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="113" column="25" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_collection_stream_test_1a4db191746e406c5ae6a0d054bcf6d74a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_cross_collection_stream" kindref="compound">CrossCollectionStream</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CrossCollectionStream&gt; CrossCollectionStreamTest::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>CrossCollectionStreamTest::stream_</qualifiedname>
+        <initializer>                    =
+std::make_unique&lt;<ref refid="classthemis_1_1cdc_1_1_cross_collection_stream" kindref="compound">CrossCollectionStream</ref>&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="115" column="21" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_cross_collection_stream_test_1ab46dc8936addb3995773226293a1a19a" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>static std::unique_ptr&lt; RocksDBWrapper &gt; CrossCollectionStreamTest::openDB</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>openDB</name>
+        <qualifiedname>CrossCollectionStreamTest::openDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="32" column="28" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="32" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_collection_stream_test_1a21c2b8b9edac8a1a2ffbc5e9fe9cb236" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>static Changefeed::ChangeEvent CrossCollectionStreamTest::makeEvent</definition>
+        <argsstring>(const std::string &amp;key, Changefeed::ChangeEventType type=Changefeed::ChangeEventType::EVENT_PUT, const std::string &amp;value=&quot;v&quot;, int64_t timestamp_ms=0)</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>CrossCollectionStreamTest::makeEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>type</declname>
+          <defval>Changefeed::ChangeEventType::EVENT_PUT</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;v&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="94" column="36" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="94" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cross_collection_stream_test_1ac0b61d0a277cf71f2bbcdf20eebedb2b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossCollectionStreamTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CrossCollectionStreamTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="47" column="10" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="47" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_collection_stream_test_1a3a849d0a268b455f3a766faaead55f5e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossCollectionStreamTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CrossCollectionStreamTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="67" column="10" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="67" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CrossCollectionStreamTest</label>
+        <link refid="class_cross_collection_stream_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CrossCollectionStreamTest</label>
+        <link refid="class_cross_collection_stream_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_cross_collection_stream.cpp" line="29" column="1" bodyfile="tests/cdc/test_cdc_cross_collection_stream.cpp" bodystart="29" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_cross_collection_stream_test_1adc74a8aeb1f0975bf02364bc0b472fa2" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>inventory_db_</name></member>
+      <member refid="class_cross_collection_stream_test_1afa159ba5b8921ca51210771c9a2e8610" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>inventory_feed_</name></member>
+      <member refid="class_cross_collection_stream_test_1a21c2b8b9edac8a1a2ffbc5e9fe9cb236" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>makeEvent</name></member>
+      <member refid="class_cross_collection_stream_test_1ab46dc8936addb3995773226293a1a19a" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>openDB</name></member>
+      <member refid="class_cross_collection_stream_test_1a8be09dcab8ed76cef473552015735b76" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>orders_db_</name></member>
+      <member refid="class_cross_collection_stream_test_1ac51c3bfebfa043c159e57f161a476d64" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>orders_feed_</name></member>
+      <member refid="class_cross_collection_stream_test_1ac0b61d0a277cf71f2bbcdf20eebedb2b" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>SetUp</name></member>
+      <member refid="class_cross_collection_stream_test_1a4db191746e406c5ae6a0d054bcf6d74a" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>stream_</name></member>
+      <member refid="class_cross_collection_stream_test_1a3a849d0a268b455f3a766faaead55f5e" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>TearDown</name></member>
+      <member refid="class_cross_collection_stream_test_1aae387f8b878b953e6827c8e5aa1fc06c" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>users_db_</name></member>
+      <member refid="class_cross_collection_stream_test_1a954d9b2f3f0f38dd6dc89d1fe44c0937" prot="protected" virt="non-virtual"><scope>CrossCollectionStreamTest</scope><name>users_feed_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

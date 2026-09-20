@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_device_capability" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoDeviceCapability</compoundname>
+    <includes refid="device__detector_8h" local="no">device_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_device_capability_1a365fed89ced5738cd3343099e21d17e4" prot="public" static="no" mutable="no">
+        <type>themis::gpu::DeviceInfo</type>
+        <definition>themis::gpu::DeviceInfo themis::geo::GeoDeviceCapability::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::geo::GeoDeviceCapability::device</qualifiedname>
+        <briefdescription>
+<para>Underlying device information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/device_detector.h" line="29" column="29" bodyfile="include/geo/device_detector.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_device_capability_1a1288452e2a0d42421ad3313da4b6135d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoDeviceCapability::meets_compute_requirement</definition>
+        <argsstring></argsstring>
+        <name>meets_compute_requirement</name>
+        <qualifiedname>themis::geo::GeoDeviceCapability::meets_compute_requirement</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Compute capability &gt;= kGeoMin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/device_detector.h" line="31" column="10" bodyfile="include/geo/device_detector.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_device_capability_1a0865f6edb1b9f91982d43e70c1068421" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoDeviceCapability::meets_vram_requirement</definition>
+        <argsstring></argsstring>
+        <name>meets_vram_requirement</name>
+        <qualifiedname>themis::geo::GeoDeviceCapability::meets_vram_requirement</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Free VRAM &gt;= kGeoMinVramBytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/device_detector.h" line="32" column="10" bodyfile="include/geo/device_detector.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_device_capability_1a14d345e059867a77ba0cee1a43f0eb6c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoDeviceCapability::suitable_for_geo</definition>
+        <argsstring></argsstring>
+        <name>suitable_for_geo</name>
+        <qualifiedname>themis::geo::GeoDeviceCapability::suitable_for_geo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Both requirements met and healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/device_detector.h" line="33" column="10" bodyfile="include/geo/device_detector.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_device_capability_1a6aa1d38cd001721dcb5f6fda432c6192" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoDeviceCapability::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::geo::GeoDeviceCapability::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation when suitable_for_geo == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/device_detector.h" line="35" column="17" bodyfile="include/geo/device_detector.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/device_detector.h" line="28" column="1" bodyfile="include/geo/device_detector.h" bodystart="28" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_device_capability_1a365fed89ced5738cd3343099e21d17e4" prot="public" virt="non-virtual"><scope>themis::geo::GeoDeviceCapability</scope><name>device</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_device_capability_1a1288452e2a0d42421ad3313da4b6135d" prot="public" virt="non-virtual"><scope>themis::geo::GeoDeviceCapability</scope><name>meets_compute_requirement</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_device_capability_1a0865f6edb1b9f91982d43e70c1068421" prot="public" virt="non-virtual"><scope>themis::geo::GeoDeviceCapability</scope><name>meets_vram_requirement</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_device_capability_1a6aa1d38cd001721dcb5f6fda432c6192" prot="public" virt="non-virtual"><scope>themis::geo::GeoDeviceCapability</scope><name>reason</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_device_capability_1a14d345e059867a77ba0cee1a43f0eb6c" prot="public" virt="non-virtual"><scope>themis::geo::GeoDeviceCapability</scope><name>suitable_for_geo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

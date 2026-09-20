@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacebench__internal" kind="namespace" language="C++">
+    <compoundname>bench_internal</compoundname>
+    <innerclass refid="classbench__internal_1_1_conflict_resolver" prot="public">bench_internal::ConflictResolver</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264db" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictStrategy</name>
+        <qualifiedname>bench_internal::ConflictStrategy</qualifiedname>
+        <enumvalue id="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264dba1038b7c5b38b3977c52e47d18cc741ee" prot="public">
+          <name>OVERWRITE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264dbab85df04e922fe1dd3c1f0692faeaacef" prot="public">
+          <name>SKIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264dba97c51054c5ed46d2f88641ac57ff6347" prot="public">
+          <name>MERGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264dbabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="63" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="61" column="1"/>
+  </compounddef>
+</doxygen>

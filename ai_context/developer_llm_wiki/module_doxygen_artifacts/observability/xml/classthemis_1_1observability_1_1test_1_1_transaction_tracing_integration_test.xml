@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::test::TransactionTracingIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test_1a8074e4aba6b5be25e405ef4797c0b8e6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" kindref="compound">DistributedTracingSDK</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedTracingSDK&gt; themis::observability::test::TransactionTracingIntegrationTest::sdk_</definition>
+        <argsstring></argsstring>
+        <name>sdk_</name>
+        <qualifiedname>themis::observability::test::TransactionTracingIntegrationTest::sdk_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="50" column="21" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test_1a1d93d1d7e1861bad67c7da50edce4afd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::test::TransactionTracingIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::observability::test::TransactionTracingIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="42" column="10" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="42" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::test::TransactionTracingIntegrationTest</label>
+        <link refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::test::TransactionTracingIntegrationTest</label>
+        <link refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_tracing_integration_transaction.cpp" line="40" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="40" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test_1a8074e4aba6b5be25e405ef4797c0b8e6" prot="protected" virt="non-virtual"><scope>themis::observability::test::TransactionTracingIntegrationTest</scope><name>sdk_</name></member>
+      <member refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test_1a1d93d1d7e1861bad67c7da50edce4afd" prot="protected" virt="non-virtual"><scope>themis::observability::test::TransactionTracingIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

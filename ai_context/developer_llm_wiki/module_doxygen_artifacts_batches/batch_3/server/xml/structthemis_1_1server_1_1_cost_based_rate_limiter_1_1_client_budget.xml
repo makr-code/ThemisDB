@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::CostBasedRateLimiter::ClientBudget</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a3f6d7676be3c88686ee60cfa8bcabf41" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::CostBasedRateLimiter::ClientBudget::remaining</definition>
+        <argsstring></argsstring>
+        <name>remaining</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::ClientBudget::remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="118" column="16" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a730640968af526675d9de61c0cd821c2" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::CostBasedRateLimiter::ClientBudget::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::ClientBudget::window_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="119" column="47" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a036bfba931a2f51f3886bd866233164a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CostBasedRateLimiter::ClientBudget::ClientBudget</definition>
+        <argsstring>(size_t budget)</argsstring>
+        <name>ClientBudget</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::ClientBudget::ClientBudget</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>budget</declname>
+        </param>
+        <briefdescription>
+<para>Client Budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="126" column="18" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="126" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cost_based_rate_limiter.h" line="117" column="5" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="117" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a036bfba931a2f51f3886bd866233164a" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::ClientBudget</scope><name>ClientBudget</name></member>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a3f6d7676be3c88686ee60cfa8bcabf41" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::ClientBudget</scope><name>remaining</name></member>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_client_budget_1a730640968af526675d9de61c0cd821c2" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::ClientBudget</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

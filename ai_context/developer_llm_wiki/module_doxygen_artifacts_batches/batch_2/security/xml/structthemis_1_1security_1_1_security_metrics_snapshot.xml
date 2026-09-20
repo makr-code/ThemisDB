@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_security_metrics_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SecurityMetricsSnapshot</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a865a06f0ed28f663aa897ee9bcebfc94" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::SecurityMetricsSnapshot::collected_at_ms</definition>
+        <argsstring></argsstring>
+        <name>collected_at_ms</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::collected_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collection timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="59" column="13" bodyfile="include/security/security_evidence_collector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a7bd4918e63e82ec8fefa77c2b9e8934a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::SecurityMetricsSnapshot::active_keys</definition>
+        <argsstring></argsstring>
+        <name>active_keys</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::active_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of currently active encryption keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="60" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a3a480866f9fb2ceafcc9d728278db7f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::SecurityMetricsSnapshot::total_key_versions</definition>
+        <argsstring></argsstring>
+        <name>total_key_versions</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::total_key_versions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sum of all key versions across all key IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="61" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a0a3aa4304b478a974d46134b0b2b3d1c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::SecurityMetricsSnapshot::deprecated_keys</definition>
+        <argsstring></argsstring>
+        <name>deprecated_keys</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::deprecated_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Keys in DEPRECATED state (rotation in progress). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="62" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a25bec34296d3434abbd26a618c32dbdc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::SecurityMetricsSnapshot::total_roles</definition>
+        <argsstring></argsstring>
+        <name>total_roles</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::total_roles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> roles registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="63" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_metrics_snapshot_1aa132db5d5224abf49ae365e5e3c161eb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::SecurityMetricsSnapshot::audit_log_entries</definition>
+        <argsstring></argsstring>
+        <name>audit_log_entries</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::audit_log_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate total entries in the audit log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="64" column="14" bodyfile="include/security/security_evidence_collector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_security_metrics_snapshot_1a48dd4dab58980d70bf72d59fccd3de36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::SecurityMetricsSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::SecurityMetricsSnapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="70" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Point-in-time metrics snapshot for SOC 2 capacity and availability controls. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="58" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="58" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a7bd4918e63e82ec8fefa77c2b9e8934a" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>active_keys</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1aa132db5d5224abf49ae365e5e3c161eb" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>audit_log_entries</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a865a06f0ed28f663aa897ee9bcebfc94" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>collected_at_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a0a3aa4304b478a974d46134b0b2b3d1c" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>deprecated_keys</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a48dd4dab58980d70bf72d59fccd3de36" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a3a480866f9fb2ceafcc9d728278db7f6" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>total_key_versions</name></member>
+      <member refid="structthemis_1_1security_1_1_security_metrics_snapshot_1a25bec34296d3434abbd26a618c32dbdc" prot="public" virt="non-virtual"><scope>themis::security::SecurityMetricsSnapshot</scope><name>total_roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

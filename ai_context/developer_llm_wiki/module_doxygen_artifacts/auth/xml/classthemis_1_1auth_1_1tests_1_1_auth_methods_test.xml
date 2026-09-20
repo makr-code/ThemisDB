@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_auth_methods_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::AuthMethodsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1abc662b828fc1c63136ee6e0048aac821" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::tests::AuthMethodsTest::makePermissiveConfig</definition>
+        <argsstring>(const std::string &amp;jwks_url=&quot;http://localhost:9999/jwks&quot;)</argsstring>
+        <name>makePermissiveConfig</name>
+        <qualifiedname>themis::auth::tests::AuthMethodsTest::makePermissiveConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jwks_url</declname>
+          <defval>&quot;http://localhost:9999/jwks&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal <ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref> that skips issuer/audience enforcement (so construction always succeeds) and points to a fake JWKS URL. Validation of a malformed token fails BEFORE any network request is made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_authentication_methods.cpp" line="56" column="24" bodyfile="tests/auth/test_auth_wavec_authentication_methods.cpp" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1aa0c71085089cc10be6d5bcdf72763474" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::tests::AuthMethodsTest::makeStrictIssuerConfig</definition>
+        <argsstring>(const std::string &amp;expected_issuer)</argsstring>
+        <name>makeStrictIssuerConfig</name>
+        <qualifiedname>themis::auth::tests::AuthMethodsTest::makeStrictIssuerConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_issuer</declname>
+        </param>
+        <briefdescription>
+<para>Build a config with strict issuer validation enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_authentication_methods.cpp" line="68" column="24" bodyfile="tests/auth/test_auth_wavec_authentication_methods.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1a42301f9103774c00bc7e3f97dfbf124f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::tests::AuthMethodsTest::makeStrictAudienceConfig</definition>
+        <argsstring>(const std::string &amp;expected_audience)</argsstring>
+        <name>makeStrictAudienceConfig</name>
+        <qualifiedname>themis::auth::tests::AuthMethodsTest::makeStrictAudienceConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_audience</declname>
+        </param>
+        <briefdescription>
+<para>Build a config with strict audience validation enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_authentication_methods.cpp" line="78" column="24" bodyfile="tests/auth/test_auth_wavec_authentication_methods.cpp" bodystart="78" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::AuthMethodsTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_auth_methods_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::AuthMethodsTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_auth_methods_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_wavec_authentication_methods.cpp" line="48" column="1" bodyfile="tests/auth/test_auth_wavec_authentication_methods.cpp" bodystart="48" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1abc662b828fc1c63136ee6e0048aac821" prot="protected" virt="non-virtual"><scope>themis::auth::tests::AuthMethodsTest</scope><name>makePermissiveConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1a42301f9103774c00bc7e3f97dfbf124f" prot="protected" virt="non-virtual"><scope>themis::auth::tests::AuthMethodsTest</scope><name>makeStrictAudienceConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_auth_methods_test_1aa0c71085089cc10be6d5bcdf72763474" prot="protected" virt="non-virtual"><scope>themis::auth::tests::AuthMethodsTest</scope><name>makeStrictIssuerConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

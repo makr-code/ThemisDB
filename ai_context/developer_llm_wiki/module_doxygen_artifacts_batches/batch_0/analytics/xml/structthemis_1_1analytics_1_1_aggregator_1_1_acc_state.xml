@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::Aggregator::AccState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1aa572c91c88a379d3e160935ac72fe2d5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::Aggregator::AccState::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="127" column="22" bodyfile="include/analytics/aggregation.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a7fd477f4793fa0ecc15b39d9c83478dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::Aggregator::AccState::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::min</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="128" column="22" bodyfile="include/analytics/aggregation.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a5dc464b34476a2f7453b7da17e61d435" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::Aggregator::AccState::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::max</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="129" column="22" bodyfile="include/analytics/aggregation.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a503e31f232b5a5ba746f7a66526fe276" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::analytics::Aggregator::AccState::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="130" column="22" bodyfile="include/analytics/aggregation.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a2dc0a29d60fef8c013ddf03a14c4d2fa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref></type>
+        <definition>AggValue themis::analytics::Aggregator::AccState::first</definition>
+        <argsstring></argsstring>
+        <name>first</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::first</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="131" column="22" bodyfile="include/analytics/aggregation.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1aafa7a27327b20ddb6156dc0d33f50aea" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref></type>
+        <definition>AggValue themis::analytics::Aggregator::AccState::last</definition>
+        <argsstring></argsstring>
+        <name>last</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::last</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="132" column="22" bodyfile="include/analytics/aggregation.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a0317c9ae67907ad32514174b374859cd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::Aggregator::AccState::first_seen</definition>
+        <argsstring></argsstring>
+        <name>first_seen</name>
+        <qualifiedname>themis::analytics::Aggregator::AccState::first_seen</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="133" column="22" bodyfile="include/analytics/aggregation.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="126" column="5" bodyfile="include/analytics/aggregation.h" bodystart="126" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a503e31f232b5a5ba746f7a66526fe276" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a2dc0a29d60fef8c013ddf03a14c4d2fa" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>first</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a0317c9ae67907ad32514174b374859cd" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>first_seen</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1aafa7a27327b20ddb6156dc0d33f50aea" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>last</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a5dc464b34476a2f7453b7da17e61d435" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>max</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1a7fd477f4793fa0ecc15b39d9c83478dc" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>min</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state_1aa572c91c88a379d3e160935ac72fe2d5" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::AccState</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

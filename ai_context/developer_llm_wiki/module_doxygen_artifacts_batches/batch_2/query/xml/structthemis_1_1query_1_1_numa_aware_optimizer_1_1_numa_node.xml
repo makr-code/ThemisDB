@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::NumaAwareOptimizer::NumaNode</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a9df63a322684532005f5d01ffe2cc7e9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::NumaAwareOptimizer::NumaNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::query::NumaAwareOptimizer::NumaNode::node_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="253" column="13" bodyfile="include/query/adaptive_optimizer.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a1d3728e393c0c7d324702f485ea7b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::NumaAwareOptimizer::NumaNode::available_cores</definition>
+        <argsstring></argsstring>
+        <name>available_cores</name>
+        <qualifiedname>themis::query::NumaAwareOptimizer::NumaNode::available_cores</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="254" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a56be05ee26a8709e86556243ee0e6001" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::NumaAwareOptimizer::NumaNode::memory_gb</definition>
+        <argsstring></argsstring>
+        <name>memory_gb</name>
+        <qualifiedname>themis::query::NumaAwareOptimizer::NumaNode::memory_gb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="255" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a7249cebf92159d33190d4b192c8ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::query::NumaAwareOptimizer::NumaNode::cpu_ids</definition>
+        <argsstring></argsstring>
+        <name>cpu_ids</name>
+        <qualifiedname>themis::query::NumaAwareOptimizer::NumaNode::cpu_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="256" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="252" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="252" bodyend="257"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a1d3728e393c0c7d324702f485ea7b" prot="public" virt="non-virtual"><scope>themis::query::NumaAwareOptimizer::NumaNode</scope><name>available_cores</name></member>
+      <member refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a7249cebf92159d33190d4b192c8ab" prot="public" virt="non-virtual"><scope>themis::query::NumaAwareOptimizer::NumaNode</scope><name>cpu_ids</name></member>
+      <member refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a56be05ee26a8709e86556243ee0e6001" prot="public" virt="non-virtual"><scope>themis::query::NumaAwareOptimizer::NumaNode</scope><name>memory_gb</name></member>
+      <member refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a9df63a322684532005f5d01ffe2cc7e9" prot="public" virt="non-virtual"><scope>themis::query::NumaAwareOptimizer::NumaNode</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_field_merge_resolver" kind="class" language="C++" prot="public">
+    <compoundname>FieldMergeResolver</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_import_conflict_resolver" prot="public" virt="non-virtual">themis::importers::IImportConflictResolver</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_field_merge_resolver_1afa26c5f616cb990dcc76170a54876530" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; FieldMergeResolver::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>FieldMergeResolver::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="104" column="17" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_field_merge_resolver_1ac5c9a1591db1b22f9acbc9df11273960" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FieldMergeResolver::FieldMergeResolver</definition>
+        <argsstring>(std::vector&lt; std::string &gt; fields)</argsstring>
+        <name>FieldMergeResolver</name>
+        <qualifiedname>FieldMergeResolver::FieldMergeResolver</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="90" column="14" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="90" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_field_merge_resolver_1a6c96754a9688d6b5b66b82abfc40ddf1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>ConflictResolutionResult FieldMergeResolver::resolve</definition>
+        <argsstring>(const json &amp;, const json &amp;) const override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>FieldMergeResolver::resolve</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a2c916d46f479c564c6bd96e05cedf841">resolve</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="93" column="30" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FieldMergeResolver</label>
+        <link refid="class_field_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImportConflictResolver</label>
+        <link refid="classthemis_1_1importers_1_1_i_import_conflict_resolver"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FieldMergeResolver</label>
+        <link refid="class_field_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImportConflictResolver</label>
+        <link refid="classthemis_1_1importers_1_1_i_import_conflict_resolver"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="88" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="88" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_field_merge_resolver_1ac5c9a1591db1b22f9acbc9df11273960" prot="public" virt="non-virtual"><scope>FieldMergeResolver</scope><name>FieldMergeResolver</name></member>
+      <member refid="class_field_merge_resolver_1afa26c5f616cb990dcc76170a54876530" prot="private" virt="non-virtual"><scope>FieldMergeResolver</scope><name>fields_</name></member>
+      <member refid="class_field_merge_resolver_1a6c96754a9688d6b5b66b82abfc40ddf1" prot="public" virt="virtual"><scope>FieldMergeResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a4a7b20ff9a19de8b06c27808dc633cbe" prot="public" virt="virtual"><scope>FieldMergeResolver</scope><name>~IImportConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

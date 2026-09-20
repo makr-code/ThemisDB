@@ -1,0 +1,439 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_stream" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationStream</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a861e08174fa9dfa6aa43fd386c253a81" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationStream::follower_endpoint_</definition>
+        <argsstring></argsstring>
+        <name>follower_endpoint_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::follower_endpoint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="590" column="17" bodyfile="include/replication/replication_manager.h" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1af2feea0de0ad3f16ae8ba3a2e02f5255" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::ReplicationStream::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="591" column="21" bodyfile="include/replication/replication_manager.h" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a2f67c283cc8dc5b78f24a33949c8c8e2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref></type>
+        <definition>ReplicationConfig themisdb::replication::ReplicationStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="592" column="23" bodyfile="include/replication/replication_manager.h" bodystart="592" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a4cddc1e770d59f78f600e7e0b2a73143" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref></type>
+        <definition>ReplicaInfo themisdb::replication::ReplicationStream::follower_info_</definition>
+        <argsstring></argsstring>
+        <name>follower_info_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::follower_info_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="593" column="17" bodyfile="include/replication/replication_manager.h" bodystart="593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a5f95a901619b28bbaaec397c9fd17e33" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStream::last_acked_sequence_</definition>
+        <argsstring></argsstring>
+        <name>last_acked_sequence_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::last_acked_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="595" column="17" bodyfile="include/replication/replication_manager.h" bodystart="595" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a874b5e0e54e48b0a4528a281b19af208" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::ReplicationStream::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="596" column="17" bodyfile="include/replication/replication_manager.h" bodystart="596" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a2e17f95ae0dabb6142f92a4f8053375f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::ReplicationStream::stream_thread_</definition>
+        <argsstring></argsstring>
+        <name>stream_thread_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::stream_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="597" column="17" bodyfile="include/replication/replication_manager.h" bodystart="597" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1acd281ed1cd9a9b34af9564153d2a73d9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationStream::wait_mutex_</definition>
+        <argsstring></argsstring>
+        <name>wait_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::wait_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="598" column="24" bodyfile="include/replication/replication_manager.h" bodystart="598" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a6a14cdcc1160867639777e0865630749" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::replication::ReplicationStream::wait_cv_</definition>
+        <argsstring></argsstring>
+        <name>wait_cv_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::wait_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="599" column="29" bodyfile="include/replication/replication_manager.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a45e004215f00f7fd0bbc6e74ced99a7a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themisdb::replication::ReplicationStream::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::consecutive_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="602" column="17" bodyfile="include/replication/replication_manager.h" bodystart="602" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a1b4d1de975a055815b00bb8c7df49d05" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream" kindref="compound">CompressedReplicationStream</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CompressedReplicationStream&gt; themisdb::replication::ReplicationStream::compressed_stream_</definition>
+        <argsstring></argsstring>
+        <name>compressed_stream_</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::compressed_stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="608" column="21" bodyfile="include/replication/replication_manager.h" bodystart="608" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1ac3c41da3a91545df040b79c92faef1b6" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationStream::kMaxRetries</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetries</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::kMaxRetries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="603" column="31" bodyfile="include/replication/replication_manager.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1ad48e40868c0a22c735c3756de0dc2ff7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationStream::kBaseBackoffMs</definition>
+        <argsstring></argsstring>
+        <name>kBaseBackoffMs</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::kBaseBackoffMs</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="604" column="31" bodyfile="include/replication/replication_manager.h" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_stream_1a19191e8fa55b2ad98690bd524a7cb13b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationStream::kMaxBackoffMs</definition>
+        <argsstring></argsstring>
+        <name>kMaxBackoffMs</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::kMaxBackoffMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="605" column="31" bodyfile="include/replication/replication_manager.h" bodystart="605" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1af925a22b481a79504598b7a3471e7907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationStream::ReplicationStream</definition>
+        <argsstring>(const std::string &amp;follower_endpoint, std::shared_ptr&lt; WALManager &gt; wal, const ReplicationConfig &amp;config)</argsstring>
+        <name>ReplicationStream</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::ReplicationStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>follower_endpoint</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="564" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="1100" bodyend="1140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a3fd97611211481ea1dffc9b64e0fcfb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationStream::~ReplicationStream</definition>
+        <argsstring>()</argsstring>
+        <name>~ReplicationStream</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::~ReplicationStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="569" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="1142" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a0348994bdcdd33bdda445bdd87f2222b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationStream::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="572" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1150" bodyend="1153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1ad1b55ae45aaf4c405bb37e73c23cbfe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationStream::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), notify_all(), joinable(), timedJoin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="575" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1159" bodyend="1166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a36c90cf7b3c9ba4c7c908ca96a7ee9b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+        <definition>const ReplicaInfo &amp; themisdb::replication::ReplicationStream::getFollowerInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getFollowerInfo</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::getFollowerInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="578" column="23" bodyfile="include/replication/replication_manager.h" bodystart="578" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a5ec635477a4cfb3c3ea0db44236e5a26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationStream::getLastAckedSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastAckedSequence</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::getLastAckedSequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="581" column="14" bodyfile="include/replication/replication_manager.h" bodystart="581" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a291c9f661eafbea8b92d68ce381669ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationStream::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="584" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1168" bodyend="1170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a3adec06c07b7ef8761cf7008cb2a29a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationStream::getConsecutiveFailures</definition>
+        <argsstring>() const</argsstring>
+        <name>getConsecutiveFailures</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::getConsecutiveFailures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="587" column="14" bodyfile="include/replication/replication_manager.h" bodystart="587" bodyend="587"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a617dfc2af081f658e17114b586cf494d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationStream::streamLoop</definition>
+        <argsstring>()</argsstring>
+        <name>streamLoop</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::streamLoop</qualifiedname>
+        <briefdescription>
+<para>Stream Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), computeBackoffMs(), lk(), wait_for(), std::chrono::milliseconds(), readFrom(), empty(), sendBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="610" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1176" bodyend="1238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1a3f545e5f47308344dab657e5cf65fabb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationStream::sendBatch</definition>
+        <argsstring>(const std::vector&lt; WALEntry &gt; &amp;entries)</argsstring>
+        <name>sendBatch</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::sendBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Send Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements sendBatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="611" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1259" bodyend="1297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_stream_1ad74129edcd36d411167d1af5f5c3315b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationStream::computeBackoffMs</definition>
+        <argsstring>() const</argsstring>
+        <name>computeBackoffMs</name>
+        <qualifiedname>themisdb::replication::ReplicationStream::computeBackoffMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="612" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="1240" bodyend="1251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replication Stream for streaming WAL entries to followers </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="562" column="1" bodyfile="include/replication/replication_manager.h" bodystart="562" bodyend="613"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a1b4d1de975a055815b00bb8c7df49d05" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>compressed_stream_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1ad74129edcd36d411167d1af5f5c3315b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>computeBackoffMs</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a2f67c283cc8dc5b78f24a33949c8c8e2" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a45e004215f00f7fd0bbc6e74ced99a7a" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a861e08174fa9dfa6aa43fd386c253a81" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>follower_endpoint_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a4cddc1e770d59f78f600e7e0b2a73143" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>follower_info_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a3adec06c07b7ef8761cf7008cb2a29a8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>getConsecutiveFailures</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a36c90cf7b3c9ba4c7c908ca96a7ee9b9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>getFollowerInfo</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a5ec635477a4cfb3c3ea0db44236e5a26" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>getLastAckedSequence</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a291c9f661eafbea8b92d68ce381669ab" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1ad48e40868c0a22c735c3756de0dc2ff7" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>kBaseBackoffMs</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a19191e8fa55b2ad98690bd524a7cb13b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>kMaxBackoffMs</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1ac3c41da3a91545df040b79c92faef1b6" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>kMaxRetries</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a5f95a901619b28bbaaec397c9fd17e33" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>last_acked_sequence_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1af925a22b481a79504598b7a3471e7907" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>ReplicationStream</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a874b5e0e54e48b0a4528a281b19af208" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a3f545e5f47308344dab657e5cf65fabb" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>sendBatch</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a0348994bdcdd33bdda445bdd87f2222b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1ad1b55ae45aaf4c405bb37e73c23cbfe0" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a2e17f95ae0dabb6142f92a4f8053375f" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>stream_thread_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a617dfc2af081f658e17114b586cf494d" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>streamLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a6a14cdcc1160867639777e0865630749" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>wait_cv_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1acd281ed1cd9a9b34af9564153d2a73d9" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>wait_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1af2feea0de0ad3f16ae8ba3a2e02f5255" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_stream_1a3fd97611211481ea1dffc9b64e0fcfb3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStream</scope><name>~ReplicationStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

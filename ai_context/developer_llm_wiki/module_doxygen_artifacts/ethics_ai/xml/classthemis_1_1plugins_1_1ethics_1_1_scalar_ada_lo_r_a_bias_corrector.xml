@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector" prot="public" virt="non-virtual">themis::plugins::ethics::IAdaLoRABiasCorrector</basecompoundref>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a85426cff60a8ed93ed10a23af24f70ae" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::ScalarAdaLoRABiasCorrector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="658" column="35" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a224e90c4aa60383744702c2d8e498151" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::plugins::ethics::ScalarAdaLoRABiasCorrector::adapters_</definition>
+        <argsstring></argsstring>
+        <name>adapters_</name>
+        <qualifiedname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector::adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="659" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="659" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::ScalarAdaLoRABiasCorrector::registerAdapter</definition>
+        <argsstring>(const std::string &amp;school_id, double factor)</argsstring>
+        <name>registerAdapter</name>
+        <qualifiedname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector::registerAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>factor</declname>
+        </param>
+        <briefdescription>
+<para>Register Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="619" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="619" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::ScalarAdaLoRABiasCorrector::applyBiasCorrection</definition>
+        <argsstring>(const std::string &amp;school_id, double raw_score) const noexcept override</argsstring>
+        <name>applyBiasCorrection</name>
+        <qualifiedname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector::applyBiasCorrection</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1ac37f1cda9acedd1b76473094f66b8ee1">applyBiasCorrection</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>raw_score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="624" column="13" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="624" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::ScalarAdaLoRABiasCorrector::hasAdapter</definition>
+        <argsstring>(const std::string &amp;school_id) const noexcept override</argsstring>
+        <name>hasAdapter</name>
+        <qualifiedname>themis::plugins::ethics::ScalarAdaLoRABiasCorrector::hasAdapter</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1adb532b20982e2e78ac875044358cc8d9">hasAdapter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="647" column="11" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="647" bodyend="655"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::ethics::IAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::ethics::IAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="611" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="611" bodyend="660"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a224e90c4aa60383744702c2d8e498151" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>adapters_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" prot="public" virt="virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>applyBiasCorrection</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" prot="public" virt="virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>hasAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a85426cff60a8ed93ed10a23af24f70ae" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>registerAdapter</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1a36a60bb9b945eae4fc2f5d58642d07b9" prot="public" virt="virtual"><scope>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</scope><name>~IAdaLoRABiasCorrector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="http__shutdown__manager_8h" kind="file" language="C++">
+    <compoundname>http_shutdown_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <includedby refid="http__shutdown__manager_8cpp" local="yes">src/server/http_shutdown_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/http_shutdown_manager.h</label>
+        <link refid="http__shutdown__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/http_shutdown_manager.h</label>
+        <link refid="http__shutdown__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/http_shutdown_manager.cpp</label>
+        <link refid="http__shutdown__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_http_shutdown_manager" prot="public">themis::server::HttpShutdownManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Phased graceful-shutdown manager for the ThemisDB HTTP server. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a well-defined, bounded multi-phase shutdown sequence:</para>
+<para>Phase 0 – IDLE : Not yet initiated. Phase 1 – DRAINING : Acceptor closed; waiting for in-flight requests to complete within graceful_drain_timeout_ms. Phase 2 – FORCE_CLOSE : Drain deadline elapsed; any remaining requests are force-cancelled and their sessions closed. Phase 3 – TEARDOWN : All requests resolved; subsystems torn down. Phase 4 – DONE : Shutdown complete.</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>Thread-safe: phase transitions are atomic.</para>
+</listitem><listitem><para>Bounded: each phase has an explicit timeout; no phase can block forever.</para>
+</listitem><listitem><para>Observable: phase transitions are logged and exposed via phaseLabel().</para>
+</listitem><listitem><para>No new allocations after construction.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 93/100 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">kIdle</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a4edb91985bca34f444ffdaacfa4ede22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a4edb91985bca34f444ffdaacfa4ede22" kindref="member">kDraining</ref><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671aac2c6f3615e75207e7ab703ad1c966ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671aac2c6f3615e75207e7ab703ad1c966ad" kindref="member">kForceClose</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671ac435122fe43315cf3377c25ae561c28e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671ac435122fe43315cf3377c25ae561c28e" kindref="member">kTeardown</ref><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a9e2024e27d037d51bb46ef86d2e0ea4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a9e2024e27d037d51bb46ef86d2e0ea4d" kindref="member">kDone</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">[[nodiscard]]<sp/>std::string_view<sp/><ref refid="namespacethemis_1_1server_1afa10f1c2a0732598af28fe9b02eb5c18" kindref="member">phaseLabel</ref>(<ref refid="test__server__phase1__hardening_8cpp_1aca18e8394cdb8c8e7106ed42ab3f4c90" kindref="member">ShutdownPhase</ref><sp/>phase)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1server_1_1_http_shutdown_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0435d3f9feb372deff3557a72aa85a87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0435d3f9feb372deff3557a72aa85a87" kindref="member">kDrainPollMs</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a94cf487ded95d217e357e5ce9f5dc7d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a94cf487ded95d217e357e5ce9f5dc7d8" kindref="member">kDefaultForceCloseTimeoutMs</ref><sp/>=<sp/>5&apos;000;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>drain_timeout_ms,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>force_close_timeout_ms,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;uint64_t()&gt;<sp/>query_in_flight,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">()&gt;<sp/><sp/><sp/><sp/>force_close_sessions<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a392d6d374afe6b5f62e4a2c5bcd5412d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a392d6d374afe6b5f62e4a2c5bcd5412d" kindref="member">HttpShutdownManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a2126441d0f6de055d50beb256a72c9f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a2126441d0f6de055d50beb256a72c9f3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1server_1_1_http_shutdown_manager_1ae6fb5c3812a849886ff46b709fcf9476" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1ae6fb5c3812a849886ff46b709fcf9476" kindref="member">HttpShutdownManager</ref>(<ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0f7af405ea893a5782902a5f9498e224" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0f7af405ea893a5782902a5f9498e224" kindref="member">operator=</ref>(<ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a857aa0c3c9b42553ed6e71176b4b4e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a857aa0c3c9b42553ed6e71176b4b4e91" kindref="member">~HttpShutdownManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1ad069e842ca516fc3860bf2d73d153287" kindref="member">run</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1server_1_1_http_shutdown_manager_1adaa48da5063cfda79595c4d05377c260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1adaa48da5063cfda79595c4d05377c260" kindref="member">phase</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>phase_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1server_1_1_http_shutdown_manager_1aca70d020f90c3d70b7cfab45aa0dee64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1aca70d020f90c3d70b7cfab45aa0dee64" kindref="member">isDone</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>phase_.load(std::memory_order_acquire)<sp/>==<sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a9e2024e27d037d51bb46ef86d2e0ea4d" kindref="member">ShutdownPhase::kDone</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a40ef7710efa1dceaa585ba46c0e9fd70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a40ef7710efa1dceaa585ba46c0e9fd70" kindref="member">forcedCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>forced_count_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1server_1_1_http_shutdown_manager_1a3ff06a0dd5fabab9797e3698e915bd85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int64_t<sp/><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a3ff06a0dd5fabab9797e3698e915bd85" kindref="member">drainElapsedUs</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>drain_elapsed_us_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>enterDraining()<sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>enterForceClose()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>enterTeardown()<sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>enterDone()<sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>advanceTo(<ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref><sp/>next)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>drain_timeout_ms_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>force_close_timeout_ms_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;uint64_t()&gt;<sp/>query_in_flight_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">()&gt;<sp/><sp/><sp/><sp/><sp/>force_close_sessions_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;<ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref>&gt;<sp/>phase_{<ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">ShutdownPhase::kIdle</ref>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/>forced_count_{0};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>drain_elapsed_us_{0};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::server</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/http_shutdown_manager.h"/>
+  </compounddef>
+</doxygen>

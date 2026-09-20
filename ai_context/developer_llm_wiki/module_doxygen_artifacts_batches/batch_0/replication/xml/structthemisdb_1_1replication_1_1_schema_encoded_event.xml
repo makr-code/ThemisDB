@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_schema_encoded_event" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::SchemaEncodedEvent</compoundname>
+    <includes refid="schema__cdc_8h" local="no">schema_cdc.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1ae2c94d777c5f3aff09ff0bd37fcbd0ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::SchemaEncodedEvent::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::collection</qualifiedname>
+        <briefdescription>
+<para>Source collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="40" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1ac9613457cb145f0d9002e5983b560240" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::SchemaEncodedEvent::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::operation</qualifiedname>
+        <briefdescription>
+<para>&quot;INSERT&quot; | &quot;UPDATE&quot; | &quot;DELETE&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="41" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1a243ce1de3d2470add09b767fa23c7b1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::SchemaEncodedEvent::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::document_id</qualifiedname>
+        <briefdescription>
+<para>Document key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="42" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1a4c7ff2d24a4ac1650f4be56e79fced60" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::SchemaEncodedEvent::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::sequence</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>WAL sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="43" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1a35df818ffc1137112005b1ba81c1bb2c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::SchemaEncodedEvent::schema_id</definition>
+        <argsstring></argsstring>
+        <name>schema_id</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::schema_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Registered schema ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="44" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_encoded_event_1aacc779d92955b2d6dadc33d49ddf83a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::replication::SchemaEncodedEvent::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themisdb::replication::SchemaEncodedEvent::payload</qualifiedname>
+        <briefdescription>
+<para>Full Confluent wire-format bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="45" column="17" bodyfile="include/replication/schema_cdc.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single CDC event encoded with the Confluent wire format. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1aacc779d92955b2d6dadc33d49ddf83a9" kindref="member">payload</ref></computeroutput> field contains the full wire-format bytes (magic byte + 4-byte schema ID + serialised event body). Downstream Kafka producers, Kafka Connect sinks, and other Confluent-compatible consumers can decode this directly. </para>
+    </detaileddescription>
+    <location file="include/replication/schema_cdc.h" line="39" column="1" bodyfile="include/replication/schema_cdc.h" bodystart="39" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ae2c94d777c5f3aff09ff0bd37fcbd0ea" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a243ce1de3d2470add09b767fa23c7b1a" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ac9613457cb145f0d9002e5983b560240" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>operation</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1aacc779d92955b2d6dadc33d49ddf83a9" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>payload</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a35df818ffc1137112005b1ba81c1bb2c" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>schema_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a4c7ff2d24a4ac1650f4be56e79fced60" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaEncodedEvent</scope><name>sequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

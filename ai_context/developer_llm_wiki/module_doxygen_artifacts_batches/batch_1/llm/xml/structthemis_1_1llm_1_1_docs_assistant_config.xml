@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_docs_assistant_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DocsAssistantConfig</compoundname>
+    <includes refid="docs__assistant_8h" local="no">docs_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1aa9689ff9d2cb5a87585995aabeb0656c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocsAssistantConfig::docs_database_path</definition>
+        <argsstring></argsstring>
+        <name>docs_database_path</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::docs_database_path</qualifiedname>
+        <initializer>= &quot;data/docs_database.json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="53" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1a8fb241825bc6cff03c20ef4f9d3b310c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocsAssistantConfig::database_type</definition>
+        <argsstring></argsstring>
+        <name>database_type</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::database_type</qualifiedname>
+        <initializer>= &quot;json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="54" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1a0d196e3f95b0e32bdd96f51f3a6ab7b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistantConfig::auto_discover</definition>
+        <argsstring></argsstring>
+        <name>auto_discover</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::auto_discover</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="55" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1adbdb7daac8bad07e75cd267733f2ef1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistantConfig::read_only</definition>
+        <argsstring></argsstring>
+        <name>read_only</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::read_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="56" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1a602c8d0bc5bc3e9b48ef7745ad926089" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocsAssistantConfig::max_context_docs</definition>
+        <argsstring></argsstring>
+        <name>max_context_docs</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::max_context_docs</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="57" column="9" bodyfile="include/llm/docs_assistant.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1ab1a58f810f221bdfdddd49ac9ea8d170" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocsAssistantConfig::context_preview_length</definition>
+        <argsstring></argsstring>
+        <name>context_preview_length</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::context_preview_length</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="58" column="9" bodyfile="include/llm/docs_assistant.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1ac5c2cc5c09b38c3a6044523b8de85144" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistantConfig::enable_semantic_search</definition>
+        <argsstring></argsstring>
+        <name>enable_semantic_search</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::enable_semantic_search</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="59" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1ab71c0d18888533bf39dca9126eae2b2c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistantConfig::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="60" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_docs_assistant_config_1a0b747d6c801b2cb15081f242ddc6efc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocsAssistantConfig::llm_model_id</definition>
+        <argsstring></argsstring>
+        <name>llm_model_id</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::llm_model_id</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="61" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_docs_assistant_config_1a4ccc5f60beaeb4fc648634481e8c960b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DocsAssistantConfig::discoverDatabase</definition>
+        <argsstring>()</argsstring>
+        <name>discoverDatabase</name>
+        <qualifiedname>themis::llm::DocsAssistantConfig::discoverDatabase</qualifiedname>
+        <briefdescription>
+<para>Discover Database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1_1test" kindref="compound">test()</ref>, good(), std::filesystem::exists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="68" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="68" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/docs_assistant.h" line="52" column="1" bodyfile="include/llm/docs_assistant.h" bodystart="52" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1a0d196e3f95b0e32bdd96f51f3a6ab7b1" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>auto_discover</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1ab1a58f810f221bdfdddd49ac9ea8d170" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>context_preview_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1a8fb241825bc6cff03c20ef4f9d3b310c" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>database_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1a4ccc5f60beaeb4fc648634481e8c960b" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>discoverDatabase</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1aa9689ff9d2cb5a87585995aabeb0656c" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>docs_database_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1ab71c0d18888533bf39dca9126eae2b2c" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1ac5c2cc5c09b38c3a6044523b8de85144" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>enable_semantic_search</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1a0b747d6c801b2cb15081f242ddc6efc7" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>llm_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1a602c8d0bc5bc3e9b48ef7745ad926089" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>max_context_docs</name></member>
+      <member refid="structthemis_1_1llm_1_1_docs_assistant_config_1adbdb7daac8bad07e75cd267733f2ef1d" prot="public" virt="non-virtual"><scope>themis::llm::DocsAssistantConfig</scope><name>read_only</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

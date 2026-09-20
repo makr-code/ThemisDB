@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c022f743b758d1f121bdbe0b021f0ce3" kind="dir">
+    <compoundname>tests/security/ai_safety</compoundname>
+    <innerfile refid="test__ai__safety__chaos_8cpp">test_ai_safety_chaos.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/ai_safety/"/>
+  </compounddef>
+</doxygen>

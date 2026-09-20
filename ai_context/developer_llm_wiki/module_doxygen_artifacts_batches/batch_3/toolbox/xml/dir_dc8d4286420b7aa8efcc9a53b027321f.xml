@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_dc8d4286420b7aa8efcc9a53b027321f" kind="dir">
+    <compoundname>include/toolbox</compoundname>
+    <innerfile refid="content__fingerprinter_8h">content_fingerprinter.h</innerfile>
+    <innerfile refid="content__toolbox__bridge_8h">content_toolbox_bridge.h</innerfile>
+    <innerfile refid="ingestion__toolbox_8h">ingestion_toolbox.h</innerfile>
+    <innerfile refid="language__detector_8h">language_detector.h</innerfile>
+    <innerfile refid="text__chunker_8h">text_chunker.h</innerfile>
+    <innerfile refid="text__normalizer_8h">text_normalizer.h</innerfile>
+    <innerfile refid="text__quality__scorer_8h">text_quality_scorer.h</innerfile>
+    <innerfile refid="toolbox__api__contract_8h">toolbox_api_contract.h</innerfile>
+    <innerfile refid="toolbox__builder_8h">toolbox_builder.h</innerfile>
+    <innerfile refid="toolbox__composite_8h">toolbox_composite.h</innerfile>
+    <innerfile refid="toolbox__registry_8h">toolbox_registry.h</innerfile>
+    <innerfile refid="toolbox__streaming_8h">toolbox_streaming.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/toolbox/"/>
+  </compounddef>
+</doxygen>

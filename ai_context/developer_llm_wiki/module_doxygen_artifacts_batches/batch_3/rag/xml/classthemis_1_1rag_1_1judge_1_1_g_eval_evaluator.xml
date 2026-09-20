@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::GEvalEvaluator</compoundname>
+    <includes refid="geval__evaluator_8h" local="no">geval_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" prot="public">themis::rag::judge::GEvalEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_impl" prot="public">themis::rag::judge::GEvalEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a91aa6cc1d86afcfc3f229abc233d3d7d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::GEvalEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="135" column="21" bodyfile="include/rag/geval_evaluator.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5bcd7acff2f48e66d7ac51011762b2ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::GEvalEvaluator::GEvalEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>GEvalEvaluator</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::GEvalEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="70" column="5" bodyfile="src/rag/geval_evaluator.cpp" bodystart="294" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad34a50b4723c1ec5be73112b569e6f9b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::GEvalEvaluator::GEvalEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GEvalEvaluator</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::GEvalEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="71" column="14" bodyfile="src/rag/geval_evaluator.cpp" bodystart="298" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1adcd1d6acef056ed022abdbbdd86dd7a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::GEvalEvaluator::~GEvalEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~GEvalEvaluator</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::~GEvalEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a72d7866ad315506c87d91e5396173884" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" kindref="compound">GEvalResult</ref></type>
+        <definition>GEvalResult themis::rag::judge::GEvalEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;dimension=&quot;overall&quot;)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dimension</declname>
+          <defval>&quot;overall&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Evaluate answer using G-Eval probabilistic scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension to evaluate (faithfulness, relevance, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>G-Eval result with continuous score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="86" column="17" bodyfile="src/rag/geval_evaluator.cpp" bodystart="309" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ac605e9751f23d01963db18c018ab38ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::rag::judge::GEvalEvaluator::extractTokenProbabilities</definition>
+        <argsstring>(const std::string &amp;prompt, const std::vector&lt; int &gt; &amp;score_tokens)</argsstring>
+        <name>extractTokenProbabilities</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::extractTokenProbabilities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>score_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Extract token probabilities from LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Token Probabilities.</para>
+<para>This method interfaces with llama.cpp to get logits and compute probabilities for score tokens (1-5).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation prompt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token IDs for &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Probability distribution over score levels</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: probsFromLLM(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="103" column="17" bodyfile="src/rag/geval_evaluator.cpp" bodystart="399" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalEvaluator::computeGEvalScore</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;probabilities)</argsstring>
+        <name>computeGEvalScore</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::computeGEvalScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>probabilities</declname>
+        </param>
+        <briefdescription>
+<para>Compute continuous G-Eval score from probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute GEval Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>probabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>P(level) for levels 1-5 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Continuous score (0-1 normalized)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), spdlog::warn(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="113" column="19" bodyfile="src/rag/geval_evaluator.cpp" bodystart="414" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalEvaluator::computeConfidence</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;probabilities)</argsstring>
+        <name>computeConfidence</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::computeConfidence</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>probabilities</declname>
+        </param>
+        <briefdescription>
+<para>Compute confidence from probability distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Confidence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>probabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token probabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Confidence score (0-1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::log2(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="120" column="19" bodyfile="src/rag/geval_evaluator.cpp" bodystart="442" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalEvaluator::aggregateScores</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;samples, AggregationMethod method)</argsstring>
+        <name>aggregateScores</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::aggregateScores</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" kindref="member">AggregationMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate multiple sample scores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Aggregate Scores.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Individual scores from multiple evaluations </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregation method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated score</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::accumulate(), begin(), end(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="128" column="19" bodyfile="src/rag/geval_evaluator.cpp" bodystart="474" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>G-Eval evaluator using token probabilities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements probabilistic scoring where the LLM generates score tokens (1-5) and we extract their probabilities from logits to compute a continuous score: score = Σ(level × P(level))</para>
+<para>This provides finer-grained evaluation than discrete rubric levels. </para>
+    </detaileddescription>
+    <location file="include/rag/geval_evaluator.h" line="54" column="1" bodyfile="include/rag/geval_evaluator.h" bodystart="54" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>aggregateScores</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>computeConfidence</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>computeGEvalScore</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a72d7866ad315506c87d91e5396173884" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ac605e9751f23d01963db18c018ab38ce" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>extractTokenProbabilities</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5bcd7acff2f48e66d7ac51011762b2ac" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>GEvalEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad34a50b4723c1ec5be73112b569e6f9b" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>GEvalEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a91aa6cc1d86afcfc3f229abc233d3d7d" prot="private" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1adcd1d6acef056ed022abdbbdd86dd7a6" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator</scope><name>~GEvalEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_t_s_query" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TSQuery</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_t_s_query_1a489be25d10aa3f995964ba313186f931" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSQuery::queries</definition>
+        <argsstring></argsstring>
+        <name>queries</name>
+        <qualifiedname>stubs::TSQuery::queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="33" column="17" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_t_s_query_1a26cdbf421d9fee1e5fcc36621d63ef6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TSQuery::range_query</definition>
+        <argsstring>(uint64_t series, int64_t start, int64_t end)</argsstring>
+        <name>range_query</name>
+        <qualifiedname>stubs::TSQuery::range_query</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>series</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="34" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="32" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="32" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_t_s_query_1a489be25d10aa3f995964ba313186f931" prot="public" virt="non-virtual"><scope>stubs::TSQuery</scope><name>queries</name></member>
+      <member refid="structstubs_1_1_t_s_query_1a26cdbf421d9fee1e5fcc36621d63ef6b" prot="public" virt="non-virtual"><scope>stubs::TSQuery</scope><name>range_query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_agg_parity_param" kind="struct" language="C++" prot="public">
+    <compoundname>AggParityParam</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_agg_parity_param_1ad6df344cf2a4b90602f1c47eadc40dcd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AggParityParam::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <qualifiedname>AggParityParam::n</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="257" column="14" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_agg_parity_param_1ab0f10c894a37b7b9e2a0ce62b1efc4c3" prot="public" static="no" mutable="no">
+        <type><ref refid="test__gpu__query__accelerator__error__injection_8cpp_1ac6efa31d512308929e9566fc8b4a973d" kindref="member">AggFunc</ref></type>
+        <definition>AggFunc AggParityParam::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>AggParityParam::func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="258" column="14" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_query_accelerator_parity.cpp" line="256" column="1" bodyfile="tests/gpu/test_gpu_query_accelerator_parity.cpp" bodystart="256" bodyend="259"/>
+    <listofallmembers>
+      <member refid="struct_agg_parity_param_1ab0f10c894a37b7b9e2a0ce62b1efc4c3" prot="public" virt="non-virtual"><scope>AggParityParam</scope><name>func</name></member>
+      <member refid="struct_agg_parity_param_1ad6df344cf2a4b90602f1c47eadc40dcd" prot="public" virt="non-virtual"><scope>AggParityParam</scope><name>n</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

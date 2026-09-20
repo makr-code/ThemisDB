@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::EndpointConnectionPool::Config</compoundname>
+    <includes refid="mtls__connection__pool_8h" local="no">mtls_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a1c9213e126182aac4cbcff7c0c79eb3c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Config::min_connections</definition>
+        <argsstring></argsstring>
+        <name>min_connections</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::min_connections</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="54" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a0e8700348c30d6879f1d6037074ab985" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::EndpointConnectionPool::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::max_connections</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="55" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a197c41351aae1de4855742cf3cc2d27d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::EndpointConnectionPool::Config::connection_ttl</definition>
+        <argsstring></argsstring>
+        <name>connection_ttl</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::connection_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="56" column="30" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a7317dcf6450f738e455eaf3819a12f50" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::EndpointConnectionPool::Config::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::idle_timeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="57" column="30" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ad0dfd148342407c88a9ca425efb0dccf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::EndpointConnectionPool::Config::enable_health_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_health_checks</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::enable_health_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="60" column="14" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ae80dee99d9d2682f76ea0b4e34504226" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::EndpointConnectionPool::Config::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::Config::health_check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="61" column="30" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for endpoint connection pool. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_pool.h" line="52" column="5" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="52" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a197c41351aae1de4855742cf3cc2d27d" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>connection_ttl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ad0dfd148342407c88a9ca425efb0dccf" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>enable_health_checks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ae80dee99d9d2682f76ea0b4e34504226" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a7317dcf6450f738e455eaf3819a12f50" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a0e8700348c30d6879f1d6037074ab985" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a1c9213e126182aac4cbcff7c0c79eb3c" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::Config</scope><name>min_connections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

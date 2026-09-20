@@ -1,0 +1,603 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_few_shot_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::FewShotOptimizer</compoundname>
+    <includes refid="fewshot__optimizer_8h" local="no">fewshot_optimizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a55e4e9b30bce54e77b9f26dca30722a9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_few_shot_config" kindref="compound">FewShotConfig</ref></type>
+        <definition>FewShotConfig themis::llm::FewShotOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="115" column="19" bodyfile="include/llm/fewshot_optimizer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a6bbfd025a10c3260182b2edff0b74cbb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt;FewShotExample&gt; themis::llm::FewShotOptimizer::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="116" column="17" bodyfile="include/llm/fewshot_optimizer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a5bc0088ec26d44abe578b2dd8a657235" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;size_t&gt; &gt; themis::llm::FewShotOptimizer::query_index_</definition>
+        <argsstring></argsstring>
+        <name>query_index_</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::query_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="117" column="24" bodyfile="include/llm/fewshot_optimizer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a74efbd74f0a9ed6cdf2070db20e8fa6e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FewShotOptimizer::FewShotOptimizer</definition>
+        <argsstring>(const FewShotConfig &amp;config=FewShotConfig{})</argsstring>
+        <name>FewShotOptimizer</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::FewShotOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_config" kindref="compound">FewShotConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1_few_shot_config" kindref="compound">FewShotConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="50" column="14" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1aa3a1860f5f11814b31d89d347684b438" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_selection_result" kindref="compound">SelectionResult</ref></type>
+        <definition>SelectionResult themis::llm::FewShotOptimizer::selectExamples</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; FewShotExample &gt; &amp;candidate_examples, std::optional&lt; size_t &gt; num_examples=std::nullopt)</argsstring>
+        <name>selectExamples</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::selectExamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt; &amp;</type>
+          <declname>candidate_examples</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; size_t &gt;</type>
+          <declname>num_examples</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Select Examples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), value_or(), std::max(), std::min(), size(), THEMIS_DEBUG(), greedyDiversitySelection(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="52" column="21" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="35" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1aa1a7f1a3deb92437cde836820865b13f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FewShotOptimizer::cacheExamples</definition>
+        <argsstring>(const std::vector&lt; FewShotExample &gt; &amp;examples)</argsstring>
+        <name>cacheExamples</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::cacheExamples</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Cache Examples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(), updateQueryIndex(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="62" column="10" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="92" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a042d1ac958c145acbabcf26fd25e6842" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt; FewShotExample &gt; themis::llm::FewShotOptimizer::getCachedExamples</definition>
+        <argsstring>(const std::string &amp;query, size_t max_results=10) const</argsstring>
+        <name>getCachedExamples</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::getCachedExamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_results</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="64" column="17" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="112" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a3f74be1b093a1ebad13500a30a1d9247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FewShotOptimizer::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="72" column="10" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="148" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1acb90ecfa44d470f012d15e5baf7e8303" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_config" kindref="compound">FewShotConfig</ref> &amp;</type>
+        <definition>const FewShotConfig &amp; themis::llm::FewShotOptimizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="99" column="25" bodyfile="include/llm/fewshot_optimizer.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1af0b18d83f677034ce6ebe501f6feb0e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FewShotOptimizer::setConfig</definition>
+        <argsstring>(const FewShotConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_config" kindref="compound">FewShotConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="106" column="10" bodyfile="include/llm/fewshot_optimizer.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a496717f3c42b1963e0bcfcc272ef101e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FewShotOptimizer::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="112" column="20" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="262" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a003a3f9ad615e5285339198170454103" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::FewShotOptimizer::computeRelevance</definition>
+        <argsstring>(const std::string &amp;query, const FewShotExample &amp;example)</argsstring>
+        <name>computeRelevance</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::computeRelevance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Compute Relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::transform(), begin(), end(), push_back(), tokenize(), empty(), query_set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="80" column="19" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="161" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a89687d766d7fa72fea1b111aecaee4f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::FewShotOptimizer::computeDiversity</definition>
+        <argsstring>(const std::vector&lt; FewShotExample &gt; &amp;examples)</argsstring>
+        <name>computeDiversity</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::computeDiversity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), computeSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="90" column="19" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="205" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a69723aa02528fa9a1142ade57ee76e60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FewShotOptimizer::formatExamples</definition>
+        <argsstring>(const std::vector&lt; FewShotExample &gt; &amp;examples, const std::string &amp;format=&quot;Input: {input}\nOutput: {output}\n\n&quot;)</argsstring>
+        <name>formatExamples</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::formatExamples</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;Input: {input}\nOutput: {output}\n\n&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Format Examples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), replace(), length(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="94" column="24" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="234" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a9099d2986714de4b40eae7a11ae40f9e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt; FewShotExample &gt; themis::llm::FewShotOptimizer::greedyDiversitySelection</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; FewShotExample &gt; &amp;candidates, size_t num_examples)</argsstring>
+        <name>greedyDiversitySelection</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::greedyDiversitySelection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_examples</declname>
+        </param>
+        <briefdescription>
+<para>Greedy Diversity Selection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a003a3f9ad615e5285339198170454103" kindref="member">computeRelevance()</ref>, std::sort(), begin(), end(), empty(), push_back(), erase(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="126" column="17" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="279" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a786d063dd92b51b82573a3a61408fcd5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FewShotOptimizer::updateQueryIndex</definition>
+        <argsstring>()</argsstring>
+        <name>updateQueryIndex</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::updateQueryIndex</qualifiedname>
+        <briefdescription>
+<para>Update Query Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), size(), iss(), std::transform(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="146" column="10" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="395" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_few_shot_optimizer_1a3da4763271238e137318592259c14492" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::FewShotOptimizer::computeSimilarity</definition>
+        <argsstring>(const FewShotExample &amp;ex1, const FewShotExample &amp;ex2)</argsstring>
+        <name>computeSimilarity</name>
+        <qualifiedname>themis::llm::FewShotOptimizer::computeSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &amp;</type>
+          <declname>ex1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_few_shot_example" kindref="compound">FewShotExample</ref> &amp;</type>
+          <declname>ex2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ex1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ex2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ex1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ex2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::transform(), begin(), end(), insert(), tokenize(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="138" column="19" bodyfile="src/llm/fewshot_optimizer.cpp" bodystart="346" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/fewshot_optimizer.h" line="48" column="1" bodyfile="include/llm/fewshot_optimizer.h" bodystart="48" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a6bbfd025a10c3260182b2edff0b74cbb" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1aa1a7f1a3deb92437cde836820865b13f" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>cacheExamples</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a3f74be1b093a1ebad13500a30a1d9247" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a89687d766d7fa72fea1b111aecaee4f7" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>computeDiversity</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a003a3f9ad615e5285339198170454103" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>computeRelevance</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a3da4763271238e137318592259c14492" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>computeSimilarity</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a55e4e9b30bce54e77b9f26dca30722a9" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a74efbd74f0a9ed6cdf2070db20e8fa6e" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>FewShotOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a69723aa02528fa9a1142ade57ee76e60" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>formatExamples</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a042d1ac958c145acbabcf26fd25e6842" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>getCachedExamples</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a496717f3c42b1963e0bcfcc272ef101e" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1acb90ecfa44d470f012d15e5baf7e8303" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a9099d2986714de4b40eae7a11ae40f9e" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>greedyDiversitySelection</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a5bc0088ec26d44abe578b2dd8a657235" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>query_index_</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1aa3a1860f5f11814b31d89d347684b438" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>selectExamples</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1af0b18d83f677034ce6ebe501f6feb0e3" prot="public" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_few_shot_optimizer_1a786d063dd92b51b82573a3a61408fcd5" prot="private" virt="non-virtual"><scope>themis::llm::FewShotOptimizer</scope><name>updateQueryIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

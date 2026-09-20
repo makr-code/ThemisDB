@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpCache</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public" virt="non-virtual">themis::core::concerns::ICache</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a6917c4c63154ca976d4e6c5b9ff84d01" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CacheEntry &gt; themis::core::concerns::NoOpCache::get</definition>
+        <argsstring>(std::string_view key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::get</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3">get</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="132" column="19" bodyfile="include/core/concerns/noop_implementations.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a14600f251487320369bcf133a685349e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpCache::put</definition>
+        <argsstring>(std::string_view key, const CacheEntry &amp;entry, uint64_t ttl_ms=0) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::put</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae">put</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="133" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ad138ae21b9d1c6549bd82fb5cc35697a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::invalidate</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::invalidate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d">invalidate</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="134" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1af12426a71b451eb1baa02666331b44f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="135" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a9746871093cd2fb3f93e71ab62a496cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::invalidatePattern</definition>
+        <argsstring>(std::string_view pattern) override</argsstring>
+        <name>invalidatePattern</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::invalidatePattern</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda">invalidatePattern</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="136" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a0b0fd5feea30181e0a2ed4e1270b8c69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::NoOpCache::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::size</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="137" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1aa3e62af66f511a92b8625b76bbd35a73" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::NoOpCache::hitCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::hitCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755">hitCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="138" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a30edd74b41fa289126bad927f365574f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::NoOpCache::missCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>missCount</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::missCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f">missCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="139" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ab1c1e71a4b569a0f00c3e2624b0d5816" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::core::concerns::NoOpCache::hitRate</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::hitRate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7">hitRate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="140" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ac79cef423287336c07af888185d431e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::setMaxSize</definition>
+        <argsstring>(size_t maxSize) override</argsstring>
+        <name>setMaxSize</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::setMaxSize</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63">setMaxSize</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>maxSize</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">maxSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="141" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ac950ac01f6f87e62bd27b17237ddadb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::setDefaultTTL</definition>
+        <argsstring>(uint64_t ttl_ms) override</argsstring>
+        <name>setDefaultTTL</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::setDefaultTTL</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94">setDefaultTTL</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set Default TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="142" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a4f2bd5eee109f735c29655829c26ed30" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="144" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1abacbef0343f6d2a1c29a124addee228c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCache::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="145" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a04db7e162f663f80b42e5e61b63c5362" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpCache::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpCache::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="146" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op cache implementation for testing or when caching is disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a6917c4c63154ca976d4e6c5b9ff84d01" kindref="member">get()</ref> always misses, <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a14600f251487320369bcf133a685349e" kindref="member">put()</ref> returns true to preserve call-site flow, and all counters remain zero. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="130" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="130" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1af12426a71b451eb1baa02666331b44f2" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a4f2bd5eee109f735c29655829c26ed30" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a6917c4c63154ca976d4e6c5b9ff84d01" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1aa3e62af66f511a92b8625b76bbd35a73" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ab1c1e71a4b569a0f00c3e2624b0d5816" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>hitRate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ad138ae21b9d1c6549bd82fb5cc35697a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a9746871093cd2fb3f93e71ab62a496cc" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>invalidatePattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a04db7e162f663f80b42e5e61b63c5362" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a30edd74b41fa289126bad927f365574f" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a14600f251487320369bcf133a685349e" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ac950ac01f6f87e62bd27b17237ddadb8" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>setDefaultTTL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1ac79cef423287336c07af888185d431e2" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>setMaxSize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1abacbef0343f6d2a1c29a124addee228c" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache_1a0b0fd5feea30181e0a2ed4e1270b8c69" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCache</scope><name>~ICache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

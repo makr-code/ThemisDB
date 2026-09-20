@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_graph_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::GraphContext</compoundname>
+    <includes refid="knowledge__graph__enricher_8h" local="no">knowledge_graph_enricher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_graph_context_1a85900450f116bdcb24865226523b7d23" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::GraphContext::related_provisions</definition>
+        <argsstring></argsstring>
+        <name>related_provisions</name>
+        <qualifiedname>themis::training::GraphContext::related_provisions</qualifiedname>
+        <briefdescription>
+<para>Related legal provisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="34" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_graph_context_1a577b44e81c7e2992bb7cca2e15374fba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::GraphContext::case_law</definition>
+        <argsstring></argsstring>
+        <name>case_law</name>
+        <qualifiedname>themis::training::GraphContext::case_law</qualifiedname>
+        <briefdescription>
+<para>Related case law. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="35" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_graph_context_1a54c6a727cbe30c1763a9ec4ae3d8a7fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::GraphContext::internal_guidance</definition>
+        <argsstring></argsstring>
+        <name>internal_guidance</name>
+        <qualifiedname>themis::training::GraphContext::internal_guidance</qualifiedname>
+        <briefdescription>
+<para>Internal administrative guidance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="36" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_graph_context_1a9263d0b219861a4fb5e311a9804ffad0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::GraphContext::similar_documents</definition>
+        <argsstring></argsstring>
+        <name>similar_documents</name>
+        <qualifiedname>themis::training::GraphContext::similar_documents</qualifiedname>
+        <briefdescription>
+<para>Semantically similar documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="37" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_graph_context_1a4f89396168d8b78dfc333351c82aa378" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::GraphContext::context_summary</definition>
+        <argsstring></argsstring>
+        <name>context_summary</name>
+        <qualifiedname>themis::training::GraphContext::context_summary</qualifiedname>
+        <briefdescription>
+<para>Textual summary of context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="38" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_graph_context_1aff7c19e80e0142a81a59e33fe7a020da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::GraphContext::GraphContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphContext</name>
+        <qualifiedname>themis::training::GraphContext::GraphContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="40" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Graph context extracted for a training sample. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/knowledge_graph_enricher.h" line="33" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_graph_context_1a577b44e81c7e2992bb7cca2e15374fba" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>case_law</name></member>
+      <member refid="structthemis_1_1training_1_1_graph_context_1a4f89396168d8b78dfc333351c82aa378" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>context_summary</name></member>
+      <member refid="structthemis_1_1training_1_1_graph_context_1aff7c19e80e0142a81a59e33fe7a020da" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>GraphContext</name></member>
+      <member refid="structthemis_1_1training_1_1_graph_context_1a54c6a727cbe30c1763a9ec4ae3d8a7fa" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>internal_guidance</name></member>
+      <member refid="structthemis_1_1training_1_1_graph_context_1a85900450f116bdcb24865226523b7d23" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>related_provisions</name></member>
+      <member refid="structthemis_1_1training_1_1_graph_context_1a9263d0b219861a4fb5e311a9804ffad0" prot="public" virt="non-virtual"><scope>themis::training::GraphContext</scope><name>similar_documents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

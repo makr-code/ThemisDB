@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1resource_1_1_buffer_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::resource::BufferHandle</compoundname>
+    <includes refid="buffer__pool_8h" local="no">buffer_pool.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_buffer_handle_1a99507181487fcc4113785205e2fa09cc" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::resource::BufferHandle::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::resource::BufferHandle::data_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="97" column="17" bodyfile="include/base/buffer_pool.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_buffer_handle_1ae0c8a3fc7b145851e0a3bf46ebe2db3a" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferHandle::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::resource::BufferHandle::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="98" column="18" bodyfile="include/base/buffer_pool.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_buffer_handle_1a6d791b991493517c23c2233d5af6fe96" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref></type>
+        <definition>SlabClass themis::resource::BufferHandle::slab_</definition>
+        <argsstring></argsstring>
+        <name>slab_</name>
+        <qualifiedname>themis::resource::BufferHandle::slab_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a6a0a16ffe39b4bf6f4ec19a24e911005" kindref="member">SlabClass::B128</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="99" column="18" bodyfile="include/base/buffer_pool.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_buffer_handle_1aa77aacb92b87d332ffd18d4d7aa8eb14" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref> *</type>
+        <definition>BufferPool* themis::resource::BufferHandle::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::resource::BufferHandle::pool_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="100" column="17" bodyfile="include/base/buffer_pool.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_buffer_handle_1a87f8862cc20c8803f814e415d4723515" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::resource::BufferHandle::auto_release_</definition>
+        <argsstring></argsstring>
+        <name>auto_release_</name>
+        <qualifiedname>themis::resource::BufferHandle::auto_release_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="101" column="18" bodyfile="include/base/buffer_pool.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::BufferHandle::BufferHandle</definition>
+        <argsstring>()=default</argsstring>
+        <name>BufferHandle</name>
+        <qualifiedname>themis::resource::BufferHandle::BufferHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a5f55639035a56a100ced9d91ecdcedd8" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::BufferHandle::BufferHandle</definition>
+        <argsstring>(void *data, std::size_t size, SlabClass slab, class BufferPool *pool, bool auto_release=true) noexcept</argsstring>
+        <name>BufferHandle</name>
+        <qualifiedname>themis::resource::BufferHandle::BufferHandle</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref></type>
+          <declname>slab</declname>
+        </param>
+        <param>
+          <type>class <ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_release</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="50" column="14" bodyfile="include/base/buffer_pool.h" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a2e90f0531145c0d1ba912168e1e3be41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::BufferHandle::BufferHandle</definition>
+        <argsstring>(const BufferHandle &amp;)=delete</argsstring>
+        <name>BufferHandle</name>
+        <qualifiedname>themis::resource::BufferHandle::BufferHandle</qualifiedname>
+        <param>
+          <type>const BufferHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1ad1237b1c0af8f0e4d3ec1fa8ac0f3dd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref> &amp;</type>
+        <definition>BufferHandle &amp; themis::resource::BufferHandle::operator=</definition>
+        <argsstring>(const BufferHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::resource::BufferHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="56" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a123b7794866a79172c80549ae2a33ccc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::BufferHandle::BufferHandle</definition>
+        <argsstring>(BufferHandle &amp;&amp;o) noexcept</argsstring>
+        <name>BufferHandle</name>
+        <qualifiedname>themis::resource::BufferHandle::BufferHandle</qualifiedname>
+        <param>
+          <type>BufferHandle &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="58" column="5" bodyfile="include/base/buffer_pool.h" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1ac2a4a467bf53757a35b0859061be1eb4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref> &amp;</type>
+        <definition>BufferHandle &amp; themis::resource::BufferHandle::operator=</definition>
+        <argsstring>(BufferHandle &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::resource::BufferHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="65" column="18" bodyfile="include/base/buffer_pool.h" bodystart="65" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1aef08eb2219912ca5e5428a04dd660f52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::BufferHandle::~BufferHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~BufferHandle</name>
+        <qualifiedname>themis::resource::BufferHandle::~BufferHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="79" column="5" bodyfile="include/base/buffer_pool.h" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::resource::BufferHandle::data</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::resource::BufferHandle::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="81" column="17" bodyfile="include/base/buffer_pool.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a9ea000abaed77a7392c5f0045ce4bee4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const void *</type>
+        <definition>const void * themis::resource::BufferHandle::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::resource::BufferHandle::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="82" column="17" bodyfile="include/base/buffer_pool.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferHandle::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::resource::BufferHandle::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="83" column="18" bodyfile="include/base/buffer_pool.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a0ea8b29af5dd13971ebf2db2a1fb5dcd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::BufferHandle::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::resource::BufferHandle::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="84" column="18" bodyfile="include/base/buffer_pool.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * themis::resource::BufferHandle::bytes</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::resource::BufferHandle::bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="86" column="20" bodyfile="include/base/buffer_pool.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::BufferHandle::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::resource::BufferHandle::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="94" column="10" bodyfile="include/base/buffer_pool.h" bodystart="210" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/buffer_pool.h" line="46" column="1" bodyfile="include/base/buffer_pool.h" bodystart="46" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a87f8862cc20c8803f814e415d4723515" prot="private" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>auto_release_</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>BufferHandle</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a5f55639035a56a100ced9d91ecdcedd8" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>BufferHandle</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a2e90f0531145c0d1ba912168e1e3be41" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>BufferHandle</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a123b7794866a79172c80549ae2a33ccc" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>BufferHandle</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>bytes</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>data</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a9ea000abaed77a7392c5f0045ce4bee4" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>data</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a99507181487fcc4113785205e2fa09cc" prot="private" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>data_</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1ad1237b1c0af8f0e4d3ec1fa8ac0f3dd9" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1ac2a4a467bf53757a35b0859061be1eb4" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1aa77aacb92b87d332ffd18d4d7aa8eb14" prot="private" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>release</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>size</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1ae0c8a3fc7b145851e0a3bf46ebe2db3a" prot="private" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>size_</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a6d791b991493517c23c2233d5af6fe96" prot="private" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>slab_</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1a0ea8b29af5dd13971ebf2db2a1fb5dcd" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>valid</name></member>
+      <member refid="classthemis_1_1resource_1_1_buffer_handle_1aef08eb2219912ca5e5428a04dd660f52" prot="public" virt="non-virtual"><scope>themis::resource::BufferHandle</scope><name>~BufferHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

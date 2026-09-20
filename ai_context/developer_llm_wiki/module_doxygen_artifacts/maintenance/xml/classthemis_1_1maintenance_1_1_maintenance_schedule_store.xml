@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_maintenance_schedule_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::MaintenanceScheduleStore</compoundname>
+    <includes refid="maintenance__schedule__store_8h" local="no">maintenance_schedule_store.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a547dd161c1b06fd31c8065773989fa82" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::maintenance::MaintenanceScheduleStore::kKeyPrefix</definition>
+        <argsstring></argsstring>
+        <name>kKeyPrefix</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::kKeyPrefix</qualifiedname>
+        <initializer>= &quot;maint_sched::&quot;</initializer>
+        <briefdescription>
+<para>RocksDB key prefix used for all schedule entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="39" column="39" bodyfile="include/maintenance/maintenance_schedule_store.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aefa831b328843c34df0f27e7aaf01fa1" prot="private" static="no" mutable="no">
+        <type>IStorageEngine *</type>
+        <definition>IStorageEngine* themis::maintenance::MaintenanceScheduleStore::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="94" column="20" bodyfile="include/maintenance/maintenance_schedule_store.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a234f2bfec1bbd8151795d8912416e481" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::MaintenanceScheduleStore::MaintenanceScheduleStore</definition>
+        <argsstring>(IStorageEngine *engine)</argsstring>
+        <name>MaintenanceScheduleStore</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::MaintenanceScheduleStore</qualifiedname>
+        <param>
+          <type>IStorageEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Construct a store backed by <computeroutput>engine</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>engine</computeroutput> must outlive this object. The pointer must be non-null. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="46" column="14" bodyfile="src/maintenance/maintenance_schedule_store.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab7a9009992c90d9277c78b11c904e220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::MaintenanceScheduleStore::~MaintenanceScheduleStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MaintenanceScheduleStore</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::~MaintenanceScheduleStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a424b84e44751bd75c0fc240392101c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::MaintenanceScheduleStore::MaintenanceScheduleStore</definition>
+        <argsstring>(const MaintenanceScheduleStore &amp;)=delete</argsstring>
+        <name>MaintenanceScheduleStore</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::MaintenanceScheduleStore</qualifiedname>
+        <param>
+          <type>const MaintenanceScheduleStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a24f7c84472604b54eee7957681f6bcab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a234f2bfec1bbd8151795d8912416e481" kindref="member">MaintenanceScheduleStore</ref> &amp;</type>
+        <definition>MaintenanceScheduleStore &amp; themis::maintenance::MaintenanceScheduleStore::operator=</definition>
+        <argsstring>(const MaintenanceScheduleStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a234f2bfec1bbd8151795d8912416e481" kindref="member">MaintenanceScheduleStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="52" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab1ac9d5ccefd0e1ca9f838be5cacb7d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::MaintenanceScheduleStore::save</definition>
+        <argsstring>(const MaintenanceScheduleEntry &amp;entry)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Persist (or overwrite) a single schedule entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save.</para>
+<para>Serialises <computeroutput>entry</computeroutput> to JSON and calls IStorageEngine::put() with key &quot;maint_sched::&lt;entry.id&gt;&quot;.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – ok on success, storage error on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeKey(), toJson(), dump(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="62" column="12" bodyfile="src/maintenance/maintenance_schedule_store.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1af8ad6183ee2b1e4c07043e44740412f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::MaintenanceScheduleStore::remove</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Delete the persisted entry for <computeroutput>id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para>Calls IStorageEngine::del() for key &quot;maint_sched::&lt;id&gt;&quot;. Returns ok even when the key does not exist (idempotent).</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – ok on success, storage error on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: del(), makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="72" column="12" bodyfile="src/maintenance/maintenance_schedule_store.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aa882298603be5b9e006290a87d9b3772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::MaintenanceScheduleStore::loadAll</definition>
+        <argsstring>(std::map&lt; std::string, MaintenanceScheduleEntry &gt; &amp;schedules)</argsstring>
+        <name>loadAll</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::loadAll</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt; &amp;</type>
+          <declname>schedules</declname>
+        </param>
+        <briefdescription>
+<para>Load all previously persisted schedules into <computeroutput>schedules</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans the &quot;maint_sched::&quot; prefix using IStorageEngine::scanPrefix(). For each entry: • Valid JSON → deserialised and inserted into <computeroutput>schedules</computeroutput>. • Corrupt / unparseable JSON → WARN log, entry skipped.</para>
+<para>Existing contents of <computeroutput>schedules</computeroutput> are not cleared; loaded entries are merged (overwrite on id collision).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schedules</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output map keyed by schedule id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; – ok even if some entries were skipped; a hard storage error is returned only when the scan itself fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="89" column="12" bodyfile="src/maintenance/maintenance_schedule_store.cpp" bodystart="64" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a5dbc2c9a2b71000a1647224417f59b3e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleStore::makeKey</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleStore::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule_store.h" line="92" column="24" bodyfile="src/maintenance/maintenance_schedule_store.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Durable store for <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> objects backed by an IStorageEngine (typically RocksDB via StorageEngine). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>The store itself is NOT internally synchronised. Callers must hold the appropriate external lock (schedules_mutex_ in <ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator" kindref="compound">DatabaseMaintenanceOrchestrator</ref>) when coordinating save/remove with shared in-memory schedule state.</para>
+<para><ref refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aa882298603be5b9e006290a87d9b3772" kindref="member">loadAll()</ref> may be called without holding the orchestrator mutex provided that entries are first collected into a caller-owned temporary container and only merged into shared state while that external lock is held. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_schedule_store.h" line="36" column="1" bodyfile="include/maintenance/maintenance_schedule_store.h" bodystart="36" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aefa831b328843c34df0f27e7aaf01fa1" prot="private" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a547dd161c1b06fd31c8065773989fa82" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>kKeyPrefix</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1aa882298603be5b9e006290a87d9b3772" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>loadAll</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a234f2bfec1bbd8151795d8912416e481" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>MaintenanceScheduleStore</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a424b84e44751bd75c0fc240392101c85" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>MaintenanceScheduleStore</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a5dbc2c9a2b71000a1647224417f59b3e" prot="private" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1a24f7c84472604b54eee7957681f6bcab" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1af8ad6183ee2b1e4c07043e44740412f3" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>remove</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab1ac9d5ccefd0e1ca9f838be5cacb7d5" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>save</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store_1ab7a9009992c90d9277c78b11c904e220" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleStore</scope><name>~MaintenanceScheduleStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

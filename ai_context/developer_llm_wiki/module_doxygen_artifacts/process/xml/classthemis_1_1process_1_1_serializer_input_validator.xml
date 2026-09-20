@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_serializer_input_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::SerializerInputValidator</compoundname>
+    <includes refid="serializer__hardening_8h" local="no">serializer_hardening.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1affcad0aefde531657609b0fbf5d59b96" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref></type>
+        <definition>SerializerValidationResult themis::process::SerializerInputValidator::validateInput</definition>
+        <argsstring>(std::string_view input, std::string_view format_name=&quot;Process Model&quot;)</argsstring>
+        <name>validateInput</name>
+        <qualifiedname>themis::process::SerializerInputValidator::validateInput</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>format_name</declname>
+          <defval>&quot;Process Model&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validate generic serializer input before parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Input.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input data to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>format_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable format name (e.g., &quot;BPMN 2.0&quot;, &quot;EPK&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result with error details if validation fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" kindref="member">SerializerValidationResult::failure()</ref>, <ref refid="namespacethemis_1_1process_1afdd6ad749830546b40982fa05f307b18" kindref="member">isInputSizeValid()</ref>, size(), str(), <ref refid="classthemis_1_1process_1_1_serializer_input_validator_1a2be9c471790cea77d8aeb50bda18e8b9" kindref="member">isValidUtf8()</ref>, find(), <ref refid="classthemis_1_1process_1_1_serializer_input_validator_1adf1b047e4c973355fd43874b4096e4ae" kindref="member">isXmlTruncated()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="69" column="40" bodyfile="src/process/serializer_hardening.cpp" bodystart="30" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1adf1b047e4c973355fd43874b4096e4ae" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::SerializerInputValidator::isXmlTruncated</definition>
+        <argsstring>(std::string_view xml)</argsstring>
+        <name>isXmlTruncated</name>
+        <qualifiedname>themis::process::SerializerInputValidator::isXmlTruncated</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml</declname>
+        </param>
+        <briefdescription>
+<para>Check for truncation indicators in XML-based formats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Xml Truncated.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The XML input to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the XML appears to be truncated (missing closing tags), false if structure appears complete.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1process_1_1_serializer_input_validator_1a0aa6572d02421380088fb4e8d9cf91a9" kindref="member">countXmlTags()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="81" column="18" bodyfile="src/process/serializer_hardening.cpp" bodystart="90" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1a2be9c471790cea77d8aeb50bda18e8b9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::SerializerInputValidator::isValidUtf8</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>isValidUtf8</name>
+        <qualifiedname>themis::process::SerializerInputValidator::isValidUtf8</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Validate that a string is well-formed UTF-8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Valid Utf8.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the string is valid UTF-8, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: data(), size(), isValidUtf8Sequence(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="89" column="18" bodyfile="src/process/serializer_hardening.cpp" bodystart="103" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1a4fe12a3cab037411403d723d360f9ccd" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::SerializerInputValidator::extractXmlVersion</definition>
+        <argsstring>(std::string_view xml)</argsstring>
+        <name>extractXmlVersion</name>
+        <qualifiedname>themis::process::SerializerInputValidator::extractXmlVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml</declname>
+        </param>
+        <briefdescription>
+<para>Extract format version from a BPMN/CMMN/DMN document header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Xml Version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The XML document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Version string (e.g., &quot;2.0&quot;), or empty if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(), find_first_of(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="97" column="25" bodyfile="src/process/serializer_hardening.cpp" bodystart="205" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1a0aa6572d02421380088fb4e8d9cf91a9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int32_t, int32_t &gt;</type>
+        <definition>std::pair&lt; int32_t, int32_t &gt; themis::process::SerializerInputValidator::countXmlTags</definition>
+        <argsstring>(std::string_view xml)</argsstring>
+        <name>countXmlTags</name>
+        <qualifiedname>themis::process::SerializerInputValidator::countXmlTags</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml</declname>
+        </param>
+        <briefdescription>
+<para>Count opening and closing XML tags to detect truncation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The XML input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tuple of (opening_count, closing_count). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="105" column="23" bodyfile="src/process/serializer_hardening.cpp" bodystart="245" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1a18a16f7a9d2720466531d6d67f2a87eb" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::SerializerInputValidator::isAsciiControlChar</definition>
+        <argsstring>(unsigned char c)</argsstring>
+        <name>isAsciiControlChar</name>
+        <qualifiedname>themis::process::SerializerInputValidator::isAsciiControlChar</qualifiedname>
+        <param>
+          <type>unsigned char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Is Ascii Control Char. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAsciiControlChar without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="109" column="18" bodyfile="src/process/serializer_hardening.cpp" bodystart="295" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_serializer_input_validator_1a58645ce9c37c797bc7509045f9a04e9d" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::SerializerInputValidator::isValidUtf8Sequence</definition>
+        <argsstring>(const unsigned char *data, size_t remaining_bytes, size_t &amp;sequence_length)</argsstring>
+        <name>isValidUtf8Sequence</name>
+        <qualifiedname>themis::process::SerializerInputValidator::isValidUtf8Sequence</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>remaining_bytes</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>sequence_length</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Utf8 Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remaining_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sequence_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isValidUtf8Sequence without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="110" column="18" bodyfile="src/process/serializer_hardening.cpp" bodystart="143" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified input validation for all serializers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Performs the following checks:<itemizedlist>
+<listitem><para>Input is not empty</para>
+</listitem><listitem><para>Input size does not exceed kMaxModelInputBytes</para>
+</listitem><listitem><para>Input is not truncated (ends with valid structure markers)</para>
+</listitem><listitem><para>Input has valid UTF-8 encoding (for text formats)</para>
+</listitem><listitem><para>Input contains recognizable format markers </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/serializer_hardening.h" line="60" column="1" bodyfile="include/process/serializer_hardening.h" bodystart="60" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1a0aa6572d02421380088fb4e8d9cf91a9" prot="public" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>countXmlTags</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1a4fe12a3cab037411403d723d360f9ccd" prot="public" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>extractXmlVersion</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1a18a16f7a9d2720466531d6d67f2a87eb" prot="private" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>isAsciiControlChar</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1a2be9c471790cea77d8aeb50bda18e8b9" prot="public" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>isValidUtf8</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1a58645ce9c37c797bc7509045f9a04e9d" prot="private" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>isValidUtf8Sequence</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1adf1b047e4c973355fd43874b4096e4ae" prot="public" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>isXmlTruncated</name></member>
+      <member refid="classthemis_1_1process_1_1_serializer_input_validator_1affcad0aefde531657609b0fbf5d59b96" prot="public" virt="non-virtual"><scope>themis::process::SerializerInputValidator</scope><name>validateInput</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

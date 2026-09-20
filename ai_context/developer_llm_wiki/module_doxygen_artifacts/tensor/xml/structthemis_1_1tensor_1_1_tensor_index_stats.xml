@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_index_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorIndexStats</compoundname>
+    <includes refid="tensor__index_8h" local="no">tensor_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1af64925535a62f7c8dd0def412f3fc811" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::TensorIndexStats::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total entries in the index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="38" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1a282648c4e5c8a01bd19d5c8c54f4105f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::TensorIndexStats::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Logical vector dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="39" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1af060d37507899154e8ada1d037fb465c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::TensorIndexStats::avg_tt_rank</definition>
+        <argsstring></argsstring>
+        <name>avg_tt_rank</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::avg_tt_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Mean TT rank across all stored cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="40" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1a71259cffb4b1b2dc83d61b9bee98e545" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::TensorIndexStats::storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>storage_bytes</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::storage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated bytes consumed by TT cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="41" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1ac1f5ef3bccde8bd9c3c6fc257ee33f05" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorIndexStats::avg_compress_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_compress_ratio</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::avg_compress_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average compression vs. float32 flat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="42" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1ae5e936e47271944bec2ddf38e2bff17d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorIndexStats::avg_search_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_search_ms</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::avg_search_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Rolling average search latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="43" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_index_stats_1ad2a66bad56246ac73b6b789271b2f837" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::TensorIndexStats::total_searches</definition>
+        <argsstring></argsstring>
+        <name>total_searches</name>
+        <qualifiedname>themis::tensor::TensorIndexStats::total_searches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime search count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index.h" line="44" column="13" bodyfile="include/tensor/tensor_index.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_index.h" line="37" column="1" bodyfile="include/tensor/tensor_index.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1ac1f5ef3bccde8bd9c3c6fc257ee33f05" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>avg_compress_ratio</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1ae5e936e47271944bec2ddf38e2bff17d" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>avg_search_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1af060d37507899154e8ada1d037fb465c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>avg_tt_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1a282648c4e5c8a01bd19d5c8c54f4105f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>dim</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1af64925535a62f7c8dd0def412f3fc811" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>num_vectors</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1a71259cffb4b1b2dc83d61b9bee98e545" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>storage_bytes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_index_stats_1ad2a66bad56246ac73b6b789271b2f837" prot="public" virt="non-virtual"><scope>themis::tensor::TensorIndexStats</scope><name>total_searches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

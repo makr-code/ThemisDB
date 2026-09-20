@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_join_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::JoinResult</compoundname>
+    <includes refid="adaptive__join_8h" local="no">adaptive_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_join_result_1a52f1f2b13e44a4996eb6cc2af16b4d83" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref> &gt;</type>
+        <definition>std::vector&lt;RowValue&gt; themis::JoinResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::JoinResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="81" column="17" bodyfile="include/query/adaptive_join.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_join_result_1a8ed9db4dcc6ea6ac50a5bcc4ed77bdf5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaa" kindref="member">JoinAlgorithm</ref></type>
+        <definition>JoinAlgorithm themis::JoinResult::algorithm_used</definition>
+        <argsstring></argsstring>
+        <name>algorithm_used</name>
+        <qualifiedname>themis::JoinResult::algorithm_used</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaa2e0fc921614e47e1e6ee456f454c73a1" kindref="member">JoinAlgorithm::HASH_JOIN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="83" column="19" bodyfile="include/query/adaptive_join.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_join_result_1a19889947df9dc80e6de31d0e3f8f1eb2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::JoinResult::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::JoinResult::estimated_cost</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="85" column="12" bodyfile="include/query/adaptive_join.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_join_result_1a7c48de8188e7ed3cd5177f430dcc0735" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::JoinResult::rowCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::JoinResult::rowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="87" column="13" bodyfile="include/query/adaptive_join.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_join.h" line="80" column="1" bodyfile="include/query/adaptive_join.h" bodystart="80" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_join_result_1a8ed9db4dcc6ea6ac50a5bcc4ed77bdf5" prot="public" virt="non-virtual"><scope>themis::JoinResult</scope><name>algorithm_used</name></member>
+      <member refid="structthemis_1_1_join_result_1a19889947df9dc80e6de31d0e3f8f1eb2" prot="public" virt="non-virtual"><scope>themis::JoinResult</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1_join_result_1a7c48de8188e7ed3cd5177f430dcc0735" prot="public" virt="non-virtual"><scope>themis::JoinResult</scope><name>rowCount</name></member>
+      <member refid="structthemis_1_1_join_result_1a52f1f2b13e44a4996eb6cc2af16b4d83" prot="public" virt="non-virtual"><scope>themis::JoinResult</scope><name>rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

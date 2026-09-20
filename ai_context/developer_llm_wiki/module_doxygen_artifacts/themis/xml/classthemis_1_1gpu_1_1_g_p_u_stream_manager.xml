@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_stream_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUStreamManager</compoundname>
+    <includes refid="stream__manager_8h" local="no">stream_manager.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config" prot="public">themis::gpu::GPUStreamManager::StreamConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" prot="public">themis::gpu::GPUStreamManager::StreamStats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream" prot="private">themis::gpu::GPUStreamManager::Stream</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a57ce7d158aef6f82d7e74c15708ab41f" prot="public" static="no">
+        <type>std::function&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref>(int device_index)&gt;</type>
+        <definition>using themis::gpu::GPUStreamManager::CudaStreamBackendFn = 
+std::function&lt;GPULauncher::BackendFn(int device_index)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CudaStreamBackendFn</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::CudaStreamBackendFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type: given a device index, return a <ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref> that dispatches work to a CUDA (or compatible) device. Used as a replacement for the real cudaStream_t path when THEMIS_ENABLE_CUDA is not defined so that callers can inject a CUDA-like backend without rebuilding with the CUDA Toolkit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="214" column="5" bodyfile="include/themis/gpu/stream_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a3854efb75f556d014147c302a74eb8a7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUStreamManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="202" column="49" bodyfile="include/themis/gpu/stream_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a43169bb8271d11c405fb2bf2ea0e3ed4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Stream &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Stream&gt; themis::gpu::GPUStreamManager::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="203" column="28" bodyfile="include/themis/gpu/stream_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a95f6f97f0259c1067a87dc20760a7891" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUStreamManager::GPUStreamManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUStreamManager</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::GPUStreamManager</qualifiedname>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allows constructing local instances for testing and non-singleton use. Use <ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1aa0eeb72fbad2ffac4fca1c1ec8ed16e9" kindref="member">GetInstance()</ref> for the process-wide singleton. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a54015b44c2bd2dda1df8c511f6cc1efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUStreamManager::~GPUStreamManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUStreamManager</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::~GPUStreamManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::createStream</definition>
+        <argsstring>(const StreamConfig &amp;cfg, GPULauncher::BackendFn backend=nullptr)</argsstring>
+        <name>createStream</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::createStream</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a new named stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stream configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU execution backend. Pass nullptr to use the ROCm backend (which creates a named HIP stream and transparently falls back to CPU execution when <computeroutput>THEMIS_ENABLE_HIP</computeroutput> is absent). When <computeroutput>THEMIS_ENABLE_CUDA</computeroutput> is also active a <computeroutput>cudaStream_t</computeroutput> is created alongside and stored for future kernel dispatch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false if a stream with that name already exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="131" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a3ab29180fa97598caa3ffeca4b144744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::createCudaStream</definition>
+        <argsstring>(const StreamConfig &amp;cfg, int device_index=0)</argsstring>
+        <name>createCudaStream</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::createCudaStream</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Create a new named CUDA stream on <computeroutput>device_index</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wires a CUDA-backed execution path into the stream when <computeroutput>THEMIS_ENABLE_CUDA</computeroutput> is defined; falls back to the ROCm/CPU backend when CUDA is unavailable so the call is always safe to use.</para>
+<para>This overload resolves the &quot;Stubs: 1&quot; noted in the stream_manager header by providing a first-class CUDA stream creation path alongside the existing ROCm path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stream configuration (name must be non-empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>device_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA device ordinal (0-based). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false if a stream with that name already exists or cfg.name is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="149" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a5406d365824183d38e92a46f50d7cf02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::destroyStream</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>destroyStream</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::destroyStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Destroy a named stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false if no stream with that name exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="156" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1af33a2cb624727c99eb309608b6fe9c42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUStreamManager::hasStream</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasStream</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::hasStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="158" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1ac8ee74040ef866759e1067fcaaa24a9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::GPUStreamManager::streamNames</definition>
+        <argsstring>() const</argsstring>
+        <name>streamNames</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::streamNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="159" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a80a204050b3e1eecf5f31e4a4788f764" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUStreamManager::streamCount</definition>
+        <argsstring>() const</argsstring>
+        <name>streamCount</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::streamCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="160" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a5a3ad4320b620155d5829de27bf1645c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">GPULauncher::WorkResult</ref> &gt;</type>
+        <definition>std::future&lt; GPULauncher::WorkResult &gt; themis::gpu::GPUStreamManager::submit</definition>
+        <argsstring>(const std::string &amp;stream_name, GPULauncher::WorkItem item)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::submit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stream_name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">GPULauncher::WorkItem</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Submit a work item to the named stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A future that resolves to the WorkResult. The future holds an error result if the stream does not exist. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="172" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a05770f792271eb5e44270e683e33a36c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kindref="compound">StreamStats</ref></type>
+        <definition>StreamStats themis::gpu::GPUStreamManager::getStreamStats</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getStreamStats</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::getStreamStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return stats for a single stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a zero-filled <ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kindref="compound">StreamStats</ref> (with the given name) if the stream does not exist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="185" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a6465af82a181374da84fcb5f69e8c13c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kindref="compound">StreamStats</ref> &gt;</type>
+        <definition>std::vector&lt; StreamStats &gt; themis::gpu::GPUStreamManager::getAllStreamStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStreamStats</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::getAllStreamStats</qualifiedname>
+        <briefdescription>
+<para>Return stats for all registered streams. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="190" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1aa0eeb72fbad2ffac4fca1c1ec8ed16e9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a95f6f97f0259c1067a87dc20760a7891" kindref="member">GPUStreamManager</ref> &amp;</type>
+        <definition>static GPUStreamManager &amp; themis::gpu::GPUStreamManager::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="111" column="29" bodyfile="include/themis/gpu/stream_manager.h" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a68f7d9bb694676354e8d8cec7c8c01b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GPUStreamManager::setCudaStreamBackendFn</definition>
+        <argsstring>(CudaStreamBackendFn fn)</argsstring>
+        <name>setCudaStreamBackendFn</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::setCudaStreamBackendFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a57ce7d158aef6f82d7e74c15708ab41f" kindref="member">CudaStreamBackendFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a CUDA backend factory used by <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a3ab29180fa97598caa3ffeca4b144744" kindref="member">createCudaStream()</ref></computeroutput> when THEMIS_ENABLE_CUDA is not defined. Pass an empty <computeroutput>std::function</computeroutput> to clear and revert to the ROCm/CPU fallback. Thread-safe (guarded by a static mutex). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="221" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Named async GPU stream manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a collection of named GPU streams, each backed by an independent <ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref> instance. Streams provide isolation between workloads: a slow or failing stream does not block submissions on other streams.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1autotoc_md46_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1autotoc_md46">
+<title>CPU fallback budget</title><para>When <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a83c4de85ee0cf52cc15b323a75f6d426" kindref="member">StreamConfig::cpu_budget_ms</ref> &gt; 0</computeroutput>, the manager records a budget-exceeded event if a submitted work item takes longer than that budget on the CPU fallback path. The event is visible in <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kindref="compound">StreamStats</ref></computeroutput> via the <computeroutput>budget_exceeded</computeroutput> counter.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1autotoc_md47_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1autotoc_md47">
+<title>Typical usage</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sm<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1aa0eeb72fbad2ffac4fca1c1ec8ed16e9" kindref="member">GPUStreamManager::GetInstance</ref>();</highlight></codeline>
+<codeline><highlight class="normal">GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vector_search&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.cpu_budget_ms<sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>warn<sp/>if<sp/>CPU<sp/>fallback<sp/>&gt;<sp/>50<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sm.createStream(cfg,<sp/>myGPUBackend);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fut<sp/>=<sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;vector_search&quot;</highlight><highlight class="normal">,<sp/>{.kernel_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;knn&quot;</highlight><highlight class="normal">,<sp/>...});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>fut.get();</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/stream_manager.h" line="58" column="1" bodyfile="include/themis/gpu/stream_manager.h" bodystart="58" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a3ab29180fa97598caa3ffeca4b144744" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>createCudaStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>createStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a57ce7d158aef6f82d7e74c15708ab41f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>CudaStreamBackendFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a5406d365824183d38e92a46f50d7cf02" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>destroyStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a6465af82a181374da84fcb5f69e8c13c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>getAllStreamStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1aa0eeb72fbad2ffac4fca1c1ec8ed16e9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a05770f792271eb5e44270e683e33a36c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>getStreamStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a95f6f97f0259c1067a87dc20760a7891" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>GPUStreamManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1af33a2cb624727c99eb309608b6fe9c42" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>hasStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a3854efb75f556d014147c302a74eb8a7" prot="private" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a68f7d9bb694676354e8d8cec7c8c01b4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>setCudaStreamBackendFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a80a204050b3e1eecf5f31e4a4788f764" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>streamCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1ac8ee74040ef866759e1067fcaaa24a9d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>streamNames</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a43169bb8271d11c405fb2bf2ea0e3ed4" prot="private" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>streams_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a5a3ad4320b620155d5829de27bf1645c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>submit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a54015b44c2bd2dda1df8c511f6cc1efc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager</scope><name>~GPUStreamManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

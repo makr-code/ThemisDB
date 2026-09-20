@@ -1,0 +1,591 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__federated__rag__merger__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_federated_rag_merger_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="federated__rag__merger_8h" local="yes">distributed_knowledge/federated_rag_merger.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>distributed_knowledge/federated_rag_merger.h</label>
+        <link refid="federated__rag__merger_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_federated_rag_merger_focused.cpp</label>
+        <link refid="test__federated__rag__merger__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="13">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>limits</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_federated_r_a_g_merger_test" prot="public">FederatedRAGMergerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, ValidConfigReportsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>ValidConfigReportsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000054"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-01: <ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref> validation — valid config.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a properly constructed <ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref> reports isValid() == true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="71" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1aa43cbc3b1c287bda8f80e82b172b92dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, MergeStrategyEnumeration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>MergeStrategyEnumeration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000055"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-02: <ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref> enumeration values.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that all three merge strategy values are accessible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="80" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1a4456e769a254ba9573a5613730ea1ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, InvalidConfigTopKZeroRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidConfigTopKZeroRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000056"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-03: Invalid config (top_k == 0) is rejected.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a config with top_k == 0 is rejected by isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="95" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1afaf7340f792f24e317df32de2dd90743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, MergeWithTwoHealthyShardsCorrectCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>MergeWithTwoHealthyShardsCorrectCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000057"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-04: merge() with two healthy shards returns correct document counts.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that merging results from two shards (5 docs each) produces a <ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref> with the expected shards_queried and shards_responded values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="110" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1a01e8fce66afd29ad3358bcbe7a47c800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, PartialShardFailureSkipsFailedShard)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>PartialShardFailureSkipsFailedShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000058"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-05: merge() skips failed shard (ok == false) gracefully.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a shard with ok == false is excluded from the merged context but the merge succeeds with the remaining responding shards. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="130" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="130" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1abcc668eaf78610f59e7fb332f526f620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, AllShardsTimedOutThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>AllShardsTimedOutThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000059"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-06: merge() with shard_timeout_ms == 0 throws when all shards time out.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies the documented contract: when shard_timeout_ms == 0, merge() throws &quot;all shards timed out&quot; immediately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="154" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="154" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1ad7ff30ef3d3c5ad48633dd315edc78ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, DeduplicationRemovesDuplicateDocIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>DeduplicationRemovesDuplicateDocIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000060"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-07: Deduplication removes documents with identical doc_ids.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that when two shards return the same doc_id, only one copy appears in the merged output. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="178" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="178" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1a649a347bddaa291afa14eabc843cf675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, TopKTruncationRespected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>TopKTruncationRespected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000061"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-08: Top-K truncation is respected.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the merged output never exceeds top_k documents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="198" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="198" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1a14586c0e9d02ef79022d10d965df7af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, MergerExposesConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>MergerExposesConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000062"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-09: <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref> exposes its config correctly.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the config passed to the constructor is accessible via config(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="220" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1adc1abc89347e0334d7a458509cb184fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, MergeEmptyShardListReturnsEmptyContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>MergeEmptyShardListReturnsEmptyContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000063"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-10: merge() with empty shard result list returns empty context.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that an empty input produces a zero-document <ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="231" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="231" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1a29421eecf6ad637698a5cb424f44af9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, MergerIsStateless)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>MergerIsStateless</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000064"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-11: Merger is stateless — successive calls are independent.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that calling merge() twice on the same merger instance produces independent contexts (stateless contract). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="246" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="246" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__federated__rag__merger__focused_8cpp_1ab0770a8bfa6c7d74e8b85075fb7e6927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederatedRAGMergerTest, RetrievedDocumentSerialization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref></type>
+        </param>
+        <param>
+          <type>RetrievedDocumentSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000065"><xreftitle>Test</xreftitle><xrefdescription><para>FRM-12: <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> JSON serialization.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> serialises to JSON with the expected fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" line="265" column="1" bodyfile="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp" bodystart="265" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for cross-shard RAG result merge orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the core distributed knowledge RAG merge paths against the actual production API surface:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref> construction and configuration</para>
+</listitem><listitem><para><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref> enumeration (RECIPROCAL_RANK_FUSION, SCORE_WEIGHTED, ROUND_ROBIN)</para>
+</listitem><listitem><para>merge() with various shard results including failures and timeouts</para>
+</listitem><listitem><para>deduplication and top-K truncation contracts</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: Production readiness validation for RAG merge layer. Q3 2026 Hardening: merge determinism, partial-failure contracts, dedup semantics. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__rag__merger_8h" kindref="compound">distributed_knowledge/federated_rag_merger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_federated_r_a_g_merger_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_federated_r_a_g_merger_test_1a5a60d635e254c92d4f146c1efea4defe" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" kindref="member">cfg_</ref>.strategy<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" kindref="member">cfg_</ref>.top_k<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" kindref="member">cfg_</ref>.deduplicate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref><sp/><ref refid="class_federated_r_a_g_merger_test_1a22a27c56e77d3da6d08ce73e81c66443" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/><ref refid="class_federated_r_a_g_merger_test_1a548809f8bc3ab5996e5ae0a0e395e931" kindref="member">makeShardResult</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n_docs,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" kindref="member">shard_id</ref><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ok;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" kindref="member">latency_ms</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_docs;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>doc;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kindref="member">doc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kindref="member">relevance_score</ref><sp/>=<sp/>1.0<sp/>-<sp/>(0.1<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kindref="member">rank_in_shard</ref><sp/><sp/><sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" kindref="member">documents</ref>.push_back(doc);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>and<sp/>Strategy<sp/>Tests<sp/>(FRM-01..FRM-03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>ValidConfigReportsValid)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>MergeStrategyEnumeration)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>three<sp/>strategies<sp/>must<sp/>be<sp/>distinct<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>),</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" kindref="member">MergeStrategy::SCORE_WEIGHTED</ref>));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" kindref="member">MergeStrategy::SCORE_WEIGHTED</ref>),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">MergeStrategy::ROUND_ROBIN</ref>));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>),</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">MergeStrategy::ROUND_ROBIN</ref>));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>InvalidConfigTopKZeroRejected)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.top_k<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Merge<sp/>Correctness<sp/>Tests<sp/>(FRM-04..FRM-06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>MergeWithTwoHealthyShardsCorrectCounts)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardRetrievalResult&gt;<sp/>results<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" kindref="member">shards_queried</ref>,<sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.size(),<sp/>cfg_.top_k);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>PartialShardFailureSkipsFailedShard)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>failed<sp/>=<sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-003&quot;</highlight><highlight class="normal">,<sp/>5,<sp/></highlight><highlight class="comment">/*ok=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>failed.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-003<sp/>unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardRetrievalResult&gt;<sp/>results<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failed,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" kindref="member">shards_queried</ref>,<sp/><sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>AllShardsTimedOutThrows)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.shard_timeout_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>t1<sp/>=<sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>t2<sp/>=<sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.<ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(merger.merge({t1,<sp/>t2}),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deduplication<sp/>and<sp/>Top-K<sp/>Tests<sp/>(FRM-07..FRM-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>DeduplicationRemovesDuplicateDocIds)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.deduplicate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>shards<sp/>return<sp/>the<sp/>same<sp/>doc_id<sp/>for<sp/>the<sp/>first<sp/>document.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.documents[0].doc_id<sp/>=<sp/>r1.documents[0].doc_id;<sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx<sp/>=<sp/>merger.merge({r1,<sp/>r2});</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>candidates<sp/>=<sp/>6,<sp/>but<sp/>after<sp/>dedup<sp/>one<sp/>duplicate<sp/>is<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" kindref="member">unique_doc_count</ref>,<sp/>ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" kindref="member">total_candidate_count</ref>);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>TopKTruncationRespected)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.top_k<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ShardRetrievalResult&gt;<sp/>results<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stateless<sp/>Merger<sp/>and<sp/>Serialization<sp/>Tests<sp/>(FRM-09..FRM-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>MergerExposesConfig)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(merger.config().top_k,<sp/><sp/><sp/><sp/>cfg_.top_k);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(merger.config().strategy,<sp/>cfg_.strategy);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>MergeEmptyShardListReturnsEmptyContext)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx<sp/>=<sp/>merger.merge({});</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" kindref="member">shards_queried</ref>,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.empty());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>MergerIsStateless)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" kindref="compound">FederatedRAGMerger</ref><sp/>merger(cfg_);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>std::vector&lt;ShardRetrievalResult&gt;{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>3),</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeShardResult(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>3),</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx1<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>ctx2<sp/>=<sp/>merger.merge(results);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx1.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.size(),<sp/>ctx2.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>.size());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx1.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref>,<sp/>ctx2.<ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>(<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>,<sp/>RetrievedDocumentSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>doc;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kindref="member">doc_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kindref="member">relevance_score</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kindref="member">rank_in_shard</ref><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>doc.<ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a1f9322e14894d0424147911fa6ed5dea" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;doc_id&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc-42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(j[</highlight><highlight class="stringliteral">&quot;relevance_score&quot;</highlight><highlight class="normal">].get&lt;double&gt;(),<sp/>0.95);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;rank_in_shard&quot;</highlight><highlight class="normal">].get&lt;size_t&gt;(),<sp/>1u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="286"><highlight class="comment"><sp/>*<sp/>Test<sp/>Coverage<sp/>Summary<sp/>(FRM-01..FRM-12):</highlight></codeline>
+<codeline lineno="287"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="288"><highlight class="comment"><sp/>*<sp/>FRM-01:<sp/>Valid<sp/>FederatedRAGMergerConfig<sp/>reports<sp/>isValid()</highlight></codeline>
+<codeline lineno="289"><highlight class="comment"><sp/>*<sp/>FRM-02:<sp/>MergeStrategy<sp/>enumeration<sp/>—<sp/>all<sp/>three<sp/>values<sp/>are<sp/>distinct</highlight></codeline>
+<codeline lineno="290"><highlight class="comment"><sp/>*<sp/>FRM-03:<sp/>Invalid<sp/>config<sp/>(top_k==0)<sp/>rejected<sp/>by<sp/>isValid()</highlight></codeline>
+<codeline lineno="291"><highlight class="comment"><sp/>*<sp/>FRM-04:<sp/>merge()<sp/>with<sp/>two<sp/>healthy<sp/>shards<sp/>returns<sp/>correct<sp/>counts</highlight></codeline>
+<codeline lineno="292"><highlight class="comment"><sp/>*<sp/>FRM-05:<sp/>Partial<sp/>shard<sp/>failure<sp/>(ok==false)<sp/>skipped<sp/>gracefully</highlight></codeline>
+<codeline lineno="293"><highlight class="comment"><sp/>*<sp/>FRM-06:<sp/>All-shards-timed-out<sp/>throws<sp/>with<sp/>shard_timeout_ms==0</highlight></codeline>
+<codeline lineno="294"><highlight class="comment"><sp/>*<sp/>FRM-07:<sp/>Deduplication<sp/>removes<sp/>documents<sp/>with<sp/>identical<sp/>doc_ids</highlight></codeline>
+<codeline lineno="295"><highlight class="comment"><sp/>*<sp/>FRM-08:<sp/>Top-K<sp/>truncation<sp/>respected<sp/>in<sp/>merged<sp/>output</highlight></codeline>
+<codeline lineno="296"><highlight class="comment"><sp/>*<sp/>FRM-09:<sp/>Merger<sp/>exposes<sp/>its<sp/>config<sp/>correctly</highlight></codeline>
+<codeline lineno="297"><highlight class="comment"><sp/>*<sp/>FRM-10:<sp/>merge()<sp/>with<sp/>empty<sp/>shard<sp/>list<sp/>returns<sp/>empty<sp/>context</highlight></codeline>
+<codeline lineno="298"><highlight class="comment"><sp/>*<sp/>FRM-11:<sp/>Merger<sp/>is<sp/>stateless<sp/>—<sp/>successive<sp/>calls<sp/>are<sp/>independent</highlight></codeline>
+<codeline lineno="299"><highlight class="comment"><sp/>*<sp/>FRM-12:<sp/>RetrievedDocument<sp/>JSON<sp/>serialization</highlight></codeline>
+<codeline lineno="300"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="301"><highlight class="comment"><sp/>*<sp/>Target:<sp/>Q3<sp/>2026<sp/>Hardening<sp/>-<sp/>merge<sp/>determinism,<sp/>partial-failure<sp/>contracts.</highlight></codeline>
+<codeline lineno="302"><highlight class="comment"><sp/>*<sp/>Status:<sp/>Focused<sp/>unit<sp/>test<sp/>suite<sp/>for<sp/>federated<sp/>RAG<sp/>merge<sp/>layer.</highlight></codeline>
+<codeline lineno="303"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_federated_rag_merger_focused.cpp"/>
+  </compounddef>
+</doxygen>

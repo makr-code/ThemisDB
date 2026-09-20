@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_export" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTExport</compoundname>
+    <includes refid="adalora__tt__bridge_8h" local="no">adalora_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_export_1a8bd18b900ce1e70015e7f525905ea60d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoraTTExport::adapter_name</definition>
+        <argsstring></argsstring>
+        <name>adapter_name</name>
+        <qualifiedname>themis::training::AdaLoraTTExport::adapter_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="54" column="42" bodyfile="include/training/adalora_tt_bridge.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_export_1aace12b6cd4235a72f6865f1b5f5647fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoraTTExport::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::training::AdaLoraTTExport::tenant</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="55" column="42" bodyfile="include/training/adalora_tt_bridge.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_export_1a22918cf340f33bfaaa513547a02c01fd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export" kindref="compound">AdaLoraTTLayerExport</ref> &gt;</type>
+        <definition>std::vector&lt;AdaLoraTTLayerExport&gt; themis::training::AdaLoraTTExport::layers</definition>
+        <argsstring></argsstring>
+        <name>layers</name>
+        <qualifiedname>themis::training::AdaLoraTTExport::layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="56" column="20" bodyfile="include/training/adalora_tt_bridge.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_ada_lora_t_t_export_1a17be5bc6a578766189d467ac1b600e4c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTExport::totalActiveRank</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalActiveRank</name>
+        <qualifiedname>themis::training::AdaLoraTTExport::totalActiveRank</qualifiedname>
+        <briefdescription>
+<para>Total active TT-rank (sum across layers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="59" column="17" bodyfile="include/training/adalora_tt_bridge.h" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_ada_lora_t_t_export_1aa8e6cfd3948905037a9b228cd205dd0f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTExport::totalParameters</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalParameters</name>
+        <qualifiedname>themis::training::AdaLoraTTExport::totalParameters</qualifiedname>
+        <briefdescription>
+<para>Total number of float32 parameters stored (TT-cores only, not base weights). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="68" column="17" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="489" bodyend="497"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="53" column="1" bodyfile="include/training/adalora_tt_bridge.h" bodystart="53" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_export_1a8bd18b900ce1e70015e7f525905ea60d" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTExport</scope><name>adapter_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_export_1a22918cf340f33bfaaa513547a02c01fd" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTExport</scope><name>layers</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_export_1aace12b6cd4235a72f6865f1b5f5647fc" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTExport</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_export_1a17be5bc6a578766189d467ac1b600e4c" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTExport</scope><name>totalActiveRank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_export_1aa8e6cfd3948905037a9b228cd205dd0f" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTExport</scope><name>totalParameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_s_d_plugin_registrar" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::SDPluginRegistrar</compoundname>
+    <includes refid="sd__plugin__registrar_8h" local="no">sd_plugin_registrar.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a9b758600b77b536922a79080b3ed753a" prot="public" static="no">
+        <type>std::function&lt; bool(<ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> &amp;plugin, const <ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref> &amp;config)&gt;</type>
+        <definition>using themis::imggen::SDPluginRegistrar::ReloadCallback = 
+std::function&lt;bool(SDPlugin&amp; plugin, const json&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReloadCallback</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::ReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type invoked when the plugin is hot-reloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Freshly created replacement plugin (not yet loaded). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration originally passed to the registrar. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if reload should proceed; false aborts it. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="166" column="5" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; SDPlugin &gt; themis::imggen::SDPluginRegistrar::createPlugin</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createPlugin</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::createPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a standalone <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar" kindref="compound">SDPluginRegistrar</ref> — factory methods ──────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. Key: &quot;model_path&quot; (string) — if present, calls SDPlugin::initialize(model_path, config). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>; caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), empty(), initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="143" column="28" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kindref="compound">SDPluginAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; SDPluginAdapter &gt; themis::imggen::SDPluginRegistrar::createAdapter</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createAdapter</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::createAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create an <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kindref="compound">SDPluginAdapter</ref> wrapping a new <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Adapter.</para>
+<para>The adapter implements IThemisPlugin and can be handed directly to plugins::PluginManager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kindref="compound">SDPluginAdapter</ref>; caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kindref="member">createPlugin()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="154" column="28" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a9b758600b77b536922a79080b3ed753a" kindref="member">ReloadCallback</ref></type>
+        <definition>SDPluginRegistrar::ReloadCallback themis::imggen::SDPluginRegistrar::defaultReloadCallback</definition>
+        <argsstring>()</argsstring>
+        <name>defaultReloadCallback</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::defaultReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Default hot-plug reload callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar" kindref="compound">SDPluginRegistrar</ref> — hot-plug ──────────────────────────────────────────────</para>
+<para>Calls <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kindref="member">SDPlugin::initialize</ref>(config[&quot;model_path&quot;], config) when &quot;model_path&quot; is present and non-empty. Missing or empty paths are treated as a successful stub-mode no-op so hot-plug reload can keep the plugin unloaded without failing the caller.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), empty(), initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="177" column="27" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="107" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a1cf2a6a9e32622714942c7f65a71dc21" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPluginRegistrar::enableHotPlug</definition>
+        <argsstring>(plugins::PluginManager &amp;manager, const std::string &amp;directory)</argsstring>
+        <name>enableHotPlug</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::enableHotPlug</qualifiedname>
+        <param>
+          <type>plugins::PluginManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+<para>Enable PluginManager hot-plug monitoring for a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Hot Plug.</para>
+<para>Calls manager.enableHotPlug(directory, config) with default options (auto_load=true, auto_reload=true, auto_unload=true).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PluginManager instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to watch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements enableHotPlug without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="189" column="17" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a426a4ab82de15295d0f2bdb968093883" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::imggen::SDPluginRegistrar::disableHotPlug</definition>
+        <argsstring>(plugins::PluginManager &amp;manager)</argsstring>
+        <name>disableHotPlug</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::disableHotPlug</qualifiedname>
+        <param>
+          <type>plugins::PluginManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+<para>Disable PluginManager hot-plug monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Hot Plug.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PluginManager instance.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements disableHotPlug without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="198" column="17" bodyfile="src/stable_diffusion/sd_plugin_registrar.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1ac1d4ebc93ae3bd978d5057868912020b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPluginRegistrar::SDPluginRegistrar</definition>
+        <argsstring>()=delete</argsstring>
+        <name>SDPluginRegistrar</name>
+        <qualifiedname>themis::imggen::SDPluginRegistrar::SDPluginRegistrar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_plugin_registrar.h" line="201" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory and registration helper for <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides static utilities to:<itemizedlist>
+<listitem><para>Create a raw <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> (createPlugin)</para>
+</listitem><listitem><para>Wrap it in an <ref refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kindref="compound">SDPluginAdapter</ref> for use with plugins::PluginManager (createAdapter)</para>
+</listitem><listitem><para>Enable PluginManager hot-plug monitoring for the plugin directory (enableHotPlug / disableHotPlug)</para>
+</listitem></itemizedlist>
+</para>
+<para>Hot-plug lifecycle: When the PluginManager detects that a model file or plugin shared-library has been replaced on disk, registerReloadCallback() is called so that a consumer can reinitialise <ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref> with the new model.</para>
+<para>Usage: <programlisting><codeline><highlight class="comment">//<sp/>Simple:<sp/>create<sp/>and<sp/>use<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kindref="member">SDPluginRegistrar::createPlugin</ref>({});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Advanced:<sp/>wire<sp/>into<sp/>PluginManager<sp/>hot-plug</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kindref="member">SDPluginRegistrar::createAdapter</ref>({{</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sd.ckpt&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>hand<sp/>adapter<sp/>to<sp/>PluginManager::registerPlugin()<sp/>or<sp/>use<sp/>enableHotPlug()</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/stable_diffusion/sd_plugin_registrar.h" line="131" column="1" bodyfile="include/stable_diffusion/sd_plugin_registrar.h" bodystart="131" bodyend="202"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>createAdapter</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>createPlugin</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>defaultReloadCallback</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a426a4ab82de15295d0f2bdb968093883" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>disableHotPlug</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a1cf2a6a9e32622714942c7f65a71dc21" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>enableHotPlug</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a9b758600b77b536922a79080b3ed753a" prot="public" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>ReloadCallback</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1ac1d4ebc93ae3bd978d5057868912020b" prot="private" virt="non-virtual"><scope>themis::imggen::SDPluginRegistrar</scope><name>SDPluginRegistrar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

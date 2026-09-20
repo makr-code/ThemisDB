@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_cached_validation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::CachedValidation</compoundname>
+    <includes refid="federated__identity__manager_8h" local="no">federated_identity_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cached_validation_1a3f7f92b0a039d05fe6bae5367faefcb8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref></type>
+        <definition>FederatedValidationResult themis::auth::CachedValidation::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::auth::CachedValidation::result</qualifiedname>
+        <briefdescription>
+<para>The cached validation result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="40" column="31" bodyfile="include/auth/federated_identity_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_cached_validation_1a9ad531eeb6db90fbad2c40b6137af2e7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::CachedValidation::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::auth::CachedValidation::expires_at</qualifiedname>
+        <briefdescription>
+<para>Wall-clock expiry from JWT exp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="41" column="43" bodyfile="include/auth/federated_identity_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::CachedValidation</label>
+        <link refid="structthemis_1_1auth_1_1_cached_validation"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::FederatedValidationResult</label>
+        <link refid="structthemis_1_1auth_1_1_federated_validation_result"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>claims</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::auth::JWTClaims</label>
+        <link refid="structthemis_1_1auth_1_1_j_w_t_claims"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/federated_identity_manager.h" line="39" column="1" bodyfile="include/auth/federated_identity_manager.h" bodystart="39" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_cached_validation_1a9ad531eeb6db90fbad2c40b6137af2e7" prot="public" virt="non-virtual"><scope>themis::auth::CachedValidation</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_cached_validation_1a3f7f92b0a039d05fe6bae5367faefcb8" prot="public" virt="non-virtual"><scope>themis::auth::CachedValidation</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

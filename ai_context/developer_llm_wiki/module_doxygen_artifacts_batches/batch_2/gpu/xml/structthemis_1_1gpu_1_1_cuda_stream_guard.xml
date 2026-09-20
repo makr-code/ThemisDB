@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_cuda_stream_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaStreamGuard</compoundname>
+    <includes refid="cuda__raii_8h" local="no">cuda_raii.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a26e9b46c0cb3a75cbce6a16f01d78a3d" prot="public" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::CudaStreamGuard::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::stream</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="79" column="18" bodyfile="include/gpu/cuda_raii.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a15ad8737c88a66ffbfa06af03c25db70" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::CudaStreamGuard::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::device_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="267" column="9" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1aebaefec20bae624ecafb8c3bc8c131f6" prot="private" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::CudaStreamGuard::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="268" column="18" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>()</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <briefdescription>
+<para>Cuda Stream Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: cudaStreamCreate(), <ref refid="cuda__raii_8h_1a2f005f70bed18a2c1871fc5105922d6c" kindref="member">THEMIS_CUDA_RAII_LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="86" column="14" bodyfile="include/gpu/cuda_raii.h" bodystart="86" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::~CudaStreamGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::~CudaStreamGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="95" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>(const CudaStreamGuard &amp;)=delete</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <param>
+          <type>const CudaStreamGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        <definition>CudaStreamGuard &amp; themis::gpu::CudaStreamGuard::operator=</definition>
+        <argsstring>(const CudaStreamGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="106" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1ad776c15ff5969eb7cad42335c63fca6a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>(CudaStreamGuard &amp;&amp;o) noexcept</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <param>
+          <type>CudaStreamGuard &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="108" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="108" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a3e1ce911944ba9469757e4ff0965c9f5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        <definition>CudaStreamGuard &amp; themis::gpu::CudaStreamGuard::operator=</definition>
+        <argsstring>(CudaStreamGuard &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="111" column="21" bodyfile="include/gpu/cuda_raii.h" bodystart="111" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a37976e4d96b6f0b7c3b77ec43d6df6ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStreamGuard::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="123" column="11" bodyfile="include/gpu/cuda_raii.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a63434ebb3d93d4b09133ea5e623a40fc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>(int device_id=0, int priority=0)</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="208" column="14" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="208" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::~CudaStreamGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::~CudaStreamGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="217" column="5" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>(const CudaStreamGuard &amp;)=delete</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <param>
+          <type>const CudaStreamGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="225" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        <definition>CudaStreamGuard &amp; themis::gpu::CudaStreamGuard::operator=</definition>
+        <argsstring>(const CudaStreamGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="226" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a7101df084792229cbdac90a5c6d4dc9e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStreamGuard::CudaStreamGuard</definition>
+        <argsstring>(CudaStreamGuard &amp;&amp;other) noexcept</argsstring>
+        <name>CudaStreamGuard</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::CudaStreamGuard</qualifiedname>
+        <param>
+          <type>CudaStreamGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="228" column="5" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="228" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a6c0a3cf45123b28d62b9f3b399192954" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;</type>
+        <definition>CudaStreamGuard &amp; themis::gpu::CudaStreamGuard::operator=</definition>
+        <argsstring>(CudaStreamGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="233" column="21" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="233" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1af65b9a51be44d09937129d71d2b68fde" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::CudaStreamGuard::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="246" column="19" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1acc1e28b936b44bae8fa59de22dae2878" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::CudaStreamGuard::synchronize</definition>
+        <argsstring>()</argsstring>
+        <name>synchronize</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::synchronize</qualifiedname>
+        <briefdescription>
+<para>Synchronize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, <ref refid="gpu__safe__operations_8h_1a7c464c3a31e4323c2485f1a716fbddf3" kindref="member">cudaStreamSynchronize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="252" column="10" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="252" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a02f6e3199dc62f78602b79ac482a7448" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStreamGuard::is_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_ready</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::is_ready</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="258" column="11" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="258" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" kindref="member">CudaStreamGuard</ref></type>
+        <definition>static CudaStreamGuard themis::gpu::CudaStreamGuard::adopt</definition>
+        <argsstring>(cudaStream_t existing) noexcept</argsstring>
+        <name>adopt</name>
+        <qualifiedname>themis::gpu::CudaStreamGuard::adopt</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>existing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="129" column="29" bodyfile="include/gpu/cuda_raii.h" bodystart="129" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_raii.h" line="78" column="1" bodyfile="include/gpu/cuda_raii.h" bodystart="78" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>adopt</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a1116e747cf2e355042d0cb6a18c4a1f9" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1ad776c15ff5969eb7cad42335c63fca6a" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a63434ebb3d93d4b09133ea5e623a40fc" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a77d0f1aa5683a237a4e3c596e1d8ec99" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a7101df084792229cbdac90a5c6d4dc9e" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a15ad8737c88a66ffbfa06af03c25db70" prot="private" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>device_id_</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1af65b9a51be44d09937129d71d2b68fde" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>get</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a02f6e3199dc62f78602b79ac482a7448" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>is_ready</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a37976e4d96b6f0b7c3b77ec43d6df6ae" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a3e1ce911944ba9469757e4ff0965c9f5" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a93a50f9bafa5cb5af3549151f5a8b3e0" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a6c0a3cf45123b28d62b9f3b399192954" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a26e9b46c0cb3a75cbce6a16f01d78a3d" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>stream</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1aebaefec20bae624ecafb8c3bc8c131f6" prot="private" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>stream_</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1acc1e28b936b44bae8fa59de22dae2878" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>synchronize</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>~CudaStreamGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1aa5eb25ef3ce4129c802dc1f618f6e4a7" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStreamGuard</scope><name>~CudaStreamGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

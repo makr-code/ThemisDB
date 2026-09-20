@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_themis_d_b_result_stream" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>chimera::ThemisDBResultStream</compoundname>
+    <basecompoundref refid="classchimera_1_1_i_result_stream" prot="public" virt="non-virtual">chimera::IResultStream</basecompoundref>
+    <includes refid="themisdb__adapter_8hpp" local="no">themisdb_adapter.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_result_stream_1a041b1ca38ae1395ded8d8025ca3383c4" prot="private" static="no" mutable="no">
+        <type><ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref></type>
+        <definition>RelationalTable chimera::ThemisDBResultStream::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>chimera::ThemisDBResultStream::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="51" column="21" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_result_stream_1a015a871f42fb7e6b1493b9056b79a9cc" prot="private" static="no" mutable="no">
+        <type><ref refid="structchimera_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+        <definition>StreamConfig chimera::ThemisDBResultStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>chimera::ThemisDBResultStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="52" column="21" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_result_stream_1a4136255ec90a65dab706dadc07c2344c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::ThemisDBResultStream::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>chimera::ThemisDBResultStream::cursor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index of next row to be returned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="53" column="21" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_result_stream_1af68313f7e1e07b11d5cf90be404b65ea" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBResultStream::closed_</definition>
+        <argsstring></argsstring>
+        <name>closed_</name>
+        <qualifiedname>chimera::ThemisDBResultStream::closed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="54" column="21" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1afdd626b803ebaf4ba66b563401e5b783" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::ThemisDBResultStream::ThemisDBResultStream</definition>
+        <argsstring>(RelationalTable table, StreamConfig config={})</argsstring>
+        <name>ThemisDBResultStream</name>
+        <qualifiedname>chimera::ThemisDBResultStream::ThemisDBResultStream</qualifiedname>
+        <param>
+          <type><ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref></type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="structchimera_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="37" column="14" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1901" bodyend="1907"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1a3247f69af77f6c8de4c0ad4c93b8b07f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBResultStream::has_more</definition>
+        <argsstring>() const override</argsstring>
+        <name>has_more</name>
+        <qualifiedname>chimera::ThemisDBResultStream::has_more</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_result_stream_1a20e91df78ea1e202ff76821212e61569">has_more</reimplements>
+        <briefdescription>
+<para>Has more. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="42" column="10" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1909" bodyend="1911"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1a68b1cd262bcf396315f2fd002654755d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; RelationalRow &gt; &gt; chimera::ThemisDBResultStream::next_batch</definition>
+        <argsstring>(size_t batch_size=0) override</argsstring>
+        <name>next_batch</name>
+        <qualifiedname>chimera::ThemisDBResultStream::next_batch</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_result_stream_1a556531b47277a91d4e785212ad38b687">next_batch</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Next batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), size(), ok(), std::min(), batch(), begin(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="43" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1919" bodyend="1940"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1a12ed9ac75707a097dabb3216d00160e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t chimera::ThemisDBResultStream::position</definition>
+        <argsstring>() const override</argsstring>
+        <name>position</name>
+        <qualifiedname>chimera::ThemisDBResultStream::position</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_result_stream_1a2133b74bff64e896130ec0d2d554aabe">position</reimplements>
+        <briefdescription>
+<para>Position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="46" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1942" bodyend="1944"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1a503e003aa5536a394dd7bd1ee61d7b8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt; size_t &gt; chimera::ThemisDBResultStream::total_size</definition>
+        <argsstring>() const override</argsstring>
+        <name>total_size</name>
+        <qualifiedname>chimera::ThemisDBResultStream::total_size</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_result_stream_1ac31688f837b01600a5029cc43b3f7f78">total_size</reimplements>
+        <briefdescription>
+<para>Total size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="47" column="19" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1946" bodyend="1948"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_result_stream_1afb7b7e9323bb4ed35ff22d2ed7f4ce41" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBResultStream::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>chimera::ThemisDBResultStream::close</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_result_stream_1a6fdc6ce9ec149d83a9a5ad609aa49353">close</reimplements>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="48" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1955" bodyend="1958"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>chimera::IResultStream</label>
+        <link refid="classchimera_1_1_i_result_stream"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBResultStream</label>
+        <link refid="classchimera_1_1_themis_d_b_result_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>chimera::IResultStream</label>
+        <link refid="classchimera_1_1_i_result_stream"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBResultStream</label>
+        <link refid="classchimera_1_1_themis_d_b_result_stream"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/chimera/themisdb_adapter.hpp" line="35" column="1" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="35" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1afb7b7e9323bb4ed35ff22d2ed7f4ce41" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>close</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1af68313f7e1e07b11d5cf90be404b65ea" prot="private" virt="non-virtual"><scope>chimera::ThemisDBResultStream</scope><name>closed_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a015a871f42fb7e6b1493b9056b79a9cc" prot="private" virt="non-virtual"><scope>chimera::ThemisDBResultStream</scope><name>config_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a4136255ec90a65dab706dadc07c2344c" prot="private" virt="non-virtual"><scope>chimera::ThemisDBResultStream</scope><name>cursor_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a3247f69af77f6c8de4c0ad4c93b8b07f" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>has_more</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a68b1cd262bcf396315f2fd002654755d" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>next_batch</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a12ed9ac75707a097dabb3216d00160e5" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>position</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a041b1ca38ae1395ded8d8025ca3383c4" prot="private" virt="non-virtual"><scope>chimera::ThemisDBResultStream</scope><name>table_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1afdd626b803ebaf4ba66b563401e5b783" prot="public" virt="non-virtual"><scope>chimera::ThemisDBResultStream</scope><name>ThemisDBResultStream</name></member>
+      <member refid="classchimera_1_1_themis_d_b_result_stream_1a503e003aa5536a394dd7bd1ee61d7b8e" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>total_size</name></member>
+      <member refid="classchimera_1_1_i_result_stream_1ab0c82e3dba9d21dff91ed482b98610e6" prot="public" virt="virtual"><scope>chimera::ThemisDBResultStream</scope><name>~IResultStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

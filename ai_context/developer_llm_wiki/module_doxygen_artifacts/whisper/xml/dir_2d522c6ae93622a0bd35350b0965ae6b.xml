@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2d522c6ae93622a0bd35350b0965ae6b" kind="dir">
+    <compoundname>src/whisper</compoundname>
+    <innerdir refid="dir_6170b968f4e6c9cc77fd3c14bc9c945c">src/whisper/tests</innerdir>
+    <innerfile refid="audio__chunk__reader_8cpp">audio_chunk_reader.cpp</innerfile>
+    <innerfile refid="whisper__config_8cpp">whisper_config.cpp</innerfile>
+    <innerfile refid="whisper__plugin_8cpp">whisper_plugin.cpp</innerfile>
+    <innerfile refid="whisper__plugin__registrar_8cpp">whisper_plugin_registrar.cpp</innerfile>
+    <innerfile refid="src_2whisper_2whisper__transcriber_8cpp">whisper_transcriber.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/whisper/"/>
+  </compounddef>
+</doxygen>

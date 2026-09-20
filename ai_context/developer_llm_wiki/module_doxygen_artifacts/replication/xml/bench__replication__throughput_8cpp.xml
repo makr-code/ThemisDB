@@ -1,0 +1,784 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__replication__throughput_8cpp" kind="file" language="C++">
+    <compoundname>bench_replication_throughput.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes refid="multi__master__replication_8h" local="yes">replication/multi_master_replication.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/replication/bench_replication_throughput.cpp</label>
+        <link refid="bench__replication__throughput_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>replication/multi_master_replication.h</label>
+        <link refid="multi__master__replication_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>deque</label>
+      </node>
+      <node id="23">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="22">
+        <label>sstream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_wal_bench_fixture" prot="public">WalBenchFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1ac54728fa6e2c60822a36d68a8565e311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(WalBenchFixture, Append)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>Append</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="111" column="1" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a5b28ad71c8e1eb06267fa31f2e6102ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(10000)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="123" column="5" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="123" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a20ee166a1b9ff954523c7e48488e849f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(WalBenchFixture, ReadFrom)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ReadFrom</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="130" column="1" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="130" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a8e5b9f22844c7660ee0b4299c11e6322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(100) -&gt; Arg(500) -&gt;Arg(1000) -&gt;Unit(benchmark::kMillisecond) -&gt;Iterations(200)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="152" column="5" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="152" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1ac91ed5b8b874a2693edb383603f66e67" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_WALEntry_Serialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_WALEntry_Serialize</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="162" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_WALEntry_Serialize) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_WALEntry_Serialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="171" column="1" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="171" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a6b0cf3daa3618ebee19e19f464124b54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_WALEntry_Deserialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_WALEntry_Deserialize</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="173" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="173" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a9c72f49e8228f5580364e6fe41454343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_WALEntry_Deserialize) -&gt; Unit(benchmark::kNanosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_WALEntry_Deserialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="184" column="1" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="184" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1ac079d6c8da15a3b010ae7f3ee460abce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HLCConflictDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HLCConflictDetection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="190" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="190" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a6874d0133624c61bd79b67d8706e1745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(0) -&gt; Arg(50) -&gt;Arg(200) -&gt;Unit(benchmark::kNanosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="210" column="5" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="210" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1ae416ad22c83bed8dba43213ee7045608" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CRDTMerge</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CRDTMerge</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="219" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="219" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a35d0e0ecc1d9b61c6cc2348061a7d2ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(2) -&gt; Arg(8) -&gt;Arg(32) -&gt;Unit(benchmark::kNanosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="246" column="5" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="246" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1ab3b3ab8f473f429bdfa2a541dbf11ee2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ReplicationManager_Initialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ReplicationManager_Initialize</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="255" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="255" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a2f78997d93fa2f09f6aaa26477b1940f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMillisecond) -&gt; Iterations(50)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMillisecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="277" column="5" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="277" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a61e49674057b4de16307672c05ed5e8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ReplicationManager_PromoteToLeader</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ReplicationManager_PromoteToLeader</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="284" column="13" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="284" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__replication__throughput_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="329" column="1" declfile="benchmarks/replication/bench_replication_throughput.cpp" declline="329" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for the Replication module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the following process lines:<itemizedlist>
+<listitem><para><ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1aebd376a4c9287e2c5c2672b91c28d1ab" kindref="member">WALManager::append()</ref> – WAL write throughput</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a429ed938d3e26381350f06f25ed6b22e" kindref="member">WALManager::readFrom()</ref> – sequential read throughput</para>
+</listitem><listitem><para><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a063893ab4a81989ec3593c82ff2921f0" kindref="member">WALEntry::serialize()</ref> – binary serialisation cost</para>
+</listitem><listitem><para><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa800e3b3c4182375cd6106f268973724" kindref="member">WALEntry::deserialize()</ref> – binary deserialisation cost</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1replication_1_1_replication_manager_1aa51b43289036bc06cac5e82b0387ef60" kindref="member">ReplicationManager::initialize()</ref> – start-up cost</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1replication_1_1_replication_manager_1ab58c233d8d5efae7a89d3cd7f64eb12a" kindref="member">ReplicationManager::promoteToLeader()</ref> – leader promotion/failover path</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f" kindref="member">LastWriteWinsResolver::resolve()</ref> – HLC conflict detection/resolution</para>
+</listitem><listitem><para><ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a113b4ab34a8630afaa67baea78fcb229" kindref="member">CRDTMergeResolver::resolve()</ref> – CRDT merge performance</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance targets (src/replication/ROADMAP.md):<itemizedlist>
+<listitem><para>WAL append: &gt; 50 000 entries/s</para>
+</listitem><listitem><para>WAL readFrom 1000: &lt; 5 ms</para>
+</listitem><listitem><para><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> serialize/deserialize: &lt; 2 µs each </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="multi__master__replication_8h" kindref="compound">replication/multi_master_replication.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">themisdb::replication</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref><sp/>makeConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>wal_dir)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a11f02fa28360a2fb0097bfb1730d8c92" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a823ab4f0ee889792b0f735fb5b7510c0" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bcabe553330beb7b3d994656e0a4e66cd96" kindref="member">ReplicationMode::ASYNC</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1aa4334cbfbe53d864edbeee2874d2255a" kindref="member">heartbeat_interval_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a321aef41845a29ba27ba045a7cfba8d9" kindref="member">election_timeout_min_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>150;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a50d0531eb5d5fc4ebf0193c3d25c1eee" kindref="member">election_timeout_max_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a1a273166daa0cd2f7ecd4e2d9d483f71" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a6fe1f84ebd660db9dd4f3bd6526b51cb" kindref="member">batch_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a9cc86ab89a37fb1c17fbceecf318aa34" kindref="member">wal_directory</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>wal_dir;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1accbd9cc493d97f7e9e7ccccc048e303d" kindref="member">failure_detection_timeout_ms</ref><sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a8ac75661cf1351f75a673440f7e62a03" kindref="member">min_sync_replicas</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1a5bb3553a3e3417a4d43aea255f90a0c9" kindref="member">wal_sync_on_commit</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_replication_config_1ad226dfbfd4326ff2c1d7cda9cd5d5950" kindref="member">enable_leader_lease</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/>makeEntry(uint64_t<sp/>seq,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>op,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a55d34db055495f6031b12825e9905cd4" kindref="member">sequence_number</ref><sp/>=<sp/>seq;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a952dc837e7c6946e3a34b40c2782088d" kindref="member">term</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1ad3ec898866fb198652e7670c9e4210be" kindref="member">timestamp</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a2cf722298c8697743a39422ab40545fd" kindref="member">operation</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>op;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aeb7d2663ea831baaee7af370049429a3" kindref="member">collection</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa8bb3ddc90b14473c0e1d090d54bcb83" kindref="member">document_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(seq);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1ae9097aba678ec4bc48ff5c160685b16a" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;field&quot;:&quot;value&quot;,&quot;seq&quot;:)&quot;<sp/>+<sp/>std::to_string(seq)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>makeMMEntry(uint64_t<sp/>physical,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>logical,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>write_id)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1ad512dba8c0824d8cca15ff64a419e2d6" kindref="member">write_id</ref><sp/>=<sp/>write_id;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1acb6e510dc04112f6601b74f7d0245420" kindref="member">origin_node</ref><sp/>=<sp/>node_id;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a67fab89626cb9893cb50e0705a4d1c7d" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_col&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a21d1b020d76054337dc12103fa653ff9" kindref="member">document_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc_hlc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a44fa88b3ec7d034c7654424c19aae9bf" kindref="member">operation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UPDATE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a2cce28b765ddeb15d87d0a4b8d9fa87c" kindref="member">data</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;field&quot;:&quot;value&quot;})&quot;;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>e.<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry_1a0f039a268a09caf7d13bd16daa51baac" kindref="member">hlc</ref><sp/>=<sp/><ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">HybridLogicalClock::Timestamp</ref>{physical,<sp/>logical,<sp/>node_id};</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WALManager::append<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="class_wal_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wal_bench_fixture_1a6ee4f16f739d3182c1390374814439ec" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/bench_replication_wal_tmp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1ae44ee6f37f44fb3a8f076c76c4276449" kindref="member">cfg_</ref><sp/>=<sp/>makeConfig(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1a1c6f5a08146faa7525d1b63069991484" kindref="member">wal_</ref><sp/>=<sp/>std::make_unique&lt;WALManager&gt;(<ref refid="class_wal_bench_fixture_1ae44ee6f37f44fb3a8f076c76c4276449" kindref="member">cfg_</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wal_bench_fixture_1a5099f812f5bc94c5f984aa8a049945ea" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1a1c6f5a08146faa7525d1b63069991484" kindref="member">wal_</ref>.reset();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" kindref="member">wal_dir_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wal_bench_fixture_1ae44ee6f37f44fb3a8f076c76c4276449" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WALManager&gt;<sp/><sp/><ref refid="class_wal_bench_fixture_1a1c6f5a08146faa7525d1b63069991484" kindref="member">wal_</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1ac54728fa6e2c60822a36d68a8565e311" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref>,<sp/>Append)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>seq{1};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>s<sp/>=<sp/>seq.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>makeEntry(s,<sp/></highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench_col&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>written_seq<sp/>=<sp/>wal_-&gt;append(entry);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(written_seq);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref>,<sp/>Append)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WALManager::readFrom<sp/>throughput<sp/>(sequential<sp/>scan)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1ac54728fa6e2c60822a36d68a8565e311" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref>,<sp/>ReadFrom)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>logical_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-populate<sp/>WAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>makeEntry(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1),<sp/></highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logical_bytes<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(entry.serialize().size());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wal_-&gt;append(entry);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entries<sp/>=<sp/>wal_-&gt;readFrom(1,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(entries);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>n);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations())<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(logical_bytes));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;n=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(n));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_wal_bench_fixture" kindref="compound">WalBenchFixture</ref>,<sp/>ReadFrom)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(500)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WALEntry::serialize<sp/>/<sp/>deserialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_WALEntry_Serialize(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>makeEntry(42,<sp/></highlight><highlight class="stringliteral">&quot;UPDATE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>entry.serialize();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(bytes);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_WALEntry_Serialize)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_WALEntry_Deserialize(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>makeEntry(42,<sp/></highlight><highlight class="stringliteral">&quot;UPDATE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>entry.serialize();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa800e3b3c4182375cd6106f268973724" kindref="member">WALEntry::deserialize</ref>(bytes);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_WALEntry_Deserialize)-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HLC<sp/>conflict<sp/>detection<sp/>/<sp/>resolution<sp/>micro-benchmark<sp/>(R-4<sp/>direct<sp/>metric)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HLCConflictDetection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>skew_ms<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>base_physical<sp/>=<sp/>1&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver" kindref="compound">LastWriteWinsResolver</ref><sp/>resolver;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>writes;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>writes.reserve(2);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>writes.push_back(makeMMEntry(base_physical,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w-a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>writes.push_back(makeMMEntry(base_physical<sp/>+<sp/>skew_ms,<sp/>2,<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w-b&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>winner<sp/>=<sp/>resolver.<ref refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f" kindref="member">resolve</ref>(</highlight><highlight class="stringliteral">&quot;doc_hlc&quot;</highlight><highlight class="normal">,<sp/>writes);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(winner);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;skew_ms=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(skew_ms));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_HLCConflictDetection)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(0)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(50)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(200)</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CRDT<sp/>merge<sp/>micro-benchmark<sp/>(R-5<sp/>direct<sp/>metric)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CRDTMerge(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>write_count<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>base_physical<sp/>=<sp/>2&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver" kindref="compound">CRDTMergeResolver</ref><sp/>resolver(<ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a6cc0cfdf6ea907a88559d2c72ecf134e" kindref="member">CRDTMergeResolver::CRDTType::LWW_REGISTER</ref>);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MMWriteEntry&gt;<sp/>writes;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>writes.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(write_count));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>write_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>makeMMEntry(base_physical<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>4),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;node-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;w-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.data<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;value\&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>writes.push_back(std::move(entry));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged<sp/>=<sp/>resolver.<ref refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f" kindref="member">resolve</ref>(</highlight><highlight class="stringliteral">&quot;doc_crdt&quot;</highlight><highlight class="normal">,<sp/>writes);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(merged);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;writes=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(write_count));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_CRDTMerge)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(2)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(8)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(32)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kNanosecond);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReplicationManager::initialize<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ReplicationManager_Initialize(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>wal_dir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/bench_repl_mgr_init_tmp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(wal_dir))<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(wal_dir);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(wal_dir);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref><sp/>mgr(makeConfig(wal_dir));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mgr.initialize();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(wal_dir))<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(wal_dir);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_ReplicationManager_Initialize)</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReplicationManager::promoteToLeader<sp/>direct<sp/>metric<sp/>(R-3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ReplicationManager_PromoteToLeader(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>wal_dir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/bench_repl_mgr_failover_tmp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>success_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(wal_dir))<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(wal_dir);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(wal_dir);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref><sp/>mgr(makeConfig(wal_dir));</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>init_ok<sp/>=<sp/>mgr.initialize();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>promote_ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(init_ok)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>promote_ok<sp/>=<sp/>mgr.promoteToLeader();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(promote_ok);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(promote_ok)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++success_count;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.shutdown();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(wal_dir))<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(wal_dir);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>success_rate<sp/>=<sp/>state.iterations()<sp/>==<sp/>0</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>0.0</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>(100.0<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(success_count)<sp/>/</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;leader_promotion_success_rate_pct&quot;</highlight><highlight class="normal">]<sp/>=<sp/>success_rate;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a9830b36f62152a80ff5b1c56c0823288" kindref="member">BENCHMARK</ref>(BM_ReplicationManager_PromoteToLeader)</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(30);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="bench__replication__throughput_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/replication/bench_replication_throughput.cpp"/>
+  </compounddef>
+</doxygen>

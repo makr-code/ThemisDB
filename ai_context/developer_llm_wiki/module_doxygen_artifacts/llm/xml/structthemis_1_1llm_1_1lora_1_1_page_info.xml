@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_page_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PageInfo</compoundname>
+    <includes refid="paged__memory__manager_8h" local="no">paged_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_page_info_1a43cebb6daf77d38cfd80bb2f225875a4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ac10a4be8a17d8eff7d9c4d46ac8c1d54" kindref="member">PageID</ref></type>
+        <definition>PageID themis::llm::lora::PageInfo::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::lora::PageInfo::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="50" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_page_info_1ab845a08f96303d78e823e7f2eb293d18" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PageInfo::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::llm::lora::PageInfo::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="51" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_page_info_1ab228741e77defbc05ff552811351bc2e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::PageInfo::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::llm::lora::PageInfo::device</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="52" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_page_info_1ac1e1d9d56c8ebbe89abc9fd4415d11db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::PageInfo::last_access_time</definition>
+        <argsstring></argsstring>
+        <name>last_access_time</name>
+        <qualifiedname>themis::llm::lora::PageInfo::last_access_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="53" column="14" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_page_info_1ab54619c90486d82c6897a8637d240ecb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::PageInfo::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::llm::lora::PageInfo::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="54" column="14" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_page_info_1a393aecadb55aa5cf6d05f987d17d924a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::PageInfo::~PageInfo</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PageInfo</name>
+        <qualifiedname>themis::llm::lora::PageInfo::~PageInfo</qualifiedname>
+        <briefdescription>
+<para>Page Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="49" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::Device</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_device"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PageInfo</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_page_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>device</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/paged_memory_manager.h" line="44" column="1" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="44" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1ab54619c90486d82c6897a8637d240ecb" prot="public" virt="non-virtual"><scope>themis::llm::lora::PageInfo</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1ab228741e77defbc05ff552811351bc2e" prot="public" virt="non-virtual"><scope>themis::llm::lora::PageInfo</scope><name>device</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1a43cebb6daf77d38cfd80bb2f225875a4" prot="public" virt="non-virtual"><scope>themis::llm::lora::PageInfo</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1ac1e1d9d56c8ebbe89abc9fd4415d11db" prot="public" virt="non-virtual"><scope>themis::llm::lora::PageInfo</scope><name>last_access_time</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1ab845a08f96303d78e823e7f2eb293d18" prot="public" virt="non-virtual"><scope>themis::llm::lora::PageInfo</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_page_info_1a393aecadb55aa5cf6d05f987d17d924a" prot="public" virt="virtual"><scope>themis::llm::lora::PageInfo</scope><name>~PageInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</compoundname>
+    <includes refid="adaptive__vram__allocator_8h" local="no">adaptive_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a06d8cf1393269f4893fcbbd53b384542" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::InferenceConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::batch_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="45" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1abd9221ef76529b7fdaf06dbbeaa4287d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::InferenceConfig::max_seq_length</definition>
+        <argsstring></argsstring>
+        <name>max_seq_length</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::max_seq_length</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="46" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1ae23ada1d77801a5517f4e866c62d4317" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::InferenceConfig::kv_cache_block_size</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_block_size</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::kv_cache_block_size</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="47" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a265415805c8a632162d06c2ee08720b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::InferenceConfig::enable_prefix_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_prefix_caching</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::enable_prefix_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="48" column="14" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1ab37c6ad5aede902233512d3831bffe54" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::InferenceConfig::enable_flash_attention</definition>
+        <argsstring></argsstring>
+        <name>enable_flash_attention</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::enable_flash_attention</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="49" column="14" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a6eaec415d9bf5f0a393662a42fc686e6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdaptiveVRAMAllocator::InferenceConfig::kv_cache_growth_factor</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_growth_factor</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::InferenceConfig::kv_cache_growth_factor</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="50" column="15" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adaptive_vram_allocator.h" line="44" column="5" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="44" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a06d8cf1393269f4893fcbbd53b384542" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1ab37c6ad5aede902233512d3831bffe54" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>enable_flash_attention</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a265415805c8a632162d06c2ee08720b8" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>enable_prefix_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1ae23ada1d77801a5517f4e866c62d4317" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>kv_cache_block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1a6eaec415d9bf5f0a393662a42fc686e6" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>kv_cache_growth_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_inference_config_1abd9221ef76529b7fdaf06dbbeaa4287d" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::InferenceConfig</scope><name>max_seq_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

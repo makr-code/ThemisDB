@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_tenant_metrics_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TenantMetricsConfig</compoundname>
+    <includes refid="tenant__metrics__namespace_8h" local="no">tenant_metrics_namespace.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_config_1a6764d433ef78cdaf6d011add41b99a5d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::TenantMetricsConfig::cardinality_limit_per_tenant</definition>
+        <argsstring></argsstring>
+        <name>cardinality_limit_per_tenant</name>
+        <qualifiedname>themis::observability::TenantMetricsConfig::cardinality_limit_per_tenant</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of unique label-set combinations per metric <emphasis>per tenant</emphasis>. 0 = unlimited (not recommended in production). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="35" column="12" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_config_1a91b3fe6d56b70f40b277784abac05d56" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::TenantMetricsConfig::max_tenants</definition>
+        <argsstring></argsstring>
+        <name>max_tenants</name>
+        <qualifiedname>themis::observability::TenantMetricsConfig::max_tenants</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of tenants that can be registered simultaneously. 0 = unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="39" column="12" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_config_1a72002f4e540d5d03f5eb8c550f00688e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::TenantMetricsConfig::strict_tenant_registration</definition>
+        <argsstring></argsstring>
+        <name>strict_tenant_registration</name>
+        <qualifiedname>themis::observability::TenantMetricsConfig::strict_tenant_registration</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, metric observations for unknown (unregistered) tenants are silently dropped instead of auto-registering the tenant. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="43" column="10" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1observability_1_1_tenant_metrics_namespace" kindref="compound">TenantMetricsNamespace</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tenant_metrics_namespace.h" line="32" column="1" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_config_1a6764d433ef78cdaf6d011add41b99a5d" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsConfig</scope><name>cardinality_limit_per_tenant</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_config_1a91b3fe6d56b70f40b277784abac05d56" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsConfig</scope><name>max_tenants</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_config_1a72002f4e540d5d03f5eb8c550f00688e" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsConfig</scope><name>strict_tenant_registration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

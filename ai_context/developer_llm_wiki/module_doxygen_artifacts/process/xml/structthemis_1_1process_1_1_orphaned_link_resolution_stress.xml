@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_orphaned_link_resolution_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::OrphanedLinkResolutionStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a68d4ac27587b352d0ea4c0a8d24fc902" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::OrphanedLinkResolutionStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::OrphanedLinkResolutionStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with orphaned links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="235" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a482e7e7066d5a38b42295640d0f7e869" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::OrphanedLinkResolutionStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::OrphanedLinkResolutionStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (link stale but detectable) for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="238" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a59775549866104000371e60bb93aeb0a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::OrphanedLinkResolutionStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::OrphanedLinkResolutionStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="240" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="240" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orphaned link resolution scenario for process linker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Links that reference deleted or non-existent models/instances <linebreak/>
+ <bold>Expected Behavior:</bold> Links persist but marked as stale; detected at read-time <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>RETRIEVAL_INCIDENT</computeroutput> on read <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Link is not corrupted or deleted</para>
+</listitem><listitem><para>Staleness is detected at read-time</para>
+</listitem><listitem><para>Diagnostic message explains link is stale</para>
+</listitem><listitem><para>Operator can manually repair or delete </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="233" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="233" bodyend="243"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a59775549866104000371e60bb93aeb0a" prot="public" virt="non-virtual"><scope>themis::process::OrphanedLinkResolutionStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a68d4ac27587b352d0ea4c0a8d24fc902" prot="public" virt="non-virtual"><scope>themis::process::OrphanedLinkResolutionStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_orphaned_link_resolution_stress_1a482e7e7066d5a38b42295640d0f7e869" prot="public" virt="non-virtual"><scope>themis::process::OrphanedLinkResolutionStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

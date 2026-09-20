@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="secure__memory_8cpp" kind="file" language="C++">
+    <compoundname>secure_memory.cpp</compoundname>
+    <includes refid="secure__memory_8h" local="yes">auth/secure_memory.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>auth/secure_memory.h</label>
+        <link refid="secure__memory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/auth/secure_memory.cpp</label>
+        <link refid="secure__memory_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="8">
+        <label>openssl/crypto.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Stub Implementation</bold>: Provides memory security utilities for sensitive credential storage (passwords, keys, tokens). Uses OpenSSL&apos;s OPENSSL_cleanse for secure zeroing and platform-specific mlock for preventing swaps. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="secure__memory_8h" kindref="compound">auth/secure_memory.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>translation<sp/>unit<sp/>intentionally<sp/>contains<sp/>no<sp/>out-of-line<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SecureString/SecureBuffer<sp/>and<sp/>secure<sp/>memory<sp/>helpers<sp/>are<sp/>implemented<sp/>inline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>secure_memory.h.</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/auth/secure_memory.cpp"/>
+  </compounddef>
+</doxygen>

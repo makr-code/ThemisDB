@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_one_shot_http_server" kind="class" language="C++" prot="public">
+    <compoundname>OneShotHttpServer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_one_shot_http_server_1a3ea313550b75a6521f5313a97b320686" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OneShotHttpServer::body_</definition>
+        <argsstring></argsstring>
+        <name>body_</name>
+        <qualifiedname>OneShotHttpServer::body_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="104" column="17" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_one_shot_http_server_1aad056837e2d3e4ecace2409d27135b9d" prot="private" static="no" mutable="no">
+        <type>boost::asio::io_context</type>
+        <definition>boost::asio::io_context OneShotHttpServer::ios_</definition>
+        <argsstring></argsstring>
+        <name>ios_</name>
+        <qualifiedname>OneShotHttpServer::ios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="105" column="29" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_one_shot_http_server_1a581d99ba5d0689f3582638c7d8a2a857" prot="private" static="no" mutable="no">
+        <type>tcp::acceptor</type>
+        <definition>tcp::acceptor OneShotHttpServer::acceptor_</definition>
+        <argsstring></argsstring>
+        <name>acceptor_</name>
+        <qualifiedname>OneShotHttpServer::acceptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="106" column="19" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_one_shot_http_server_1a61d51c8b959c3cd41c514b176b2c325c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread OneShotHttpServer::thr_</definition>
+        <argsstring></argsstring>
+        <name>thr_</name>
+        <qualifiedname>OneShotHttpServer::thr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="107" column="17" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_one_shot_http_server_1a5f436e61e88ebd4c2bcd78386bc3990c" prot="private" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short OneShotHttpServer::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>OneShotHttpServer::port_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="108" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_one_shot_http_server_1ab4e9e4f0b9ae7aff0c5977b96639c1d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OneShotHttpServer::OneShotHttpServer</definition>
+        <argsstring>(std::string body, unsigned short port=0)</argsstring>
+        <name>OneShotHttpServer</name>
+        <qualifiedname>OneShotHttpServer::OneShotHttpServer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>unsigned short</type>
+          <declname>port</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="71" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="71" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_one_shot_http_server_1aa96c37f3696e4d90354f76dca94c7f66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OneShotHttpServer::~OneShotHttpServer</definition>
+        <argsstring>()</argsstring>
+        <name>~OneShotHttpServer</name>
+        <qualifiedname>OneShotHttpServer::~OneShotHttpServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="81" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_one_shot_http_server_1a65de053bf5fe4384e2984b57d87dd790" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned short</type>
+        <definition>unsigned short OneShotHttpServer::port</definition>
+        <argsstring>() const</argsstring>
+        <name>port</name>
+        <qualifiedname>OneShotHttpServer::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="87" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_one_shot_http_server_1a1329a29f19d7358f4551a4c01e163370" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OneShotHttpServer::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>OneShotHttpServer::run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="89" column="10" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="89" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwt_integration.cpp" line="69" column="1" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="69" bodyend="109"/>
+    <listofallmembers>
+      <member refid="class_one_shot_http_server_1a581d99ba5d0689f3582638c7d8a2a857" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>acceptor_</name></member>
+      <member refid="class_one_shot_http_server_1a3ea313550b75a6521f5313a97b320686" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>body_</name></member>
+      <member refid="class_one_shot_http_server_1aad056837e2d3e4ecace2409d27135b9d" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>ios_</name></member>
+      <member refid="class_one_shot_http_server_1ab4e9e4f0b9ae7aff0c5977b96639c1d5" prot="public" virt="non-virtual"><scope>OneShotHttpServer</scope><name>OneShotHttpServer</name></member>
+      <member refid="class_one_shot_http_server_1a65de053bf5fe4384e2984b57d87dd790" prot="public" virt="non-virtual"><scope>OneShotHttpServer</scope><name>port</name></member>
+      <member refid="class_one_shot_http_server_1a5f436e61e88ebd4c2bcd78386bc3990c" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>port_</name></member>
+      <member refid="class_one_shot_http_server_1a1329a29f19d7358f4551a4c01e163370" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>run</name></member>
+      <member refid="class_one_shot_http_server_1a61d51c8b959c3cd41c514b176b2c325c" prot="private" virt="non-virtual"><scope>OneShotHttpServer</scope><name>thr_</name></member>
+      <member refid="class_one_shot_http_server_1aa96c37f3696e4d90354f76dca94c7f66" prot="public" virt="non-virtual"><scope>OneShotHttpServer</scope><name>~OneShotHttpServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

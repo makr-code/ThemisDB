@@ -1,0 +1,831 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1geo_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::geo::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_01_TimeoutGuardInitialization)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_01_TimeoutGuardInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>P23-01: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> initializes with correct deadline.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the timeout guard starts with a deadline in the future. Contract: all timeout guards must track an absolute deadline. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="55" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a5ae6bb677d657aa576efaff38deeaf93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_02_TimeoutGuardExpiration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_02_TimeoutGuardExpiration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>P23-02: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> expires after deadline.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that expired() returns true after the deadline passes. Contract: timeout must be enforced deterministically within ±5µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="70" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1aef35bb052262b91568098f659f805045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_03_TimeoutGuardCaching)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_03_TimeoutGuardCaching</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>P23-03: <ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref> caches expiration result.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that expired() returns the same value on repeated calls (double-checked locking pattern is working correctly). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="87" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="87" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1afa46b32834c26f893bb9abfe6ee22474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_04_BackendSelectionBudget)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_04_BackendSelectionBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>P23-04: Contract: kBackendSelectionBudget is 100 microseconds.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies the contract constant is correctly defined. Phase 2 requirement: backend selection must complete within this budget. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="110" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1aa451b4fc21708d0a39f75da517c650db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_05_Wgs84ValidCoordinates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_05_Wgs84ValidCoordinates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>P23-05: WGS84 coordinate validation accepts valid coordinates.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isValidWgs84CoordinatePair accepts coordinates within bounds: lon ∈ [-180, +180], lat ∈ [-90, +90] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="127" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a3462c4122f9cc047e0ab09cb27b0a8ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_06_Wgs84OutOfBoundsCoordinates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_06_Wgs84OutOfBoundsCoordinates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>P23-06: WGS84 coordinate validation rejects out-of-bounds coordinates.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isValidWgs84CoordinatePair rejects coordinates outside bounds. Contract: Out-of-bounds → COORDINATE_OUT_OF_BOUNDS error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="140" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a33fb43e6f34c9aed9b2fae0b6fffa374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_07_RingClosureValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_07_RingClosureValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>P23-07: Ring closure validation verifies first == last coordinate.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isRingClosed enforces RFC 7946 ring closure requirement. Contract: Open rings → GEOMETRY_INVALID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="153" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="153" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1accba05abc83b67af020d4ce85d557fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_08_MinimumVertexRequirements)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_08_MinimumVertexRequirements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>P23-08: Minimum vertex requirements for LineString and Polygon.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies minimum vertex checkers enforce RFC 7946 requirements:<itemizedlist>
+<listitem><para>LineString requires ≥ 2 points</para>
+</listitem><listitem><para>Polygon exterior requires ≥ 4 points (including closing) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="177" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="177" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ae0d0840c47eaae26cfe6528216628441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_09_DistanceConsistencyIdentical)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_09_DistanceConsistencyIdentical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>P23-09: Distance result consistency verifies within relative tolerance.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isDistanceResultConsistent uses relative tolerance correctly. Contract: kBackendAccuracyTolerance = 1e-9 (relative). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="201" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="201" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a4a71e411589b939cc269a1b1841ef364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_10_DistanceConsistencyWithinTolerance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_10_DistanceConsistencyWithinTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>P23-10: Distance results within tolerance pass consistency check.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isDistanceResultConsistent accepts results within the contract accuracy tolerance (default 1e-9 relative). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="213" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="213" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a1b6c3823363729c21a26e04ca72c3b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_11_DistanceConsistencyOutsideTolerance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_11_DistanceConsistencyOutsideTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>P23-11: Distance results outside tolerance fail consistency check.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isDistanceResultConsistent rejects results differing by more than the contract tolerance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="226" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a4d3d5b266326ce19a504bd43aaf41809" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_12_ContainmentConsistency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_12_ContainmentConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>P23-12: Containment result consistency checks bitset equality.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isContainmentResultConsistent compares bitmasks element-by-element. Used for point-in-polygon containment (1 = inside, 0 = outside). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="239" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="239" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a564f5f43cc0853493e83a96291723db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_13_IndexQueryConsistency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_13_IndexQueryConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>P23-13: Spatial index query consistency detects results outside envelope.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isSpatialIndexQueryConsistent rejects results whose MBR does not intersect the query bbox. Contract: results must have MBR intersecting query box. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="264" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="264" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a609c8bc6d12de99079a317eaa4c2e0fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_14_IndexQueryEdgeCases)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_14_IndexQueryEdgeCases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>P23-14: Spatial index query consistency handles edge cases.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies isSpatialIndexQueryConsistent correctly handles:<itemizedlist>
+<listitem><para>Results touching the boundary (tangent MBR)</para>
+</listitem><listitem><para>Results partially overlapping query bbox</para>
+</listitem><listitem><para>Empty result set </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="295" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="295" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a14616e6ade5a3e4fe26bbe76c575cada" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_15_ValidationErrorMessages)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_15_ValidationErrorMessages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>P23-15: Geometry validation error messages are actionable.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies <ref refid="classthemis_1_1geo_1_1_geometry_validation_error_builder" kindref="compound">GeometryValidationErrorBuilder</ref> produces clear, actionable messages for production use. Phase 3 requirement: consistent error reporting. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="321" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="321" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a039a7b5a64b1efebbe62013f9201d35b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoPhase2Phase3FocusedTest, P23_16_BackendFallbackDiagnostic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoPhase2Phase3FocusedTest</type>
+        </param>
+        <param>
+          <type>P23_16_BackendFallbackDiagnostic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>P23-16: Backend fallback diagnostic formats complete context.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies <ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic" kindref="compound">BackendFallbackDiagnostic</ref> produces structured error context for production logging. Phase 3 requirement: unified diagnostics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="344" column="1" bodyfile="tests/geo/test_geo_phase2_phase3_focused.cpp" bodystart="344" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ae3d2c12b11c862c239a7fc524a130dd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH01_StandardPrecisionCpuOnly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH01_StandardPrecisionCpuOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-01: STANDARD precision CPU-only dispatch returns correct result. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="70" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a6acb3efae65923ff644cc53cab9d507f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH02_HighPrecisionCpuOnly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH02_HighPrecisionCpuOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-02: HIGH precision CPU-only dispatch returns value within tolerance. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="82" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="82" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ad2c77a7305d77a7dc9a1d0ae8ff05396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH03_UltraPrecisionForcesCpu)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH03_UltraPrecisionForcesCpu</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-03: ULTRA precision forces CPU path regardless of GPU availability.</para>
+</xrefdescription></xrefsect></para>
+<para>Even though a GPU function is provided, ULTRA mode must never use the GPU path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="96" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="96" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a31b99bf0e31e0606bc9c8d3788b43121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH04_CpuGpuParityWithinTolerance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH04_CpuGpuParityWithinTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-04: CPU_AND_GPU parity within STANDARD tolerance, no drift recorded. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="114" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ab26a003d0458dd9efad411c897b508ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH05_GpuUnavailableFallbackToCpu)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH05_GpuUnavailableFallbackToCpu</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-05: GPU returning nullopt triggers silent CPU fallback. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="133" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="133" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a2f22de74b7dc79174e93feca4721d32d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH06_GpuExceptionIncrementssFallbackCount)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH06_GpuExceptionIncrementssFallbackCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-06: GPU function throwing an exception increments fallback count. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="147" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="147" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a668e56b98509aabec75d8109beeda075" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH07_ParityMismatchIncrementsDriftCounter)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH07_ParityMismatchIncrementsDriftCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-07: CPU/GPU parity mismatch increments drift counter and returns CPU result. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="163" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="163" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ae5ce4cba93941095a4fc259f0322d678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH08_PersistentDriftFlagSetAfterThreshold)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH08_PersistentDriftFlagSetAfterThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-08: After kDriftThreshold mismatches, hasCapabilityDrift() returns true. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="178" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="178" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a6237b6484d0060cd023b1e347428fd8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH09_ValidWgs84CoordinatesOk)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH09_ValidWgs84CoordinatesOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-09: Valid WGS84 coordinates return OK. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="200" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="200" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a7d26c54ce01a54b280c35520fa5d3f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH10_LongitudeOutOfBounds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH10_LongitudeOutOfBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-10: Longitude out of WGS84 bounds returns COORDINATE_OUT_OF_BOUNDS. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="211" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="211" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1adc63aa3cdb696e5b926457fabec233b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH11_LatitudeOutOfBounds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH11_LatitudeOutOfBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-11: Latitude out of WGS84 bounds returns COORDINATE_OUT_OF_BOUNDS. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="222" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="222" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1aa2f1ff12ffed3ff8f6db3df9e02afa81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH12_NanCoordinateInvalid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH12_NanCoordinateInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-12: NaN coordinate returns GEOMETRY_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="233" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a64fed6db06330c71071fbef11b50d98a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH13_ValidClosedRingOk)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH13_ValidClosedRingOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-13: Valid closed polygon ring returns OK. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="250" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a4c34792ec514f982e8aad847bf6e867e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH14_OpenRingInvalid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH14_OpenRingInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-14: Open ring (first ≠ last) returns GEOMETRY_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="262" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="262" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ac74a0d15adc363faeb9619a87f9c867b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH15_ShortRingInvalid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH15_ShortRingInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000036"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-15: Ring with fewer than 4 points returns GEOMETRY_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="273" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="273" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1aab5fd23a38deceb1d71766436fb244e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH16_RingWithInvalidCoordinateReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH16_RingWithInvalidCoordinateReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000037"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-16: Ring with out-of-bounds coordinate returns COORDINATE_OUT_OF_BOUNDS. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="284" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="284" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1abb578be850937eaacf630e1b1217e138" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH17_RecordIncidentStoresCorrectFields)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH17_RecordIncidentStoresCorrectFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000038"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-17: recordIncident stores incident with correct fields. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="299" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="299" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ad3005658341b1c8beecdf3f9110504cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH18_IncidentsBySeverityFiltersCorrectly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH18_IncidentsBySeverityFiltersCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000039"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-18: incidentsBySeverity filters to &gt;= min_severity. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="317" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="317" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1a0c331502089a5b80a34308b1929558b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH19_HasCriticalIncidentsCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH19_HasCriticalIncidentsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000040"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-19: hasCriticalIncidents returns true only when CRITICAL incidents exist. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="334" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="334" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1test_1ad20b0d497ca4464e19c315f69e8a7aaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::test::TEST</definition>
+        <argsstring>(GeoQ4Hardening, GEH20_FormatSummaryContainsIncidentDetails)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::geo::test::TEST</qualifiedname>
+        <param>
+          <type>GeoQ4Hardening</type>
+        </param>
+        <param>
+          <type>GEH20_FormatSummaryContainsIncidentDetails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000041"><xreftitle>Test</xreftitle><xrefdescription><para>GEH-20: formatSummary produces non-empty output with incident details. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_q4_hardening_focused.cpp" line="346" column="1" bodyfile="tests/geo/test_geo_q4_hardening_focused.cpp" bodystart="346" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/geo/test_geo_phase2_phase3_focused.cpp" line="43" column="1"/>
+  </compounddef>
+</doxygen>

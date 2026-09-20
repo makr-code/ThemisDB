@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_exporter_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ExporterException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_config_exception" prot="public" virt="non-virtual">themis::exporters::ConfigException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_export_i_o_exception" prot="public" virt="non-virtual">themis::exporters::ExportIOException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_format_exception" prot="public" virt="non-virtual">themis::exporters::FormatException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_policy_denied_exception" prot="public" virt="non-virtual">themis::exporters::PolicyDeniedException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_quality_filter_exception" prot="public" virt="non-virtual">themis::exporters::QualityFilterException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_schema_validation_exception" prot="public" virt="non-virtual">themis::exporters::SchemaValidationException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_size_limit_exception" prot="public" virt="non-virtual">themis::exporters::SizeLimitException</derivedcompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" static="no" mutable="no">
+        <type>errors::ErrorCode</type>
+        <definition>errors::ErrorCode themis::exporters::ExporterException::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::exporters::ExporterException::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="35" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExporterException::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::exporters::ExporterException::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="36" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExporterException::ExporterException</definition>
+        <argsstring>(errors::ErrorCode code, const std::string &amp;message, const std::string &amp;context=&quot;&quot;)</argsstring>
+        <name>ExporterException</name>
+        <qualifiedname>themis::exporters::ExporterException::ExporterException</qualifiedname>
+        <param>
+          <type>errors::ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="23" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>errors::ErrorCode</type>
+        <definition>errors::ErrorCode themis::exporters::ExporterException::getErrorCode</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorCode</name>
+        <qualifiedname>themis::exporters::ExporterException::getErrorCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="31" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::ExporterException::getContext</definition>
+        <argsstring>() const</argsstring>
+        <name>getContext</name>
+        <qualifiedname>themis::exporters::ExporterException::getContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="32" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base exception class for all exporter errors. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="3">
+        <label>themis::exporters::ConfigException</label>
+        <link refid="classthemis_1_1exporters_1_1_config_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::exporters::ExportIOException</label>
+        <link refid="classthemis_1_1exporters_1_1_export_i_o_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::exporters::FormatException</label>
+        <link refid="classthemis_1_1exporters_1_1_format_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::exporters::PolicyDeniedException</label>
+        <link refid="classthemis_1_1exporters_1_1_policy_denied_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::exporters::QualityFilterException</label>
+        <link refid="classthemis_1_1exporters_1_1_quality_filter_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::exporters::SchemaValidationException</label>
+        <link refid="classthemis_1_1exporters_1_1_schema_validation_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::exporters::SizeLimitException</label>
+        <link refid="classthemis_1_1exporters_1_1_size_limit_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="21" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="21" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::ExporterException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::ExporterException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterException</scope><name>getErrorCode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

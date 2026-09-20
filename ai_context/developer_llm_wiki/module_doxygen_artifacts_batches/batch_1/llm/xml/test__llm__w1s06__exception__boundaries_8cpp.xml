@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__w1s06__exception__boundaries_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_w1s06_exception_boundaries.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_w1s06_exception_boundaries.cpp</label>
+        <link refid="test__llm__w1s06__exception__boundaries_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__w1s06__exception__boundaries_8cpp_1a1054aaa65811827494526f1ff667ae62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W1S06ExceptionBoundary, SkippedWithoutLLM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W1S06ExceptionBoundary</type>
+        </param>
+        <param>
+          <type>SkippedWithoutLLM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_w1s06_exception_boundaries.cpp" line="188" column="1" bodyfile="tests/llm/test_llm_w1s06_exception_boundaries.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused verification of W1-S06 exception boundary changes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Acceptance criteria for GitHub issue #5359 (W1-S06):<itemizedlist>
+<listitem><para>handleRequest() top-level catch blocks exceptions and returns HTTP 500 instead of propagating (EX-01).</para>
+</listitem><listitem><para>validateBearerToken() returns false (fail-closed) when no auth header is present (EX-02), when a Bearer token is present but no JWT validator is configured (EX-03), and when JWT validation throws (EX-04).</para>
+</listitem><listitem><para>handleOpenAIListModels() bypasses JWT gate and returns HTTP 200 with an empty list even when the plugin manager is absent (EX-05).</para>
+</listitem><listitem><para>Unknown routes beyond the OpenAI compat prefix return HTTP 404 without raising an exception (EX-06).</para>
+</listitem></itemizedlist>
+</para>
+<para>Http3Handler lifecycle changes (running_ gate, armCleanupTimer) require a live io_context + UDP socket and are verified by code review; they are documented as inspected in src/server/MODULE_GAPS.md (W1-S06 follow-up). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/llm_api_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast/http.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>boost::beast::http;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::auth;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>minimal<sp/>HTTP/1.1<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;<sp/>makeRequest(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>http::verb<sp/>method,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>auth_header<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{method,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!auth_header.empty())<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::authorization,<sp/>auth_header);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>req;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>LLMApiHandler<sp/>with<sp/>no<sp/>plugin<sp/>manager<sp/>and<sp/>no<sp/>JWT<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">W1S06NullHandlerTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>plugin_manager<sp/>+<sp/>nullopt<sp/>jwt_config<sp/>→<sp/>minimal<sp/>handler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler_<sp/>=<sp/>std::make_unique&lt;LLMApiHandler&gt;(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LLMApiHandler&gt;<sp/>handler_;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-01:<sp/>top-level<sp/>catch<sp/>in<sp/>handleRequest()<sp/>prevents<sp/>exception<sp/>propagation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>POST<sp/>to<sp/>an<sp/>authenticated<sp/>route<sp/>with<sp/>no<sp/>JWT<sp/>config<sp/>returns<sp/>HTTP<sp/>401<sp/>(not<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>thrown<sp/>exception).<sp/>We<sp/>additionally<sp/>verify<sp/>that<sp/>the<sp/>response<sp/>is<sp/>always<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>well-formed<sp/>HTTP<sp/>response<sp/>object<sp/>(not<sp/>garbage<sp/>from<sp/>an<sp/>unhandled<sp/>exception).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="bench__continuous__batch__scheduler_8cpp_1af4dded3013bd29be42db91cd188cf013" kindref="member">TEST_F</ref>(W1S06NullHandlerTest,<sp/>EX01_HandleRequestDoesNotPropagateExceptions)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::post,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/inference&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;prompt&quot;:&quot;test&quot;})&quot;);</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>401<sp/>cleanly<sp/>(no<sp/>JWT<sp/>configured<sp/>→<sp/>validateBearerToken<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>must<sp/>NOT<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler_-&gt;handleRequest(req));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>401<sp/>because<sp/>validateBearerToken()<sp/>returns<sp/>false<sp/>for<sp/>every<sp/>request<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>jwt_validator_<sp/>is<sp/>null.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::unauthorized);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-02:<sp/>No<sp/>Authorization<sp/>header<sp/>→<sp/>validateBearerToken<sp/>returns<sp/>false<sp/>→<sp/>401.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="bench__continuous__batch__scheduler_8cpp_1af4dded3013bd29be42db91cd188cf013" kindref="member">TEST_F</ref>(W1S06NullHandlerTest,<sp/>EX02_NoAuthHeader_Returns401)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler_-&gt;handleRequest(req));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::unauthorized);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-03:<sp/>Bearer<sp/>token<sp/>present<sp/>but<sp/>jwt_validator_<sp/>is<sp/>null<sp/>→<sp/>fail-closed<sp/>→<sp/>401.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="bench__continuous__batch__scheduler_8cpp_1af4dded3013bd29be42db91cd188cf013" kindref="member">TEST_F</ref>(W1S06NullHandlerTest,<sp/>EX03_BearerTokenNoJWTConfig_FailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/models&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>some.random.token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler_-&gt;handleRequest(req));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed:<sp/>no<sp/>validator<sp/>configured<sp/>→<sp/>deny.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::unauthorized);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-06:<sp/>Completely<sp/>unknown<sp/>route<sp/>returns<sp/>HTTP<sp/>404,<sp/>not<sp/>an<sp/>exception.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="bench__continuous__batch__scheduler_8cpp_1af4dded3013bd29be42db91cd188cf013" kindref="member">TEST_F</ref>(W1S06NullHandlerTest,<sp/>EX06_UnknownRoute_Returns404)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/does_not_exist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler_-&gt;handleRequest(req));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::not_found);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>LLMApiHandler<sp/>with<sp/>a<sp/>JWT<sp/>config<sp/>that<sp/>has<sp/>a<sp/>bogus<sp/>JWKS<sp/>URL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>lets<sp/>us<sp/>exercise<sp/>the<sp/>validateBearerToken()<sp/>exception-catch<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>any<sp/>real<sp/>network<sp/>or<sp/>crypto<sp/>setup.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">W1S06JWTHandlerTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bogus<sp/>URL:<sp/>JWKS<sp/>fetch<sp/>will<sp/>never<sp/>succeed,<sp/>but<sp/>the<sp/>2-part<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>below<sp/>will<sp/>throw<sp/>*before*<sp/>any<sp/>network<sp/>call<sp/>(format<sp/>check<sp/>fires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>in<sp/>parseAndValidate()).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:1/bogus-jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handler_<sp/>=<sp/>std::make_unique&lt;LLMApiHandler&gt;(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LLMApiHandler&gt;<sp/>handler_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-04:<sp/>Malformed<sp/>JWT<sp/>(only<sp/>2<sp/>parts)<sp/>→<sp/>parseAndValidate()<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>std::runtime_error(&quot;Invalid<sp/>JWT<sp/>format<sp/>(expected<sp/>3<sp/>parts)&quot;)<sp/>which<sp/>is<sp/>caught</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>by<sp/>validateBearerToken()<sp/>→<sp/>returns<sp/>false<sp/>→<sp/>handler<sp/>returns<sp/>401.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="bench__continuous__batch__scheduler_8cpp_1af4dded3013bd29be42db91cd188cf013" kindref="member">TEST_F</ref>(W1S06JWTHandlerTest,<sp/>EX04_MalformedJWT_ExceptionCaught_Returns401)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;bad.token&quot;<sp/>has<sp/>only<sp/>2<sp/>dot-separated<sp/>parts<sp/>—<sp/>guaranteed<sp/>format<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/stats&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>bad.token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler_-&gt;handleRequest(req));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::unauthorized);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>body<sp/>should<sp/>be<sp/>valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-05:<sp/>OpenAI<sp/>/v1/models<sp/>bypasses<sp/>JWT<sp/>gate<sp/>and<sp/>returns<sp/>HTTP<sp/>200<sp/>with<sp/>an</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>empty<sp/>model<sp/>list<sp/>when<sp/>no<sp/>plugins<sp/>are<sp/>registered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__llm__w1s06__exception__boundaries_8cpp_1a1054aaa65811827494526f1ff667ae62" kindref="member">TEST</ref>(W1S06OpenAICompatTest,<sp/>EX05_ListModels_NoJWT_Returns200EmptyList)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMApiHandler<sp/>handler(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/v1/models&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler.handleRequest(req));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>body;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(body<sp/>=<sp/>json::parse(res.body()));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(body.value(</highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;list&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body[</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EX-07:<sp/>OpenAI<sp/>chat-completions<sp/>invalid<sp/>request<sp/>shape<sp/>must<sp/>fail<sp/>cleanly<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>a<sp/>deterministic<sp/>HTTP<sp/>response<sp/>(no<sp/>exception<sp/>propagation).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__llm__w1s06__exception__boundaries_8cpp_1a1054aaa65811827494526f1ff667ae62" kindref="member">TEST</ref>(W1S06OpenAICompatTest,<sp/>EX07_ChatCompletionsInvalidMessages_Returns400)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMApiHandler<sp/>handler(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>makeRequest(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::verb::post,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/v1/chat/completions&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;model&quot;:&quot;demo&quot;,&quot;messages&quot;:&quot;not-an-array&quot;})&quot;);</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(res<sp/>=<sp/>handler.handleRequest(req));</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::bad_request);</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>body;</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(body<sp/>=<sp/>json::parse(res.body()));</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="preprocessor">#else<sp/></highlight><highlight class="comment">//<sp/>!THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Placeholder<sp/>when<sp/>the<sp/>LLM<sp/>feature<sp/>is<sp/>disabled<sp/>at<sp/>build<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__llm__w1s06__exception__boundaries_8cpp_1a1054aaa65811827494526f1ff667ae62" kindref="member">TEST</ref>(W1S06ExceptionBoundary,<sp/>SkippedWithoutLLM)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;W1-S06<sp/>exception<sp/>boundary<sp/>tests<sp/>require<sp/>THEMIS_ENABLE_LLM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_w1s06_exception_boundaries.cpp"/>
+  </compounddef>
+</doxygen>

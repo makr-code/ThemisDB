@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_constitutional_critique" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::ConstitutionalCritique</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a9f0d978a379864fa3fa3feb0f3545ab0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::ConstitutionalCritique::principle_id</definition>
+        <argsstring></argsstring>
+        <name>principle_id</name>
+        <qualifiedname>themis::rag::training::ConstitutionalCritique::principle_id</qualifiedname>
+        <briefdescription>
+<para>Which principle was applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="82" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1af2e954c862874cc2338f3b46bd99fd90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::ConstitutionalCritique::critique_text</definition>
+        <argsstring></argsstring>
+        <name>critique_text</name>
+        <qualifiedname>themis::rag::training::ConstitutionalCritique::critique_text</qualifiedname>
+        <briefdescription>
+<para>The AI critique of the response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="83" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a6e3ebdeee7e72ff5ad4ac0afeba37646" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::training::ConstitutionalCritique::violation_detected</definition>
+        <argsstring></argsstring>
+        <name>violation_detected</name>
+        <qualifiedname>themis::rag::training::ConstitutionalCritique::violation_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if principle was violated </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="84" column="10" bodyfile="include/rag/rlaif_trainer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a7ae6944001738e93961e286b92c1cdd6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::ConstitutionalCritique::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::rag::training::ConstitutionalCritique::severity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Severity of violation ∈ [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="85" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A constitutional AI self-critique of a candidate response. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="81" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="81" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1af2e954c862874cc2338f3b46bd99fd90" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalCritique</scope><name>critique_text</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a9f0d978a379864fa3fa3feb0f3545ab0" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalCritique</scope><name>principle_id</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a7ae6944001738e93961e286b92c1cdd6" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalCritique</scope><name>severity</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique_1a6e3ebdeee7e72ff5ad4ac0afeba37646" prot="public" virt="non-virtual"><scope>themis::rag::training::ConstitutionalCritique</scope><name>violation_detected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

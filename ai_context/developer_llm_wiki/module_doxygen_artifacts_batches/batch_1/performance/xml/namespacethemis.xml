@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1examples">themis::examples</innernamespace>
+    <innernamespace refid="namespacethemis_1_1memory">themis::memory</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rcu">themis::rcu</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>AdaptiveQueryCompiler – Implementation (v1.8.0)</para>
+<para>Hot-path architecture (template-specialisation + optional LLVM MCJIT):</para>
+<para>Query fingerprint Each unique query structure is encoded into a compact string key (ParsedQuery::fingerprint). This key is the unit of hot-path tracking and compilation caching.</para>
+<para>Cold path (call_count &lt; hot_threshold) The query is executed through <computeroutput>interpretedExecute()</computeroutput>, a generic dispatch layer that evaluates predicates, projections, aggregations, and joins row-by-row using the bound QueryParams.</para>
+<para>Compilation (call_count == hot_threshold) <computeroutput>compileSpecialisation()</computeroutput> analyses the ParsedQuery and Schema to generate a type-specialised std::function&lt;QueryResult(const QueryParams&amp;)&gt; that hard-codes: • The query operation type (no per-row op-type switch). • Predicate column types (type specialisation — avoids std::variant type-tag checks in the hot loop). • Constant-folded literal predicates (expression folding). • SIMD-friendly inner loops when enable_vectorization is set (the compiler&apos;s auto-vectoriser can see the fixed trip count). Simulated LLVM IR and assembly strings are generated for debugging and differential testing.</para>
+<para>THEMIS_HAS_LLVM_JIT (future extension) When this flag is set the compilation step additionally emits real LLVM IR, runs the MCJIT pass pipeline at the requested opt level, and stores a function pointer to native machine code. All dispatch logic is identical in both modes.</para>
+<para>Hot path (call_count &gt; hot_threshold) The cached specialised function is invoked without any dispatch overhead. The mutex is not held during the call.</para>
+<para>Adaptive recompilation Every <computeroutput>recompile_check_interval</computeroutput> hot executions the mean result-set size is compared against the baseline captured at compile time. A drift exceeding <computeroutput>recompile_drift_factor</computeroutput> evicts the cached entry and schedules recompilation at the next invocation.</para>
+<para>HardwareAccelerator – Implementation (v1.8.0, roadmap item #85)</para>
+<para>Architecture overview ───────────────────── execute() selects the best available execution path by consulting the AcceleratorConfig::device hint and the row-count thresholds in Config:</para>
+<para>GPU path (shouldUseGPU()) Used when device is GPU_CUDA or GPU_ROCM and the row count exceeds config_.gpu_row_threshold. When THEMIS_HAS_CUDA / THEMIS_HAS_ROCM is defined, real CUDA/HIP kernel calls would be issued; in this build the GPU path is simulated by a parallelised CPU implementation that represents the data-parallel structure a real GPU kernel would follow (blocked inner loops over batch_size rows, SIMD-friendly memory layout). result.used_hw_path is set to true.</para>
+<para>SIMD/VECTOR_ENGINE path (shouldUseSIMD()) Used for VECTOR_ENGINE device or when GPU threshold is not met. Operations use loop structures that enable AVX-512 / NEON auto-vectorisation by the host compiler. result.used_hw_path is set to true.</para>
+<para>CPU baseline path Generic scalar fallback for rows below simd_row_threshold or for SMART_NIC / PMEM device types (not yet hardware-offloaded).</para>
+<para>Phase 1 focus (v1.8.0): HashJoin and SortMergeJoin with GPU and SIMD dispatch paths. All other operators (Aggregate, Filter, Sort, PatternMatch, VectorOp) use the SIMD or CPU path.</para>
+<para>Thread safety ───────────── Stats are updated under stats_mutex_. All dispatch helpers are const and stateless, so they may run concurrently.</para>
+<para>IntelligentPrefetcher – Implementation (v1.8.0)</para>
+<para>Design overview ─────────────── Pattern Learning A fixed-size circular deque (history_) stores the last <computeroutput>history_size</computeroutput> (address, timestamp) pairs. On every record_access() call the engine recomputes the dominant stride by scanning the most-recent ANALYSIS_WINDOW entries, counting how many consecutive differences equal each candidate stride, and normalising to a [0,1] confidence score.</para>
+<para>Adaptive Prefetch Distance Inter-access latency (timestamp delta) is tracked via an Exponential Moving Average (EMA). When the EMA exceeds LATENCY_HIGH_NS we increase adaptive_distance_ (more aggressive prefetch); when it drops below LATENCY_LOW_NS we reduce it (avoid wasting bandwidth).</para>
+<para>Confidence Scoring confidence = (consistent_stride_count) / (window_size - 1). Only predictions with confidence &gt;= config_.confidence_threshold are returned from predict_next_accesses() and issued as prefetches.</para>
+<para>Multi-Level Prefetch Routing ≥ 0.90 → L1 (__builtin_prefetch(ptr, 0, 3)) ≥ 0.75 → L2 (__builtin_prefetch(ptr, 0, 2)) ≥ 0.60 → L3 (__builtin_prefetch(ptr, 0, 1)) &lt; 0.60 → DRAM/NTA (__builtin_prefetch(ptr, 0, 0))</para>
+<para>Feedback Loop pending_predictions_ holds the set of addresses that were issued as prefetches but not yet confirmed. Each record_access() call checks whether the incoming address was in pending_predictions_; if yes, useful_prefetches is incremented and the address is removed. Any entry that is evicted from the set without being confirmed counts as a wasted prefetch. </para>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="30" column="1"/>
+  </compounddef>
+</doxygen>

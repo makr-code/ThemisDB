@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_format_template_field_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::FormatTemplateFieldMapping</compoundname>
+    <includes refid="format__template_8h" local="no">format_template.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1a469f008553be5ad04f734282c4a1ca57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::instruction_field</definition>
+        <argsstring></argsstring>
+        <name>instruction_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::instruction_field</qualifiedname>
+        <initializer>= &quot;question&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="31" column="17" bodyfile="include/exporters/format_template.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1ab1655a44e98593c3a421b0000e2a2581" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::input_field</definition>
+        <argsstring></argsstring>
+        <name>input_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::input_field</qualifiedname>
+        <initializer>= &quot;context&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="32" column="17" bodyfile="include/exporters/format_template.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1ac6a366e7abc407d28205f222c94bc853" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::output_field</definition>
+        <argsstring></argsstring>
+        <name>output_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::output_field</qualifiedname>
+        <initializer>= &quot;answer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="33" column="17" bodyfile="include/exporters/format_template.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1a11a122db5b225de6ddaf61fd6118f013" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::system_field</definition>
+        <argsstring></argsstring>
+        <name>system_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::system_field</qualifiedname>
+        <initializer>= &quot;system_prompt&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="34" column="17" bodyfile="include/exporters/format_template.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1a897bc2f20424391de5fbe00b641cacea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::user_field</definition>
+        <argsstring></argsstring>
+        <name>user_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::user_field</qualifiedname>
+        <initializer>= &quot;user_message&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="35" column="17" bodyfile="include/exporters/format_template.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_format_template_field_mapping_1a7a27406677cf1700029f321b1acf3379" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::FormatTemplateFieldMapping::assistant_field</definition>
+        <argsstring></argsstring>
+        <name>assistant_field</name>
+        <qualifiedname>themis::exporters::FormatTemplateFieldMapping::assistant_field</qualifiedname>
+        <initializer>= &quot;assistant_response&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="36" column="17" bodyfile="include/exporters/format_template.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/format_template.h" line="30" column="1" bodyfile="include/exporters/format_template.h" bodystart="30" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1a7a27406677cf1700029f321b1acf3379" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>assistant_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1ab1655a44e98593c3a421b0000e2a2581" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>input_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1a469f008553be5ad04f734282c4a1ca57" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>instruction_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1ac6a366e7abc407d28205f222c94bc853" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>output_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1a11a122db5b225de6ddaf61fd6118f013" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>system_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_format_template_field_mapping_1a897bc2f20424391de5fbe00b641cacea" prot="public" virt="non-virtual"><scope>themis::exporters::FormatTemplateFieldMapping</scope><name>user_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

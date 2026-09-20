@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pitr__api__handler_8h" kind="file" language="C++">
+    <compoundname>pitr_api_handler.h</compoundname>
+    <includes local="yes">storage/pitr_manager.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">httplib.h</includes>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <includedby refid="pitr__api__handler_8cpp" local="yes">src/server/pitr_api_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/pitr_api_handler.h</label>
+        <link refid="pitr__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>httplib.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>storage/pitr_manager.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/pitr_api_handler.h</label>
+        <link refid="pitr__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/pitr_api_handler.cpp</label>
+        <link refid="pitr__api__handler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_p_i_t_r_api_handler" prot="public">themis::server::PITRApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/pitr_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;httplib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>(PITRManager&amp;<sp/>pitr_manager);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a88767eab16c9fc14b10eb3135a878d2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a88767eab16c9fc14b10eb3135a878d2d" kindref="member">~PITRApiHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf240ea72f9c1d7ff26362a741d1a70e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf240ea72f9c1d7ff26362a741d1a70e" kindref="member">PITRApiHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1afc05631eea0a9a6215bd0ddf646c0cbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1afc05631eea0a9a6215bd0ddf646c0cbd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac52f89a0ac726e433b381d99d78e4b8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac52f89a0ac726e433b381d99d78e4b8a" kindref="member">PITRApiHandler</ref>(<ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1add37467edfce5b14c4c391a5c59b1bf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a809fa39227be2b199d050b9c71d448b3" kindref="member">registerRoutes</ref>(<ref refid="namespacehttplib" kindref="compound">httplib</ref>::Server&amp;<sp/><ref refid="namespacethemis_1_1server" kindref="compound">server</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1affa57892f7c917f0cfb88655f2f128ce" kindref="member">handleRestore</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf2c0a3c71f7e63eddde16d44fee201f" kindref="member">handlePreview</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac9424617b7a305008290668965e32d2d" kindref="member">handleGetProgress</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>PITRManager&amp;<sp/>pitr_manager_;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>PITRManager::RestoreOptions<sp/>parseRestoreOptions(const<sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>options_json)<sp/>const;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>progressToJson(const<sp/>PITRManager::RestoreProgress&amp;<sp/>progress)<sp/>const;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>previewToJson(const<sp/>PITRManager::RestorePreview&amp;<sp/>preview)<sp/>const;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>statusToJson(const<sp/>PITRManager::Status&amp;<sp/>status)<sp/>const;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>phaseToString(PITRManager::RestoreProgress::Phase<sp/>phase)<sp/>const;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendError(<ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>message)<sp/>const;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendJson(<ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res,<sp/>const<sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code<sp/>=<sp/>200)<sp/>const;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/pitr_api_handler.h"/>
+  </compounddef>
+</doxygen>

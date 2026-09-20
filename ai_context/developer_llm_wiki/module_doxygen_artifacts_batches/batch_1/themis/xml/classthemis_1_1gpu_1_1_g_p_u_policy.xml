@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUPolicy</compoundname>
+    <includes refid="policy_8h" local="no">policy.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_policy_1_1_policy_decision" prot="public">themis::gpu::GPUPolicy::PolicyDecision</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Capability</name>
+        <qualifiedname>themis::gpu::GPUPolicy::Capability</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa2a560501b804c1321280db10c832850b" prot="public">
+          <name>GPU_ALLOCATE</name>
+          <briefdescription>
+<para>May call TryAllocateGPU / ValidateAllocation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa2f80759beadd85d760b869a0ece04740" prot="public">
+          <name>GPU_FREE</name>
+          <briefdescription>
+<para>May call DeallocateGPU. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aad6ee7c8b3b07e7836b674a39bfc78a88" prot="public">
+          <name>GPU_ADMIN</name>
+          <briefdescription>
+<para>May access stats, admin endpoints, dry-run. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa08b979ad9b973e4792f82681bc4880c1" prot="public">
+          <name>GPU_ANY</name>
+          <briefdescription>
+<para>Wildcard — all GPU capabilities. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="43" column="5" bodyfile="include/themis/gpu/policy.h" bodystart="43" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_policy_1abc8335e218ebe82d4816dbd9d77cfac6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUPolicy::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUPolicy::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="132" column="24" bodyfile="include/themis/gpu/policy.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_policy_1ae3a769b426472df0f8840b2ae298ff0d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;int&gt; &gt; themis::gpu::GPUPolicy::grants_</definition>
+        <argsstring></argsstring>
+        <name>grants_</name>
+        <qualifiedname>themis::gpu::GPUPolicy::grants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="136" column="3" bodyfile="include/themis/gpu/policy.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1ab1db162ea78f4eb522f6290d33d8aa68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUPolicy::GPUPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUPolicy</name>
+        <qualifiedname>themis::gpu::GPUPolicy::GPUPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1ad74c2bcd391f5a97b348de28d25fb4a8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUPolicy::GPUPolicy</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pre_granted_callers)</argsstring>
+        <name>GPUPolicy</name>
+        <qualifiedname>themis::gpu::GPUPolicy::GPUPolicy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pre_granted_callers</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a set of pre-granted callers (for tests / bootstrap). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="68" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a8b7a2e0712cbcf33da5e5cc4694a9958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUPolicy::grant</definition>
+        <argsstring>(const std::string &amp;caller_id, Capability cap=Capability::GPU_ANY)</argsstring>
+        <name>grant</name>
+        <qualifiedname>themis::gpu::GPUPolicy::grant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>cap</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa08b979ad9b973e4792f82681bc4880c1" kindref="member">Capability::GPU_ANY</ref></defval>
+        </param>
+        <briefdescription>
+<para>Grant a specific capability to <computeroutput>caller_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>cap</computeroutput> is <computeroutput>GPU_ANY</computeroutput>, all capabilities are granted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="79" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a295e51d6da40946c120da15ed72f2abc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUPolicy::revoke</definition>
+        <argsstring>(const std::string &amp;caller_id, Capability cap=Capability::GPU_ANY)</argsstring>
+        <name>revoke</name>
+        <qualifiedname>themis::gpu::GPUPolicy::revoke</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>cap</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa08b979ad9b973e4792f82681bc4880c1" kindref="member">Capability::GPU_ANY</ref></defval>
+        </param>
+        <briefdescription>
+<para>Revoke a specific capability from <computeroutput>caller_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>cap</computeroutput> is <computeroutput>GPU_ANY</computeroutput>, all capabilities are revoked. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="86" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1ae2e1da728f5fcabbddf01c36555efd88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUPolicy::revokeAll</definition>
+        <argsstring>(const std::string &amp;caller_id)</argsstring>
+        <name>revokeAll</name>
+        <qualifiedname>themis::gpu::GPUPolicy::revokeAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke all capabilities from <computeroutput>caller_id</computeroutput> and remove the entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="91" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a4db73121ce626233414e5d893271cca9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_policy_1_1_policy_decision" kindref="compound">PolicyDecision</ref></type>
+        <definition>PolicyDecision themis::gpu::GPUPolicy::check</definition>
+        <argsstring>(const std::string &amp;caller_id, Capability cap=Capability::GPU_ALLOCATE) const</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::gpu::GPUPolicy::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>cap</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa2a560501b804c1321280db10c832850b" kindref="member">Capability::GPU_ALLOCATE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Check whether <computeroutput>caller_id</computeroutput> holds <computeroutput>cap</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default-deny: returns denied decision if the caller is unknown or if the specific capability has not been granted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="103" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a0eb31bce04b7e860b7c1c690cd121a10" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUPolicy::isAllowed</definition>
+        <argsstring>(const std::string &amp;caller_id, Capability cap=Capability::GPU_ALLOCATE) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::gpu::GPUPolicy::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>cap</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803aa2a560501b804c1321280db10c832850b" kindref="member">Capability::GPU_ALLOCATE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Returns true if <computeroutput>caller_id</computeroutput> is allowed <computeroutput>cap</computeroutput> (convenience wrapper). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="109" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a9e150b6425a3fc2cc7f101652d87bc9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::GPUPolicy::grantedCallers</definition>
+        <argsstring>() const</argsstring>
+        <name>grantedCallers</name>
+        <qualifiedname>themis::gpu::GPUPolicy::grantedCallers</qualifiedname>
+        <briefdescription>
+<para>List all caller IDs that currently hold at least one capability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="119" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a07649cc89303858d918d30c50166be8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref> &gt;</type>
+        <definition>std::vector&lt; Capability &gt; themis::gpu::GPUPolicy::capabilitiesOf</definition>
+        <argsstring>(const std::string &amp;caller_id) const</argsstring>
+        <name>capabilitiesOf</name>
+        <qualifiedname>themis::gpu::GPUPolicy::capabilitiesOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_id</declname>
+        </param>
+        <briefdescription>
+<para>List capabilities held by <computeroutput>caller_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="124" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a5e8bb46412115c2f67a897f86dd9c2fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUPolicy::grantedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>grantedCount</name>
+        <qualifiedname>themis::gpu::GPUPolicy::grantedCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of callers with at least one capability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="129" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a293887f85bc09fcbb9e3750e6b433692" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::gpu::GPUPolicy::cap_to_int</definition>
+        <argsstring>(Capability c)</argsstring>
+        <name>cap_to_int</name>
+        <qualifiedname>themis::gpu::GPUPolicy::cap_to_int</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="138" column="16" bodyfile="include/themis/gpu/policy.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_policy_1a568f5ee8caaf120b778c2910ce06a063" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUPolicy::hasCapability</definition>
+        <argsstring>(const std::string &amp;id, Capability cap) const</argsstring>
+        <name>hasCapability</name>
+        <qualifiedname>themis::gpu::GPUPolicy::hasCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/policy.h" line="140" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Policy-gated GPU usage controller. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a default-deny access model for GPU resources:<itemizedlist>
+<listitem><para>New callers and tenants are denied GPU access until explicitly granted.</para>
+</listitem><listitem><para>Each caller (identified by a string ID) may hold one or more <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" kindref="member">Capability</ref></computeroutput> grants.</para>
+</listitem><listitem><para>A <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_policy_1_1_policy_decision" kindref="compound">PolicyDecision</ref></computeroutput> carries the result and a human-readable reason, suitable for structured logging and audit trails.</para>
+</listitem></itemizedlist>
+</para>
+<para>This is intentionally decoupled from the memory manager so that policy enforcement can be composed with allocation without circular dependencies.</para>
+<para>Thread safety: all methods are protected by an internal mutex. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/policy.h" line="38" column="1" bodyfile="include/themis/gpu/policy.h" bodystart="38" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a293887f85bc09fcbb9e3750e6b433692" prot="private" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>cap_to_int</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a07649cc89303858d918d30c50166be8c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>capabilitiesOf</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a7f18eea3e9eb50c926d742506846803a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>Capability</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a4db73121ce626233414e5d893271cca9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>check</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1ab1db162ea78f4eb522f6290d33d8aa68" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>GPUPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1ad74c2bcd391f5a97b348de28d25fb4a8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>GPUPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a8b7a2e0712cbcf33da5e5cc4694a9958" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>grant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a9e150b6425a3fc2cc7f101652d87bc9c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>grantedCallers</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a5e8bb46412115c2f67a897f86dd9c2fd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>grantedCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1ae3a769b426472df0f8840b2ae298ff0d" prot="private" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>grants_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a568f5ee8caaf120b778c2910ce06a063" prot="private" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>hasCapability</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a0eb31bce04b7e860b7c1c690cd121a10" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1abc8335e218ebe82d4816dbd9d77cfac6" prot="private" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1a295e51d6da40946c120da15ed72f2abc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>revoke</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_policy_1ae2e1da728f5fcabbddf01c36555efd88" prot="public" virt="non-virtual"><scope>themis::gpu::GPUPolicy</scope><name>revokeAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

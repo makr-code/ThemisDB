@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_use_after_move_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::UseAfterMoveException</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_move_violation_exception" prot="public" virt="non-virtual">themis::security::MoveViolationException</basecompoundref>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_use_after_move_exception_1aa3774d7065f78cbc894468787378096f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::UseAfterMoveException::UseAfterMoveException</definition>
+        <argsstring>()</argsstring>
+        <name>UseAfterMoveException</name>
+        <qualifiedname>themis::security::UseAfterMoveException::UseAfterMoveException</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="57" column="3" bodyfile="include/security/safe_move.h" bodystart="57" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when use-after-move is detected. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::logic_error</label>
+      </node>
+      <node id="2">
+        <label>themis::security::MoveViolationException</label>
+        <link refid="classthemis_1_1security_1_1_move_violation_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::UseAfterMoveException</label>
+        <link refid="classthemis_1_1security_1_1_use_after_move_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::logic_error</label>
+      </node>
+      <node id="2">
+        <label>themis::security::MoveViolationException</label>
+        <link refid="classthemis_1_1security_1_1_move_violation_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::UseAfterMoveException</label>
+        <link refid="classthemis_1_1security_1_1_use_after_move_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/safe_move.h" line="55" column="1" bodyfile="include/security/safe_move.h" bodystart="55" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_violation_exception_1a1edd503b485a68db235df6f5365649b7" prot="public" virt="non-virtual"><scope>themis::security::UseAfterMoveException</scope><name>MoveViolationException</name></member>
+      <member refid="classthemis_1_1security_1_1_use_after_move_exception_1aa3774d7065f78cbc894468787378096f" prot="public" virt="non-virtual"><scope>themis::security::UseAfterMoveException</scope><name>UseAfterMoveException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

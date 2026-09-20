@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::BuddyAllocator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1acbdb49af373dca6e6b94482c5c746294" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; uint8_t[]&gt;</type>
+        <definition>std::unique_ptr&lt;uint8_t[]&gt; themis::memory::BuddyAllocator::Impl::memory</definition>
+        <argsstring></argsstring>
+        <name>memory</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::memory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="86" column="21" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a32a6f3c8adf098dbae8bc973057ff1f0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::BuddyAllocator::Impl::total_size</definition>
+        <argsstring></argsstring>
+        <name>total_size</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::total_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="87" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a118ea3cb4fb16eb70d9aecb1712a9fcb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::BuddyAllocator::Impl::min_block_size</definition>
+        <argsstring></argsstring>
+        <name>min_block_size</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::min_block_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="88" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a745e1b60d595c3590b89de21d11e260b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::BuddyAllocator::Impl::max_order</definition>
+        <argsstring></argsstring>
+        <name>max_order</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::max_order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="89" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1aa1fa7a68bb27915ed506c178b523a1a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uintptr_t &gt;</type>
+        <definition>std::vector&lt;uintptr_t&gt; themis::memory::BuddyAllocator::Impl::free_list_heads</definition>
+        <argsstring></argsstring>
+        <name>free_list_heads</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::free_list_heads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="92" column="17" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1abf0d5bb2e16de0170a74fd0fb44d6800" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uintptr_t, <ref refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block" kindref="compound">Block</ref> &gt;</type>
+        <definition>std::map&lt;uintptr_t, Block&gt; themis::memory::BuddyAllocator::Impl::blocks</definition>
+        <argsstring></argsstring>
+        <name>blocks</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="95" column="14" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1aac253e8daf74789048f564e6bde87ef2" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::memory::BuddyAllocator::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="97" column="16" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1afb35dd8bb0cb070dfa12f39235b1bbcd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::BuddyAllocator::Impl::Impl</definition>
+        <argsstring>(size_t total, size_t min_block)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::Impl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="99" column="5" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="99" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a4499d28408ef397e5c96976bdc9bc235" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::BuddyAllocator::Impl::~Impl</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1abbb8b0f472d044b205bfdc088726c792" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::BuddyAllocator::Impl::getOrder</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>getOrder</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::getOrder</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Get Order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getOrder without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="144" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1ab33c2ab3037333cc3c3992f62322a0f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::memory::BuddyAllocator::Impl::allocateBlock</definition>
+        <argsstring>(size_t order)</argsstring>
+        <name>allocateBlock</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::allocateBlock</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+<para>Allocate <ref refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="160" column="10" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="160" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a9fd21a96026a7d444c1c2224794d6bef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::memory::BuddyAllocator::Impl::deallocateBlock</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocateBlock</name>
+        <qualifiedname>themis::memory::BuddyAllocator::Impl::deallocateBlock</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate <ref refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), <ref refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1abbb8b0f472d044b205bfdc088726c792" kindref="member">getOrder()</ref>, std::min(), erase(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="204" column="10" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="204" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/memory/pool_allocator.cpp" line="85" column="1" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="85" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1ab33c2ab3037333cc3c3992f62322a0f5" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>allocateBlock</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1abf0d5bb2e16de0170a74fd0fb44d6800" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>blocks</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a9fd21a96026a7d444c1c2224794d6bef" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>deallocateBlock</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1aa1fa7a68bb27915ed506c178b523a1a3" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>free_list_heads</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1abbb8b0f472d044b205bfdc088726c792" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>getOrder</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1afb35dd8bb0cb070dfa12f39235b1bbcd" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a745e1b60d595c3590b89de21d11e260b" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>max_order</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1acbdb49af373dca6e6b94482c5c746294" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>memory</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a118ea3cb4fb16eb70d9aecb1712a9fcb" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>min_block_size</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1aac253e8daf74789048f564e6bde87ef2" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a32a6f3c8adf098dbae8bc973057ff1f0" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>total_size</name></member>
+      <member refid="structthemis_1_1memory_1_1_buddy_allocator_1_1_impl_1a4499d28408ef397e5c96976bdc9bc235" prot="public" virt="non-virtual"><scope>themis::memory::BuddyAllocator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1imrg_1_1_raw_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::imrg::RawRow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a1b8685733272315e55631fb646857dc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::imrg::RawRow::cells[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>cells</name>
+        <qualifiedname>themis::bench::imrg::RawRow::cells</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="114" column="17" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a99183bc130d343f73c6dd172596de1ca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::RawRow::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::bench::imrg::RawRow::count</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="115" column="17" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a93fd1faf8c71028ab73d522a74d6cdbe" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::imrg::RawRow::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::bench::imrg::RawRow::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="116" column="10" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="113" column="1" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="113" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a1b8685733272315e55631fb646857dc4" prot="public" virt="non-virtual"><scope>themis::bench::imrg::RawRow</scope><name>cells</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a99183bc130d343f73c6dd172596de1ca" prot="public" virt="non-virtual"><scope>themis::bench::imrg::RawRow</scope><name>count</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_raw_row_1a93fd1faf8c71028ab73d522a74d6cdbe" prot="public" virt="non-virtual"><scope>themis::bench::imrg::RawRow</scope><name>isValid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

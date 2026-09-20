@@ -1,0 +1,821 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="edition_8h" kind="file" language="C++">
+    <compoundname>edition.h</compoundname>
+    <includes local="no">string_view</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bench__themis__core_8cpp" local="yes">benchmarks/themis/bench_themis_core.cpp</includedby>
+    <includedby refid="build__info_8h" local="yes">include/themis/build_info.h</includedby>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <includedby refid="device__discovery_8h" local="yes">include/themis/gpu/device_discovery.h</includedby>
+    <includedby refid="feature__flags_8h" local="yes">include/themis/gpu/feature_flags.h</includedby>
+    <includedby refid="memory__manager_8h" local="yes">include/themis/gpu/memory_manager.h</includedby>
+    <includedby refid="build__info_8cpp" local="yes">src/themis/build_info.cpp</includedby>
+    <includedby refid="test__themis__integration_8cpp" local="yes">tests/themis/test_themis_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/themis/bench_themis_core.cpp</label>
+        <link refid="bench__themis__core_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/themis/build_info.h</label>
+        <link refid="build__info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/themis/gpu/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+      </node>
+      <node id="9">
+        <label>include/themis/gpu/cluster_coordinator.h</label>
+        <link refid="cluster__coordinator_8h"/>
+      </node>
+      <node id="10">
+        <label>include/themis/gpu/cluster_topology.h</label>
+        <link refid="cluster__topology_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/themis/gpu/device_discovery.h</label>
+        <link refid="device__discovery_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/themis/gpu/feature_flags.h</label>
+        <link refid="feature__flags_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+      <node id="11">
+        <label>include/themis/gpu/load_balancer.h</label>
+        <link refid="load__balancer_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/themis/gpu/memory_manager.h</label>
+        <link refid="memory__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/themis/gpu/mig_manager.h</label>
+        <link refid="mig__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/themis/gpu/p2p_transfer.h</label>
+        <link refid="p2p__transfer_8h"/>
+      </node>
+      <node id="4">
+        <label>src/themis/build_info.cpp</label>
+        <link refid="build__info_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1edition_1_1_edition_info" prot="public">themis::edition::EditionInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1edition">themis::edition</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="edition_8h_1a631d00d2a24805a86193061aaaaa0692" prot="public" static="no">
+        <name>THEMIS_EDITION_STRING</name>
+        <initializer>&quot;COMMUNITY&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="49" column="9" bodyfile="include/themis/edition.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a71ea11d0a508ff66e3e15a5a6db6b0b2" prot="public" static="no">
+        <name>THEMIS_GPU_MAX_VRAM_GB</name>
+        <initializer>16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="95" column="9" bodyfile="include/themis/edition.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ac9d24cb9ec31a4e023e48c21e96ee7d7" prot="public" static="no">
+        <name>THEMIS_SHARDING_MAX_NODES</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="108" column="9" bodyfile="include/themis/edition.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ac15188e666fcec51c0f01057da5e15ea" prot="public" static="no">
+        <name>THEMIS_LLM_MAX_CONTEXT_TOKENS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="137" column="9" bodyfile="include/themis/edition.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a3b9e4e680989313eccfda42f7f4d2524" prot="public" static="no">
+        <name>THEMIS_LLM_MAX_MODEL_INSTANCES</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="144" column="9" bodyfile="include/themis/edition.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a1aea07b314805c4e78918f32754e88c3" prot="public" static="no">
+        <name>THEMIS_LLM_MAX_VRAM_PER_MODEL_MB</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="151" column="9" bodyfile="include/themis/edition.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a192e4baed7dfe5a506335d792e928601" prot="public" static="no">
+        <name>THEMIS_TENANT_MAX_STORAGE_BYTES</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="158" column="9" bodyfile="include/themis/edition.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ae4b71b3b45a4072dfbc0a987b1fff9eb" prot="public" static="no">
+        <name>THEMIS_TENANT_MAX_DOCUMENTS</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="164" column="9" bodyfile="include/themis/edition.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a62fb45c5adf2eb74b63b9adead37abb4" prot="public" static="no">
+        <name>THEMIS_TENANT_MAX_COLLECTIONS</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="170" column="9" bodyfile="include/themis/edition.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a3595702d8938fb084a6c22cff4d8bad5" prot="public" static="no">
+        <name>THEMIS_TENANT_MAX_CONCURRENT_QUERIES</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="176" column="9" bodyfile="include/themis/edition.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a9a07f40c0c0bf3f4983c3870371fcebb" prot="public" static="no">
+        <name>THEMIS_TENANT_MAX_REQUESTS_PER_SECOND</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="182" column="9" bodyfile="include/themis/edition.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a3bba120792ed38a5b88057d7f30e8ab2" prot="public" static="no">
+        <name>THEMIS_QUERY_MAX_GRAPHQL_DEPTH</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="189" column="9" bodyfile="include/themis/edition.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a566a3a7c6a3dae80370f516174fb6775" prot="public" static="no">
+        <name>THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="195" column="9" bodyfile="include/themis/edition.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a80ec47765f88a1119cd6ea609481d0f1" prot="public" static="no">
+        <name>THEMIS_QUERY_MAX_PAYLOAD_BYTES</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="201" column="9" bodyfile="include/themis/edition.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ae4602dd03f3da3b74dc0277609aa8583" prot="public" static="no">
+        <name>THEMIS_QUERY_MAX_RESULT_ROWS</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="207" column="9" bodyfile="include/themis/edition.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ab4b3aefe418a25cbd7fb7dc2c1d4c5d4" prot="public" static="no">
+        <name>THEMIS_CONNECTION_MAX_HTTP2_STREAMS</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="214" column="9" bodyfile="include/themis/edition.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a1ee86b0894e5d60d64e3620802a40b03" prot="public" static="no">
+        <name>THEMIS_CONNECTION_MAX_SSE_CONNECTIONS</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="220" column="9" bodyfile="include/themis/edition.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ae9d32e54a7c19e9c8aebd4c57b519d31" prot="public" static="no">
+        <name>THEMIS_CONNECTION_MAX_TOTAL</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="226" column="9" bodyfile="include/themis/edition.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a1025cab85cbb317d9150a20d28b605a0" prot="public" static="no">
+        <name>THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="232" column="9" bodyfile="include/themis/edition.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1abf8e36abf55f84af214d2dd98092e0f2" prot="public" static="no">
+        <name>THEMIS_STORAGE_MAX_BACKGROUND_JOBS</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="239" column="9" bodyfile="include/themis/edition.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1a87deb176272e295bbebf176fcd4483e8" prot="public" static="no">
+        <name>THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="245" column="9" bodyfile="include/themis/edition.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1aae5f05f9c086ecce57601d419849b1c3" prot="public" static="no">
+        <name>THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="251" column="9" bodyfile="include/themis/edition.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="edition_8h_1ac8bc94909a1b9e98da46029d8ac5d15e" prot="public" static="no">
+        <name>THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS</name>
+        <initializer>0ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="258" column="9" bodyfile="include/themis/edition.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>Themis<sp/>Edition<sp/>Configuration<sp/>(v1.3.5+)</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>========================================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Compile-time<sp/>edition<sp/>selection<sp/>and<sp/>feature<sp/>gating.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>This<sp/>header<sp/>is<sp/>automatically<sp/>configured<sp/>by<sp/>CMakeLists.txt</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>during<sp/>the<sp/>build<sp/>process<sp/>based<sp/>on<sp/>-DTHEMIS_EDITION<sp/>setting.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>Five<sp/>editions<sp/>are<sp/>supported:</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>-<sp/>MINIMAL:<sp/><sp/><sp/><sp/><sp/>Lightweight/embedded<sp/>(0<sp/>GB<sp/>GPU<sp/>VRAM<sp/>cap<sp/>—<sp/>CPU<sp/>fallback<sp/>enforced,<sp/>1<sp/>node)</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>-<sp/>COMMUNITY:<sp/><sp/><sp/>Free,<sp/>open-source<sp/>(16<sp/>GB<sp/>GPU<sp/>VRAM<sp/>—<sp/>1×<sp/>Tesla<sp/>T4,<sp/>up<sp/>to<sp/>5<sp/>nodes)</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>-<sp/>ENTERPRISE:<sp/><sp/>Paid<sp/>subscription<sp/>(320<sp/>GB<sp/>GPU<sp/>VRAM<sp/>—<sp/>4×<sp/>A100<sp/>80<sp/>GB,<sp/>up<sp/>to<sp/>100<sp/>nodes)</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>-<sp/>MILITARY:<sp/><sp/><sp/><sp/>Hardened/air-gapped<sp/>(80<sp/>GB<sp/>GPU<sp/>VRAM<sp/>—<sp/>2×<sp/>A100<sp/>40<sp/>GB,<sp/>up<sp/>to<sp/>50<sp/>nodes)</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>-<sp/>HYPERSCALER:<sp/>OEM/Custom<sp/>(unlimited<sp/>VRAM<sp/>and<sp/>nodes)</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/>GPU<sp/>availability:<sp/>all<sp/>editions<sp/>compile<sp/>with<sp/>THEMIS_ENABLE_GPU=ON<sp/>and</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/>use<sp/>a<sp/>CPU<sp/>fallback<sp/>path.<sp/><sp/>The<sp/>edition<sp/>VRAM<sp/>cap<sp/>(GPU_MAX_VRAM_GB)<sp/>governs</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/>whether<sp/>real<sp/>GPU<sp/>execution<sp/>is<sp/>permitted<sp/>at<sp/>runtime:<sp/>a<sp/>cap<sp/>of<sp/>0<sp/>means</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/>GPU<sp/>execution<sp/>is<sp/>disabled<sp/>and<sp/>every<sp/>call<sp/>is<sp/>transparently<sp/>redirected<sp/>to</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>the<sp/>CPU<sp/>fallback<sp/>(MINIMAL<sp/>edition).</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1edition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1edition" kindref="compound">edition</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMPILE-TIME<sp/>EDITION<sp/>IDENTIFIER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>values<sp/>are<sp/>set<sp/>by<sp/>CMakeLists.txt<sp/>at<sp/>build<sp/>time<sp/>and<sp/>embedded<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>executable<sp/>as<sp/>compile-time<sp/>constants.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provide<sp/>default<sp/>values<sp/>if<sp/>not<sp/>defined<sp/>by<sp/>CMake</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_EDITION_STRING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="edition_8h_1a631d00d2a24805a86193061aaaaa0692" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_EDITION_STRING<sp/>&quot;COMMUNITY&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>=<sp/><ref refid="edition_8h_1a631d00d2a24805a86193061aaaaa0692" kindref="member">THEMIS_EDITION_STRING</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edition<sp/>type<sp/>enumeration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea02f2534ad4997e23ec250e1015eeb929" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea02f2534ad4997e23ec250e1015eeb929" kindref="member">MINIMAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lightweight/embedded<sp/>edition<sp/>(CPU<sp/>fallback,<sp/>no<sp/>GPU<sp/>execution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea306f14e5ed6e4f8b237eaa58359fa3b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea306f14e5ed6e4f8b237eaa58359fa3b2" kindref="member">COMMUNITY</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free/open-source<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea4d4afda25a3f52041ee1b569157130b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea4d4afda25a3f52041ee1b569157130b8" kindref="member">ENTERPRISE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Paid<sp/>subscription<sp/>edition<sp/>(100<sp/>nodes<sp/>max)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6eaa95bd970dd783c80baccae2b226e6038" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6eaa95bd970dd783c80baccae2b226e6038" kindref="member">MILITARY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hardened/air-gapped<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea58adf999cd140b440d479e2cbdbe4c06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea58adf999cd140b440d479e2cbdbe4c06" kindref="member">HYPERSCALER</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OEM/custom<sp/>edition<sp/>(unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>for<sp/>unrecognized<sp/>editions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>edition<sp/>type<sp/>from<sp/>compile-time<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1edition_1ae1c7d419c1bf327a2f5b34705ff8dd3b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref><sp/><ref refid="namespacethemis_1_1edition_1ae1c7d419c1bf327a2f5b34705ff8dd3b" kindref="member">GetEditionType</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;MINIMAL&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea02f2534ad4997e23ec250e1015eeb929" kindref="member">EditionType::MINIMAL</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;COMMUNITY&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea306f14e5ed6e4f8b237eaa58359fa3b2" kindref="member">EditionType::COMMUNITY</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ENTERPRISE&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea4d4afda25a3f52041ee1b569157130b8" kindref="member">EditionType::ENTERPRISE</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;MILITARY&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6eaa95bd970dd783c80baccae2b226e6038" kindref="member">EditionType::MILITARY</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;HYPERSCALER&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea58adf999cd140b440d479e2cbdbe4c06" kindref="member">EditionType::HYPERSCALER</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">EditionType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HARDWARE<sp/>CONSTRAINTS<sp/>(Edition-specific<sp/>limits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>Memory<sp/>constraints<sp/>(VRAM<sp/>limit<sp/>in<sp/>GB)<sp/>—<sp/>multi-GPU<sp/>total<sp/>per<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>limits<sp/>reflect<sp/>cumulative<sp/>VRAM<sp/>across<sp/>all<sp/>GPUs<sp/>in<sp/>a<sp/>single<sp/>system<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MINIMAL:<sp/><sp/><sp/><sp/><sp/>0<sp/>GB<sp/><sp/>—<sp/>no<sp/>GPU;<sp/>CPU<sp/>fallback<sp/>enforced<sp/>(IoT/embedded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/><sp/>16<sp/>GB<sp/><sp/>—<sp/>1×<sp/>Tesla<sp/>T4<sp/>(16<sp/>GB)<sp/>—<sp/>entry-level<sp/>inference<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>320<sp/>GB<sp/>—<sp/>4×<sp/>A100<sp/>80<sp/>GB<sp/><sp/><sp/><sp/><sp/><sp/><sp/>—<sp/>standard<sp/>4-GPU<sp/>server<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MILITARY:<sp/><sp/><sp/><sp/>80<sp/>GB<sp/>—<sp/>2×<sp/>A100<sp/>40<sp/>GB<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>—<sp/>controlled<sp/>air-gapped<sp/>deployment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>0<sp/><sp/><sp/><sp/><sp/>—<sp/>unlimited<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>—<sp/>OEM,<sp/>custom<sp/>cluster<sp/>deployments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>(no<sp/>CMake<sp/>edition<sp/>specified)<sp/>matches<sp/>COMMUNITY<sp/>to<sp/>stay<sp/>conservative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_GPU_MAX_VRAM_GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="edition_8h_1a71ea11d0a508ff66e3e15a5a6db6b0b2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_GPU_MAX_VRAM_GB<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1edition_1a6e395f121298558660f73977ffc2c717" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a6e395f121298558660f73977ffc2c717" kindref="member">GPU_MAX_VRAM_GB</ref><sp/>=<sp/><ref refid="edition_8h_1a71ea11d0a508ff66e3e15a5a6db6b0b2" kindref="member">THEMIS_GPU_MAX_VRAM_GB</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sharding<sp/>constraints<sp/>(maximum<sp/>number<sp/>of<sp/>shard<sp/>nodes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MINIMAL:<sp/><sp/><sp/><sp/><sp/>1<sp/><sp/><sp/>(single-node<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/><sp/><sp/>5<sp/><sp/><sp/>(small<sp/>clusters,<sp/>HA<sp/>setups,<sp/>startups)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>100<sp/><sp/>(distributed<sp/>deployment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MILITARY:<sp/><sp/><sp/><sp/>50<sp/><sp/>(controlled,<sp/>air-gapped<sp/>clusters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/><sp/>0<sp/><sp/>—<sp/>unlimited<sp/>(massive<sp/>clustering)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>(no<sp/>CMake<sp/>edition<sp/>specified)<sp/>matches<sp/>MINIMAL<sp/>to<sp/>stay<sp/>conservative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_SHARDING_MAX_NODES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="edition_8h_1ac9d24cb9ec31a4e023e48c21e96ee7d7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_SHARDING_MAX_NODES<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1edition_1a6c6823dc5c27228bbb08357e9819a263" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a6c6823dc5c27228bbb08357e9819a263" kindref="member">SHARDING_MAX_NODES</ref><sp/>=<sp/><ref refid="edition_8h_1ac9d24cb9ec31a4e023e48c21e96ee7d7" kindref="member">THEMIS_SHARDING_MAX_NODES</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RESOURCE<sp/>POLICY<sp/>CEILINGS<sp/>(compile-time<sp/>Defense-in-Depth<sp/>hard<sp/>limits)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convention<sp/>for<sp/>&quot;unlimited&quot;:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Counts<sp/>(model<sp/>instances,<sp/>connections,<sp/>jobs):<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Byte<sp/>sizes<sp/>and<sp/>per-second<sp/>rates:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>values<sp/>start<sp/>at<sp/>unlimited<sp/>so<sp/>that<sp/>deployments<sp/>without<sp/>explicit<sp/>tuning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>experience<sp/>no<sp/>artificial<sp/>constraints.<sp/><sp/>Edition-aware<sp/>CMake<sp/>builds<sp/>may</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>override<sp/>these<sp/>via<sp/>the<sp/>corresponding<sp/>THEMIS_*<sp/>defines.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Policy<sp/>chain<sp/>(low<sp/>to<sp/>high<sp/>priority):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>constexpr<sp/>ceiling<sp/><sp/>(this<sp/>block<sp/>—<sp/>never<sp/>overridable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>RuntimeLicenseGate<sp/>(edition<sp/>tier)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Signed<sp/>plugin<sp/><sp/><sp/><sp/><sp/><sp/>(fine-tuning<sp/>within<sp/>ceiling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Operational<sp/>config<sp/>(per-deployment<sp/>tuning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exception:<sp/>Group<sp/>6<sp/>(WASM<sp/>sandbox<sp/>memory)<sp/>is<sp/>a<sp/>Security-Boundary<sp/>and<sp/>MUST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NOT<sp/>receive<sp/>a<sp/>plugin-policy<sp/>override<sp/>layer.<sp/><sp/>It<sp/>is<sp/>enforced<sp/>separately<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>not<sp/>part<sp/>of<sp/>the<sp/>edition-policy<sp/>plugin<sp/>contract.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>4:<sp/>LLM<sp/>resource<sp/>limits<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM_MAX_CONTEXT_TOKENS:<sp/><sp/><sp/><sp/>maximum<sp/>prompt+completion<sp/>tokens<sp/>per<sp/>inference.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_LLM_MAX_CONTEXT_TOKENS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="edition_8h_1ac15188e666fcec51c0f01057da5e15ea" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_LLM_MAX_CONTEXT_TOKENS<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1_1edition_1a339797db2dc7f597f9a2456fe507a0bd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="namespacethemis_1_1edition_1a339797db2dc7f597f9a2456fe507a0bd" kindref="member">LLM_MAX_CONTEXT_TOKENS</ref><sp/>=<sp/><ref refid="edition_8h_1ac15188e666fcec51c0f01057da5e15ea" kindref="member">THEMIS_LLM_MAX_CONTEXT_TOKENS</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM_MAX_MODEL_INSTANCES:<sp/><sp/><sp/>maximum<sp/>concurrently<sp/>loaded<sp/>model<sp/>instances.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-1<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_LLM_MAX_MODEL_INSTANCES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="edition_8h_1a3b9e4e680989313eccfda42f7f4d2524" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_LLM_MAX_MODEL_INSTANCES<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1edition_1ac2c4e7974ebaf6ae04e8eeef4ac58f65" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="namespacethemis_1_1edition_1ac2c4e7974ebaf6ae04e8eeef4ac58f65" kindref="member">LLM_MAX_MODEL_INSTANCES</ref><sp/>=<sp/><ref refid="edition_8h_1a3b9e4e680989313eccfda42f7f4d2524" kindref="member">THEMIS_LLM_MAX_MODEL_INSTANCES</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM_MAX_VRAM_PER_MODEL_MB:<sp/>maximum<sp/>VRAM<sp/>per<sp/>model<sp/>instance<sp/>in<sp/>MiB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_LLM_MAX_VRAM_PER_MODEL_MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="edition_8h_1a1aea07b314805c4e78918f32754e88c3" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_LLM_MAX_VRAM_PER_MODEL_MB<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1edition_1a5c65f5740f5e3a48b55cc686496961d2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="namespacethemis_1_1edition_1a5c65f5740f5e3a48b55cc686496961d2" kindref="member">LLM_MAX_VRAM_PER_MODEL_MB</ref><sp/>=<sp/><ref refid="edition_8h_1a1aea07b314805c4e78918f32754e88c3" kindref="member">THEMIS_LLM_MAX_VRAM_PER_MODEL_MB</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>1+3:<sp/>Tenant<sp/>quota<sp/>limits<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TENANT_MAX_STORAGE_BYTES:<sp/><sp/>maximum<sp/>storage<sp/>per<sp/>tenant<sp/>in<sp/>bytes.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TENANT_MAX_STORAGE_BYTES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="edition_8h_1a192e4baed7dfe5a506335d792e928601" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TENANT_MAX_STORAGE_BYTES<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1edition_1a66231eedd5f4bb926b4165a8a3c5dcd0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1a66231eedd5f4bb926b4165a8a3c5dcd0" kindref="member">TENANT_MAX_STORAGE_BYTES</ref><sp/>=<sp/><ref refid="edition_8h_1a192e4baed7dfe5a506335d792e928601" kindref="member">THEMIS_TENANT_MAX_STORAGE_BYTES</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TENANT_MAX_DOCUMENTS:<sp/><sp/><sp/><sp/><sp/><sp/>maximum<sp/>document<sp/>count<sp/>per<sp/>tenant.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TENANT_MAX_DOCUMENTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="edition_8h_1ae4b71b3b45a4072dfbc0a987b1fff9eb" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TENANT_MAX_DOCUMENTS<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1edition_1ac0c8a3808c97db852eed698786763f3f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1ac0c8a3808c97db852eed698786763f3f" kindref="member">TENANT_MAX_DOCUMENTS</ref><sp/>=<sp/><ref refid="edition_8h_1ae4b71b3b45a4072dfbc0a987b1fff9eb" kindref="member">THEMIS_TENANT_MAX_DOCUMENTS</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TENANT_MAX_COLLECTIONS:<sp/><sp/><sp/><sp/>maximum<sp/>collection<sp/>count<sp/>per<sp/>tenant.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TENANT_MAX_COLLECTIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="edition_8h_1a62fb45c5adf2eb74b63b9adead37abb4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TENANT_MAX_COLLECTIONS<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1edition_1a3d514c78ad61d6096a79043992bb60c2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a3d514c78ad61d6096a79043992bb60c2" kindref="member">TENANT_MAX_COLLECTIONS</ref><sp/>=<sp/><ref refid="edition_8h_1a62fb45c5adf2eb74b63b9adead37abb4" kindref="member">THEMIS_TENANT_MAX_COLLECTIONS</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TENANT_MAX_CONCURRENT_QUERIES:<sp/>maximum<sp/>concurrent<sp/>queries<sp/>per<sp/>tenant.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TENANT_MAX_CONCURRENT_QUERIES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="edition_8h_1a3595702d8938fb084a6c22cff4d8bad5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TENANT_MAX_CONCURRENT_QUERIES<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1edition_1a75c2b75acc6f00e8c72c026096812e17" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a75c2b75acc6f00e8c72c026096812e17" kindref="member">TENANT_MAX_CONCURRENT_QUERIES</ref><sp/>=<sp/><ref refid="edition_8h_1a3595702d8938fb084a6c22cff4d8bad5" kindref="member">THEMIS_TENANT_MAX_CONCURRENT_QUERIES</ref>;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TENANT_MAX_REQUESTS_PER_SECOND:<sp/>maximum<sp/>request<sp/>rate<sp/>per<sp/>tenant.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TENANT_MAX_REQUESTS_PER_SECOND</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="edition_8h_1a9a07f40c0c0bf3f4983c3870371fcebb" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TENANT_MAX_REQUESTS_PER_SECOND<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1edition_1a51b193add4561f9be8c120651c5c80f5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a51b193add4561f9be8c120651c5c80f5" kindref="member">TENANT_MAX_REQUESTS_PER_SECOND</ref><sp/>=<sp/><ref refid="edition_8h_1a9a07f40c0c0bf3f4983c3870371fcebb" kindref="member">THEMIS_TENANT_MAX_REQUESTS_PER_SECOND</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>2:<sp/>Query<sp/>limit<sp/>ceilings<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QUERY_MAX_GRAPHQL_DEPTH:<sp/><sp/><sp/><sp/><sp/>maximum<sp/>GraphQL/AQL<sp/>nesting<sp/>depth.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_QUERY_MAX_GRAPHQL_DEPTH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="edition_8h_1a3bba120792ed38a5b88057d7f30e8ab2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_QUERY_MAX_GRAPHQL_DEPTH<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1edition_1a716086a30a825c4a21e229f56d886277" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a716086a30a825c4a21e229f56d886277" kindref="member">QUERY_MAX_GRAPHQL_DEPTH</ref><sp/>=<sp/><ref refid="edition_8h_1a3bba120792ed38a5b88057d7f30e8ab2" kindref="member">THEMIS_QUERY_MAX_GRAPHQL_DEPTH</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QUERY_MAX_GRAPHQL_COMPLEXITY:<sp/>maximum<sp/>GraphQL<sp/>complexity<sp/>score.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="edition_8h_1a566a3a7c6a3dae80370f516174fb6775" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1edition_1a77690b3802148fd3171923491e57c8c0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a77690b3802148fd3171923491e57c8c0" kindref="member">QUERY_MAX_GRAPHQL_COMPLEXITY</ref><sp/>=<sp/><ref refid="edition_8h_1a566a3a7c6a3dae80370f516174fb6775" kindref="member">THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QUERY_MAX_PAYLOAD_BYTES:<sp/><sp/><sp/><sp/><sp/><sp/>maximum<sp/>request<sp/>payload<sp/>in<sp/>bytes.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_QUERY_MAX_PAYLOAD_BYTES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="edition_8h_1a80ec47765f88a1119cd6ea609481d0f1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_QUERY_MAX_PAYLOAD_BYTES<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1edition_1ab6f01d017e15e7a0aeb8672c368f64ab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1ab6f01d017e15e7a0aeb8672c368f64ab" kindref="member">QUERY_MAX_PAYLOAD_BYTES</ref><sp/>=<sp/><ref refid="edition_8h_1a80ec47765f88a1119cd6ea609481d0f1" kindref="member">THEMIS_QUERY_MAX_PAYLOAD_BYTES</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QUERY_MAX_RESULT_ROWS:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximum<sp/>rows<sp/>returned<sp/>per<sp/>query.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_QUERY_MAX_RESULT_ROWS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="edition_8h_1ae4602dd03f3da3b74dc0277609aa8583" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_QUERY_MAX_RESULT_ROWS<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="namespacethemis_1_1edition_1a836b2e7cc001445eac4a2198797bc476" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1a836b2e7cc001445eac4a2198797bc476" kindref="member">QUERY_MAX_RESULT_ROWS</ref><sp/>=<sp/><ref refid="edition_8h_1ae4602dd03f3da3b74dc0277609aa8583" kindref="member">THEMIS_QUERY_MAX_RESULT_ROWS</ref>;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>2+3:<sp/>Connection<sp/>policy<sp/>ceilings<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONNECTION_MAX_HTTP2_STREAMS:<sp/><sp/><sp/><sp/>max<sp/>concurrent<sp/>HTTP/2<sp/>streams<sp/>per<sp/>connection.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_CONNECTION_MAX_HTTP2_STREAMS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="edition_8h_1ab4b3aefe418a25cbd7fb7dc2c1d4c5d4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_CONNECTION_MAX_HTTP2_STREAMS<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1_1edition_1aa527e1351b564f8b4e696c8b67a8ca6a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1aa527e1351b564f8b4e696c8b67a8ca6a" kindref="member">CONNECTION_MAX_HTTP2_STREAMS</ref><sp/>=<sp/><ref refid="edition_8h_1ab4b3aefe418a25cbd7fb7dc2c1d4c5d4" kindref="member">THEMIS_CONNECTION_MAX_HTTP2_STREAMS</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONNECTION_MAX_SSE_CONNECTIONS:<sp/><sp/>max<sp/>total<sp/>SSE<sp/>connections.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_CONNECTION_MAX_SSE_CONNECTIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="edition_8h_1a1ee86b0894e5d60d64e3620802a40b03" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_CONNECTION_MAX_SSE_CONNECTIONS<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="namespacethemis_1_1edition_1a92930b50745721fe888c06616e839d38" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a92930b50745721fe888c06616e839d38" kindref="member">CONNECTION_MAX_SSE_CONNECTIONS</ref><sp/>=<sp/><ref refid="edition_8h_1a1ee86b0894e5d60d64e3620802a40b03" kindref="member">THEMIS_CONNECTION_MAX_SSE_CONNECTIONS</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONNECTION_MAX_TOTAL:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max<sp/>total<sp/>simultaneous<sp/>server<sp/>connections.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_CONNECTION_MAX_TOTAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="edition_8h_1ae9d32e54a7c19e9c8aebd4c57b519d31" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_CONNECTION_MAX_TOTAL<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1edition_1a9ac2c6775c83af6036c6f8f8b5833b1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a9ac2c6775c83af6036c6f8f8b5833b1d" kindref="member">CONNECTION_MAX_TOTAL</ref><sp/>=<sp/><ref refid="edition_8h_1ae9d32e54a7c19e9c8aebd4c57b519d31" kindref="member">THEMIS_CONNECTION_MAX_TOTAL</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONNECTION_MAX_SSE_EVENTS_PER_SEC:<sp/>max<sp/>SSE<sp/>events<sp/>emitted<sp/>per<sp/>second.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="edition_8h_1a1025cab85cbb317d9150a20d28b605a0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC<sp/>0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="namespacethemis_1_1edition_1a577e6a46d40c869f7d8a4c9a62217f80" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1edition_1a577e6a46d40c869f7d8a4c9a62217f80" kindref="member">CONNECTION_MAX_SSE_EVENTS_PER_SEC</ref><sp/>=<sp/><ref refid="edition_8h_1a1025cab85cbb317d9150a20d28b605a0" kindref="member">THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC</ref>;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>5:<sp/>Storage<sp/>operations<sp/>ceilings<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STORAGE_MAX_BACKGROUND_JOBS:<sp/><sp/><sp/><sp/><sp/><sp/><sp/>max<sp/>concurrent<sp/>background<sp/>storage<sp/>jobs.<sp/><sp/>-1<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_STORAGE_MAX_BACKGROUND_JOBS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="edition_8h_1abf8e36abf55f84af214d2dd98092e0f2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STORAGE_MAX_BACKGROUND_JOBS<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="namespacethemis_1_1edition_1ae7052b858d398377e804f7c5ed75712a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="namespacethemis_1_1edition_1ae7052b858d398377e804f7c5ed75712a" kindref="member">STORAGE_MAX_BACKGROUND_JOBS</ref><sp/>=<sp/><ref refid="edition_8h_1abf8e36abf55f84af214d2dd98092e0f2" kindref="member">THEMIS_STORAGE_MAX_BACKGROUND_JOBS</ref>;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STORAGE_MAX_COMPACTION_BYTES_PER_SEC:<sp/>max<sp/>compaction<sp/>I/O<sp/>rate<sp/>in<sp/>bytes/s.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="edition_8h_1a87deb176272e295bbebf176fcd4483e8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="namespacethemis_1_1edition_1a44df1b72544235b5488b1dc3dea23510" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1a44df1b72544235b5488b1dc3dea23510" kindref="member">STORAGE_MAX_COMPACTION_BYTES_PER_SEC</ref><sp/>=<sp/><ref refid="edition_8h_1a87deb176272e295bbebf176fcd4483e8" kindref="member">THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC</ref>;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STORAGE_MAX_CONCURRENT_SNAPSHOTS:<sp/><sp/>max<sp/>snapshots<sp/>running<sp/>in<sp/>parallel.<sp/><sp/>-1<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="edition_8h_1aae5f05f9c086ecce57601d419849b1c3" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="namespacethemis_1_1edition_1af14b3b46bb52fbf454592ce81ae487ed" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="namespacethemis_1_1edition_1af14b3b46bb52fbf454592ce81ae487ed" kindref="member">STORAGE_MAX_CONCURRENT_SNAPSHOTS</ref><sp/>=<sp/><ref refid="edition_8h_1aae5f05f9c086ecce57601d419849b1c3" kindref="member">THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS</ref>;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Group<sp/>3:<sp/>Global<sp/>rate-limit<sp/>ceiling<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RATE_LIMIT_MAX_GLOBAL_RPS:<sp/>max<sp/>total<sp/>requests<sp/>per<sp/>second<sp/>across<sp/>all<sp/>tenants.<sp/><sp/>0<sp/>=<sp/>unlimited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="edition_8h_1ac8bc94909a1b9e98da46029d8ac5d15e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS<sp/>0ULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="namespacethemis_1_1edition_1a45cc857976644757514065587a76d555" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1edition_1a45cc857976644757514065587a76d555" kindref="member">RATE_LIMIT_MAX_GLOBAL_RPS</ref><sp/>=<sp/><ref refid="edition_8h_1ac8bc94909a1b9e98da46029d8ac5d15e" kindref="member">THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FEATURE<sp/>FLAGS<sp/>(Compile-time<sp/>feature<sp/>availability)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>are<sp/>automatically<sp/>set<sp/>to<sp/>ON/OFF<sp/>based<sp/>on<sp/>THEMIS_EDITION.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>runtime,<sp/>code<sp/>should<sp/>check<sp/>these<sp/>constants<sp/>for<sp/>feature<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enterprise<sp/>Plugin<sp/>System:<sp/>Allows<sp/>loading<sp/>custom<sp/>plugins<sp/>and<sp/>extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/>Disabled<sp/>(plugin<sp/>loading<sp/>will<sp/>fail<sp/>with<sp/>helpful<sp/>message)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_ENTERPRISE_PLUGINS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" kindref="member">FEATURE_ENTERPRISE_PLUGINS</ref><sp/>=<sp/>THEMIS_ENABLE_ENTERPRISE_PLUGINS;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" kindref="member">FEATURE_ENTERPRISE_PLUGINS</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-Master<sp/>Replication:<sp/>Active-active<sp/>replication<sp/>across<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/>Disabled<sp/>(single-node<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_MULTI_MASTER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" kindref="member">FEATURE_MULTI_MASTER</ref><sp/>=<sp/>THEMIS_ENABLE_MULTI_MASTER;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" kindref="member">FEATURE_MULTI_MASTER</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Field-Level<sp/>Encryption:<sp/>Encrypt<sp/>specific<sp/>columns<sp/>at<sp/>rest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/>Disabled<sp/>(basic<sp/>TLS<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_FIELD_ENCRYPTION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" kindref="member">FEATURE_FIELD_ENCRYPTION</ref><sp/>=<sp/>THEMIS_ENABLE_FIELD_ENCRYPTION;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" kindref="member">FEATURE_FIELD_ENCRYPTION</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Role-Based<sp/>Access<sp/>Control<sp/>(RBAC):<sp/>Fine-grained<sp/>permission<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/>Disabled<sp/>(basic<sp/>auth<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_RBAC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" kindref="member">FEATURE_RBAC</ref><sp/>=<sp/>THEMIS_ENABLE_RBAC;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" kindref="member">FEATURE_RBAC</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hardware<sp/>Security<sp/>Module<sp/>(HSM)<sp/>Integration:<sp/>PKCS#11<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMMUNITY:<sp/>Disabled<sp/>(software<sp/>key<sp/>storage<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ENTERPRISE:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HYPERSCALER:<sp/>Enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HSM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" kindref="member">FEATURE_HSM</ref><sp/>=<sp/>THEMIS_ENABLE_HSM;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" kindref="member">FEATURE_HSM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATED<sp/>FEATURE<sp/>NAMES<sp/>(single<sp/>source<sp/>of<sp/>truth)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>Enterprise/Hyperscaler-only<sp/>feature<sp/>names<sp/>that<sp/>are<sp/>subject<sp/>to<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>license<sp/>gating.<sp/><sp/>Any<sp/>consumer<sp/>that<sp/>needs<sp/>to<sp/>enumerate<sp/>or<sp/>iterate<sp/>over<sp/>gated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>features<sp/>should<sp/>reference<sp/>this<sp/>array<sp/>rather<sp/>than<sp/>duplicating<sp/>the<sp/>list.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>std::array&lt;std::string_view,<sp/>N&gt;<sp/>is<sp/>not<sp/>constexpr-initializable<sp/>until</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>C++20<sp/>in<sp/>all<sp/>major<sp/>compilers,<sp/>so<sp/>we<sp/>use<sp/>a<sp/>plain<sp/>C<sp/>array.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/>kGatedFeatureNames[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;enterprise_plugins&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;multi_master&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;field_encryption&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rbac&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;hsm&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kGatedFeatureCount<sp/>=</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(kGatedFeatureNames)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(kGatedFeatureNames[0]);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UTILITY<sp/>FUNCTIONS<sp/>FOR<sp/>RUNTIME<sp/>CHECKS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>this<sp/>build<sp/>is<sp/>the<sp/>specified<sp/>edition<sp/>at<sp/>compile-time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;EditionType<sp/>T&gt;</highlight></codeline>
+<codeline lineno="345" refid="namespacethemis_1_1edition_1aeef3545ce4343a46f4341810ecebab74" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1aeef3545ce4343a46f4341810ecebab74" kindref="member">IsEdition</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1ae1c7d419c1bf327a2f5b34705ff8dd3b" kindref="member">GetEditionType</ref>()<sp/>==<sp/>T;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>feature<sp/>is<sp/>enabled<sp/>for<sp/>this<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="namespacethemis_1_1edition_1ab4183d356fc89c5f4119b7dfab68bd00" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1ab4183d356fc89c5f4119b7dfab68bd00" kindref="member">IsFeatureEnabled</ref>(std::string_view<sp/>feature_name)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;enterprise_plugins&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" kindref="member">FEATURE_ENTERPRISE_PLUGINS</ref>;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;multi_master&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" kindref="member">FEATURE_MULTI_MASTER</ref>;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;field_encryption&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" kindref="member">FEATURE_FIELD_ENCRYPTION</ref>;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;rbac&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" kindref="member">FEATURE_RBAC</ref>;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;hsm&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" kindref="member">FEATURE_HSM</ref>;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RUNTIME<sp/>EDITION<sp/>INFORMATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>struct<sp/>for<sp/>runtime<sp/>edition<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="structthemis_1_1edition_1_1_edition_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1edition_1_1_edition_info" kindref="compound">EditionInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="371" refid="structthemis_1_1edition_1_1_edition_info_1af16b7adb53dabbaff5c0d163078893b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1af16b7adb53dabbaff5c0d163078893b8" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="372" refid="structthemis_1_1edition_1_1_edition_info_1a303fced5f435b9ecde2e1894ad04c3a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1a303fced5f435b9ecde2e1894ad04c3a8" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="373" refid="structthemis_1_1edition_1_1_edition_info_1afa64e41e6bfe3adac8c8bb51837641b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1afa64e41e6bfe3adac8c8bb51837641b2" kindref="member">gpu_max_vram_gb</ref>;</highlight></codeline>
+<codeline lineno="374" refid="structthemis_1_1edition_1_1_edition_info_1ac638f6412342d3820d26de05fb22c512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1ac638f6412342d3820d26de05fb22c512" kindref="member">sharding_max_nodes</ref>;</highlight></codeline>
+<codeline lineno="375" refid="structthemis_1_1edition_1_1_edition_info_1ac6f41cf4c2c69b86951567236422dcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1ac6f41cf4c2c69b86951567236422dcc4" kindref="member">supports_plugins</ref>;</highlight></codeline>
+<codeline lineno="376" refid="structthemis_1_1edition_1_1_edition_info_1a227b7ff9d8f9680c37459663f0386868" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1a227b7ff9d8f9680c37459663f0386868" kindref="member">supports_multi_master</ref>;</highlight></codeline>
+<codeline lineno="377" refid="structthemis_1_1edition_1_1_edition_info_1a33758768497bd10c2582ff34b8900692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1a33758768497bd10c2582ff34b8900692" kindref="member">supports_field_encryption</ref>;</highlight></codeline>
+<codeline lineno="378" refid="structthemis_1_1edition_1_1_edition_info_1ac2d323e7c469137820378b65a1d0d3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1ac2d323e7c469137820378b65a1d0d3f5" kindref="member">supports_rbac</ref>;</highlight></codeline>
+<codeline lineno="379" refid="structthemis_1_1edition_1_1_edition_info_1a0fe6b2ee735f4c1c03af57c810e92c29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1a0fe6b2ee735f4c1c03af57c810e92c29" kindref="member">supports_hsm</ref>;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381" refid="structthemis_1_1edition_1_1_edition_info_1ae0128b6e82ddf0b660e922ea02de66fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info" kindref="compound">EditionInfo</ref><sp/><ref refid="structthemis_1_1edition_1_1_edition_info_1ae0128b6e82ddf0b660e922ea02de66fc" kindref="member">Get</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1edition" kindref="compound">edition</ref><sp/>=<sp/><ref refid="namespacethemis_1_1edition_1ae1c7d419c1bf327a2f5b34705ff8dd3b" kindref="member">GetEditionType</ref>();</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1edition_1_1_edition_info" kindref="compound">EditionInfo</ref>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.type<sp/>=<sp/><ref refid="namespacethemis_1_1edition" kindref="compound">edition</ref>,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.name<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a1fbda336777e0ba6e46a5f6f8f9714dd" kindref="member">EDITION_STRING</ref>,</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.gpu_max_vram_gb<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a6e395f121298558660f73977ffc2c717" kindref="member">GPU_MAX_VRAM_GB</ref>,</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.sharding_max_nodes<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a6c6823dc5c27228bbb08357e9819a263" kindref="member">SHARDING_MAX_NODES</ref>,</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.supports_plugins<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a9c488fd8a2db7222a11039ae0ef22b19" kindref="member">FEATURE_ENTERPRISE_PLUGINS</ref>,</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.supports_multi_master<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a7eea62e1ee66982527f95d0c8000116b" kindref="member">FEATURE_MULTI_MASTER</ref>,</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.supports_field_encryption<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a20b4d93797bb2dfad62575ed1ed2ff3d" kindref="member">FEATURE_FIELD_ENCRYPTION</ref>,</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.supports_rbac<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1a4dc3279aba38cd2e1c094c6eef8c9b47" kindref="member">FEATURE_RBAC</ref>,</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.supports_hsm<sp/>=<sp/><ref refid="namespacethemis_1_1edition_1ac950ca6a5bc1a42b807c9629e05713dc" kindref="member">FEATURE_HSM</ref></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/edition.h"/>
+  </compounddef>
+</doxygen>

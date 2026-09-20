@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_replication_status" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::ReplicationStatus</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_replication_status_1a64cdd8e891c3fbee280927feb6b9bd8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::ReplicationStatus::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::process::ReplicationStatus::state</qualifiedname>
+        <briefdescription>
+<para>Current replication state (completed, in_progress, failed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="273" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_replication_status_1ae0cef15b31c1a0a85190aaba76e46784" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::process::ReplicationStatus::replicated_on</definition>
+        <argsstring></argsstring>
+        <name>replicated_on</name>
+        <qualifiedname>themisdb::process::ReplicationStatus::replicated_on</qualifiedname>
+        <briefdescription>
+<para>Nodes that have replicated this operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="276" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_replication_status_1a2ce5d1b12997f9fd99bbe8c1ab5701ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::process::ReplicationStatus::acknowledged_by</definition>
+        <argsstring></argsstring>
+        <name>acknowledged_by</name>
+        <qualifiedname>themisdb::process::ReplicationStatus::acknowledged_by</qualifiedname>
+        <briefdescription>
+<para>Nodes that have acknowledged but not yet persisted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="279" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_replication_status_1a879bb0d32e4b7b137069d6e00feb4131" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::process::ReplicationStatus::quorum_achieved</definition>
+        <argsstring></argsstring>
+        <name>quorum_achieved</name>
+        <qualifiedname>themisdb::process::ReplicationStatus::quorum_achieved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Quorum achieved for this operation? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="282" column="8" bodyfile="include/process/process_federation_contract.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_replication_status_1af6b23eb3c84b931727e987331f4a693f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::ReplicationStatus::completion_time</definition>
+        <argsstring></argsstring>
+        <name>completion_time</name>
+        <qualifiedname>themisdb::process::ReplicationStatus::completion_time</qualifiedname>
+        <briefdescription>
+<para>Timestamp of replication completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="285" column="41" bodyfile="include/process/process_federation_contract.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replication status for a given operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Thread-safe for concurrent reads; single writer updates status. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="271" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="271" bodyend="286"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_replication_status_1a2ce5d1b12997f9fd99bbe8c1ab5701ff" prot="public" virt="non-virtual"><scope>themisdb::process::ReplicationStatus</scope><name>acknowledged_by</name></member>
+      <member refid="structthemisdb_1_1process_1_1_replication_status_1af6b23eb3c84b931727e987331f4a693f" prot="public" virt="non-virtual"><scope>themisdb::process::ReplicationStatus</scope><name>completion_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_replication_status_1a879bb0d32e4b7b137069d6e00feb4131" prot="public" virt="non-virtual"><scope>themisdb::process::ReplicationStatus</scope><name>quorum_achieved</name></member>
+      <member refid="structthemisdb_1_1process_1_1_replication_status_1ae0cef15b31c1a0a85190aaba76e46784" prot="public" virt="non-virtual"><scope>themisdb::process::ReplicationStatus</scope><name>replicated_on</name></member>
+      <member refid="structthemisdb_1_1process_1_1_replication_status_1a64cdd8e891c3fbee280927feb6b9bd8f" prot="public" virt="non-virtual"><scope>themisdb::process::ReplicationStatus</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

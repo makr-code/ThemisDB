@@ -1,0 +1,701 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUDataLoader</compoundname>
+    <includes refid="gpu__data__loader_8h" local="no">gpu_data_loader.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" prot="public">themis::llm::lora::GPUDataLoader::MemoryStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a06137675a1f153b8dd4d99346b09bafc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITokenizer&gt; themis::llm::lora::GPUDataLoader::tokenizer_</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::tokenizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="131" column="21" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab65f3f72fc2d4bd5a0f9aac642bc2ff2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref></type>
+        <definition>GPUDataLoaderConfig themis::llm::lora::GPUDataLoader::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="132" column="25" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa6ff99ef702eca2ced9185e5edfcf1b3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::GPUDataLoader::allocator_</definition>
+        <argsstring></argsstring>
+        <name>allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="133" column="21" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa69723317192b939ea1618f447b709a9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+        <definition>VRAMAllocator* themis::llm::lora::GPUDataLoader::external_allocator_</definition>
+        <argsstring></argsstring>
+        <name>external_allocator_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::external_allocator_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="134" column="19" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a1b3ab94a56ec4e8ea65db76b7edc0b63" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt;</type>
+        <definition>std::vector&lt;InstructionDataSample&gt; themis::llm::lora::GPUDataLoader::samples_</definition>
+        <argsstring></argsstring>
+        <name>samples_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="136" column="17" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a2d6cb7b6a4f73ecf4cacac73fbfcae0c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::GPUDataLoader::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="137" column="17" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9a28e1d092d0c66c0149bc14df63eff1" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::current_batch_</definition>
+        <argsstring></argsstring>
+        <name>current_batch_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::current_batch_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="138" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a580f84117016b74334b5ac78f443f681" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::llm::lora::GPUDataLoader::prefetch_thread_</definition>
+        <argsstring></argsstring>
+        <name>prefetch_thread_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::prefetch_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="141" column="17" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a2dda6acfeb081a27b84a25e1f78fc6c6" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kindref="compound">GPUBatch</ref> &gt;</type>
+        <definition>std::queue&lt;GPUBatch&gt; themis::llm::lora::GPUDataLoader::prefetch_queue_</definition>
+        <argsstring></argsstring>
+        <name>prefetch_queue_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::prefetch_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="142" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a5fd5df56a8792d51e63102be5e1bcfa5" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::GPUDataLoader::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="143" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7a9ba258c134f22965b93c2cb9f0790e" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::lora::GPUDataLoader::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="144" column="29" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a4a9538ddb919574eaeacb00546fee5ad" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::lora::GPUDataLoader::stop_prefetch_</definition>
+        <argsstring></argsstring>
+        <name>stop_prefetch_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::stop_prefetch_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="145" column="17" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a77d7aeaddee2889985bcfee832b3c16c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::lora::GPUDataLoader::prefetch_active_</definition>
+        <argsstring></argsstring>
+        <name>prefetch_active_</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::prefetch_active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="146" column="17" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUDataLoader::GPUDataLoader</definition>
+        <argsstring>(std::shared_ptr&lt; ITokenizer &gt; tokenizer, const GPUDataLoaderConfig &amp;config=GPUDataLoaderConfig{}, VRAMAllocator *allocator=nullptr)</argsstring>
+        <name>GPUDataLoader</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::GPUDataLoader</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref> &gt;</type>
+          <declname>tokenizer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+          <declname>allocator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="60" column="14" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="24" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a905ef30154d3ae64ad64cdd947ec95ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUDataLoader::~GPUDataLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUDataLoader</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::~GPUDataLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="66" column="5" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab103a70e087c137a2572561fcce0aecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUDataLoader::GPUDataLoader</definition>
+        <argsstring>(const GPUDataLoader &amp;)=delete</argsstring>
+        <name>GPUDataLoader</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::GPUDataLoader</qualifiedname>
+        <param>
+          <type>const GPUDataLoader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a65d47cbe978d8bc6aa46970ec26a7120" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref> &amp;</type>
+        <definition>GPUDataLoader &amp; themis::llm::lora::GPUDataLoader::operator=</definition>
+        <argsstring>(const GPUDataLoader &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a4a584cc29588d0f6f7407298286f01e2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUDataLoader::GPUDataLoader</definition>
+        <argsstring>(GPUDataLoader &amp;&amp;) noexcept</argsstring>
+        <name>GPUDataLoader</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::GPUDataLoader</qualifiedname>
+        <param>
+          <type>GPUDataLoader &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="71" column="5" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aaf7dbb179c2d3ee80c30c1c5e9ffacf9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref> &amp;</type>
+        <definition>GPUDataLoader &amp; themis::llm::lora::GPUDataLoader::operator=</definition>
+        <argsstring>(GPUDataLoader &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" kindref="member">GPUDataLoader</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="72" column="19" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="69" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9da4e743b73cd2b74bbcbc9ab6d964b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoader::loadFromSamples</definition>
+        <argsstring>(const std::vector&lt; InstructionDataSample &gt; &amp;samples)</argsstring>
+        <name>loadFromSamples</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::loadFromSamples</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Load From Samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), resize(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" kindref="member">size()</ref>, std::iota(), begin(), end(), gen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="79" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="93" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a3ce6befc98aef0619dba9aa08516c1b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kindref="compound">GPUBatch</ref></type>
+        <definition>GPUBatch themis::llm::lora::GPUDataLoader::getNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>getNextBatch</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::getNextBatch</qualifiedname>
+        <briefdescription>
+<para>Get Next Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac895b55d1bfed2c7281cd4d578b26097" kindref="member">hasNext()</ref>, spdlog::warn(), load(), lock(), wait_for(), empty(), count(), prepareBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="85" column="14" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="128" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac895b55d1bfed2c7281cd4d578b26097" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoader::hasNext</definition>
+        <argsstring>() const</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::hasNext</qualifiedname>
+        <briefdescription>
+<para>Has Next. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="91" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9074db917fc43b719eeb9b76fc0d06a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUDataLoader::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), gen(), rd(), std::shuffle(), begin(), end(), stopPrefetching(), startPrefetching(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="96" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="170" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="98" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aba0ff64e52f78da2ffcb51f11bd9fe70" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::num_batches</definition>
+        <argsstring>() const</argsstring>
+        <name>num_batches</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::num_batches</qualifiedname>
+        <briefdescription>
+<para>Num batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="104" column="12" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="187" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac67d79759ebc0564900919c5c018ebd6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::current_batch_index</definition>
+        <argsstring>() const</argsstring>
+        <name>current_batch_index</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::current_batch_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="106" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7e04751ede14474fcc2effe126f03194" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kindref="compound">GPUDataLoaderConfig</ref> &amp;</type>
+        <definition>const GPUDataLoaderConfig &amp; themis::llm::lora::GPUDataLoader::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="108" column="31" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa85797c4d80c12c774d94ba483539efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoader::updateBatchSize</definition>
+        <argsstring>(size_t new_batch_size)</argsstring>
+        <name>updateBatchSize</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::updateBatchSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>new_batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Update Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="115" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="397" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab15ba2ae188ba113c2bc14af46e2e83a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" kindref="compound">MemoryStats</ref></type>
+        <definition>GPUDataLoader::MemoryStats themis::llm::lora::GPUDataLoader::get_memory_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_memory_stats</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::get_memory_stats</qualifiedname>
+        <briefdescription>
+<para>Get memory stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="128" column="17" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="194" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a128a2c7fded32fcf74d4620cebb73380" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUDataLoader::startPrefetching</definition>
+        <argsstring>()</argsstring>
+        <name>startPrefetching</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::startPrefetching</qualifiedname>
+        <briefdescription>
+<para>Start Prefetching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(), std::thread(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="152" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="215" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab24ea5efe2ac2046d309c3e7462c6b4e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUDataLoader::stopPrefetching</definition>
+        <argsstring>()</argsstring>
+        <name>stopPrefetching</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::stopPrefetching</qualifiedname>
+        <briefdescription>
+<para>Stop Prefetching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), lock(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="156" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="231" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1af6468bc20ff26d7d4be8f6a83d6236ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUDataLoader::prefetchWorker</definition>
+        <argsstring>()</argsstring>
+        <name>prefetchWorker</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::prefetchWorker</qualifiedname>
+        <briefdescription>
+<para>Prefetch Worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" kindref="member">size()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aba0ff64e52f78da2ffcb51f11bd9fe70" kindref="member">num_batches()</ref>, prepareBatch(), push(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="160" column="10" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="260" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a8fa20934f70960ab5640f3cffa4b905d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_batch" kindref="compound">GPUBatch</ref></type>
+        <definition>GPUBatch themis::llm::lora::GPUDataLoader::prepareBatch</definition>
+        <argsstring>(size_t batch_idx)</argsstring>
+        <name>prepareBatch</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::prepareBatch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_idx</declname>
+        </param>
+        <briefdescription>
+<para>Prepare Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" kindref="member">size()</ref>, reserve(), tokenizeSample(), push_back(), std::move(), eos_token_id(), pad_token_id(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="166" column="14" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="304" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1abaade654b387e95c35ad06e6ec7d66f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::lora::GPUDataLoader::tokenizeSample</definition>
+        <argsstring>(const InstructionDataSample &amp;sample)</argsstring>
+        <name>tokenizeSample</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::tokenizeSample</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref> &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), encode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="172" column="17" bodyfile="src/llm/lora_framework/gpu_data_loader.cpp" bodystart="377" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_data_loader.h" line="58" column="1" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="58" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa6ff99ef702eca2ced9185e5edfcf1b3" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7e04751ede14474fcc2effe126f03194" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab65f3f72fc2d4bd5a0f9aac642bc2ff2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9a28e1d092d0c66c0149bc14df63eff1" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>current_batch_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac67d79759ebc0564900919c5c018ebd6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>current_batch_index</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa69723317192b939ea1618f447b709a9" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>external_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab15ba2ae188ba113c2bc14af46e2e83a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>get_memory_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a3ce6befc98aef0619dba9aa08516c1b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>getNextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a49688a82bbf303d91fec95f9dd6584b7" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>GPUDataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab103a70e087c137a2572561fcce0aecb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>GPUDataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a4a584cc29588d0f6f7407298286f01e2" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>GPUDataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ac895b55d1bfed2c7281cd4d578b26097" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a2d6cb7b6a4f73ecf4cacac73fbfcae0c" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>indices_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9da4e743b73cd2b74bbcbc9ab6d964b1" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>loadFromSamples</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aba0ff64e52f78da2ffcb51f11bd9fe70" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>num_batches</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a65d47cbe978d8bc6aa46970ec26a7120" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aaf7dbb179c2d3ee80c30c1c5e9ffacf9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a77d7aeaddee2889985bcfee832b3c16c" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>prefetch_active_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a2dda6acfeb081a27b84a25e1f78fc6c6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>prefetch_queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a580f84117016b74334b5ac78f443f681" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>prefetch_thread_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1af6468bc20ff26d7d4be8f6a83d6236ee" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>prefetchWorker</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a8fa20934f70960ab5640f3cffa4b905d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>prepareBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a7a9ba258c134f22965b93c2cb9f0790e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a5fd5df56a8792d51e63102be5e1bcfa5" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a9074db917fc43b719eeb9b76fc0d06a0" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a1b3ab94a56ec4e8ea65db76b7edc0b63" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>samples_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a48a1eb9025dac0e6499d5435de5ae05f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a128a2c7fded32fcf74d4620cebb73380" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>startPrefetching</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a4a9538ddb919574eaeacb00546fee5ad" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>stop_prefetch_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1ab24ea5efe2ac2046d309c3e7462c6b4e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>stopPrefetching</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a06137675a1f153b8dd4d99346b09bafc" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>tokenizer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1abaade654b387e95c35ad06e6ec7d66f8" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>tokenizeSample</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1aa85797c4d80c12c774d94ba483539efb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>updateBatchSize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1a905ef30154d3ae64ad64cdd947ec95ce" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader</scope><name>~GPUDataLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_kernel_argument_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelArgumentBuffer</compoundname>
+    <includes refid="gpu__kernel__manager_8h" local="no">gpu_kernel_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a85f80de5206b5285054026d67bff5fe1" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::KernelArgumentBuffer::device_ptr_</definition>
+        <argsstring></argsstring>
+        <name>device_ptr_</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::device_ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="189" column="10" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a1a3f78a1f2bd8c1aa0667b14893a9bb1" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::KernelArgumentBuffer::host_ptr_</definition>
+        <argsstring></argsstring>
+        <name>host_ptr_</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::host_ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="190" column="10" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ab454b9df3dd14cf1e9ec937d062f2c7b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::KernelArgumentBuffer::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="191" column="12" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1af06337a5b2ad05ce28cf552abedbac82" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::KernelArgumentBuffer::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::device_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="192" column="9" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1af9b067cd40910f1dbd36df55d14d1cb2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelArgumentBuffer::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::is_moved_from_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="193" column="10" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</definition>
+        <argsstring>(size_t size, int device_id)</argsstring>
+        <name>KernelArgumentBuffer</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="126" column="5" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="176" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a2e9fe4cb80973d64ee59b15083156676" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelArgumentBuffer::~KernelArgumentBuffer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~KernelArgumentBuffer</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::~KernelArgumentBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="128" column="5" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a92031dd563c51185512aa7c4d21787a3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</definition>
+        <argsstring>(KernelArgumentBuffer &amp;&amp;other) noexcept</argsstring>
+        <name>KernelArgumentBuffer</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</qualifiedname>
+        <param>
+          <type>KernelArgumentBuffer &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="131" column="5" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="203" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a879e5bfdca1c292c7c030ba54b0741af" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref> &amp;</type>
+        <definition>KernelArgumentBuffer &amp; themis::gpu::KernelArgumentBuffer::operator=</definition>
+        <argsstring>(KernelArgumentBuffer &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="132" column="26" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="217" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1abb0c4629c745fe203e396cc2ce938577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</definition>
+        <argsstring>(const KernelArgumentBuffer &amp;)=delete</argsstring>
+        <name>KernelArgumentBuffer</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::KernelArgumentBuffer</qualifiedname>
+        <param>
+          <type>const KernelArgumentBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa51232036858bf01a5ed66b09634894e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref> &amp;</type>
+        <definition>KernelArgumentBuffer &amp; themis::gpu::KernelArgumentBuffer::operator=</definition>
+        <argsstring>(const KernelArgumentBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="136" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ad5f301d92ccd61cd5d9915ebf9beffee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::KernelArgumentBuffer::device_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::device_ptr</qualifiedname>
+        <briefdescription>
+<para>Device ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="143" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ae9d57f48c8ba94438ce286124e405e54" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const void *</type>
+        <definition>const void * themis::gpu::KernelArgumentBuffer::device_ptr</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::device_ptr</qualifiedname>
+        <briefdescription>
+<para>Device ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="149" column="16" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="242" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a7c9d2c87fd19b130391865f8501568ed" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::KernelArgumentBuffer::host_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>host_ptr</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::host_ptr</qualifiedname>
+        <briefdescription>
+<para>Host ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="156" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a834645eab60b7bc7d352a308021c8553" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelArgumentBuffer::upload</definition>
+        <argsstring>() const</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::upload</qualifiedname>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="161" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="250" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a3c5d03731b3af43b3248cfe2f071d7cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelArgumentBuffer::download</definition>
+        <argsstring>() const</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::download</qualifiedname>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="166" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="261" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa9def33f13f12da8115864c18bda45c5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::KernelArgumentBuffer::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="173" column="12" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a28b3358ee0ed86056f4a9433f9b4bd6c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelArgumentBuffer::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::is_valid</qualifiedname>
+        <briefdescription>
+<para>Is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="180" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ab0c6f1f63112d7969c1f024767f4f0fe" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelArgumentBuffer::cleanup</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::gpu::KernelArgumentBuffer::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_kernel_manager.h" line="187" column="10" bodyfile="src/gpu/gpu_kernel_manager.cpp" bodystart="280" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_kernel_manager.h" line="124" column="1" bodyfile="include/gpu/gpu_kernel_manager.h" bodystart="124" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ab0c6f1f63112d7969c1f024767f4f0fe" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1af06337a5b2ad05ce28cf552abedbac82" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>device_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ad5f301d92ccd61cd5d9915ebf9beffee" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>device_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ae9d57f48c8ba94438ce286124e405e54" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>device_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a85f80de5206b5285054026d67bff5fe1" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>device_ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a3c5d03731b3af43b3248cfe2f071d7cc" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>download</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a7c9d2c87fd19b130391865f8501568ed" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>host_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a1a3f78a1f2bd8c1aa0667b14893a9bb1" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>host_ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1af9b067cd40910f1dbd36df55d14d1cb2" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a28b3358ee0ed86056f4a9433f9b4bd6c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>KernelArgumentBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a92031dd563c51185512aa7c4d21787a3" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>KernelArgumentBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1abb0c4629c745fe203e396cc2ce938577" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>KernelArgumentBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a879e5bfdca1c292c7c030ba54b0741af" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa51232036858bf01a5ed66b09634894e" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa9def33f13f12da8115864c18bda45c5" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ab454b9df3dd14cf1e9ec937d062f2c7b" prot="private" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>size_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a834645eab60b7bc7d352a308021c8553" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>upload</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a2e9fe4cb80973d64ee59b15083156676" prot="public" virt="non-virtual"><scope>themis::gpu::KernelArgumentBuffer</scope><name>~KernelArgumentBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geospatial__index__selector_8h" kind="file" language="C++">
+    <compoundname>geospatial_index_selector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes refid="geospatial__cost__model_8h" local="yes">query/geospatial_cost_model.h</includes>
+    <includedby refid="bench__geospatial__phase2_8cpp" local="yes">benchmarks/query/bench_geospatial_phase2.cpp</includedby>
+    <includedby refid="geospatial__index__selector_8cpp" local="yes">src/query/geospatial_index_selector.cpp</includedby>
+    <includedby refid="test__geospatial__optimizer_8cpp" local="yes">tests/query/test_geospatial_optimizer.cpp</includedby>
+    <includedby refid="test__geospatial__phase2__integration_8cpp" local="yes">tests/query/test_geospatial_phase2_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_geospatial_phase2.cpp</label>
+        <link refid="bench__geospatial__phase2_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/query/geospatial_index_selector.cpp</label>
+        <link refid="geospatial__index__selector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_geospatial_optimizer.cpp</label>
+        <link refid="test__geospatial__optimizer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_geospatial_phase2_integration.cpp</label>
+        <link refid="test__geospatial__phase2__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_data_distribution" prot="public">themis::query::DataDistribution</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_index_statistics" prot="public">themis::query::IndexStatistics</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_index_candidate" prot="public">themis::query::IndexCandidate</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_geospatial_index_selector" prot="public">themis::query::GeospatialIndexSelector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Spatial index selection logic for Phase 6C. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Phase 6C Q3 2026 Delivery</para>
+</simplesect>
+ThemisDB | Query Module Phase 6C: Geospatial Phase 2</para>
+<para>Implements automatic spatial index selection for query optimization. Selects between R-tree, grid-based indexes, or full scan based on:<itemizedlist>
+<listitem><para>Data distribution (clustered vs. uniform)</para>
+</listitem><listitem><para>Predicate type (distance vs. containment)</para>
+</listitem><listitem><para>Index statistics (size, hit rate)</para>
+</listitem><listitem><para>Query characteristics </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__cost__model_8h" kindref="compound">query/geospatial_cost_model.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">RTREE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>R-tree<sp/>index<sp/>(balanced,<sp/>good<sp/>for<sp/>range<sp/>queries)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960abc899ea5d6a94a8e4e60c16244919ba0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960abc899ea5d6a94a8e4e60c16244919ba0" kindref="member">GRID</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Grid-based<sp/>index<sp/>(good<sp/>for<sp/>uniform<sp/>distributions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960a7256c1a26158d9848bac01fd5b00a277" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960a7256c1a26158d9848bac01fd5b00a277" kindref="member">QUADTREE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quadtree<sp/>index<sp/>(adaptive<sp/>grid)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>spatial<sp/>index<sp/>(full<sp/>scan)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_data_distribution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a6803285b9c18333b8a16d263ca7f5691" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856" kindref="member">Type</ref><sp/>{<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">UNIFORM</ref>,<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a6803285b9c18333b8a16d263ca7f5691" kindref="member">CLUSTERED</ref>,<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a4480645423bf172d52cf118d10e7d2e6" kindref="member">SKEWED</ref><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856" kindref="member">Type</ref><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_data_distribution_1a310ab19b832cf10a67df0fcac083b7b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1a310ab19b832cf10a67df0fcac083b7b2" kindref="member">clusteringRatio</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-1:<sp/>how<sp/>clustered<sp/>is<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_data_distribution_1aaea920579781da8fc362584901d499c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaea920579781da8fc362584901d499c7" kindref="member">isGlobalDataset</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>spans<sp/>whole<sp/>globe<sp/>(WGS84)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_data_distribution_1af3f153ee8aa626a59cdbbb31bef0c8fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1af3f153ee8aa626a59cdbbb31bef0c8fc" kindref="member">approximateClusterCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1a0d088f9a3e323de7384109d22f0e5ab4" kindref="member">infer</ref>(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalPoints,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>distinctLocationCells,<sp/><sp/></highlight><highlight class="comment">//<sp/>From<sp/>spatial<sp/>histogram</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>spatialVariance);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1query_1_1_index_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1query_1_1_index_statistics_1ac02d7141b262790df2fb556f2e77f908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1ac02d7141b262790df2fb556f2e77f908" kindref="member">indexSizeBytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1query_1_1_index_statistics_1af988f4bf7fa13a2bda2ef706bca4ef49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1af988f4bf7fa13a2bda2ef706bca4ef49" kindref="member">creationTime</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Seconds<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a0baad07c9ac45477f0c7ee719562d3ec" kindref="member">maintenanceOverhead</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>as<sp/>%<sp/>of<sp/>insert/update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_index_statistics_1ac139a54d88f707151018393bcd2d915c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1ac139a54d88f707151018393bcd2d915c" kindref="member">estimatedNodeCount</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>tree<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1query_1_1_index_statistics_1a0a0d314831c074e61990cf26e0a00fbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a0a0d314831c074e61990cf26e0a00fbd" kindref="member">averageNodeDensity</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>Points<sp/>per<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Historical<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_index_statistics_1ab033c50a2bf09f9248125e622fdf54b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1ab033c50a2bf09f9248125e622fdf54b6" kindref="member">totalQueriesRun</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1query_1_1_index_statistics_1a405e54eef8f737ca9c9c18bdb5205283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a405e54eef8f737ca9c9c18bdb5205283" kindref="member">indexedQueries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1query_1_1_index_statistics_1a77f61dfd75681bde7ee51222e41f4cda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a77f61dfd75681bde7ee51222e41f4cda" kindref="member">fullScanFallbacks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>%<sp/>of<sp/>queries<sp/>using<sp/>this<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics_1a62669919e53e594eeee54a6a1623a8d0" kindref="member">getEfficiencyScore</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_index_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_index_candidate" kindref="compound">IndexCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_index_candidate_1a415114a17e886df80f8905f70f74773f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1a415114a17e886df80f8905f70f74773f" kindref="member">indexName</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_index_candidate_1aec442327e17abfb7a91de1768fbdc2f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref><sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1aec442327e17abfb7a91de1768fbdc2f2" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1query_1_1_index_candidate_1a3a78c0cae11c83fdedaf53e66edcd78a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1a3a78c0cae11c83fdedaf53e66edcd78a" kindref="member">score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>is<sp/>better</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1query_1_1_index_candidate_1a60fedc71fb1b34d9a6c6a681be9a131f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1a60fedc71fb1b34d9a6c6a681be9a131f" kindref="member">estimatedCostWithIndexUs</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1query_1_1_index_candidate_1ad9da02a9ab778b1c8f7f18655919dcfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1ad9da02a9ab778b1c8f7f18655919dcfc" kindref="member">selectivityGain</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>reduction<sp/>vs.<sp/>full<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1query_1_1_index_candidate_1a4ae39b08732f7600381f117155b052b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1a4ae39b08732f7600381f117155b052b8" kindref="member">isRecommended</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_index_candidate_1afbfaeca4897eececa5dde99f25e19733" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1query_1_1_geospatial_index_selector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_geospatial_index_selector" kindref="compound">GeospatialIndexSelector</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_candidate" kindref="compound">IndexCandidate</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">selectIndex</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;&amp;<sp/>availableIndexes,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref>&amp;<sp/>dataDistribution,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>geometryParam<sp/>=<sp/>0.0);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;IndexCandidate&gt;<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1aa4f34f83a9eac7beed37973171bd2fc4" kindref="member">rankIndexes</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;&amp;<sp/>availableIndexes,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref>&amp;<sp/>dataDistribution,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>geometryParam<sp/>=<sp/>0.0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a80b1a30f00324d81cd7fb51ef6b9de33" kindref="member">getAvailableIndexes</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collectionName);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a61869cd7f4bd653413fe9052ae211199" kindref="member">inferDistribution</ref>(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>&amp;<sp/>histogram);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1afa44da5d5494b4a2cd7ee56dd235aea0" kindref="member">calculateSelectivityGain</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref><sp/>indexType,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scoreIndex(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref>&amp;<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref>&amp;<sp/>dataDistribution,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scoreFullScan(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getIndexTypeCostMultiplier(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960" kindref="member">SpatialIndexType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref>&amp;<sp/>distribution);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/geospatial_index_selector.h"/>
+  </compounddef>
+</doxygen>

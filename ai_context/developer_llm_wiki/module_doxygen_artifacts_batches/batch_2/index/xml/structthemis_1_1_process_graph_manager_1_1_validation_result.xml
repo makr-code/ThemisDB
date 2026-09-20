@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::ValidationResult</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_validation_result_1a8fee03f62bd15e0402045499364ec10b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProcessGraphManager::ValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::ProcessGraphManager::ValidationResult::is_valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="556" column="14" bodyfile="include/index/process_graph.h" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_validation_result_1a3fe8bcaa72d8a9419b6dc697ecf0101b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessGraphManager::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::ProcessGraphManager::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="557" column="21" bodyfile="include/index/process_graph.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_validation_result_1ad17d8be8e633d4a199404c416ae15b73" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessGraphManager::ValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ProcessGraphManager::ValidationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="558" column="21" bodyfile="include/index/process_graph.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validate process model (check for deadlocks, unreachable nodes, etc.). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="555" column="5" bodyfile="include/index/process_graph.h" bodystart="555" bodyend="559"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_validation_result_1a3fe8bcaa72d8a9419b6dc697ecf0101b" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_validation_result_1a8fee03f62bd15e0402045499364ec10b" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::ValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_validation_result_1ad17d8be8e633d4a199404c416ae15b73" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::ValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</compoundname>
+    <includes refid="temporal__spatial__query__builder_8h" local="no">temporal_spatial_query_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a3d95348cd2a6758883b59f37f71cd8d4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" kindref="member">TimeWindowType</ref></type>
+        <definition>TimeWindowType themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::window_type</definition>
+        <argsstring></argsstring>
+        <name>window_type</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::window_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="48" column="24" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a95b870f652d6e519cf993457467c4f65" prot="public" static="no" mutable="no">
+        <type>themisdb::temporal::Timestamp</type>
+        <definition>themisdb::temporal::Timestamp themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::point_in_time</definition>
+        <argsstring></argsstring>
+        <name>point_in_time</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::point_in_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="49" column="39" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1af9d953fe1e982e2bf27bb896f34c0a4b" prot="public" static="no" mutable="no">
+        <type>themisdb::temporal::Timestamp</type>
+        <definition>themisdb::temporal::Timestamp themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::interval_start</definition>
+        <argsstring></argsstring>
+        <name>interval_start</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::interval_start</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="50" column="39" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a7a131ab2ee969d8705796bf6c60ee891" prot="public" static="no" mutable="no">
+        <type>themisdb::temporal::Timestamp</type>
+        <definition>themisdb::temporal::Timestamp themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::interval_end</definition>
+        <argsstring></argsstring>
+        <name>interval_end</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::interval_end</qualifiedname>
+        <initializer>{themisdb::temporal::kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="51" column="39" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1accd2b8bd73440a6a642b1f127ee10d8d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::sliding_window_ms</definition>
+        <argsstring></argsstring>
+        <name>sliding_window_ms</name>
+        <qualifiedname>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint::sliding_window_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/temporal_spatial_query_builder.h" line="52" column="17" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/temporal_spatial_query_builder.h" line="47" column="5" bodyfile="include/geo/temporal_spatial_query_builder.h" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a7a131ab2ee969d8705796bf6c60ee891" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</scope><name>interval_end</name></member>
+      <member refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1af9d953fe1e982e2bf27bb896f34c0a4b" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</scope><name>interval_start</name></member>
+      <member refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a95b870f652d6e519cf993457467c4f65" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</scope><name>point_in_time</name></member>
+      <member refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1accd2b8bd73440a6a642b1f127ee10d8d" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</scope><name>sliding_window_ms</name></member>
+      <member refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a3d95348cd2a6758883b59f37f71cd8d4" prot="public" virt="non-virtual"><scope>themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</scope><name>window_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

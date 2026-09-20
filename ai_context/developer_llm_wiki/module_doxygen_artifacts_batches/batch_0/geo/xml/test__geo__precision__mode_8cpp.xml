@@ -1,0 +1,906 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__precision__mode_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_precision_mode.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_precision_mode.cpp</label>
+        <link refid="test__geo__precision__mode_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_precision_mode_intersects_test" prot="public">PrecisionModeIntersectsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a9d49b12364ac05e001733d6b36ca1635" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo makePoint</definition>
+        <argsstring>(double x, double y)</argsstring>
+        <name>makePoint</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="15" column="21" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="15" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a99a76b30d6bbb24f6d8c35ce85a19805" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo makeBox</definition>
+        <argsstring>(double minx, double miny, double maxx, double maxy)</argsstring>
+        <name>makeBox</name>
+        <param>
+          <type>double</type>
+          <declname>minx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>miny</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="21" column="21" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, ExactBackendHasCorrectName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>ExactBackendHasCorrectName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="34" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a5e211de7cb9637dfda62ebed08de7d6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, ApproximateBackendHasCorrectName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>ApproximateBackendHasCorrectName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="40" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1af609a116a02d28b571fb52041ed0c940" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, ExactBackendIsAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>ExactBackendIsAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="46" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a9be99358ad928ea723ae124333348891" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, ApproximateBackendIsAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>ApproximateBackendIsAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="50" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a98d95ff5298bd1302dcbcbad25de16c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, ExactAndApproximateAreDistinctInstances)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>ExactAndApproximateAreDistinctInstances</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="54" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a660d8125b118db4c602eb1cc181693ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionMode, CpuApproximateBackendSingletonIsStable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        </param>
+        <param>
+          <type>CpuApproximateBackendSingletonIsStable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="60" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, PointInsidePolygon_Intersects)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>PointInsidePolygon_Intersects</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="74" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1adc8214583a4948a7cbc12a8027eceaf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, PointOutsidePolygon_NoIntersect)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>PointOutsidePolygon_NoIntersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="81" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1af2262b50610c148b1ef26157f979f3c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, OverlappingPolygons_Intersect)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>OverlappingPolygons_Intersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="88" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a189414b408d8620e0e1174a47dec6e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, DisjointPolygons_NoIntersect)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>DisjointPolygons_NoIntersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="95" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a3dffe0d845eacea4e5af896123eefc63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, IdenticalPoints_Intersect)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>IdenticalPoints_Intersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="102" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1af738fa273c3b882f5c9d888e60753dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(PrecisionModeIntersectsTest, DifferentPoints_NoIntersect)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentPoints_NoIntersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="108" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a6bcef2ae7da3e2c2eca4dbdb91c829d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(ExactMode, PrecisionModeIntersectsTest, ::testing::Values(getBackendForPrecision(GeoPrecisionMode::Exact)), [](const testing::TestParamInfo&lt; ISpatialComputeBackend * &gt; &amp;) { return &quot;exact&quot;;})</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>ExactMode</type>
+        </param>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(GeoPrecisionMode::Exact))</type>
+        </param>
+        <param>
+          <attributes>[]</attributes>
+          <type>(const testing::TestParamInfo&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> * &gt; &amp;) { return &quot;exact&quot;;}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="114" column="1" declfile="tests/geo/test_geo_precision_mode.cpp" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1abefdcb14f824dbb67d674ac336af3660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(ApproximateMode, PrecisionModeIntersectsTest, ::testing::Values(getBackendForPrecision(GeoPrecisionMode::Approximate)), [](const testing::TestParamInfo&lt; ISpatialComputeBackend * &gt; &amp;) { return &quot;approximate&quot;;})</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>ApproximateMode</type>
+        </param>
+        <param>
+          <type><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(GeoPrecisionMode::Approximate))</type>
+        </param>
+        <param>
+          <attributes>[]</attributes>
+          <type>(const testing::TestParamInfo&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> * &gt; &amp;) { return &quot;approximate&quot;;}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="121" column="1" declfile="tests/geo/test_geo_precision_mode.cpp" declline="121" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1aaa98e20b72c0cba12f674f0edd84a7ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionModeNoFalseNegatives, ExactIntersectImpliesApproximateIntersect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPrecisionModeNoFalseNegatives</type>
+        </param>
+        <param>
+          <type>ExactIntersectImpliesApproximateIntersect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="133" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="133" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a582fcb8ec990ec20f6887f58c6ad026d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionModeBatch, ExactMode_BatchIntersects)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPrecisionModeBatch</type>
+        </param>
+        <param>
+          <type>ExactMode_BatchIntersects</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="157" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="157" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a72d33389d3e24016be2be59cadaeff49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionModeBatch, ApproximateMode_BatchIntersects)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPrecisionModeBatch</type>
+        </param>
+        <param>
+          <type>ApproximateMode_BatchIntersects</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="171" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="171" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a609bbd925b7e51264b7f855bca9ea606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionModeFalsePositive, ApproximateCanReturnTrueWhenExactReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPrecisionModeFalsePositive</type>
+        </param>
+        <param>
+          <type>ApproximateCanReturnTrueWhenExactReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="194" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="194" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1af434f18946cd613a625c6aa006604691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPrecisionModeBuffer, ApproximateBuffer_SameAsExact)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPrecisionModeBuffer</type>
+        </param>
+        <param>
+          <type>ApproximateBuffer_SameAsExact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="223" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="223" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1aa5c13592d6d3a12f639e6c423be74ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoCpuContainmentFn, GEO_CF_01_InjectedFnAlwaysTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoCpuContainmentFn</type>
+        </param>
+        <param>
+          <type>GEO_CF_01_InjectedFnAlwaysTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="247" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="247" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a9d0ada726d3ca2db9e0173420835b7e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoCpuContainmentFn, GEO_CF_02_InjectedFnAlwaysFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoCpuContainmentFn</type>
+        </param>
+        <param>
+          <type>GEO_CF_02_InjectedFnAlwaysFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="265" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="265" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1a893a635b744242365fa519664309a6ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoCpuContainmentFn, GEO_CF_03_ClearInjection_RestoresBuiltin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoCpuContainmentFn</type>
+        </param>
+        <param>
+          <type>GEO_CF_03_ClearInjection_RestoresBuiltin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="282" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="282" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__precision__mode_8cpp_1ad4ed08346700413e0856800114d39cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoCpuContainmentFn, GEO_CF_04_InjectedFnReceivesCorrectArgs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoCpuContainmentFn</type>
+        </param>
+        <param>
+          <type>GEO_CF_04_InjectedFnReceivesCorrectArgs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="302" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="302" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makePoint(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Point);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>g.coords.push_back({x,<sp/>y});</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makeBox(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>miny,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxy)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>ring<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{minx,<sp/>miny},<sp/>{maxx,<sp/>miny},<sp/>{maxx,<sp/>maxy},<sp/>{minx,<sp/>maxy},<sp/>{minx,<sp/>miny}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>g.rings.push_back(ring);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backend<sp/>factory<sp/>/<sp/>name<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>ExactBackendHasCorrectName)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>b<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(b,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(b-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48" kindref="member">name</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;cpu_exact&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>ApproximateBackendHasCorrectName)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>b<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(b,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(b-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48" kindref="member">name</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;cpu_approximate&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>ExactBackendIsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>)-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>ApproximateBackendIsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>)-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>ExactAndApproximateAreDistinctInstances)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>exact<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>approx<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exact,<sp/>approx);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref>,<sp/>CpuApproximateBackendSingletonIsStable)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1geo_1a618a09c4d368ea8209e625d6acb85d33" kindref="member">getCpuApproximateBackend</ref>(),<sp/><ref refid="namespacethemis_1_1geo_1a618a09c4d368ea8209e625d6acb85d33" kindref="member">getCpuApproximateBackend</ref>());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Intersects:<sp/>exact<sp/>and<sp/>approximate<sp/>must<sp/>agree<sp/>on<sp/>obvious<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_precision_mode_intersects_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::TestWithParam&lt;ISpatialComputeBackend*&gt;<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="class_precision_mode_intersects_test_1adc40d440fcebea7cef9eafe3024c8b19" kindref="member">backend</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GetParam();<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>PointInsidePolygon_Intersects)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/><sp/>=<sp/>makePoint(0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend()-&gt;exactIntersects(pt,<sp/>box));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend()-&gt;exactIntersects(box,<sp/>pt));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>PointOutsidePolygon_NoIntersect)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/><sp/>=<sp/>makePoint(5.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend()-&gt;exactIntersects(pt,<sp/>box));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend()-&gt;exactIntersects(box,<sp/>pt));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>OverlappingPolygons_Intersect)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box1<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box2<sp/>=<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend()-&gt;exactIntersects(box1,<sp/>box2));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend()-&gt;exactIntersects(box2,<sp/>box1));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>DisjointPolygons_NoIntersect)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box1<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box2<sp/>=<sp/>makeBox(2.0,<sp/>2.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend()-&gt;exactIntersects(box1,<sp/>box2));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend()-&gt;exactIntersects(box2,<sp/>box1));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>IdenticalPoints_Intersect)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt1<sp/>=<sp/>makePoint(10.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt2<sp/>=<sp/>makePoint(10.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend()-&gt;exactIntersects(pt1,<sp/>pt2));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a8f0da5dfa2d2740edf761871b321f294" kindref="member">TEST_P</ref>(<ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,<sp/>DifferentPoints_NoIntersect)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt1<sp/>=<sp/>makePoint(10.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt2<sp/>=<sp/>makePoint(10.5,<sp/>20.5);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend()-&gt;exactIntersects(pt1,<sp/>pt2));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a6bcef2ae7da3e2c2eca4dbdb91c829d1" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ExactMode,<sp/><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>)),</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>testing::TestParamInfo&lt;ISpatialComputeBackend*&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;exact&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a6bcef2ae7da3e2c2eca4dbdb91c829d1" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ApproximateMode,<sp/><ref refid="class_precision_mode_intersects_test" kindref="compound">PrecisionModeIntersectsTest</ref>,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>)),</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>testing::TestParamInfo&lt;ISpatialComputeBackend*&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;approximate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approximate<sp/>backend:<sp/>no<sp/>false<sp/>negatives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>exact<sp/>says<sp/>&quot;intersects&quot;,<sp/>approximate<sp/>must<sp/>too.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoPrecisionModeNoFalseNegatives,<sp/>ExactIntersectImpliesApproximateIntersect)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>exact<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>approx<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>set<sp/>of<sp/>geometry<sp/>pairs<sp/>that<sp/>definitely<sp/>intersect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Pair<sp/>{<sp/>GeometryInfo<sp/>a;<sp/>GeometryInfo<sp/>b;<sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Pair&gt;<sp/>pairs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>makePoint(0.5,<sp/>0.5),<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0)<sp/>},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0),<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0)<sp/>},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>makePoint(1.0,<sp/>1.0),<sp/>makePoint(1.0,<sp/>1.0)<sp/>},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>pairs)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(exact-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(p.a,<sp/>p.b))<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(approx-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(p.a,<sp/>p.b))</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Approximate<sp/>backend<sp/>must<sp/>not<sp/>produce<sp/>false<sp/>negatives&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>intersects<sp/>respects<sp/>precision<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoPrecisionModeBatch,<sp/>ExactMode_BatchIntersects)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>b<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>in;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref><sp/>=<sp/>{<sp/>makePoint(0.5,<sp/>0.5),<sp/>makePoint(5.0,<sp/>5.0)<sp/>};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref><sp/>=<sp/>{<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0),<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0)<sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>b-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca" kindref="member">batchIntersects</ref>(in);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.mask.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mask[0],<sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Point<sp/>inside<sp/>box<sp/>should<sp/>intersect&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mask[1],<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Point<sp/>outside<sp/>box<sp/>should<sp/>not<sp/>intersect&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoPrecisionModeBatch,<sp/>ApproximateMode_BatchIntersects)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>b<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>in;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref><sp/>=<sp/>{<sp/>makePoint(0.5,<sp/>0.5),<sp/>makePoint(5.0,<sp/>5.0)<sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref><sp/>=<sp/>{<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0),<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0)<sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>b-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca" kindref="member">batchIntersects</ref>(in);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.mask.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Approximate<sp/>uses<sp/>MBR:<sp/>first<sp/>pair<sp/>must<sp/>intersect,<sp/>second<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mask[0],<sp/>1u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mask[1],<sp/>0u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approximate<sp/>backend:<sp/>demonstrates<sp/>false-positive<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two<sp/>disjoint<sp/>polygons<sp/>whose<sp/>MBRs<sp/>overlap<sp/>(classic<sp/>L-shape<sp/>+<sp/>corner<sp/>box).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>approximate<sp/>backend<sp/>must<sp/>return<sp/>TRUE<sp/>(no<sp/>false<sp/>negatives),<sp/>but<sp/>it<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>allowed<sp/>to<sp/>return<sp/>TRUE<sp/>even<sp/>when<sp/>the<sp/>shapes<sp/>don&apos;t<sp/>touch<sp/>(false<sp/>positive).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>exact<sp/>backend<sp/>must<sp/>return<sp/>FALSE<sp/>for<sp/>the<sp/>same<sp/>pair.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoPrecisionModeFalsePositive,<sp/>ApproximateCanReturnTrueWhenExactReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L-shape:<sp/>2×2<sp/>square<sp/>with<sp/>the<sp/>top-right<sp/>1×1<sp/>corner<sp/>removed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vertices<sp/>(CCW<sp/>outer<sp/>ring):<sp/>(0,0)→(2,0)→(2,1)→(1,1)→(1,2)→(0,2)→close</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>l_shape(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>l_shape.rings.push_back({</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0.0,<sp/>0.0},<sp/>{2.0,<sp/>0.0},<sp/>{2.0,<sp/>1.0},<sp/>{1.0,<sp/>1.0},</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1.0,<sp/>2.0},<sp/>{0.0,<sp/>2.0},<sp/>{0.0,<sp/>0.0}<sp/><sp/></highlight><highlight class="comment">//<sp/>closed<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>box<sp/>sitting<sp/>entirely<sp/>in<sp/>the<sp/>removed<sp/>corner:<sp/>x∈[1.5,2],<sp/>y∈[1.5,2].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>region<sp/>is<sp/>outside<sp/>the<sp/>L-shape<sp/>polygon.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>corner_box<sp/>=<sp/>makeBox(1.5,<sp/>1.5,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>exact<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>approx<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>check:<sp/>shapes<sp/>are<sp/>disjoint<sp/>—<sp/>must<sp/>return<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(exact-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(l_shape,<sp/>corner_box))</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exact<sp/>mode<sp/>must<sp/>correctly<sp/>identify<sp/>that<sp/>the<sp/>corner<sp/>box<sp/>is<sp/>outside<sp/>the<sp/>L-shape&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Approximate<sp/>check<sp/>(MBR-based):<sp/>MBRs<sp/>do<sp/>overlap<sp/>([0,0,2,2]<sp/>vs<sp/>[1.5,1.5,2,2]).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>approximate<sp/>backend<sp/>is<sp/>allowed<sp/>to<sp/>return<sp/>true<sp/>here<sp/>(false<sp/>positive).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>documents<sp/>that<sp/>the<sp/>approximate<sp/>backend<sp/>uses<sp/>MBR<sp/>and<sp/>intentionally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>does<sp/>not<sp/>distinguish<sp/>between<sp/>&quot;MBR<sp/>overlap&quot;<sp/>and<sp/>&quot;actual<sp/>shape<sp/>overlap&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approx-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(l_shape,<sp/>corner_box))</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Approximate<sp/>mode<sp/>uses<sp/>MBR;<sp/>the<sp/>MBRs<sp/>overlap<sp/>so<sp/>it<sp/>should<sp/>return<sp/>true<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(false<sp/>positive<sp/>by<sp/>design,<sp/>no<sp/>false<sp/>negatives)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoPrecisionModeBuffer,<sp/>ApproximateBuffer_SameAsExact)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>exact<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">GeoPrecisionMode::Exact</ref>);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>approx<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">GeoPrecisionMode::Approximate</ref>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/>=<sp/>makePoint(13.4050,<sp/>52.5200);<sp/></highlight><highlight class="comment">//<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>r_exact<sp/><sp/>=<sp/>exact-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e" kindref="member">stBuffer</ref>(pt,<sp/>500.0,<sp/>36);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>r_approx<sp/>=<sp/>approx-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e" kindref="member">stBuffer</ref>(pt,<sp/>500.0,<sp/>36);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r_exact.isPolygon());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r_approx.isPolygon());</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r_exact.rings.size(),<sp/>r_approx.rings.size());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r_exact.rings[0].size(),<sp/>r_approx.rings[0].size());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>r_exact.rings[0].size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(r_exact.rings[0][i].x,<sp/>r_approx.rings[0][i].x,<sp/>1e-12);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(r_exact.rings[0][i].y,<sp/>r_approx.rings[0][i].y,<sp/>1e-12);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoContainmentFn<sp/>injection<sp/>tests<sp/>(GEO-CF-01<sp/>…<sp/>GEO-CF-04)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-CF-01<sp/>—<sp/>Injected<sp/>containment<sp/>fn<sp/>returning<sp/>true<sp/>→<sp/>point<sp/>always<sp/>inside<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoCpuContainmentFn,<sp/>GEO_CF_01_InjectedFnAlwaysTrue)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>([](</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Coordinate&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>clearly<sp/>outside<sp/>the<sp/>unit<sp/>box<sp/>—<sp/>injected<sp/>fn<sp/>returns<sp/>true<sp/>anyway</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/><sp/>=<sp/>makePoint(100.0,<sp/>100.0);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend-&gt;exactIntersects(pt,<sp/>box))</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-01:<sp/>injected<sp/>always-true<sp/>fn<sp/>must<sp/>override<sp/>ray-casting<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-CF-02<sp/>—<sp/>Injected<sp/>containment<sp/>fn<sp/>returning<sp/>false<sp/>→<sp/>point<sp/>always<sp/>outside<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoCpuContainmentFn,<sp/>GEO_CF_02_InjectedFnAlwaysFalse)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>([](</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Coordinate&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>clearly<sp/>inside<sp/>the<sp/>unit<sp/>box<sp/>—<sp/>injected<sp/>fn<sp/>returns<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/><sp/>=<sp/>makePoint(0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend-&gt;exactIntersects(pt,<sp/>box))</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-02:<sp/>injected<sp/>always-false<sp/>fn<sp/>must<sp/>override<sp/>ray-casting<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-CF-03<sp/>—<sp/>Clearing<sp/>the<sp/>injection<sp/>(nullptr)<sp/>restores<sp/>built-in<sp/>ray-casting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoCpuContainmentFn,<sp/>GEO_CF_03_ClearInjection_RestoresBuiltin)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>an<sp/>always-true<sp/>fn,<sp/>then<sp/>clear<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>([](</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Coordinate&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>clear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt_inside<sp/><sp/>=<sp/>makePoint(0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt_outside<sp/>=<sp/>makePoint(5.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Built-in<sp/>ray-casting<sp/>should<sp/>now<sp/>be<sp/>in<sp/>effect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(backend-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(pt_inside,<sp/>box))</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-03:<sp/>after<sp/>clearing<sp/>fn,<sp/>built-in<sp/>ray-casting<sp/>must<sp/>correctly<sp/>report<sp/>containment&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(pt_outside,<sp/>box))</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-03:<sp/>after<sp/>clearing<sp/>fn,<sp/>built-in<sp/>ray-casting<sp/>must<sp/>correctly<sp/>reject<sp/>exterior<sp/>point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEO-CF-04<sp/>—<sp/>Injected<sp/>fn<sp/>receives<sp/>correct<sp/>(px,<sp/>py,<sp/>ring)<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="test__geo__precision__mode_8cpp_1a3b63ec48a16b515b00e0925dbe9ad308" kindref="member">TEST</ref>(GeoCpuContainmentFn,<sp/>GEO_CF_04_InjectedFnReceivesCorrectArgs)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>last_px<sp/>=<sp/>-1.0,<sp/>last_py<sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>([&amp;](</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>px,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>py,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Coordinate&gt;&amp;<sp/></highlight><highlight class="comment">/*ring*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_px<sp/><sp/><sp/><sp/>=<sp/>px;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_py<sp/><sp/><sp/><sp/>=<sp/>py;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn_called<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>expected<sp/>coordinates<sp/>to<sp/>decide<sp/>the<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(std::abs(px<sp/>-<sp/>0.5)<sp/>&lt;<sp/>1.0<sp/>&amp;&amp;<sp/>std::abs(py<sp/>-<sp/>0.5)<sp/>&lt;<sp/>1.0);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/><sp/>=<sp/>makePoint(0.5,<sp/>0.5);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>box<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(backend-&gt;exactIntersects(pt,<sp/>box));</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fn_called)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-04:<sp/>injected<sp/>fn<sp/>must<sp/>be<sp/>called&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(last_px,<sp/>0.5,<sp/>1e-12)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-04:<sp/>px<sp/>must<sp/>match<sp/>point<sp/>x<sp/>coordinate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(last_py,<sp/>0.5,<sp/>1e-12)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GEO-CF-04:<sp/>py<sp/>must<sp/>match<sp/>point<sp/>y<sp/>coordinate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_precision_mode.cpp"/>
+  </compounddef>
+</doxygen>

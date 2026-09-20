@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_forecast_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastConfig</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1aecde456d81e96503c80a3feaef9cda43" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::alpha</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>level smoothing factor (0 &lt; α &lt; 1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="176" column="12" bodyfile="include/analytics/forecasting.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1aaee9a5bd154d60724edc2a51efd9ee9b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::beta</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>trend smoothing factor (0 &lt; β &lt; 1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="177" column="12" bodyfile="include/analytics/forecasting.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a8ebd4f1f3477f5deec839de099587569" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::gamma</definition>
+        <argsstring></argsstring>
+        <name>gamma</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::gamma</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>seasonal smoothing factor (0 &lt; γ &lt; 1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="178" column="12" bodyfile="include/analytics/forecasting.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a52f8fc817059ea85dc59a183370052c3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::seasonality</definition>
+        <argsstring></argsstring>
+        <name>seasonality</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::seasonality</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>seasonal period (0 = no seasonality) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="179" column="12" bodyfile="include/analytics/forecasting.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1afe97a94c7afa48ed83fa574491b8d8ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastConfig::multiplicative</definition>
+        <argsstring></argsstring>
+        <name>multiplicative</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::multiplicative</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = multiplicative, false = additive </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="180" column="12" bodyfile="include/analytics/forecasting.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a509539069f0cde9f5216b26682512fde" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::ar_order</definition>
+        <argsstring></argsstring>
+        <name>ar_order</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::ar_order</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>autoregressive order p </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="183" column="12" bodyfile="include/analytics/forecasting.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a77b619fef4c8f3d6cac32b1f4d46d6b5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::diff_order</definition>
+        <argsstring></argsstring>
+        <name>diff_order</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::diff_order</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>differencing order d (0 or 1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="184" column="12" bodyfile="include/analytics/forecasting.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1acf9f296960d7b06629f1a5169a6491a6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::ma_order</definition>
+        <argsstring></argsstring>
+        <name>ma_order</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::ma_order</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>moving-average order q </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="185" column="12" bodyfile="include/analytics/forecasting.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1ad480a2fb4ef5c8e690b15de6572969ce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::sarima_P</definition>
+        <argsstring></argsstring>
+        <name>sarima_P</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::sarima_P</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>seasonal AR order </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="188" column="12" bodyfile="include/analytics/forecasting.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a08ebd9bb521d74c817d3d7588fb74f15" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::sarima_D</definition>
+        <argsstring></argsstring>
+        <name>sarima_D</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::sarima_D</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>seasonal differencing order (0 or 1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="189" column="12" bodyfile="include/analytics/forecasting.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a84ab7db6ce4fcb82620326c412eca77d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::sarima_Q</definition>
+        <argsstring></argsstring>
+        <name>sarima_Q</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::sarima_Q</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>seasonal MA order </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="190" column="12" bodyfile="include/analytics/forecasting.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::sarima_m</definition>
+        <argsstring></argsstring>
+        <name>sarima_m</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::sarima_m</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>seasonal period (0 = autodetect / disabled) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="191" column="12" bodyfile="include/analytics/forecasting.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a49a32ffdfc7dc372ffe251172192b92e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::prophet_changepoint_prior_scale</definition>
+        <argsstring></argsstring>
+        <name>prophet_changepoint_prior_scale</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::prophet_changepoint_prior_scale</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="194" column="12" bodyfile="include/analytics/forecasting.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a25c44a1fbbf1b022668d4600c89aa081" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::prophet_fourier_order_weekly</definition>
+        <argsstring></argsstring>
+        <name>prophet_fourier_order_weekly</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::prophet_fourier_order_weekly</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="195" column="12" bodyfile="include/analytics/forecasting.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1adfd25c28b73386514300faf38ee5e16f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ForecastConfig::prophet_fourier_order_yearly</definition>
+        <argsstring></argsstring>
+        <name>prophet_fourier_order_yearly</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::prophet_fourier_order_yearly</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="196" column="12" bodyfile="include/analytics/forecasting.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1aaf661f5522f21deb9741d7b2189849ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::prophet_changepoint_range</definition>
+        <argsstring></argsstring>
+        <name>prophet_changepoint_range</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::prophet_changepoint_range</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="197" column="12" bodyfile="include/analytics/forecasting.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a08f80cf0d002884aab764872d6481bb2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastConfig::include_confidence</definition>
+        <argsstring></argsstring>
+        <name>include_confidence</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::include_confidence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="200" column="12" bodyfile="include/analytics/forecasting.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a227486a7a110882c29ab7693e275e5a4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastConfig::confidence_level</definition>
+        <argsstring></argsstring>
+        <name>confidence_level</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::confidence_level</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>e.g., 0.95 → 95% CI </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="201" column="12" bodyfile="include/analytics/forecasting.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a05979948bff80c59f9366c5223fc9627" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::ForecastConfig::ensemble_weights</definition>
+        <argsstring></argsstring>
+        <name>ensemble_weights</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::ensemble_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="204" column="17" bodyfile="include/analytics/forecasting.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_config_1a44c112f3bc1d8119a9f8591b4f347dfa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastConfig::auto_tune</definition>
+        <argsstring></argsstring>
+        <name>auto_tune</name>
+        <qualifiedname>themisdb::analytics::ForecastConfig::auto_tune</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>grid-search alpha/beta/gamma </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="207" column="12" bodyfile="include/analytics/forecasting.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="174" column="1" bodyfile="include/analytics/forecasting.h" bodystart="174" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1aecde456d81e96503c80a3feaef9cda43" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>alpha</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a509539069f0cde9f5216b26682512fde" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>ar_order</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a44c112f3bc1d8119a9f8591b4f347dfa" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>auto_tune</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1aaee9a5bd154d60724edc2a51efd9ee9b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>beta</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a227486a7a110882c29ab7693e275e5a4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>confidence_level</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a77b619fef4c8f3d6cac32b1f4d46d6b5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>diff_order</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a05979948bff80c59f9366c5223fc9627" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>ensemble_weights</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a8ebd4f1f3477f5deec839de099587569" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>gamma</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a08f80cf0d002884aab764872d6481bb2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>include_confidence</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1acf9f296960d7b06629f1a5169a6491a6" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>ma_order</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1afe97a94c7afa48ed83fa574491b8d8ee" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>multiplicative</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a49a32ffdfc7dc372ffe251172192b92e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>prophet_changepoint_prior_scale</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1aaf661f5522f21deb9741d7b2189849ad" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>prophet_changepoint_range</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a25c44a1fbbf1b022668d4600c89aa081" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>prophet_fourier_order_weekly</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1adfd25c28b73386514300faf38ee5e16f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>prophet_fourier_order_yearly</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a08ebd9bb521d74c817d3d7588fb74f15" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>sarima_D</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>sarima_m</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1ad480a2fb4ef5c8e690b15de6572969ce" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>sarima_P</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a84ab7db6ce4fcb82620326c412eca77d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>sarima_Q</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_config_1a52f8fc817059ea85dc59a183370052c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastConfig</scope><name>seasonality</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

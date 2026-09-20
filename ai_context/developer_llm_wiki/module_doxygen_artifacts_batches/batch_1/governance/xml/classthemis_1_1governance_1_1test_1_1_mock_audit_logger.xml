@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::test::MockAuditLogger</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::utils::AuditLogger</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a42d296f111b24111c24c49ebe8034beb" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::test::MockAuditLogger::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::failure_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="23" column="13" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1ae984dff61f51f21563e2bebea587ddb2" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::test::MockAuditLogger::fail_after</definition>
+        <argsstring></argsstring>
+        <name>fail_after</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::fail_after</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="24" column="13" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a10d7c2a5aabec659010c55c6fd9a56e6" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::test::MockAuditLogger::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::call_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="25" column="13" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a8149c154c430fbdda37b9123cedcb58c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::MockAuditLogger::logEvent</definition>
+        <argsstring>(const nlohmann::json &amp;event) override</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::logEvent</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="27" column="10" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1afa53126e314bf22d824deb1e22b484b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::test::MockAuditLogger::getEvents</definition>
+        <argsstring>(int64_t start_ms=0, int64_t end_ms=0, const std::string &amp;filter=&quot;&quot;) const override</argsstring>
+        <name>getEvents</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::getEvents</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="34" column="20" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a3bcad610447d1794233348cc9843fd5f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::governance::test::MockAuditLogger::getTotalEventCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getTotalEventCount</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::getTotalEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="39" column="12" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1afa94fb77a56d1d3ba121f3fa05f01c97" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::MockAuditLogger::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::governance::test::MockAuditLogger::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="41" column="10" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::test::MockAuditLogger</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::AuditLogger</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::test::MockAuditLogger</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::AuditLogger</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="21" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="21" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a10d7c2a5aabec659010c55c6fd9a56e6" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>call_count</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1afa94fb77a56d1d3ba121f3fa05f01c97" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>clear</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1ae984dff61f51f21563e2bebea587ddb2" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>fail_after</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a42d296f111b24111c24c49ebe8034beb" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>failure_count</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1afa53126e314bf22d824deb1e22b484b4" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>getEvents</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a3bcad610447d1794233348cc9843fd5f" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>getTotalEventCount</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_mock_audit_logger_1a8149c154c430fbdda37b9123cedcb58c" prot="public" virt="non-virtual"><scope>themis::governance::test::MockAuditLogger</scope><name>logEvent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_llm_adapter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LlmAdapterConfig</compoundname>
+    <includes refid="llm__adapter_8h" local="no">llm_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LlmAdapterConfig::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::model_path</qualifiedname>
+        <briefdescription>
+<para>Path to GGUF model file (e.g. mistral-7b.Q4_K_M.gguf). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="39" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::LlmAdapterConfig::adapter_path</definition>
+        <argsstring></argsstring>
+        <name>adapter_path</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::adapter_path</qualifiedname>
+        <briefdescription>
+<para>Path to LoRA adapter weights (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="40" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a16875ea2b022cee93e975afc94b824d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::LlmAdapterConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::temperature</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Sampling temperature (lower = more deterministic). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="41" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a1c153a0ae99cd12ecdb5a4d5d8ccd894" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::LlmAdapterConfig::context_size</definition>
+        <argsstring></argsstring>
+        <name>context_size</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::context_size</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Context window size in tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="42" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a86eed12449c6465039d49b5affa73298" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LlmAdapterConfig::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Attempt GPU offloading via llama.cpp (requires CUDA/Metal). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="43" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1ae074a91cd18bd55ae0f3c787a7d306d2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::LlmAdapterConfig::gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>gpu_layers</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::gpu_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of layers to offload to GPU (0 = CPU only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="44" column="17" bodyfile="include/ingestion/llm_adapter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a919107ad770e1e5c58413a11aafe33ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LlmAdapterConfig::LlmAdapterConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>LlmAdapterConfig</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::LlmAdapterConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1acf1d2adda3cafb4283f23c2820607fe3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LlmAdapterConfig::LlmAdapterConfig</definition>
+        <argsstring>(std::string model, std::string adapter=&quot;&quot;, double temp=0.1)</argsstring>
+        <name>LlmAdapterConfig</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::LlmAdapterConfig</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>adapter</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temp</declname>
+          <defval>0.1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="47" column="5" bodyfile="include/ingestion/llm_adapter.h" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a2fcc66b0bfc8c57e85b163ea2845f3c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LlmAdapterConfig::hasModel</definition>
+        <argsstring>() const</argsstring>
+        <name>hasModel</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::hasModel</qualifiedname>
+        <briefdescription>
+<para>Returns true when a model path has been set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="53" column="10" bodyfile="include/ingestion/llm_adapter.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_llm_adapter_config_1a4eb4d39e40f899a76bf80920eef3c93e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LlmAdapterConfig::hasAdapter</definition>
+        <argsstring>() const</argsstring>
+        <name>hasAdapter</name>
+        <qualifiedname>themis::ingestion::LlmAdapterConfig::hasAdapter</qualifiedname>
+        <briefdescription>
+<para>Returns true when a LoRA adapter path has been set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/llm_adapter.h" line="56" column="10" bodyfile="include/ingestion/llm_adapter.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the LLM-based deontic extraction adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls which LLM model and (optional) LoRA adapter are used for semantic extraction of deontic modalities from German legal texts.</para>
+<para>In Phase 1, the adapter falls back to regex-based extraction regardless of these settings. In Phase 2, when <computeroutput>THEMIS_ENABLE_LLM</computeroutput> is <computeroutput>ON</computeroutput> and a valid <computeroutput><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" kindref="member">model_path</ref></computeroutput> is supplied, the adapter will call the llama.cpp inference engine through ThemisDB&apos;s existing LLM integration layer. </para>
+    </detaileddescription>
+    <location file="include/ingestion/llm_adapter.h" line="38" column="1" bodyfile="include/ingestion/llm_adapter.h" bodystart="38" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>adapter_path</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a1c153a0ae99cd12ecdb5a4d5d8ccd894" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>context_size</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1ae074a91cd18bd55ae0f3c787a7d306d2" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>gpu_layers</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a4eb4d39e40f899a76bf80920eef3c93e" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>hasAdapter</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a2fcc66b0bfc8c57e85b163ea2845f3c4" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>hasModel</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a919107ad770e1e5c58413a11aafe33ac" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>LlmAdapterConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1acf1d2adda3cafb4283f23c2820607fe3" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>LlmAdapterConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a16875ea2b022cee93e975afc94b824d9" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a86eed12449c6465039d49b5affa73298" prot="public" virt="non-virtual"><scope>themis::ingestion::LlmAdapterConfig</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

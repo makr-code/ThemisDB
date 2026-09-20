@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_schema_validation_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::SchemaValidationError</compoundname>
+    <includes refid="graphql__schema__builder_8h" local="no">graphql_schema_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_schema_validation_error_1adf6cd271748f3323ad73e844d09b34c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SchemaValidationError::type_name</definition>
+        <argsstring></argsstring>
+        <name>type_name</name>
+        <qualifiedname>themis::api::SchemaValidationError::type_name</qualifiedname>
+        <briefdescription>
+<para>Name of the type where the error occurred, or empty for global errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="94" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_schema_validation_error_1a4d8d4d55118d10577f5607aafa65880f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SchemaValidationError::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::api::SchemaValidationError::field_name</qualifiedname>
+        <briefdescription>
+<para>Name of the field where the error occurred, or empty for type-level errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="95" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_schema_validation_error_1a9cc7c412a49627ad5243e1011bc1a2f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::SchemaValidationError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::api::SchemaValidationError::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="96" column="17" bodyfile="include/api/graphql_schema_builder.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_schema_builder.h" line="93" column="1" bodyfile="include/api/graphql_schema_builder.h" bodystart="93" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_schema_validation_error_1a4d8d4d55118d10577f5607aafa65880f" prot="public" virt="non-virtual"><scope>themis::api::SchemaValidationError</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1api_1_1_schema_validation_error_1a9cc7c412a49627ad5243e1011bc1a2f7" prot="public" virt="non-virtual"><scope>themis::api::SchemaValidationError</scope><name>message</name></member>
+      <member refid="structthemis_1_1api_1_1_schema_validation_error_1adf6cd271748f3323ad73e844d09b34c1" prot="public" virt="non-virtual"><scope>themis::api::SchemaValidationError</scope><name>type_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

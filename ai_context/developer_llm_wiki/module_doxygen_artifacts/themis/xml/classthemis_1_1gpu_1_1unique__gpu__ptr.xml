@@ -1,0 +1,571 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1unique__gpu__ptr" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::unique_gpu_ptr</compoundname>
+    <includes refid="gpu__memory_8h" local="no">gpu_memory.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a5d52a91ba8e2d0b7c84e20ad73bb1ffb" prot="public" static="no">
+        <type>T</type>
+        <definition>using themis::gpu::unique_gpu_ptr&lt; T &gt;::element_type = T</definition>
+        <argsstring></argsstring>
+        <name>element_type</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::element_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="138" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" prot="public" static="no">
+        <type>T *</type>
+        <definition>using themis::gpu::unique_gpu_ptr&lt; T &gt;::pointer = T*</definition>
+        <argsstring></argsstring>
+        <name>pointer</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::pointer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="139" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1af136f6f08c405d93825fb6a0d599a73a" prot="public" static="no">
+        <type>const T *</type>
+        <definition>using themis::gpu::unique_gpu_ptr&lt; T &gt;::const_pointer = const T*</definition>
+        <argsstring></argsstring>
+        <name>const_pointer</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::const_pointer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="140" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a359557969ec514f660fa99eb5a32a07d" prot="public" static="no">
+        <type>T &amp;</type>
+        <definition>using themis::gpu::unique_gpu_ptr&lt; T &gt;::reference = T&amp;</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::reference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="141" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1ab4e957961ebca641453ed2910d2698fe" prot="public" static="no">
+        <type>const T &amp;</type>
+        <definition>using themis::gpu::unique_gpu_ptr&lt; T &gt;::const_reference = const T&amp;</definition>
+        <argsstring></argsstring>
+        <name>const_reference</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::const_reference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="142" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1abc39af6f2e8e2569db23c27fc32851c4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+        <definition>pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="292" column="11" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::unique_gpu_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::unique_gpu_ptr</qualifiedname>
+        <briefdescription>
+<para>Default constructor: null pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="149" column="13" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1ac20a52276a34362dab54bea69b720d5b" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::unique_gpu_ptr</definition>
+        <argsstring>(pointer p) noexcept</argsstring>
+        <name>unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::unique_gpu_ptr</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Construct from raw pointer (takes ownership). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="152" column="12" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a766584ef481cc3217cd2ae7f0f1dc468" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::unique_gpu_ptr</definition>
+        <argsstring>(std::nullptr_t) noexcept</argsstring>
+        <name>unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::unique_gpu_ptr</qualifiedname>
+        <param>
+          <type>std::nullptr_t</type>
+        </param>
+        <briefdescription>
+<para>Construct from nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="155" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a78d2b9f86723f8388030fc18618585df" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::~unique_gpu_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::~unique_gpu_ptr</qualifiedname>
+        <briefdescription>
+<para>Destructor: calls deleter on owned pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="158" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a5581748066ba17a81ead37f56e16ac58" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::unique_gpu_ptr</definition>
+        <argsstring>(unique_gpu_ptr &amp;&amp;other) noexcept</argsstring>
+        <name>unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::unique_gpu_ptr</qualifiedname>
+        <param>
+          <type>unique_gpu_ptr &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor: transfers ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="163" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a1d5a51da06a22e020e18cc17f3ac6cc7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+        <definition>unique_gpu_ptr &amp; themis::gpu::unique_gpu_ptr&lt; T &gt;::operator=</definition>
+        <argsstring>(unique_gpu_ptr &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment: transfers ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="166" column="18" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a353506124e46bffcc1baacce4b5fb934" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+        <definition>unique_gpu_ptr &amp; themis::gpu::unique_gpu_ptr&lt; T &gt;::operator=</definition>
+        <argsstring>(std::nullptr_t) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator=</qualifiedname>
+        <param>
+          <type>std::nullptr_t</type>
+        </param>
+        <briefdescription>
+<para>Move from nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="172" column="18" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="172" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a6b224a5c7cbe25f30e51208309927972" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::unique_gpu_ptr</definition>
+        <argsstring>(const unique_gpu_ptr &amp;)=delete</argsstring>
+        <name>unique_gpu_ptr</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::unique_gpu_ptr</qualifiedname>
+        <param>
+          <type>const unique_gpu_ptr &amp;</type>
+        </param>
+        <briefdescription>
+<para>Deleted copy constructor: prevent accidental duplication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="178" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1acc00d285902f5527daf5c22953b30541" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+        <definition>unique_gpu_ptr &amp; themis::gpu::unique_gpu_ptr&lt; T &gt;::operator=</definition>
+        <argsstring>(const unique_gpu_ptr &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Deleted copy assignment: prevent accidental duplication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="181" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a980d763620d83e67336f50e8e9e60316" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+        <definition>pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::get</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get raw pointer (non-owning). <simplesect kind="return"><para>Raw pointer; may be nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="189" column="11" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a103b143c12914f65dff775f9b8e8d378" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af136f6f08c405d93825fb6a0d599a73a" kindref="member">const_pointer</ref></type>
+        <definition>const_pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::get</qualifiedname>
+        <briefdescription>
+<para>Get raw pointer (const). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="192" column="17" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a35df1d4c61f20d0cc50208cbeb758763" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a359557969ec514f660fa99eb5a32a07d" kindref="member">reference</ref></type>
+        <definition>reference themis::gpu::unique_gpu_ptr&lt; T &gt;::operator*</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dereference: access pointed-to element. <simplesect kind="return"><para>Reference to element </para>
+</simplesect>
+<simplesect kind="pre"><para>ptr_ != nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="197" column="13" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="197" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a433499b320ae7c07a5f119de6c31cd65" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1ab4e957961ebca641453ed2910d2698fe" kindref="member">const_reference</ref></type>
+        <definition>const_reference themis::gpu::unique_gpu_ptr&lt; T &gt;::operator*</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator*</qualifiedname>
+        <briefdescription>
+<para>Dereference (const). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="203" column="19" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1acc724dcd44895180d9bf4fcc69a27394" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+        <definition>pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Member access: pointer-to-member. <simplesect kind="return"><para>Raw pointer </para>
+</simplesect>
+<simplesect kind="pre"><para>ptr_ != nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="211" column="11" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="211" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a59d855f20c78b14659bc298bddbfaeff" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af136f6f08c405d93825fb6a0d599a73a" kindref="member">const_pointer</ref></type>
+        <definition>const_pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator-&gt;</qualifiedname>
+        <briefdescription>
+<para>Member access (const). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="217" column="17" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="217" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1af1c34fc0907c3a25bfc29bceb6b26d83" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::unique_gpu_ptr&lt; T &gt;::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator bool</qualifiedname>
+        <briefdescription>
+<para>Boolean conversion: true if owns non-null pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="223" column="12" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a302cd0b66b09e60339ed10d3dc9c2376" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::unique_gpu_ptr&lt; T &gt;::operator==</definition>
+        <argsstring>(const unique_gpu_ptr &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Comparison: equality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="226" column="8" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1ac9f3d454b06bb3f59dd5d66802c54b02" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::unique_gpu_ptr&lt; T &gt;::operator!=</definition>
+        <argsstring>(const unique_gpu_ptr &amp;other) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Comparison: inequality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="231" column="8" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a49a2f6d4887a91d3713965f96800db86" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::unique_gpu_ptr&lt; T &gt;::operator&lt;</definition>
+        <argsstring>(const unique_gpu_ptr &amp;other) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Comparison: less-than (for use in containers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="236" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="236" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1afb215483472e79d017aef52232419971" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+        <definition>pointer themis::gpu::unique_gpu_ptr&lt; T &gt;::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Release ownership and return raw pointer. <simplesect kind="return"><para>Owned pointer; caller now responsible for deallocation </para>
+</simplesect>
+<simplesect kind="post"><para>ptr_ == nullptr </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="247" column="11" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="247" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1a979f6197e4b4136154253fc316ffe7d1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::unique_gpu_ptr&lt; T &gt;::reset</definition>
+        <argsstring>(pointer p=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::reset</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" kindref="member">pointer</ref></type>
+          <declname>p</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset to new pointer and free old one. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New pointer to manage (may be nullptr) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="255" column="8" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="255" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1unique__gpu__ptr_1aa89976dd665399e5307bc7fc696bea8d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::unique_gpu_ptr&lt; T &gt;::swap</definition>
+        <argsstring>(unique_gpu_ptr &amp;other) noexcept</argsstring>
+        <name>swap</name>
+        <qualifiedname>themis::gpu::unique_gpu_ptr::swap</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" kindref="member">unique_gpu_ptr</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Swap ownership with another <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr" kindref="compound">unique_gpu_ptr</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="287" column="8" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="287" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII unique ownership wrapper for GPU device memory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a single GPU device pointer with automatic cleanup on destruction. Move-only: cannot be copied (prevents accidental memory duplication).</para>
+<para>Template parameters:<itemizedlist>
+<listitem><para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type (e.g., float, int, Tensor)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+</listitem><listitem><para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>D</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Deleter function type (default: calls <ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA(cudaFree)</ref>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Invariants:</para>
+</listitem><listitem><para>Unique ownership: only one <ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr" kindref="compound">unique_gpu_ptr</ref> owns a given allocation</para>
+</listitem><listitem><para>Automatic cleanup: destructor always calls deleter</para>
+</listitem><listitem><para>Move is valid: transfers ownership without copying memory</para>
+</listitem><listitem><para><ref refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a980d763620d83e67336f50e8e9e60316" kindref="member">get()</ref> is noexcept: raw pointer access</para>
+</listitem><listitem><para>Dereferencing via operator* is valid only if ptr != nullptr</para>
+</listitem></itemizedlist>
+</para>
+<para>Exception safety:<itemizedlist>
+<listitem><para>Destructor is noexcept; will not throw</para>
+</listitem><listitem><para>Default deleter may log errors but does not throw</para>
+</listitem><listitem><para>Constructor/move/release are noexcept </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/themis/gpu/gpu_memory.h" line="136" column="1" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="136" bodyend="293"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af136f6f08c405d93825fb6a0d599a73a" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>const_pointer</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1ab4e957961ebca641453ed2910d2698fe" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>const_reference</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a5d52a91ba8e2d0b7c84e20ad73bb1ffb" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>element_type</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a980d763620d83e67336f50e8e9e60316" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a103b143c12914f65dff775f9b8e8d378" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af1c34fc0907c3a25bfc29bceb6b26d83" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1ac9f3d454b06bb3f59dd5d66802c54b02" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a35df1d4c61f20d0cc50208cbeb758763" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a433499b320ae7c07a5f119de6c31cd65" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1acc724dcd44895180d9bf4fcc69a27394" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a59d855f20c78b14659bc298bddbfaeff" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a49a2f6d4887a91d3713965f96800db86" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator&lt;</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a1d5a51da06a22e020e18cc17f3ac6cc7" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a353506124e46bffcc1baacce4b5fb934" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1acc00d285902f5527daf5c22953b30541" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a302cd0b66b09e60339ed10d3dc9c2376" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1af81a0eaa1d2a23f48ac15b92f5cbff97" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>pointer</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1abc39af6f2e8e2569db23c27fc32851c4" prot="private" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a359557969ec514f660fa99eb5a32a07d" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>reference</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1afb215483472e79d017aef52232419971" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>release</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a979f6197e4b4136154253fc316ffe7d1" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1aa89976dd665399e5307bc7fc696bea8d" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>swap</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a879ddc951c63455bc17d91877cc13843" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>unique_gpu_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1ac20a52276a34362dab54bea69b720d5b" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>unique_gpu_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a766584ef481cc3217cd2ae7f0f1dc468" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>unique_gpu_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a5581748066ba17a81ead37f56e16ac58" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>unique_gpu_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a6b224a5c7cbe25f30e51208309927972" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>unique_gpu_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1unique__gpu__ptr_1a78d2b9f86723f8388030fc18618585df" prot="public" virt="non-virtual"><scope>themis::gpu::unique_gpu_ptr</scope><name>~unique_gpu_ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

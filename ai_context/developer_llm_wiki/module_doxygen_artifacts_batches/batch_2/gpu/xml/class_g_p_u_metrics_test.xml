@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_metrics_test_1adca3fcb20affd237bea4623b9bd709e0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMetricsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUMetricsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_metrics.cpp" line="11" column="10" bodyfile="tests/gpu/test_gpu_metrics.cpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_metrics_test_1a532d4bc0cdf149fb355bc6d169e67a9d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMetricsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUMetricsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_metrics.cpp" line="12" column="10" bodyfile="tests/gpu/test_gpu_metrics.cpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUMetricsTest</label>
+        <link refid="class_g_p_u_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUMetricsTest</label>
+        <link refid="class_g_p_u_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_metrics.cpp" line="9" column="1" bodyfile="tests/gpu/test_gpu_metrics.cpp" bodystart="9" bodyend="13"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_metrics_test_1adca3fcb20affd237bea4623b9bd709e0" prot="protected" virt="non-virtual"><scope>GPUMetricsTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_metrics_test_1a532d4bc0cdf149fb355bc6d169e67a9d" prot="protected" virt="non-virtual"><scope>GPUMetricsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

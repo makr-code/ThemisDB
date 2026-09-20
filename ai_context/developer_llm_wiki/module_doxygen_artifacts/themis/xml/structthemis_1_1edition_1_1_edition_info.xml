@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1edition_1_1_edition_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::edition::EditionInfo</compoundname>
+    <includes refid="edition_8h" local="no">edition.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1af16b7adb53dabbaff5c0d163078893b8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1edition_1a98754fffbd1e4de89bf55f9e89e8ec6e" kindref="member">EditionType</ref></type>
+        <definition>EditionType themis::edition::EditionInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::edition::EditionInfo::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="371" column="17" bodyfile="include/themis/edition.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1a303fced5f435b9ecde2e1894ad04c3a8" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::edition::EditionInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::edition::EditionInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="372" column="22" bodyfile="include/themis/edition.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1afa64e41e6bfe3adac8c8bb51837641b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::EditionInfo::gpu_max_vram_gb</definition>
+        <argsstring></argsstring>
+        <name>gpu_max_vram_gb</name>
+        <qualifiedname>themis::edition::EditionInfo::gpu_max_vram_gb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="373" column="9" bodyfile="include/themis/edition.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1ac638f6412342d3820d26de05fb22c512" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::edition::EditionInfo::sharding_max_nodes</definition>
+        <argsstring></argsstring>
+        <name>sharding_max_nodes</name>
+        <qualifiedname>themis::edition::EditionInfo::sharding_max_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="374" column="9" bodyfile="include/themis/edition.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1ac6f41cf4c2c69b86951567236422dcc4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionInfo::supports_plugins</definition>
+        <argsstring></argsstring>
+        <name>supports_plugins</name>
+        <qualifiedname>themis::edition::EditionInfo::supports_plugins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="375" column="10" bodyfile="include/themis/edition.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1a227b7ff9d8f9680c37459663f0386868" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionInfo::supports_multi_master</definition>
+        <argsstring></argsstring>
+        <name>supports_multi_master</name>
+        <qualifiedname>themis::edition::EditionInfo::supports_multi_master</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="376" column="10" bodyfile="include/themis/edition.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1a33758768497bd10c2582ff34b8900692" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionInfo::supports_field_encryption</definition>
+        <argsstring></argsstring>
+        <name>supports_field_encryption</name>
+        <qualifiedname>themis::edition::EditionInfo::supports_field_encryption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="377" column="10" bodyfile="include/themis/edition.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1ac2d323e7c469137820378b65a1d0d3f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionInfo::supports_rbac</definition>
+        <argsstring></argsstring>
+        <name>supports_rbac</name>
+        <qualifiedname>themis::edition::EditionInfo::supports_rbac</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="378" column="10" bodyfile="include/themis/edition.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1edition_1_1_edition_info_1a0fe6b2ee735f4c1c03af57c810e92c29" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::edition::EditionInfo::supports_hsm</definition>
+        <argsstring></argsstring>
+        <name>supports_hsm</name>
+        <qualifiedname>themis::edition::EditionInfo::supports_hsm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="379" column="10" bodyfile="include/themis/edition.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1edition_1_1_edition_info_1ae0128b6e82ddf0b660e922ea02de66fc" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1edition_1_1_edition_info" kindref="compound">EditionInfo</ref></type>
+        <definition>static constexpr EditionInfo themis::edition::EditionInfo::Get</definition>
+        <argsstring>()</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::edition::EditionInfo::Get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/edition.h" line="381" column="34" bodyfile="include/themis/edition.h" bodystart="381" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/edition.h" line="370" column="1" bodyfile="include/themis/edition.h" bodystart="370" bodyend="395"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1ae0128b6e82ddf0b660e922ea02de66fc" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>Get</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1afa64e41e6bfe3adac8c8bb51837641b2" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>gpu_max_vram_gb</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1a303fced5f435b9ecde2e1894ad04c3a8" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1ac638f6412342d3820d26de05fb22c512" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>sharding_max_nodes</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1a33758768497bd10c2582ff34b8900692" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>supports_field_encryption</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1a0fe6b2ee735f4c1c03af57c810e92c29" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>supports_hsm</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1a227b7ff9d8f9680c37459663f0386868" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>supports_multi_master</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1ac6f41cf4c2c69b86951567236422dcc4" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>supports_plugins</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1ac2d323e7c469137820378b65a1d0d3f5" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>supports_rbac</name></member>
+      <member refid="structthemis_1_1edition_1_1_edition_info_1af16b7adb53dabbaff5c0d163078893b8" prot="public" virt="non-virtual"><scope>themis::edition::EditionInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

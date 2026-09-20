@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_manifest_edition_gates_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginManifestEditionGatesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_manifest_edition_gates_test_1a6c398ee3a5e586aeafbeb69745e10f5e" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref></type>
+        <definition>PluginManager PluginManifestEditionGatesTest::plugin_manager</definition>
+        <argsstring></argsstring>
+        <name>plugin_manager</name>
+        <qualifiedname>PluginManifestEditionGatesTest::plugin_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" line="62" column="19" bodyfile="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_manifest_edition_gates_test_1a12684d1649824bdf90ff6ac513edd2fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref></type>
+        <definition>PluginManifest PluginManifestEditionGatesTest::createBaseManifest</definition>
+        <argsstring>(const std::string &amp;name=&quot;test_plugin&quot;, const std::string &amp;visibility=&quot;public&quot;, const std::vector&lt; std::string &gt; &amp;allowed_editions={}, const std::string &amp;license_feature=&quot;&quot;)</argsstring>
+        <name>createBaseManifest</name>
+        <qualifiedname>PluginManifestEditionGatesTest::createBaseManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;test_plugin&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>visibility</declname>
+          <defval>&quot;public&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>allowed_editions</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>license_feature</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" line="65" column="20" bodyfile="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" bodystart="65" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginManifestEditionGatesTest</label>
+        <link refid="class_plugin_manifest_edition_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginManifestEditionGatesTest</label>
+        <link refid="class_plugin_manifest_edition_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>plugin_manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" line="60" column="1" bodyfile="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" bodystart="60" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_plugin_manifest_edition_gates_test_1a12684d1649824bdf90ff6ac513edd2fd" prot="protected" virt="non-virtual"><scope>PluginManifestEditionGatesTest</scope><name>createBaseManifest</name></member>
+      <member refid="class_plugin_manifest_edition_gates_test_1a6c398ee3a5e586aeafbeb69745e10f5e" prot="protected" virt="non-virtual"><scope>PluginManifestEditionGatesTest</scope><name>plugin_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

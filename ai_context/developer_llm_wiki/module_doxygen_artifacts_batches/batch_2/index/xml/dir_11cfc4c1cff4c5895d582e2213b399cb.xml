@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_11cfc4c1cff4c5895d582e2213b399cb" kind="dir">
+    <compoundname>include/index</compoundname>
+    <innerfile refid="adaptive__index_8h">adaptive_index.h</innerfile>
+    <innerfile refid="advanced__vector__index_8h">advanced_vector_index.h</innerfile>
+    <innerfile refid="ann__frontdoor_8h">ann_frontdoor.h</innerfile>
+    <innerfile refid="ann__index_8h">ann_index.h</innerfile>
+    <innerfile refid="approximate__radius__search_8h">approximate_radius_search.h</innerfile>
+    <innerfile refid="binary__quantizer_8h">binary_quantizer.h</innerfile>
+    <innerfile refid="connection__guard_8h">connection_guard.h</innerfile>
+    <innerfile refid="cuda__hnsw__graph__traversal_8h">cuda_hnsw_graph_traversal.h</innerfile>
+    <innerfile refid="cuda__utils_8h">cuda_utils.h</innerfile>
+    <innerfile refid="distributed__vector__index_8h">distributed_vector_index.h</innerfile>
+    <innerfile refid="edge__types_8h">edge_types.h</innerfile>
+    <innerfile refid="gnn__embeddings_8h">gnn_embeddings.h</innerfile>
+    <innerfile refid="gpu__memory__oversubscription_8h">gpu_memory_oversubscription.h</innerfile>
+    <innerfile refid="gpu__vector__index_8h">gpu_vector_index.h</innerfile>
+    <innerfile refid="gpu__vector__index__vulkan_8h">gpu_vector_index_vulkan.h</innerfile>
+    <innerfile refid="graph__analytics_8h">graph_analytics.h</innerfile>
+    <innerfile refid="graph__auto__buffer_8h">graph_auto_buffer.h</innerfile>
+    <innerfile refid="graph__index_8h">graph_index.h</innerfile>
+    <innerfile refid="hnsw__layer__optimizer_8h">hnsw_layer_optimizer.h</innerfile>
+    <innerfile refid="hnsw__parameter__tuner_8h">hnsw_parameter_tuner.h</innerfile>
+    <innerfile refid="hnsw__production__defaults_8h">hnsw_production_defaults.h</innerfile>
+    <innerfile refid="index__compression_8h">index_compression.h</innerfile>
+    <innerfile refid="index__error__codes_8h">index_error_codes.h</innerfile>
+    <innerfile refid="index__manager_8h">index_manager.h</innerfile>
+    <innerfile refid="inverted__index_8h">inverted_index.h</innerfile>
+    <innerfile refid="learnable__rope_8h">learnable_rope.h</innerfile>
+    <innerfile refid="learned__index_8h">learned_index.h</innerfile>
+    <innerfile refid="learned__quantizer_8h">learned_quantizer.h</innerfile>
+    <innerfile refid="lora__rope_8h">lora_rope.h</innerfile>
+    <innerfile refid="matryoshka__truncation_8h">matryoshka_truncation.h</innerfile>
+    <innerfile refid="multi__gpu__vector__index_8h">multi_gpu_vector_index.h</innerfile>
+    <innerfile refid="multi__vector__search_8h">multi_vector_search.h</innerfile>
+    <innerfile refid="partition__manager_8h">partition_manager.h</innerfile>
+    <innerfile refid="process__graph_8h">process_graph.h</innerfile>
+    <innerfile refid="product__quantizer_8h">product_quantizer.h</innerfile>
+    <innerfile refid="property__graph_8h">property_graph.h</innerfile>
+    <innerfile refid="residual__quantizer_8h">residual_quantizer.h</innerfile>
+    <innerfile refid="rotary__embeddings_8h">rotary_embeddings.h</innerfile>
+    <innerfile refid="rotary__embeddings__gpu_8h">rotary_embeddings_gpu.h</innerfile>
+    <innerfile refid="secondary__index_8h">secondary_index.h</innerfile>
+    <innerfile refid="secondary__index__metadata__cache_8h">secondary_index_metadata_cache.h</innerfile>
+    <innerfile refid="spatial__index_8h">spatial_index.h</innerfile>
+    <innerfile refid="temporal__graph_8h">temporal_graph.h</innerfile>
+    <innerfile refid="tiered__index__manager_8h">tiered_index_manager.h</innerfile>
+    <innerfile refid="vector__auto__buffer_8h">vector_auto_buffer.h</innerfile>
+    <innerfile refid="vector__index_8h">vector_index.h</innerfile>
+    <innerfile refid="vector__index__manager_8h">vector_index_manager.h</innerfile>
+    <innerfile refid="vector__index__manager__safety_8h">vector_index_manager_safety.h</innerfile>
+    <innerfile refid="workload__replay_8h">workload_replay.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/"/>
+  </compounddef>
+</doxygen>

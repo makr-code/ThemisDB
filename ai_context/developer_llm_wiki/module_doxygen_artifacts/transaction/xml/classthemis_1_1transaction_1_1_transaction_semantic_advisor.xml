@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::TransactionSemanticAdvisor</compoundname>
+    <includes refid="transaction__semantic__advisor_8h" local="no">transaction_semantic_advisor.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" prot="public">themis::transaction::TransactionSemanticAdvisor::Config</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" prot="public">themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ae3eefae141200dbe727faf4e2ae28eed" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::transaction::TransactionSemanticAdvisor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="113" column="12" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ae4e7f5d486324ba8313ef9f240639574" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::transaction::TransactionSemanticAdvisor::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="114" column="21" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</definition>
+        <argsstring>()</argsstring>
+        <name>TransactionSemanticAdvisor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="71" column="5" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a32665586688286c81917e2a300cc3b67" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>TransactionSemanticAdvisor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Transaction Semantic Advisor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="77" column="14" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="32" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1aebf46ab1f22af43989c39c3c08b10624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionSemanticAdvisor::~TransactionSemanticAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TransactionSemanticAdvisor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::~TransactionSemanticAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1abdc62634bc4c0ece8d09519fc1ca7f6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</definition>
+        <argsstring>(const TransactionSemanticAdvisor &amp;)=delete</argsstring>
+        <name>TransactionSemanticAdvisor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</qualifiedname>
+        <param>
+          <type>const TransactionSemanticAdvisor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a97cd6dc14ee93ae6f7e5af73f3232bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref> &amp;</type>
+        <definition>TransactionSemanticAdvisor &amp; themis::transaction::TransactionSemanticAdvisor::operator=</definition>
+        <argsstring>(const TransactionSemanticAdvisor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="81" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af1921401cf8ce71bc4a69760fc7947ad" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</definition>
+        <argsstring>(TransactionSemanticAdvisor &amp;&amp;) noexcept=default</argsstring>
+        <name>TransactionSemanticAdvisor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::TransactionSemanticAdvisor</qualifiedname>
+        <param>
+          <type>TransactionSemanticAdvisor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a786ed1fcc9cb79a4f027ecad911e3ad0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref> &amp;</type>
+        <definition>TransactionSemanticAdvisor &amp; themis::transaction::TransactionSemanticAdvisor::operator=</definition>
+        <argsstring>(TransactionSemanticAdvisor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="83" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a67759bf71e4596fffa438c879da16f12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::TransactionSemanticAdvisor::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="90" column="10" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" kindref="compound">BatchAffinityHint</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionSemanticAdvisor::BatchAffinityHint &gt; themis::transaction::TransactionSemanticAdvisor::analyzeBatch</definition>
+        <argsstring>(const std::vector&lt; TransactionContext &gt; &amp;pending_txs) const</argsstring>
+        <name>analyzeBatch</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::analyzeBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &gt; &amp;</type>
+          <declname>pending_txs</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_txs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="99" column="17" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="50" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::TransactionSemanticAdvisor::suggestDeferral</definition>
+        <argsstring>(const TransactionContext &amp;tx, const std::vector&lt; TransactionContext &gt; &amp;concurrent_txs) const</argsstring>
+        <name>suggestDeferral</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::suggestDeferral</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &amp;</type>
+          <declname>tx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &gt; &amp;</type>
+          <declname>concurrent_txs</declname>
+        </param>
+        <briefdescription>
+<para>Suggest Deferral. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">concurrent_txs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="108" column="31" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="115" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43defdba5590516bf6d57943e87265f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::transaction::TransactionSemanticAdvisor::entityOverlap</definition>
+        <argsstring>(const TransactionContext &amp;a, const TransactionContext &amp;b)</argsstring>
+        <name>entityOverlap</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::entityOverlap</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Entity Overlap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="122" column="19" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="140" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a0734f49008d5670580b9e676f5216c39" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::TransactionSemanticAdvisor::hasWriteConflict</definition>
+        <argsstring>(const TransactionContext &amp;a, const TransactionContext &amp;b)</argsstring>
+        <name>hasWriteConflict</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::hasWriteConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Has Write Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="131" column="17" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="171" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af2936c678b8d00751f8e59b1349e2fd9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::TransactionSemanticAdvisor::emitDecisionRecord</definition>
+        <argsstring>(size_t hint_count, size_t tx_count) const</argsstring>
+        <name>emitDecisionRecord</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::emitDecisionRecord</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>hint_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>tx_count</declname>
+        </param>
+        <briefdescription>
+<para>Emit Decision Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hint_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tx_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="139" column="10" bodyfile="src/transaction/transaction_semantic_advisor.cpp" bodystart="192" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_semantic_advisor.h" line="45" column="1" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="45" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>analyzeBatch</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ae3eefae141200dbe727faf4e2ae28eed" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ae4e7f5d486324ba8313ef9f240639574" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af2936c678b8d00751f8e59b1349e2fd9" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>emitDecisionRecord</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43defdba5590516bf6d57943e87265f" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>entityOverlap</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a0734f49008d5670580b9e676f5216c39" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>hasWriteConflict</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a97cd6dc14ee93ae6f7e5af73f3232bff" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a786ed1fcc9cb79a4f027ecad911e3ad0" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a67759bf71e4596fffa438c879da16f12" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>suggestDeferral</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>TransactionSemanticAdvisor</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a32665586688286c81917e2a300cc3b67" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>TransactionSemanticAdvisor</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1abdc62634bc4c0ece8d09519fc1ca7f6a" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>TransactionSemanticAdvisor</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af1921401cf8ce71bc4a69760fc7947ad" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>TransactionSemanticAdvisor</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1aebf46ab1f22af43989c39c3c08b10624" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor</scope><name>~TransactionSemanticAdvisor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_refresh_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RefreshAuditEntry</compoundname>
+    <includes refid="scheduled__edge__refresh_8h" local="no">scheduled_edge_refresh.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Action</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::Action</qualifiedname>
+        <enumvalue id="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210a9eeb52badb613229884838847294b90d" prot="public">
+          <name>ADD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210a78baf367c4626442174307cdf41c6538" prot="public">
+          <name>REMOVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="134" column="5" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1af74b79086ce013db027a72dbde5ed573" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" kindref="member">Action</ref></type>
+        <definition>Action themis::graph::RefreshAuditEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="136" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1a80c7e6ba056a028391e421de17ac79a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RefreshAuditEntry::edge_id</definition>
+        <argsstring></argsstring>
+        <name>edge_id</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::edge_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="137" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1a0c0d9dfe5a60d2bb9a7b561ef837f22b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RefreshAuditEntry::from_vertex</definition>
+        <argsstring></argsstring>
+        <name>from_vertex</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::from_vertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="138" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1a6c33bf5b7cb0b3cc46d96f026ab7ca7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RefreshAuditEntry::to_vertex</definition>
+        <argsstring></argsstring>
+        <name>to_vertex</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::to_vertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="139" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1afdd3493c89a2f8537ef536bbc61c1e61" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RefreshAuditEntry::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::relevance_score</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="140" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1ace3babfc0b01eb488240cf389e4502e1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::graph::RefreshAuditEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="141" column="43" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_audit_entry_1a5efbf919b434aaf125803c7834e20e99" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshAuditEntry::cycle_number</definition>
+        <argsstring></argsstring>
+        <name>cycle_number</name>
+        <qualifiedname>themis::graph::RefreshAuditEntry::cycle_number</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="142" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/scheduled_edge_refresh.h" line="133" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="133" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>Action</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1af74b79086ce013db027a72dbde5ed573" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a5efbf919b434aaf125803c7834e20e99" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>cycle_number</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a80c7e6ba056a028391e421de17ac79a3" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>edge_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a0c0d9dfe5a60d2bb9a7b561ef837f22b" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>from_vertex</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afdd3493c89a2f8537ef536bbc61c1e61" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1ace3babfc0b01eb488240cf389e4502e1" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a6c33bf5b7cb0b3cc46d96f026ab7ca7c" prot="public" virt="non-virtual"><scope>themis::graph::RefreshAuditEntry</scope><name>to_vertex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

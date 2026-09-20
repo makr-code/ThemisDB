@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_quota_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::QuotaGuard</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_quota_guard_1ae7aa2253668c490fd9d7dc58479b1328" prot="public" static="no">
+        <type>std::function&lt; void(size_t)&gt;</type>
+        <definition>using themis::llm::QuotaGuard::ReleaseFunc = std::function&lt;void(size_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReleaseFunc</name>
+        <qualifiedname>themis::llm::QuotaGuard::ReleaseFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="425" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_quota_guard_1aeb9847a53a064b06665390f013e18e4d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaGuard::quota_amount_</definition>
+        <argsstring></argsstring>
+        <name>quota_amount_</name>
+        <qualifiedname>themis::llm::QuotaGuard::quota_amount_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="469" column="10" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_quota_guard_1a95acbe7cc7739dcc533ad12374b50fd8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_quota_guard_1ae7aa2253668c490fd9d7dc58479b1328" kindref="member">ReleaseFunc</ref></type>
+        <definition>ReleaseFunc themis::llm::QuotaGuard::releaser_</definition>
+        <argsstring></argsstring>
+        <name>releaser_</name>
+        <qualifiedname>themis::llm::QuotaGuard::releaser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="470" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_quota_guard_1a3f45e864e0b1a46e5b8d2f1fd40de202" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::QuotaGuard::is_released_</definition>
+        <argsstring></argsstring>
+        <name>is_released_</name>
+        <qualifiedname>themis::llm::QuotaGuard::is_released_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="471" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1a9ed85f71f89449efc8b0ad38da5353fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::QuotaGuard::QuotaGuard</definition>
+        <argsstring>(size_t quota_amount, ReleaseFunc releaser)</argsstring>
+        <name>QuotaGuard</name>
+        <qualifiedname>themis::llm::QuotaGuard::QuotaGuard</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>quota_amount</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_quota_guard_1ae7aa2253668c490fd9d7dc58479b1328" kindref="member">ReleaseFunc</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="427" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="427" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1ad28325a3534faa8fd2cd467f158f7854" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::QuotaGuard::QuotaGuard</definition>
+        <argsstring>(QuotaGuard &amp;&amp;other) noexcept</argsstring>
+        <name>QuotaGuard</name>
+        <qualifiedname>themis::llm::QuotaGuard::QuotaGuard</qualifiedname>
+        <param>
+          <type>QuotaGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="433" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="433" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1a5914e0568315188cfb8af967af53a33b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::QuotaGuard::QuotaGuard</definition>
+        <argsstring>(const QuotaGuard &amp;)=delete</argsstring>
+        <name>QuotaGuard</name>
+        <qualifiedname>themis::llm::QuotaGuard::QuotaGuard</qualifiedname>
+        <param>
+          <type>const QuotaGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="443" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1a59e2f9e49671aaf9b79246aafa794f81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_quota_guard_1a9ed85f71f89449efc8b0ad38da5353fa" kindref="member">QuotaGuard</ref> &amp;</type>
+        <definition>QuotaGuard &amp; themis::llm::QuotaGuard::operator=</definition>
+        <argsstring>(const QuotaGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::QuotaGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_quota_guard_1a9ed85f71f89449efc8b0ad38da5353fa" kindref="member">QuotaGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="444" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1aaa2cb88280744f9e76995dad6d38bb16" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::QuotaGuard::~QuotaGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~QuotaGuard</name>
+        <qualifiedname>themis::llm::QuotaGuard::~QuotaGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="447" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="447" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1a04630432e5f7560b9ffe8b1c88403f84" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaGuard::getAmount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAmount</name>
+        <qualifiedname>themis::llm::QuotaGuard::getAmount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="451" column="10" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="451" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_quota_guard_1a9b7ca87aa747d0c0dc0bdf0c5ced3e47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::QuotaGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::QuotaGuard::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: releaser_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="457" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="457" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="423" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="423" bodyend="472"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a04630432e5f7560b9ffe8b1c88403f84" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>getAmount</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a3f45e864e0b1a46e5b8d2f1fd40de202" prot="private" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>is_released_</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a59e2f9e49671aaf9b79246aafa794f81" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1aeb9847a53a064b06665390f013e18e4d" prot="private" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>quota_amount_</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a9ed85f71f89449efc8b0ad38da5353fa" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>QuotaGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1ad28325a3534faa8fd2cd467f158f7854" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>QuotaGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a5914e0568315188cfb8af967af53a33b" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>QuotaGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a9b7ca87aa747d0c0dc0bdf0c5ced3e47" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1ae7aa2253668c490fd9d7dc58479b1328" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>ReleaseFunc</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1a95acbe7cc7739dcc533ad12374b50fd8" prot="private" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>releaser_</name></member>
+      <member refid="classthemis_1_1llm_1_1_quota_guard_1aaa2cb88280744f9e76995dad6d38bb16" prot="public" virt="non-virtual"><scope>themis::llm::QuotaGuard</scope><name>~QuotaGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

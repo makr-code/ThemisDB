@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_b_i_o_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::BIODeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_b_i_o_deleter_1aa2004af135833fc87cb86797d739a868" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::BIODeleter::operator()</definition>
+        <argsstring>(BIO *bio) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::BIODeleter::operator()</qualifiedname>
+        <param>
+          <type>BIO *</type>
+          <declname>bio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="110" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="110" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for BIO. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="109" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="109" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_b_i_o_deleter_1aa2004af135833fc87cb86797d739a868" prot="public" virt="non-virtual"><scope>themis::utils::BIODeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

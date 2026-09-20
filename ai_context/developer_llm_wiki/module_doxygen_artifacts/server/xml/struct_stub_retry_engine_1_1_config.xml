@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_retry_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>StubRetryEngine::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_retry_engine_1_1_config_1afdd7e50baeafb9c42ea1d82a329aa2ca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubRetryEngine::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>StubRetryEngine::Config::max_retries</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a3df3c1d52c55578320956007df1a7042" kindref="member">kDefaultMaxRetries</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="85" column="13" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_retry_engine_1_1_config_1a9eee56fafd1c885e1530732ae45e88fd" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds StubRetryEngine::Config::base_delay</definition>
+        <argsstring></argsstring>
+        <name>base_delay</name>
+        <qualifiedname>StubRetryEngine::Config::base_delay</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a90b242ec7d2cbf47c971ac91d0be95f1" kindref="member">kRetryBaseDelay</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="86" column="35" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_retry_engine_1_1_config_1a974a6992b44fcf75b5f6561463e23e69" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds StubRetryEngine::Config::global_budget</definition>
+        <argsstring></argsstring>
+        <name>global_budget</name>
+        <qualifiedname>StubRetryEngine::Config::global_budget</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a4513c9d5af2f5de713377004ba750cce" kindref="member">kRetryGlobalBudget</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="87" column="30" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_retry_engine_1_1_config_1ac398ed6196f112fe403373541db45748" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubRetryEngine::Config::use_jitter</definition>
+        <argsstring></argsstring>
+        <name>use_jitter</name>
+        <qualifiedname>StubRetryEngine::Config::use_jitter</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="88" column="14" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="84" column="5" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="84" bodyend="89"/>
+    <listofallmembers>
+      <member refid="struct_stub_retry_engine_1_1_config_1a9eee56fafd1c885e1530732ae45e88fd" prot="public" virt="non-virtual"><scope>StubRetryEngine::Config</scope><name>base_delay</name></member>
+      <member refid="struct_stub_retry_engine_1_1_config_1a974a6992b44fcf75b5f6561463e23e69" prot="public" virt="non-virtual"><scope>StubRetryEngine::Config</scope><name>global_budget</name></member>
+      <member refid="struct_stub_retry_engine_1_1_config_1afdd7e50baeafb9c42ea1d82a329aa2ca" prot="public" virt="non-virtual"><scope>StubRetryEngine::Config</scope><name>max_retries</name></member>
+      <member refid="struct_stub_retry_engine_1_1_config_1ac398ed6196f112fe403373541db45748" prot="public" virt="non-virtual"><scope>StubRetryEngine::Config</scope><name>use_jitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

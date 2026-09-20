@@ -1,0 +1,582 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="subagent_8h" kind="file" language="C++">
+    <compoundname>subagent.h</compoundname>
+    <includes refid="subagent__config_8h" local="yes">llm/subagent_config.h</includes>
+    <includes refid="subagent__factory_8h" local="yes">llm/subagent_factory.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="llm__correlation__context_8h" local="yes">llm/llm_correlation_context.h</includes>
+    <includes refid="token__quota__manager_8h" local="yes">llm/token_quota_manager.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="subagent__coordinator__impl_8cpp" local="yes">src/llm/subagent_coordinator_impl.cpp</includedby>
+    <includedby refid="subagent__factory__impl_8cpp" local="yes">src/llm/subagent_factory_impl.cpp</includedby>
+    <includedby refid="test__subagent__orchestration__focused_8cpp" local="yes">tests/llm/test_subagent_orchestration_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/llm_correlation_context.h</label>
+        <link refid="llm__correlation__context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>llm/llm_interaction_store.h</label>
+        <link refid="llm__interaction__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/model_loader.h</label>
+        <link refid="model__loader_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/prompt_policy.h</label>
+        <link refid="prompt__policy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/subagent.h</label>
+        <link refid="subagent_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/subagent_config.h</label>
+        <link refid="subagent__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>llm/subagent_factory.h</label>
+        <link refid="subagent__factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="28">
+        <label>future</label>
+      </node>
+      <node id="41">
+        <label>iomanip</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="33">
+        <label>ostream</label>
+      </node>
+      <node id="13">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="39">
+        <label>random</label>
+      </node>
+      <node id="25">
+        <label>regex</label>
+      </node>
+      <node id="36">
+        <label>shared_mutex</label>
+      </node>
+      <node id="40">
+        <label>sstream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="35">
+        <label>unordered_set</label>
+      </node>
+      <node id="32">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="27">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/subagent.h</label>
+        <link refid="subagent_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/subagent_coordinator_impl.cpp</label>
+        <link refid="subagent__coordinator__impl_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/subagent_factory_impl.cpp</label>
+        <link refid="subagent__factory__impl_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_subagent_orchestration_focused.cpp</label>
+        <link refid="test__subagent__orchestration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_inference_result" prot="public">themis::llm::SubagentInferenceResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_subagent" prot="public">themis::llm::Subagent</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Individual Subagent interface for independent LLM inference with isolated configuration, budget, and policy enforcement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><bold>Subagent Instance Interface</bold>: Represents a single orchestrated LLM inference entity created and managed by SubagentFactory.</para>
+</simplesect>
+</para>
+<sect1 id="subagent_8h_1autotoc_md9_1s1"><sect2 id="subagent_8h_1autotoc_md9">
+<title>Purpose</title><para>A Subagent is an individual inference instance created by SubagentFactory with independent configuration. It handles:<orderedlist>
+<listitem><para>Model/adapter lifecycle (load, warm, unload)</para>
+</listitem><listitem><para>Inference submission and result retrieval</para>
+</listitem><listitem><para>Per-subagent quota enforcement and policy gating</para>
+</listitem><listitem><para>Observability (audit logging, metrics, correlation IDs)</para>
+</listitem><listitem><para>State management (CREATED → LOADING → READY → ...)</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="subagent_8h_1autotoc_md10_1s1"><sect2 id="subagent_8h_1autotoc_md10">
+<title>Lifecycle</title><para><programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a98690bf632c29c17c9e4c5a64069903c" kindref="member">CREATED</ref><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401af9f6955ebca09a484157c05f80acd65e" kindref="member">LOADING</ref><sp/>(load<sp/>model/adapter)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401a2baa69eafc7204f3bd8648eba580c489" kindref="member">READY</ref><sp/>(ready<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>inference)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a99b2439e63f73ad515f7ab2447a80673" kindref="member">PAUSED</ref><sp/>(quota<sp/>exhausted<sp/>/<sp/>policy<sp/>violation)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401a2baa69eafc7204f3bd8648eba580c489" kindref="member">READY</ref><sp/>(quota<sp/>reset<sp/>/<sp/>issue<sp/>resolved)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">UNLOADING</ref><sp/>(shutdown<sp/>initiated)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref><sp/>(resources<sp/>released)</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Any<sp/>state<sp/>→<sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/>(on<sp/>resource<sp/>exhaustion<sp/>or<sp/>fatal<sp/>error)</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="subagent_8h_1autotoc_md11_1s1"><sect2 id="subagent_8h_1autotoc_md11">
+<title>Thread Safety</title><para>Subagent methods are thread-safe. Multiple threads can submit inference requests concurrently; they are queued and processed by the shared worker pool. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="subagent__config_8h" kindref="compound">llm/subagent_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="subagent__factory_8h" kindref="compound">llm/subagent_factory.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__correlation__context_8h" kindref="compound">llm/llm_correlation_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__quota__manager_8h" kindref="compound">llm/token_quota_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_subagent_inference_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_subagent_inference_result_1aeaca6476c7f71a60cd2459cbfc6b06f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1aeaca6476c7f71a60cd2459cbfc6b06f5" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_subagent_inference_result_1aed5efe78286d7d79ba3940d43938abdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1aed5efe78286d7d79ba3940d43938abdc" kindref="member">output</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_subagent_inference_result_1a54cdb4e066122905cb1bb8631694a64e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1a54cdb4e066122905cb1bb8631694a64e" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_subagent_inference_result_1a2de626e252b65a3fd8348ad43061499c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1a2de626e252b65a3fd8348ad43061499c" kindref="member">tokens_consumed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_subagent_inference_result_1aaac76b1dfe262a30d9dbfbf77410f12d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1aaac76b1dfe262a30d9dbfbf77410f12d" kindref="member">latency_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_subagent_inference_result_1acdfa53d90432586bfa3c6e20c20b31df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result_1acdfa53d90432586bfa3c6e20c20b31df" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1llm_1_1_subagent" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_subagent" kindref="compound">Subagent</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1llm_1_1_subagent_1a2ebec8fa53552f525df81a28ef922bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a2ebec8fa53552f525df81a28ef922bfe" kindref="member">~Subagent</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identity<sp/>and<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1llm_1_1_subagent_1a2e433c646338db7fa5ae32d916f8a4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a2e433c646338db7fa5ae32d916f8a4a5" kindref="member">id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1llm_1_1_subagent_1af34ea1d14d9624e4b4d15858f6bf83ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_subagent_1af34ea1d14d9624e4b4d15858f6bf83ef" kindref="member">config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1llm_1_1_subagent_1a2f834a65621adfd48cc7164f784936fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a2f834a65621adfd48cc7164f784936fd" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1llm_1_1_subagent_1ac0d2457b817ae268dc00a25316577715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1ac0d2457b817ae268dc00a25316577715" kindref="member">load</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms<sp/>=<sp/>60000)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1llm_1_1_subagent_1a239203f73e376911264437e3bf395918" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a239203f73e376911264437e3bf395918" kindref="member">warm</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms<sp/>=<sp/>30000)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1llm_1_1_subagent_1ae9da5d6e0673dfb327f7c93f23e8a2bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1ae9da5d6e0673dfb327f7c93f23e8a2bc" kindref="member">unload</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms<sp/>=<sp/>30000)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inference<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1llm_1_1_subagent_1a3eea30488306849d02e34532ee5a1fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a3eea30488306849d02e34532ee5a1fe4" kindref="member">infer</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LLMCorrelationContext&gt;&amp;<sp/>ctx<sp/>=<sp/>std::nullopt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1llm_1_1_subagent_1a00b1f31bae8f6525cd3327f5b1a4dd90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::future&lt;SubagentInferenceResult&gt;<sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a00b1f31bae8f6525cd3327f5b1a4dd90" kindref="member">inferAsync</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LLMCorrelationContext&gt;&amp;<sp/>ctx<sp/>=<sp/>std::nullopt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1_subagent_1aa0f540ce9abe4a386f16bdd237728d7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1aa0f540ce9abe4a386f16bdd237728d7d" kindref="member">inferStream</ref>(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>on_token,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LLMCorrelationContext&gt;&amp;<sp/>ctx<sp/>=<sp/>std::nullopt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1llm_1_1_subagent_1a162ef72ce31446989061cae1c4aeb1d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;SubagentInferenceResult&gt;<sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a162ef72ce31446989061cae1c4aeb1d7" kindref="member">inferBatch</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;InferenceRequest&gt;&amp;<sp/>requests,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LLMCorrelationContext&gt;&amp;<sp/>ctx<sp/>=<sp/>std::nullopt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1llm_1_1_subagent_1ae147c31dc1b2af3c2f6297520f6c13df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics" kindref="compound">SubagentMetrics</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1ae147c31dc1b2af3c2f6297520f6c13df" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1llm_1_1_subagent_1a4276f04f18c192925d90bc65f667b7d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a4276f04f18c192925d90bc65f667b7d0" kindref="member">resetMetrics</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1llm_1_1_subagent_1a7d1560902108432e8013d70e122987b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a7d1560902108432e8013d70e122987b6" kindref="member">getLastError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1llm_1_1_subagent_1a35253514c92e4e6d6a2619ab470c23ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a35253514c92e4e6d6a2619ab470c23ea" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1llm_1_1_subagent_1a7ed540bf43a5eb66affc26ce6bbe9754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a7ed540bf43a5eb66affc26ce6bbe9754" kindref="member">pause</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1llm_1_1_subagent_1a9072e117190627aa324480e7f7ae16a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a9072e117190627aa324480e7f7ae16a1" kindref="member">resume</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1llm_1_1_subagent_1abf40939571ce57f7de6826b26ad57416" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1abf40939571ce57f7de6826b26ad57416" kindref="member">checkQuota</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_tokens)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1llm_1_1_subagent_1afab18109aa952ab2c1438cad641a21ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1afab18109aa952ab2c1438cad641a21ad" kindref="member">consumeQuota</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1llm_1_1_subagent_1a4a832919032fa7fcd11a72a5240782ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_subagent_1a4a832919032fa7fcd11a72a5240782ea" kindref="member">resetQuota</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/subagent.h"/>
+  </compounddef>
+</doxygen>

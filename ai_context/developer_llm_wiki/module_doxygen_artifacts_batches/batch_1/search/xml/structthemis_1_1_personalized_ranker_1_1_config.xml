@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_personalized_ranker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PersonalizedRanker::Config</compoundname>
+    <includes refid="personalized__ranker_8h" local="no">personalized_ranker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_personalized_ranker_1_1_config_1a7cd685f2f6aa2e1ae9ed3ad930911a1b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PersonalizedRanker::Config::decay_rate</definition>
+        <argsstring></argsstring>
+        <name>decay_rate</name>
+        <qualifiedname>themis::PersonalizedRanker::Config::decay_rate</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Exponential decay rate per day (0 = no decay; higher = faster decay). Default 0.05 ≈ half-weight after ~14 days. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="95" column="16" bodyfile="include/search/personalized_ranker.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_personalized_ranker_1_1_config_1acded9b0cd93660a6d3312343b74c5d93" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::PersonalizedRanker::Config::max_interactions_per_user</definition>
+        <argsstring></argsstring>
+        <name>max_interactions_per_user</name>
+        <qualifiedname>themis::PersonalizedRanker::Config::max_interactions_per_user</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Maximum interactions stored per user (oldest evicted when full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="98" column="16" bodyfile="include/search/personalized_ranker.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_personalized_ranker_1_1_config_1a0a15bb5362cc93a66a0d12453137020f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::PersonalizedRanker::Config::boost_weight</definition>
+        <argsstring></argsstring>
+        <name>boost_weight</name>
+        <qualifiedname>themis::PersonalizedRanker::Config::boost_weight</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Weight added to <ref refid="structthemis_1_1_ranked_result_1a4660a39f0c2aa1a7c82d0ea2a8b2dc3f" kindref="member">RankedResult::final_score</ref> for each unit of personalization signal (scales the [-1,1] score). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="102" column="16" bodyfile="include/search/personalized_ranker.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_personalized_ranker_1_1_config_1a86b8742abfd8241c5e6eb88c992842c9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_personalized_ranker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::PersonalizedRanker::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::PersonalizedRanker::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="104" column="23" bodyfile="include/search/personalized_ranker.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/personalized_ranker.h" line="92" column="5" bodyfile="include/search/personalized_ranker.h" bodystart="92" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a0a15bb5362cc93a66a0d12453137020f" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker::Config</scope><name>boost_weight</name></member>
+      <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a7cd685f2f6aa2e1ae9ed3ad930911a1b" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker::Config</scope><name>decay_rate</name></member>
+      <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a86b8742abfd8241c5e6eb88c992842c9" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_personalized_ranker_1_1_config_1acded9b0cd93660a6d3312343b74c5d93" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker::Config</scope><name>max_interactions_per_user</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

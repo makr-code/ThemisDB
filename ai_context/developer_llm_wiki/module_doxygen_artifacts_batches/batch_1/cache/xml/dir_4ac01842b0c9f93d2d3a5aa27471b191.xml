@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4ac01842b0c9f93d2d3a5aa27471b191" kind="dir">
+    <compoundname>tests/cache</compoundname>
+    <innerfile refid="test__cache__admin__api__handler_8cpp">test_cache_admin_api_handler.cpp</innerfile>
+    <innerfile refid="test__cache__contract__hardening_8cpp">test_cache_contract_hardening.cpp</innerfile>
+    <innerfile refid="test__cache__coordinator__degradation_8cpp">test_cache_coordinator_degradation.cpp</innerfile>
+    <innerfile refid="test__cache__efficiency__multilevel_8cpp">test_cache_efficiency_multilevel.cpp</innerfile>
+    <innerfile refid="test__cache__eviction__coordinator__integration_8cpp">test_cache_eviction_coordinator_integration.cpp</innerfile>
+    <innerfile refid="test__cache__eviction__multilevel__hardening_8cpp">test_cache_eviction_multilevel_hardening.cpp</innerfile>
+    <innerfile refid="test__cache__highcardinality__stress_8cpp">test_cache_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__cache__hit__rate__slo__monitor_8cpp">test_cache_hit_rate_slo_monitor.cpp</innerfile>
+    <innerfile refid="test__cache__interfaces_8cpp">test_cache_interfaces.cpp</innerfile>
+    <innerfile refid="test__cache__phase6__interfaces_8cpp">test_cache_phase6_interfaces.cpp</innerfile>
+    <innerfile refid="test__cache__replication_8cpp">test_cache_replication.cpp</innerfile>
+    <innerfile refid="test__cache__replication__coordinator_8cpp">test_cache_replication_coordinator.cpp</innerfile>
+    <innerfile refid="test__cache__tenant__isolation__hardening_8cpp">test_cache_tenant_isolation_hardening.cpp</innerfile>
+    <innerfile refid="test__cache__warmup_8cpp">test_cache_warmup.cpp</innerfile>
+    <innerfile refid="test__phase4__cache__hardening_8cpp">test_phase4_cache_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/"/>
+  </compounddef>
+</doxygen>

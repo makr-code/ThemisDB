@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ModelCompatibilityChecker</compoundname>
+    <includes refid="model__compatibility_8h" local="no">model_compatibility.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ae8e917eef03efc2d423d800ee916fe49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881b" kindref="member">ModelFormat</ref></type>
+        <definition>ModelFormat themis::llm::lora::ModelCompatibilityChecker::detect_format</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>detect_format</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::detect_format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Detect format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== <ref refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker" kindref="compound">ModelCompatibilityChecker</ref> Implementation =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::exists(), spdlog::warn(), path(), extension(), string(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="174" column="24" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="145" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aae030b983219f7fc7f4e8ab8567a661a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; ModelMetadata &gt; themis::llm::lora::ModelCompatibilityChecker::extract_metadata</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>extract_metadata</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::extract_metadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+<para>Extract metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ae8e917eef03efc2d423d800ee916fe49" kindref="member">detect_format()</ref>, spdlog::info(), <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a5ee3fd3ca0949d63c8b98efc96a074e4" kindref="member">ModelMetadata::format_to_string()</ref>, read_gguf_metadata(), read_safetensors_metadata(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="181" column="26" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="194" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1af92930a661a560c959338f4932362031" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result" kindref="compound">CompatibilityResult</ref></type>
+        <definition>CompatibilityResult themis::llm::lora::ModelCompatibilityChecker::check_compatibility</definition>
+        <argsstring>(const std::string &amp;model_path, const std::string &amp;quantization_type=&quot;nf4&quot;)</argsstring>
+        <name>check_compatibility</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::check_compatibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>quantization_type</declname>
+          <defval>&quot;nf4&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Check compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantization_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::exists(), add_error(), <ref refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aae030b983219f7fc7f4e8ab8567a661a" kindref="member">extract_metadata()</ref>, has_value(), value(), <ref refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a01a298b26ba7057d13ddcc4844bef2c4" kindref="member">validate_architecture()</ref>, insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="183" column="32" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="344" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a01a298b26ba7057d13ddcc4844bef2c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result" kindref="compound">CompatibilityResult</ref></type>
+        <definition>CompatibilityResult themis::llm::lora::ModelCompatibilityChecker::validate_architecture</definition>
+        <argsstring>(const ModelMetadata &amp;metadata)</argsstring>
+        <name>validate_architecture</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::validate_architecture</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Validate architecture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: add_warning(), <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1af8cb1f6a91058d7125d0865a01f739e5" kindref="member">ModelMetadata::architecture_to_string()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="193" column="32" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="416" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a2270eb88cdaa1a7f327ef866032603aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result" kindref="compound">CompatibilityResult</ref></type>
+        <definition>CompatibilityResult themis::llm::lora::ModelCompatibilityChecker::check_quantization_compatibility</definition>
+        <argsstring>(const ModelMetadata &amp;metadata, const std::string &amp;target_quantization)</argsstring>
+        <name>check_quantization_compatibility</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::check_quantization_compatibility</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_quantization</declname>
+        </param>
+        <briefdescription>
+<para>Check quantization compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_quantization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_quantization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), add_warning(), add_error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="201" column="32" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="464" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a75ed7886f2231e80936640ca0cdf8a5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::ModelCompatibilityChecker::get_recommended_target_modules</definition>
+        <argsstring>(ModelArchitecture architecture)</argsstring>
+        <name>get_recommended_target_modules</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::get_recommended_target_modules</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" kindref="member">ModelArchitecture</ref></type>
+          <declname>architecture</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended target modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">architecture</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">architecture</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get_recommended_target_modules without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="211" column="24" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="505" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a675bced90ce04815efa3624079d48aca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelCompatibilityChecker::estimate_memory_requirements</definition>
+        <argsstring>(const ModelMetadata &amp;metadata, const std::string &amp;quantization_type, size_t batch_size, size_t rank)</argsstring>
+        <name>estimate_memory_requirements</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::estimate_memory_requirements</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>quantization_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <briefdescription>
+<para>Estimate memory requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantization_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantization_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get_quantization_reduction(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="223" column="19" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="542" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aa3f1c5446fd53a88b7d6d5f27931a124" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; ModelMetadata &gt; themis::llm::lora::ModelCompatibilityChecker::read_gguf_metadata</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>read_gguf_metadata</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::read_gguf_metadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Read gguf metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: filepath(), stem(), string(), std::transform(), begin(), end(), <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1f1168464b7eb03995e48019ba5dae3f" kindref="member">ModelMetadata::string_to_architecture()</ref>, find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="236" column="26" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="217" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ab40885d60a9a130a15bef650f9c94cdc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; ModelMetadata &gt; themis::llm::lora::ModelCompatibilityChecker::read_safetensors_metadata</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>read_safetensors_metadata</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::read_safetensors_metadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Read safetensors metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), read(), header_json(), json::parse(), spdlog::debug(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="243" column="26" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="278" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ad7ec61d913f325bd389670e6f5ec2d17" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" kindref="member">ModelArchitecture</ref></type>
+        <definition>ModelArchitecture themis::llm::lora::ModelCompatibilityChecker::detect_architecture</definition>
+        <argsstring>(const json &amp;metadata)</argsstring>
+        <name>detect_architecture</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::detect_architecture</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Detect architecture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1f1168464b7eb03995e48019ba5dae3f" kindref="member">ModelMetadata::string_to_architecture()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="250" column="30" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="330" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aac6514fd33f8d7d31c39029ebd1c76aa" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::ModelCompatibilityChecker::get_quantization_reduction</definition>
+        <argsstring>(const std::string &amp;quant_type)</argsstring>
+        <name>get_quantization_reduction</name>
+        <qualifiedname>themis::llm::lora::ModelCompatibilityChecker::get_quantization_reduction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>quant_type</declname>
+        </param>
+        <briefdescription>
+<para>Get quantization reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quant_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quant_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get_quantization_reduction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="257" column="18" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="593" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/model_compatibility.h" line="167" column="1" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="167" bodyend="258"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1af92930a661a560c959338f4932362031" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>check_compatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a2270eb88cdaa1a7f327ef866032603aa" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>check_quantization_compatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ad7ec61d913f325bd389670e6f5ec2d17" prot="private" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>detect_architecture</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ae8e917eef03efc2d423d800ee916fe49" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>detect_format</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a675bced90ce04815efa3624079d48aca" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>estimate_memory_requirements</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aae030b983219f7fc7f4e8ab8567a661a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>extract_metadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aac6514fd33f8d7d31c39029ebd1c76aa" prot="private" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>get_quantization_reduction</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a75ed7886f2231e80936640ca0cdf8a5e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>get_recommended_target_modules</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1aa3f1c5446fd53a88b7d6d5f27931a124" prot="private" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>read_gguf_metadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1ab40885d60a9a130a15bef650f9c94cdc" prot="private" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>read_safetensors_metadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_model_compatibility_checker_1a01a298b26ba7057d13ddcc4844bef2c4" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelCompatibilityChecker</scope><name>validate_architecture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

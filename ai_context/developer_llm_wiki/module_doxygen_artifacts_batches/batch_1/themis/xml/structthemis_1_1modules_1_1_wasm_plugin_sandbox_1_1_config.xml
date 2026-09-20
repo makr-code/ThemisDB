@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WasmPluginSandbox::Config</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a90b64cd3301a8be937f33f6a270e33a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::WasmPluginSandbox::Config::linear_memory_pages</definition>
+        <argsstring></argsstring>
+        <name>linear_memory_pages</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::linear_memory_pages</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Linear memory: number of 64-KiB WASM pages (default 256 = 16 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="227" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a19fe8b4347f313be335946cb90f19667" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmPluginSandbox::Config::max_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_mb</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::max_memory_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Hard OS-level memory cap (MiB). Passed to the inner <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="230" column="16" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1aca3c43395fe9a4bb8379f340a6ebdbda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmPluginSandbox::Config::max_cpu_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_cpu_time_seconds</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::max_cpu_time_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hard OS-level CPU time limit in seconds (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="233" column="16" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1afb3c1b6d1bec2b19a05bb23f44b8669d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::Config::allow_unregistered_imports</definition>
+        <argsstring></argsstring>
+        <name>allow_unregistered_imports</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::allow_unregistered_imports</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether to allow the plugin to call any non-registered host function. When false (default), unregistered imports cause load to fail. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="237" column="14" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ae6a9560a1657bfd385265c5ed2c08d41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmPluginSandbox::Config::wasm_path</definition>
+        <argsstring></argsstring>
+        <name>wasm_path</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::wasm_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Path to the .wasm binary (set by loadFromFile; empty when loading from bytes directly). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="241" column="21" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ac59427ce4c15df955e0f8d2a52586920" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Config::max_instructions</definition>
+        <argsstring></argsstring>
+        <name>max_instructions</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::max_instructions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total instruction fuel budget for this sandbox (0 = unlimited).</para>
+<para>Each <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">callExport()</ref> invocation deducts <ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a8a27ca84cc81afbbd0d2fadfa68f17aa" kindref="member">fuel_check_interval</ref> units from the budget. When the budget reaches zero, <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">callExport()</ref> returns a structured fuel-exhaustion error without invoking the runtime, bounding runaway plugin execution. Reset the budget by reloading the module. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="249" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a8a27ca84cc81afbbd0d2fadfa68f17aa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Config::fuel_check_interval</definition>
+        <argsstring></argsstring>
+        <name>fuel_check_interval</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::fuel_check_interval</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fuel units consumed per <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">callExport()</ref> invocation (default: 1).</para>
+<para>In a real WASM interpreter this would correspond to how often fuel is decremented in the bytecode dispatch loop. At the sandbox boundary level it sets the granularity of the per-call fuel deduction.</para>
+<para><simplesect kind="note"><para>A value of 0 is treated as 1 (minimum cost of one unit per call) to avoid infinite free calls when a budget is set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="259" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1afa780cffe9dc2bcff67c023979eb05e2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::modules::WasmPluginSandbox::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="261" column="23" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the WASM plugin sandbox. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="225" column="5" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="225" bodyend="262"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1afb3c1b6d1bec2b19a05bb23f44b8669d" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>allow_unregistered_imports</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1afa780cffe9dc2bcff67c023979eb05e2" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a8a27ca84cc81afbbd0d2fadfa68f17aa" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>fuel_check_interval</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a90b64cd3301a8be937f33f6a270e33a3" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>linear_memory_pages</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1aca3c43395fe9a4bb8379f340a6ebdbda" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>max_cpu_time_seconds</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ac59427ce4c15df955e0f8d2a52586920" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>max_instructions</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1a19fe8b4347f313be335946cb90f19667" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>max_memory_mb</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ae6a9560a1657bfd385265c5ed2c08d41" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Config</scope><name>wasm_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1wire_1_1_wire_engine_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::wire::WireEngineConfig</compoundname>
+    <includes refid="wire__protocol__server_8hpp" local="no">wire_protocol_server.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_wire_engine_config_1a0168f7950dc46f409e9e0041debb82bf" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; themis::wire::WireEngineConfig::query_engine</definition>
+        <argsstring></argsstring>
+        <name>query_engine</name>
+        <qualifiedname>themis::wire::WireEngineConfig::query_engine</qualifiedname>
+        <briefdescription>
+<para>AQL query engine (enables QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="208" column="21" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_wire_engine_config_1a2902f04dba19c6337bb773dbf6781868" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::SpatialIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;index::SpatialIndexManager&gt; themis::wire::WireEngineConfig::spatial_index</definition>
+        <argsstring></argsstring>
+        <name>spatial_index</name>
+        <qualifiedname>themis::wire::WireEngineConfig::spatial_index</qualifiedname>
+        <briefdescription>
+<para>Spatial index for GEO_QUERY dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="210" column="21" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_wire_engine_config_1a03601ddbc4a9c489f1a65e7984e3476f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TSStore &gt;</type>
+        <definition>std::shared_ptr&lt;TSStore&gt; themis::wire::WireEngineConfig::ts_store</definition>
+        <argsstring></argsstring>
+        <name>ts_store</name>
+        <qualifiedname>themis::wire::WireEngineConfig::ts_store</qualifiedname>
+        <briefdescription>
+<para>Time-series store for TIMESERIES_QUERY dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="212" column="21" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_wire_engine_config_1a8cc533580918ef9306ba5e88b200dc3a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ProcessGraphManager &gt;</type>
+        <definition>std::shared_ptr&lt;ProcessGraphManager&gt; themis::wire::WireEngineConfig::process_graph</definition>
+        <argsstring></argsstring>
+        <name>process_graph</name>
+        <qualifiedname>themis::wire::WireEngineConfig::process_graph</qualifiedname>
+        <briefdescription>
+<para>BPMN process graph manager (enables BPMN_START, BPMN_TASK_COMPLETE, BPMN_QUERY_INSTANCE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_server.hpp" line="215" column="21" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine references for the Protobuf wire protocol handlers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed to <ref refid="classthemis_1_1wire_1_1_wire_protocol_server" kindref="compound">WireProtocolServer</ref> at construction time and forwarded to each new <ref refid="classthemis_1_1wire_1_1_wire_protocol_session" kindref="compound">WireProtocolSession</ref>. All fields are optional shared_ptrs; a null pointer keeps the corresponding handler returning a redirect error. </para>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_server.hpp" line="206" column="1" bodyfile="include/themis/network/wire_protocol_server.hpp" bodystart="206" bodyend="216"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1wire_1_1_wire_engine_config_1a8cc533580918ef9306ba5e88b200dc3a" prot="public" virt="non-virtual"><scope>themis::wire::WireEngineConfig</scope><name>process_graph</name></member>
+      <member refid="structthemis_1_1wire_1_1_wire_engine_config_1a0168f7950dc46f409e9e0041debb82bf" prot="public" virt="non-virtual"><scope>themis::wire::WireEngineConfig</scope><name>query_engine</name></member>
+      <member refid="structthemis_1_1wire_1_1_wire_engine_config_1a2902f04dba19c6337bb773dbf6781868" prot="public" virt="non-virtual"><scope>themis::wire::WireEngineConfig</scope><name>spatial_index</name></member>
+      <member refid="structthemis_1_1wire_1_1_wire_engine_config_1a03601ddbc4a9c489f1a65e7984e3476f" prot="public" virt="non-virtual"><scope>themis::wire::WireEngineConfig</scope><name>ts_store</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

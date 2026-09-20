@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_rule_effectiveness" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::RuleEffectiveness</compoundname>
+    <includes refid="policy__validator_8h" local="no">policy_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rule_effectiveness_1a39dd019bafd15f4379f1b1d404cdb00f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RuleEffectiveness::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="40" column="17" bodyfile="include/governance/policy_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rule_effectiveness_1a1c2b38b61c349ccf0f16ebeb2a1d3642" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::RuleEffectiveness::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::hit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="41" column="9" bodyfile="include/governance/policy_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rule_effectiveness_1ae69fc6fc9a2506adee5d50ff9c918737" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::RuleEffectiveness::is_unused</definition>
+        <argsstring></argsstring>
+        <name>is_unused</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::is_unused</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="42" column="10" bodyfile="include/governance/policy_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rule_effectiveness_1ad58a62b8b6c59c997df48d54c9d86714" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::RuleEffectiveness::performance_impact_ms</definition>
+        <argsstring></argsstring>
+        <name>performance_impact_ms</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::performance_impact_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="43" column="12" bodyfile="include/governance/policy_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rule_effectiveness_1ae487bae84dd1a97acd1e84d046a4d5fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RuleEffectiveness::effectiveness_rating</definition>
+        <argsstring></argsstring>
+        <name>effectiveness_rating</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::effectiveness_rating</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="44" column="17" bodyfile="include/governance/policy_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_rule_effectiveness_1a3d216a2ee5a1d7c24587bba8806cfa81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::RuleEffectiveness::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::RuleEffectiveness::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="50" column="20" bodyfile="src/governance/policy_validator.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validator.h" line="39" column="1" bodyfile="include/governance/policy_validator.h" bodystart="39" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1ae487bae84dd1a97acd1e84d046a4d5fc" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>effectiveness_rating</name></member>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1a1c2b38b61c349ccf0f16ebeb2a1d3642" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>hit_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1ae69fc6fc9a2506adee5d50ff9c918737" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>is_unused</name></member>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1ad58a62b8b6c59c997df48d54c9d86714" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>performance_impact_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1a39dd019bafd15f4379f1b1d404cdb00f" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_rule_effectiveness_1a3d216a2ee5a1d7c24587bba8806cfa81" prot="public" virt="non-virtual"><scope>themis::governance::RuleEffectiveness</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_exporter_stress_framework_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ExporterStressFrameworkImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_exporter_stress_framework" prot="public" virt="non-virtual">themis::observability::ExporterStressFramework</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1ab43879339c990268daa748b2885fd50c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::ExporterStressFrameworkImpl::cancel_test_</definition>
+        <argsstring></argsstring>
+        <name>cancel_test_</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::cancel_test_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="517" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a514e850088c5789b2895f97c85cf5f35" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::ExporterStressFrameworkImpl::active_test_</definition>
+        <argsstring></argsstring>
+        <name>active_test_</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::active_test_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="518" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a2ac3a9fcbaa585b643c1ffcc0430a7a4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(std::uint32_t progress_percent)&gt;</type>
+        <definition>std::function&lt;void(std::uint32_t progress_percent)&gt; themis::observability::ExporterStressFrameworkImpl::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="519" column="19" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="519" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a052e09eecdf453fc27abb12b997ebbf3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ExporterStressFrameworkImpl::ExporterStressFrameworkImpl</definition>
+        <argsstring>()</argsstring>
+        <name>ExporterStressFrameworkImpl</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::ExporterStressFrameworkImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="199" column="5" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="199" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a66f8f0b70037dd6d1099216c6d628cfc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref></type>
+        <definition>ExporterStressTestResult themis::observability::ExporterStressFrameworkImpl::runStressTest</definition>
+        <argsstring>(const ExporterStressTestConfig &amp;config) override</argsstring>
+        <name>runStressTest</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::runStressTest</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a7e78504e7d6724d98af1105067a051fb">runStressTest</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run a single stress test with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with metrics and status.</para>
+</simplesect>
+<simplesect kind="note"><para>This is a blocking call. Test duration depends on config.duration_seconds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="204" column="30" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="204" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1ab6c1a6a70c6ce89d4a49e4e38545d281" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref> &gt;</type>
+        <definition>std::vector&lt; ExporterStressTestResult &gt; themis::observability::ExporterStressFrameworkImpl::runMultipleTests</definition>
+        <argsstring>(const std::vector&lt; ExporterStressTestConfig &gt; &amp;configs) override</argsstring>
+        <name>runMultipleTests</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::runMultipleTests</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab55b45835e42d770f7dd709472752d86">runMultipleTests</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref> &gt; &amp;</type>
+          <declname>configs</declname>
+        </param>
+        <briefdescription>
+<para>Run a series of stress tests with different configurations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>configs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of test configurations to run sequentially. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of test results (same order as configs).</para>
+</simplesect>
+<simplesect kind="note"><para>This is a blocking call. Total duration is sum of all test durations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="357" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="357" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1aa51d1ee7bcdc0f6086d132fba64b4222" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref> &gt;</type>
+        <definition>std::vector&lt; ExporterStressTestResult &gt; themis::observability::ExporterStressFrameworkImpl::runGateBenchmarks</definition>
+        <argsstring>() override</argsstring>
+        <name>runGateBenchmarks</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::runGateBenchmarks</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a9099d47b0bfc003b47f8552e8e5adb51">runGateBenchmarks</reimplements>
+        <briefdescription>
+<para>Run a comprehensive benchmark suite covering registered gates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs tests for gates OEX-01 through OEX-06 and returns results.</para>
+<para><simplesect kind="return"><para>Vector of 6 test results (one per gate). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="371" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="371" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a3b98c61ab85a806d3876215fbc0d1c46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ExporterStressFrameworkImpl::generateComparisonReport</definition>
+        <argsstring>(const ExporterStressTestResult &amp;baseline, const ExporterStressTestResult &amp;candidate) override</argsstring>
+        <name>generateComparisonReport</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::generateComparisonReport</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a38cc850ee1dc6cb900b04f4fe3f91659">generateComparisonReport</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref> &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+<para>Compare two test results and generate a comparison report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baseline test result. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate test result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Comparison report with performance deltas and recommendations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="439" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="439" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a9852008da513c27d01c32c9eec8c76e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::ExporterStressFrameworkImpl::setProgressCallback</definition>
+        <argsstring>(std::function&lt; void(std::uint32_t progress_percent)&gt; callback) override</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::setProgressCallback</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ac11f016b2372f7ca38373d86113540af">setProgressCallback</reimplements>
+        <param>
+          <type>std::function&lt; void(std::uint32_t progress_percent)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback for test progress updates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called with progress percentage (0-100) during test execution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="482" column="10" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="482" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a1b5bfaba98caab9cf96bdaad250a6af9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::ExporterStressFrameworkImpl::cancelTest</definition>
+        <argsstring>() override</argsstring>
+        <name>cancelTest</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::cancelTest</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1aefd18cfcbc63702f97c3a46f3150b026">cancelTest</reimplements>
+        <briefdescription>
+<para>Cancel any currently-running test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if a test was cancelled, false if no test was running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="487" column="10" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="487" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a83a1e72afa2e5c1f6e47c9754deab89b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::ExporterStressFrameworkImpl::getRegisteredGateCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRegisteredGateCount</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::getRegisteredGateCount</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a4cbde90400b38a36c6b471260282c00b">getRegisteredGateCount</reimplements>
+        <briefdescription>
+<para>Get the number of registered release gate benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of gates (typically 6 for OEX-01..06). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="496" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a6f66d991f52bd158419a06656749598e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ExporterStressFrameworkImpl::getGateName</definition>
+        <argsstring>(std::size_t gate_index) const override</argsstring>
+        <name>getGateName</name>
+        <qualifiedname>themis::observability::ExporterStressFrameworkImpl::getGateName</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ad946ed5752f60b86746deccfd620e3d6">getGateName</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>gate_index</declname>
+        </param>
+        <briefdescription>
+<para>Get the name and description of a registered gate benchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gate_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based index (0-5 for gates OEX-01..06). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Gate name (e.g., &quot;OEX-01&quot;) or empty string if index invalid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="500" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="500" bodyend="514"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::ExporterStressFramework</label>
+        <link refid="classthemis_1_1observability_1_1_exporter_stress_framework"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::ExporterStressFrameworkImpl</label>
+        <link refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::ExporterStressFramework</label>
+        <link refid="classthemis_1_1observability_1_1_exporter_stress_framework"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::ExporterStressFrameworkImpl</label>
+        <link refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/exporter_stress_framework.cpp" line="197" column="1" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="197" bodyend="520"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a514e850088c5789b2895f97c85cf5f35" prot="private" virt="non-virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>active_test_</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1ab43879339c990268daa748b2885fd50c" prot="private" virt="non-virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>cancel_test_</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a1b5bfaba98caab9cf96bdaad250a6af9" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>cancelTest</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a5bdf4c283edbbf837b9a8d314dfeb134" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>ExporterStressFramework</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a052e09eecdf453fc27abb12b997ebbf3" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>ExporterStressFrameworkImpl</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a3b98c61ab85a806d3876215fbc0d1c46" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>generateComparisonReport</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a6f66d991f52bd158419a06656749598e" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>getGateName</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a83a1e72afa2e5c1f6e47c9754deab89b" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>getRegisteredGateCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a2ac3a9fcbaa585b643c1ffcc0430a7a4" prot="private" virt="non-virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>progress_callback_</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1aa51d1ee7bcdc0f6086d132fba64b4222" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>runGateBenchmarks</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1ab6c1a6a70c6ce89d4a49e4e38545d281" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>runMultipleTests</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a66f8f0b70037dd6d1099216c6d628cfc" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>runStressTest</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_impl_1a9852008da513c27d01c32c9eec8c76e1" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab5057e98d4e0cfb573891db89ee140af" prot="public" virt="virtual"><scope>themis::observability::ExporterStressFrameworkImpl</scope><name>~ExporterStressFramework</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

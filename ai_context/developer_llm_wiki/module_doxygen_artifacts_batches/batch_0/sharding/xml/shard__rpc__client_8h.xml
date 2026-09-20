@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__rpc__client_8h" kind="file" language="C++">
+    <compoundname>shard_rpc_client.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="shard__rpc__client__adapter_8h" local="yes">include/sharding/shard_rpc_client_adapter.h</includedby>
+    <includedby refid="shard__rpc__server_8h" local="yes">include/sharding/shard_rpc_server.h</includedby>
+    <includedby refid="two__phase__commit__coordinator_8h" local="yes">include/sharding/two_phase_commit_coordinator.h</includedby>
+    <includedby refid="cross__shard__transaction_8cpp" local="yes">src/sharding/cross_shard_transaction.cpp</includedby>
+    <includedby refid="distributed__transaction_8cpp" local="yes">src/sharding/distributed_transaction.cpp</includedby>
+    <includedby refid="shard__rpc__client_8cpp" local="yes">src/sharding/shard_rpc_client.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/shard_rpc_client.h</label>
+        <link refid="shard__rpc__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="7">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/shard_rpc_client.h</label>
+        <link refid="shard__rpc__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/shard_rpc_client_adapter.h</label>
+        <link refid="shard__rpc__client__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/shard_rpc_server.h</label>
+        <link refid="shard__rpc__server_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/sharding/two_phase_commit_coordinator.h</label>
+        <link refid="two__phase__commit__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/sharding/two_phase_commit_participant.h</label>
+        <link refid="two__phase__commit__participant_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/sharding/distributed_transaction.cpp</label>
+        <link refid="distributed__transaction_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/shard_rpc_client.cpp</label>
+        <link refid="shard__rpc__client_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/shard_rpc_server.cpp</label>
+        <link refid="shard__rpc__server_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/two_phase_commit_coordinator.cpp</label>
+        <link refid="two__phase__commit__coordinator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/two_phase_commit_participant.cpp</label>
+        <link refid="two__phase__commit__participant_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error" prot="public">themis::sharding::NonRetryableRpcError</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy" prot="public">themis::sharding::ShardRpcRetryPolicy</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_shard_r_p_c_client" prot="public">themis::sharding::ShardRPCClient</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" prot="public">themis::sharding::ShardRPCClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" prot="public">themis::sharding::ShardRPCClient::WaitForEdge</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GRPC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;grpcpp/grpcpp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" kindref="compound">MTLSConnectionPoolManager</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">themisdb::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">OperationalMetrics</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error" kindref="compound">NonRetryableRpcError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">std::runtime_error::runtime_error;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy" kindref="compound">ShardRpcRetryPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a8a1c3e46f2ba41fb5fb1032b4145b58b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a8a1c3e46f2ba41fb5fb1032b4145b58b" kindref="member">max_attempts</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a82ab37921755ebe4554b11cda5d05ba0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a82ab37921755ebe4554b11cda5d05ba0" kindref="member">initial_backoff_ms</ref><sp/><sp/><sp/>=<sp/>100;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a532105b999a84969ac65b843c3d28a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a532105b999a84969ac65b843c3d28a54" kindref="member">max_backoff_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a08a218a6ef908b984d0017507b1def8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a08a218a6ef908b984d0017507b1def8c" kindref="member">use_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a842117862c78be317c0b472d1f53eaa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a842117862c78be317c0b472d1f53eaa7" kindref="member">endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>endpoint<sp/>(e.g.,<sp/>&quot;shard1:50051&quot;<sp/>for<sp/>gRPC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a19fa5a54ed02b61f8ea837eed447a7e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a19fa5a54ed02b61f8ea837eed447a7e6" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>shard<sp/>identifier<sp/>used<sp/>for<sp/>metric<sp/>labels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1af2393693ac6457b40061ba36cff714db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1af2393693ac6457b40061ba36cff714db" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RPC<sp/>timeout<sp/>in<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a2728858c8b1f817439bb6c8bbe20c81c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a2728858c8b1f817439bb6c8bbe20c81c" kindref="member">max_retries</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>retry<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1ab01646df38ad8ab9c37fdc29bec812ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1ab01646df38ad8ab9c37fdc29bec812ce" kindref="member">retry_delay_ms</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>delay<sp/>between<sp/>retries<sp/>(exponential<sp/>backoff)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>Configuration<sp/>(optional,<sp/>required<sp/>for<sp/>production)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1abe9502a84cb52da896beb99d071d13fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1abe9502a84cb52da896beb99d071d13fc" kindref="member">enable_mtls</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>mutual<sp/>TLS<sp/>authentication<sp/>(default:<sp/>on)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a5bdc2738304eb6be6be0e495e61fbf46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a5bdc2738304eb6be6be0e495e61fbf46" kindref="member">allow_insecure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>local/test-only<sp/>override;<sp/>rejected<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a6d40807c4b8d2cea849f0c3a93a6697d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a6d40807c4b8d2cea849f0c3a93a6697d" kindref="member">tls_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>client<sp/>certificate<sp/>(PEM<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a75b04167458d588d0a8d3289e540c299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a75b04167458d588d0a8d3289e540c299" kindref="member">tls_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>client<sp/>private<sp/>key<sp/>(PEM<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1af9b73985b5cf88f854ad821f6977cfc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1af9b73985b5cf88f854ad821f6977cfc7" kindref="member">tls_ca_cert_path</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>CA<sp/>certificate<sp/>for<sp/>server<sp/>verification<sp/>(PEM<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a13615d056c1d73f3e75b4ff954b367a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a13615d056c1d73f3e75b4ff954b367a8" kindref="member">tls_verify_server</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>server<sp/>certificate<sp/>against<sp/>CA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>pool<sp/>(optional,<sp/>shared<sp/>across<sp/>ShardRPCClient<sp/>instances)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a681a920dc180dc562dcf1530741829d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" kindref="compound">MTLSConnectionPoolManager</ref>*<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a681a920dc180dc562dcf1530741829d0" kindref="member">connection_pool</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Non-owning;<sp/>nullptr<sp/>disables<sp/>pooling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a42191231e1a58d76800d0a97450576d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a42191231e1a58d76800d0a97450576d7" kindref="member">max_pool_connections</ref><sp/>=<sp/>50;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per-endpoint<sp/>pool<sp/>size;<sp/>propagated<sp/>via<sp/>GossipConfigManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>Breaker<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1ac9b5dfd490f8363577e1ee2dc8f47182" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1ac9b5dfd490f8363577e1ee2dc8f47182" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>circuit<sp/>breaker<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a9971fca30fe51d0d1edc040b99bc2173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a9971fca30fe51d0d1edc040b99bc2173" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>5;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failures<sp/>before<sp/>opening<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a09b5fc6591c4b89b3d166e95be0b6a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a09b5fc6591c4b89b3d166e95be0b6a54" kindref="member">circuit_breaker_recovery_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Milliseconds<sp/>before<sp/>half-open<sp/>probe<sp/>(default<sp/>5<sp/>s)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>(optional,<sp/>non-owning<sp/>pointers;<sp/>nullptr<sp/>disables<sp/>the<sp/>respective<sp/>metric<sp/>sink)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a18f71acb8946471a13dc2e7f1e59c397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">themisdb::sharding::OperationalMetrics</ref>*<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a18f71acb8946471a13dc2e7f1e59c397" kindref="member">operational_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a416bec6ae7d512b8f43dc45f5860bedb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref>*<sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config_1a416bec6ae7d512b8f43dc45f5860bedb" kindref="member">prometheus_metrics</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a2ff40279dd4bbb454ca81569e390017d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a2ff40279dd4bbb454ca81569e390017d" kindref="member">~ShardRPCClient</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9e9ccbee5e5f674b899d664dadd9b134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9e9ccbee5e5f674b899d664dadd9b134" kindref="member">ShardRPCClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a142923bfc76d4cbe031d2a8ab3978ab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a142923bfc76d4cbe031d2a8ab3978ab0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ab7ea37dcdf73ac3046a41765387346a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ab7ea37dcdf73ac3046a41765387346a0" kindref="member">ShardRPCClient</ref>(<ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ae6515128104af45c1feac6be06edfe87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a79e7511b4fc117282961170e94aeaeb7" kindref="member">prepare</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>nlohmann::<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>operations</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a84d2a36f9e2aeff43908a15d752e1df7" kindref="member">commit</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>commit_timestamp</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9f092722dd87e1c3306aa0df98574445" kindref="member">abort</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ad1a0439952d72b82839079c631dbb6c1" kindref="member">compensate</ref>(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>txn_id,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>nlohmann::<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>operation</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1aab0e355a2c2b9e01bea7c83a6acb02df" kindref="member">snapshotRead</ref>(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>snapshot_ts,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>nlohmann::<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>query</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a23e16bb6780a5c776abb17f3bdbf765b" kindref="member">writeEntity</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>uuid,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>nlohmann::<ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>timestamp_ns<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1adaafe7db1c0ed6234e44542874e3d603" kindref="member">ping</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" kindref="compound">WaitForEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge_1abc169ad6fa212c722f2dcb9d9fe0e60e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge_1abc169ad6fa212c722f2dcb9d9fe0e60e" kindref="member">waiting_transaction_id</ref>;</highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge_1a0554f97fbbd6ec9b7355058f18042ce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge_1a0554f97fbbd6ec9b7355058f18042ce4" kindref="member">blocking_transaction_id</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WaitForEdge&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a4430a1af0ff1055c780edb39db5eef5b" kindref="member">collectWaitForEdges</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" kindref="member">InProcessResponseHandler</ref><sp/>=</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;nlohmann::json(std::string<sp/></highlight><highlight class="comment">/*method*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/></highlight><highlight class="comment">/*params*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a77cf559ab782aca71898b618bc149754" kindref="member">setInProcessResponseHandler</ref>(<ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" kindref="member">InProcessResponseHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>sendRequest(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>sendRequestInProcess(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GRPC</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>sendRequestGrpc(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handlePrepareGrpc(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleCommitGrpc(</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleAbortGrpc(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleSnapshotReadGrpc(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleWriteEntityGrpc(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleHealthCheckGrpc(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>handleCollectWaitForEdgesGrpc(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc::ClientContext&amp;<sp/>context</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isRetryableError(grpc::StatusCode<sp/>code);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/shard_rpc_client.h"/>
+  </compounddef>
+</doxygen>

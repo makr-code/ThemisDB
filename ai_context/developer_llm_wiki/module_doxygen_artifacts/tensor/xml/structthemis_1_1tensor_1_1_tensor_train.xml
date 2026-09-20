@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_train" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorTrain</compoundname>
+    <includes refid="tensor__compat_8h" local="no">tensor_compat.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_train_1a5a5c59b070aa72d223e894b6ba768b93" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorTrain::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>themis::tensor::TensorTrain::order</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="19" column="13" bodyfile="include/tensor/tensor_compat.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_train_1aff62a9c70599b5cd1c484658e6a0be3f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::TensorTrain::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::tensor::TensorTrain::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="20" column="13" bodyfile="include/tensor/tensor_compat.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_train_1a796bca53c7c209e9b0f2fec7bb33c77e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::TensorTrain::ranks</definition>
+        <argsstring></argsstring>
+        <name>ranks</name>
+        <qualifiedname>themis::tensor::TensorTrain::ranks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="21" column="13" bodyfile="include/tensor/tensor_compat.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_compat.h" line="18" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="18" bodyend="22"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_1a5a5c59b070aa72d223e894b6ba768b93" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrain</scope><name>order</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_1a796bca53c7c209e9b0f2fec7bb33c77e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrain</scope><name>ranks</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_1aff62a9c70599b5cd1c484658e6a0be3f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrain</scope><name>shape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

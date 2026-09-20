@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_continuous_agg_watermark_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::ContinuousAggWatermarkStore</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_watermark_store_1a7088392370f8253e4c564ca1565b10a0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::ContinuousAggWatermarkStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="194" column="13" bodyfile="include/timeseries/continuous_agg.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_continuous_agg_watermark_store_1a0f69d193f54d6925483e0aaa71489794" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ContinuousAggWatermarkStore::WM_KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>WM_KEY_PREFIX</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::WM_KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;wm:cagg:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="195" column="33" bodyfile="include/timeseries/continuous_agg.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_watermark_store_1a44aad511e439f959a54889710c618889" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ContinuousAggWatermarkStore::ContinuousAggWatermarkStore</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>ContinuousAggWatermarkStore</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::ContinuousAggWatermarkStore</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="168" column="14" bodyfile="include/timeseries/continuous_agg.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_watermark_store_1afa0b5fa49895fc8833f5d3eff62c4185" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::ContinuousAggWatermarkStore::getWatermark</definition>
+        <argsstring>(const std::string &amp;agg_id) const</argsstring>
+        <name>getWatermark</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::getWatermark</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <briefdescription>
+<para>Read the current watermark for <computeroutput>agg_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Milliseconds-since-epoch of the last successfully processed upper boundary, or 0 if no watermark has been set yet. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="176" column="13" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="154" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_watermark_store_1a3bfb8a25f91ef0ebe1c8b643824ac132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ContinuousAggWatermarkStore::setWatermark</definition>
+        <argsstring>(const std::string &amp;agg_id, int64_t watermark_ms)</argsstring>
+        <name>setWatermark</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::setWatermark</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>watermark_ms</declname>
+        </param>
+        <briefdescription>
+<para>Persist the watermark to <computeroutput>watermark_ms</computeroutput> for <computeroutput>agg_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Watermark.</para>
+<para>This write goes through RocksDB&apos;s WAL, so it survives node restarts. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), putSystemMeta(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="185" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="176" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_agg_watermark_store_1a34fd1c00f3c157baccee28e02cdb0645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ContinuousAggWatermarkStore::deleteWatermark</definition>
+        <argsstring>(const std::string &amp;agg_id)</argsstring>
+        <name>deleteWatermark</name>
+        <qualifiedname>themis::ContinuousAggWatermarkStore::deleteWatermark</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the watermark entry (e.g., when an aggregate is deleted). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Watermark.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), deleteSystemMeta(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="191" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent watermark store for continuous aggregates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each aggregate has an associated watermark — the upper boundary of the time range that has already been aggregated. This store persists watermarks in the <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>&apos;s underlying RocksDB instance under the &quot;wm:cagg:&quot; key prefix so they survive node restarts (WAL-durable).</para>
+<para>Thread safety: individual get/set operations are individually atomic via RocksDB&apos;s single-key Put/Get, but callers must serialize concurrent refreshes for the same aggregate_id. </para>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="166" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="166" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1a44aad511e439f959a54889710c618889" prot="public" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>ContinuousAggWatermarkStore</name></member>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1a34fd1c00f3c157baccee28e02cdb0645" prot="public" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>deleteWatermark</name></member>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1afa0b5fa49895fc8833f5d3eff62c4185" prot="public" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>getWatermark</name></member>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1a3bfb8a25f91ef0ebe1c8b643824ac132" prot="public" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>setWatermark</name></member>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1a7088392370f8253e4c564ca1565b10a0" prot="private" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_continuous_agg_watermark_store_1a0f69d193f54d6925483e0aaa71489794" prot="private" virt="non-virtual"><scope>themis::ContinuousAggWatermarkStore</scope><name>WM_KEY_PREFIX</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CypherToAQLTranspiler</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1adca521b4f301c8af86a66147a526fbbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CypherToAQLTranspiler::CypherToAQLTranspiler</definition>
+        <argsstring>()=default</argsstring>
+        <name>CypherToAQLTranspiler</name>
+        <qualifiedname>themis::query::CypherToAQLTranspiler::CypherToAQLTranspiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="233" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1a0be395ce7ade883b4e1ca324b6dce3cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::query::CypherToAQLTranspiler::transpile</definition>
+        <argsstring>(const CypherASTNode &amp;ast)</argsstring>
+        <name>transpile</name>
+        <qualifiedname>themis::query::CypherToAQLTranspiler::transpile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref> &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Transpile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::find(), begin(), end(), push_back(), addVar(), nodePatternToFilter(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="240" column="12" bodyfile="src/query/cypher_parser.cpp" bodystart="1277" bodyend="1478"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1ab79ef8ec9c54f79219172eb14e1d81fd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherToAQLTranspiler::literalToAQL</definition>
+        <argsstring>(const CypherLiteralValue &amp;val)</argsstring>
+        <name>literalToAQL</name>
+        <qualifiedname>themis::query::CypherToAQLTranspiler::literalToAQL</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref> &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Literal To AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::visit(), constexpr(), std::to_string(), str(), size(), front(), back(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="248" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="1144" bodyend="1175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1ad216345352935a514d98dcb8dc364b16" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherToAQLTranspiler::exprToAQL</definition>
+        <argsstring>(const CypherExpr &amp;expr, const std::string &amp;default_var)</argsstring>
+        <name>exprToAQL</name>
+        <qualifiedname>themis::query::CypherToAQLTranspiler::exprToAQL</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_var</declname>
+        </param>
+        <briefdescription>
+<para>Expr To AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_var</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_var</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: exprType(), literalToAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="255" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="1184" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1a8c523a3c811ff89382eb617a3dcefb94" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherToAQLTranspiler::nodePatternToFilter</definition>
+        <argsstring>(const CypherNodePattern &amp;node, const std::string &amp;var)</argsstring>
+        <name>nodePatternToFilter</name>
+        <qualifiedname>themis::query::CypherToAQLTranspiler::nodePatternToFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <briefdescription>
+<para>Node Pattern To Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">var</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">var</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), literalToAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="262" column="24" bodyfile="src/query/cypher_parser.cpp" bodystart="1258" bodyend="1268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cypher_parser.h" line="231" column="1" bodyfile="include/query/cypher_parser.h" bodystart="231" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1adca521b4f301c8af86a66147a526fbbc" prot="public" virt="non-virtual"><scope>themis::query::CypherToAQLTranspiler</scope><name>CypherToAQLTranspiler</name></member>
+      <member refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1ad216345352935a514d98dcb8dc364b16" prot="private" virt="non-virtual"><scope>themis::query::CypherToAQLTranspiler</scope><name>exprToAQL</name></member>
+      <member refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1ab79ef8ec9c54f79219172eb14e1d81fd" prot="private" virt="non-virtual"><scope>themis::query::CypherToAQLTranspiler</scope><name>literalToAQL</name></member>
+      <member refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1a8c523a3c811ff89382eb617a3dcefb94" prot="private" virt="non-virtual"><scope>themis::query::CypherToAQLTranspiler</scope><name>nodePatternToFilter</name></member>
+      <member refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1a0be395ce7ade883b4e1ca324b6dce3cf" prot="public" virt="non-virtual"><scope>themis::query::CypherToAQLTranspiler</scope><name>transpile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_79bd9544c89837812f35b3c5a185b118" kind="dir">
+    <compoundname>src/exporters</compoundname>
+    <innerfile refid="aql__predicate__filter_8cpp">aql_predicate_filter.cpp</innerfile>
+    <innerfile refid="arrow__ipc__exporter_8cpp">arrow_ipc_exporter.cpp</innerfile>
+    <innerfile refid="data__augmentation_8cpp">data_augmentation.cpp</innerfile>
+    <innerfile refid="export__encryption_8cpp">export_encryption.cpp</innerfile>
+    <innerfile refid="export__format__registry_8cpp">export_format_registry.cpp</innerfile>
+    <innerfile refid="exporter__metrics_8cpp">exporter_metrics.cpp</innerfile>
+    <innerfile refid="format__template_8cpp">format_template.cpp</innerfile>
+    <innerfile refid="huggingface__exporter_8cpp">huggingface_exporter.cpp</innerfile>
+    <innerfile refid="huggingface__hub__client_8cpp">huggingface_hub_client.cpp</innerfile>
+    <innerfile refid="incremental__exporter_8cpp">incremental_exporter.cpp</innerfile>
+    <innerfile refid="join__exporter_8cpp">join_exporter.cpp</innerfile>
+    <innerfile refid="jsonl__llm__exporter_8cpp">jsonl_llm_exporter.cpp</innerfile>
+    <innerfile refid="parquet__exporter_8cpp">parquet_exporter.cpp</innerfile>
+    <innerfile refid="pii__detector_8cpp">pii_detector.cpp</innerfile>
+    <innerfile refid="stream__writer_8cpp">stream_writer.cpp</innerfile>
+    <innerfile refid="streaming__exporter_8cpp">streaming_exporter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/exporters/"/>
+  </compounddef>
+</doxygen>

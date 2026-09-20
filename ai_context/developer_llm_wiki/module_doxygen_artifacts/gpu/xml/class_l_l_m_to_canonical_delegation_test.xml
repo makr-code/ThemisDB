@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_to_canonical_delegation_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMToCanonicalDelegationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_to_canonical_delegation_test_1a77e1c3d8bc283f1f25be51d696070510" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMToCanonicalDelegationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMToCanonicalDelegationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="112" column="10" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_to_canonical_delegation_test_1a4ad336189b11835da9134cf3ffa1ca71" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMToCanonicalDelegationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMToCanonicalDelegationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="115" column="10" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMToCanonicalDelegationTest</label>
+        <link refid="class_l_l_m_to_canonical_delegation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMToCanonicalDelegationTest</label>
+        <link refid="class_l_l_m_to_canonical_delegation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="110" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="110" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_to_canonical_delegation_test_1a77e1c3d8bc283f1f25be51d696070510" prot="protected" virt="non-virtual"><scope>LLMToCanonicalDelegationTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_to_canonical_delegation_test_1a4ad336189b11835da9134cf3ffa1ca71" prot="protected" virt="non-virtual"><scope>LLMToCanonicalDelegationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

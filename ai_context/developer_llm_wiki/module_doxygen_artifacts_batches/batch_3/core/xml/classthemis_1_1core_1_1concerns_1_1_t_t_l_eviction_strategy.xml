@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::TTLEvictionStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::IEvictionStrategy</basecompoundref>
+    <includes refid="eviction__strategies_8h" local="no">eviction_strategies.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a5827ba65e02dd880183790d6d3cc3a9e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::TTLEvictionStrategy::default_ttl_ms_</definition>
+        <argsstring></argsstring>
+        <name>default_ttl_ms_</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::default_ttl_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="227" column="14" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a56c678ef6145a40ce480ecad4fa9f96c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::core::concerns::TTLEvictionStrategy::timestamp_map_</definition>
+        <argsstring></argsstring>
+        <name>timestamp_map_</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::timestamp_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="228" column="24" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a39a774fdc2dfe6b20b47f29d431b9180" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::TTLEvictionStrategy::TTLEvictionStrategy</definition>
+        <argsstring>(uint64_t default_ttl_ms=3600000)</argsstring>
+        <name>TTLEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::TTLEvictionStrategy</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>default_ttl_ms</declname>
+          <defval>3600000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="165" column="14" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="165" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a53ebdee1c4f793e2a910bfad43a4e50f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::TTLEvictionStrategy::onAccess</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>onAccess</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::onAccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a943d6e51f95142703fad164a6d7152f9">onAccess</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="168" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a50f3d65d12adb4f8158962e373151077" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::TTLEvictionStrategy::onInsert</definition>
+        <argsstring>(std::string_view key, uint64_t timestamp_ms) override</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::onInsert</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a4b9d6ecaefe1c6e5dbdd8890036b7156">onInsert</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="172" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a0a9e311c0657128239309b2942b330a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::TTLEvictionStrategy::onRemove</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>onRemove</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::onRemove</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a26c64327ca3715d29df363534725672f">onRemove</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="176" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a1764f7ed0d7c08ffd9933473ef5e5a82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::core::concerns::TTLEvictionStrategy::selectVictim</definition>
+        <argsstring>() override</argsstring>
+        <name>selectVictim</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::selectVictim</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a212782df993db6a7333d63ddf0a95d5a">selectVictim</reimplements>
+        <briefdescription>
+<para>Select Victim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="180" column="19" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="180" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1ab2388afbf7138a638690a967a77b7a06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::TTLEvictionStrategy::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a9d52f4309c92ddf5cdee5bbcfddf3af3">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="205" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a3b7244eeb986b4d36753c73e187cc0e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::TTLEvictionStrategy::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::size</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1ac0a5c2d7082b48f576f1ba960a392e5e">size</reimplements>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="209" column="12" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a86999feaac49acfef2f0e087b6632dcf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::core::concerns::TTLEvictionStrategy::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a54c4cabb9da4de4d92a74594e4e16b9e">getName</reimplements>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="213" column="22" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a8f742bf39869cc2d239f95def9d6ccd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::TTLEvictionStrategy::setDefaultTTL</definition>
+        <argsstring>(uint64_t ttl_ms)</argsstring>
+        <name>setDefaultTTL</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::setDefaultTTL</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set Default TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setDefaultTTL without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="222" column="10" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="222" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a46ab14900963a15e4220cb082ecd4861" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::TTLEvictionStrategy::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::core::concerns::TTLEvictionStrategy::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="230" column="14" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="230" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::TTLEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::TTLEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/eviction_strategies.h" line="163" column="1" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="163" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1ab2388afbf7138a638690a967a77b7a06" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a5827ba65e02dd880183790d6d3cc3a9e" prot="private" virt="non-virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>default_ttl_ms_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a46ab14900963a15e4220cb082ecd4861" prot="private" virt="non-virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a86999feaac49acfef2f0e087b6632dcf" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>getName</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a53ebdee1c4f793e2a910bfad43a4e50f" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>onAccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a50f3d65d12adb4f8158962e373151077" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>onInsert</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a0a9e311c0657128239309b2942b330a3" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>onRemove</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a1764f7ed0d7c08ffd9933473ef5e5a82" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>selectVictim</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a8f742bf39869cc2d239f95def9d6ccd3" prot="public" virt="non-virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>setDefaultTTL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a3b7244eeb986b4d36753c73e187cc0e0" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a56c678ef6145a40ce480ecad4fa9f96c" prot="private" virt="non-virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>timestamp_map_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a39a774fdc2dfe6b20b47f29d431b9180" prot="public" virt="non-virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>TTLEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a3652ac2ccfef517f32a0071347ebf080" prot="public" virt="virtual"><scope>themis::core::concerns::TTLEvictionStrategy</scope><name>~IEvictionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

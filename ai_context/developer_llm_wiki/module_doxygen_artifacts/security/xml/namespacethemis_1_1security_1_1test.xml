@@ -1,0 +1,840 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::security::test</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" prot="public">themis::security::test::MoveChainTrackerTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_exception_test" prot="public">themis::security::test::MoveExceptionTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_guard_test" prot="public">themis::security::test::MoveGuardTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_integration_test" prot="public">themis::security::test::MoveIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_validator_specialization_test" prot="public">themis::security::test::MoveValidatorSpecializationTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_move_validator_test" prot="public">themis::security::test::MoveValidatorTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1test_1_1_safe_move_test" prot="public">themis::security::test::SafeMoveTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a124c72a5290eeb7dc755c0fbc6207424" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, NoConfigRequiresExplicitStubOptIn)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>NoConfigRequiresExplicitStubOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="82" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="82" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a1574f7309b35e5e38626f5f7b00841ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, NoConfigAllowsExplicitStubOptInFromFlag)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>NoConfigAllowsExplicitStubOptInFromFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="95" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a14fef37abcd437c5c831afb4324bdaaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, StubProviderRequiresExplicitOptIn)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>StubProviderRequiresExplicitOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="111" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="111" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a7bf31159ac3ed22af3043ed0841b7de3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, StubProviderAllowsEnvironmentOptIn)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>StubProviderAllowsEnvironmentOptIn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="130" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="130" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a7ac9b770757b6b408e732fdc8b9374e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, Pkcs11ProviderRequiresLibraryPath)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>Pkcs11ProviderRequiresLibraryPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="151" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="151" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a89c7f543d60788c956eaf51d4d9306c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, Pkcs11ProviderParsesConfiguredFields)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>Pkcs11ProviderParsesConfiguredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="173" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="173" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ac03d3c2cec99e25b6dbcd8fb8a0e75b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, SecurityConfigTakesPrecedenceOverMainConfig)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>SecurityConfigTakesPrecedenceOverMainConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="204" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="204" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a2d10982945e5afcec41bade8c808fafb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, RuntimeSecurityAllowsRealPkcs11Classification)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>RuntimeSecurityAllowsRealPkcs11Classification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="237" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="237" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a340284a14a23231b85ef0863e7e6e43d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, RuntimeSecurityBlocksImplicitStubFallbackForPkcs11Policy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>RuntimeSecurityBlocksImplicitStubFallbackForPkcs11Policy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="248" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="248" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ae467c160073e94dcb44b1bea56d165e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST</definition>
+        <argsstring>(HSMStartupPolicy, RuntimeSecurityAllowsExplicitStubOverride)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::security::test::TEST</qualifiedname>
+        <param>
+          <type>HSMStartupPolicy</type>
+        </param>
+        <param>
+          <type>RuntimeSecurityAllowsExplicitStubOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_policy.cpp" line="260" column="1" bodyfile="tests/security/test_hsm_startup_policy.cpp" bodystart="260" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a824f67aa2e2ee658da0f9cbe830c0002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorTest, ValidatePreMoveWithValidObject)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_test" kindref="compound">MoveValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidatePreMoveWithValidObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="51" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a29e042ed03e56c285a5e10da4939fd15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorTest, ValidatePreMoveWithEmptyObject)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_test" kindref="compound">MoveValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidatePreMoveWithEmptyObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="58" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a4189f3cc32d5666ea94b74a21bc9cf73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorTest, ValidatePostMoveVector)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_test" kindref="compound">MoveValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidatePostMoveVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="65" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a6813e31504d758951bf869255ca3f1ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorTest, ValidateUniquePtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_test" kindref="compound">MoveValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUniquePtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="75" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a3f2ee2ab6b6f72402b361d6b08695928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorTest, ValidateSharedPtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_test" kindref="compound">MoveValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="86" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a96e1626f1d8a5f252ac089ef7d0c68ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, GuardCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="121" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ad44d4ba71eb4cf507fb5302de4238a92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, GuardDetectsAfterMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardDetectsAfterMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="128" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a0c7be1416432c63040ab81e0aa0b570d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, GuardAccessAfterMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardAccessAfterMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="137" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1aba5e2531165403abf2dd23bf09e6d315" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, GuardMoveConstruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardMoveConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="148" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a3b3d633e38ad9442593b0026891c2dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, GuardMoveAssignment)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardMoveAssignment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="159" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="159" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ac2bf9f60e14a24c71be28e8edb5079aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveGuardTest, NullPointerAssertion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_guard_test" kindref="compound">MoveGuardTest</ref></type>
+        </param>
+        <param>
+          <type>NullPointerAssertion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="171" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="171" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ada48647987ff22847a13039ffdd8cd0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, CreateAndTake)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>CreateAndTake</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="204" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="204" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a1a2322a05304eeb7fa2d7e2a92ff60b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, SafeMoveWithObject)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMoveWithObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="215" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="215" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1abdd0020edb0b38599491300c25f6a91c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, SafeMoveIsValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMoveIsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="223" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="223" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1aca1e83d3e0edc105a9d10aac6895d6dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, SafeMoveGetConst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMoveGetConst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="229" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="229" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1abdc8efe9ed1d567a32b5a7e7f6df724b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, SafeMoveGetMutable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMoveGetMutable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="237" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="237" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a0b6eb274c536ee8ed14fa98c6ca009af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(SafeMoveTest, SafeMoveMacro)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_safe_move_test" kindref="compound">SafeMoveTest</ref></type>
+        </param>
+        <param>
+          <type>SafeMoveMacro</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="248" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="248" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ab119f36ea67750ac78feafa42b3a4c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveChainTrackerTest, InitialState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" kindref="compound">MoveChainTrackerTest</ref></type>
+        </param>
+        <param>
+          <type>InitialState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="263" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="263" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a7dd48be12764aaae803ea7339750abee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveChainTrackerTest, ChainBeginEnd)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" kindref="compound">MoveChainTrackerTest</ref></type>
+        </param>
+        <param>
+          <type>ChainBeginEnd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="269" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="269" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a3aeec2afb175c96d2a093278cb310660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveChainTrackerTest, MultipleChainLevels)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" kindref="compound">MoveChainTrackerTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleChainLevels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="279" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="279" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ad770e739027fa5beeafb5a23856d19a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveChainTrackerTest, ChainDepthExceeded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" kindref="compound">MoveChainTrackerTest</ref></type>
+        </param>
+        <param>
+          <type>ChainDepthExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="293" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="293" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1ad93a2fa84b1ea9ab0b7a0a9320b23cdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveChainTrackerTest, Reset)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_chain_tracker_test" kindref="compound">MoveChainTrackerTest</ref></type>
+        </param>
+        <param>
+          <type>Reset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="308" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="308" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1adfd9fa3eb4d652c072373b936138cfa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveExceptionTest, UseAfterMoveException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_exception_test" kindref="compound">MoveExceptionTest</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_use_after_move_exception" kindref="compound">UseAfterMoveException</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="325" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="325" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a16416fd8a7eef6ecfa1082553c587622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveExceptionTest, MoveSourceNotClearedException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_exception_test" kindref="compound">MoveExceptionTest</ref></type>
+        </param>
+        <param>
+          <type>MoveSourceNotClearedException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="332" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="332" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a2d414b0d666b1847337b60e405f835c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveExceptionTest, ExceptionMessage)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_exception_test" kindref="compound">MoveExceptionTest</ref></type>
+        </param>
+        <param>
+          <type>ExceptionMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="339" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="339" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1aadf2c229d5031f1c580fdec8fe249922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveIntegrationTest, ComplexObjectMove)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_integration_test" kindref="compound">MoveIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ComplexObjectMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="378" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="378" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a2d4aee893a9c95c13a75257fbc731f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveIntegrationTest, MoveChainWithGuard)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_integration_test" kindref="compound">MoveIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MoveChainWithGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="392" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="392" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a1021ddb95976fc4bfe40b992d6b69ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveIntegrationTest, SequentialMoves)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_integration_test" kindref="compound">MoveIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SequentialMoves</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="409" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="409" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a4f7cf150bc20eaee57a722cc4dc5a7e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorSpecializationTest, VectorSpecialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_specialization_test" kindref="compound">MoveValidatorSpecializationTest</ref></type>
+        </param>
+        <param>
+          <type>VectorSpecialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="428" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="428" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a758f565c05f62398cdacab74cba354ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorSpecializationTest, UniquePtrSpecialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_specialization_test" kindref="compound">MoveValidatorSpecializationTest</ref></type>
+        </param>
+        <param>
+          <type>UniquePtrSpecialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="441" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="441" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1test_1a0ea3aed64131b4c3b35a5d00e381926e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::TEST_F</definition>
+        <argsstring>(MoveValidatorSpecializationTest, SharedPtrSpecialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1test_1_1_move_validator_specialization_test" kindref="compound">MoveValidatorSpecializationTest</ref></type>
+        </param>
+        <param>
+          <type>SharedPtrSpecialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="454" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="454" bodyend="465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_hsm_startup_policy.cpp" line="19" column="33"/>
+  </compounddef>
+</doxygen>

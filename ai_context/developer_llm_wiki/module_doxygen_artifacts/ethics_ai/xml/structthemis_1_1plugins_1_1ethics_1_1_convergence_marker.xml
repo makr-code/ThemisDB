@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ConvergenceMarker</compoundname>
+    <includes refid="convergence__marker__engine_8h" local="no">convergence_marker_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a543d7bc472c8fdf3ce9c8a51765034c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::school_a_id</definition>
+        <argsstring></argsstring>
+        <name>school_a_id</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::school_a_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="33" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1afcd2fc7351a85d12242a8730a78dcb77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::thesis_a_id</definition>
+        <argsstring></argsstring>
+        <name>thesis_a_id</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::thesis_a_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="34" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1ab17602a5fb91aadd31afe76dd36cee9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::school_b_id</definition>
+        <argsstring></argsstring>
+        <name>school_b_id</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::school_b_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="35" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a531a22e328dbc608fd8f989d7bb414e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::thesis_b_id</definition>
+        <argsstring></argsstring>
+        <name>thesis_b_id</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::thesis_b_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="36" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa4b5b97ccc7f263b960afca9d54ab92a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4" kindref="member">ConvergenceType</ref></type>
+        <definition>ConvergenceType themis::plugins::ethics::ConvergenceMarker::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ConvergenceType::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="37" column="21" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a22fe398379aa6018e5ddaf3e22fcdfc2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::condition</qualifiedname>
+        <briefdescription>
+<para>For CONDITIONAL_CONVERGENT: the condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="38" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a1195069298d386a9aed76b79d57be9b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ConvergenceMarker::split_reason</definition>
+        <argsstring></argsstring>
+        <name>split_reason</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::split_reason</qualifiedname>
+        <briefdescription>
+<para>For IRREDUCIBLE_SPLIT: the reason. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="39" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa46e6a253df6fb06db4b4c40a7e9b0d9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::ConvergenceMarker::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::ethics::ConvergenceMarker::confidence</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>[0.0–1.0] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/convergence_marker_engine.h" line="40" column="17" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/convergence_marker_engine.h" line="32" column="1" bodyfile="include/ethics_ai/convergence_marker_engine.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a22fe398379aa6018e5ddaf3e22fcdfc2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>condition</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa46e6a253df6fb06db4b4c40a7e9b0d9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a543d7bc472c8fdf3ce9c8a51765034c3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>school_a_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1ab17602a5fb91aadd31afe76dd36cee9e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>school_b_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a1195069298d386a9aed76b79d57be9b3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>split_reason</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1afcd2fc7351a85d12242a8730a78dcb77" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>thesis_a_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a531a22e328dbc608fd8f989d7bb414e5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>thesis_b_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa4b5b97ccc7f263b960afca9d54ab92a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ConvergenceMarker</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

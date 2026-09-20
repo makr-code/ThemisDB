@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rebalance__operation_8h" kind="file" language="C++">
+    <compoundname>rebalance_operation.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">algorithm</includes>
+    <includedby refid="auto__rebalancer_8h" local="yes">include/sharding/auto_rebalancer.h</includedby>
+    <includedby refid="rebalance__operation_8cpp" local="yes">src/sharding/rebalance_operation.cpp</includedby>
+    <includedby refid="test__sharding__core_8cpp" local="yes">tests/sharding/test_sharding_core.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/rebalance_operation.h</label>
+        <link refid="rebalance__operation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/auto_rebalancer.h</label>
+        <link refid="auto__rebalancer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/rebalance_operation.h</label>
+        <link refid="rebalance__operation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/auto_rebalancer.cpp</label>
+        <link refid="auto__rebalancer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/rebalance_operation.cpp</label>
+        <link refid="rebalance__operation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/sharding/test_sharding_core.cpp</label>
+        <link refid="test__sharding__core_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_rebalance_progress" prot="public">themis::sharding::RebalanceProgress</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_rebalance_operation_config" prot="public">themis::sharding::RebalanceOperationConfig</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_rebalance_operation" prot="public">themis::sharding::RebalanceOperation</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7a5683876d011b1c68a469bf5908a8857c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7a5683876d011b1c68a469bf5908a8857c" kindref="member">PLANNED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>state,<sp/>not<sp/>started</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7aca69f96c768067fbff6c911ca87bccc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a093e4815009f515bcc9c9dba108d0421aca69f96c768067fbff6c911ca87bccc9" kindref="member">IN_PROGRESS</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>executing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a093e4815009f515bcc9c9dba108d0421a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Successfully<sp/>completed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a093e4815009f515bcc9c9dba108d0421ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>during<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7aed701d1c3d474e00c7a2f416f8d6858c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7aed701d1c3d474e00c7a2f416f8d6858c" kindref="member">ROLLED_BACK</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rolled<sp/>back<sp/>after<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_rebalance_progress" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_rebalance_progress_1a98e48389d1eeb2b7b0bb7b532858c9ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1a98e48389d1eeb2b7b0bb7b532858c9ea" kindref="member">records_migrated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1sharding_1_1_rebalance_progress_1a7d038a54aac3de2d0844595d0f8acc48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1a7d038a54aac3de2d0844595d0f8acc48" kindref="member">total_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1sharding_1_1_rebalance_progress_1af3126bf0acc4714a69f7b0d59a41dd88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1af3126bf0acc4714a69f7b0d59a41dd88" kindref="member">bytes_transferred</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_rebalance_progress_1a5e91c4597f59cb2c60431716eb5b01a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1a5e91c4597f59cb2c60431716eb5b01a8" kindref="member">progress_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_rebalance_progress_1abf8fad0bb0f6f79b47de6fad7c88031a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1abf8fad0bb0f6f79b47de6fad7c88031a" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_rebalance_progress_1ad7d0765c174ec84d931f93e7895d20c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress_1ad7d0765c174ec84d931f93e7895d20c8" kindref="member">estimated_completion</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_rebalance_operation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a117f92f1fc1680b2cee944208f0c0f83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a117f92f1fc1680b2cee944208f0c0f83" kindref="member">source_shard_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a4d8617387bd4d82bfb03861f020247b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a4d8617387bd4d82bfb03861f020247b9" kindref="member">target_shard_id</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1afa9f2832a71852d6d80cb000b1275abb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1afa9f2832a71852d6d80cb000b1275abb" kindref="member">token_range_start</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a054c83d3c3ed6bf1884ff680bea88bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a054c83d3c3ed6bf1884ff680bea88bc9" kindref="member">token_range_end</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a035dfe3bf333f147ac7b57790db42074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a035dfe3bf333f147ac7b57790db42074" kindref="member">operator_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Certificate<sp/>of<sp/>operator<sp/>authorizing<sp/>the<sp/>rebalance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ad63b7606155350df688f17882610dc75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ad63b7606155350df688f17882610dc75" kindref="member">ca_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CA<sp/>certificate<sp/>for<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a9f7d231ce7156634ae9ea3076b5c0f91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1a9f7d231ce7156634ae9ea3076b5c0f91" kindref="member">batch_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Records<sp/>per<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ab3fa7b6055600b091e376cfe56f2f718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1ab3fa7b6055600b091e376cfe56f2f718" kindref="member">verify_data</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>data<sp/>integrity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1af262b98e056e8e7b2e801dab7f5a13c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config_1af262b98e056e8e7b2e801dab7f5a13c6" kindref="member">enable_rollback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>automatic<sp/>rollback<sp/>on<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1sharding_1_1_rebalance_operation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a692d98b9d7a493dea4bc7f1ea425a501" kindref="member">RebalanceOperation</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" kindref="member">ProgressCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a692d98b9d7a493dea4bc7f1ea425a501" kindref="member">RebalanceOperation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1sharding_1_1_rebalance_operation_1aace40fe4a6f50fa2090e656ae05f4646" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1aace40fe4a6f50fa2090e656ae05f4646" kindref="member">~RebalanceOperation</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a18ace3a61116e0e60ce76b4dd3829ede" kindref="member">start</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_signature);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1ae87fa1d2bd1046ee4b1545e1ebeb5da7" kindref="member">complete</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1ad8c732981bf233410889a2e51b643838" kindref="member">fail</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_message);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1ad32ce91fe7ad1256bafb8ad2636c8d1f" kindref="member">rollback</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a6d55801e94febcd98d58950fd0e55371" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a0e5df6903538cb3eb7c265abad4bd478" kindref="member">getProgress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a3441e641d94b849bcd4001c88272398c" kindref="member">setProgressCallback</ref>(<ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" kindref="member">ProgressCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a1cfe2b9f4a7fad442d975f345bd27acd" kindref="member">updateProgress</ref>(uint64_t<sp/>records_migrated,<sp/>uint64_t<sp/>bytes_transferred);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a691a7d876fbd901691d7f229354a571c" kindref="member">validateOperator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_signature);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a6340a7ca670768926283df65bf72369f" kindref="member">executeWithThroughputGuarantee</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;uint64_t()&gt;&amp;<sp/>throughput_callback<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5e409390556a82c2639cd580a69de4cc" kindref="member">isTopologyChangeRebalancingNeeded</ref>(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>old_topology,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>new_topology);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RebalanceOperationConfig&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1ab6e6c812eae2d29432d5a12fd14844a7" kindref="member">generateTopologyChangeRebalancePlan</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>old_topology,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>new_topology);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;RebalanceState&gt;<sp/>state_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref><sp/>progress_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" kindref="member">ProgressCallback</ref><sp/>progress_callback_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>error_message_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator_validated_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>transitionState(<ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref><sp/>from,<sp/><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref><sp/>to);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/rebalance_operation.h"/>
+  </compounddef>
+</doxygen>

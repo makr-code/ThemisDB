@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_g_p_u_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::GPUTimeoutGuard</compoundname>
+    <includes refid="gpu__safe__fail_8h" local="no">gpu_safe_fail.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a0daf2a18e6ec02c1702cca54a89f49dc" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::GPUTimeoutGuard::timeout_</definition>
+        <argsstring></argsstring>
+        <name>timeout_</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="227" column="26" bodyfile="include/llm/gpu_safe_fail.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a6ef4e59430db4fe68a00c0b4949081b7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GPUTimeoutGuard::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::operation_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="228" column="17" bodyfile="include/llm/gpu_safe_fail.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1aed9fd155f6fb0a875546a726ca1d805f" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::GPUTimeoutGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="229" column="43" bodyfile="include/llm/gpu_safe_fail.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1aeaa99ee55483e00a61de33f01edf0f1b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::GPUTimeoutGuard::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="230" column="17" bodyfile="include/llm/gpu_safe_fail.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a19aa595a64ef5e22d0abe6f0d463da70" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::GPUTimeoutGuard::timed_out_</definition>
+        <argsstring></argsstring>
+        <name>timed_out_</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::timed_out_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="231" column="25" bodyfile="include/llm/gpu_safe_fail.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1ae753f5a9f5e7e56911dc838ffa92a383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GPUTimeoutGuard::GPUTimeoutGuard</definition>
+        <argsstring>(std::chrono::seconds timeout, const std::string &amp;operation_name)</argsstring>
+        <name>GPUTimeoutGuard</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::GPUTimeoutGuard</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="212" column="5" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="376" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1abb85ce7b2d3ea0ac6d904e728e0f4243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GPUTimeoutGuard::~GPUTimeoutGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUTimeoutGuard</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::~GPUTimeoutGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="213" column="5" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="382" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a1e1c852e06b42a7e57c7964abfb9f3a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUTimeoutGuard::hasTimedOut</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTimedOut</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::hasTimedOut</qualifiedname>
+        <briefdescription>
+<para>Check if operation has timed out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="219" column="10" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="386" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1acfa051538ccb3cc1568e0aa3dd43bb2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUTimeoutGuard::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::llm::GPUTimeoutGuard::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel the timeout (call when operation completes successfully). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="224" column="10" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="408" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_safe_fail.h" line="210" column="1" bodyfile="include/llm/gpu_safe_fail.h" bodystart="210" bodyend="232"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1acfa051538ccb3cc1568e0aa3dd43bb2e" prot="public" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1aeaa99ee55483e00a61de33f01edf0f1b" prot="private" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1ae753f5a9f5e7e56911dc838ffa92a383" prot="public" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>GPUTimeoutGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a1e1c852e06b42a7e57c7964abfb9f3a2" prot="public" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>hasTimedOut</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a6ef4e59430db4fe68a00c0b4949081b7" prot="private" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1aed9fd155f6fb0a875546a726ca1d805f" prot="private" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a19aa595a64ef5e22d0abe6f0d463da70" prot="private" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>timed_out_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1a0daf2a18e6ec02c1702cca54a89f49dc" prot="private" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>timeout_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_timeout_guard_1abb85ce7b2d3ea0ac6d904e728e0f4243" prot="public" virt="non-virtual"><scope>themis::llm::GPUTimeoutGuard</scope><name>~GPUTimeoutGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_384ece4757ced212030f2a9ee9233b00" kind="dir">
+    <compoundname>tests/projects</compoundname>
+    <innerfile refid="test__projects_8cpp">test_projects.cpp</innerfile>
+    <innerfile refid="test__projects__contract__hardening__focused_8cpp">test_projects_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__projects__phase4__hardening__focused_8cpp">test_projects_phase4_hardening_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/projects/"/>
+  </compounddef>
+</doxygen>

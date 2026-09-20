@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_42ce85b903231265e23d7ac5f9588cbd" kind="dir">
+    <compoundname>tests/security</compoundname>
+    <innerdir refid="dir_c022f743b758d1f121bdbe0b021f0ce3">tests/security/ai_safety</innerdir>
+    <innerdir refid="dir_dac833abc02c689d38b7859de684cd02">tests/security/attack-vectors</innerdir>
+    <innerfile refid="test__access__control__manager_8cpp">test_access_control_manager.cpp</innerfile>
+    <innerfile refid="test__ai__operation__guard_8cpp">test_ai_operation_guard.cpp</innerfile>
+    <innerfile refid="test__ai__snapshot__cleanup_8cpp">test_ai_snapshot_cleanup.cpp</innerfile>
+    <innerfile refid="test__aql__safety__validator_8cpp">test_aql_safety_validator.cpp</innerfile>
+    <innerfile refid="test__arrow__user__registration__plugin_8cpp">test_arrow_user_registration_plugin.cpp</innerfile>
+    <innerfile refid="test__audit__export__stress__focused_8cpp">test_audit_export_stress_focused.cpp</innerfile>
+    <innerfile refid="test__auth__anomaly__detection_8cpp">test_auth_anomaly_detection.cpp</innerfile>
+    <innerfile refid="test__auth__audit__logger_8cpp">test_auth_audit_logger.cpp</innerfile>
+    <innerfile refid="test__auth__error_8cpp">test_auth_error.cpp</innerfile>
+    <innerfile refid="test__auth__input__validation_8cpp">test_auth_input_validation.cpp</innerfile>
+    <innerfile refid="test__auth__metrics_8cpp">test_auth_metrics.cpp</innerfile>
+    <innerfile refid="test__auth__middleware_8cpp">test_auth_middleware.cpp</innerfile>
+    <innerfile refid="test__auth__rate__limiter_8cpp">test_auth_rate_limiter.cpp</innerfile>
+    <innerfile refid="test__auth__rate__limiter__distributed_8cpp">test_auth_rate_limiter_distributed.cpp</innerfile>
+    <innerfile refid="test__fips__crypto__mode_8cpp">test_fips_crypto_mode.cpp</innerfile>
+    <innerfile refid="test__gssapi__authenticator_8cpp">test_gssapi_authenticator.cpp</innerfile>
+    <innerfile refid="test__hkdf__cache_8cpp">test_hkdf_cache.cpp</innerfile>
+    <innerfile refid="test__hsm__bundle__signing_8cpp">test_hsm_bundle_signing.cpp</innerfile>
+    <innerfile refid="test__hsm__dek__bridge_8cpp">test_hsm_dek_bridge.cpp</innerfile>
+    <innerfile refid="test__hsm__key__provider__adapter_8cpp">test_hsm_key_provider_adapter.cpp</innerfile>
+    <innerfile refid="test__hsm__provider_8cpp">test_hsm_provider.cpp</innerfile>
+    <innerfile refid="test__hsm__provider__stub_8cpp">test_hsm_provider_stub.cpp</innerfile>
+    <innerfile refid="test__hsm__security__checker_8cpp">test_hsm_security_checker.cpp</innerfile>
+    <innerfile refid="test__hsm__security__metrics_8cpp">test_hsm_security_metrics.cpp</innerfile>
+    <innerfile refid="test__hsm__startup__integration_8cpp">test_hsm_startup_integration.cpp</innerfile>
+    <innerfile refid="test__hsm__startup__policy_8cpp">test_hsm_startup_policy.cpp</innerfile>
+    <innerfile refid="test__hsm__stub__gating_8cpp">test_hsm_stub_gating.cpp</innerfile>
+    <innerfile refid="test__input__validation_8cpp">test_input_validation.cpp</innerfile>
+    <innerfile refid="test__input__validation__security_8cpp">test_input_validation_security.cpp</innerfile>
+    <innerfile refid="test__jwks__security_8cpp">test_jwks_security.cpp</innerfile>
+    <innerfile refid="test__jwks__validator_8cpp">test_jwks_validator.cpp</innerfile>
+    <innerfile refid="test__jwt__ec__curves__comprehensive_8cpp">test_jwt_ec_curves_comprehensive.cpp</innerfile>
+    <innerfile refid="test__jwt__eddsa__comprehensive_8cpp">test_jwt_eddsa_comprehensive.cpp</innerfile>
+    <innerfile refid="test__jwt__es256__comprehensive_8cpp">test_jwt_es256_comprehensive.cpp</innerfile>
+    <innerfile refid="test__jwt__integration_8cpp">test_jwt_integration.cpp</innerfile>
+    <innerfile refid="test__jwt__key__rotation__comprehensive_8cpp">test_jwt_key_rotation_comprehensive.cpp</innerfile>
+    <innerfile refid="test__jwt__management__comprehensive_8cpp">test_jwt_management_comprehensive.cpp</innerfile>
+    <innerfile refid="test__jwt__rotation__unit_8cpp">test_jwt_rotation_unit.cpp</innerfile>
+    <innerfile refid="test__jwt__token__revocation__integration_8cpp">test_jwt_token_revocation_integration.cpp</innerfile>
+    <innerfile refid="test__jwt__validation__hardening_8cpp">test_jwt_validation_hardening.cpp</innerfile>
+    <innerfile refid="test__jwt__validator_8cpp">test_jwt_validator.cpp</innerfile>
+    <innerfile refid="test__kdf__argon2__bridge_8cpp">test_kdf_argon2_bridge.cpp</innerfile>
+    <innerfile refid="test__kerberos__security_8cpp">test_kerberos_security.cpp</innerfile>
+    <innerfile refid="test__keyprovider__signing_8cpp">test_keyprovider_signing.cpp</innerfile>
+    <innerfile refid="test__ldap__authenticator_8cpp">test_ldap_authenticator.cpp</innerfile>
+    <innerfile refid="test__ldap__bind__bridge_8cpp">test_ldap_bind_bridge.cpp</innerfile>
+    <innerfile refid="test__ldap__connection__pool_8cpp">test_ldap_connection_pool.cpp</innerfile>
+    <innerfile refid="test__mfa__authenticator_8cpp">test_mfa_authenticator.cpp</innerfile>
+    <innerfile refid="test__mtls__authenticator_8cpp">test_mtls_authenticator.cpp</innerfile>
+    <innerfile refid="test__mtls__client_8cpp">test_mtls_client.cpp</innerfile>
+    <innerfile refid="test__mtls__connection__pool_8cpp">test_mtls_connection_pool.cpp</innerfile>
+    <innerfile refid="test__oauth2__provider_8cpp">test_oauth2_provider.cpp</innerfile>
+    <innerfile refid="test__oauth__device__flow_8cpp">test_oauth_device_flow.cpp</innerfile>
+    <innerfile refid="test__oauth__pkce__flow_8cpp">test_oauth_pkce_flow.cpp</innerfile>
+    <innerfile refid="test__oauth__token__manager_8cpp">test_oauth_token_manager.cpp</innerfile>
+    <innerfile refid="test__oidc__provider_8cpp">test_oidc_provider.cpp</innerfile>
+    <innerfile refid="test__pkcs11__wrapper_8cpp">test_pkcs11_wrapper.cpp</innerfile>
+    <innerfile refid="test__pki__api__handler_8cpp">test_pki_api_handler.cpp</innerfile>
+    <innerfile refid="test__pki__client_8cpp">test_pki_client.cpp</innerfile>
+    <innerfile refid="test__pki__client__rest_8cpp">test_pki_client_rest.cpp</innerfile>
+    <innerfile refid="test__pki__eidas_8cpp">test_pki_eidas.cpp</innerfile>
+    <innerfile refid="test__pki__shard__certificate_8cpp">test_pki_shard_certificate.cpp</innerfile>
+    <innerfile refid="test__process__parser__hardening_8cpp">test_process_parser_hardening.cpp</innerfile>
+    <innerfile refid="test__rbac__comprehensive_8cpp">test_rbac_comprehensive.cpp</innerfile>
+    <innerfile refid="test__row__level__security_8cpp">test_row_level_security.cpp</innerfile>
+    <innerfile refid="test__safe__iterator_8cpp">test_safe_iterator.cpp</innerfile>
+    <innerfile refid="test__safe__move_8cpp">test_safe_move.cpp</innerfile>
+    <innerfile refid="test__saml__auth__provider_8cpp">test_saml_auth_provider.cpp</innerfile>
+    <innerfile refid="test__saml__authenticator_8cpp">test_saml_authenticator.cpp</innerfile>
+    <innerfile refid="test__security__contract__hardening__focused_8cpp">test_security_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__security__di_8cpp">test_security_di.cpp</innerfile>
+    <innerfile refid="test__security__evidence__collector_8cpp">test_security_evidence_collector.cpp</innerfile>
+    <innerfile refid="test__security__hardening__fixes_8cpp">test_security_hardening_fixes.cpp</innerfile>
+    <innerfile refid="test__security__negative__integration_8cpp">test_security_negative_integration.cpp</innerfile>
+    <innerfile refid="test__security__phase2__crypto__hardening__focused_8cpp">test_security_phase2_crypto_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__security__phase3__policy__hardening__focused_8cpp">test_security_phase3_policy_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__security__signature__rocksdb__iteration_8cpp">test_security_signature_rocksdb_iteration.cpp</innerfile>
+    <innerfile refid="test__security__signature__standalone_8cpp">test_security_signature_standalone.cpp</innerfile>
+    <innerfile refid="test__security__wavec__production__validation__focused_8cpp">test_security_wavec_production_validation_focused.cpp</innerfile>
+    <innerfile refid="test__sprint7__batchc__safe__iterator__modules_8cpp">test_sprint7_batchc_safe_iterator_modules.cpp</innerfile>
+    <innerfile refid="test__stub__279__302__remediation_8cpp">test_stub_279_302_remediation.cpp</innerfile>
+    <innerfile refid="test__tls__hot__reload_8cpp">test_tls_hot_reload.cpp</innerfile>
+    <innerfile refid="test__transport__security__hardening_8cpp">test_transport_security_hardening.cpp</innerfile>
+    <innerfile refid="test__webauthn__authenticator_8cpp">test_webauthn_authenticator.cpp</innerfile>
+    <innerfile refid="test__xxe__safe__xml__parser_8cpp">test_xxe_safe_xml_parser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/"/>
+  </compounddef>
+</doxygen>

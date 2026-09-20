@@ -1,0 +1,676 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::SystemPromptManager</compoundname>
+    <includes refid="system__prompt__manager_8h" local="no">system_prompt_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ad3335e3a47721b641344a52b7e646f4d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SystemPrompt&gt; themis::prompt_engineering::SystemPromptManager::prompts_</definition>
+        <argsstring></argsstring>
+        <name>prompts_</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::prompts_</qualifiedname>
+        <briefdescription>
+<para>All prompts stored under their role string key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="191" column="24" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a5dfee369d2583e789a63d1bd4e36c0e2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::SystemPromptManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="192" column="24" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a45f6478194c724a9cb977cd5407b772e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::SystemPromptManager::SystemPromptManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>SystemPromptManager</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::SystemPromptManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1acdda6e7e10a3fc2d3f035fbb04c3d55d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SystemPromptManager::setPrompt</definition>
+        <argsstring>(Role role, const std::string &amp;content, const std::string &amp;version=&quot;1.0&quot;)</argsstring>
+        <name>setPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::setPrompt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;1.0&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set (or replace) the system prompt for a built-in role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt text. May contain <computeroutput>{placeholder}</computeroutput> tokens. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional version string (default &quot;1.0&quot;).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a94be2c0390331f6a145c458d783ac188" kindref="member">roleToString()</ref>, lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="84" column="10" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="131" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ad2ccc5a6ff6c0469f471f5c70e858348" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> &gt;</type>
+        <definition>std::optional&lt; SystemPrompt &gt; themis::prompt_engineering::SystemPromptManager::getPrompt</definition>
+        <argsstring>(Role role) const</argsstring>
+        <name>getPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::getPrompt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> record for a built-in role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>std::nullopt</computeroutput> if no prompt is registered for <computeroutput>role</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="91" column="19" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="146" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ac5b2deb700100bded9252c3542b74ebd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::getPromptContent</definition>
+        <argsstring>(Role role, const std::string &amp;default_content=&quot;&quot;) const</argsstring>
+        <name>getPromptContent</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::getPromptContent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_content</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return the raw content string for a built-in role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fallback when no prompt is registered. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prompt content or <computeroutput>default_content</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="99" column="17" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="162" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3e63038f6e701dc7737e626e9862ec35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SystemPromptManager::removePrompt</definition>
+        <argsstring>(Role role)</argsstring>
+        <name>removePrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::removePrompt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Remove the system prompt for a built-in role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Prompt.</para>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> if a prompt was removed, <computeroutput>false</computeroutput> if none existed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a94be2c0390331f6a145c458d783ac188" kindref="member">roleToString()</ref>, lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="106" column="10" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="178" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ab75f27d3a3b262f95362b069aa2d4788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SystemPromptManager::setCustomPrompt</definition>
+        <argsstring>(const std::string &amp;role_name, const std::string &amp;content, const std::string &amp;version=&quot;1.0&quot;)</argsstring>
+        <name>setCustomPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::setCustomPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;1.0&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set (or replace) a system prompt for an arbitrary role name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Custom Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arbitrary string key, e.g. &quot;legal_reviewer&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional version string.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="118" column="10" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="195" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a61b1f1a5d9bd25288a60bfadc841bc1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> &gt;</type>
+        <definition>std::optional&lt; SystemPrompt &gt; themis::prompt_engineering::SystemPromptManager::getCustomPrompt</definition>
+        <argsstring>(const std::string &amp;role_name) const</argsstring>
+        <name>getCustomPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::getCustomPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> record for a custom role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><computeroutput>std::nullopt</computeroutput> if no prompt is registered for <computeroutput>role_name</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="126" column="19" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="211" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a683746d85c7d9dcf69cb3a61dd962d48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::getCustomPromptContent</definition>
+        <argsstring>(const std::string &amp;role_name, const std::string &amp;default_content=&quot;&quot;) const</argsstring>
+        <name>getCustomPromptContent</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::getCustomPromptContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_content</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return the raw content string for a custom role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arbitrary string key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fallback when no prompt is registered. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prompt content or <computeroutput>default_content</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="135" column="17" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="227" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3c3c5831b8faefdb54cc2295f96c310a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SystemPromptManager::removeCustomPrompt</definition>
+        <argsstring>(const std::string &amp;role_name)</argsstring>
+        <name>removeCustomPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::removeCustomPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove the system prompt for a custom role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Custom Prompt.</para>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> if a prompt was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the role. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="143" column="10" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="244" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3a8db7baa4b77ec94732cd3edc3e6b45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_system_prompt" kindref="compound">SystemPrompt</ref> &gt;</type>
+        <definition>std::vector&lt; SystemPrompt &gt; themis::prompt_engineering::SystemPromptManager::listPrompts</definition>
+        <argsstring>() const</argsstring>
+        <name>listPrompts</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::listPrompts</qualifiedname>
+        <briefdescription>
+<para>Return all registered system prompts (both built-in and custom). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="152" column="17" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="253" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ab7767657e61bc3cc878fb162f26ec282" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::renderPrompt</definition>
+        <argsstring>(Role role, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={}) const</argsstring>
+        <name>renderPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::renderPrompt</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Render the system prompt for a built-in role, substituting <computeroutput>{key}</computeroutput> tokens with values from <computeroutput>context</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Falls back to an empty string when the role has no prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable substitution map. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Rendered prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="168" column="17" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="273" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a1af96768506fd61440cf32cd9d7e6c7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::renderCustomPrompt</definition>
+        <argsstring>(const std::string &amp;role_name, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={}) const</argsstring>
+        <name>renderCustomPrompt</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::renderCustomPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_name</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Render the system prompt for a custom role with variable substitution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom role key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variable substitution map. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Rendered prompt string, or empty string if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="178" column="17" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="284" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a94be2c0390331f6a145c458d783ac188" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::roleToString</definition>
+        <argsstring>(Role role)</argsstring>
+        <name>roleToString</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::roleToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements roleToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="186" column="24" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1aa75d7b5866571c8ac1a1f9d3ace6dffd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref></type>
+        <definition>Role themis::prompt_engineering::SystemPromptManager::stringToRole</definition>
+        <argsstring>(const std::string &amp;role_str)</argsstring>
+        <name>stringToRole</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::stringToRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role_str</declname>
+        </param>
+        <briefdescription>
+<para>String To <ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToRole without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="187" column="24" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="81" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1acd6dcc1119a2220861057755b7ecd37d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SystemPromptManager::injectContext</definition>
+        <argsstring>(const std::string &amp;content, const std::unordered_map&lt; std::string, std::string &gt; &amp;context)</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::prompt_engineering::SystemPromptManager::injectContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Substitute <computeroutput>{key}</computeroutput> tokens in <computeroutput>content</computeroutput> using <computeroutput>context</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/system_prompt_manager.h" line="195" column="24" bodyfile="src/prompt_engineering/system_prompt_manager.cpp" bodystart="104" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages system prompts with per-role override support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a45f6478194c724a9cb977cd5407b772e" kindref="member">SystemPromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline><highlight class="normal">mgr.setPrompt(<ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da2e40ad879e955201df4dedbf8d479a12" kindref="member">Role::USER</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.<sp/>Database<sp/>version:<sp/>{version}.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">mgr.setPrompt(<ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da73acd9a5972130b75066c82595a1fae3" kindref="member">Role::ADMIN</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>an<sp/>expert<sp/>DBA<sp/>with<sp/>unrestricted<sp/>access.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/>mgr.renderPrompt(<ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45da2e40ad879e955201df4dedbf8d479a12" kindref="member">Role::USER</ref>,<sp/>{{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/system_prompt_manager.h" line="70" column="1" bodyfile="include/prompt_engineering/system_prompt_manager.h" bodystart="70" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a61b1f1a5d9bd25288a60bfadc841bc1e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>getCustomPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a683746d85c7d9dcf69cb3a61dd962d48" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>getCustomPromptContent</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ad2ccc5a6ff6c0469f471f5c70e858348" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>getPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ac5b2deb700100bded9252c3542b74ebd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>getPromptContent</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1acd6dcc1119a2220861057755b7ecd37d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3a8db7baa4b77ec94732cd3edc3e6b45" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>listPrompts</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a5dfee369d2583e789a63d1bd4e36c0e2" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ad3335e3a47721b641344a52b7e646f4d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>prompts_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3c3c5831b8faefdb54cc2295f96c310a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>removeCustomPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a3e63038f6e701dc7737e626e9862ec35" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>removePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a1af96768506fd61440cf32cd9d7e6c7d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>renderCustomPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ab7767657e61bc3cc878fb162f26ec282" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>renderPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a94be2c0390331f6a145c458d783ac188" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>roleToString</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1ab75f27d3a3b262f95362b069aa2d4788" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>setCustomPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1acdda6e7e10a3fc2d3f035fbb04c3d55d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>setPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1aa75d7b5866571c8ac1a1f9d3ace6dffd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>stringToRole</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_system_prompt_manager_1a45f6478194c724a9cb977cd5407b772e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SystemPromptManager</scope><name>SystemPromptManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

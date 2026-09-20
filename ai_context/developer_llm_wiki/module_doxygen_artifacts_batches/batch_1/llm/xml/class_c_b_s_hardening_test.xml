@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_b_s_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>CBSHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_c_b_s_hardening_test_1a6484b82a3bf3dd504eae74900821393b" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; std::shared_ptr&lt; <ref refid="class_blocking_mock_plugin" kindref="compound">BlockingMockPlugin</ref> &gt;, std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> &gt; &gt;</type>
+        <definition>static std::pair&lt; std::shared_ptr&lt; BlockingMockPlugin &gt;, std::unique_ptr&lt; ContinuousBatchScheduler &gt; &gt; CBSHardeningTest::makeScheduler</definition>
+        <argsstring>(size_t max_depth=0)</argsstring>
+        <name>makeScheduler</name>
+        <qualifiedname>CBSHardeningTest::makeScheduler</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build a scheduler that can only hold <computeroutput>max_depth</computeroutput> waiting requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum queue depth; 0 = unlimited. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (plugin, scheduler) both needing the same lifetime scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="134" column="5" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="134" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CBSHardeningTest</label>
+        <link refid="class_c_b_s_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CBSHardeningTest</label>
+        <link refid="class_c_b_s_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_hardening_phase4.cpp" line="124" column="1" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="124" bodyend="142"/>
+    <listofallmembers>
+      <member refid="class_c_b_s_hardening_test_1a6484b82a3bf3dd504eae74900821393b" prot="protected" virt="non-virtual"><scope>CBSHardeningTest</scope><name>makeScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

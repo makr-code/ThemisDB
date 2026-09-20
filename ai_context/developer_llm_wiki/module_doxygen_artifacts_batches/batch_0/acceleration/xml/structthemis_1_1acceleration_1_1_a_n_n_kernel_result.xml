@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_a_n_n_kernel_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ANNKernelResult</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1af65c9ed0e39e1203a59824adf4e62b88" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* themis::acceleration::ANNKernelResult::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>themis::acceleration::ANNKernelResult::indices</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Result indices [numQueries × topK]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="96" column="14" bodyfile="include/acceleration/kernel_invocation.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1ad0b542ca6077537cb98b01f41f545587" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::acceleration::ANNKernelResult::distances</definition>
+        <argsstring></argsstring>
+        <name>distances</name>
+        <qualifiedname>themis::acceleration::ANNKernelResult::distances</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Result distances [numQueries × topK]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="97" column="14" bodyfile="include/acceleration/kernel_invocation.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Output container for ANN kernel results. Caller allocates the arrays; kernel populates them. </para>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="95" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="95" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1ad0b542ca6077537cb98b01f41f545587" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelResult</scope><name>distances</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1af65c9ed0e39e1203a59824adf4e62b88" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelResult</scope><name>indices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

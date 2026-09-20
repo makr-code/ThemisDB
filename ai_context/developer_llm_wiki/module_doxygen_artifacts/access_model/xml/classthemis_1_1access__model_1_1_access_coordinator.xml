@@ -1,0 +1,691 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1_access_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::access_model::AccessCoordinator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1access__model_1_1_access_coordinator_impl" prot="public" virt="non-virtual">themis::access_model::AccessCoordinatorImpl</derivedcompoundref>
+    <includes refid="access__coordinator_8h" local="no">access_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a27b302a8d3d89ef5461d9d8f7bf2752c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::access_model::AccessCoordinator::~AccessCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AccessCoordinator</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::~AccessCoordinator</qualifiedname>
+        <briefdescription>
+<para>Access Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="171" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1afe2994aa5dab3795934842a83d333b7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::access_model::AccessCoordinator::initialize</definition>
+        <argsstring>(const std::map&lt; TierLevel, std::shared_ptr&lt; AccessTier &gt; &gt; &amp;all_tiers)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1aba5cfc7c83f2aa64f79ccab15d056ac6">initialize</reimplementedby>
+        <param>
+          <type>const std::map&lt; <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_tier" kindref="compound">AccessTier</ref> &gt; &gt; &amp;</type>
+          <declname>all_tiers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="174" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a6017311d0764657ddf6e9873496b715b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::start</definition>
+        <argsstring>()=0</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::start</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a44bce481cc03394443ebf2c10898d7ea">start</reimplementedby>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="180" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a4b19eb69cdd40271a864854934ef79a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a3788ae910ab3e07258cda05dee4adc1b">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="185" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a21e0f47c8dca2cfe919659052b998614" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::access_model::AccessCoordinator::isRunning</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::isRunning</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1aa1f8f627f7f56fa105de3d12b3deb526">isRunning</reimplementedby>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="191" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::onEviction</definition>
+        <argsstring>(const EvictionEvent &amp;event)=0</argsstring>
+        <name>onEviction</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::onEviction</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a1d826a71f3333ce87431016b31102e9b">onEviction</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_eviction_event" kindref="compound">EvictionEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="198" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::onHotAccess</definition>
+        <argsstring>(const AccessEvent &amp;event)=0</argsstring>
+        <name>onHotAccess</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::onHotAccess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a087e1bb578847d8f98773aa612c50b23">onHotAccess</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_access_event" kindref="compound">AccessEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Hot Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="204" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a2eab886edde9554441ef6c23575600b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::onCacheEvicted</definition>
+        <argsstring>(std::string_view key, TierLevel from_tier, std::size_t size_bytes, uint64_t access_count, std::chrono::seconds last_access_age_secs, std::string_view eviction_reason)</argsstring>
+        <name>onCacheEvicted</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::onCacheEvicted</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>last_access_age_secs</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>eviction_reason</declname>
+        </param>
+        <briefdescription>
+<para>On Cache Evicted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_access_age_secs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">eviction_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" kindref="member">onEviction()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="216" column="18" bodyfile="include/access_model/access_coordinator.h" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1aa4127dad733e9cf2a960f3b903b6e40b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::onStorageAccess</definition>
+        <argsstring>(std::string_view key, TierLevel from_tier, uint64_t access_count, std::chrono::seconds access_window)</argsstring>
+        <name>onStorageAccess</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::onStorageAccess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>access_window</declname>
+        </param>
+        <briefdescription>
+<para>On Storage Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" kindref="member">onHotAccess()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="238" column="18" bodyfile="include/access_model/access_coordinator.h" bodystart="238" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1ad0ff1920ed76c77dd9c6f70bbd2b047d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::setAgePolicy</definition>
+        <argsstring>(const AgeBasedPolicy &amp;policy)=0</argsstring>
+        <name>setAgePolicy</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::setAgePolicy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a61ae5e1715f62c2efe9e39776e1f6ffe">setAgePolicy</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Age Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="254" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1aa2ac3a732e099f93f2b8614419958c67" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::access_model::AccessCoordinator::setPromotionThresholds</definition>
+        <argsstring>(uint64_t cache_threshold, uint64_t storage_threshold)=0</argsstring>
+        <name>setPromotionThresholds</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::setPromotionThresholds</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a31e2d5a1798e0b691150065abfcd6126">setPromotionThresholds</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>cache_threshold</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>storage_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set Promotion Thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="261" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1ae8971cc44541a74020ff39ac81663ecd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1access__model_1_1_promotion_result" kindref="compound">PromotionResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; PromotionResult &gt; themis::access_model::AccessCoordinator::promoteAsync</definition>
+        <argsstring>(const std::string &amp;key, TierLevel from_tier, TierLevel to_tier, uint64_t size_bytes)=0</argsstring>
+        <name>promoteAsync</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::promoteAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1ac1981ae51e334eaccd0bfa7efa1698d5">promoteAsync</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>to_tier</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Promote Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="273" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref> &gt;</type>
+        <definition>virtual std::optional&lt; DemotionPlan &gt; themis::access_model::AccessCoordinator::planDemotion</definition>
+        <argsstring>(const std::string &amp;key, TierLevel from_tier, TierLevel to_tier, uint64_t data_size_bytes)=0</argsstring>
+        <name>planDemotion</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::planDemotion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1aa4eff0b861dbbf8546e42e1a3790c64a">planDemotion</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>to_tier</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>data_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Plan Demotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="286" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref> &gt;</type>
+        <definition>virtual std::optional&lt; DemotionResult &gt; themis::access_model::AccessCoordinator::executeDemotion</definition>
+        <argsstring>(const std::string &amp;plan_id)=0</argsstring>
+        <name>executeDemotion</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::executeDemotion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a785de8bf2b5ca03f006c8a581288c007">executeDemotion</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plan_id</declname>
+        </param>
+        <briefdescription>
+<para>Execute Demotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the plan. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="296" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a77afe771848c00a7f2efabf2aa8b744a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1access__model_1_1_access_metrics" kindref="compound">AccessMetrics</ref></type>
+        <definition>virtual AccessMetrics themis::access_model::AccessCoordinator::getKeyMetrics</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>getKeyMetrics</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::getKeyMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a02e021e19494c93912e48a075e9a1af2">getKeyMetrics</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get Key Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="305" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a54b94bdacdf60c18026499d4d0757264" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1access__model_1_1_access_metrics" kindref="compound">AccessMetrics</ref></type>
+        <definition>virtual AccessMetrics themis::access_model::AccessCoordinator::getTierMetrics</definition>
+        <argsstring>(TierLevel tier_level)=0</argsstring>
+        <name>getTierMetrics</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::getTierMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1a5e750f0b76d30b6fe0b174ce7f141d20">getTierMetrics</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>tier_level</declname>
+        </param>
+        <briefdescription>
+<para>Get Tier Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="312" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a0a5ffae120c1e90d8618e942880e5836" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1access__model_1_1_access_model_metrics" kindref="compound">AccessModelMetrics</ref></type>
+        <definition>virtual AccessModelMetrics themis::access_model::AccessCoordinator::getAccessModelMetrics</definition>
+        <argsstring>()=0</argsstring>
+        <name>getAccessModelMetrics</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::getAccessModelMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1access__model_1_1_access_coordinator_impl_1ad2d0e17ffaca2ac017475416a40bfc81">getAccessModelMetrics</reimplementedby>
+        <briefdescription>
+<para>Get Access Model Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="318" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_access_coordinator_1a2f2b17613f43220e405a11e8da804a34" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1access__model_1_1_access_transition_event" kindref="compound">AccessTransitionEvent</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AccessTransitionEvent &gt; themis::access_model::AccessCoordinator::getRecentTransitions</definition>
+        <argsstring>(std::size_t limit=100)=0</argsstring>
+        <name>getRecentTransitions</name>
+        <qualifiedname>themis::access_model::AccessCoordinator::getRecentTransitions</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="320" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::access_model::AccessCoordinator</label>
+        <link refid="classthemis_1_1access__model_1_1_access_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::access_model::AccessCoordinatorImpl</label>
+        <link refid="classthemis_1_1access__model_1_1_access_coordinator_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/access_model/access_coordinator.h" line="165" column="1" bodyfile="include/access_model/access_coordinator.h" bodystart="165" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>executeDemotion</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a0a5ffae120c1e90d8618e942880e5836" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>getAccessModelMetrics</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a77afe771848c00a7f2efabf2aa8b744a" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>getKeyMetrics</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a2f2b17613f43220e405a11e8da804a34" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>getRecentTransitions</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a54b94bdacdf60c18026499d4d0757264" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>getTierMetrics</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1afe2994aa5dab3795934842a83d333b7c" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a21e0f47c8dca2cfe919659052b998614" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a2eab886edde9554441ef6c23575600b6" prot="public" virt="virtual"><scope>themis::access_model::AccessCoordinator</scope><name>onCacheEvicted</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a9cd6ca0f93c846cd5ad947af7f5c136c" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>onEviction</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1af52b3b40c90cc09511b5bea508b36be2" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>onHotAccess</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1aa4127dad733e9cf2a960f3b903b6e40b" prot="public" virt="virtual"><scope>themis::access_model::AccessCoordinator</scope><name>onStorageAccess</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>planDemotion</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1ae8971cc44541a74020ff39ac81663ecd" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>promoteAsync</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1ad0ff1920ed76c77dd9c6f70bbd2b047d" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>setAgePolicy</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1aa2ac3a732e099f93f2b8614419958c67" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>setPromotionThresholds</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a4b19eb69cdd40271a864854934ef79a0" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a6017311d0764657ddf6e9873496b715b" prot="public" virt="pure-virtual"><scope>themis::access_model::AccessCoordinator</scope><name>start</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_coordinator_1a27b302a8d3d89ef5461d9d8f7bf2752c" prot="public" virt="virtual"><scope>themis::access_model::AccessCoordinator</scope><name>~AccessCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

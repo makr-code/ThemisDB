@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::AdvancedCacheManager::BloomFilter</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1ac67d9376a877b98804bce4eff2e7c1c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdvancedCacheManager::BloomFilter::kBits</definition>
+        <argsstring></argsstring>
+        <name>kBits</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::kBits</qualifiedname>
+        <initializer>= 1 &lt;&lt; 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="234" column="33" bodyfile="include/performance/advanced_cache_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1aac33c9da778c96efbecad9b4efe6a284" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::AdvancedCacheManager::BloomFilter::bits[kBits/64]</definition>
+        <argsstring>[kBits/64]</argsstring>
+        <name>bits</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::bits</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="235" column="18" bodyfile="include/performance/advanced_cache_manager.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a91bb7dcf458a1e89574166221a398aff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::BloomFilter::insert</definition>
+        <argsstring>(const std::string &amp;key) noexcept</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="237" column="14" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a6c5540c4b1211771e31fa9f3265a5ffc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::AdvancedCacheManager::BloomFilter::maybe_contains</definition>
+        <argsstring>(const std::string &amp;key) const noexcept</argsstring>
+        <name>maybe_contains</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::maybe_contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="238" column="14" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="64" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a7c1bdb0d4048ce01b691f9f4d6338a12" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::BloomFilter::clear</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="239" column="14" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1aa7936bd47f88c34ca63196444e49d455" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::AdvancedCacheManager::BloomFilter::hash</definition>
+        <argsstring>(const std::string &amp;key, uint64_t seed) noexcept</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::BloomFilter::hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="242" column="25" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="46" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="233" column="5" bodyfile="include/performance/advanced_cache_manager.h" bodystart="233" bodyend="243"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1aac33c9da778c96efbecad9b4efe6a284" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>bits</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a7c1bdb0d4048ce01b691f9f4d6338a12" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>clear</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1aa7936bd47f88c34ca63196444e49d455" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>hash</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a91bb7dcf458a1e89574166221a398aff" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>insert</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1ac67d9376a877b98804bce4eff2e7c1c8" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>kBits</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter_1a6c5540c4b1211771e31fa9f3265a5ffc" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::BloomFilter</scope><name>maybe_contains</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

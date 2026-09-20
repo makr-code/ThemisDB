@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="approximate__radius__search_8h" kind="file" language="C++">
+    <compoundname>approximate_radius_search.h</compoundname>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="approximate__radius__search_8cpp" local="yes">src/index/approximate_radius_search.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/approximate_radius_search.h</label>
+        <link refid="approximate__radius__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/approximate_radius_search.h</label>
+        <link refid="approximate__radius__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/approximate_radius_search.cpp</label>
+        <link refid="approximate__radius__search_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1vector_1_1_approximate_radius_search" prot="public">themis::vector::ApproximateRadiusSearch</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" prot="public">themis::vector::ApproximateRadiusSearch::SearchConfig</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result" prot="public">themis::vector::ApproximateRadiusSearch::RadiusResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" prot="public">themis::vector::ApproximateRadiusSearch::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" prot="public">themis::vector::ApproximateRadiusSearch::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1vector">themis::vector</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1vector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1vector_1_1_approximate_radius_search" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1add23671f914669ec8a5f0a7791cf8e7a" kindref="member">ApproximateRadiusSearch</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">Metric</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31a7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Euclidean<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" kindref="member">COSINE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cosine<sp/>similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31af631bca16207bd2c79fca06f9f1875e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31af631bca16207bd2c79fca06f9f1875e0" kindref="member">DOT_PRODUCT</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dot<sp/>product<sp/>similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1ad9c50d1139c8b2ec42dbcd1108434beb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">Metric</ref><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1ad9c50d1139c8b2ec42dbcd1108434beb" kindref="member">metric</ref><sp/>=<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" kindref="member">Metric::COSINE</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a715e1ed50710faaa404e7b5f48d9a9c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a715e1ed50710faaa404e7b5f48d9a9c0" kindref="member">radius</ref><sp/>=<sp/>0.5f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distance<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7a918e6abe09465d672559339c140870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7a918e6abe09465d672559339c140870" kindref="member">max_results</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>results<sp/>to<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a22dac145fd0a6a9abcf53276c70bc5d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a22dac145fd0a6a9abcf53276c70bc5d3" kindref="member">min_recall</ref><sp/>=<sp/>0.95f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>recall<sp/>guarantee<sp/>(0-1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a56f3459adb6990b6437025926a5503a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a56f3459adb6990b6437025926a5503a0" kindref="member">sort_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sort<sp/>by<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a09dbcb25bdc98f2b8f9ff431ac4bf4ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a09dbcb25bdc98f2b8f9ff431ac4bf4ce" kindref="member">index_name</ref>;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>index<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7260072913434a534360a717c75a1011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config_1a7260072913434a534360a717c75a1011" kindref="member">ef_search</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HNSW<sp/>search<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result" kindref="compound">RadiusResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a35339d3dcaa3c781a78ef285330ef834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a35339d3dcaa3c781a78ef285330ef834" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a33584504081d15da1219ddf2f2d959e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a33584504081d15da1219ddf2f2d959e8" kindref="member">distance</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a279de2fe78617d496f0d07affa7ab823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a279de2fe78617d496f0d07affa7ab823" kindref="member">vector</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>return<sp/>vector<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result" kindref="compound">SearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a9fd030f22fca1d70a49aaa53493476b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RadiusResult&gt;<sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a9fd030f22fca1d70a49aaa53493476b8" kindref="member">results</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1aa58992ddb21de7e64b86c79060fdf3bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1aa58992ddb21de7e64b86c79060fdf3bf" kindref="member">total_candidates</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>vectors<sp/>evaluated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a99f632e27871a14fb4ef3d31e247c9b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a99f632e27871a14fb4ef3d31e247c9b6" kindref="member">actual_max_distance</ref><sp/>=<sp/>0.0f;<sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>max<sp/>distance<sp/>in<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a11b2cba761bf27b04aa08dba0a64fe3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a11b2cba761bf27b04aa08dba0a64fe3e" kindref="member">computation_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a4cc07b4104c7a99280d22ba9405540f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_result_1a4cc07b4104c7a99280d22ba9405540f7" kindref="member">truncated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>max_results<sp/>limit<sp/>reached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1add23671f914669ec8a5f0a7791cf8e7a" kindref="member">ApproximateRadiusSearch</ref>(<ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&amp;<sp/>vector_manager);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a2af65881040760c5f1efdc2fb7850998" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_vector,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a45e8a68e7301ae0fda5645fd0ce51c05" kindref="member">searchById</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>query_id,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;SearchResult&gt;&gt;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1aaa83b5bd98d8e22e5571a820b629c51b" kindref="member">batchSearch</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>query_vectors,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SearchResult&gt;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a5eca919f2d2537564b52df271a02d89c" kindref="member">searchWithTargetCount</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_vector,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>target_count,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_search_config" kindref="compound">SearchConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;size_t&gt;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a42e1cfec0881a6868442c6a8fb14540b" kindref="member">estimateResultCount</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_vector,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>radius,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">Metric</ref><sp/>metric<sp/>=<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31ae66ba018ef96aa5c78c8fba787f43717" kindref="member">Metric::COSINE</ref></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ac2f6f58c3d047bb4833b378b45b0749d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ac2f6f58c3d047bb4833b378b45b0749d" kindref="member">total_searches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1a6deccdfd099a48e26c11ba57fefc2797" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1a6deccdfd099a48e26c11ba57fefc2797" kindref="member">avg_results_per_search</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1aaee9e89c7d5a6afc344c944aa57d9711" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1aaee9e89c7d5a6afc344c944aa57d9711" kindref="member">avg_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ae9762b9020ae91dad80171d8f472c6b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ae9762b9020ae91dad80171d8f472c6b2" kindref="member">avg_recall</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1vector_1_1_approximate_radius_search_1a8c12743362f6ef6d11f969786ff1b036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kindref="compound">Statistics</ref>&amp;<sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a8c12743362f6ef6d11f969786ff1b036" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a1f80e25ff282b91f7273ba9a06e19248" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&amp;<sp/>vector_manager_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/approximate_radius_search.h"/>
+  </compounddef>
+</doxygen>

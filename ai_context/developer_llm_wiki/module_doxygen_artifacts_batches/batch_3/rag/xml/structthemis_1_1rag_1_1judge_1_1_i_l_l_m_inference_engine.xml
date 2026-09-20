@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::judge::ILLMInferenceEngine</compoundname>
+    <includes refid="llm__judge__integration_8h" local="no">llm_judge_integration.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine_1a50761b61899bad14b79e0e6e3a569e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::judge::ILLMInferenceEngine::~ILLMInferenceEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMInferenceEngine</name>
+        <qualifiedname>themis::rag::judge::ILLMInferenceEngine::~ILLMInferenceEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="41" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine_1a74ac8ca121068fe7103e5671608979d5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::rag::judge::ILLMInferenceEngine::generate</definition>
+        <argsstring>(const std::string &amp;prompt)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::rag::judge::ILLMInferenceEngine::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate a response for the given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full prompt text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated response text. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="47" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract inference engine interface for dependency injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface to provide a real or test LLM backend to <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> via the engine-injection constructor.</para>
+<para>Example (test double returning random scores): <programlisting><codeline><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RandomEngine<sp/>:<sp/>ILLMInferenceEngine<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:)&quot;<sp/>+<sp/>std::to_string(dist_(rng_))<sp/>+<sp/>R</highlight><highlight class="stringliteral">&quot;(,&quot;confidence&quot;:0.8})&quot;;</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng_{std::random_device{}()};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist_{1.0,<sp/>5.0};</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/llm_judge_integration.h" line="40" column="1" bodyfile="include/rag/llm_judge_integration.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine_1a74ac8ca121068fe7103e5671608979d5" prot="public" virt="pure-virtual"><scope>themis::rag::judge::ILLMInferenceEngine</scope><name>generate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine_1a50761b61899bad14b79e0e6e3a569e2c" prot="public" virt="virtual"><scope>themis::rag::judge::ILLMInferenceEngine</scope><name>~ILLMInferenceEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

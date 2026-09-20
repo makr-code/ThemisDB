@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_negative_keyword_filter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::NegativeKeywordFilter::Config</compoundname>
+    <includes refid="negative__keyword__filter_8h" local="no">negative_keyword_filter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_negative_keyword_filter_1_1_config_1ac1e690ef20cb80952bc75be7dfbcfe5c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::NegativeKeywordFilter::Config::max_exclude_scan</definition>
+        <argsstring></argsstring>
+        <name>max_exclude_scan</name>
+        <qualifiedname>themis::NegativeKeywordFilter::Config::max_exclude_scan</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of documents fetched per negative term when scanning the secondary index. 0 means no limit. Default 100&apos;000.</para>
+<para>For common terms this bound prevents unbounded memory use, but it may result in <emphasis>incomplete</emphasis> exclusion when a negative term matches more documents than <computeroutput><ref refid="structthemis_1_1_negative_keyword_filter_1_1_config_1ac1e690ef20cb80952bc75be7dfbcfe5c" kindref="member">max_exclude_scan</ref></computeroutput>. Set to 0 to disable the limit and guarantee complete exclusion at the cost of higher memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="93" column="16" bodyfile="include/search/negative_keyword_filter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1_negative_keyword_filter" kindref="compound">NegativeKeywordFilter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/negative_keyword_filter.h" line="85" column="5" bodyfile="include/search/negative_keyword_filter.h" bodystart="85" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_negative_keyword_filter_1_1_config_1ac1e690ef20cb80952bc75be7dfbcfe5c" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter::Config</scope><name>max_exclude_scan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

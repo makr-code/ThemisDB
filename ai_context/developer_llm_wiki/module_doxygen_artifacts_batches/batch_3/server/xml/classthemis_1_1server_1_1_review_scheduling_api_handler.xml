@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_review_scheduling_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ReviewSchedulingApiHandler</compoundname>
+    <includes refid="review__scheduling__api__handler_8h" local="no">review_scheduling_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1a98b7edc55520bd0e6c583456e6d78d88" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::ReviewScheduler &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::ReviewScheduler&gt; themis::server::ReviewSchedulingApiHandler::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="89" column="21" bodyfile="include/server/review_scheduling_api_handler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1ad74c7fefb77c7e536b9ab2a7088d7831" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::ReviewSchedulingApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="90" column="21" bodyfile="include/server/review_scheduling_api_handler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1a6b0f7f3667d7ff42350dd018e5217a64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ReviewSchedulingApiHandler::ReviewSchedulingApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::ReviewScheduler &gt; scheduler, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>ReviewSchedulingApiHandler</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::ReviewSchedulingApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::ReviewScheduler &gt;</type>
+          <declname>scheduler</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="30" column="5" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1a06f8f6e67a5db05b52e9ce50f4de74f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::handleListPendingReviews</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListPendingReviews</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::handleListPendingReviews</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Pending Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getPendingReviews(), nlohmann::json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="40" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="38" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1a6032c51091c1c6caffdb5dbc584897eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::handleCreateReview</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleCreateReview</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::handleCreateReview</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), createReviewRequest(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="50" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="79" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1a44ad83b52f05b7a0aa1e16d3f85e58ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::handleApproveReview</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;review_id)</argsstring>
+        <name>handleApproveReview</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::handleApproveReview</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Approve Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), approveReview(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="61" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="128" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1ac0f51c6d7c17673dfde408632fa1b614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::handleRejectReview</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;review_id)</argsstring>
+        <name>handleRejectReview</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::handleRejectReview</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Reject Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), rejectReview(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="72" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="173" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1addbfe137c3f49d09b3d0bdfa606a904a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::handleGetExpiration</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleGetExpiration</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::handleGetExpiration</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Expiration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getExpirationInfo(), makeResponse(), dump(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="83" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="218" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1ab706b80baedf2c4f67950a26e4de0d4f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ReviewSchedulingApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_role) const</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="98" column="10" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="243" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1aae47f4ee5855f5d95cd121f58f1f536d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="107" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="289" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_review_scheduling_api_handler_1ab860768b9571b4ffefe5f29784cc56ee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReviewSchedulingApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ReviewSchedulingApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/review_scheduling_api_handler.h" line="120" column="20" bodyfile="src/server/review_scheduling_api_handler.cpp" bodystart="303" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/review_scheduling_api_handler.h" line="28" column="1" bodyfile="include/server/review_scheduling_api_handler.h" bodystart="28" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1ad74c7fefb77c7e536b9ab2a7088d7831" prot="private" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1ab706b80baedf2c4f67950a26e4de0d4f" prot="private" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1a44ad83b52f05b7a0aa1e16d3f85e58ff" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>handleApproveReview</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1a6032c51091c1c6caffdb5dbc584897eb" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>handleCreateReview</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1addbfe137c3f49d09b3d0bdfa606a904a" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>handleGetExpiration</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1a06f8f6e67a5db05b52e9ce50f4de74f4" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>handleListPendingReviews</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1ac0f51c6d7c17673dfde408632fa1b614" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>handleRejectReview</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1ab860768b9571b4ffefe5f29784cc56ee" prot="private" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1aae47f4ee5855f5d95cd121f58f1f536d" prot="private" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1a6b0f7f3667d7ff42350dd018e5217a64" prot="public" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>ReviewSchedulingApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_review_scheduling_api_handler_1a98b7edc55520bd0e6c583456e6d78d88" prot="private" virt="non-virtual"><scope>themis::server::ReviewSchedulingApiHandler</scope><name>scheduler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

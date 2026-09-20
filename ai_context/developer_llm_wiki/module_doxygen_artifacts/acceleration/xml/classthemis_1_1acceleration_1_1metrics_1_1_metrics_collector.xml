@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::metrics::MetricsCollector</compoundname>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a325d624dbbe4a4ef3e75d8c99dd53711" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::metrics::MetricsCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects all metric collections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="476" column="24" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a6de4d1885e9def7fb8fddd2dd35f6abd" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;Counter&gt; &gt; themis::acceleration::metrics::MetricsCollector::counters_</definition>
+        <argsstring></argsstring>
+        <name>counters_</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::counters_</qualifiedname>
+        <briefdescription>
+<para>All registered counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="477" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a8459f1f6c28b7607cc9d4ab54601bd3b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;Gauge&gt; &gt; themis::acceleration::metrics::MetricsCollector::gauges_</definition>
+        <argsstring></argsstring>
+        <name>gauges_</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::gauges_</qualifiedname>
+        <briefdescription>
+<para>All registered gauges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="478" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a672c4a03e36d4fa23b8785febaa6001a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;Histogram&gt; &gt; themis::acceleration::metrics::MetricsCollector::histograms_</definition>
+        <argsstring></argsstring>
+        <name>histograms_</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::histograms_</qualifiedname>
+        <briefdescription>
+<para>All registered histograms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="479" column="14" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a15a94e38822ac99e4ce0f1d88ae41f37" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>MetricsCollector &amp;</type>
+        <definition>static MetricsCollector &amp; themis::acceleration::metrics::MetricsCollector::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="273" column="29" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="273" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1aed3451fdd6b7bb86121eb420beac5f2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter * themis::acceleration::metrics::MetricsCollector::registerCounter</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description)</argsstring>
+        <name>registerCounter</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::registerCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Register <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), get(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="286" column="13" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="286" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a027c37ddac2ff45d68bf541f1cc87600" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge * themis::acceleration::metrics::MetricsCollector::registerGauge</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description)</argsstring>
+        <name>registerGauge</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::registerGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Register <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), get(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="302" column="11" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="302" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ac1cddbef68b484ac13fb078c2c0e5b76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> *</type>
+        <definition>Histogram * themis::acceleration::metrics::MetricsCollector::registerHistogram</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description, const std::vector&lt; double &gt; &amp;buckets={})</argsstring>
+        <name>registerHistogram</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::registerHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>buckets</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="311" column="15" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="311" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ad5a016b4abe9ba08b3f4d7a30ed8df30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter * themis::acceleration::metrics::MetricsCollector::getCounter</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getCounter</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::getCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="335" column="13" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="335" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1af394fe00735dd7d1e264cbab1805e4a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge * themis::acceleration::metrics::MetricsCollector::getGauge</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getGauge</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::getGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="347" column="11" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="347" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a2454e3823a3a93411d3947b9a1f0d1e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> *</type>
+        <definition>Histogram * themis::acceleration::metrics::MetricsCollector::getHistogram</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getHistogram</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::getHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="359" column="15" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="359" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a314264e69c3e1802fb81220d922dad7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::MetricsCollector::exportPrometheus</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheus</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::exportPrometheus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="367" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="367" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a14e4d2d8c5c15502fb526c1242673ca3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::MetricsCollector::exportJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>exportJSON</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::exportJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="397" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="397" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1af0cad4f90fddbe100feba27c12e0ea95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::MetricsCollector::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="450" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="450" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a3849829c0cce20bae6ee59f92e718e6c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::MetricsCollector::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="461" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="461" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a3f9347f7a4a6eb8200cf0ad06323dd6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::MetricsCollector::MetricsCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetricsCollector</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::MetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="469" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ac9548e4f1a705289122b607668e5feb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::MetricsCollector::~MetricsCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MetricsCollector</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::~MetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="470" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ade65aa4340af9a8e46bc50f2778d1f46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::MetricsCollector::MetricsCollector</definition>
+        <argsstring>(const MetricsCollector &amp;)=delete</argsstring>
+        <name>MetricsCollector</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::MetricsCollector</qualifiedname>
+        <param>
+          <type>const MetricsCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="473" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a74807bdb4019587be72ab4df0a5a1114" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MetricsCollector &amp;</type>
+        <definition>MetricsCollector &amp; themis::acceleration::metrics::MetricsCollector::operator=</definition>
+        <argsstring>(const MetricsCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::metrics::MetricsCollector::operator=</qualifiedname>
+        <param>
+          <type>const MetricsCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="474" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/metrics/metrics_collector.h" line="266" column="1" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="266" bodyend="480"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a3849829c0cce20bae6ee59f92e718e6c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>clear</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a6de4d1885e9def7fb8fddd2dd35f6abd" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>counters_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a14e4d2d8c5c15502fb526c1242673ca3" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>exportJSON</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a314264e69c3e1802fb81220d922dad7c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>exportPrometheus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a8459f1f6c28b7607cc9d4ab54601bd3b" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>gauges_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ad5a016b4abe9ba08b3f4d7a30ed8df30" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>getCounter</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1af394fe00735dd7d1e264cbab1805e4a2" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>getGauge</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a2454e3823a3a93411d3947b9a1f0d1e8" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>getHistogram</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a672c4a03e36d4fa23b8785febaa6001a" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>histograms_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a15a94e38822ac99e4ce0f1d88ae41f37" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>instance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a3f9347f7a4a6eb8200cf0ad06323dd6f" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>MetricsCollector</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ade65aa4340af9a8e46bc50f2778d1f46" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>MetricsCollector</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a325d624dbbe4a4ef3e75d8c99dd53711" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a74807bdb4019587be72ab4df0a5a1114" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1aed3451fdd6b7bb86121eb420beac5f2e" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>registerCounter</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a027c37ddac2ff45d68bf541f1cc87600" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>registerGauge</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ac1cddbef68b484ac13fb078c2c0e5b76" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>registerHistogram</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1af0cad4f90fddbe100feba27c12e0ea95" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1ac9548e4f1a705289122b607668e5feb6" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::MetricsCollector</scope><name>~MetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

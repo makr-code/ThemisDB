@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1process_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::process::test</compoundname>
+    <innerclass refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" prot="public">themis::process::test::ProcessAgenticRagTest</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test" prot="public">themis::process::test::VccVpbImporterTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1aeb568b41359d35ddbbd9656bed3a6dfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS01_EncodeContextBasicPrompt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS01_EncodeContextBasicPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="72" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1ade536df301a61b8d714d7526926c9648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS02_EncodeContextWithSubgraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS02_EncodeContextWithSubgraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="86" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="86" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1aa05338d37a771571ca9a0ea89e54c1e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS03_EncodeContextAttachments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS03_EncodeContextAttachments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="108" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="108" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a87b30b49821e809642dd70489adc6386" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS04_EncodeContextSimilarCases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS04_EncodeContextSimilarCases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="128" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="128" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a81689e0d68f4522305fd92dbe48fc3e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS05_EncodeContextMissingDocuments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS05_EncodeContextMissingDocuments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="147" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="147" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a33a3ad60a61ed86db72630df5e5a9b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS06_EncodeContextEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS06_EncodeContextEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="167" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="167" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1aab66147a58adf397cd2d62ed4b02f47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS07_MergeDocumentsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS07_MergeDocumentsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="179" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1add9b47a54cb02e2da084c94c451aff21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS08_MergeDocumentsDuplicateDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS08_MergeDocumentsDuplicateDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="190" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="190" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a2fac465f3c83999f5acb00f6d4c2c74e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS09_MergeDocumentsAddition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS09_MergeDocumentsAddition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="208" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="208" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a0549d36af40c9cca3d450244e5da2ef9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(ProcessAgenticRagTest, EXS10_EncodeContextLargeIndices)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kindref="compound">ProcessAgenticRagTest</ref></type>
+        </param>
+        <param>
+          <type>EXS10_EncodeContextLargeIndices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="225" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="225" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1adc4c7b3d902007542bfa476936af1bc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS11_ImportYamlBasic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS11_ImportYamlBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="282" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1acba4d604017d9ba7a407f9747e62ddde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS12_ImportYamlCompliance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS12_ImportYamlCompliance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="292" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="292" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a582b2ad50d535cadca7ea3d9f63a12ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS13_ImportYamlActivities)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS13_ImportYamlActivities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="302" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="302" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1aca80f6b5905134821fd7aacf4b2eadaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS14_ImportYamlEdges)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS14_ImportYamlEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="314" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="314" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a6bf6ec9b75ca0c0b626074b6981efeeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS15_ImportYamlListBasic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS15_ImportYamlListBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="324" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="324" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a62364e5c95f8f515bb34338e4acb4cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS16_ImportYamlEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS16_ImportYamlEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="335" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="335" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a924ac9596aacae4b17d1358064ac5314" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS17_ImportYamlMalformed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS17_ImportYamlMalformed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="342" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="342" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a7c0c6f39f4ee69fdc0a165a1391e83f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS18_ImportYamlLargeCompliance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS18_ImportYamlLargeCompliance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="351" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="351" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1a2e4b9ac74d6246a8b6c649abb5a092de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS19_RegexSafetyCompliance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS19_RegexSafetyCompliance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="366" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="366" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1process_1_1test_1aea93c850ab438e6f28ea574d8fe493a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::test::TEST_F</definition>
+        <argsstring>(VccVpbImporterTest, EXS20_StringBoundsChecking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::process::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="class_vcc_vpb_importer_test" kindref="compound">VccVpbImporterTest</ref></type>
+        </param>
+        <param>
+          <type>EXS20_StringBoundsChecking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="379" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="379" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_high_batch_2a.cpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

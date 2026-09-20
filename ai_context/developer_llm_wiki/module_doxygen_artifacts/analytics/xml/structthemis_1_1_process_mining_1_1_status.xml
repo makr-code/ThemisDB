@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::Status</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_status_1a978f3e2935c5938c30ff2980e8f6933a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProcessMining::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::ProcessMining::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="200" column="14" bodyfile="include/analytics/process_mining.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_status_1a79795541b0fe0d44e815fcd7df3116dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessMining::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::ProcessMining::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="201" column="21" bodyfile="include/analytics/process_mining.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_process_mining_1_1_status_1afdbb6916da051c0887b8f97f064ad37d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::ProcessMining::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::ProcessMining::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="207" column="23" bodyfile="include/analytics/process_mining.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_process_mining_1_1_status_1a2f20f08cc247816a4f1b70e9c99efae2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::ProcessMining::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::ProcessMining::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="214" column="23" bodyfile="include/analytics/process_mining.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="199" column="5" bodyfile="include/analytics/process_mining.h" bodystart="199" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_status_1a2f20f08cc247816a4f1b70e9c99efae2" prot="public" virt="non-virtual"><scope>themis::ProcessMining::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_status_1a79795541b0fe0d44e815fcd7df3116dd" prot="public" virt="non-virtual"><scope>themis::ProcessMining::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_status_1afdbb6916da051c0887b8f97f064ad37d" prot="public" virt="non-virtual"><scope>themis::ProcessMining::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_status_1a978f3e2935c5938c30ff2980e8f6933a" prot="public" virt="non-virtual"><scope>themis::ProcessMining::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

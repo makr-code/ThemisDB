@@ -1,0 +1,2135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_redis_cache_coordinator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::cache::RedisCacheCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_cache_coordinator" prot="public" virt="non-virtual">themis::cache::ICacheCoordinator</basecompoundref>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_cache_coordinator" prot="public" virt="non-virtual">themis::cache::ICacheCoordinator</basecompoundref>
+    <includes refid="distributed__cache__coordinator_8h" local="no">distributed_cache_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_redis_cache_coordinator_1_1_config" prot="public">themis::cache::RedisCacheCoordinator::Config</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a727353c40384ee7d32856ba808fca8c0" prot="private" static="no">
+        <type>int</type>
+        <definition>using themis::cache::RedisCacheCoordinator::SocketFd = int</definition>
+        <argsstring></argsstring>
+        <name>SocketFd</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::SocketFd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="97" column="5" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a796c93b0a6cfbe7d3920e3a63296df34" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;channel, const std::string &amp;payload)&gt;</type>
+        <definition>using themis::cache::RedisCacheCoordinator::RedisPublishBridgeFn = std::function&lt;bool(const std::string&amp; channel,
+                                                   const std::string&amp; payload)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RedisPublishBridgeFn</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisPublishBridgeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="246" column="5" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1aef134f3d968de3ced0bcad2a7ea6ddce" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;channel, const std::string &amp;payload)&gt;</type>
+        <definition>using themis::cache::RedisCacheCoordinator::RedisPublishFn = std::function&lt;bool(const std::string&amp; channel,
+                                             const std::string&amp; payload)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RedisPublishFn</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisPublishFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="226" column="5" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5a2d8fc105e11efa912f6ccbf689b92c" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>SocketFd</type>
+        <definition>SocketFd themis::cache::RedisCacheCoordinator::kInvalidSocket</definition>
+        <argsstring></argsstring>
+        <name>kInvalidSocket</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::kInvalidSocket</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="98" column="31" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a14c01d67b516be81471fe6bfd592438a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config" kindref="compound">RedisCacheCoordinatorConfig</ref></type>
+        <definition>RedisCacheCoordinatorConfig themis::cache::RedisCacheCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="213" column="33" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1aae7e04b40cb1368785addd8ffdab914e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::RedisCacheCoordinator::pub_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pub_mutex_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::pub_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="216" column="24" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a77bb7a1cb054d458419164d4e4edaa86" prot="private" static="no" mutable="no">
+        <type>SocketFd</type>
+        <definition>SocketFd themis::cache::RedisCacheCoordinator::pub_fd_</definition>
+        <argsstring></argsstring>
+        <name>pub_fd_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::pub_fd_</qualifiedname>
+        <initializer>= kInvalidSocket</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="217" column="24" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a8300460e4ca894c398f8f953128dd5ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::pub_ok_</definition>
+        <argsstring></argsstring>
+        <name>pub_ok_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::pub_ok_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="218" column="18" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1af342ac232b87ae4ebb59c58f06c9ee52" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::coordinator_ready_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_ready_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::coordinator_ready_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="220" column="18" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1adde58e99b3acd2f342c9d58df6c2c5c3" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::cache::RedisCacheCoordinator::sub_thread_</definition>
+        <argsstring></argsstring>
+        <name>sub_thread_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::sub_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="223" column="24" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9c8f0d7f73e54db6c4539ac49be19e1e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::stop_</definition>
+        <argsstring></argsstring>
+        <name>stop_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="224" column="18" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5eee36e8954179dac86dd09728a86cbb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::sub_connected_</definition>
+        <argsstring></argsstring>
+        <name>sub_connected_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::sub_connected_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="225" column="18" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5fecef6191ed5e474a1622ecef5c81ac" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::RedisCacheCoordinator::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="228" column="24" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4db7f0c54dfe7ff863ebe2eea6c82401" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" kindref="member">EntryCallback</ref></type>
+        <definition>EntryCallback themis::cache::RedisCacheCoordinator::entry_cb_</definition>
+        <argsstring></argsstring>
+        <name>entry_cb_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::entry_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="229" column="26" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1afb36d0926686283a5ec7414b0558c68d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" kindref="member">InvalidationCallback</ref></type>
+        <definition>InvalidationCallback themis::cache::RedisCacheCoordinator::invalidation_cb_</definition>
+        <argsstring></argsstring>
+        <name>invalidation_cb_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::invalidation_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="230" column="26" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a380ef117096591c0c1411e1388ca188b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::RedisCacheCoordinator::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="236" column="29" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a52b5dbf2d7e7103c131978e79957e44d" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::RedisCacheCoordinator::messages_published_</definition>
+        <argsstring></argsstring>
+        <name>messages_published_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::messages_published_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>guarded by stats_mutex_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="237" column="14" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ad5589fef82ee2d4069dc84a16339505a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::RedisCacheCoordinator::messages_received_</definition>
+        <argsstring></argsstring>
+        <name>messages_received_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::messages_received_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>guarded by stats_mutex_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="238" column="14" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4e6ebcf8fe25641a5d530b65f3c5881d" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::RedisCacheCoordinator::publish_errors_</definition>
+        <argsstring></argsstring>
+        <name>publish_errors_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::publish_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>guarded by stats_mutex_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="239" column="14" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a050f0f50d457c6ba2533ced47ecfa773" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::RedisCacheCoordinator::reconnect_count_</definition>
+        <argsstring></argsstring>
+        <name>reconnect_count_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::reconnect_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>guarded by stats_mutex_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="240" column="14" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4e0208ace819543b4b07871d8dab5639" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_redis_cache_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::RedisCacheCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="129" column="17" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a3321b724ea452131c2f71467d4b86d87" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::channel_</definition>
+        <argsstring></argsstring>
+        <name>channel_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::channel_</qualifiedname>
+        <briefdescription>
+<para>Full channel name: {prefix}:replication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="130" column="17" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4d78227c872982e8144ebeb5c2988bdb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::node_id_</qualifiedname>
+        <briefdescription>
+<para>Effective node id (host:port or config value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="131" column="17" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac227f5f5c589748f88508454de6e5814" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::pub_connected_</definition>
+        <argsstring></argsstring>
+        <name>pub_connected_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::pub_connected_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="140" column="18" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a65870644a846e31b63ecdfc6d986cdaa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cache::RedisCacheCoordinator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="149" column="18" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a6b9e9069023b77dea3d193926e12b24a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::RedisCacheCoordinator::cb_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cb_mutex_</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::cb_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="156" column="26" bodyfile="include/cache/redis_cache_coordinator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</definition>
+        <argsstring>(const RedisCacheCoordinatorConfig &amp;config={})</argsstring>
+        <name>RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config" kindref="compound">RedisCacheCoordinatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="53" column="14" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="401" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a02bd22290be0632fad2002c2447f548e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::~RedisCacheCoordinator</definition>
+        <argsstring>() override</argsstring>
+        <name>~RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::~RedisCacheCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pub_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="55" column="5" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="410" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a56b45689bec09afac94080b7be48b680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</definition>
+        <argsstring>(const RedisCacheCoordinator &amp;)=delete</argsstring>
+        <name>RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</qualifiedname>
+        <param>
+          <type>const RedisCacheCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9fa5fb13c212ba81b1a45a76abef3633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" kindref="member">RedisCacheCoordinator</ref> &amp;</type>
+        <definition>RedisCacheCoordinator &amp; themis::cache::RedisCacheCoordinator::operator=</definition>
+        <argsstring>(const RedisCacheCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" kindref="member">RedisCacheCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="59" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae485c8dfe1369638dad25bb092e0177c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::publishEntry</definition>
+        <argsstring>(const std::string &amp;key, const nlohmann::json &amp;result, int ttl_seconds, const std::string &amp;tenant_id) override</argsstring>
+        <name>publishEntry</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::publishEntry</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a239e342544156f15cd25bb950bf28836">publishEntry</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Publish Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: dump(), computeHmac(), empty(), size(), THEMIS_WARN(), redisPublish(), <ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d38b0fc6c586a5c4e9e054873e1fd5d" kindref="member">entryChannel()</ref>, lk().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="65" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="444" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0360d3cdc4ed4ef8170da695a5153ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::publishInvalidation</definition>
+        <argsstring>(const std::string &amp;pattern, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>publishInvalidation</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::publishInvalidation</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af9f7f77e61dd64bafdb7a4a4e7dd4594">publishInvalidation</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Publish Invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: dump(), computeHmac(), empty(), redisPublish(), <ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a6cee613ee46f3d3ed3d1d748730cbcce" kindref="member">invalidationChannel()</ref>, lk().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="70" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="488" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a07a8fc3a091bc1bd8c05e9e5c4233595" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscribeEntries</definition>
+        <argsstring>(EntryCallback callback) override</argsstring>
+        <name>subscribeEntries</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscribeEntries</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1aac77720dc659636b5899ecd297731988">subscribeEntries</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" kindref="member">EntryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="73" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="522" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d9892058f20619678319c204786ac96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscribeInvalidations</definition>
+        <argsstring>(InvalidationCallback callback) override</argsstring>
+        <name>subscribeInvalidations</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscribeInvalidations</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a69771142cf118195870aa7eadcd14f4f">subscribeInvalidations</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" kindref="member">InvalidationCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Invalidations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="74" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="532" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1aa5f85ba4885ee37fa05494975e7ac1b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::isConnected</definition>
+        <argsstring>() const override</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::isConnected</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a43515033f1395d1b12421cde6f39f55e">isConnected</reimplements>
+        <briefdescription>
+<para>Is Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="76" column="20" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="546" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5ab9f697ff159d4a77eac0c806794b18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a4ae9c5cc52d1c7cdfefef09718aebe19">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="77" column="20" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a61d927c1fffbabdd32ef84d1580476ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::RedisCacheCoordinator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af928bf1657ad499c222beafebb759f80">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="78" column="20" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="550" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d38b0fc6c586a5c4e9e054873e1fd5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::entryChannel</definition>
+        <argsstring>() const</argsstring>
+        <name>entryChannel</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::entryChannel</qualifiedname>
+        <briefdescription>
+<para>Entry Channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="88" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="575" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a6cee613ee46f3d3ed3d1d748730cbcce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::invalidationChannel</definition>
+        <argsstring>() const</argsstring>
+        <name>invalidationChannel</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::invalidationChannel</qualifiedname>
+        <briefdescription>
+<para>Invalidation Channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="93" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="579" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2da5a30c52ea6f02c58837e84bfd4b09" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_redis_cache_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Redis Cache Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="98" column="14" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="95" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a02bd22290be0632fad2002c2447f548e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::~RedisCacheCoordinator</definition>
+        <argsstring>() override</argsstring>
+        <name>~RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::~RedisCacheCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a56b45689bec09afac94080b7be48b680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</definition>
+        <argsstring>(const RedisCacheCoordinator &amp;)=delete</argsstring>
+        <name>RedisCacheCoordinator</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::RedisCacheCoordinator</qualifiedname>
+        <param>
+          <type>const RedisCacheCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9fa5fb13c212ba81b1a45a76abef3633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" kindref="member">RedisCacheCoordinator</ref> &amp;</type>
+        <definition>RedisCacheCoordinator &amp; themis::cache::RedisCacheCoordinator::operator=</definition>
+        <argsstring>(const RedisCacheCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" kindref="member">RedisCacheCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="104" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae485c8dfe1369638dad25bb092e0177c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::publishEntry</definition>
+        <argsstring>(const std::string &amp;key, const nlohmann::json &amp;result, int ttl_seconds, const std::string &amp;tenant_id) override</argsstring>
+        <name>publishEntry</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::publishEntry</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a239e342544156f15cd25bb950bf28836">publishEntry</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------<mdash/> Publisher side (called by the local <ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref>) --------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="110" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0360d3cdc4ed4ef8170da695a5153ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::publishInvalidation</definition>
+        <argsstring>(const std::string &amp;pattern, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>publishInvalidation</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::publishInvalidation</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af9f7f77e61dd64bafdb7a4a4e7dd4594">publishInvalidation</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="115" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a07a8fc3a091bc1bd8c05e9e5c4233595" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscribeEntries</definition>
+        <argsstring>(EntryCallback callback) override</argsstring>
+        <name>subscribeEntries</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscribeEntries</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1aac77720dc659636b5899ecd297731988">subscribeEntries</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" kindref="member">EntryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="118" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d9892058f20619678319c204786ac96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscribeInvalidations</definition>
+        <argsstring>(InvalidationCallback callback) override</argsstring>
+        <name>subscribeInvalidations</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscribeInvalidations</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a69771142cf118195870aa7eadcd14f4f">subscribeInvalidations</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" kindref="member">InvalidationCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Invalidations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="120" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1aa5f85ba4885ee37fa05494975e7ac1b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::isConnected</definition>
+        <argsstring>() const override</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::isConnected</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a43515033f1395d1b12421cde6f39f55e">isConnected</reimplements>
+        <briefdescription>
+<para>Is Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="122" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5ab9f697ff159d4a77eac0c806794b18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a4ae9c5cc52d1c7cdfefef09718aebe19">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="124" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a61d927c1fffbabdd32ef84d1580476ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::RedisCacheCoordinator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_coordinator_1af928bf1657ad499c222beafebb759f80">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="126" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a65631db9f01e6879b34efa75186d693c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SocketFd</type>
+        <definition>RedisCacheCoordinator::SocketFd themis::cache::RedisCacheCoordinator::tcpConnect</definition>
+        <argsstring>()</argsstring>
+        <name>tcpConnect</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::tcpConnect</qualifiedname>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Low-level TCP / RESP helpers --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tcp Connect.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), getaddrinfo(), c_str(), res(), get(), socket(), setsockopt(), connect(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="105" column="14" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="592" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a614496f87cc2607ddcf79642781bf1f1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::redisHandshake</definition>
+        <argsstring>(SocketFd fd)</argsstring>
+        <name>redisHandshake</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::redisHandshake</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Redis Handshake. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), buildRespCommand(), sendAll(), readLine(), THEMIS_WARN(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="134" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="704" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a975da63e0be61b0c6ac7d0fa41cf7772" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::redisPublish</definition>
+        <argsstring>(const std::string &amp;channel, const std::string &amp;payload)</argsstring>
+        <name>redisPublish</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::redisPublish</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Redis Publish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: buildRespCommand(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), load(), ensurePublisherConnected(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="149" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="776" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a88e44450726322c02362cd3a9fd09902" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::ensurePublisherConnected</definition>
+        <argsstring>()</argsstring>
+        <name>ensurePublisherConnected</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::ensurePublisherConnected</qualifiedname>
+        <briefdescription>
+<para>Ensure Publisher Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: closeSocket(), tcpConnect(), THEMIS_WARN(), redisHandshake(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="159" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="744" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae1959e35ba737a71e3f58a8112046ccb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscriberLoop</definition>
+        <argsstring>()</argsstring>
+        <name>subscriberLoop</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscriberLoop</qualifiedname>
+        <briefdescription>
+<para>Subscriber Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::max(), lk(), observability::MetricsCollector::getInstance(), addCounter(), THEMIS_DEBUG(), what(), THEMIS_WARN(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="168" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="833" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1afe11cfec9eab38e8d84d10333b8e65dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscriberSession</definition>
+        <argsstring>(SocketFd fd)</argsstring>
+        <name>subscriberSession</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscriberSession</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Subscriber Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), readPubSubMessage(), empty(), dispatchMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="174" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="934" bodyend="944"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a52b1e9ddede4d948cb3ea6dfc1b67973" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::dispatchMessage</definition>
+        <argsstring>(const std::string &amp;channel, const std::string &amp;payload)</argsstring>
+        <name>dispatchMessage</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::dispatchMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), nlohmann::json::parse(), THEMIS_WARN(), what(), verifyHmac(), value(), <ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d38b0fc6c586a5c4e9e054873e1fd5d" kindref="member">entryChannel()</ref>, contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="192" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="1049" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a32e25eee49b6cbec61be5507f51c1c08" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::computeHmac</definition>
+        <argsstring>(const std::string &amp;payload) const</argsstring>
+        <name>computeHmac</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::computeHmac</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Compute Hmac. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="200" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="1103" bodyend="1128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2ec75d3a7ec2a4625b5a0e61ab024844" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::verifyHmac</definition>
+        <argsstring>(const nlohmann::json &amp;j) const</argsstring>
+        <name>verifyHmac</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::verifyHmac</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Verify Hmac. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="207" column="10" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="1130" bodyend="1169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1acc63590553bec858973c0d6bf4ede949" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::connectPublish</definition>
+        <argsstring>()</argsstring>
+        <name>connectPublish</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::connectPublish</qualifiedname>
+        <briefdescription>
+<para>Connect Publish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements connectPublish without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="175" column="10" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="668" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0ba010008724217a5acbef5c10638f9b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::connectSubscribe</definition>
+        <argsstring>()</argsstring>
+        <name>connectSubscribe</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::connectSubscribe</qualifiedname>
+        <briefdescription>
+<para>Connect Subscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements connectSubscribe without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="181" column="10" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="676" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac6396cd1cc21f7ad43811570d8b0c4a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::subscribeLoop</definition>
+        <argsstring>()</argsstring>
+        <name>subscribeLoop</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::subscribeLoop</qualifiedname>
+        <briefdescription>
+<para>Subscribe Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements subscribeLoop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="186" column="10" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="683" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ad44b79b16f886671f297f0c1d71f80ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::handleMessage</definition>
+        <argsstring>(const std::string &amp;payload)</argsstring>
+        <name>handleMessage</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::handleMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), verifyHmac(), value(), THEMIS_WARN(), lk(), entry_cb(), inv_cb(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="192" column="10" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="692" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a98e87942d3ee59341d861d350a2df9b8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::serializeMessage</definition>
+        <argsstring>(const ReplicationMessage &amp;msg) const</argsstring>
+        <name>serializeMessage</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::serializeMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_replication_message" kindref="compound">ReplicationMessage</ref> &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="199" column="17" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="741" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac56f5be708c756e7d5b1cd7077d5820b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cache_1_1_replication_message" kindref="compound">ReplicationMessage</ref> &gt;</type>
+        <definition>std::optional&lt; ReplicationMessage &gt; themis::cache::RedisCacheCoordinator::deserializeMessage</definition>
+        <argsstring>(const std::string &amp;data) const</argsstring>
+        <name>deserializeMessage</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::deserializeMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="206" column="19" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="834" bodyend="860"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a32e25eee49b6cbec61be5507f51c1c08" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::computeHmac</definition>
+        <argsstring>(const std::string &amp;payload) const</argsstring>
+        <name>computeHmac</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::computeHmac</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Compute Hmac. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="213" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2ec75d3a7ec2a4625b5a0e61ab024844" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::verifyHmac</definition>
+        <argsstring>(const nlohmann::json &amp;j) const</argsstring>
+        <name>verifyHmac</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::verifyHmac</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Verify Hmac. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="220" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a00e05b360ca3854d0df30cc931f6024f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::closeSocket</definition>
+        <argsstring>(SocketFd &amp;fd)</argsstring>
+        <name>closeSocket</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::closeSocket</qualifiedname>
+        <param>
+          <type>SocketFd &amp;</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Close Socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="111" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="636" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7ae873ebce956009a27a4b8c0572bc7f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::sendAll</definition>
+        <argsstring>(SocketFd fd, const std::string &amp;buf)</argsstring>
+        <name>sendAll</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::sendAll</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Send All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), send(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="119" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="650" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a8d7fc4c17fc9d765d651a8e274b9a52e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::readLine</definition>
+        <argsstring>(SocketFd fd, std::string &amp;line_out)</argsstring>
+        <name>readLine</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::readLine</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>line_out</declname>
+        </param>
+        <briefdescription>
+<para>Read Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">line_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">line_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), recv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="127" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="668" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1adc4e76e185a7123998c93592c3d09ce2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::RedisCacheCoordinator::buildRespCommand</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args)</argsstring>
+        <name>buildRespCommand</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::buildRespCommand</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Build Resp Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="141" column="24" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="689" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7cc1eea73c6a7f8344a578ce27ed6cf2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::RedisCacheCoordinator::readPubSubMessage</definition>
+        <argsstring>(SocketFd fd, std::string &amp;channel_out, std::string &amp;payload_out)</argsstring>
+        <name>readPubSubMessage</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::readPubSubMessage</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>channel_out</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>payload_out</declname>
+        </param>
+        <briefdescription>
+<para>Read Pub Sub Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">channel_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">payload_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">channel_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">payload_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), readLine(), empty(), std::stoll(), substr(), THEMIS_WARN(), what(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="183" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="954" bodyend="1041"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d4b3cb5f057b76207506238b7a7eb61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::setRedisPublishBridgeFn</definition>
+        <argsstring>(RedisPublishBridgeFn fn)</argsstring>
+        <name>setRedisPublishBridgeFn</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::setRedisPublishBridgeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a796c93b0a6cfbe7d3920e3a63296df34" kindref="member">RedisPublishBridgeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Redis Publish Bridge Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_cache_coordinator.h" line="253" column="17" bodyfile="src/cache/distributed_cache_coordinator.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_redis_cache_coordinator_1a299df2cb1f4425f3fb495b93fa4e6e90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::RedisCacheCoordinator::setRedisPublishFn</definition>
+        <argsstring>(RedisPublishFn fn)</argsstring>
+        <name>setRedisPublishFn</name>
+        <qualifiedname>themis::cache::RedisCacheCoordinator::setRedisPublishFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1aef134f3d968de3ced0bcad2a7ea6ddce" kindref="member">RedisPublishFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Redis Publish Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_cache_coordinator.h" line="233" column="17" bodyfile="src/cache/redis_cache_coordinator.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cache::ICacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::cache::RedisCacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_redis_cache_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cache::ICacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::cache::RedisCacheCoordinator</label>
+        <link refid="classthemis_1_1cache_1_1_redis_cache_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/distributed_cache_coordinator.h" line="51" column="1" bodyfile="include/cache/distributed_cache_coordinator.h" bodystart="51" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1adc4e76e185a7123998c93592c3d09ce2" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>buildRespCommand</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5fecef6191ed5e474a1622ecef5c81ac" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a6b9e9069023b77dea3d193926e12b24a" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>cb_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a3321b724ea452131c2f71467d4b86d87" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>channel_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a00e05b360ca3854d0df30cc931f6024f" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>closeSocket</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a32e25eee49b6cbec61be5507f51c1c08" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>computeHmac</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a32e25eee49b6cbec61be5507f51c1c08" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>computeHmac</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a14c01d67b516be81471fe6bfd592438a" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4e0208ace819543b4b07871d8dab5639" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1acc63590553bec858973c0d6bf4ede949" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>connectPublish</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0ba010008724217a5acbef5c10638f9b" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>connectSubscribe</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1af342ac232b87ae4ebb59c58f06c9ee52" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>coordinator_ready_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac56f5be708c756e7d5b1cd7077d5820b" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>deserializeMessage</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a52b1e9ddede4d948cb3ea6dfc1b67973" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>dispatchMessage</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a88e44450726322c02362cd3a9fd09902" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>ensurePublisherConnected</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4db7f0c54dfe7ff863ebe2eea6c82401" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>entry_cb_</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a1b4046bf057c4031fcd7c7cd2a25353c" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>EntryCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d38b0fc6c586a5c4e9e054873e1fd5d" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>entryChannel</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a61d927c1fffbabdd32ef84d1580476ee" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a61d927c1fffbabdd32ef84d1580476ee" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ad44b79b16f886671f297f0c1d71f80ee" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>handleMessage</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1afb36d0926686283a5ec7414b0558c68d" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>invalidation_cb_</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1a9e18e6c69a0bd08f4f6a72785d24cbd5" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>InvalidationCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a6cee613ee46f3d3ed3d1d748730cbcce" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>invalidationChannel</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1aa5f85ba4885ee37fa05494975e7ac1b1" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1aa5f85ba4885ee37fa05494975e7ac1b1" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5a2d8fc105e11efa912f6ccbf689b92c" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>kInvalidSocket</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a52b5dbf2d7e7103c131978e79957e44d" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>messages_published_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ad5589fef82ee2d4069dc84a16339505a" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>messages_received_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5ab9f697ff159d4a77eac0c806794b18" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>name</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5ab9f697ff159d4a77eac0c806794b18" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>name</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4d78227c872982e8144ebeb5c2988bdb" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9fa5fb13c212ba81b1a45a76abef3633" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9fa5fb13c212ba81b1a45a76abef3633" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac227f5f5c589748f88508454de6e5814" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>pub_connected_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a77bb7a1cb054d458419164d4e4edaa86" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>pub_fd_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1aae7e04b40cb1368785addd8ffdab914e" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>pub_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a8300460e4ca894c398f8f953128dd5ba" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>pub_ok_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a4e6ebcf8fe25641a5d530b65f3c5881d" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>publish_errors_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae485c8dfe1369638dad25bb092e0177c" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>publishEntry</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae485c8dfe1369638dad25bb092e0177c" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>publishEntry</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0360d3cdc4ed4ef8170da695a5153ed4" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>publishInvalidation</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a0360d3cdc4ed4ef8170da695a5153ed4" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>publishInvalidation</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a8d7fc4c17fc9d765d651a8e274b9a52e" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>readLine</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7cc1eea73c6a7f8344a578ce27ed6cf2" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>readPubSubMessage</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a050f0f50d457c6ba2533ced47ecfa773" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>reconnect_count_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7aa2f405c583bc7d12a80558b49f61f0" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisCacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a56b45689bec09afac94080b7be48b680" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisCacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2da5a30c52ea6f02c58837e84bfd4b09" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisCacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a56b45689bec09afac94080b7be48b680" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisCacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a614496f87cc2607ddcf79642781bf1f1" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>redisHandshake</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a975da63e0be61b0c6ac7d0fa41cf7772" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>redisPublish</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a796c93b0a6cfbe7d3920e3a63296df34" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisPublishBridgeFn</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1aef134f3d968de3ced0bcad2a7ea6ddce" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>RedisPublishFn</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a65870644a846e31b63ecdfc6d986cdaa" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7ae873ebce956009a27a4b8c0572bc7f" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>sendAll</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a98e87942d3ee59341d861d350a2df9b8" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>serializeMessage</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d4b3cb5f057b76207506238b7a7eb61" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>setRedisPublishBridgeFn</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a299df2cb1f4425f3fb495b93fa4e6e90" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>setRedisPublishFn</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a727353c40384ee7d32856ba808fca8c0" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>SocketFd</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a380ef117096591c0c1411e1388ca188b" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a9c8f0d7f73e54db6c4539ac49be19e1e" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>stop_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a5eee36e8954179dac86dd09728a86cbb" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>sub_connected_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1adde58e99b3acd2f342c9d58df6c2c5c3" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>sub_thread_</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a07a8fc3a091bc1bd8c05e9e5c4233595" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscribeEntries</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a07a8fc3a091bc1bd8c05e9e5c4233595" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscribeEntries</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d9892058f20619678319c204786ac96" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscribeInvalidations</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a7d9892058f20619678319c204786ac96" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscribeInvalidations</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ac6396cd1cc21f7ad43811570d8b0c4a5" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscribeLoop</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1ae1959e35ba737a71e3f58a8112046ccb" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscriberLoop</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1afe11cfec9eab38e8d84d10333b8e65dc" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>subscriberSession</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a65631db9f01e6879b34efa75186d693c" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>tcpConnect</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2ec75d3a7ec2a4625b5a0e61ab024844" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>verifyHmac</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a2ec75d3a7ec2a4625b5a0e61ab024844" prot="private" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>verifyHmac</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_coordinator_1ac1a0b3bf03cf40b263bac9e16a8bf5ac" prot="public" virt="virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>~ICacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a02bd22290be0632fad2002c2447f548e" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>~RedisCacheCoordinator</name></member>
+      <member refid="classthemis_1_1cache_1_1_redis_cache_coordinator_1a02bd22290be0632fad2002c2447f548e" prot="public" virt="non-virtual"><scope>themis::cache::RedisCacheCoordinator</scope><name>~RedisCacheCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

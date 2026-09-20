@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_response_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::ResponseCache</compoundname>
+    <includes refid="graphql__cache_8h" local="no">graphql_cache.h</includes>
+    <innerclass refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" prot="public">themis::graphql::ResponseCache::CachedResponse</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_response_cache_1a6f09000397623fc9d215713f751d1251" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graphql_1_1_cache" kindref="compound">Cache</ref>&lt; <ref refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" kindref="compound">CachedResponse</ref> &gt;</type>
+        <definition>Cache&lt;CachedResponse&gt; themis::graphql::ResponseCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::graphql::ResponseCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="376" column="11" bodyfile="include/api/graphql_cache.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1abc49af41e6f488418fb22018892da81b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseCache &amp;</type>
+        <definition>static ResponseCache &amp; themis::graphql::ResponseCache::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::graphql::ResponseCache::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="325" column="26" bodyfile="include/api/graphql_cache.h" bodystart="325" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1a5db10a99a2c712be5ae7d7f16e97b4d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" kindref="compound">CachedResponse</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CachedResponse &gt; themis::graphql::ResponseCache::get</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graphql::ResponseCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="336" column="21" bodyfile="include/api/graphql_cache.h" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1aa987d5d9dfdc29f62e8958bd82996c89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ResponseCache::put</definition>
+        <argsstring>(const std::string &amp;query, const CachedResponse &amp;response)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::graphql::ResponseCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" kindref="compound">CachedResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements put without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="346" column="10" bodyfile="include/api/graphql_cache.h" bodystart="346" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1aba77376d1cd6b725d2ec73ca622b9fcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ResponseCache::invalidatePattern</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>invalidatePattern</name>
+        <qualifiedname>themis::graphql::ResponseCache::invalidatePattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: eraseIf(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="355" column="10" bodyfile="include/api/graphql_cache.h" bodystart="355" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1aecc0df88d1e1d7a30504de985aabfa8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graphql_1_1_cache" kindref="compound">Cache</ref>&lt; <ref refid="structthemis_1_1graphql_1_1_response_cache_1_1_cached_response" kindref="compound">CachedResponse</ref> &gt;::CacheStats</type>
+        <definition>Cache&lt; CachedResponse &gt;::CacheStats themis::graphql::ResponseCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::graphql::ResponseCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="361" column="24" bodyfile="include/api/graphql_cache.h" bodystart="361" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1abe9a92ae30341c55ea5129591206b677" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ResponseCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graphql::ResponseCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="369" column="10" bodyfile="include/api/graphql_cache.h" bodystart="369" bodyend="371"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_response_cache_1a99e51e413bc11b9c0298482c203f0b0d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::ResponseCache::ResponseCache</definition>
+        <argsstring>()</argsstring>
+        <name>ResponseCache</name>
+        <qualifiedname>themis::graphql::ResponseCache::ResponseCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="374" column="5" bodyfile="include/api/graphql_cache.h" bodystart="374" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_cache.h" line="311" column="1" bodyfile="include/api/graphql_cache.h" bodystart="311" bodyend="377"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1a6f09000397623fc9d215713f751d1251" prot="private" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1abe9a92ae30341c55ea5129591206b677" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1a5db10a99a2c712be5ae7d7f16e97b4d7" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1aecc0df88d1e1d7a30504de985aabfa8e" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1abc49af41e6f488418fb22018892da81b" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>instance</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1aba77376d1cd6b725d2ec73ca622b9fcf" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>invalidatePattern</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1aa987d5d9dfdc29f62e8958bd82996c89" prot="public" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1graphql_1_1_response_cache_1a99e51e413bc11b9c0298482c203f0b0d" prot="private" virt="non-virtual"><scope>themis::graphql::ResponseCache</scope><name>ResponseCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

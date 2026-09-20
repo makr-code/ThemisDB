@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_text_abuse_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::TextAbuseDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_abuse_detector" prot="public" virt="non-virtual">themis::content::IAbuseDetector</basecompoundref>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" prot="public">themis::content::TextAbuseDetector::Pattern</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_text_abuse_detector_1afd5f3ba90ecf3f5325002445a957a091" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" kindref="compound">Pattern</ref> &gt;</type>
+        <definition>std::vector&lt;Pattern&gt; themis::content::TextAbuseDetector::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>themis::content::TextAbuseDetector::patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="158" column="17" bodyfile="include/content/abuse_detector.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_abuse_detector_1ab3912c25d3f560eac33d411cc74bf38d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TextAbuseDetector::TextAbuseDetector</definition>
+        <argsstring>(std::vector&lt; Pattern &gt; patterns)</argsstring>
+        <name>TextAbuseDetector</name>
+        <qualifiedname>themis::content::TextAbuseDetector::TextAbuseDetector</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" kindref="compound">Pattern</ref> &gt;</type>
+          <declname>patterns</declname>
+        </param>
+        <briefdescription>
+<para>Text Abuse Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="135" column="14" bodyfile="src/content/abuse_detector.cpp" bodystart="129" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_abuse_detector_1a23ef96a009214a6bbfb7c1e6c19de04e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref></type>
+        <definition>AbuseDetectionResult themis::content::TextAbuseDetector::detect</definition>
+        <argsstring>(const std::string &amp;content_data, const AbuseDetectorMetadata &amp;metadata) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::content::TextAbuseDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b">detect</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="148" column="26" bodyfile="src/content/abuse_detector.cpp" bodystart="133" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_abuse_detector_1a043acbd46c3462e2bd673272416b06a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::TextAbuseDetector::detectorType</definition>
+        <argsstring>() const override</argsstring>
+        <name>detectorType</name>
+        <qualifiedname>themis::content::TextAbuseDetector::detectorType</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac">detectorType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="153" column="17" bodyfile="include/content/abuse_detector.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_abuse_detector_1a4f62106faa37608a371b6bf3591777b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::content::TextAbuseDetector::patternCount</definition>
+        <argsstring>() const</argsstring>
+        <name>patternCount</name>
+        <qualifiedname>themis::content::TextAbuseDetector::patternCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="155" column="17" bodyfile="include/content/abuse_detector.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_text_abuse_detector_1a83f8847a015816d69d6002f5694bd2d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1_text_abuse_detector_1ab3912c25d3f560eac33d411cc74bf38d" kindref="member">TextAbuseDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; TextAbuseDetector &gt; themis::content::TextAbuseDetector::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_path, std::string &amp;error)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::content::TextAbuseDetector::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), YAML::LoadFile(), std::string(), what(), IsSequence(), std::move(), empty(), std::regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="143" column="28" bodyfile="src/content/abuse_detector.cpp" bodystart="160" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_i_abuse_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TextAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_text_abuse_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_i_abuse_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TextAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_text_abuse_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/abuse_detector.h" line="122" column="1" bodyfile="include/content/abuse_detector.h" bodystart="122" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1a23ef96a009214a6bbfb7c1e6c19de04e" prot="public" virt="virtual"><scope>themis::content::TextAbuseDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1a043acbd46c3462e2bd673272416b06a4" prot="public" virt="virtual"><scope>themis::content::TextAbuseDetector</scope><name>detectorType</name></member>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1a83f8847a015816d69d6002f5694bd2d3" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector</scope><name>loadFromYAML</name></member>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1a4f62106faa37608a371b6bf3591777b1" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector</scope><name>patternCount</name></member>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1afd5f3ba90ecf3f5325002445a957a091" prot="private" virt="non-virtual"><scope>themis::content::TextAbuseDetector</scope><name>patterns_</name></member>
+      <member refid="classthemis_1_1content_1_1_text_abuse_detector_1ab3912c25d3f560eac33d411cc74bf38d" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector</scope><name>TextAbuseDetector</name></member>
+      <member refid="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" prot="public" virt="virtual"><scope>themis::content::TextAbuseDetector</scope><name>~IAbuseDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

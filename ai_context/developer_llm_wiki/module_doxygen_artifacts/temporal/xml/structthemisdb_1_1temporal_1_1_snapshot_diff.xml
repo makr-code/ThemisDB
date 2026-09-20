@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_snapshot_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::SnapshotDiff</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;VersionedDocument&gt; themisdb::temporal::SnapshotDiff::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::added</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="90" column="17" bodyfile="include/temporal/snapshot_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;VersionedDocument&gt; themisdb::temporal::SnapshotDiff::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::removed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="91" column="17" bodyfile="include/temporal/snapshot_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;VersionedDocument&gt; themisdb::temporal::SnapshotDiff::modified</definition>
+        <argsstring></argsstring>
+        <name>modified</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::modified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="92" column="17" bodyfile="include/temporal/snapshot_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1a40e83df03f30e8e65c5e1ff4a3646317" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SnapshotDiff::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="94" column="10" bodyfile="include/temporal/snapshot_manager.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1a5b4c1e9be5408a9b88657c7670f57b9c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SnapshotDiff::totalChanges</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalChanges</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::totalChanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="98" column="12" bodyfile="include/temporal/snapshot_manager.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_snapshot_diff_1af7b04edf9116cd467636d0596d3d5840" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::SnapshotDiff::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::SnapshotDiff::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="102" column="20" bodyfile="include/temporal/snapshot_manager.h" bodystart="102" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of comparing two snapshots for the same table.</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" kindref="member">added</ref></computeroutput> — rows present in <computeroutput>handle_b</computeroutput> but absent in <computeroutput>handle_a</computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" kindref="member">removed</ref></computeroutput> — rows present in <computeroutput>handle_a</computeroutput> but absent in <computeroutput>handle_b</computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" kindref="member">modified</ref></computeroutput> — rows present in both snapshots whose <computeroutput>data</computeroutput> has changed (contains the <computeroutput>handle_b</computeroutput> version). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/temporal/snapshot_manager.h" line="89" column="1" bodyfile="include/temporal/snapshot_manager.h" bodystart="89" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1ac79febea935400dd4b10654eb1b90cfe" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>added</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a40e83df03f30e8e65c5e1ff4a3646317" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>empty</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a82d60c9fdbf01d46048ede05d35dd298" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>modified</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1aed746a7660efe887cb08f13beef16013" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>removed</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1af7b04edf9116cd467636d0596d3d5840" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_diff_1a5b4c1e9be5408a9b88657c7670f57b9c" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotDiff</scope><name>totalChanges</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

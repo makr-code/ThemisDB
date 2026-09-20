@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_federated_tensor_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::FederatedTensorSummary</compoundname>
+    <includes refid="tensor__mid__layer_8h" local="no">tensor_mid_layer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_federated_tensor_summary_1a97271e58bb95c74052c2f9c5cb517bb4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary" kindref="compound">TensorLayerSummary</ref> &gt;</type>
+        <definition>std::vector&lt;TensorLayerSummary&gt; themis::tensor::FederatedTensorSummary::shard_summaries</definition>
+        <argsstring></argsstring>
+        <name>shard_summaries</name>
+        <qualifiedname>themis::tensor::FederatedTensorSummary::shard_summaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="80" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_federated_tensor_summary_1a8dab2c40b2a76b34cc79cda3f866d08b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt;SimilarityResult&gt; themis::tensor::FederatedTensorSummary::merged_similar_adapters</definition>
+        <argsstring></argsstring>
+        <name>merged_similar_adapters</name>
+        <qualifiedname>themis::tensor::FederatedTensorSummary::merged_similar_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="81" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_federated_tensor_summary_1a4ba741b4e322bdc0cf3c7b84cf2a1abc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FederatedTensorSummary::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::tensor::FederatedTensorSummary::routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="82" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated federated tensor summary across shard scopes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mid_layer.h" line="79" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="79" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a8dab2c40b2a76b34cc79cda3f866d08b" prot="public" virt="non-virtual"><scope>themis::tensor::FederatedTensorSummary</scope><name>merged_similar_adapters</name></member>
+      <member refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a4ba741b4e322bdc0cf3c7b84cf2a1abc" prot="public" virt="non-virtual"><scope>themis::tensor::FederatedTensorSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a97271e58bb95c74052c2f9c5cb517bb4" prot="public" virt="non-virtual"><scope>themis::tensor::FederatedTensorSummary</scope><name>shard_summaries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

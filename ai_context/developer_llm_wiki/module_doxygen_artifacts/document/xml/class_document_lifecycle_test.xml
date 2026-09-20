@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_document_lifecycle_test" kind="class" language="C++" prot="public">
+    <compoundname>DocumentLifecycleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_document_lifecycle_test_1a91e30e82ee1f05f346102f8ae2007ff2" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_manager" kindref="compound">InMemoryDocumentManager</ref></type>
+        <definition>InMemoryDocumentManager DocumentLifecycleTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>DocumentLifecycleTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="345" column="29" bodyfile="tests/document/test_document_store.cpp" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_lifecycle_test_1aa4f369d9ac08168f61892f170d27d1ab" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_test_hook" kindref="compound">TestHook</ref></type>
+        <definition>TestHook DocumentLifecycleTest::hook_</definition>
+        <argsstring></argsstring>
+        <name>hook_</name>
+        <qualifiedname>DocumentLifecycleTest::hook_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="346" column="29" bodyfile="tests/document/test_document_store.cpp" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_lifecycle_test_1a8d1a5c46f686116e57d5cc61a318b534" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId DocumentLifecycleTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>DocumentLifecycleTest::kCol</qualifiedname>
+        <initializer>{&quot;lc-col&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="347" column="29" bodyfile="tests/document/test_document_store.cpp" bodystart="347" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_document_lifecycle_test_1a3fa7a10fefef1067473212fae03e48f3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DocumentLifecycleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DocumentLifecycleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="349" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="349" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DocumentLifecycleTest</label>
+        <link refid="class_document_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DocumentLifecycleTest</label>
+        <link refid="class_document_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>hook_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>TestHook</label>
+        <link refid="struct_test_hook"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="6">
+        <label>themis::document::IDocumentLifecycleHook</label>
+        <link refid="classthemis_1_1document_1_1_i_document_lifecycle_hook"/>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_i_document_manager"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_manager"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_store.cpp" line="343" column="1" bodyfile="tests/document/test_document_store.cpp" bodystart="343" bodyend="352"/>
+    <listofallmembers>
+      <member refid="class_document_lifecycle_test_1aa4f369d9ac08168f61892f170d27d1ab" prot="protected" virt="non-virtual"><scope>DocumentLifecycleTest</scope><name>hook_</name></member>
+      <member refid="class_document_lifecycle_test_1a8d1a5c46f686116e57d5cc61a318b534" prot="protected" virt="non-virtual"><scope>DocumentLifecycleTest</scope><name>kCol</name></member>
+      <member refid="class_document_lifecycle_test_1a91e30e82ee1f05f346102f8ae2007ff2" prot="protected" virt="non-virtual"><scope>DocumentLifecycleTest</scope><name>mgr_</name></member>
+      <member refid="class_document_lifecycle_test_1a3fa7a10fefef1067473212fae03e48f3" prot="protected" virt="non-virtual"><scope>DocumentLifecycleTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

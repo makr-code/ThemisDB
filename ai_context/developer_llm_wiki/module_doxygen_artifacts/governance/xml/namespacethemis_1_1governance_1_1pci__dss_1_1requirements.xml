@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements" kind="namespace" language="C++">
+    <compoundname>themis::governance::pci_dss::requirements</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a347b25d0b762fa515d5466a3c2b69a35" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kInstallFirewall</definition>
+        <argsstring></argsstring>
+        <name>kInstallFirewall</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kInstallFirewall</qualifiedname>
+        <initializer>= &quot;1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="306" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a349006ea7ef6a4c4a92375f5a2ddd9e9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kChangeDefaultPasswords</definition>
+        <argsstring></argsstring>
+        <name>kChangeDefaultPasswords</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kChangeDefaultPasswords</qualifiedname>
+        <initializer>= &quot;2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="307" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a37b808c83ca0adf1bfeae6575a9b67e7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kProtectData</definition>
+        <argsstring></argsstring>
+        <name>kProtectData</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kProtectData</qualifiedname>
+        <initializer>= &quot;3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="308" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1aa99002336096f44cf7a383672fe14f9e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kEncryption</definition>
+        <argsstring></argsstring>
+        <name>kEncryption</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kEncryption</qualifiedname>
+        <initializer>= &quot;4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="309" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a558028a316f0a490be39093c5dde2257" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kVulnerabilityManagement</definition>
+        <argsstring></argsstring>
+        <name>kVulnerabilityManagement</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kVulnerabilityManagement</qualifiedname>
+        <initializer>= &quot;6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="310" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a7f03a24363d3c833e6c359fcf962544c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kAccessControl</definition>
+        <argsstring></argsstring>
+        <name>kAccessControl</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kAccessControl</qualifiedname>
+        <initializer>= &quot;7&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="311" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1a64a614911f2bb64f6204805806a51df1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kIdentification</definition>
+        <argsstring></argsstring>
+        <name>kIdentification</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kIdentification</qualifiedname>
+        <initializer>= &quot;8&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="312" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1aad19c29d8dbdb3b28c38117aeb7cbcf7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kMonitoring</definition>
+        <argsstring></argsstring>
+        <name>kMonitoring</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kMonitoring</qualifiedname>
+        <initializer>= &quot;10&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="313" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1pci__dss_1_1requirements_1ad1d3e0a1acc820f15de99e92735b34fa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::pci_dss::requirements::kIncidentResponse</definition>
+        <argsstring></argsstring>
+        <name>kIncidentResponse</name>
+        <qualifiedname>themis::governance::pci_dss::requirements::kIncidentResponse</qualifiedname>
+        <initializer>= &quot;12&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="314" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="305" column="1"/>
+  </compounddef>
+</doxygen>

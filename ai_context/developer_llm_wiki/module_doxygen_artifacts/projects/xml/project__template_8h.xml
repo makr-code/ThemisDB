@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="project__template_8h" kind="file" language="C++">
+    <compoundname>project_template.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="document__manager_8h" local="yes">projects/DocumentManager/document_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includedby refid="project__template_8cpp" local="yes">src/projects/project_template.cpp</includedby>
+    <includedby refid="test__projects_8cpp" local="yes">tests/projects/test_projects.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>projects/DocumentManager/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/projects/project_template.h</label>
+        <link refid="project__template_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="10">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="9">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/projects/project_template.h</label>
+        <link refid="project__template_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/projects/project_template.cpp</label>
+        <link refid="project__template_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/projects/test_projects.cpp</label>
+        <link refid="test__projects_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1projects_1_1_template_options" prot="public">themis::projects::TemplateOptions</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_template_instantiation_result" prot="public">themis::projects::TemplateInstantiationResult</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_template" prot="public">themis::projects::ProjectTemplate</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1projects">themis::projects</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.3 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__manager_8h" kindref="compound">projects/DocumentManager/document_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects" kindref="compound">projects</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Built-in<sp/>templates<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aba2b45bdc11e2a4a6e86aab2ac693cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aba2b45bdc11e2a4a6e86aab2ac693cbb" kindref="member">EMPTY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aff8f45b64257ae5ef27d7d0afcbdb28a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aff8f45b64257ae5ef27d7d0afcbdb28a" kindref="member">WEB_APPLICATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a31d1f3a308d98579c5958981a5d02e69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a31d1f3a308d98579c5958981a5d02e69" kindref="member">MACHINE_LEARNING</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835abe25776fa91444b6d85c015efeddfc0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835abe25776fa91444b6d85c015efeddfc0e" kindref="member">ANALYTICS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a605c71302498d57d6f7cda6385a321" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a605c71302498d57d6f7cda6385a321" kindref="member">TIME_SERIES</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a32297bb33f609d68fc868ec196eeb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a32297bb33f609d68fc868ec196eeb9" kindref="member">GRAPH_ANALYTICS</ref>,<sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835ab59e24e7b420622b8dbef639d67cb622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835ab59e24e7b420622b8dbef639d67cb622" kindref="member">DOCUMENT_STORE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1projects_1a97e8ff9718174c6c543ad93c3eb4116e" kindref="member">builtinTemplateToString</ref>(<ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref><sp/>tmpl)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Options<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1projects_1_1_template_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1projects_1_1_template_options" kindref="compound">TemplateOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1projects_1_1_template_options_1a3a35b9d9dd2e22675c7850894b8511f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1projects_1_1_template_options_1a3a35b9d9dd2e22675c7850894b8511f6" kindref="member">project_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1projects_1_1_template_options_1ae95b111f27ce31aa30a81087a88d250c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1projects_1_1_template_options_1ae95b111f27ce31aa30a81087a88d250c" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1projects_1_1_template_options_1a7cd6640d6d90699c552d5f23851449cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_options_1a7cd6640d6d90699c552d5f23851449cc" kindref="member">include_sample_data</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1projects_1_1_template_options_1a029212fdd61d39ba590e7da4a8336705" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_options_1a029212fdd61d39ba590e7da4a8336705" kindref="member">extra_config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>json::object();<sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Result<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1projects_1_1_template_instantiation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1projects_1_1_template_instantiation_result" kindref="compound">TemplateInstantiationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1projects_1_1_template_instantiation_result_1a88fbe25a8858818372700168c25acfa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result_1a88fbe25a8858818372700168c25acfa6" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1projects_1_1_template_instantiation_result_1a86250a344f34f0c73b06101641eea0e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result_1a86250a344f34f0c73b06101641eea0e6" kindref="member">project_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1projects_1_1_template_instantiation_result_1a65a5f88e95a7ed691ebb67d36a49e5fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result_1a65a5f88e95a7ed691ebb67d36a49e5fa" kindref="member">objects_created</ref>;<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1projects_1_1_template_instantiation_result_1a2d73c5321d1600aacc9f53e2663a265b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result_1a2d73c5321d1600aacc9f53e2663a265b" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>ProjectTemplate<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1projects_1_1_project_template" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1projects_1_1_project_template_1a0ed24c47a0c142c6ddf31451606e2347" kindref="member">ProjectTemplate</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a0ed24c47a0c142c6ddf31451606e2347" kindref="member">ProjectTemplate</ref>(std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage);</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1projects_1_1_project_template_1a5caee5121e19d8aa3c2cdbe5debff38f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a5caee5121e19d8aa3c2cdbe5debff38f" kindref="member">~ProjectTemplate</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result" kindref="compound">TemplateInstantiationResult</ref><sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a79afa1f813b7898ba7bcebc8b411c603" kindref="member">instantiate</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmpl,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1projects_1_1_template_options" kindref="compound">TemplateOptions</ref>&amp;<sp/><sp/><sp/>options</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_template_instantiation_result" kindref="compound">TemplateInstantiationResult</ref><sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a8cf78fa122d2303fe1c868d3d4eca3ed" kindref="member">instantiateFromDefinition</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_def,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1projects_1_1_template_options" kindref="compound">TemplateOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a58ff21edb067aaf89db78c68b58a7868" kindref="member">listBuiltinTemplates</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1projects_1_1_project_template_1a1547239f3ef42a6369f0cdc1a9e275cc" kindref="member">validateTemplateDefinition</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref>&amp;<sp/>template_def);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/>getBuiltinTemplateSchema(<ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref><sp/>tmpl)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateUuid()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>createObjectFromDefinition(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>project_id,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>object_def,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>include_sample_data</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>projects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/projects/project_template.h"/>
+  </compounddef>
+</doxygen>

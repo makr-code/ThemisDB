@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1compression" kind="namespace" language="C++">
+    <compoundname>themis::compression</compoundname>
+    <innerclass refid="structthemis_1_1compression_1_1_compression_config" prot="public">themis::compression::CompressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1compression_1_1_compression_result" prot="public">themis::compression::CompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1compression_1_1_compression_strategy_manager" prot="public">themis::compression::CompressionStrategyManager</innerclass>
+    <innerclass refid="classthemis_1_1compression_1_1_r_l_e_codec" prot="public">themis::compression::RLECodec</innerclass>
+    <innerclass refid="classthemis_1_1compression_1_1_delta_codec" prot="public">themis::compression::DeltaCodec</innerclass>
+    <innerclass refid="classthemis_1_1compression_1_1_simple_dictionary_codec" prot="public">themis::compression::SimpleDictionaryCodec</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionMethod</name>
+        <qualifiedname>themis::compression::CompressionMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a302b8314168ece92512f77202a90a1fd" prot="public">
+          <name>RLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7aa789408ec4ddae81bd2f72ad5ec6bf3b" prot="public">
+          <name>DELTA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a941b306e67df7bda6303f69eef2899fe" prot="public">
+          <name>DICTIONARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a9fe93a076ef6e755a8bf4f8612cb7c3d" prot="public">
+          <name>SPARSE_CSR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a90cff4f81e21a20801df4abe9cbf0cbe" prot="public">
+          <name>ADAPTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7af2f367ed81c998ca88d5ce327267ab51" prot="public">
+          <name>GPU_ZSTD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a5a1b4d589cfa6896a6b480bc13a307a3" prot="public">
+          <name>GPU_SNAPPY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7adc254db7760e9181bcdce14cc056abf0" prot="public">
+          <name>GPU_LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression method types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="31" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="31" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DataType</name>
+        <qualifiedname>themis::compression::DataType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5ac942dc2a9f958acddc67e11472d3ca0b" prot="public">
+          <name>GENERIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5a544d6e059e0aea6ec4ee49b5df573e70" prot="public">
+          <name>VECTOR_DENSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5af7687094d870e887b54626d63c1279d6" prot="public">
+          <name>VECTOR_SPARSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5a4dba343cd073e2ed5cdf652af8a42069" prot="public">
+          <name>INTEGER_SEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5ae241b6ca066a95a0505c570cc2f23467" prot="public">
+          <name>CATEGORICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5a5eb907bdd20f7bdad174e0525e3c4097" prot="public">
+          <name>TIMESERIES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Data type hints for adaptive compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="51" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="51" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1compression_1a10dca65fe291bad140f8aaa65da29f61" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::compression::kTagPassthrough</definition>
+        <argsstring></argsstring>
+        <name>kTagPassthrough</name>
+        <qualifiedname>themis::compression::kTagPassthrough</qualifiedname>
+        <initializer>= 0x00</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>No compression applied; payload is stored verbatim. This is the safe fallback when no compression library is compiled in. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/codec_tags.h" line="24" column="19" bodyfile="include/storage/codec_tags.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1compression_1ac2a04c0b448a587a890d03b2eed52485" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::compression::kTagLZ4</definition>
+        <argsstring></argsstring>
+        <name>kTagLZ4</name>
+        <qualifiedname>themis::compression::kTagLZ4</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LZ4 (High Compression variant — LZ4HC). Requires <computeroutput>THEMIS_ENABLE_LZ4</computeroutput>; falls back to passthrough otherwise. Framing: 1 tag byte + 4-byte little-endian original size + LZ4 data. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/codec_tags.h" line="29" column="19" bodyfile="include/storage/codec_tags.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1compression_1acc79a5535f30dfd9feb87094329ec3fe" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::compression::kTagSnappy</definition>
+        <argsstring></argsstring>
+        <name>kTagSnappy</name>
+        <qualifiedname>themis::compression::kTagSnappy</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Google Snappy compression. Requires <computeroutput>THEMIS_ENABLE_SNAPPY</computeroutput>; falls back to passthrough otherwise. Framing: 1 tag byte + Snappy data (Snappy encodes its own length). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/codec_tags.h" line="34" column="19" bodyfile="include/storage/codec_tags.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1compression_1a913c1de2cda5e11a5338a190fdf84b45" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::compression::kTagZstd</definition>
+        <argsstring></argsstring>
+        <name>kTagZstd</name>
+        <qualifiedname>themis::compression::kTagZstd</qualifiedname>
+        <initializer>= 0x03</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Facebook Zstandard (Zstd) compression at level 3. Requires <computeroutput>THEMIS_ENABLE_ZSTD</computeroutput>; falls back to passthrough otherwise. Framing: 1 tag byte + 4-byte little-endian original size + Zstd frame. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/codec_tags.h" line="39" column="19" bodyfile="include/storage/codec_tags.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1compression_1aa19ee259eccaded28d11bf6fc1617ee0" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::compression::is_known_tag</definition>
+        <argsstring>(uint8_t tag) noexcept</argsstring>
+        <name>is_known_tag</name>
+        <qualifiedname>themis::compression::is_known_tag</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if <computeroutput>tag</computeroutput> is a recognised codec tag in this version of ThemisDB. Unknown tags should be treated as a framing error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/codec_tags.h" line="47" column="17" bodyfile="include/storage/codec_tags.h" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1compression_1a57de86b5160b380c0c42caa36a17e8d1" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::compression::method_to_tag</definition>
+        <argsstring>(CompressionMethod m) noexcept</argsstring>
+        <name>method_to_tag</name>
+        <qualifiedname>themis::compression::method_to_tag</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Map a <computeroutput><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></computeroutput> to its canonical wire-format tag byte. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GPU variants are mapped to the same tag as their CPU counterpart because the on-wire format is identical. Methods without a tag-byte representation (RLE, DELTA, DICTIONARY, SPARSE_CSR, ADAPTIVE) fall back to <computeroutput>kTagPassthrough</computeroutput> so that payloads are always decodable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Method to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One of the <computeroutput>kTag*</computeroutput> constants from <computeroutput><ref refid="codec__tags_8h" kindref="compound">storage/codec_tags.h</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="318" column="20" bodyfile="include/storage/compression_strategy.h" bodystart="318" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1compression_1a444de41a6c835cd6eb7fe2ad8b28667f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref> &gt;</type>
+        <definition>std::optional&lt; CompressionMethod &gt; themis::compression::tag_to_method</definition>
+        <argsstring>(uint8_t tag) noexcept</argsstring>
+        <name>tag_to_method</name>
+        <qualifiedname>themis::compression::tag_to_method</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Map a canonical wire-format tag byte back to a <computeroutput><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Leading tag byte from a framed payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The matching method, or <computeroutput>std::nullopt</computeroutput> for unknown tags. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="345" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="345" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/codec_tags.h" line="16" column="1"/>
+  </compounddef>
+</doxygen>

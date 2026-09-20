@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llama__resource__manager_8h" kind="file" language="C++">
+    <compoundname>llama_resource_manager.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">acceleration/compute_backend.h</includes>
+    <includes refid="gpu__memory__manager_8h" local="yes">llm/gpu_memory_manager.h</includes>
+    <includedby refid="bench__llm__infrastructure_8cpp" local="yes">benchmarks/llm/bench_llm_infrastructure.cpp</includedby>
+    <includedby refid="llama__resource__manager_8cpp" local="yes">src/llm/llama_resource_manager.cpp</includedby>
+    <includedby refid="test__llm__destructor__noexcept__b1_8cpp" local="yes">tests/llm/test_llm_destructor_noexcept_b1.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/llama_resource_manager.h</label>
+        <link refid="llama__resource__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/llm/bench_llm_infrastructure.cpp</label>
+        <link refid="bench__llm__infrastructure_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/llama_resource_manager.h</label>
+        <link refid="llama__resource__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/llama_resource_manager.cpp</label>
+        <link refid="llama__resource__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_backend_config" prot="public">themis::llm::GPUBackendConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_llama_model_handle" prot="public">themis::llm::LlamaModelHandle</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_llama_model_handle_1_1_model_deleter" prot="private">themis::llm::LlamaModelHandle::ModelDeleter</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_llama_context_handle" prot="public">themis::llm::LlamaContextHandle</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_llama_context_handle_1_1_context_deleter" prot="private">themis::llm::LlamaContextHandle::ContextDeleter</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle" prot="public">themis::llm::BackendAwareLlamaModelHandle</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_backend_aware_llama_model_handle_1_1_model_deleter" prot="private">themis::llm::BackendAwareLlamaModelHandle::ModelDeleter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/compute_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory__manager_8h" kindref="compound">llm/gpu_memory_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>keep<sp/>this<sp/>public<sp/>header<sp/>independent<sp/>from<sp/>llama.cpp<sp/>include<sp/>paths.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_model;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_context;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_model_params;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_context_params;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_g_p_u_backend_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab81b5a425e6316f6730bebccf5f64304" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab81b5a425e6316f6730bebccf5f64304" kindref="member">~GPUBackendConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>Selection<sp/>(Vulkan<sp/>prioritized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a047f943147dd40dc543bf265cfd43bda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>acceleration::BackendType<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a047f943147dd40dc543bf265cfd43bda" kindref="member">preferred_backend</ref><sp/>=<sp/>acceleration::BackendType::VULKAN;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1afe8df0d55bbf0dc517641c8b4b85c2d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;acceleration::BackendType&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1afe8df0d55bbf0dc517641c8b4b85c2d7" kindref="member">fallback_backends</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::VULKAN,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::CUDA,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::HIP,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::METAL,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::DIRECTX,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType::OPENCL</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Device<sp/>Selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ad8cd463f3862d1315bd42ae8d3394e85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ad8cd463f3862d1315bd42ae8d3394e85" kindref="member">primary_gpu_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae10d1f47908000d2ab7b8003301c8a04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae10d1f47908000d2ab7b8003301c8a04" kindref="member">secondary_gpus</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>Tensor<sp/>Parallelism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a80bca1ce84415034d8247a2a26e789d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a80bca1ce84415034d8247a2a26e789d3" kindref="member">use_gpu_memory_manager</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6a3d06b903c79cb3ff33a4058f8aa295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6a3d06b903c79cb3ff33a4058f8aa295" kindref="member">max_vram_per_gpu</ref><sp/>=<sp/>24ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4e0d0edee24dc5919a2c2d716ef27917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4e0d0edee24dc5919a2c2d716ef27917" kindref="member">reserved_vram</ref><sp/>=<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>GB<sp/>Reserve</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Layer<sp/>Offloading<sp/>Strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1af62b8cdc87f58ab5d62bc52aa7e4891f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1af62b8cdc87f58ab5d62bc52aa7e4891f" kindref="member">n_gpu_layers</ref><sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>-1<sp/>=<sp/>all<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a576f0eed92288f859694db7f2e6f333b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a576f0eed92288f859694db7f2e6f333b" kindref="member">auto_detect_optimal_layers</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Advanced<sp/>GPU<sp/>Features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a7ace3e1cd8978b619acc4db69af485ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a7ace3e1cd8978b619acc4db69af485ae" kindref="member">enable_flash_attention</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6f9e06b8e30436c4a72a58d58d90a46b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6f9e06b8e30436c4a72a58d58d90a46b" kindref="member">enable_tensor_cores</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a61de7a96e1f9f26aff36ad869d87ce5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a61de7a96e1f9f26aff36ad869d87ce5e" kindref="member">enable_peer_to_peer</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2bfb06f2322c64dd558e4c4991daf595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2bfb06f2322c64dd558e4c4991daf595" kindref="member">enable_unified_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU<sp/>Distribution<sp/>(Tensor<sp/>Parallelism)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" kindref="member">TensorParallelismMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>GPU,<sp/>no<sp/>parallelism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dafa8209e5d0927f905a0aa86fa12a3061" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dafa8209e5d0927f905a0aa86fa12a3061" kindref="member">PIPELINE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pipeline<sp/>parallelism<sp/>(layer-wise)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dace2f94540fa9914e8fe6f0de9817717b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dace2f94540fa9914e8fe6f0de9817717b" kindref="member">TENSOR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tensor<sp/>parallelism<sp/>(split<sp/>tensors)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002da3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002da3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hybrid<sp/>pipeline<sp/>+<sp/>tensor<sp/>parallelism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4f72380f23013a73f7cbd2bf5720969d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" kindref="member">TensorParallelismMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4f72380f23013a73f7cbd2bf5720969d" kindref="member">tensor_parallel_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dab50339a10e1de285ac99d4c3990b8693" kindref="member">TensorParallelismMode::NONE</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa92c39e19371972e503e1159a11a2030" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa92c39e19371972e503e1159a11a2030" kindref="member">tensor_split_ratio</ref><sp/>=<sp/>0.5f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Split<sp/>ratio<sp/>for<sp/>tensor<sp/>parallelism<sp/>(0.0-1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dynamic<sp/>Load<sp/>Balancing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a38c28303cefa4543a20000d495e2cba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a38c28303cefa4543a20000d495e2cba6" kindref="member">enable_dynamic_load_balancing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a73e6674bef2cfd5d8805c8b693aed131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a73e6674bef2cfd5d8805c8b693aed131" kindref="member">load_balance_threshold</ref><sp/>=<sp/>0.8f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>rebalancing<sp/>at<sp/>80%<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a637f92fa3a40c858363f02fd9a5faf3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a637f92fa3a40c858363f02fd9a5faf3d" kindref="member">load_balance_interval_ms</ref><sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>interval<sp/>for<sp/>load<sp/>balancing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JIT<sp/>Eviction<sp/>for<sp/>LoRA<sp/>Adapters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a948134f40a0401f6eac8e92f71a0ada8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a948134f40a0401f6eac8e92f71a0ada8" kindref="member">enable_jit_eviction</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6fb10948466f64722fe31054675a26d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6fb10948466f64722fe31054675a26d0" kindref="member">adapter_cache_size</ref><sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>adapters<sp/>in<sp/>memory<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a59c9fd11ca5c514d5381ad09b848650d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a59c9fd11ca5c514d5381ad09b848650d" kindref="member">eviction_threshold</ref><sp/>=<sp/>0.9f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Evict<sp/>when<sp/>VRAM<sp/>usage<sp/>&gt;<sp/>90%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Health<sp/>Monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a86166ce5d6e034995e3c85aee295e83a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a86166ce5d6e034995e3c85aee295e83a" kindref="member">enable_health_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab5a2dd174755fc76cfe5f1a8d65df65f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab5a2dd174755fc76cfe5f1a8d65df65f" kindref="member">health_check_interval_ms</ref><sp/>=<sp/>10000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>interval<sp/>for<sp/>GPU<sp/>health</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2713f2f47a4205fcbf4fd10bb1e1c5aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2713f2f47a4205fcbf4fd10bb1e1c5aa" kindref="member">max_gpu_temperature_celsius</ref><sp/>=<sp/>85.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>safe<sp/>temperature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae86674be44b4954f9b5054ee7ff7d718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae86674be44b4954f9b5054ee7ff7d718" kindref="member">max_gpu_utilization</ref><sp/>=<sp/>0.95f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>safe<sp/>utilization<sp/>(95%)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aff03bfd87d30aaac3a1b0a3c1f27104a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aff03bfd87d30aaac3a1b0a3c1f27104a" kindref="member">auto_failover_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Automatic<sp/>failover<sp/>to<sp/>healthy<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistent<sp/>Pinning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab2bdf7115ed8e90db31171bcb664350d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab2bdf7115ed8e90db31171bcb664350d" kindref="member">enable_persistent_pinning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a206d35026598c56599e73a61cee3d568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a206d35026598c56599e73a61cee3d568" kindref="member">pinned_model_ids</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>IDs<sp/>to<sp/>keep<sp/>pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab40da339d498f5bb3296755302185f09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab40da339d498f5bb3296755302185f09" kindref="member">pinned_adapter_ids</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>IDs<sp/>to<sp/>keep<sp/>pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ac9d8b7af6264b1b1e96352453b0595b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ac9d8b7af6264b1b1e96352453b0595b5" kindref="member">pinned_resource_priority</ref><sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>for<sp/>pinned<sp/>resources<sp/>(higher<sp/>=<sp/>more<sp/>important)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1llm_1_1_llama_model_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path,<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llama_model_params&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1a6769057f31d483ff1187debb462c5ae4" kindref="member">~LlamaModelHandle</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable<sp/>(Modern<sp/>C++<sp/>Best<sp/>Practice)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1llm_1_1_llama_model_handle_1aed82d71800861dda0da59be10f22c3f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1aed82d71800861dda0da59be10f22c3f9" kindref="member">LlamaModelHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1llm_1_1_llama_model_handle_1a0cab09cf9e69b590af1e83085727c02a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1a0cab09cf9e69b590af1e83085727c02a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>(<ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1a0cab09cf9e69b590af1e83085727c02a" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1llm_1_1_llama_model_handle_1aab2b26b781a204e1c03acd23c15f188d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>llama_model*<sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1aab2b26b781a204e1c03acd23c15f188d" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_.get();<sp/>}</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1_llama_model_handle_1a9f8105b62eafd86b5a59369d86dc20fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1a6aa2f4232a43e3ce1f830bf3cb93ac1f" kindref="member">n_vocab</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1af2429c9b10c96dd340fc30a74bac6b6e" kindref="member">n_embd</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1aef3953a69b30aebdcc6312ed4aa3e4e7" kindref="member">model_type</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ModelDeleter<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>operator()(llama_model*<sp/>model)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llama_model,<sp/>ModelDeleter&gt;<sp/>model_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1llm_1_1_llama_context_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>(llama_model*<sp/>model,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llama_context_params&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a809888da14b027d290dc0a3b220e6efb" kindref="member">~LlamaContextHandle</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1llm_1_1_llama_context_handle_1a227f9ba20eb31d670ef292997ef562f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a227f9ba20eb31d670ef292997ef562f0" kindref="member">LlamaContextHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1llm_1_1_llama_context_handle_1add9669a012cb396006f07961ef2814bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1add9669a012cb396006f07961ef2814bf" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>(<ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1add9669a012cb396006f07961ef2814bf" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a9ce6d52ae121ed13646d4ae77099c016" kindref="member">LlamaContextHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1llm_1_1_llama_context_handle_1a7289b11cfda4c323844d6dcc42d726ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>llama_context*<sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a7289b11cfda4c323844d6dcc42d726ff" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_.get();<sp/>}</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1llm_1_1_llama_context_handle_1a46746191508030d75f1335213b3385d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KV-Cache<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a0f575f6cca428adcfd8beb685a66399d" kindref="member">clear_kv_cache</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_llama_context_handle_1a004db425053e6604dad0216b9f320b2b" kindref="member">kv_cache_token_count</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ContextDeleter<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>operator()(llama_context*<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llama_context,<sp/>ContextDeleter&gt;<sp/>context_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>llama_model_params&amp;<sp/>params,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref>&amp;<sp/>gpu_config</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ae8d5cfb8718107db0f832d599ba874f7" kindref="member">~BackendAwareLlamaModelHandle</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aaae6be75fafd8888034ff39171953003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aaae6be75fafd8888034ff39171953003" kindref="member">BackendAwareLlamaModelHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ad2c23ffacef33d47a4df9bc831eefec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ad2c23ffacef33d47a4df9bc831eefec0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>(<ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ad2c23ffacef33d47a4df9bc831eefec0" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2e9a23352b336f5cbaa95a0109663eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>llama_model*<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2e9a23352b336f5cbaa95a0109663eca" kindref="member">get</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_.get();<sp/>}</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a6b1c1b53000ec514eb7c518df53bbf46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>Information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a60a4fd077a680389cc511ca583bded7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>acceleration::BackendType<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a60a4fd077a680389cc511ca583bded7d" kindref="member">active_backend</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>active_backend_;<sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aace83793b0142b336607972a2fd61e89" kindref="member">backend_name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Memory<sp/>Information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a8a4acb4779d3f23939581eb9257e6452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a8a4acb4779d3f23939581eb9257e6452" kindref="member">vram_usage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vram_allocated_;<sp/>}</highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a836cffaa6c879c9dd552678db6a4c939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a836cffaa6c879c9dd552678db6a4c939" kindref="member">gpu_devices</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gpu_devices_;<sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a7cbeb3ef88c46c004b850451870cab04" kindref="member">transferToGPU</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>target_gpu_id);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1abc900818d34baa4d364dfe93323d676e" kindref="member">prefetchToGPU</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ModelDeleter<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>operator()(llama_model*<sp/>model)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llama_model,<sp/>ModelDeleter&gt;<sp/>model_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>acceleration::BackendType<sp/>active_backend_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>acceleration::IComputeBackend*<sp/>backend_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Memory<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GPUMemoryManager&gt;<sp/>gpu_memory_manager_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>gpu_devices_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_allocated_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>acceleration::BackendType<sp/>selectBestBackend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUBackendConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>determineOptimalGPULayers(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUBackendConfig&amp;<sp/>config,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>model_size);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>allocateGPUMemory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUBackendConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>configureBackendSpecificFeatures();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/llama_resource_manager.h"/>
+  </compounddef>
+</doxygen>

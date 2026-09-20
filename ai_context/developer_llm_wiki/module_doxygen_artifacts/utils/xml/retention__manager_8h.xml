@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="retention__manager_8h" kind="file" language="C++">
+    <compoundname>retention_manager.h</compoundname>
+    <includes refid="expected_8h" local="yes">expected.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="retention__manager_8cpp" local="yes">src/utils/retention_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/retention_manager.h</label>
+        <link refid="retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="22">
+        <label>condition_variable</label>
+      </node>
+      <node id="15">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="19">
+        <label>memory</label>
+      </node>
+      <node id="23">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="14">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>system_error</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>type_traits</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/retention_manager.h</label>
+        <link refid="retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/retention_manager.cpp</label>
+        <link refid="retention__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classvcc_1_1_retention_manager" prot="public">vcc::RetentionManager</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_policy" prot="public">vcc::RetentionManager::RetentionPolicy</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_action" prot="public">vcc::RetentionManager::RetentionAction</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_retention_stats" prot="public">vcc::RetentionManager::RetentionStats</innerclass>
+    <innerclass refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" prot="public">vcc::RetentionManager::ComplianceMetrics</innerclass>
+    <innernamespace refid="namespacevcc">vcc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="expected_8h" kindref="compound">expected.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacevcc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacevcc" kindref="compound">vcc</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classvcc_1_1_retention_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classvcc_1_1_retention_manager_1a08a24f7867ae61531b6731d1e763a534" kindref="member">RetentionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="structvcc_1_1_retention_manager_1_1_retention_policy" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a2babe833cd62ebe484cbb0997c0fcf06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a2babe833cd62ebe484cbb0997c0fcf06" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>identifier<sp/>(e.g.,<sp/>&quot;gdpr_personal_data&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a015e790b8a998a9a210dfd9b9b51181a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a015e790b8a998a9a210dfd9b9b51181a" kindref="member">retention_period</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>How<sp/>long<sp/>to<sp/>keep<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a69629873d6a4156f913024f8867e0265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a69629873d6a4156f913024f8867e0265" kindref="member">archive_after</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>to<sp/>move<sp/>to<sp/>archive<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a0701c06ddb8788b86cc9e30f8cbe8979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a0701c06ddb8788b86cc9e30f8cbe8979" kindref="member">auto_purge_enabled</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Automatically<sp/>delete<sp/>after<sp/>retention_period</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a2a59b37d9b3fc758b159b2cbbfd90f0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a2a59b37d9b3fc758b159b2cbbfd90f0e" kindref="member">require_audit_trail</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>all<sp/>retention<sp/>actions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a11703ecbd8cde015b270f5d1ca80fe85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a11703ecbd8cde015b270f5d1ca80fe85" kindref="member">classification_level</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Classification:<sp/>&quot;geheim&quot;,<sp/>&quot;vs-nfd&quot;,<sp/>&quot;offen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a290920d456ff45a86d6db03cf718cd6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy_1a290920d456ff45a86d6db03cf718cd6e" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>policy-specific<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structvcc_1_1_retention_manager_1_1_retention_action" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structvcc_1_1_retention_manager_1_1_retention_action_1a760a3030cb620e1c08975e99a2a22a73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1a760a3030cb620e1c08975e99a2a22a73" kindref="member">entity_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Affected<sp/>entity/document<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structvcc_1_1_retention_manager_1_1_retention_action_1addda1b33cfdf2efce656cc94f5e328cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1addda1b33cfdf2efce656cc94f5e328cf" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;archived&quot;<sp/>|<sp/>&quot;purged&quot;<sp/>|<sp/>&quot;retained&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structvcc_1_1_retention_manager_1_1_retention_action_1a7b9f12e37762affac70394520e34b3e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1a7b9f12e37762affac70394520e34b3e5" kindref="member">policy_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Applied<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structvcc_1_1_retention_manager_1_1_retention_action_1a3b1d818e9226dd3fa7682956ab2a9546" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1a3b1d818e9226dd3fa7682956ab2a9546" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structvcc_1_1_retention_manager_1_1_retention_action_1aeb85026baa05a40c1cd8226c96792508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1aeb85026baa05a40c1cd8226c96792508" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Action<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structvcc_1_1_retention_manager_1_1_retention_action_1ad3025949ca177914406950aefdbedcf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action_1ad3025949ca177914406950aefdbedcf5" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>!success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structvcc_1_1_retention_manager_1_1_retention_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a62fddd8c53319b4be43ca429746d1b8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a62fddd8c53319b4be43ca429746d1b8b" kindref="member">total_entities_scanned</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a5e288aedb22ff2ccd701e7c505dfc7f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a5e288aedb22ff2ccd701e7c505dfc7f4" kindref="member">archived_count</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a8fbb06f0cc47792de11e66ff975afbe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a8fbb06f0cc47792de11e66ff975afbe5" kindref="member">purged_count</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a08f3438bbfba7400a0fc4d0d19d3cbdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a08f3438bbfba7400a0fc4d0d19d3cbdb" kindref="member">retained_count</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1acb91f9cb80a1ad3b4da9b8ab0ad70927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1acb91f9cb80a1ad3b4da9b8ab0ad70927" kindref="member">error_count</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structvcc_1_1_retention_manager_1_1_retention_stats_1af8058bb35f65df75fee1b1ab7e4e78bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats_1af8058bb35f65df75fee1b1ab7e4e78bf" kindref="member">duration</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a08a24f7867ae61531b6731d1e763a534" kindref="member">RetentionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a157faf3687f01ee060f56dc9106c95e9" kindref="member">registerPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1af7150884da79916c4b73a265dc182154" kindref="member">removePolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetentionPolicy&gt;<sp/><ref refid="classvcc_1_1_retention_manager_1ac6693d968f3d4f449c1da8dae20228d9" kindref="member">getPolicies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">themis::Result&lt;const RetentionPolicy*&gt;</ref><sp/><ref refid="classvcc_1_1_retention_manager_1ad495d99e86d12633f65cd302940b1b1e" kindref="member">getPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1aa5d3d073f0243a62f9b167e7ff790779" kindref="member">shouldArchive</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>created_at,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a69ce56e475f3e72fe1dd4517ab7fd894" kindref="member">shouldPurge</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>created_at,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref><sp/><ref refid="classvcc_1_1_retention_manager_1a043f2a7543489ed0a18e18d6e8bf84e1" kindref="member">archiveEntity</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>archive_handler);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref><sp/><ref refid="classvcc_1_1_retention_manager_1a468f742336430ecc5c3c9dd8035a4c16" kindref="member">purgeEntity</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entity_id,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>purge_handler);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/><ref refid="classvcc_1_1_retention_manager_1acfc070654e343387d5f225c1f55ded5b" kindref="member">runRetentionCheck</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;std::pair&lt;std::string,<sp/>std::chrono::system_clock::time_point&gt;&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>entity_provider,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>archive_handler,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>purge_handler);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetentionAction&gt;<sp/><ref refid="classvcc_1_1_retention_manager_1a1e5878d89c6be3ff27b0100253ce59c3" kindref="member">getHistory</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/><ref refid="classvcc_1_1_retention_manager_1a42e70c3caff91657852dd9aa20231503" kindref="member">getPolicyStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a14c59b7891cf557a6ca9afd49ae3c3fd" kindref="member">loadPolicies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classvcc_1_1_retention_manager_1abe3f5eeb786f85ad79dbc5794efcaeae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classvcc_1_1_retention_manager_1abe3f5eeb786f85ad79dbc5794efcaeae" kindref="member">getLastError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_error_;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>4:<sp/>Async<sp/>Background<sp/>Job</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" kindref="compound">ComplianceMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ab35ec7b964e4b51c86707f274a39c840" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ab35ec7b964e4b51c86707f274a39c840" kindref="member">total_entities_in_violation</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="198" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a8ccc18704be91e122ee7837e2ae87045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a8ccc18704be91e122ee7837e2ae87045" kindref="member">entities_archived</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="199" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ae63ffd4757e87aea66d0c631c44ee7bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ae63ffd4757e87aea66d0c631c44ee7bb" kindref="member">entities_purged</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="200" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a3eb210330b4da55067e6871159fe16e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a3eb210330b4da55067e6871159fe16e8" kindref="member">policies_active</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a2beb64c084979f6fc614d03c8e3729c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a2beb64c084979f6fc614d03c8e3729c8" kindref="member">last_run</ref>;</highlight></codeline>
+<codeline lineno="202" refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a94a7e49648713093089522ca156ba50a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a94a7e49648713093089522ca156ba50a" kindref="member">last_run_success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a0b18e5f06150388b5a812a15277c4e22" kindref="member">startBackgroundJob</ref>(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>interval,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;std::pair&lt;std::string,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point&gt;&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>entity_provider,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>archive_handler,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>purge_handler);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1ab0adb737648a9aa5dfd5e7151b19874d" kindref="member">stopBackgroundJob</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classvcc_1_1_retention_manager_1a9e639ff292fc6c886f85e87fbace5905" kindref="member">isBackgroundJobRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structvcc_1_1_retention_manager_1_1_compliance_metrics" kindref="compound">ComplianceMetrics</ref><sp/><ref refid="classvcc_1_1_retention_manager_1abea5debc6eee6b9fa762bb4fd92d2dc4" kindref="member">getComplianceMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RetentionPolicy&gt;<sp/>policies_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetentionAction&gt;<sp/>action_history_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RetentionStats&gt;<sp/>policy_stats_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_error_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>audit_enabled_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logAction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structvcc_1_1_retention_manager_1_1_retention_action" kindref="compound">RetentionAction</ref>&amp;<sp/>action);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>job<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/>bg_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bg_thread_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bg_mutex_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>bg_cv_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bg_stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>ComplianceMetrics<sp/><sp/><sp/><sp/>compliance_metrics_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>vcc</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/retention_manager.h"/>
+  </compounddef>
+</doxygen>

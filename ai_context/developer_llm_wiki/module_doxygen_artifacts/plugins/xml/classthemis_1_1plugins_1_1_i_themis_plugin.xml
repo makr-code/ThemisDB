@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_themis_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::IThemisPlugin</compoundname>
+    <derivedcompoundref refid="class_failing_test_plugin" prot="public" virt="non-virtual">FailingTestPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_integration_test_plugin" prot="public" virt="non-virtual">IntegrationTestPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_capability_plugin" prot="public" virt="non-virtual">MockCapabilityPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_plugin" prot="public" virt="non-virtual">MockPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_simple_test_plugin" prot="public" virt="non-virtual">SimpleTestPlugin</derivedcompoundref>
+    <derivedcompoundref refid="class_stateful_test_plugin" prot="public" virt="non-virtual">StatefulTestPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin" prot="public" virt="non-virtual">themis::plugins::IEditionPolicyPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" prot="public" virt="non-virtual">themis::plugins::rpc::IRPCPlugin</derivedcompoundref>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::IThemisPlugin::~IThemisPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IThemisPlugin</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::~IThemisPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="257" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::plugins::IThemisPlugin::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::getName</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1a797ac0042ba497be1d8e4ffe2a9b488d">getName</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a631d397e0bc06cbbb521893892d9b9c6">getName</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1aeda9f003400fbf170ff6752f50e3a9cf">getName</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a6c8c0bbb616a9f1d149fd300ce7aa8ed">getName</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1a4a4799af7336666e1580ef8998b151f0">getName</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1acd4d90f9b2b37e3fbb8cadebfced545f">getName</reimplementedby>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="262" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::plugins::IThemisPlugin::getVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::getVersion</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1aa3cc6bb74747d0b2dc9558ccc3f34e48">getVersion</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a0c9b30dcdea9d34e83956251e5eb1adb">getVersion</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1a44483c142b70f9ab6dd31e629c1bc33d">getVersion</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a93336572c645a3df78d5f1a7de819204">getVersion</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1ae48b2c6287fab624139e632e77409964">getVersion</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1a0ac34ccdfd4b95c812ecf8930aa3bb35">getVersion</reimplementedby>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="267" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>virtual PluginType themis::plugins::IThemisPlugin::getType</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::getType</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1a1f5ce5f48ed80907011c8466da15cb60">getType</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a747ee7ca888a7ea0fd6a1b1d8aa31b88">getType</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1abf3cfa5f50ed27064754ef2eed498cb6">getType</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1ae06f5566502ff34e23f144d288f7f776">getType</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1a5eb09158295f84c6dcc3135ada024890">getType</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1aa7c645cb6f911c3e320cd37839207074">getType</reimplementedby>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="272" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>virtual PluginCapabilities themis::plugins::IThemisPlugin::getCapabilities</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::getCapabilities</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1aa7c22075357d87b568b95dbd7d9353d0">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a348e1d658e05a02a1fa4d613c47b0608">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1ace51c7976b6f61c2a64eb2b55738a9c7">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a90cc4761760dc0f6910a1f7e2c5ac1b5">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1ae8f338db1e2cdfe5197d7995f4bbcd6a">getCapabilities</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1a31f9ea51ad79204a84e032314966abcc">getCapabilities</reimplementedby>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="277" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::IThemisPlugin::initialize</definition>
+        <argsstring>(const char *config_json)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::initialize</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1a00f39feddce9d23c196ae62401a8d22f">initialize</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a84c89c43bbb23582f1a315dde25e5efb">initialize</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1ae18f69ad390ada81d189ab89b8ad3b83">initialize</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a12534497f346c9d1cb61901c948ba736">initialize</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1ac811a5e0c7061d4af07f465f916ab99e">initialize</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1a0dbf942f5e5055fcae997b0b8208dbc3">initialize</reimplementedby>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="284" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::IThemisPlugin::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::shutdown</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1a61413cf95dcd5994cbd0254b95ad9728">shutdown</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a7b540537571610811d2688c45346bd9c">shutdown</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1adeee1f100e1c3279f540b9542b56c463">shutdown</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a4a853ae85f79d6081f28acfaf7015d9b">shutdown</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1a9a24515ec0ee501af6d2ea7821ba8f94">shutdown</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1ad205818d165d2fbff582c795c8d3ec67">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="289" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void *</type>
+        <definition>virtual void * themis::plugins::IThemisPlugin::getInstance</definition>
+        <argsstring>()=0</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::plugins::IThemisPlugin::getInstance</qualifiedname>
+        <reimplementedby refid="class_failing_test_plugin_1a54e08c18dfa56e7924ca5894d1a021f4">getInstance</reimplementedby>
+        <reimplementedby refid="class_integration_test_plugin_1a8ab48358184ce4730d9d998180dc0a00">getInstance</reimplementedby>
+        <reimplementedby refid="class_mock_capability_plugin_1ad44b029285e06faea12d76624651a95c">getInstance</reimplementedby>
+        <reimplementedby refid="class_mock_plugin_1a404b56e2f1487551170d087748e5e255">getInstance</reimplementedby>
+        <reimplementedby refid="class_simple_test_plugin_1a83fe759f10c620d7078fbd8401e300db">getInstance</reimplementedby>
+        <reimplementedby refid="class_stateful_test_plugin_1a74d8459ca360cd84d6fbc463d7ef6b7a">getInstance</reimplementedby>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="299" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All plugins must implement this interface. Type-specific plugins should also implement their domain interface (e.g., IBlobStorageBackend, IImporter, etc.) </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FailingTestPlugin</label>
+        <link refid="class_failing_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>IntegrationTestPlugin</label>
+        <link refid="class_integration_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>MockCapabilityPlugin</label>
+        <link refid="class_mock_capability_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>MockPlugin</label>
+        <link refid="class_mock_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>SimpleTestPlugin</label>
+        <link refid="class_simple_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>StatefulTestPlugin</label>
+        <link refid="class_stateful_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::plugins::IEditionPolicyPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+      <node id="9">
+        <label>themis::plugins::rpc::IRPCPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/plugins/plugin_interface.h" line="255" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="255" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691" prot="public" virt="pure-virtual"><scope>themis::plugins::IThemisPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>themis::plugins::IThemisPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

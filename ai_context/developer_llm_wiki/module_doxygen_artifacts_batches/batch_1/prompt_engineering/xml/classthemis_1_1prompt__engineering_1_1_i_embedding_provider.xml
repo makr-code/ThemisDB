@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_embedding_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IEmbeddingProvider</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1a6d52e08f49a3a841ba20caca641d0b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IEmbeddingProvider::~IEmbeddingProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEmbeddingProvider</name>
+        <qualifiedname>themis::prompt_engineering::IEmbeddingProvider::~IEmbeddingProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="33" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1ac4a96e50daec1bc2eab50e9980b7bfaf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>virtual std::vector&lt; double &gt; themis::prompt_engineering::IEmbeddingProvider::embed</definition>
+        <argsstring>(const std::string &amp;text) const =0</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::prompt_engineering::IEmbeddingProvider::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute an embedding vector for the given text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to embed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense embedding vector (any dimension); empty vector on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="41" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1a2649dabb8fb79d588b1da478cbfe0352" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IEmbeddingProvider::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::IEmbeddingProvider::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of this provider (for logging / metrics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="46" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for pluggable embedding providers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to integrate any embedding model (OpenAI text-embedding-3, Sentence Transformers, local models, etc.) into <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref> for semantically accurate similarity scoring. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_evaluator.h" line="31" column="1" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="31" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1ac4a96e50daec1bc2eab50e9980b7bfaf" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IEmbeddingProvider</scope><name>embed</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1a2649dabb8fb79d588b1da478cbfe0352" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IEmbeddingProvider</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_embedding_provider_1a6d52e08f49a3a841ba20caca641d0b66" prot="public" virt="virtual"><scope>themis::prompt_engineering::IEmbeddingProvider</scope><name>~IEmbeddingProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::plugins::llm_wiki::test</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk" prot="public">themis::plugins::llm_wiki::test::WikiChunk</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options" prot="public">themis::plugins::llm_wiki::test::WikiIngestOptions</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options" prot="public">themis::plugins::llm_wiki::test::WikiQueryOptions</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_result" prot="public">themis::plugins::llm_wiki::test::WikiIngestResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_result" prot="public">themis::plugins::llm_wiki::test::WikiQueryResult</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" prot="public">themis::plugins::llm_wiki::test::Status</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin" prot="public">themis::plugins::llm_wiki::test::InMemoryWikiPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" prot="public">themis::plugins::llm_wiki::test::LLMWikiPhaseBIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_community_test" prot="public">themis::plugins::llm_wiki::test::LLMWikiPhaseBCommunityTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1ae37d1302505ffb8ba0917379a98f2ea9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::llm_wiki::test::kPhaseBIntegrationSeed</definition>
+        <argsstring></argsstring>
+        <name>kPhaseBIntegrationSeed</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::kPhaseBIntegrationSeed</qualifiedname>
+        <initializer>= 42u</initializer>
+        <briefdescription>
+<para>Seed for deterministic test behaviour (Wave B convention). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="45" column="20" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1aebb45ac7acd0cefd8e9b2e78a5689d47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt01a_InitializeSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt01a_InitializeSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000182"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-01a: initialize() returns Ok on first call. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="251" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="251" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a9822b01e7484919b54c45136f9b84666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt01b_DoubleInitializeReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt01b_DoubleInitializeReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000183"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-01b: Double-initialize returns Error (guarded lifecycle). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="260" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="260" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a8c5f0bce208dded5ef7924dc7f258d55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt01c_IngestBeforeInitReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt01c_IngestBeforeInitReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000184"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-01c: ingest before initialize returns empty result. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="270" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="270" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1ac797e58084d3c933d104ffeb47d01325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt01d_FullLifecycleSmoke)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt01d_FullLifecycleSmoke</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000185"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-01d: Full lifecycle — init → ingest → query → non-empty result. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="280" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="280" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a813764cee85e06e91384a4dd94bba9d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt02a_IngestThenQueryReachesChunks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt02a_IngestThenQueryReachesChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000186"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-02a: Ingest produces indexed chunks reachable via query. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="302" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="302" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a422dc90b1683539a6bdbc62bd2170220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt02b_ResultsOrderedByScore)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt02b_ResultsOrderedByScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000187"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-02b: Query results are ordered descending by score. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="319" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="319" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a9a9a4c762cd4a85aa796a4b772cd60d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt02c_MinScoreFiltersResults)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt02c_MinScoreFiltersResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000188"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-02c: min_score filter excludes low-scoring chunks. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="337" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="337" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a6f5d03fd831bd2f315f8f5cd5d44b7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt02d_SkipExistingAvoidsDuplicates)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt02d_SkipExistingAvoidsDuplicates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000189"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-02d: skip_existing=true avoids re-indexing already-present chunks. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="362" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="362" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1abfa296bee1e87e0a8c6172b64d52dae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt03a_ConcurrentQuerySafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt03a_ConcurrentQuerySafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000190"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-03a: 8 concurrent threads querying shared index produce consistent results. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="384" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="384" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a6201dbeee687a588251d0d8a8b7b1da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt03b_ConcurrentIngestAndQuerySafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt03b_ConcurrentIngestAndQuerySafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000191"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-03b: Concurrent ingest + query do not corrupt the index. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="419" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="419" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1aa82a739a79ff557e08fa3903b65e65cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBCommunityTest, LwpInt04a_CommunityBuildBlocksWikipediaDump)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_community_test" kindref="compound">LLMWikiPhaseBCommunityTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt04a_CommunityBuildBlocksWikipediaDump</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000192"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-04a: Community (non-enterprise) build returns PermissionDenied for wiki dump. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="459" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="459" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a2f14202e7026d477ef08f7fb3a9c63fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt04b_EnterpriseBuildAllowsWikipediaDump)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt04b_EnterpriseBuildAllowsWikipediaDump</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000193"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-04b: Enterprise build allows Wikipedia dump ingestion. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="471" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="471" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1afe79c93b5ee294363068e8a8e2ddbe0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt04c_WikipediaDumpBeforeInitFails)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt04c_WikipediaDumpBeforeInitFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000194"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-04c: Wikipedia dump ingestion before initialize returns NotInitialized. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="481" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="481" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1afaae78c4e5acedeb6785913a6567ceaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt05a_ShellInjectionQueryFlagged)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt05a_ShellInjectionQueryFlagged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000195"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-05a: Query containing shell injection pattern is flagged. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="496" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="496" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a1c7b1890190c7c665900d8cff655a6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt05b_SQLInjectionQueryFlagged)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt05b_SQLInjectionQueryFlagged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000196"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-05b: SQL injection pattern is flagged. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="509" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="509" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1ab994b9c5bba50fdb844fa7af2b1194bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::TEST_F</definition>
+        <argsstring>(LLMWikiPhaseBIntegrationTest, LwpInt05c_BenignQueryNotFlagged)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LwpInt05c_BenignQueryNotFlagged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000197"><xreftitle>Test</xreftitle><xrefdescription><para>LWP-INT-05c: Benign query is not flagged. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="520" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="520" bodyend="526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

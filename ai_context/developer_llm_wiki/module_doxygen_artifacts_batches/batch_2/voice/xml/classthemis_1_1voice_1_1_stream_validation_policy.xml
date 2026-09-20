@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_stream_validation_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::StreamValidationPolicy</compoundname>
+    <includes refid="voice__stream__validator_8h" local="no">voice_stream_validator.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1a4d2dd22c902f186b15540ae41c736619" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StreamValidationPolicy::MAX_CHUNK_SIZE_BYTES</definition>
+        <argsstring></argsstring>
+        <name>MAX_CHUNK_SIZE_BYTES</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::MAX_CHUNK_SIZE_BYTES</qualifiedname>
+        <initializer>= 16 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum chunk size in bytes (16 MB safety limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="74" column="29" bodyfile="include/voice/voice_stream_validator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1abe701d55d408b2c1af14bd9088dd05a6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StreamValidationPolicy::MIN_CHUNK_SIZE_BYTES</definition>
+        <argsstring></argsstring>
+        <name>MIN_CHUNK_SIZE_BYTES</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::MIN_CHUNK_SIZE_BYTES</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum chunk size in bytes (must have at least 1 byte). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="77" column="29" bodyfile="include/voice/voice_stream_validator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1af31273c354261a83697c94509fcff2c0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::StreamValidationPolicy::MAX_SAMPLES_PER_CHUNK</definition>
+        <argsstring></argsstring>
+        <name>MAX_SAMPLES_PER_CHUNK</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::MAX_SAMPLES_PER_CHUNK</qualifiedname>
+        <initializer>= 48000 * 10</initializer>
+        <briefdescription>
+<para>Maximum number of samples in a chunk (48 kHz * 10 seconds max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="80" column="31" bodyfile="include/voice/voice_stream_validator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1adcfb3b511755627c171acaf4c0780c33" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::StreamValidationPolicy::VALID_SAMPLE_RATES[]</definition>
+        <argsstring>[]</argsstring>
+        <name>VALID_SAMPLE_RATES</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::VALID_SAMPLE_RATES</qualifiedname>
+        <initializer>= {8000, 16000, 22050, 44100, 48000}</initializer>
+        <briefdescription>
+<para>Valid audio sample rates (Hz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="83" column="31" bodyfile="include/voice/voice_stream_validator.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1a0c22d5324ab8bbaed7075524078322d5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::StreamValidationPolicy::VALID_BIT_DEPTHS[]</definition>
+        <argsstring>[]</argsstring>
+        <name>VALID_BIT_DEPTHS</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::VALID_BIT_DEPTHS</qualifiedname>
+        <initializer>= {8, 16, 24, 32}</initializer>
+        <briefdescription>
+<para>Valid audio bit depths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="86" column="30" bodyfile="include/voice/voice_stream_validator.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_policy_1a21f096b9161d3f1c42acba49902de5a7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::StreamValidationPolicy::MAX_STREAM_DURATION_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>MAX_STREAM_DURATION_SECONDS</name>
+        <qualifiedname>themis::voice::StreamValidationPolicy::MAX_STREAM_DURATION_SECONDS</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+<para>Maximum stream duration in seconds (1 hour). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="89" column="31" bodyfile="include/voice/voice_stream_validator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audio stream chunk validation policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces bounds on chunk size, format, and other properties. All validation failures are fail-closed. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_stream_validator.h" line="71" column="1" bodyfile="include/voice/voice_stream_validator.h" bodystart="71" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1a4d2dd22c902f186b15540ae41c736619" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>MAX_CHUNK_SIZE_BYTES</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1af31273c354261a83697c94509fcff2c0" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>MAX_SAMPLES_PER_CHUNK</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1a21f096b9161d3f1c42acba49902de5a7" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>MAX_STREAM_DURATION_SECONDS</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1abe701d55d408b2c1af14bd9088dd05a6" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>MIN_CHUNK_SIZE_BYTES</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1a0c22d5324ab8bbaed7075524078322d5" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>VALID_BIT_DEPTHS</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_policy_1adcfb3b511755627c171acaf4c0780c33" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationPolicy</scope><name>VALID_SAMPLE_RATES</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

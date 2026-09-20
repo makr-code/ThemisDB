@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ContinuousLearningConfig</compoundname>
+    <includes refid="continuous__learning__orchestrator_8h" local="no">continuous_learning_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1aedf244d5c34eb5469037bc24a169279b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ContinuousLearningConfig::min_feedback_samples</definition>
+        <argsstring></argsstring>
+        <name>min_feedback_samples</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::min_feedback_samples</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="38" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a17b1fdbcd8236517301b54372d8ac2f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::min_accuracy_drop</definition>
+        <argsstring></argsstring>
+        <name>min_accuracy_drop</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::min_accuracy_drop</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>5% drop triggers retraining </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="39" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ae36506915b9927211e4cf1d716b03c5a" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::rag::learning::ContinuousLearningConfig::retraining_interval</definition>
+        <argsstring></argsstring>
+        <name>retraining_interval</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::retraining_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="40" column="24" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1adc2fd9996c756254dd6eeed02c411baf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::prompt_learning_rate</definition>
+        <argsstring></argsstring>
+        <name>prompt_learning_rate</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::prompt_learning_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="43" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ada1c79449755d855ba2ffbbcc7063d5f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::retrieval_learning_rate</definition>
+        <argsstring></argsstring>
+        <name>retrieval_learning_rate</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::retrieval_learning_rate</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="44" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a609924303e4a5d1089a58b09d66884d5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::lora_learning_rate</definition>
+        <argsstring></argsstring>
+        <name>lora_learning_rate</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::lora_learning_rate</qualifiedname>
+        <initializer>= 3e-4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="45" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a413b7763e7ced21cd4387af1d46560df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningConfig::enable_ab_testing</definition>
+        <argsstring></argsstring>
+        <name>enable_ab_testing</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::enable_ab_testing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="48" column="10" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1af997a16dae205df33cc1122edff4f12d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::ab_test_traffic_split</definition>
+        <argsstring></argsstring>
+        <name>ab_test_traffic_split</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::ab_test_traffic_split</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>10% traffic for new models </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="49" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a6260d99313c608adf3cacfc6e545ea3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ContinuousLearningConfig::min_ab_samples</definition>
+        <argsstring></argsstring>
+        <name>min_ab_samples</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::min_ab_samples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="50" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1acd616f13128454ab686ebb72701a0277" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningConfig::min_improvement_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_improvement_threshold</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::min_improvement_threshold</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+<para>2% minimum improvement </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="53" column="12" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1abaaa9a9f210d58ab21dd25de55b641fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningConfig::enable_auto_rollback</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_rollback</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::enable_auto_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="54" column="10" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ad378bfb221fb5be974167ba734e333c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningConfig::metrics_db_path</definition>
+        <argsstring></argsstring>
+        <name>metrics_db_path</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::metrics_db_path</qualifiedname>
+        <initializer>= &quot;data/learning_metrics.db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="57" column="17" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ac7fd3af8cb0ea9151b3fcb773e6e1aef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningConfig::model_registry_path</definition>
+        <argsstring></argsstring>
+        <name>model_registry_path</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::model_registry_path</qualifiedname>
+        <initializer>= &quot;data/model_registry/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="58" column="17" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a98caa41c4a8d974b80e40576c62ab622" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::rag::learning::ContinuousLearningConfig::learning_loop_interval</definition>
+        <argsstring></argsstring>
+        <name>learning_loop_interval</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::learning_loop_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+<para>Check every hour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="61" column="26" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a021227fbdb9d2048bf3f6a637658c054" prot="public" static="no" mutable="no">
+        <type>themis::training::LoRADataSelectionConfig</type>
+        <definition>themis::training::LoRADataSelectionConfig themis::rag::learning::ContinuousLearningConfig::data_selection_config</definition>
+        <argsstring></argsstring>
+        <name>data_selection_config</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::data_selection_config</qualifiedname>
+        <briefdescription>
+<para>Configuration for the data selection pipeline executed before retraining. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="65" column="47" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1acc89db754ab209dc76f4fc9752cb8ffa" prot="public" static="no" mutable="no">
+        <type>themis::training::SelfImprovementConfig</type>
+        <definition>themis::training::SelfImprovementConfig themis::rag::learning::ContinuousLearningConfig::self_improvement_config</definition>
+        <argsstring></argsstring>
+        <name>self_improvement_config</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::self_improvement_config</qualifiedname>
+        <briefdescription>
+<para>Adaptive self-improvement rules applied after each selection run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="68" column="47" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a6e04f0d7ec6f2f335a147f0b31a0ee71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningConfig::lora_trainer_config_path</definition>
+        <argsstring></argsstring>
+        <name>lora_trainer_config_path</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::lora_trainer_config_path</qualifiedname>
+        <briefdescription>
+<para>Path to LoRATrainerConfig.yaml for live-reload (empty = use defaults). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="71" column="17" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1afaa8fd8a5a21860c11ce5d41aab01645" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningConfig::self_improvement_config_path</definition>
+        <argsstring></argsstring>
+        <name>self_improvement_config_path</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningConfig::self_improvement_config_path</qualifiedname>
+        <briefdescription>
+<para>Path to SelfImprovementModule.yaml for live-reload (empty = use defaults). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="74" column="17" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for continuous learning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_orchestrator.h" line="36" column="1" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="36" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1af997a16dae205df33cc1122edff4f12d" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>ab_test_traffic_split</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a021227fbdb9d2048bf3f6a637658c054" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>data_selection_config</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a413b7763e7ced21cd4387af1d46560df" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>enable_ab_testing</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1abaaa9a9f210d58ab21dd25de55b641fc" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>enable_auto_rollback</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a98caa41c4a8d974b80e40576c62ab622" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>learning_loop_interval</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a609924303e4a5d1089a58b09d66884d5" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>lora_learning_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a6e04f0d7ec6f2f335a147f0b31a0ee71" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>lora_trainer_config_path</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ad378bfb221fb5be974167ba734e333c8" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>metrics_db_path</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a6260d99313c608adf3cacfc6e545ea3a" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>min_ab_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1a17b1fdbcd8236517301b54372d8ac2f7" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>min_accuracy_drop</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1aedf244d5c34eb5469037bc24a169279b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>min_feedback_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1acd616f13128454ab686ebb72701a0277" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>min_improvement_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ac7fd3af8cb0ea9151b3fcb773e6e1aef" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>model_registry_path</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1adc2fd9996c756254dd6eeed02c411baf" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>prompt_learning_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ae36506915b9927211e4cf1d716b03c5a" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>retraining_interval</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1ada1c79449755d855ba2ffbbcc7063d5f" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>retrieval_learning_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1acc89db754ab209dc76f4fc9752cb8ffa" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>self_improvement_config</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_config_1afaa8fd8a5a21860c11ce5d41aab01645" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningConfig</scope><name>self_improvement_config_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

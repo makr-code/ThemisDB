@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_regression_fixture" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RegressionFixture</compoundname>
+    <includes refid="prompt__regression__runner_8h" local="no">prompt_regression_runner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a28c8ab8ccc907e35f5c863d24bf823d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RegressionFixture::template_id</definition>
+        <argsstring></argsstring>
+        <name>template_id</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::template_id</qualifiedname>
+        <briefdescription>
+<para>Template the fixture belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="41" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a9cbc1a621b9d2317b881b13b9ef16272" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RegressionFixture::prompt_text</definition>
+        <argsstring></argsstring>
+        <name>prompt_text</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::prompt_text</qualifiedname>
+        <briefdescription>
+<para>Input prompt / query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="42" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a04b39f3944138b77c6d912d5042ff127" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RegressionFixture::expected_output</definition>
+        <argsstring></argsstring>
+        <name>expected_output</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::expected_output</qualifiedname>
+        <briefdescription>
+<para>Ground-truth expected output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="43" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a366117ef0c88a6d7f1fa6f6906a0001e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RegressionFixture::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::source</qualifiedname>
+        <briefdescription>
+<para>&quot;golden&quot; or &quot;feedback&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="44" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1ab319877a3dfbade937d3ff1f90d4bdde" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::RegressionFixture::baseline_score</definition>
+        <argsstring></argsstring>
+        <name>baseline_score</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::baseline_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+<para>Score of baseline; -1 = unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="45" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a3b361aaa66b0149cdf5eaad555a248e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::RegressionFixture::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="48" column="20" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_regression_fixture_1ab3bd05282bdf318bb271f909c252c989" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_regression_fixture" kindref="compound">RegressionFixture</ref></type>
+        <definition>RegressionFixture themis::prompt_engineering::RegressionFixture::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::RegressionFixture::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="51" column="30" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single evaluation fixture for regression testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fixtures originate from one of two sources:<itemizedlist>
+<listitem><para><computeroutput>"golden"</computeroutput> — developer-curated, stable ground truth pairs</para>
+</listitem><listitem><para><computeroutput>"feedback"</computeroutput> — real-world human-positive feedback entries</para>
+</listitem></itemizedlist>
+</para>
+<para>The <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1ab319877a3dfbade937d3ff1f90d4bdde" kindref="member">baseline_score</ref></computeroutput> field is populated when <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a1541157962f2069afe7a970b859c27c3" kindref="member">PromptRegressionRunner::run()</ref></computeroutput> computes the baseline pass to record old-version performance. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_regression_runner.h" line="40" column="1" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="40" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1ab319877a3dfbade937d3ff1f90d4bdde" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>baseline_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a04b39f3944138b77c6d912d5042ff127" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>expected_output</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1ab3bd05282bdf318bb271f909c252c989" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a9cbc1a621b9d2317b881b13b9ef16272" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>prompt_text</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a366117ef0c88a6d7f1fa6f6906a0001e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>source</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a28c8ab8ccc907e35f5c863d24bf823d5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>template_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_fixture_1a3b361aaa66b0149cdf5eaad555a248e1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionFixture</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

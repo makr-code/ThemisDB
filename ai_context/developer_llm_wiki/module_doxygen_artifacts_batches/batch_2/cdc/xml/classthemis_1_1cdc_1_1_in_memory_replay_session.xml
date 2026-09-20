@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_replay_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryReplaySession</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_replay_session" prot="public" virt="non-virtual">themis::cdc::IReplaySession</basecompoundref>
+    <includes refid="icdc__replay__controller_8h" local="no">icdc_replay_controller.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a1ac3a21483be0459e3cc73d1f6b446d1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryReplaySession::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="206" column="42" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1afcc65fb83c8e40b7d3026f3023f4010a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt;Changefeed::ChangeEvent&gt; themis::cdc::InMemoryReplaySession::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="207" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a9587d8912b1d31699fbd32016d7f2e59" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryReplaySession::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::batch_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="208" column="42" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a6d2f5c7f95e07f4ba100d6edc9684869" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryReplaySession::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::cursor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="209" column="42" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1aa91e1d508ec637233e17791e4d147cda" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryReplaySession::delivered_</definition>
+        <argsstring></argsstring>
+        <name>delivered_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::delivered_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="210" column="42" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1ac27f89091719514a1496498a76597c4b" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8" kindref="member">ReplaySessionState</ref></type>
+        <definition>ReplaySessionState themis::cdc::InMemoryReplaySession::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="211" column="42" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a6e52b2ac25636c6d58e35c5c1fb42063" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryReplaySession::InMemoryReplaySession</definition>
+        <argsstring>(std::vector&lt; Changefeed::ChangeEvent &gt; events, std::size_t batch_size)</argsstring>
+        <name>InMemoryReplaySession</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::InMemoryReplaySession</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="128" column="5" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a5cae43c9f1c0a9f140bf4d91313b5eec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::InMemoryReplaySession::nextBatch</definition>
+        <argsstring>() override</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::nextBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_replay_session_1ad13c491ebbd45e31b9ab65d9a173923b">nextBatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="137" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="137" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1aafce284ccfc56f3e3db479be80b07635" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryReplaySession::done</definition>
+        <argsstring>() const override</argsstring>
+        <name>done</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::done</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_replay_session_1ab65d1460c1c2c112fad63b0586f92779">done</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="165" column="10" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a9ff9b5a721aaa34fe4c981618fcd3a80" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryReplaySession::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_replay_session_1a50285454c6c786f067fec7b8bdcd483a">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="175" column="10" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="175" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1a3f5fd03beae2d9b7ce11232145f8c9b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1af51ce8576b05dc980fed86cda156fda8" kindref="member">ReplaySessionState</ref></type>
+        <definition>ReplaySessionState themis::cdc::InMemoryReplaySession::state</definition>
+        <argsstring>() const override</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::state</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_replay_session_1ad3688a7259ecffca2eab4c67b98fb669">state</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="185" column="24" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="185" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_session_1ae915638702089c7ade623946ce377ee2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryReplaySession::deliveredCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>deliveredCount</name>
+        <qualifiedname>themis::cdc::InMemoryReplaySession::deliveredCount</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_replay_session_1a9798390238fbe486401ce4ad2904e890">deliveredCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="195" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="195" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IReplaySession</label>
+        <link refid="classthemis_1_1cdc_1_1_i_replay_session"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryReplaySession</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_replay_session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IReplaySession</label>
+        <link refid="classthemis_1_1cdc_1_1_i_replay_session"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryReplaySession</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_replay_session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_replay_controller.h" line="126" column="1" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="126" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a9587d8912b1d31699fbd32016d7f2e59" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>batch_size_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a9ff9b5a721aaa34fe4c981618fcd3a80" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a6d2f5c7f95e07f4ba100d6edc9684869" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>cursor_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1aa91e1d508ec637233e17791e4d147cda" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>delivered_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1ae915638702089c7ade623946ce377ee2" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>deliveredCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1aafce284ccfc56f3e3db479be80b07635" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>done</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1afcc65fb83c8e40b7d3026f3023f4010a" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>events_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a6e52b2ac25636c6d58e35c5c1fb42063" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>InMemoryReplaySession</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a1ac3a21483be0459e3cc73d1f6b446d1" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a5cae43c9f1c0a9f140bf4d91313b5eec" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>nextBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1a3f5fd03beae2d9b7ce11232145f8c9b3" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>state</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_session_1ac27f89091719514a1496498a76597c4b" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>state_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_replay_session_1a0edb08079c0a761ea2a810abbe1e8479" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplaySession</scope><name>~IReplaySession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hsm__provider__global_8cpp" kind="file" language="C++">
+    <compoundname>hsm_provider_global.cpp</compoundname>
+    <includes local="yes">security/hsm_provider.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>src/server/hsm_provider_global.cpp</label>
+        <link refid="hsm__provider__global_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>security/hsm_provider.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="hsm__provider__global_8cpp_1ad583981a4d3a45d0e3e45c3cd16701b4" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::security::HSMProvider &gt;</type>
+        <definition>std::shared_ptr&lt;themis::security::HSMProvider&gt; g_hsm_provider</definition>
+        <argsstring></argsstring>
+        <name>g_hsm_provider</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/hsm_provider_global.cpp" line="16" column="17" bodyfile="src/server/hsm_provider_global.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/hsm_provider.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">std::shared_ptr&lt;themis::security::HSMProvider&gt;<sp/><ref refid="hsm__provider__global_8cpp_1ad583981a4d3a45d0e3e45c3cd16701b4" kindref="member">g_hsm_provider</ref>;</highlight></codeline>
+    </programlisting>
+    <location file="src/server/hsm_provider_global.cpp"/>
+  </compounddef>
+</doxygen>

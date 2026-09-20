@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_text_encoder" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::ITextEncoder</compoundname>
+    <includes refid="encoder__interface_8h" local="no">encoder_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_text_encoder_1a1fd238d6a8ae9547b32c5dc18686c061" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::ITextEncoder::~ITextEncoder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITextEncoder</name>
+        <qualifiedname>themis::tensor::ITextEncoder::~ITextEncoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="61" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::tensor::ITextEncoder::encode</definition>
+        <argsstring>(const std::string &amp;segment, std::size_t embed_dim) const =0</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::tensor::ITextEncoder::encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>segment</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>embed_dim</declname>
+        </param>
+        <briefdescription>
+<para>Encode a UTF-8 text segment into a dense float vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 encoded text segment (non-empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embed_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required output dimensionality (&gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Float vector of exactly <computeroutput>embed_dim</computeroutput> elements.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the encoder is unavailable, the segment cannot be processed, or the implementation produces a vector of the wrong size. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>embed_dim</computeroutput> is 0 or <computeroutput>segment</computeroutput> is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_text_encoder_1a1ebd415649b21134f82826f317690240" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tensor::ITextEncoder::isAvailable</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::tensor::ITextEncoder::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Returns true when the encoder is ready to accept requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A false return causes <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">UTRConverter::fromDocument()</ref></computeroutput> to fall back to the next lower-tier encoder without throwing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="84" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_text_encoder_1af2985eab20ee345ca49cecf72f8a5439" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1tensor_1a5c36d5b11ba3b59e660be8b8642040d4" kindref="member">EncoderQuality</ref></type>
+        <definition>virtual EncoderQuality themis::tensor::ITextEncoder::quality</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::tensor::ITextEncoder::quality</qualifiedname>
+        <briefdescription>
+<para>Returns the semantic quality tier of this encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="89" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_text_encoder_1ae13d3e9540b21648bfb510ead870e3a5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::tensor::ITextEncoder::description</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::tensor::ITextEncoder::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A stable, non-null string view (e.g. &quot;BERT-base quantised Q4_0&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/encoder_interface.h" line="96" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for fixed-length text segment encoders. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations must be thread-safe: <computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" kindref="member">encode()</ref></computeroutput> may be called concurrently from multiple threads.</para>
+<para><heading level="3">Contract</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" kindref="member">encode()</ref></computeroutput> MUST return a vector of exactly <computeroutput>embed_dim</computeroutput> elements.</para>
+</listitem><listitem><para>If the encoder cannot produce an output it MUST throw <computeroutput>std::runtime_error</computeroutput> rather than returning a wrong-sized vector.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1ebd415649b21134f82826f317690240" kindref="member">isAvailable()</ref></computeroutput> MUST be cheap (no I/O, no locking) and stable within a single <computeroutput><ref refid="classthemis_1_1tensor_1_1_u_t_r_converter_1a8447f21e1356fda556179aca121c11dc" kindref="member">UTRConverter::fromDocument()</ref></computeroutput> call. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/encoder_interface.h" line="59" column="1" bodyfile="include/tensor/encoder_interface.h" bodystart="59" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_text_encoder_1ae13d3e9540b21648bfb510ead870e3a5" prot="public" virt="pure-virtual"><scope>themis::tensor::ITextEncoder</scope><name>description</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_text_encoder_1a62722113d276f296d1c47fee3003c5ed" prot="public" virt="pure-virtual"><scope>themis::tensor::ITextEncoder</scope><name>encode</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1ebd415649b21134f82826f317690240" prot="public" virt="pure-virtual"><scope>themis::tensor::ITextEncoder</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_text_encoder_1af2985eab20ee345ca49cecf72f8a5439" prot="public" virt="pure-virtual"><scope>themis::tensor::ITextEncoder</scope><name>quality</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_text_encoder_1a1fd238d6a8ae9547b32c5dc18686c061" prot="public" virt="virtual"><scope>themis::tensor::ITextEncoder</scope><name>~ITextEncoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

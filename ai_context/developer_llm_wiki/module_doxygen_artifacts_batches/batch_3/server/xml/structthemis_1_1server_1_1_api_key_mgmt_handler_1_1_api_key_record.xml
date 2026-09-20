@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</compoundname>
+    <includes refid="api__key__mgmt__handler_8h" local="no">api_key_mgmt_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1ae6d712da1b31ba603d76965ed3e767ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiKeyMgmtHandler::ApiKeyRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::id</qualifiedname>
+        <briefdescription>
+<para>Unique key identifier (key_&lt;hex&gt;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="30" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1afa7588dde80c3f8fb29a3e7c8f23f5d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiKeyMgmtHandler::ApiKeyRecord::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="31" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1aa453d74b946c56a8d84ca2321c12ff86" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiKeyMgmtHandler::ApiKeyRecord::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::token</qualifiedname>
+        <briefdescription>
+<para>The actual bearer token (hidden in responses). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="32" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1a5edc202e6888dcd8e5941f9f9417acc7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::ApiKeyMgmtHandler::ApiKeyRecord::permissions</definition>
+        <argsstring></argsstring>
+        <name>permissions</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::permissions</qualifiedname>
+        <briefdescription>
+<para>Scopes/permissions granted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="33" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1a1b7f61305db21de1c2aaa053188624be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiKeyMgmtHandler::ApiKeyRecord::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="34" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1ac64ae408bde2e96c0cbb5fe71a958f81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiKeyMgmtHandler::ApiKeyRecord::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::server::ApiKeyMgmtHandler::ApiKeyRecord::expires_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 expiry; empty = never expires. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_key_mgmt_handler.h" line="35" column="21" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_key_mgmt_handler.h" line="29" column="5" bodyfile="include/server/api_key_mgmt_handler.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1a1b7f61305db21de1c2aaa053188624be" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1ac64ae408bde2e96c0cbb5fe71a958f81" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1ae6d712da1b31ba603d76965ed3e767ec" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1afa7588dde80c3f8fb29a3e7c8f23f5d3" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>name</name></member>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1a5edc202e6888dcd8e5941f9f9417acc7" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>permissions</name></member>
+      <member refid="structthemis_1_1server_1_1_api_key_mgmt_handler_1_1_api_key_record_1aa453d74b946c56a8d84ca2321c12ff86" prot="public" virt="non-virtual"><scope>themis::server::ApiKeyMgmtHandler::ApiKeyRecord</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

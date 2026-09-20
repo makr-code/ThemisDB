@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_graph_q_l_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GraphQLQuery</compoundname>
+    <includes refid="graphql__dialect_8h" local="no">graphql_dialect.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_query_1ad0c65e90b66af2605b4ab390a213e250" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GraphQLQuery::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::query::GraphQLQuery::operation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="30" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_query_1aac0c23e4ef8f66eb06196c2626a4c407" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GraphQLQuery::operation_name</definition>
+        <argsstring></argsstring>
+        <name>operation_name</name>
+        <qualifiedname>themis::query::GraphQLQuery::operation_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="31" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_query_1a99593b4495295db2c3b7a012a793ea8c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_graph_q_l_field" kindref="compound">GraphQLField</ref> &gt;</type>
+        <definition>std::vector&lt;GraphQLField&gt; themis::query::GraphQLQuery::selection_set</definition>
+        <argsstring></argsstring>
+        <name>selection_set</name>
+        <qualifiedname>themis::query::GraphQLQuery::selection_set</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="32" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_query_1a0f2654789f7caec70a5fbcb74a276902" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::query::GraphQLQuery::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>themis::query::GraphQLQuery::variables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="33" column="14" bodyfile="include/query/graphql_dialect.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_query_1ad3ce74c89891638391d7e42e6c6fc66d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GraphQLQuery::raw_query</definition>
+        <argsstring></argsstring>
+        <name>raw_query</name>
+        <qualifiedname>themis::query::GraphQLQuery::raw_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="34" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/graphql_dialect.h" line="29" column="1" bodyfile="include/query/graphql_dialect.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_query_1aac0c23e4ef8f66eb06196c2626a4c407" prot="public" virt="non-virtual"><scope>themis::query::GraphQLQuery</scope><name>operation_name</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_query_1ad0c65e90b66af2605b4ab390a213e250" prot="public" virt="non-virtual"><scope>themis::query::GraphQLQuery</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_query_1ad3ce74c89891638391d7e42e6c6fc66d" prot="public" virt="non-virtual"><scope>themis::query::GraphQLQuery</scope><name>raw_query</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_query_1a99593b4495295db2c3b7a012a793ea8c" prot="public" virt="non-virtual"><scope>themis::query::GraphQLQuery</scope><name>selection_set</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_query_1a0f2654789f7caec70a5fbcb74a276902" prot="public" virt="non-virtual"><scope>themis::query::GraphQLQuery</scope><name>variables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

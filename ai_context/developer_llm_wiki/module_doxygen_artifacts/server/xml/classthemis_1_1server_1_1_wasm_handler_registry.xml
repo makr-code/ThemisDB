@@ -1,0 +1,861 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_wasm_handler_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::WasmHandlerRegistry</compoundname>
+    <includes refid="wasm__handler__registry_8h" local="no">wasm_handler_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_wasm_handler_registry_1a0d79e6d7b6415caa9a30e009d344607b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::WasmHandlerRegistry::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="224" column="31" bodyfile="include/server/wasm_handler_registry.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_wasm_handler_registry_1a2c3aaafbf0d57e7f6841fa591a5ac691" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1server_1_1_wasm_handler_entry" kindref="compound">WasmHandlerEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, WasmHandlerEntry&gt; themis::server::WasmHandlerRegistry::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="225" column="24" bodyfile="include/server/wasm_handler_registry.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a905670144b55f05eac92ffc3ef067900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WasmHandlerRegistry::WasmHandlerRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>WasmHandlerRegistry</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::WasmHandlerRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a372ad0c724674be8e9a48d4904e9c20f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WasmHandlerRegistry::WasmHandlerRegistry</definition>
+        <argsstring>(const WasmHandlerRegistry &amp;)=delete</argsstring>
+        <name>WasmHandlerRegistry</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::WasmHandlerRegistry</qualifiedname>
+        <param>
+          <type>const WasmHandlerRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a1b39afb2cb483e33b8c5b4cddcad14dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_wasm_handler_registry_1a905670144b55f05eac92ffc3ef067900" kindref="member">WasmHandlerRegistry</ref> &amp;</type>
+        <definition>WasmHandlerRegistry &amp; themis::server::WasmHandlerRegistry::operator=</definition>
+        <argsstring>(const WasmHandlerRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_wasm_handler_registry_1a905670144b55f05eac92ffc3ef067900" kindref="member">WasmHandlerRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="135" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1ad7a1c4defa1745035eccfbf2a3c413ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::handleUpload</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleUpload</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::handleUpload</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="144" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="481" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a34dcbd033c46c50b7f2d01c2ac429a8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::handleList</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleList</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::handleList</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="153" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="589" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1ae6eef3c8c26657077a8fe019f646c3cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::handleGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::handleGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="162" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="622" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a51372ddd3804b23ce03350d1886e2f37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::handleDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::handleDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="172" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="646" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a59cf1b72b45b906294d2e4b17e73b8ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::handleInvoke</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleInvoke</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::handleInvoke</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Invoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="182" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="667" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1aeb876029d95ca17554f93859fb9122be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::WasmHandlerRegistry::registerHandler</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; uint8_t &gt; &amp;wasm_bytes, const WasmHandlerConfig &amp;config={}, const std::string &amp;tenant_id={}, const std::string &amp;name={}, const std::string &amp;description={}, std::string *error=nullptr)</argsstring>
+        <name>registerHandler</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::registerHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wasm_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_wasm_handler_config" kindref="compound">WasmHandlerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Register Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wasm_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="188" column="10" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="234" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a58ad3687c5c4002e0c29cce545dac56e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::WasmHandlerRegistry::unregisterHandler</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>unregisterHandler</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::unregisterHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="201" column="10" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="301" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1aa49a0f86529dd5ad879c332ed75e9e27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_wasm_invoke_result" kindref="compound">WasmInvokeResult</ref></type>
+        <definition>WasmInvokeResult themis::server::WasmHandlerRegistry::invoke</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;input=nlohmann::json::object())</argsstring>
+        <name>invoke</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::invoke</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>input</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Invoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sandbox. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sandbox_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="203" column="22" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="355" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1ac77301af1412d48915aee7fe3b4c1cd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::WasmHandlerRegistry::hasHandler</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>hasHandler</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::hasHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Has Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="211" column="10" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="306" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1ad35710db0f87638b493254d6125946d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::WasmHandlerRegistry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="217" column="12" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="316" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a9b5aefb545ae24fcaa4f0f0729fb85a8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::server::WasmHandlerRegistry::listHandlers</definition>
+        <argsstring>(const std::string &amp;tenant_id_filter={}) const</argsstring>
+        <name>listHandlers</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::listHandlers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id_filter</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="219" column="17" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="326" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1ad63ed29b3cadb5cf02ea981dbb7e2d9c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::makeJsonResponse</definition>
+        <argsstring>(http::status status, const nlohmann::json &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeJsonResponse</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::makeJsonResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="235" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="197" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a5a5c23292af403047f2cf8db6fdb83af" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WasmHandlerRegistry::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="247" column="20" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="211" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1a776ba539ab73ffb18ce7c5f3bcd21a3d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerRegistry::utcNow</definition>
+        <argsstring>()</argsstring>
+        <name>utcNow</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::utcNow</qualifiedname>
+        <briefdescription>
+<para>Utc Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="257" column="24" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="105" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wasm_handler_registry_1aaf198a83e364e9fd4ddd3d3a5c65f15b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::WasmHandlerRegistry::base64Decode</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::server::WasmHandlerRegistry::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), <ref refid="classthemis_1_1server_1_1_wasm_handler_registry_1ad35710db0f87638b493254d6125946d1" kindref="member">size()</ref>, isBase64(), std::find(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="264" column="24" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="139" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/wasm_handler_registry.h" line="128" column="1" bodyfile="include/server/wasm_handler_registry.h" bodystart="128" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1aaf198a83e364e9fd4ddd3d3a5c65f15b" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a51372ddd3804b23ce03350d1886e2f37" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1ae6eef3c8c26657077a8fe019f646c3cc" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a59cf1b72b45b906294d2e4b17e73b8ba" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>handleInvoke</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a34dcbd033c46c50b7f2d01c2ac429a8a" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>handleList</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1ad7a1c4defa1745035eccfbf2a3c413ad" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>handleUpload</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1ac77301af1412d48915aee7fe3b4c1cd4" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>hasHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1aa49a0f86529dd5ad879c332ed75e9e27" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>invoke</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a9b5aefb545ae24fcaa4f0f0729fb85a8" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>listHandlers</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a5a5c23292af403047f2cf8db6fdb83af" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1ad63ed29b3cadb5cf02ea981dbb7e2d9c" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>makeJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a1b39afb2cb483e33b8c5b4cddcad14dd" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1aeb876029d95ca17554f93859fb9122be" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>registerHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a2c3aaafbf0d57e7f6841fa591a5ac691" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a0d79e6d7b6415caa9a30e009d344607b" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1ad35710db0f87638b493254d6125946d1" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>size</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a58ad3687c5c4002e0c29cce545dac56e" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>unregisterHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a776ba539ab73ffb18ce7c5f3bcd21a3d" prot="private" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>utcNow</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a905670144b55f05eac92ffc3ef067900" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>WasmHandlerRegistry</name></member>
+      <member refid="classthemis_1_1server_1_1_wasm_handler_registry_1a372ad0c724674be8e9a48d4904e9c20f" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerRegistry</scope><name>WasmHandlerRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

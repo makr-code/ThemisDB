@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PathConstraints::Constraint</compoundname>
+    <includes refid="path__constraints_8h" local="no">path_constraints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+        <definition>ConstraintType themis::graph::PathConstraints::Constraint::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="50" column="24" bodyfile="include/graph/path_constraints.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ad5a128936313a7a0b5d4e89aedf071d4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::graph::PathConstraints::Constraint::int_value</definition>
+        <argsstring></argsstring>
+        <name>int_value</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::int_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="51" column="23" bodyfile="include/graph/path_constraints.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::graph::PathConstraints::Constraint::string_value</definition>
+        <argsstring></argsstring>
+        <name>string_value</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::string_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="52" column="23" bodyfile="include/graph/path_constraints.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac3070ee3514bdf33ef2bf3a0859151a5" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; &gt;</type>
+        <definition>std::optional&lt;std::function&lt;bool(const std::vector&lt;std::string&gt;&amp;)&gt; &gt; themis::graph::PathConstraints::Constraint::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="53" column="23" bodyfile="include/graph/path_constraints.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a56def477220f2c72599965c464d932d2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::graph::PathConstraints::Constraint::property_key</definition>
+        <argsstring></argsstring>
+        <name>property_key</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::property_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="54" column="23" bodyfile="include/graph/path_constraints.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a12e3d9a01bb42773f5d8e9460bc342eb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::graph::PathConstraints::Constraint::double_value</definition>
+        <argsstring></argsstring>
+        <name>double_value</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::double_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="55" column="23" bodyfile="include/graph/path_constraints.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a06c2538afd37faca873bc809952392b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::Constraint::Constraint</definition>
+        <argsstring>(ConstraintType t)</argsstring>
+        <name>Constraint</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::Constraint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="57" column="9" bodyfile="include/graph/path_constraints.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac405ba9edb5efbf2285eaf94e4ecb3f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::Constraint::Constraint</definition>
+        <argsstring>(ConstraintType t, int value)</argsstring>
+        <name>Constraint</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::Constraint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="58" column="9" bodyfile="include/graph/path_constraints.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a37dc93b7cde4d89202c48a3527c2d6a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::Constraint::Constraint</definition>
+        <argsstring>(ConstraintType t, std::string value)</argsstring>
+        <name>Constraint</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::Constraint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="59" column="9" bodyfile="include/graph/path_constraints.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a2efbd599b7eee4aeb3548d6c66196343" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::Constraint::Constraint</definition>
+        <argsstring>(ConstraintType t, std::string key, std::string value)</argsstring>
+        <name>Constraint</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::Constraint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="60" column="9" bodyfile="include/graph/path_constraints.h" bodystart="60" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a6a2d723b4e537341fb7c6ec64b1e097d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::PathConstraints::Constraint::Constraint</definition>
+        <argsstring>(ConstraintType t, double threshold)</argsstring>
+        <name>Constraint</name>
+        <qualifiedname>themis::graph::PathConstraints::Constraint::Constraint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="62" column="9" bodyfile="include/graph/path_constraints.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/path_constraints.h" line="49" column="5" bodyfile="include/graph/path_constraints.h" bodystart="49" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a06c2538afd37faca873bc809952392b7" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>Constraint</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac405ba9edb5efbf2285eaf94e4ecb3f5" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>Constraint</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a37dc93b7cde4d89202c48a3527c2d6a7" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>Constraint</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a2efbd599b7eee4aeb3548d6c66196343" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>Constraint</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a6a2d723b4e537341fb7c6ec64b1e097d" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>Constraint</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a12e3d9a01bb42773f5d8e9460bc342eb" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>double_value</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ad5a128936313a7a0b5d4e89aedf071d4" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>int_value</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac3070ee3514bdf33ef2bf3a0859151a5" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a56def477220f2c72599965c464d932d2" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>property_key</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>string_value</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::Constraint</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

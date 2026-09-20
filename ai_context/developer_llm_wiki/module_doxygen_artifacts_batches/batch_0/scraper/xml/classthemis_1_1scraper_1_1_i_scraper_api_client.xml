@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_api_client" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperApiClient</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_http_scraper_api_client" prot="public" virt="non-virtual">themis::scraper::HttpScraperApiClient</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client" prot="public" virt="non-virtual">themis::scraper::InMemoryScraperApiClient</derivedcompoundref>
+    <includes refid="scraper__api__client_8h" local="no">scraper_api_client.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperApiClient::~IScraperApiClient</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperApiClient</name>
+        <qualifiedname>themis::scraper::IScraperApiClient::~IScraperApiClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="106" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ApiResult &gt; themis::scraper::IScraperApiClient::fetchAll</definition>
+        <argsstring>(const ApiEndpointConfig &amp;cfg, const std::string &amp;query)=0</argsstring>
+        <name>fetchAll</name>
+        <qualifiedname>themis::scraper::IScraperApiClient::fetchAll</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a7d610320f50a7ffe9fb4cc39b89a6142">fetchAll</reimplementedby>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a904a4c4ebd0e84577fea9855180fae1d">fetchAll</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Fetch all results from an API endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Endpoint configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search query (replaces {{QUERY}} in body_template or appended as search_param to GET URLs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All collected results across all pages. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="115" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fetches all pages from a JSON/REST API endpoint. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles page-based, cursor-based, and offset-based pagination automatically. For GraphQL endpoints the caller supplies a POST body_template with the query; {{QUERY}}, {{PAGE}}, and {{CURSOR}} placeholders are substituted. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::HttpScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_http_scraper_api_client"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::scraper::IScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_api_client"/>
+      </node>
+      <node id="3">
+        <label>themis::scraper::InMemoryScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_api_client.h" line="104" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="104" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperApiClient</scope><name>fetchAll</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" prot="public" virt="virtual"><scope>themis::scraper::IScraperApiClient</scope><name>~IScraperApiClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

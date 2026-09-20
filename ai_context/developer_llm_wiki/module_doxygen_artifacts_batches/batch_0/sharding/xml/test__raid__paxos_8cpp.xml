@@ -1,0 +1,555 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__raid__paxos_8cpp" kind="file" language="C++">
+    <compoundname>test_raid_paxos.cpp</compoundname>
+    <includes refid="raid__paxos__consensus_8h" local="yes">sharding/raid_paxos_consensus.h</includes>
+    <includes refid="raid__paxos__config_8h" local="yes">sharding/raid_paxos_config.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes local="yes">gmock/gmock.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sharding/paxos_consensus.h</label>
+        <link refid="paxos__consensus_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sharding/raid_paxos_config.h</label>
+        <link refid="raid__paxos__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/raid_paxos_consensus.h</label>
+        <link refid="raid__paxos__consensus_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_raid_paxos.cpp</label>
+        <link refid="test__raid__paxos_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>fstream</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="24">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="23">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" prot="public">themisdb::sharding::RAIDPaxosTest</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Tests for RAID-Paxos consensus implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY | Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Tests RAID-mode-specific quorum calculation and failure tolerance </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raid__paxos__consensus_8h" kindref="compound">sharding/raid_paxos_consensus.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raid__paxos__config_8h" kindref="compound">sharding/raid_paxos_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gmock/gmock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{<sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1ad96498083bfc6f12ed114d324e0d948f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1a87b1985e11c5bc0918450bd15fc328d0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAID<sp/>Configuration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDModeEnumValues)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>),<sp/>5);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>),<sp/>10);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(RAIDPaxosTest,<sp/>RAIDModeToString)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" kindref="member">raidModeToString</ref>(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>),<sp/></highlight><highlight class="stringliteral">&quot;RAID_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" kindref="member">raidModeToString</ref>(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>),<sp/></highlight><highlight class="stringliteral">&quot;RAID_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" kindref="member">raidModeToString</ref>(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>),<sp/></highlight><highlight class="stringliteral">&quot;RAID_5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" kindref="member">raidModeToString</ref>(<ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>),<sp/></highlight><highlight class="stringliteral">&quot;RAID_10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" kindref="member">raidModeToString</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(99)),<sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(RAIDPaxosTest,<sp/>StringToRAIDMode)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;RAID_0&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;STRIPE&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;RAID_1&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;MIRROR&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;RAID_5&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;PARITY&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;RAID_10&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;HYBRID&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>to<sp/>safe<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" kindref="member">stringToRAIDMode</ref>(</highlight><highlight class="stringliteral">&quot;INVALID&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quorum<sp/>Calculation<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID0QuorumCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allow_raid0<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>0:<sp/>All<sp/>shards<sp/>must<sp/>respond<sp/>(no<sp/>redundancy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(1),<sp/>1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(2),<sp/>2);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(4),<sp/>4);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(8),<sp/>8);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID1QuorumCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>1:<sp/>Need<sp/>at<sp/>least<sp/>one<sp/>mirror<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>mirror_factor=2:<sp/>need<sp/>at<sp/>least<sp/>2<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(2),<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>2/2<sp/>+<sp/>1<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(4),<sp/>3);<sp/><sp/></highlight><highlight class="comment">//<sp/>4/2<sp/>+<sp/>1<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(6),<sp/>4);<sp/><sp/></highlight><highlight class="comment">//<sp/>6/2<sp/>+<sp/>1<sp/>=<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID5QuorumCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>5:<sp/>Need<sp/>majority<sp/>including<sp/>parity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>N<sp/>data<sp/>+<sp/>1<sp/>parity:<sp/>quorum<sp/>=<sp/>(N+1)/2<sp/>+<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(2),<sp/>2);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>data<sp/>+<sp/>1<sp/>parity:<sp/>(2/2)+1<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(4),<sp/>3);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>data<sp/>+<sp/>1<sp/>parity:<sp/>(4/2)+1<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(6),<sp/>4);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>data<sp/>+<sp/>1<sp/>parity:<sp/>(6/2)+1<sp/>=<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID10QuorumCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>config.stripe_width<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>10:<sp/>Need<sp/>at<sp/>least<sp/>one<sp/>complete<sp/>mirror<sp/>set<sp/>per<sp/>stripe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>stripe_width=2,<sp/>mirror_factor=2:<sp/>4<sp/>shards<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Need:<sp/>(4<sp/>/<sp/>(2*2))<sp/>+<sp/>1<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(4),<sp/>2);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>stripe_width=2,<sp/>mirror_factor=2:<sp/>8<sp/>shards<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Need:<sp/>(8<sp/>/<sp/>(2*2))<sp/>+<sp/>1<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.calculateQuorumSize(8),<sp/>3);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>Validation<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID0RequiresExplicitAllowance)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allow_raid0<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allow_raid0<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID1ValidConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>config.stripe_width<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID1InvalidMirrorFactor)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>&gt;=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID5ValidConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>config.data_shard_indices<sp/>=<sp/>{0,<sp/>1,<sp/>2};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>config.parity_shard_index<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID5InvalidWithoutParity)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>config.data_shard_indices<sp/>=<sp/>{0,<sp/>1,<sp/>2};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>config.parity_shard_index<sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID5InvalidWithoutDataShards)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>config.data_shard_indices<sp/>=<sp/>{};<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>config.parity_shard_index<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID10ValidConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>config.stripe_width<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isValidConfiguration());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Failure<sp/>Tolerance<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID0NoFailureTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(4),<sp/>0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(8),<sp/>0);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID1FailureTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>tolerate<sp/>mirror_factor<sp/>-<sp/>1<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(4),<sp/>1);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(6),<sp/>2);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID5FailureTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>5:<sp/>Can<sp/>tolerate<sp/>1<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(4),<sp/>1);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(8),<sp/>1);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAID10FailureTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>tolerate<sp/>mirror_factor<sp/>-<sp/>1<sp/>failures<sp/>per<sp/>stripe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(4),<sp/>1);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getMaxTolerableFailures(6),<sp/>2);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>CanRecoverFromFailures)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>config.data_shard_indices<sp/>=<sp/>{0,<sp/>1,<sp/>2,<sp/>3,<sp/>4};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>config.parity_shard_index<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>recover<sp/>from<sp/>1<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.canRecoverFromFailures({3}));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.canRecoverFromFailures({5}));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cannot<sp/>recover<sp/>from<sp/>2<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.canRecoverFromFailures({3,<sp/>5}));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAIDPaxosConsensus<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(consensus,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>be<sp/>initialized<sp/>yet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consensus-&gt;isLeader());</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosGetType)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(consensus-&gt;getType(),<sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa2853c285bb9b31fa5b5f9e4a0b9052f4" kindref="member">ConsensusType::RAID_PAXOS</ref>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosInvalidConfigFailsInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allow_raid0<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>for<sp/>RAID<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consensus-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes));</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosValidConfigInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(consensus-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosHasQuorumRAID0)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>config.allow_raid0<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-4&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>consensus-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>0:<sp/>Need<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>all_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-4&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(consensus-&gt;hasQuorum(all_responses));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>partial_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consensus-&gt;hasQuorum(partial_responses));</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosHasQuorumRAID1)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-4&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>consensus-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>1<sp/>with<sp/>4<sp/>nodes,<sp/>mirror_factor=2:<sp/>need<sp/>3<sp/>responses<sp/>(4/2<sp/>+<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>three_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(consensus-&gt;hasQuorum(three_responses));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>two_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consensus-&gt;hasQuorum(two_responses));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDPaxosHasQuorumRAID5)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus<sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(config);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-5&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>consensus-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>5<sp/>with<sp/>5<sp/>nodes:<sp/>need<sp/>3<sp/>responses<sp/>((5/2)<sp/>+<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>three_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(consensus-&gt;hasQuorum(three_responses));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>two_responses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(consensus-&gt;hasQuorum(two_responses));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Description<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref>,<sp/>RAIDModeDescription)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" kindref="member">RAIDMode::STRIPE</ref>;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getRAIDModeDescription(),<sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RAID<sp/>0<sp/>(Striping)<sp/>-<sp/>No<sp/>redundancy,<sp/>maximum<sp/>performance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>config.raid_mode<sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getRAIDModeDescription(),<sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RAID<sp/>1<sp/>(Mirroring)<sp/>-<sp/>Full<sp/>redundancy,<sp/>3x<sp/>replication&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>config.raid_mode<sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">RAIDMode::PARITY</ref>;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>config.data_shard_indices<sp/>=<sp/>{0,<sp/>1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getRAIDModeDescription(),<sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RAID<sp/>5<sp/>(Distributed<sp/>Parity)<sp/>-<sp/>4<sp/>data<sp/>shards<sp/>+<sp/>1<sp/>parity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>config.raid_mode<sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" kindref="member">RAIDMode::HYBRID</ref>;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>config.stripe_width<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>config.mirror_factor<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getRAIDModeDescription(),<sp/></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RAID<sp/>10<sp/>(Stripe+Mirror)<sp/>-<sp/>4<sp/>stripe<sp/>width<sp/>x<sp/>2<sp/>mirrors&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}<sp/>}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_raid_paxos.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_i_iso27001_control" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::governance::IIso27001Control</compoundname>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a1011_control" prot="public" virt="non-virtual">themis::governance::Iso27001A1011Control</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a1241_control" prot="public" virt="non-virtual">themis::governance::Iso27001A1241Control</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a1242_control" prot="public" virt="non-virtual">themis::governance::Iso27001A1242Control</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a1323_control" prot="public" virt="non-virtual">themis::governance::Iso27001A1323Control</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a1813_control" prot="public" virt="non-virtual">themis::governance::Iso27001A1813Control</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_a912_control" prot="public" virt="non-virtual">themis::governance::Iso27001A912Control</derivedcompoundref>
+    <includes refid="iso27001__rules_8h" local="no">iso27001_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1a08924032c0e75525580f74a3093d0831" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::governance::IIso27001Control::~IIso27001Control</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIso27001Control</name>
+        <qualifiedname>themis::governance::IIso27001Control::~IIso27001Control</qualifiedname>
+        <briefdescription>
+<para>IIso27001 Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="99" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1a32e5ae000fd3afaf303199daa2d5dd41" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::governance::IIso27001Control::id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::IIso27001Control::id</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1011_control_1a722580bbbf523218536b73924982b3c3">id</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1241_control_1af567adc4b865a09c6cb5625a3aa806f6">id</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1242_control_1a8a98834b105f2dc4d804bf17ecf5e310">id</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1323_control_1a9165400979b0b836f1a48f3b4d2c7d1a">id</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1813_control_1aa3d30bbe0a60374fc3920d0e0c93d374">id</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a912_control_1a268e3484c3231053822e280a1cfcc13f">id</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="101" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1a4fc97dfe41daaa00ce6c368b64dba43a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::governance::IIso27001Control::annexSection</definition>
+        <argsstring>() const =0</argsstring>
+        <name>annexSection</name>
+        <qualifiedname>themis::governance::IIso27001Control::annexSection</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1011_control_1a7d97b3ef437b5bc33e0833263dcb85ef">annexSection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1241_control_1a9d42f135c82dbbfe7afd54ef8b39f65a">annexSection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1242_control_1a64b473e24736358d6732938d9a3ee939">annexSection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1323_control_1abb5343303e12980d95e367be529b765b">annexSection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1813_control_1a50b59c3115f0f28d7185c319ff59f4d9">annexSection</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a912_control_1aedbf35ce726fe86ec4784df5ee1a90d8">annexSection</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="103" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1a6baed6c586cf219b565b264563d22886" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::governance::IIso27001Control::title</definition>
+        <argsstring>() const =0</argsstring>
+        <name>title</name>
+        <qualifiedname>themis::governance::IIso27001Control::title</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1011_control_1a3db49dcd5c4f8a725b36db284152b42f">title</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1241_control_1a896950551975277a5450274f421a1a17">title</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1242_control_1ab92b6014ba0781d3258503fdef04c258">title</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1323_control_1aa6a2d2ab9b49b73453c70844eb96a89c">title</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1813_control_1a7f3894075108d8a27581cfd80905c486">title</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a912_control_1a76ad373938f65857df6cd55af0f87fbf">title</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="105" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1a21f91c49e98db5617144952ed6ef81c4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::governance::IIso27001Control::description</definition>
+        <argsstring>() const =0</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::IIso27001Control::description</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1011_control_1abb5672370a5eab5f4b98dffd2c1b24b0">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1241_control_1a6a9239955f98051cac54157f2f2b9c29">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1242_control_1a6783457befd14cb2840463960e229b2b">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1323_control_1a70e09813e4ad3cd138cca5b93715df1d">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1813_control_1a97bb3e5ed07c4bd124323de07dfaf384">description</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a912_control_1a03b2964c942466725ee69b2b656716c3">description</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="107" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_iso27001_control_1ae1ff46ecadf33131264004072b1fd142" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_iso27001_control_result" kindref="compound">Iso27001ControlResult</ref></type>
+        <definition>virtual Iso27001ControlResult themis::governance::IIso27001Control::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::IIso27001Control::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1011_control_1a931984e39faaf9695067be4742ff9d8f">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1241_control_1aa609a995f357fb75035b5a3c22a5be59">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1242_control_1aa5d0976bfaedae6d8d0ee1a4dfe4e5ba">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1323_control_1a2abe3e248313bde8690a49c0e03a2082">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a1813_control_1a3f7853a83062719b2907ae507ad56f6a">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_a912_control_1a505ddd39ec2e6b374e831e6f0c900816">evaluate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="109" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::IIso27001Control</label>
+        <link refid="classthemis_1_1governance_1_1_i_iso27001_control"/>
+      </node>
+      <node id="2">
+        <label>themis::governance::Iso27001A1011Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a1011_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::governance::Iso27001A1241Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a1241_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::governance::Iso27001A1242Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a1242_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::governance::Iso27001A1323Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a1323_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::governance::Iso27001A1813Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a1813_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::governance::Iso27001A912Control</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_a912_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/governance/iso27001_rules.h" line="93" column="1" bodyfile="include/governance/iso27001_rules.h" bodystart="93" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1a4fc97dfe41daaa00ce6c368b64dba43a" prot="public" virt="pure-virtual"><scope>themis::governance::IIso27001Control</scope><name>annexSection</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1a21f91c49e98db5617144952ed6ef81c4" prot="public" virt="pure-virtual"><scope>themis::governance::IIso27001Control</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1ae1ff46ecadf33131264004072b1fd142" prot="public" virt="pure-virtual"><scope>themis::governance::IIso27001Control</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1a32e5ae000fd3afaf303199daa2d5dd41" prot="public" virt="pure-virtual"><scope>themis::governance::IIso27001Control</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1a6baed6c586cf219b565b264563d22886" prot="public" virt="pure-virtual"><scope>themis::governance::IIso27001Control</scope><name>title</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_iso27001_control_1a08924032c0e75525580f74a3093d0831" prot="public" virt="virtual"><scope>themis::governance::IIso27001Control</scope><name>~IIso27001Control</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

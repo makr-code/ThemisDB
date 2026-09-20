@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_append_entries_request" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::AppendEntriesRequest</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1aed1408a9d649d218a0d0149362967b47" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesRequest::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="54" column="14" bodyfile="include/sharding/raft_log.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1accbcb1cf52fac30b203d584a8884a022" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::AppendEntriesRequest::leader_id</definition>
+        <argsstring></argsstring>
+        <name>leader_id</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::leader_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="55" column="17" bodyfile="include/sharding/raft_log.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1a3dada6ac040f9251cb7ee6a705b0f49a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesRequest::prev_log_index</definition>
+        <argsstring></argsstring>
+        <name>prev_log_index</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::prev_log_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="56" column="14" bodyfile="include/sharding/raft_log.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1a8d5353f91c25625eb653cdaa4188d80a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesRequest::prev_log_term</definition>
+        <argsstring></argsstring>
+        <name>prev_log_term</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::prev_log_term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="57" column="14" bodyfile="include/sharding/raft_log.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1a0607903bda7355bed9bd5755523dcf8a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;LogEntry&gt; themisdb::sharding::AppendEntriesRequest::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="58" column="17" bodyfile="include/sharding/raft_log.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_request_1a3c2aa96750689eb8f0d767d344d50510" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesRequest::leader_commit</definition>
+        <argsstring></argsstring>
+        <name>leader_commit</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::leader_commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="59" column="14" bodyfile="include/sharding/raft_log.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_append_entries_request_1afdf6a33b349c8a4edf52354639b4ddb3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::AppendEntriesRequest::AppendEntriesRequest</definition>
+        <argsstring>()</argsstring>
+        <name>AppendEntriesRequest</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesRequest::AppendEntriesRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="61" column="5" bodyfile="include/sharding/raft_log.h" bodystart="61" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AppendEntries RPC request structure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for both heartbeats (empty entries) and log replication. </para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="53" column="1" bodyfile="include/sharding/raft_log.h" bodystart="53" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1afdf6a33b349c8a4edf52354639b4ddb3" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>AppendEntriesRequest</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a0607903bda7355bed9bd5755523dcf8a" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3c2aa96750689eb8f0d767d344d50510" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>leader_commit</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1accbcb1cf52fac30b203d584a8884a022" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>leader_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a3dada6ac040f9251cb7ee6a705b0f49a" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>prev_log_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1a8d5353f91c25625eb653cdaa4188d80a" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>prev_log_term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_request_1aed1408a9d649d218a0d0149362967b47" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesRequest</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

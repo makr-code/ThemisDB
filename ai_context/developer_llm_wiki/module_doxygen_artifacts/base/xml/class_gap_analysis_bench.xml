@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gap_analysis_bench" kind="class" language="C++" prot="public">
+    <compoundname>GapAnalysisBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gap_analysis_bench_1a4e45e30f081e99bece83e51e39171e98" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; GapAnalysisBench::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>GapAnalysisBench::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="3009" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="3009" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_gap_analysis_bench_1ac65e754d88742bb6942e7ce0f6426ba3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GapAnalysisBench::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GapAnalysisBench::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="3000" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="3000" bodyend="3002"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gap_analysis_bench_1a5d52f5fef22fc3b5d963a489657c0fd8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GapAnalysisBench::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GapAnalysisBench::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="3004" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="3004" bodyend="3006"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Gap analysis fixture Compares actual performance vs documented/expected performance </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GapAnalysisBench</label>
+        <link refid="class_gap_analysis_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GapAnalysisBench</label>
+        <link refid="class_gap_analysis_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2998" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2998" bodyend="3010"/>
+    <listofallmembers>
+      <member refid="class_gap_analysis_bench_1a4e45e30f081e99bece83e51e39171e98" prot="protected" virt="non-virtual"><scope>GapAnalysisBench</scope><name>fixture_</name></member>
+      <member refid="class_gap_analysis_bench_1ac65e754d88742bb6942e7ce0f6426ba3" prot="protected" virt="non-virtual"><scope>GapAnalysisBench</scope><name>SetUp</name></member>
+      <member refid="class_gap_analysis_bench_1a5d52f5fef22fc3b5d963a489657c0fd8" prot="protected" virt="non-virtual"><scope>GapAnalysisBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

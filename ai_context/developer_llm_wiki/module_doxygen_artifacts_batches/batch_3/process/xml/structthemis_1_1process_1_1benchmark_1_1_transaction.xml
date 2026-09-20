@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::Transaction</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_transaction_1a918925fa135ae01122b9ae88c8f48f09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::Transaction::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::process::benchmark::Transaction::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="167" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_transaction_1a39407a2cb28767a8f81c02235ead3a5a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessModelRevision&gt; themis::process::benchmark::Transaction::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::process::benchmark::Transaction::operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="168" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_transaction_1ad91bfd055a0a80e5cacf93fdc14d6d09" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::Transaction::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::process::benchmark::Transaction::start_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="169" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_transaction_1af3ed769fc98183f2bde10e34a63eccc5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::Transaction::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::process::benchmark::Transaction::end_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="170" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="170" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulate transaction for serialization testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="166" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="166" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_transaction_1af3ed769fc98183f2bde10e34a63eccc5" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Transaction</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_transaction_1a39407a2cb28767a8f81c02235ead3a5a" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Transaction</scope><name>operations</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_transaction_1ad91bfd055a0a80e5cacf93fdc14d6d09" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Transaction</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_transaction_1a918925fa135ae01122b9ae88c8f48f09" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Transaction</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_compat_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::CompatCheckResult</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_check_result_1ad835f0a271003a2995ef1c8a4dd176ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CompatCheckResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::server::CompatCheckResult::passed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>true if the change satisfies the policy </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="199" column="17" bodyfile="include/server/api_version.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_compat_check_result_1a9875bafe16c9df6880b5508b046604ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::CompatCheckResult::violation_reason</definition>
+        <argsstring></argsstring>
+        <name>violation_reason</name>
+        <qualifiedname>themis::server::CompatCheckResult::violation_reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty when passed == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="200" column="17" bodyfile="include/server/api_version.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_compat_check_result_1a9402393d4f082c80f1183598fdb7c9aa" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CompatCheckResult::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::server::CompatCheckResult::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="202" column="14" bodyfile="include/server/api_version.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="198" column="1" bodyfile="include/server/api_version.h" bodystart="198" bodyend="203"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_compat_check_result_1a9402393d4f082c80f1183598fdb7c9aa" prot="public" virt="non-virtual"><scope>themis::server::CompatCheckResult</scope><name>operator bool</name></member>
+      <member refid="structthemis_1_1server_1_1_compat_check_result_1ad835f0a271003a2995ef1c8a4dd176ac" prot="public" virt="non-virtual"><scope>themis::server::CompatCheckResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1server_1_1_compat_check_result_1a9875bafe16c9df6880b5508b046604ea" prot="public" virt="non-virtual"><scope>themis::server::CompatCheckResult</scope><name>violation_reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

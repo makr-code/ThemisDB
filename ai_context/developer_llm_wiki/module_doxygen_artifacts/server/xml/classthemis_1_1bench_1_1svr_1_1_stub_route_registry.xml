@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1svr_1_1_stub_route_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::svr::StubRouteRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a72f9f1b3f858d5ee8f82ab94821038de" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::bench::svr::StubRouteRegistry::routes_</definition>
+        <argsstring></argsstring>
+        <name>routes_</name>
+        <qualifiedname>themis::bench::svr::StubRouteRegistry::routes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="122" column="24" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a3210f8d8ac56dc858ed99cf57414e56a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::svr::StubRouteRegistry::StubRouteRegistry</definition>
+        <argsstring>(int num_routes)</argsstring>
+        <name>StubRouteRegistry</name>
+        <qualifiedname>themis::bench::svr::StubRouteRegistry::StubRouteRegistry</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_routes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="111" column="14" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a8aa80339464d18e2e069b6aaf781ba53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::svr::StubRouteRegistry::lookup</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::bench::svr::StubRouteRegistry::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="117" column="9" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="117" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub route registry: maps path hash → handler index. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_hotpaths.cpp" line="109" column="1" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="109" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a8aa80339464d18e2e069b6aaf781ba53" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRouteRegistry</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a72f9f1b3f858d5ee8f82ab94821038de" prot="private" virt="non-virtual"><scope>themis::bench::svr::StubRouteRegistry</scope><name>routes_</name></member>
+      <member refid="classthemis_1_1bench_1_1svr_1_1_stub_route_registry_1a3210f8d8ac56dc858ed99cf57414e56a" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRouteRegistry</scope><name>StubRouteRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

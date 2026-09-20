@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_test_harness" kind="struct" language="C++" prot="public">
+    <compoundname>TestHarness</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_test_harness_1a9f1f39bcd57b14d2455257434c5f7c2c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_mock_remote_cache_peer" kindref="compound">MockRemoteCachePeer</ref> * &gt;</type>
+        <definition>std::vector&lt;MockRemoteCachePeer*&gt; TestHarness::raw_peers</definition>
+        <argsstring></argsstring>
+        <name>raw_peers</name>
+        <qualifiedname>TestHarness::raw_peers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="108" column="29" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_harness_1adb05c4d7b5be7eb2efe763afd8c13d93" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_static_cluster_view" kindref="compound">StaticClusterView</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;StaticClusterView&gt; TestHarness::cluster_view</definition>
+        <argsstring></argsstring>
+        <name>cluster_view</name>
+        <qualifiedname>TestHarness::cluster_view</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="109" column="32" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_harness_1a05efa7cfaf699f7ea45bb938f005244d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_cache_replication_coordinator" kindref="compound">CacheReplicationCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CacheReplicationCoordinator&gt; TestHarness::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>TestHarness::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="110" column="22" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="struct_test_harness_1a1999516a626efded29b03d08807a1c14" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_test_harness" kindref="compound">TestHarness</ref></type>
+        <definition>static TestHarness TestHarness::make</definition>
+        <argsstring>(int n_peers, bool peers_throw=false, std::shared_ptr&lt; InProcessCacheCoordinator::Bus &gt; bus=nullptr)</argsstring>
+        <name>make</name>
+        <qualifiedname>TestHarness::make</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n_peers</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>peers_throw</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus" kindref="compound">InProcessCacheCoordinator::Bus</ref> &gt;</type>
+          <declname>bus</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="112" column="24" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="112" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_replication_coordinator.cpp" line="107" column="1" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="107" bodyend="150"/>
+    <listofallmembers>
+      <member refid="struct_test_harness_1adb05c4d7b5be7eb2efe763afd8c13d93" prot="public" virt="non-virtual"><scope>TestHarness</scope><name>cluster_view</name></member>
+      <member refid="struct_test_harness_1a05efa7cfaf699f7ea45bb938f005244d" prot="public" virt="non-virtual"><scope>TestHarness</scope><name>coordinator</name></member>
+      <member refid="struct_test_harness_1a1999516a626efded29b03d08807a1c14" prot="public" virt="non-virtual"><scope>TestHarness</scope><name>make</name></member>
+      <member refid="struct_test_harness_1a9f1f39bcd57b14d2455257434c5f7c2c" prot="public" virt="non-virtual"><scope>TestHarness</scope><name>raw_peers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

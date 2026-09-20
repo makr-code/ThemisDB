@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_rewrite_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::RewriteStats</compoundname>
+    <includes refid="query__rewrite__rule_8h" local="no">query_rewrite_rule.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_stats_1a807ebffb576b1f6b5ff9c9fb56df53d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::RewriteStats::rules_applied</definition>
+        <argsstring></argsstring>
+        <name>rules_applied</name>
+        <qualifiedname>themis::query::RewriteStats::rules_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="33" column="12" bodyfile="include/query/query_rewrite_rule.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_stats_1ab1926c205640487e3cecbd2439909bfa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::RewriteStats::applied_rule_names</definition>
+        <argsstring></argsstring>
+        <name>applied_rule_names</name>
+        <qualifiedname>themis::query::RewriteStats::applied_rule_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="35" column="17" bodyfile="include/query/query_rewrite_rule.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_stats_1ae558adce5edf22aa8fadd2671df6e56a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::RewriteStats::total_transformations</definition>
+        <argsstring></argsstring>
+        <name>total_transformations</name>
+        <qualifiedname>themis::query::RewriteStats::total_transformations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="37" column="12" bodyfile="include/query/query_rewrite_rule.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_rewrite_rule.h" line="32" column="1" bodyfile="include/query/query_rewrite_rule.h" bodystart="32" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_rewrite_stats_1ab1926c205640487e3cecbd2439909bfa" prot="public" virt="non-virtual"><scope>themis::query::RewriteStats</scope><name>applied_rule_names</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_stats_1a807ebffb576b1f6b5ff9c9fb56df53d6" prot="public" virt="non-virtual"><scope>themis::query::RewriteStats</scope><name>rules_applied</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_stats_1ae558adce5edf22aa8fadd2671df6e56a" prot="public" virt="non-virtual"><scope>themis::query::RewriteStats</scope><name>total_transformations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

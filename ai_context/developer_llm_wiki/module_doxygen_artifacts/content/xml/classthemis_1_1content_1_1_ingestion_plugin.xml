@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_ingestion_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::content::IngestionPlugin</compoundname>
+    <includes refid="ingestion__plugin_8h" local="no">ingestion_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a561fa2c459c930f3cedeb56a62a0d14e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::IngestionPlugin::~IngestionPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IngestionPlugin</name>
+        <qualifiedname>themis::content::IngestionPlugin::~IngestionPlugin</qualifiedname>
+        <briefdescription>
+<para>Ingestion Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="34" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a7f866a6d37feeb8f311380e6ffaad77f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::content::IngestionPlugin::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::content::IngestionPlugin::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="36" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a3799e96094db454358ed88b32e0879d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::content::IngestionPlugin::version</definition>
+        <argsstring>() const =0</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::content::IngestionPlugin::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="38" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a00325188df7632419e95b4e5fc090ae0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" kindref="member">IngestionJobType</ref> &gt;</type>
+        <definition>virtual std::vector&lt; IngestionJobType &gt; themis::content::IngestionPlugin::supportedTypes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedTypes</name>
+        <qualifiedname>themis::content::IngestionPlugin::supportedTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="40" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1aa3e5f3d987f870558a0f2e3d66d5530f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::content::IngestionPlugin::processJob</definition>
+        <argsstring>(IngestionJob &amp;job)=0</argsstring>
+        <name>processJob</name>
+        <qualifiedname>themis::content::IngestionPlugin::processJob</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Process Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="46" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a0eeb42676e8ace5959dd80eeec72710d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::content::IngestionPlugin::estimateJobSize</definition>
+        <argsstring>(const IngestionJob &amp;job)=0</argsstring>
+        <name>estimateJobSize</name>
+        <qualifiedname>themis::content::IngestionPlugin::estimateJobSize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="48" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1adc7304dcd07f93fa9ddf819d6af4d36f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>virtual json themis::content::IngestionPlugin::getConfig</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::content::IngestionPlugin::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="50" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_ingestion_plugin_1a93b0d12f5ab21c1eed3cf1113db5dc77" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::content::IngestionPlugin::setConfig</definition>
+        <argsstring>(const json &amp;config)=0</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::content::IngestionPlugin::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="56" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/ingestion_plugin.h" line="28" column="1" bodyfile="include/content/ingestion_plugin.h" bodystart="28" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a0eeb42676e8ace5959dd80eeec72710d" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>estimateJobSize</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1adc7304dcd07f93fa9ddf819d6af4d36f" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a7f866a6d37feeb8f311380e6ffaad77f" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>name</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1aa3e5f3d987f870558a0f2e3d66d5530f" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>processJob</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a93b0d12f5ab21c1eed3cf1113db5dc77" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a00325188df7632419e95b4e5fc090ae0" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>supportedTypes</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a3799e96094db454358ed88b32e0879d9" prot="public" virt="pure-virtual"><scope>themis::content::IngestionPlugin</scope><name>version</name></member>
+      <member refid="classthemis_1_1content_1_1_ingestion_plugin_1a561fa2c459c930f3cedeb56a62a0d14e" prot="public" virt="virtual"><scope>themis::content::IngestionPlugin</scope><name>~IngestionPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

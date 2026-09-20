@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::kernels::KernelFusionManager::FusionStats</compoundname>
+    <includes refid="kernel__fusion_8h" local="no">kernel_fusion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1af89d6a0b710888386b3882cc2b8d7615" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::kernels::KernelFusionManager::FusionStats::ln_linear_fusions</definition>
+        <argsstring></argsstring>
+        <name>ln_linear_fusions</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::ln_linear_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="180" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1acb2a244bad07ededab2ade999ce5b018" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::kernels::KernelFusionManager::FusionStats::qkv_fusions</definition>
+        <argsstring></argsstring>
+        <name>qkv_fusions</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::qkv_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="181" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a34dd5ad8b3f377bacd6fc15a6cf20785" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::kernels::KernelFusionManager::FusionStats::ffn_fusions</definition>
+        <argsstring></argsstring>
+        <name>ffn_fusions</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::ffn_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="182" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a79937c24424c4433e6868e80ab84116b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::kernels::KernelFusionManager::FusionStats::total_fusions</definition>
+        <argsstring></argsstring>
+        <name>total_fusions</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::total_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="183" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a847b6daeb6ebe4f53f6333c5119254c5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::kernels::KernelFusionManager::FusionStats::total_time_saved_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_saved_ms</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::total_time_saved_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="185" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1aba5395f278d4ff1b2a89ff97f8dac5e6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::kernels::KernelFusionManager::FusionStats::avg_speedup</definition>
+        <argsstring></argsstring>
+        <name>avg_speedup</name>
+        <qualifiedname>themis::llm::kernels::KernelFusionManager::FusionStats::avg_speedup</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kernel_fusion.h" line="186" column="16" bodyfile="include/llm/kernel_fusion.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kernel_fusion.h" line="179" column="5" bodyfile="include/llm/kernel_fusion.h" bodystart="179" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1aba5395f278d4ff1b2a89ff97f8dac5e6" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>avg_speedup</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a34dd5ad8b3f377bacd6fc15a6cf20785" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>ffn_fusions</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1af89d6a0b710888386b3882cc2b8d7615" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>ln_linear_fusions</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1acb2a244bad07ededab2ade999ce5b018" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>qkv_fusions</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a79937c24424c4433e6868e80ab84116b" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>total_fusions</name></member>
+      <member refid="structthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager_1_1_fusion_stats_1a847b6daeb6ebe4f53f6333c5119254c5" prot="public" virt="non-virtual"><scope>themis::llm::kernels::KernelFusionManager::FusionStats</scope><name>total_time_saved_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

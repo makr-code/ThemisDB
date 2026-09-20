@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="schema__dead__weight__detector_8h" kind="file" language="C++">
+    <compoundname>schema_dead_weight_detector.h</compoundname>
+    <includes local="yes">llm/decision_record_yaml_processor.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="storage__layout__advisor_8h" local="yes">include/storage/storage_layout_advisor.h</includedby>
+    <includedby refid="schema__dead__weight__detector_8cpp" local="yes">src/storage/schema_dead_weight_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/schema_dead_weight_detector.h</label>
+        <link refid="schema__dead__weight__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>set</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/schema_dead_weight_detector.h</label>
+        <link refid="schema__dead__weight__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/storage/storage_layout_advisor.h</label>
+        <link refid="storage__layout__advisor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/storage/schema_dead_weight_detector.cpp</label>
+        <link refid="schema__dead__weight__detector_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/storage/storage_layout_advisor.cpp</label>
+        <link refid="storage__layout__advisor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_storage_layout_advisor.cpp</label>
+        <link refid="test__storage__layout__advisor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_gdpr_field_registry" prot="public">themis::storage::GdprFieldRegistry</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_schema_dead_weight_detector" prot="public">themis::storage::SchemaDeadWeightDetector</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate" prot="public">themis::storage::SchemaDeadWeightDetector::DeadWeightCandidate</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" prot="public">themis::storage::SchemaDeadWeightDetector::DeadWeightReport</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" prot="public">themis::storage::SchemaDeadWeightDetector::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/decision_record_yaml_processor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supporting<sp/>input<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" kindref="member">AccessEntry</ref><sp/>=<sp/>std::pair&lt;std::chrono::system_clock::time_point,<sp/>uint64_t&gt;;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1storage_1aa5362385bfc0f6b7c1e3297b95a2d999" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage_1aa5362385bfc0f6b7c1e3297b95a2d999" kindref="member">SchemaAccessStats</ref><sp/>=<sp/>std::map&lt;std::string,<sp/>std::vector&lt;AccessEntry&gt;&gt;;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1storage_1_1_gdpr_field_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" kindref="member">protected_paths</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a6d7724ec9ace5e57472fda340dc655ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a6d7724ec9ace5e57472fda340dc655ca" kindref="member">isProtected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_path)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry_1a78f5c6642767a47111257c0209f7fe31" kindref="member">protected_paths</ref>.count(field_path)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SchemaDeadWeightDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>DeadWeightCandidate<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate" kindref="compound">DeadWeightCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a5aa3e9b9ec8ccec6c2a0f2da7359886f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a5aa3e9b9ec8ccec6c2a0f2da7359886f" kindref="member">field_path</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a68867271a204adc30dd861906d843cf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a68867271a204adc30dd861906d843cf7" kindref="member">confidence</ref>{0.0};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1ac074f653422de93cafd74e1fed13a3c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1ac074f653422de93cafd74e1fed13a3c7" kindref="member">days_since_access</ref>{0};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a629216dca39316ca0ba463c5e2e3b882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a629216dca39316ca0ba463c5e2e3b882" kindref="member">gdpr_protected</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a5668f671a28ee17c4b11996a6e6b5451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a5668f671a28ee17c4b11996a6e6b5451" kindref="member">seasonality_score</ref>{0.0};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a8ba54bcfed21ef0dd60d269e9da7d8ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate_1a8ba54bcfed21ef0dd60d269e9da7d8ec" kindref="member">recommendation</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>DeadWeightReport<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a31e5bd2d4d28e431756b15c6713adb94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;DeadWeightCandidate&gt;<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a31e5bd2d4d28e431756b15c6713adb94" kindref="member">candidates</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1af7a7eecf0fc3060a6d48db9b68d51a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1af7a7eecf0fc3060a6d48db9b68d51a4b" kindref="member">generated_at</ref>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a2cbeb79d97673437da98fb9384a7dff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a2cbeb79d97673437da98fb9384a7dff4" kindref="member">analysis_window_days</ref>{180};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a940485561611986841020c01a7b308bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a940485561611986841020c01a7b308bb" kindref="member">total_fields_analyzed</ref>{0};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1adef8a8c0f8b5152c75f75f6c704d4c56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1adef8a8c0f8b5152c75f75f6c704d4c56" kindref="member">gdpr_protected_skipped</ref>{0};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Config<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1ac55009e28e0e2331fa0a72b625bf7e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1ac55009e28e0e2331fa0a72b625bf7e70" kindref="member">analysis_window_days</ref>{180};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a55adec55de865c51e5c705b1b961f0b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a55adec55de865c51e5c705b1b961f0b6" kindref="member">seasonality_exclusion_threshold</ref>{0.7};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a2dc407bb4890ad2b953272f42baaa5fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1a2dc407bb4890ad2b953272f42baaa5fe" kindref="member">min_confidence</ref>{0.1};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1aad6add7d8132f805f53fc4e42fbccbea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config_1aad6add7d8132f805f53fc4e42fbccbea" kindref="member">fourier_harmonics</ref>{3};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Lifecycle<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>(Config<sp/>config);</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ac4abebd1b1044ae48873c2a9ac4d4ea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ac4abebd1b1044ae48873c2a9ac4d4ea2" kindref="member">~SchemaDeadWeightDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae6b3491c38a78b41097a8d7289a9bd19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae6b3491c38a78b41097a8d7289a9bd19" kindref="member">SchemaDeadWeightDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a444878e41b6024034672e6567f594c6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a444878e41b6024034672e6567f594c6b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae8d979a31be4b2c45c1d591fa2d8ceae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ae8d979a31be4b2c45c1d591fa2d8ceae" kindref="member">SchemaDeadWeightDetector</ref>(<ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a42e3953113405ac6ff015322bc0ac568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a6b3de2bf0defbeba5bd285611847c838" kindref="member">SchemaDeadWeightDetector</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Dependency<sp/>injection<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1a73a49902eca12a46bc06190ba86bb6d9" kindref="member">setDecisionRecordProcessor</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::shared_ptr&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::llm::DecisionRecordYamlProcessor&gt;<sp/>processor);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Primary<sp/>interface<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1aa8155b250e89067b3cd13ae7888c4716" kindref="member">analyze</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1storage_1aa5362385bfc0f6b7c1e3297b95a2d999" kindref="member">SchemaAccessStats</ref>&amp;<sp/>stats,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref>&amp;<sp/>gdpr_fields)<sp/>const;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_schema_dead_weight_detector_1ab09233e7450bc1204612fb133d823aee" kindref="member">computeSeasonalityScore</ref>(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" kindref="member">AccessEntry</ref>&gt;&amp;<sp/>access_series)<sp/>const;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::shared_ptr&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::llm::DecisionRecordYamlProcessor&gt;<sp/>dr_processor_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>determineRecommendation(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>field_path,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>days_since_access);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitDecisionRecord(const<sp/><ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kindref="compound">DeadWeightReport</ref>&amp;<sp/>report)<sp/>const;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/schema_dead_weight_detector.h"/>
+  </compounddef>
+</doxygen>

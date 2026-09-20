@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_tee_attestation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TeeAttestationReport</compoundname>
+    <includes refid="confidential__computing_8h" local="no">confidential_computing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_attestation_report_1a14e064c0dc52562169df35cda4ea74b7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+        <definition>TeeType themis::security::TeeAttestationReport::tee_type</definition>
+        <argsstring></argsstring>
+        <name>tee_type</name>
+        <qualifiedname>themis::security::TeeAttestationReport::tee_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="56" column="13" bodyfile="include/security/confidential_computing.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_attestation_report_1a0ed2f6931120b519d922379e3a996f1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TeeAttestationReport::report_data</definition>
+        <argsstring></argsstring>
+        <name>report_data</name>
+        <qualifiedname>themis::security::TeeAttestationReport::report_data</qualifiedname>
+        <briefdescription>
+<para>64-byte user-supplied nonce / challenge </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="57" column="17" bodyfile="include/security/confidential_computing.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_attestation_report_1ad9a167c13b1e7fc48ac8a92dff4938a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TeeAttestationReport::raw_report</definition>
+        <argsstring></argsstring>
+        <name>raw_report</name>
+        <qualifiedname>themis::security::TeeAttestationReport::raw_report</qualifiedname>
+        <briefdescription>
+<para>Raw attestation bytes from the kernel driver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="58" column="17" bodyfile="include/security/confidential_computing.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_attestation_report_1ac8d3d5b4f0c2a58fbba908ffe401b738" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TeeAttestationReport::tee_version</definition>
+        <argsstring></argsstring>
+        <name>tee_version</name>
+        <qualifiedname>themis::security::TeeAttestationReport::tee_version</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;TDX 1.0&quot;, &quot;SEV-SNP 1.51&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="59" column="17" bodyfile="include/security/confidential_computing.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_attestation_report_1ae24391735b67efb90aaa83cd85377ce2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TeeAttestationReport::is_genuine</definition>
+        <argsstring></argsstring>
+        <name>is_genuine</name>
+        <qualifiedname>themis::security::TeeAttestationReport::is_genuine</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True only when raw_report is from real HW. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="60" column="10" bodyfile="include/security/confidential_computing.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_tee_attestation_report_1af3cf5b52b8c335fe61af0107ce1c8139" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TeeAttestationReport::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::security::TeeAttestationReport::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="62" column="10" bodyfile="include/security/confidential_computing.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Attestation report produced by the TEE. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For Intel TDX this is a TDREPORT structure (1024 bytes) returned by the TDX_CMD_GET_REPORT0 ioctl on /dev/tdx_guest.</para>
+<para>For AMD SEV-SNP this is an snp_report_t (1184 bytes) returned by the SNP_GET_REPORT ioctl on /dev/sev-guest.</para>
+<para>When no TEE is present a software-synthesised report (empty raw_report, populated fields only) is returned so callers can always use the same API. </para>
+    </detaileddescription>
+    <location file="include/security/confidential_computing.h" line="55" column="1" bodyfile="include/security/confidential_computing.h" bodystart="55" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1af3cf5b52b8c335fe61af0107ce1c8139" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>empty</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1ae24391735b67efb90aaa83cd85377ce2" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>is_genuine</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1ad9a167c13b1e7fc48ac8a92dff4938a7" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>raw_report</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1a0ed2f6931120b519d922379e3a996f1c" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>report_data</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1a14e064c0dc52562169df35cda4ea74b7" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>tee_type</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_attestation_report_1ac8d3d5b4f0c2a58fbba908ffe401b738" prot="public" virt="non-virtual"><scope>themis::security::TeeAttestationReport</scope><name>tee_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::rpc::IRPCServer</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1adc6b4a2ea81a3964e22b02fea3d7093e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::rpc::IRPCServer::~IRPCServer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRPCServer</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::~IRPCServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="129" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a015a430bc7a5d54b72f76d32a3a432ce" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref></type>
+        <definition>virtual RPCProtocol themis::plugins::rpc::IRPCServer::getProtocol</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getProtocol</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::getProtocol</qualifiedname>
+        <briefdescription>
+<para>Get RPC protocol type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Protocol type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="135" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a96e2c53c701eddc3a0715f45490f5702" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::rpc::IRPCServer::initialize</definition>
+        <argsstring>(const RPCServerConfig &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" kindref="compound">RPCServerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize RPC server with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization was successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="142" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a9e123b16c51b9021164f97bfb93bb82d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::rpc::IRPCServer::start</definition>
+        <argsstring>()=0</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::start</qualifiedname>
+        <briefdescription>
+<para>Start RPC server (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The server starts listening for connections in a background thread. Returns immediately after starting.</para>
+<para><simplesect kind="return"><para>true if server started successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="152" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a06186f8307577457c31fbf7fe19476d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::rpc::IRPCServer::stop</definition>
+        <argsstring>()=0</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop RPC server gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stops accepting new connections and waits for existing requests to complete before shutting down. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="160" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ae3658105bee75ced3caccc6e178ec4dd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::rpc::IRPCServer::isRunning</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if server is running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if server is running </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="166" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a44be68453ee366e5f38885e9780232a3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" kindref="compound">RPCServerStats</ref></type>
+        <definition>virtual RPCServerStats themis::plugins::rpc::IRPCServer::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::getStats</qualifiedname>
+        <briefdescription>
+<para>Get server statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current server statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="172" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a802f3afd5272a89b6f57a5359e01b475" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::rpc::IRPCServer::registerService</definition>
+        <argsstring>(void *service_impl)=0</argsstring>
+        <name>registerService</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::registerService</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>service_impl</declname>
+        </param>
+        <briefdescription>
+<para>Register a service implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For gRPC: Pass grpc::Service* instance For Thrift: Pass shared_ptr to Thrift processor For JSON-RPC: Pass method handler map</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to service implementation (protocol-specific) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="183" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ad84f476a3fcbf2be0143366255e01107" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::rpc::IRPCServer::getAddress</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getAddress</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::getAddress</qualifiedname>
+        <briefdescription>
+<para>Get server address (host:port). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Server address as string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="189" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a8d55e35316eaf02e3904007527bd3250" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::rpc::IRPCServer::resetStats</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::plugins::rpc::IRPCServer::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="194" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Server Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All RPC server implementations must implement this interface. The RPC server is responsible for listening for incoming connections and dispatching requests to the appropriate service handlers. </para>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="127" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="127" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ad84f476a3fcbf2be0143366255e01107" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>getAddress</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a015a430bc7a5d54b72f76d32a3a432ce" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>getProtocol</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a44be68453ee366e5f38885e9780232a3" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a96e2c53c701eddc3a0715f45490f5702" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ae3658105bee75ced3caccc6e178ec4dd" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a802f3afd5272a89b6f57a5359e01b475" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>registerService</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a8d55e35316eaf02e3904007527bd3250" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a9e123b16c51b9021164f97bfb93bb82d" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a06186f8307577457c31fbf7fe19476d0" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1adc6b4a2ea81a3964e22b02fea3d7093e" prot="public" virt="virtual"><scope>themis::plugins::rpc::IRPCServer</scope><name>~IRPCServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

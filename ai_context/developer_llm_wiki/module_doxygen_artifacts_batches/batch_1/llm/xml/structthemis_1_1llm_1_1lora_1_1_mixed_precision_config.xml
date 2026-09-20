@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::MixedPrecisionConfig</compoundname>
+    <includes refid="mixed__precision_8h" local="no">mixed_precision.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6c99b5ce3c05d1882b3fa7f736b47092" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::llm::lora::MixedPrecisionConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">PrecisionMode::FP32</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="34" column="19" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1ac69a08aff97a121985ac641ccf6bf8d9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MixedPrecisionConfig::loss_scale</definition>
+        <argsstring></argsstring>
+        <name>loss_scale</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::loss_scale</qualifiedname>
+        <initializer>= 1024.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="35" column="11" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a593c257bb24d23d49293fb27aa1cb783" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MixedPrecisionConfig::loss_scale_factor</definition>
+        <argsstring></argsstring>
+        <name>loss_scale_factor</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::loss_scale_factor</qualifiedname>
+        <initializer>= 2.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="36" column="11" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1acaf33cd4d55df993ada1993ec0e01a27" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::MixedPrecisionConfig::loss_scale_window</definition>
+        <argsstring></argsstring>
+        <name>loss_scale_window</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::loss_scale_window</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="37" column="9" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6bb6957343b3d12a3d372268ee2f812f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MixedPrecisionConfig::max_loss_scale</definition>
+        <argsstring></argsstring>
+        <name>max_loss_scale</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::max_loss_scale</qualifiedname>
+        <initializer>= 65536.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="38" column="11" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a9995d435731c32387e8929d1eec4e9fb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MixedPrecisionConfig::min_loss_scale</definition>
+        <argsstring></argsstring>
+        <name>min_loss_scale</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::min_loss_scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="39" column="11" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a0e8a397da193cca9dd7570f61a9bd927" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MixedPrecisionConfig::dynamic_loss_scaling</definition>
+        <argsstring></argsstring>
+        <name>dynamic_loss_scaling</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::dynamic_loss_scaling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="40" column="10" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a40bdeef2bbc4c3024c13601d5ad7ab5f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::MixedPrecisionConfig::overflow_check_interval</definition>
+        <argsstring></argsstring>
+        <name>overflow_check_interval</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::overflow_check_interval</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="41" column="9" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a4af0b7a878f7f3ca06ec7231990c2ba2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::MixedPrecisionConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::MixedPrecisionConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/mixed_precision.h" line="44" column="10" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="44" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/mixed_precision.h" line="33" column="1" bodyfile="include/llm/lora_framework/mixed_precision.h" bodystart="33" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a0e8a397da193cca9dd7570f61a9bd927" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>dynamic_loss_scaling</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1ac69a08aff97a121985ac641ccf6bf8d9" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>loss_scale</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a593c257bb24d23d49293fb27aa1cb783" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>loss_scale_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1acaf33cd4d55df993ada1993ec0e01a27" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>loss_scale_window</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6bb6957343b3d12a3d372268ee2f812f" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>max_loss_scale</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a9995d435731c32387e8929d1eec4e9fb" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>min_loss_scale</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6c99b5ce3c05d1882b3fa7f736b47092" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a40bdeef2bbc4c3024c13601d5ad7ab5f" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>overflow_check_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a4af0b7a878f7f3ca06ec7231990c2ba2" prot="public" virt="non-virtual"><scope>themis::llm::lora::MixedPrecisionConfig</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

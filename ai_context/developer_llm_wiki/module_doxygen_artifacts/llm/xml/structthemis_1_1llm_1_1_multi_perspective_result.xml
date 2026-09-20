@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_perspective_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiPerspectiveResult</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a574f6ea565a4594934c10989de703960" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MultiPerspectiveResult::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="50" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a13993f7c8dc1dfebc2475e1a0dd80f0e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_perspective_response" kindref="compound">PerspectiveResponse</ref> &gt;</type>
+        <definition>std::vector&lt;PerspectiveResponse&gt; themis::llm::MultiPerspectiveResult::perspectives</definition>
+        <argsstring></argsstring>
+        <name>perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::perspectives</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="53" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a91aa826889ad40ee04e3ba1b785efca2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MultiPerspectiveResult::synthesized_response</definition>
+        <argsstring></argsstring>
+        <name>synthesized_response</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::synthesized_response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="56" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a13a03ca4e472da38a7d117643fa208e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MultiPerspectiveResult::synthesis_reasoning</definition>
+        <argsstring></argsstring>
+        <name>synthesis_reasoning</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::synthesis_reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="57" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a59cd9fac9ea8e96c4259bc61bd0650fb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MultiPerspectiveResult::unique_perspectives_count</definition>
+        <argsstring></argsstring>
+        <name>unique_perspectives_count</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::unique_perspectives_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="60" column="9" bodyfile="include/llm/multi_perspective_generator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a38899062bdcac37e7d364f8a7dda16f4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiPerspectiveResult::perspective_diversity_score</definition>
+        <argsstring></argsstring>
+        <name>perspective_diversity_score</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::perspective_diversity_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>0-1, higher = more diverse </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="61" column="11" bodyfile="include/llm/multi_perspective_generator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1aece21da19d29707280d994de71afd2cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveResult::shows_balanced_view</definition>
+        <argsstring></argsstring>
+        <name>shows_balanced_view</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::shows_balanced_view</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="62" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a1b49b39b62389f94c7a6f9f358281236" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiPerspectiveResult::meets_diversity_requirement</definition>
+        <argsstring></argsstring>
+        <name>meets_diversity_requirement</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::meets_diversity_requirement</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="65" column="10" bodyfile="include/llm/multi_perspective_generator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a85ea441aeb37589869ebc64d4bd4def2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MultiPerspectiveResult::common_themes</definition>
+        <argsstring></argsstring>
+        <name>common_themes</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::common_themes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="66" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1acb315adccbc91af356705892231d69ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MultiPerspectiveResult::disagreements</definition>
+        <argsstring></argsstring>
+        <name>disagreements</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::disagreements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="67" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_result_1a4b34f282b39344b84684ca3b63ccd6af" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::MultiPerspectiveResult::generation_time</definition>
+        <argsstring></argsstring>
+        <name>generation_time</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::generation_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="70" column="31" bodyfile="include/llm/multi_perspective_generator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_multi_perspective_result_1a99822a2606409ca1297bad69dd617b63" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::MultiPerspectiveResult::~MultiPerspectiveResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MultiPerspectiveResult</name>
+        <qualifiedname>themis::llm::MultiPerspectiveResult::~MultiPerspectiveResult</qualifiedname>
+        <briefdescription>
+<para>Multi Perspective Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="48" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_perspective_generator.h" line="43" column="1" bodyfile="include/llm/multi_perspective_generator.h" bodystart="43" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a85ea441aeb37589869ebc64d4bd4def2" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>common_themes</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1acb315adccbc91af356705892231d69ca" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>disagreements</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a4b34f282b39344b84684ca3b63ccd6af" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>generation_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a1b49b39b62389f94c7a6f9f358281236" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>meets_diversity_requirement</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a38899062bdcac37e7d364f8a7dda16f4" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>perspective_diversity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13993f7c8dc1dfebc2475e1a0dd80f0e" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a574f6ea565a4594934c10989de703960" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>query</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1aece21da19d29707280d994de71afd2cb" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>shows_balanced_view</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13a03ca4e472da38a7d117643fa208e9" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>synthesis_reasoning</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a91aa826889ad40ee04e3ba1b785efca2" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>synthesized_response</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a59cd9fac9ea8e96c4259bc61bd0650fb" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>unique_perspectives_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_result_1a99822a2606409ca1297bad69dd617b63" prot="public" virt="virtual"><scope>themis::llm::MultiPerspectiveResult</scope><name>~MultiPerspectiveResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

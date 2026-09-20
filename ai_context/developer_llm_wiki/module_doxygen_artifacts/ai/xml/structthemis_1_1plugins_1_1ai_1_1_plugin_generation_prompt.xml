@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ai::PluginGenerationPrompt</compoundname>
+    <includes refid="ai__plugin__generator_8h" local="no">ai_plugin_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a1b1fee4bfd4c33a64d5c86a1b2a302ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::PluginGenerationPrompt::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="47" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1aba9e5d919cf5c611f0279ae68ec4b616" prot="public" static="no" mutable="no">
+        <type>PluginType</type>
+        <definition>PluginType themis::plugins::ai::PluginGenerationPrompt::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="48" column="16" bodyfile="include/ai/ai_plugin_generator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1af13139acda458870c696e04cf921b4ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ai::PluginGenerationPrompt::required_capabilities</definition>
+        <argsstring></argsstring>
+        <name>required_capabilities</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::required_capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="49" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac39b78263d7e1a8a2ea235daa006ec25" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ai::PluginGenerationPrompt::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="50" column="17" bodyfile="include/ai/ai_plugin_generator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a2b8dde4fedcfc301c82470665d33e806" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6c" kindref="member">LLMModel</ref></type>
+        <definition>LLMModel themis::plugins::ai::PluginGenerationPrompt::llm_model</definition>
+        <argsstring></argsstring>
+        <name>llm_model</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::llm_model</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca72828469d3f2899d8afa9dcc03b9fde1" kindref="member">LLMModel::CODE_LLAMA</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="51" column="14" bodyfile="include/ai/ai_plugin_generator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a3db9f9ed4543143558984d29a9e0e5a7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4a" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::plugins::ai::PluginGenerationPrompt::security_level</definition>
+        <argsstring></argsstring>
+        <name>security_level</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::security_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aab89de3b4b81c4facfac906edf29aec8c" kindref="member">SecurityLevel::HIGH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="52" column="19" bodyfile="include/ai/ai_plugin_generator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac98a0b8a743ae369718070c68281f15f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::PluginGenerationPrompt::generate_tests</definition>
+        <argsstring></argsstring>
+        <name>generate_tests</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::generate_tests</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="53" column="10" bodyfile="include/ai/ai_plugin_generator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ae221e9c377de0aad1bd3824906c4d722" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::PluginGenerationPrompt::generate_docs</definition>
+        <argsstring></argsstring>
+        <name>generate_docs</name>
+        <qualifiedname>themis::plugins::ai::PluginGenerationPrompt::generate_docs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="54" column="10" bodyfile="include/ai/ai_plugin_generator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="46" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac39b78263d7e1a8a2ea235daa006ec25" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a1b1fee4bfd4c33a64d5c86a1b2a302ef" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>description</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ae221e9c377de0aad1bd3824906c4d722" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>generate_docs</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac98a0b8a743ae369718070c68281f15f" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>generate_tests</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a2b8dde4fedcfc301c82470665d33e806" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>llm_model</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1af13139acda458870c696e04cf921b4ac" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>required_capabilities</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a3db9f9ed4543143558984d29a9e0e5a7" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>security_level</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1aba9e5d919cf5c611f0279ae68ec4b616" prot="public" virt="non-virtual"><scope>themis::plugins::ai::PluginGenerationPrompt</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

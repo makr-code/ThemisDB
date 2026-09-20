@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HTTPMetricsClient</compoundname>
+    <includes refid="http__metrics__client_8h" local="no">http_metrics_client.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" prot="public">themis::rag::judge::HTTPMetricsClient::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_impl" prot="public">themis::rag::judge::HTTPMetricsClient::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;method, const std::string &amp;url, int status_code, int64_t latency_ms)&gt;</type>
+        <definition>using themis::rag::judge::HTTPMetricsClient::RequestCallback = std::function&lt;void(const std::string&amp; method, const std::string&amp; url, int status_code, int64_t latency_ms)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RequestCallback</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::RequestCallback</qualifiedname>
+        <briefdescription>
+<para>Set request callback (for logging/monitoring). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="176" column="5" bodyfile="include/rag/http_metrics_client.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1abd8a2f3c8d5e7908bbfd63e0e5e6f3f2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::HTTPMetricsClient::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="181" column="21" bodyfile="include/rag/http_metrics_client.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a03be87cde706584a1421070b426a8df9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref></type>
+        <definition>HTTPMetricsClientConfig themis::rag::judge::HTTPMetricsClient::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="182" column="29" bodyfile="include/rag/http_metrics_client.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ada3aeecbbd1c27b68f6fe067ee0be889" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::rag::judge::HTTPMetricsClient::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="183" column="16" bodyfile="include/rag/http_metrics_client.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a3412eec34d7b45c0da48757271928bd5" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::rag::judge::HTTPMetricsClient::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="184" column="31" bodyfile="include/rag/http_metrics_client.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1af5d04d66e53713d3bebdeb19011aecbb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" kindref="member">RequestCallback</ref></type>
+        <definition>RequestCallback themis::rag::judge::HTTPMetricsClient::request_callback_</definition>
+        <argsstring></argsstring>
+        <name>request_callback_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::request_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="185" column="21" bodyfile="include/rag/http_metrics_client.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1aa6ef64d5e55f042f4035f7e7e2cfe437" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::HTTPMetricsClient::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="186" column="24" bodyfile="include/rag/http_metrics_client.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1eaf18d212fc32d5b93b7d8bfff45518" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::HTTPMetricsClient::HTTPMetricsClient</definition>
+        <argsstring>(const HTTPMetricsClientConfig &amp;config)</argsstring>
+        <name>HTTPMetricsClient</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::HTTPMetricsClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct client with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="99" column="14" bodyfile="src/rag/http_metrics_client.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab6fae99518206dff5b2192ce4c7f1272" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::HTTPMetricsClient::~HTTPMetricsClient</definition>
+        <argsstring>()</argsstring>
+        <name>~HTTPMetricsClient</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::~HTTPMetricsClient</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1afb1debff17c0b44350fd3a615b33cdd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>HTTPResponse themis::rag::judge::HTTPMetricsClient::sendMetric</definition>
+        <argsstring>(const QualityMetricPayload &amp;metric)</argsstring>
+        <name>sendMetric</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::sendMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref> &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Send single metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality metric to send </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTTP response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: serializeMetric(), <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a678667df03187ee4c1c679332d5dda17" kindref="member">sendRawPayload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="111" column="18" bodyfile="src/rag/http_metrics_client.cpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1af687f458ad3b59659d8ea437964c7186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>HTTPResponse themis::rag::judge::HTTPMetricsClient::sendMetricsBatch</definition>
+        <argsstring>(const std::vector&lt; QualityMetricPayload &gt; &amp;metrics)</argsstring>
+        <name>sendMetricsBatch</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::sendMetricsBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Send batch of metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Metrics Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of quality metrics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTTP response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), THEMIS_WARN(), std::min(), batch(), begin(), serializeMetricsBatch(), <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a678667df03187ee4c1c679332d5dda17" kindref="member">sendRawPayload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="118" column="18" bodyfile="src/rag/http_metrics_client.cpp" bodystart="88" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a678667df03187ee4c1c679332d5dda17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>HTTPResponse themis::rag::judge::HTTPMetricsClient::sendRawPayload</definition>
+        <argsstring>(const std::string &amp;json_payload)</argsstring>
+        <name>sendRawPayload</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::sendRawPayload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_payload</declname>
+        </param>
+        <briefdescription>
+<para>Send raw JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Raw Payload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTTP response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), requestWithRetry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="125" column="18" bodyfile="src/rag/http_metrics_client.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a0c6b7043aa2a0e581fb0d6910ac7a743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>HTTPResponse themis::rag::judge::HTTPMetricsClient::request</definition>
+        <argsstring>(HTTPMethod method, const std::string &amp;path, const std::string &amp;body=&quot;&quot;, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>request</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::request</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" kindref="member">HTTPMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Perform HTTP request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP method </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>URL path (relative to base URL) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request body </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional headers </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTTP response </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="135" column="18" bodyfile="src/rag/http_metrics_client.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ac77d49ea103743bca1f2fae09e948596" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::HTTPMetricsClient::isEndpointHealthy</definition>
+        <argsstring>()</argsstring>
+        <name>isEndpointHealthy</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::isEndpointHealthy</qualifiedname>
+        <briefdescription>
+<para>Check if endpoint is reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Endpoint Healthy.</para>
+<para><simplesect kind="return"><para>true if endpoint responds to health check</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a0c6b7043aa2a0e581fb0d6910ac7a743" kindref="member">request()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="146" column="10" bodyfile="src/rag/http_metrics_client.cpp" bodystart="305" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ad5afd382a97c37a9e95dea6b6fb84ec2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>HTTPMetricsClient::Statistics themis::rag::judge::HTTPMetricsClient::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="161" column="16" bodyfile="src/rag/http_metrics_client.cpp" bodystart="310" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1e04d87482ed86a713f8dd7e98458b71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HTTPMetricsClient::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref>.</para>
+<para>Calls: lock(), Statistics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="166" column="10" bodyfile="src/rag/http_metrics_client.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a7a2e87480f80b2b853712ba467f2b8ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref> &amp;</type>
+        <definition>const HTTPMetricsClientConfig &amp; themis::rag::judge::HTTPMetricsClient::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="171" column="35" bodyfile="include/rag/http_metrics_client.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab2bdefc43a0995856b39a0d0fdf3e665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HTTPMetricsClient::setRequestCallback</definition>
+        <argsstring>(RequestCallback callback)</argsstring>
+        <name>setRequestCallback</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::setRequestCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" kindref="member">RequestCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Request Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="177" column="10" bodyfile="src/rag/http_metrics_client.cpp" bodystart="334" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a54685c62c6e83af65c06f95f4eba15ca" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>HTTPResponse themis::rag::judge::HTTPMetricsClient::requestWithRetry</definition>
+        <argsstring>(HTTPMethod method, const std::string &amp;path, const std::string &amp;body, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>requestWithRetry</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::requestWithRetry</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" kindref="member">HTTPMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="188" column="18" bodyfile="src/rag/http_metrics_client.cpp" bodystart="146" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a3b998e3fc3de01864d8c83b0b744f279" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HTTPMetricsClient::serializeMetric</definition>
+        <argsstring>(const QualityMetricPayload &amp;metric)</argsstring>
+        <name>serializeMetric</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::serializeMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref> &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="195" column="17" bodyfile="src/rag/http_metrics_client.cpp" bodystart="370" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a5d247d07423045d26f9553bd41e713d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HTTPMetricsClient::serializeMetricsBatch</definition>
+        <argsstring>(const std::vector&lt; QualityMetricPayload &gt; &amp;metrics)</argsstring>
+        <name>serializeMetricsBatch</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::serializeMetricsBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Metrics Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), empty(), push_back(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="196" column="17" bodyfile="src/rag/http_metrics_client.cpp" bodystart="396" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ad5e7b28f34d583ed59bd5d32ae67b35c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HTTPMetricsClient::updateStatistics</definition>
+        <argsstring>(const HTTPResponse &amp;response, size_t metrics_count=1)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClient::updateStatistics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>metrics_count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="198" column="10" bodyfile="src/rag/http_metrics_client.cpp" bodystart="345" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HTTP Metrics Client. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sends quality control metrics to HTTP endpoints for continuous learning. Features:<itemizedlist>
+<listitem><para>Batched metric uploads</para>
+</listitem><listitem><para>Automatic retry with exponential backoff</para>
+</listitem><listitem><para>Connection pooling</para>
+</listitem><listitem><para>SSL/TLS support</para>
+</listitem><listitem><para>Authentication (Bearer token)</para>
+</listitem><listitem><para>Request/response logging </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/http_metrics_client.h" line="94" column="1" bodyfile="include/rag/http_metrics_client.h" bodystart="94" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1aa6ef64d5e55f042f4035f7e7e2cfe437" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a03be87cde706584a1421070b426a8df9" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a7a2e87480f80b2b853712ba467f2b8ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ad5afd382a97c37a9e95dea6b6fb84ec2" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1eaf18d212fc32d5b93b7d8bfff45518" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>HTTPMetricsClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1abd8a2f3c8d5e7908bbfd63e0e5e6f3f2" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ac77d49ea103743bca1f2fae09e948596" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>isEndpointHealthy</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a0c6b7043aa2a0e581fb0d6910ac7a743" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>request</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1af5d04d66e53713d3bebdeb19011aecbb" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>request_callback_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>RequestCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a54685c62c6e83af65c06f95f4eba15ca" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>requestWithRetry</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1e04d87482ed86a713f8dd7e98458b71" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1afb1debff17c0b44350fd3a615b33cdd1" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>sendMetric</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1af687f458ad3b59659d8ea437964c7186" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>sendMetricsBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a678667df03187ee4c1c679332d5dda17" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>sendRawPayload</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a3b998e3fc3de01864d8c83b0b744f279" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>serializeMetric</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a5d247d07423045d26f9553bd41e713d4" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>serializeMetricsBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab2bdefc43a0995856b39a0d0fdf3e665" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>setRequestCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ada3aeecbbd1c27b68f6fe067ee0be889" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a3412eec34d7b45c0da48757271928bd5" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ad5e7b28f34d583ed59bd5d32ae67b35c" prot="private" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab6fae99518206dff5b2192ce4c7f1272" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClient</scope><name>~HTTPMetricsClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

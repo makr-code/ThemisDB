@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__circuit__breaker_8h" kind="file" language="C++">
+    <compoundname>i_circuit_breaker.h</compoundname>
+    <includes refid="lifecycle_8h" local="yes">core/concerns/lifecycle.h</includes>
+    <includes local="yes">sharding/circuit_breaker.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">type_traits</includes>
+    <includedby refid="concerns__context_8h" local="yes">include/core/concerns/concerns_context.h</includedby>
+    <includedby refid="noop__implementations_8h" local="yes">include/core/concerns/noop_implementations.h</includedby>
+    <includedby refid="test__circuit__breaker__focused_8cpp" local="yes">tests/core/test_circuit_breaker_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/i_circuit_breaker.h</label>
+        <link refid="i__circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>sharding/circuit_breaker.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/core/concerns/concerns_context.h</label>
+        <link refid="concerns__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/i_circuit_breaker.h</label>
+        <link refid="i__circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/core/concerns/noop_implementations.h</label>
+        <link refid="noop__implementations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/core/concerns/concerns_context.cpp</label>
+        <link refid="concerns__context_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/core/test_circuit_breaker_focused.cpp</label>
+        <link refid="test__circuit__breaker__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/core/test_concerns_context_focused.cpp</label>
+        <link refid="test__concerns__context__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/core/test_core_smoke.cpp</label>
+        <link refid="test__core__smoke_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" prot="public">themis::core::concerns::ICircuitBreaker</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" prot="public">themis::core::concerns::ICircuitBreaker::Config</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" prot="public">themis::core::concerns::DefaultCircuitBreaker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lifecycle_8h" kindref="compound">core/concerns/lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/circuit_breaker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" kindref="compound">ICircuitBreaker</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">OPEN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">HALF_OPEN</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a86c739424210adaee7b64257e98fddbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a86c739424210adaee7b64257e98fddbb" kindref="member">failure_threshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a5886fcb5a0f03830745a241a83db3878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a5886fcb5a0f03830745a241a83db3878" kindref="member">timeout</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a06d3df7ff50656bf1cc7db84fd84be0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a06d3df7ff50656bf1cc7db84fd84be0e" kindref="member">success_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1aaf568c062011939d0ff81f047d36b00d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1aaf568c062011939d0ff81f047d36b00d" kindref="member">failure_window</ref><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1afef1f62ec60cf2061162ab1b97fcd27a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1afef1f62ec60cf2061162ab1b97fcd27a" kindref="member">~ICircuitBreaker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>circuit<sp/>breaker<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" kindref="member">allowRequest</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" kindref="member">recordSuccess</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f" kindref="member">getFailureCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1adadc5a1abafe13279d833edca10fa715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1adadc5a1abafe13279d833edca10fa715" kindref="member">getSuccessCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c" kindref="member">reset</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a15cf257a04ddc0c586ce1e43d03da701" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a15cf257a04ddc0c586ce1e43d03da701" kindref="member">forceOpen</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Fn,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Fallback&gt;</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(Fn&amp;&amp;<sp/>fn,<sp/>Fallback&amp;&amp;<sp/>fallback)<sp/>-&gt;<sp/></highlight><highlight class="keyword">decltype</highlight><highlight class="normal">(fn())<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" kindref="member">allowRequest</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::forward&lt;Fallback&gt;(fallback)();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(std::is_void_v&lt;</highlight><highlight class="keyword">decltype</highlight><highlight class="normal">(fn())&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::forward&lt;Fn&gt;(fn)();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>std::forward&lt;Fn&gt;(fn)();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a22f6b1d7a69201eede78c7c1b1498268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a22f6b1d7a69201eede78c7c1b1498268" kindref="member">stateToString</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref><sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CLOSED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">State::OPEN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">State::HALF_OPEN</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;HALF_OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a975e8766eb47ecdfe9116450e0660d79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a975e8766eb47ecdfe9116450e0660d79" kindref="member">flush</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a7c97ce4f356e987552aab5f2529c2847" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a7c97ce4f356e987552aab5f2529c2847" kindref="member">shutdown</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6904e3f4a8d692678b3beb1e0e53914e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6904e3f4a8d692678b3beb1e0e53914e" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>()<sp/>==<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">State::OPEN</ref></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a04771183a8c900aa1810d0fc01870fb4" kindref="member">ProbeResult::unhealthy</ref>(</highlight><highlight class="stringliteral">&quot;circuit<sp/>breaker<sp/>OPEN&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ad1df53d844fbd265f1d1ff2dc18484a1" kindref="member">DefaultCircuitBreaker</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" kindref="compound">ICircuitBreaker</ref><sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ad1df53d844fbd265f1d1ff2dc18484a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ad1df53d844fbd265f1d1ff2dc18484a1" kindref="member">DefaultCircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" kindref="compound">Config</ref>{})<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding::CircuitBreaker::Config<sp/>sharding_cfg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding_cfg.failure_threshold<sp/>=<sp/>config.failure_threshold;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding_cfg.timeout<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>config.timeout;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding_cfg.success_threshold<sp/>=<sp/>config.success_threshold;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding_cfg.failure_window<sp/><sp/><sp/><sp/>=<sp/>config.failure_window;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_<sp/>=<sp/>std::make_unique&lt;sharding::CircuitBreaker&gt;(sharding_cfg);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a854f0df30ef17bb91a64348a3e453205" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a854f0df30ef17bb91a64348a3e453205" kindref="member">allowRequest</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;allowRequest();<sp/>}</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a1a413e903940ed044298d462e2678414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a1a413e903940ed044298d462e2678414" kindref="member">recordSuccess</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/>impl_-&gt;recordSuccess();<sp/>}</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a453bb751f60ada316256914ee8fb59ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a453bb751f60ada316256914ee8fb59ef" kindref="member">recordFailure</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/>impl_-&gt;recordFailure();<sp/>}</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a0e2e75d6d60f504d918b0e51a695366d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a0e2e75d6d60f504d918b0e51a695366d" kindref="member">getFailureCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getFailureCount();<sp/>}</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a5237bbd7bb1893fda0dbf43c1b08797b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a5237bbd7bb1893fda0dbf43c1b08797b" kindref="member">getSuccessCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getSuccessCount();<sp/>}</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ab11a5bfadd3bec29be6350ce97b8ca04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ab11a5bfadd3bec29be6350ce97b8ca04" kindref="member">reset</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/>impl_-&gt;reset();<sp/>}</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ae2acb04bbdb462a44656cc23dad89f47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ae2acb04bbdb462a44656cc23dad89f47" kindref="member">forceOpen</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/>impl_-&gt;forceOpen();<sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a4a1952976d5c5b1956350a18a258f76e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a4a1952976d5c5b1956350a18a258f76e" kindref="member">getState</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(impl_-&gt;getState())<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>sharding::CircuitBreaker::State::CLOSED:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>sharding::CircuitBreaker::State::OPEN:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">State::OPEN</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>sharding::CircuitBreaker::State::HALF_OPEN:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">State::HALF_OPEN</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;sharding::CircuitBreaker&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/i_circuit_breaker.h"/>
+  </compounddef>
+</doxygen>

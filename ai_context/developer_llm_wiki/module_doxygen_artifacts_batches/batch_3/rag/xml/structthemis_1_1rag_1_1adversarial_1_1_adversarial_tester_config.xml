@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::AdversarialTesterConfig</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a3e27117cb0aba83cc2128434388b453d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::AdversarialTesterConfig::score_instability_threshold</definition>
+        <argsstring></argsstring>
+        <name>score_instability_threshold</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::score_instability_threshold</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Score delta threshold above which a perturbation counts as a failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="127" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac6bc045585b37da42d71cb0552885193" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::adversarial::AdversarialTesterConfig::perturbations_per_query</definition>
+        <argsstring></argsstring>
+        <name>perturbations_per_query</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::perturbations_per_query</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of perturbations to generate per base query and strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="130" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1af58243e98201eb9cd858693dbde251b7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::AdversarialTesterConfig::poisoning_faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>poisoning_faithfulness_threshold</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::poisoning_faithfulness_threshold</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Faithfulness drop threshold (absolute) to declare a poisoning attack successful. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="135" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac800c73cb04bcb7c5fd6b5e409b24d50" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::adversarial::AdversarialTesterConfig::context_overflow_padding_docs</definition>
+        <argsstring></argsstring>
+        <name>context_overflow_padding_docs</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::context_overflow_padding_docs</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Number of filler documents appended when testing context overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="139" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a01a661de63a7953f871088f0c1150acc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::AdversarialTesterConfig::context_overflow_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>context_overflow_score_threshold</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::context_overflow_score_threshold</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Minimum overall-score drop to declare context-overflow degradation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="142" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac770003c3ffe768491c06f6243541899" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::AdversarialTesterConfig::sycophancy_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>sycophancy_score_threshold</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::sycophancy_score_threshold</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+<para>Score delta above which a sycophantic framing counts as a failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="146" column="12" bodyfile="include/rag/adversarial_tester.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a36b5cb9799a61b4c57a2a44bec709b60" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref> &gt;</type>
+        <definition>std::vector&lt;AdversarialStrategy&gt; themis::rag::adversarial::AdversarialTesterConfig::enabled_strategies</definition>
+        <argsstring></argsstring>
+        <name>enabled_strategies</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTesterConfig::enabled_strategies</qualifiedname>
+        <initializer>                               = {
+    <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da83d15c0f92336101d6622dff6de2ecf5" kindref="member">AdversarialStrategy::SEMANTIC_PERTURBATION</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21416b40ed4599ee8ade821a240d207b" kindref="member">AdversarialStrategy::LEXICAL_SUBSTITUTION</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979dae4238401b6631673833656f3fd9219ca" kindref="member">AdversarialStrategy::TYPO_INJECTION</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21cd4c42925b52573e258a6108e8bae3" kindref="member">AdversarialStrategy::NEGATION_FLIP</ref>,
+    <ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" kindref="member">AdversarialStrategy::SYCOPHANCY</ref>,
+}</initializer>
+        <briefdescription>
+<para>Adversarial strategies included in the full test run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="150" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="150" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" kindref="compound">AdversarialTester</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="124" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="124" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac800c73cb04bcb7c5fd6b5e409b24d50" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>context_overflow_padding_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a01a661de63a7953f871088f0c1150acc" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>context_overflow_score_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a36b5cb9799a61b4c57a2a44bec709b60" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>enabled_strategies</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac6bc045585b37da42d71cb0552885193" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>perturbations_per_query</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1af58243e98201eb9cd858693dbde251b7" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>poisoning_faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a3e27117cb0aba83cc2128434388b453d" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>score_instability_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac770003c3ffe768491c06f6243541899" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTesterConfig</scope><name>sycophancy_score_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_mptcp_subflow_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::MptcpSubflowInfo</compoundname>
+    <includes refid="multipath__tcp_8h" local="no">multipath_tcp.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1ab6eeaecb28a99534522fe991ec3baa26" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpSubflowInfo::subflow_id</definition>
+        <argsstring></argsstring>
+        <name>subflow_id</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::subflow_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Kernel-assigned subflow identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="47" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a1f9f8eea73aa90b06177632624a1c5e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::MptcpSubflowInfo::local_addr</definition>
+        <argsstring></argsstring>
+        <name>local_addr</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::local_addr</qualifiedname>
+        <briefdescription>
+<para>Local IP address of this subflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="48" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1afd482e79f460ca551fa394eaab06e4f0" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::MptcpSubflowInfo::local_port</definition>
+        <argsstring></argsstring>
+        <name>local_port</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::local_port</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Local TCP port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="49" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1aec3f4520037d2df93100b112d64fda9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::MptcpSubflowInfo::remote_addr</definition>
+        <argsstring></argsstring>
+        <name>remote_addr</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::remote_addr</qualifiedname>
+        <briefdescription>
+<para>Remote IP address of this subflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="50" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a87b344b4f127f41abb33b7772c828408" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::MptcpSubflowInfo::remote_port</definition>
+        <argsstring></argsstring>
+        <name>remote_port</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::remote_port</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Remote TCP port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="51" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1ae5eae98396afa948a9f0c12747f2f7d8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036c" kindref="member">MptcpSubflowState</ref></type>
+        <definition>MptcpSubflowState themis::network::MptcpSubflowInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">MptcpSubflowState::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="52" column="23" bodyfile="include/network/multipath_tcp.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a5280d26b9234c304bd94759b7e6e6081" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpSubflowInfo::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = primary, &gt;0 = backup (lower = higher priority) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="53" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a7d09daea4cf968888779e1ce88df3fbb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::MptcpSubflowInfo::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes sent over this subflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="54" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a897d3a9ee80b94ee40738aa93306cb48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::MptcpSubflowInfo::bytes_recv</definition>
+        <argsstring></argsstring>
+        <name>bytes_recv</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::bytes_recv</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes received over this subflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="55" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a32c9cc2145197374296b7ca57e2d434c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpSubflowInfo::rtt_us</definition>
+        <argsstring></argsstring>
+        <name>rtt_us</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::rtt_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Smoothed RTT estimate in microseconds (0 if unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="56" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_subflow_info_1a4918d0e74f51c1c75361ef83f38d9922" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpSubflowInfo::bandwidth_kbps</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_kbps</name>
+        <qualifiedname>themis::network::MptcpSubflowInfo::bandwidth_kbps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated bandwidth in kbps (0 if unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="57" column="17" bodyfile="include/network/multipath_tcp.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor for a single MPTCP subflow. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/multipath_tcp.h" line="46" column="1" bodyfile="include/network/multipath_tcp.h" bodystart="46" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a4918d0e74f51c1c75361ef83f38d9922" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>bandwidth_kbps</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a897d3a9ee80b94ee40738aa93306cb48" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>bytes_recv</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a7d09daea4cf968888779e1ce88df3fbb" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a1f9f8eea73aa90b06177632624a1c5e0" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>local_addr</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1afd482e79f460ca551fa394eaab06e4f0" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>local_port</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a5280d26b9234c304bd94759b7e6e6081" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>priority</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1aec3f4520037d2df93100b112d64fda9e" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>remote_addr</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a87b344b4f127f41abb33b7772c828408" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>remote_port</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a32c9cc2145197374296b7ca57e2d434c" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>rtt_us</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ae5eae98396afa948a9f0c12747f2f7d8" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>state</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ab6eeaecb28a99534522fe991ec3baa26" prot="public" virt="non-virtual"><scope>themis::network::MptcpSubflowInfo</scope><name>subflow_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_link_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::LinkAuditEntry</compoundname>
+    <includes refid="entity__linker_8h" local="no">entity_linker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_link_audit_entry_1ac6bdeb6dc1368bf15d54d30f816c18b3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref></type>
+        <definition>EntityLink themis::importers::LinkAuditEntry::link</definition>
+        <argsstring></argsstring>
+        <name>link</name>
+        <qualifiedname>themis::importers::LinkAuditEntry::link</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="63" column="17" bodyfile="include/importers/entity_linker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_link_audit_entry_1a7a1b2623d801f979a131e65e3fab1cb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::LinkAuditEntry::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::importers::LinkAuditEntry::event_type</qualifiedname>
+        <briefdescription>
+<para>&quot;created&quot; | &quot;updated&quot; | &quot;archived&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="64" column="17" bodyfile="include/importers/entity_linker.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_link_audit_entry_1a82434cbe8ee0211867966d34206f169a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::LinkAuditEntry::event_at</definition>
+        <argsstring></argsstring>
+        <name>event_at</name>
+        <qualifiedname>themis::importers::LinkAuditEntry::event_at</qualifiedname>
+        <briefdescription>
+<para>RFC 3339. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="65" column="17" bodyfile="include/importers/entity_linker.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::EntityLink</label>
+        <link refid="structthemis_1_1importers_1_1_entity_link"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::LinkAuditEntry</label>
+        <link refid="structthemis_1_1importers_1_1_link_audit_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>link</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/entity_linker.h" line="62" column="1" bodyfile="include/importers/entity_linker.h" bodystart="62" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_link_audit_entry_1a82434cbe8ee0211867966d34206f169a" prot="public" virt="non-virtual"><scope>themis::importers::LinkAuditEntry</scope><name>event_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_link_audit_entry_1a7a1b2623d801f979a131e65e3fab1cb3" prot="public" virt="non-virtual"><scope>themis::importers::LinkAuditEntry</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_link_audit_entry_1ac6bdeb6dc1368bf15d54d30f816c18b3" prot="public" virt="non-virtual"><scope>themis::importers::LinkAuditEntry</scope><name>link</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

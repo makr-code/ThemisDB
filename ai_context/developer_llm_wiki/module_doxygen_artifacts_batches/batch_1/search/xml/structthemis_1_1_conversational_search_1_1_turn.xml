@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_conversational_search_1_1_turn" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConversationalSearch::Turn</compoundname>
+    <includes refid="conversational__search_8h" local="no">conversational_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_turn_1a342127e5ca9fa783cb1b6aba3dbd804d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConversationalSearch::Turn::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::ConversationalSearch::Turn::query</qualifiedname>
+        <briefdescription>
+<para>Original user query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="100" column="21" bodyfile="include/search/conversational_search.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_turn_1a4684a1d7111c1969fc89280787ef53cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConversationalSearch::Turn::reformulated_query</definition>
+        <argsstring></argsstring>
+        <name>reformulated_query</name>
+        <qualifiedname>themis::ConversationalSearch::Turn::reformulated_query</qualifiedname>
+        <briefdescription>
+<para>Context-enriched query sent to index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="101" column="21" bodyfile="include/search/conversational_search.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conversational_search_1_1_turn_1ad756571c35ae9f82da28b4fa9213d1a6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>std::vector&lt;HybridSearch::Result&gt; themis::ConversationalSearch::Turn::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::ConversationalSearch::Turn::results</qualifiedname>
+        <briefdescription>
+<para>Results retrieved for this turn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/conversational_search.h" line="102" column="21" bodyfile="include/search/conversational_search.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single conversation turn (query + retrieved results). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/conversational_search.h" line="99" column="5" bodyfile="include/search/conversational_search.h" bodystart="99" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_conversational_search_1_1_turn_1a342127e5ca9fa783cb1b6aba3dbd804d" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Turn</scope><name>query</name></member>
+      <member refid="structthemis_1_1_conversational_search_1_1_turn_1a4684a1d7111c1969fc89280787ef53cc" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Turn</scope><name>reformulated_query</name></member>
+      <member refid="structthemis_1_1_conversational_search_1_1_turn_1ad756571c35ae9f82da28b4fa9213d1a6" prot="public" virt="non-virtual"><scope>themis::ConversationalSearch::Turn</scope><name>results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

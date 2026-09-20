@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="audit__log_8h" kind="file" language="C++">
+    <compoundname>audit_log.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="gpu__module_8h" local="yes">include/themis/gpu/gpu_module.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/audit_log.h</label>
+        <link refid="audit__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/audit_log.h</label>
+        <link refid="audit__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_audit_log" prot="public">themis::gpu::GPUAuditLog</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" prot="public">themis::gpu::GPUAuditLog::Event</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" kindref="member">EventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da0add549dbe8b6d79f39b12ee2454b1ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da0add549dbe8b6d79f39b12ee2454b1ef" kindref="member">ALLOC_SUCCESS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da8625c8dc9c5379ba05010139b3f78ff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da8625c8dc9c5379ba05010139b3f78ff4" kindref="member">ALLOC_FAIL_GLOBAL_LIMIT</ref>,<sp/></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da2e3f5785a49afc65f89dc6c96c295d52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da2e3f5785a49afc65f89dc6c96c295d52" kindref="member">ALLOC_FAIL_TENANT_QUOTA</ref>,<sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dad6872c9b460f3d2ba3139f4b58aa69cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dad6872c9b460f3d2ba3139f4b58aa69cc" kindref="member">DEALLOC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da767a13aa2a2869385dbd25fbce0dc834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da767a13aa2a2869385dbd25fbce0dc834" kindref="member">FALLBACK_TO_CPU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dae05dbc8cfe9626ae56e78bde5ba196a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42dae05dbc8cfe9626ae56e78bde5ba196a6" kindref="member">DEVICE_UNAVAILABLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da227a89190b37053a8bf5abca4326a0a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da227a89190b37053a8bf5abca4326a0a3" kindref="member">CIRCUIT_OPENED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42daf7f045a2676c3f0491162bf0fc5612a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42daf7f045a2676c3f0491162bf0fc5612a9" kindref="member">CIRCUIT_RESET</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" kindref="compound">Event</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a9697bec8f2b647bb06e60f60ece117fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" kindref="member">EventType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a9697bec8f2b647bb06e60f60ece117fe" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da0add549dbe8b6d79f39b12ee2454b1ef" kindref="member">EventType::ALLOC_SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a092d7a01701159713211bfd7e266d838" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a092d7a01701159713211bfd7e266d838" kindref="member">size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ace6469378ebc5a237e50dd0d010c4cd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ace6469378ebc5a237e50dd0d010c4cd1" kindref="member">tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a07465ae1fe960d9722a9f360800f7cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a07465ae1fe960d9722a9f360800f7cfe" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a619c62fa21ffd47eb3e1fda5203718d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a619c62fa21ffd47eb3e1fda5203718d6" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ada91c02687d01a8757f0ff2a0651dce9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ada91c02687d01a8757f0ff2a0651dce9" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aefefd75930c5785cc7049f9f19827b45" kindref="member">capacity</ref><sp/>=<sp/>1024);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy;<sp/>the<sp/>log<sp/>is<sp/>intended<sp/>to<sp/>be<sp/>a<sp/>singleton<sp/>or<sp/>unique<sp/>owner.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1af50c9c0c8b5f22e2e16d9fbc7689df01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1af50c9c0c8b5f22e2e16d9fbc7689df01" kindref="member">GPUAuditLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a9d418fc36bafe35cdaa620f4d60c4ead" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a9d418fc36bafe35cdaa620f4d60c4ead" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a8ea6ea3511fe5e7a55816570b215291a" kindref="member">GPUAuditLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a70c05e11b4d90a788804a4062e3f99c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a70c05e11b4d90a788804a4062e3f99c3" kindref="member">record</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" kindref="member">EventType</ref><sp/><sp/><sp/>type,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/>size_bytes,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>overloads<sp/>for<sp/>common<sp/>cases.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4ca16de7d8ab92ad0fca817d81bc7e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4ca16de7d8ab92ad0fca817d81bc7e91" kindref="member">recordAllocSuccess</ref>(uint64_t<sp/>bytes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ad1753770089f96dbfb2eed9d21479a2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1ad1753770089f96dbfb2eed9d21479a2d" kindref="member">recordAllocFailGlobalLimit</ref>(uint64_t<sp/>bytes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a25843b530e4e8221bb9d430a2f179d2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a25843b530e4e8221bb9d430a2f179d2c" kindref="member">recordAllocFailTenantQuota</ref>(uint64_t<sp/>bytes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aab5ae104592ea3eb7d447f34a7faebbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aab5ae104592ea3eb7d447f34a7faebbb" kindref="member">recordDealloc</ref>(uint64_t<sp/>bytes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f5b29dea11d520ec6e3518a8ff1a09c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f5b29dea11d520ec6e3518a8ff1a09c" kindref="member">recordFallbackToCPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f48da7a0f00c12bcf1647a1c0e9a635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7f48da7a0f00c12bcf1647a1c0e9a635" kindref="member">recordDeviceUnavailable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a440952058c12a9f3a8e0a97adc01e283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a440952058c12a9f3a8e0a97adc01e283" kindref="member">recordCircuitOpened</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail);</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4b6ebc34bc1f2c9e45ff53d50d1a9814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a4b6ebc34bc1f2c9e45ff53d50d1a9814" kindref="member">recordCircuitReset</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a1b30f5d8458e67384e8cb07289c1e7d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Event&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a1b30f5d8458e67384e8cb07289c1e7d5" kindref="member">snapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7b6fcc75387471f958b892a77c7367b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a7b6fcc75387471f958b892a77c7367b9" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aefefd75930c5785cc7049f9f19827b45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1aefefd75930c5785cc7049f9f19827b45" kindref="member">capacity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a695bd47f0dbe1266ebabe070a5849679" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a695bd47f0dbe1266ebabe070a5849679" kindref="member">totalRecorded</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a55cfc33ca8f62d3734546ff71d8b2809" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a55cfc33ca8f62d3734546ff71d8b2809" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capacity_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Event&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ring_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>head_<sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_<sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_<sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/audit_log.h"/>
+  </compounddef>
+</doxygen>

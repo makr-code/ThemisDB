@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_lock_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedLockGuard</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a8067380d1e292ae70b81d9c2c38448d3" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::ScopedLockGuard::LockFunc = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>LockFunc</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::LockFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="195" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a7c60adce05e0fce10ee5b52a6f200224" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::ScopedLockGuard::UnlockFunc = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>UnlockFunc</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::UnlockFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="196" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_lock_guard_1af8962247a88e553337f08a6db25d04ba" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a8067380d1e292ae70b81d9c2c38448d3" kindref="member">LockFunc</ref></type>
+        <definition>LockFunc themis::llm::ScopedLockGuard::lock_</definition>
+        <argsstring></argsstring>
+        <name>lock_</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="235" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a33a7ff7e553a9ea4aa24e3165e493714" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a7c60adce05e0fce10ee5b52a6f200224" kindref="member">UnlockFunc</ref></type>
+        <definition>UnlockFunc themis::llm::ScopedLockGuard::unlock_</definition>
+        <argsstring></argsstring>
+        <name>unlock_</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::unlock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="236" column="14" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a8760b9eac9409dd5e526af2fd162f7bd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::ScopedLockGuard::is_locked_</definition>
+        <argsstring></argsstring>
+        <name>is_locked_</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::is_locked_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="237" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_lock_guard_1acc12f7c6fd4058b0cc3eba5b205d8b16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedLockGuard::ScopedLockGuard</definition>
+        <argsstring>(LockFunc lock, UnlockFunc unlock)</argsstring>
+        <name>ScopedLockGuard</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::ScopedLockGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a8067380d1e292ae70b81d9c2c38448d3" kindref="member">LockFunc</ref></type>
+          <declname>lock</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a7c60adce05e0fce10ee5b52a6f200224" kindref="member">UnlockFunc</ref></type>
+          <declname>unlock</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="198" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a6535aced94a924c9fc64985b7b291444" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedLockGuard::ScopedLockGuard</definition>
+        <argsstring>(ScopedLockGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedLockGuard</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::ScopedLockGuard</qualifiedname>
+        <param>
+          <type>ScopedLockGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="209" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="209" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_lock_guard_1ab5ea78191bb0acda7fdf0ee89a479365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedLockGuard::ScopedLockGuard</definition>
+        <argsstring>(const ScopedLockGuard &amp;)=delete</argsstring>
+        <name>ScopedLockGuard</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::ScopedLockGuard</qualifiedname>
+        <param>
+          <type>const ScopedLockGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="219" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_lock_guard_1aaeb4066fbda816e27a726aeaa7702415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1acc12f7c6fd4058b0cc3eba5b205d8b16" kindref="member">ScopedLockGuard</ref> &amp;</type>
+        <definition>ScopedLockGuard &amp; themis::llm::ScopedLockGuard::operator=</definition>
+        <argsstring>(const ScopedLockGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_lock_guard_1acc12f7c6fd4058b0cc3eba5b205d8b16" kindref="member">ScopedLockGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="220" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_lock_guard_1a3a4ba4520e1c48b234d04253a3e9991a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedLockGuard::~ScopedLockGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedLockGuard</name>
+        <qualifiedname>themis::llm::ScopedLockGuard::~ScopedLockGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="223" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="223" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="193" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="193" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a8760b9eac9409dd5e526af2fd162f7bd" prot="private" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>is_locked_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1af8962247a88e553337f08a6db25d04ba" prot="private" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a8067380d1e292ae70b81d9c2c38448d3" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>LockFunc</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1aaeb4066fbda816e27a726aeaa7702415" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1acc12f7c6fd4058b0cc3eba5b205d8b16" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>ScopedLockGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a6535aced94a924c9fc64985b7b291444" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>ScopedLockGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1ab5ea78191bb0acda7fdf0ee89a479365" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>ScopedLockGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a33a7ff7e553a9ea4aa24e3165e493714" prot="private" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>unlock_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a7c60adce05e0fce10ee5b52a6f200224" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>UnlockFunc</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_lock_guard_1a3a4ba4520e1c48b234d04253a3e9991a" prot="public" virt="non-virtual"><scope>themis::llm::ScopedLockGuard</scope><name>~ScopedLockGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

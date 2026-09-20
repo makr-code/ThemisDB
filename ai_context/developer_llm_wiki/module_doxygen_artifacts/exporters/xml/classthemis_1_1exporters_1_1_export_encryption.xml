@@ -1,0 +1,507 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_export_encryption" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ExportEncryption</compoundname>
+    <includes refid="export__encryption_8h" local="no">export_encryption.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_export_encryption_1ab1cde00e44daad7e102f24e3112a7aea" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_encryption_config" kindref="compound">ExportEncryptionConfig</ref></type>
+        <definition>ExportEncryptionConfig themis::exporters::ExportEncryption::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::ExportEncryption::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="77" column="28" bodyfile="include/exporters/export_encryption.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_export_encryption_1af6fd54e058a4e24b3c53b53d82b2036d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::exporters::ExportEncryption::key_provider_mutex_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_mutex_</name>
+        <qualifiedname>themis::exporters::ExportEncryption::key_provider_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="79" column="24" bodyfile="include/exporters/export_encryption.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1aa299fd49a1ee79df9b216a0b92778107" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExportEncryption::ExportEncryption</definition>
+        <argsstring>(const ExportEncryptionConfig &amp;config)</argsstring>
+        <name>ExportEncryption</name>
+        <qualifiedname>themis::exporters::ExportEncryption::ExportEncryption</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_encryption_config" kindref="compound">ExportEncryptionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Export Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="45" column="14" bodyfile="src/exporters/export_encryption.cpp" bodystart="153" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1a9f30810149f6cfe77a781a6935442cd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportEncryption::encryptFile</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dst_path) const</argsstring>
+        <name>encryptFile</name>
+        <qualifiedname>themis::exporters::ExportEncryption::encryptFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dst_path</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the src. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the dst. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Src. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the src. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Plaintext. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="52" column="10" bodyfile="src/exporters/export_encryption.cpp" bodystart="565" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1a28423e99db4065069675237b3dbab722" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportEncryption::decryptFile</definition>
+        <argsstring>(const std::string &amp;src_path, const std::string &amp;dst_path) const</argsstring>
+        <name>decryptFile</name>
+        <qualifiedname>themis::exporters::ExportEncryption::decryptFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dst_path</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the src. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the dst. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Src. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the src. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Container. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="60" column="10" bodyfile="src/exporters/export_encryption.cpp" bodystart="644" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1a0a8896a765e4dbb8b06e25ffa27ff670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::exporters::ExportEncryption::encrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;plaintext) const</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>themis::exporters::ExportEncryption::encrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Temp helper. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Generate a random 12-byte IV. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">IV_LEN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Tag. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">TAG_LEN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="68" column="17" bodyfile="src/exporters/export_encryption.cpp" bodystart="215" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1a4c06b3e5b20b3c3bd88a9735f4c8367a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::exporters::ExportEncryption::decrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;container) const</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>themis::exporters::ExportEncryption::decrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>container</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">container</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Dec helper. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dec_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="74" column="17" bodyfile="src/exporters/export_encryption.cpp" bodystart="379" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1a9708b1ca6d18960a5c79b897261ea599" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::exporters::ExportEncryption::deriveJobDEK</definition>
+        <argsstring>(uint32_t key_version) const</argsstring>
+        <name>deriveJobDEK</name>
+        <qualifiedname>themis::exporters::ExportEncryption::deriveJobDEK</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>key_version</declname>
+        </param>
+        <briefdescription>
+<para>Derive Job DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="86" column="17" bodyfile="src/exporters/export_encryption.cpp" bodystart="178" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_encryption_1ac766edbf108a414300f89a7833a6c56f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::exporters::ExportEncryption::buildAAD</definition>
+        <argsstring>(const std::string &amp;job_id, const std::string &amp;kek_id, uint32_t key_version, const std::vector&lt; uint8_t &gt; &amp;iv)</argsstring>
+        <name>buildAAD</name>
+        <qualifiedname>themis::exporters::ExportEncryption::buildAAD</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kek_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>key_version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>iv</declname>
+        </param>
+        <briefdescription>
+<para>Build AAD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kek_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the kek. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="96" column="24" bodyfile="src/exporters/export_encryption.cpp" bodystart="161" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/export_encryption.h" line="38" column="1" bodyfile="include/exporters/export_encryption.h" bodystart="38" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1ac766edbf108a414300f89a7833a6c56f" prot="private" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>buildAAD</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1ab1cde00e44daad7e102f24e3112a7aea" prot="private" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1a4c06b3e5b20b3c3bd88a9735f4c8367a" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>decrypt</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1a28423e99db4065069675237b3dbab722" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>decryptFile</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1a9708b1ca6d18960a5c79b897261ea599" prot="private" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>deriveJobDEK</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1a0a8896a765e4dbb8b06e25ffa27ff670" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1a9f30810149f6cfe77a781a6935442cd8" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>encryptFile</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1aa299fd49a1ee79df9b216a0b92778107" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>ExportEncryption</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_encryption_1af6fd54e058a4e24b3c53b53d82b2036d" prot="private" virt="non-virtual"><scope>themis::exporters::ExportEncryption</scope><name>key_provider_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

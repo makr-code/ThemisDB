@@ -1,0 +1,449 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeoValidator</compoundname>
+    <includes refid="validator_8h" local="no">validator.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1ac857d6fa5b164f2418eb953144adcd37" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoValidator::MIN_LATITUDE</definition>
+        <argsstring></argsstring>
+        <name>MIN_LATITUDE</name>
+        <qualifiedname>themis::geo::GeoValidator::MIN_LATITUDE</qualifiedname>
+        <initializer>= -90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="30" column="29" bodyfile="include/utils/geo/validator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1a992b73639176ccaee13ed6a2e70913fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoValidator::MAX_LATITUDE</definition>
+        <argsstring></argsstring>
+        <name>MAX_LATITUDE</name>
+        <qualifiedname>themis::geo::GeoValidator::MAX_LATITUDE</qualifiedname>
+        <initializer>= 90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="31" column="29" bodyfile="include/utils/geo/validator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1a7ccd28006adba372fd62376f89c9293f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoValidator::MIN_LONGITUDE</definition>
+        <argsstring></argsstring>
+        <name>MIN_LONGITUDE</name>
+        <qualifiedname>themis::geo::GeoValidator::MIN_LONGITUDE</qualifiedname>
+        <initializer>= -180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="32" column="29" bodyfile="include/utils/geo/validator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1ad85413e664e29c65349eea7fb5f4da57" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoValidator::MAX_LONGITUDE</definition>
+        <argsstring></argsstring>
+        <name>MAX_LONGITUDE</name>
+        <qualifiedname>themis::geo::GeoValidator::MAX_LONGITUDE</qualifiedname>
+        <initializer>= 180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="33" column="29" bodyfile="include/utils/geo/validator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1a991f197a875530ce848c20be279378ff" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::geo::GeoValidator::MAX_GEOMETRY_SIZE_BYTES</definition>
+        <argsstring></argsstring>
+        <name>MAX_GEOMETRY_SIZE_BYTES</name>
+        <qualifiedname>themis::geo::GeoValidator::MAX_GEOMETRY_SIZE_BYTES</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="36" column="29" bodyfile="include/utils/geo/validator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_validator_1a9c2a66e103dd31e41fa8f1c44ba9f191" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::geo::GeoValidator::MAX_COORDINATES</definition>
+        <argsstring></argsstring>
+        <name>MAX_COORDINATES</name>
+        <qualifiedname>themis::geo::GeoValidator::MAX_COORDINATES</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="37" column="29" bodyfile="include/utils/geo/validator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1ace8534723e1b4d28bc1480b7169665a3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeoValidator::isValidLatitude</definition>
+        <argsstring>(double lat)</argsstring>
+        <name>isValidLatitude</name>
+        <qualifiedname>themis::geo::GeoValidator::isValidLatitude</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Validate latitude value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude in degrees </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="44" column="17" bodyfile="include/utils/geo/validator.h" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a9a0700aa7f055dcb032761190c0d4868" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeoValidator::isValidLongitude</definition>
+        <argsstring>(double lon)</argsstring>
+        <name>isValidLongitude</name>
+        <qualifiedname>themis::geo::GeoValidator::isValidLongitude</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <briefdescription>
+<para>Validate longitude value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude in degrees </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="56" column="17" bodyfile="include/utils/geo/validator.h" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1ac402428bb1aac2438c387f420068bcfb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeoValidator::isValidCoordinate</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>isValidCoordinate</name>
+        <qualifiedname>themis::geo::GeoValidator::isValidCoordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Validate coordinate pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude in degrees </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude in degrees </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if both coordinates are valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="69" column="17" bodyfile="include/utils/geo/validator.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a9e74de7b93bbd776f9caa9de91288443" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoValidator::validateGeometrySize</definition>
+        <argsstring>(size_t size_bytes)</argsstring>
+        <name>validateGeometrySize</name>
+        <qualifiedname>themis::geo::GeoValidator::validateGeometrySize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Validate geometry size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of geometry in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if size exceeds limit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="78" column="17" bodyfile="include/utils/geo/validator.h" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a1b4050e875009b6534db2414adcae08b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoValidator::validateCoordinateCount</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>validateCoordinateCount</name>
+        <qualifiedname>themis::geo::GeoValidator::validateCoordinateCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Validate coordinate count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of coordinates </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if count exceeds limit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="93" column="17" bodyfile="include/utils/geo/validator.h" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a099fa76c82603b06aa1cef90aef23e78" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::geo::GeoValidator::sanitizeLatitude</definition>
+        <argsstring>(double lat)</argsstring>
+        <name>sanitizeLatitude</name>
+        <qualifiedname>themis::geo::GeoValidator::sanitizeLatitude</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize latitude to valid range (clamp). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped latitude value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="108" column="19" bodyfile="include/utils/geo/validator.h" bodystart="108" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a4ac4c42b92d15bf31f196da4e07e8b57" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::geo::GeoValidator::sanitizeLongitude</definition>
+        <argsstring>(double lon)</argsstring>
+        <name>sanitizeLongitude</name>
+        <qualifiedname>themis::geo::GeoValidator::sanitizeLongitude</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize longitude to valid range (clamp). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped longitude value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="126" column="19" bodyfile="include/utils/geo/validator.h" bodystart="126" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a44e5fff4cd11235b9a9d4890496b63a7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeoValidator::isFinite</definition>
+        <argsstring>(double value)</argsstring>
+        <name>isFinite</name>
+        <qualifiedname>themis::geo::GeoValidator::isFinite</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Check if a number is NaN or infinite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if value is finite </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="144" column="17" bodyfile="include/utils/geo/validator.h" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_validator_1a534eab6b9ed0ab7b693274238a56cfab" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoValidator::validateCoordinateOrThrow</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>validateCoordinateOrThrow</name>
+        <qualifiedname>themis::geo::GeoValidator::validateCoordinateOrThrow</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Validate and throw on invalid coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if coordinates are invalid </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/validator.h" line="154" column="17" bodyfile="include/utils/geo/validator.h" bodystart="154" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Geo <ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref> Validator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides validation for geographic coordinates to prevent invalid data from entering the spatial index. </para>
+    </detaileddescription>
+    <location file="include/utils/geo/validator.h" line="27" column="1" bodyfile="include/utils/geo/validator.h" bodystart="27" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a44e5fff4cd11235b9a9d4890496b63a7" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>isFinite</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1ac402428bb1aac2438c387f420068bcfb" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>isValidCoordinate</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1ace8534723e1b4d28bc1480b7169665a3" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>isValidLatitude</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a9a0700aa7f055dcb032761190c0d4868" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>isValidLongitude</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a9c2a66e103dd31e41fa8f1c44ba9f191" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MAX_COORDINATES</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a991f197a875530ce848c20be279378ff" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MAX_GEOMETRY_SIZE_BYTES</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a992b73639176ccaee13ed6a2e70913fe" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MAX_LATITUDE</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1ad85413e664e29c65349eea7fb5f4da57" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MAX_LONGITUDE</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1ac857d6fa5b164f2418eb953144adcd37" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MIN_LATITUDE</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a7ccd28006adba372fd62376f89c9293f" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>MIN_LONGITUDE</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a099fa76c82603b06aa1cef90aef23e78" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>sanitizeLatitude</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a4ac4c42b92d15bf31f196da4e07e8b57" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>sanitizeLongitude</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a1b4050e875009b6534db2414adcae08b" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>validateCoordinateCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a534eab6b9ed0ab7b693274238a56cfab" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>validateCoordinateOrThrow</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_validator_1a9e74de7b93bbd776f9caa9de91288443" prot="public" virt="non-virtual"><scope>themis::geo::GeoValidator</scope><name>validateGeometrySize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

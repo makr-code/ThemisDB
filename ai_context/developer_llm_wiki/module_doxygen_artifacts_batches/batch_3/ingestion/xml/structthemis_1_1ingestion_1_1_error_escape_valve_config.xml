@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_error_escape_valve_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ErrorEscapeValveConfig</compoundname>
+    <includes refid="ingestion__error__contract_8h" local="no">ingestion_error_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a486a4cc4316486f1b642e955d2952b4e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8b" kindref="member">ErrorEscapeValvePolicy</ref></type>
+        <definition>ErrorEscapeValvePolicy themis::ingestion::ErrorEscapeValveConfig::validation_escape</definition>
+        <argsstring></argsstring>
+        <name>validation_escape</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::validation_escape</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8ba7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">ErrorEscapeValvePolicy::FAIL_CLOSED</ref></initializer>
+        <briefdescription>
+<para>Policy for validation failures. Default: FAIL_CLOSED (reject invalid documents). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="279" column="28" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a761d92210423c92f94b4cf28b47ba782" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8b" kindref="member">ErrorEscapeValvePolicy</ref></type>
+        <definition>ErrorEscapeValvePolicy themis::ingestion::ErrorEscapeValveConfig::quality_escape</definition>
+        <argsstring></argsstring>
+        <name>quality_escape</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::quality_escape</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8ba7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">ErrorEscapeValvePolicy::FAIL_CLOSED</ref></initializer>
+        <briefdescription>
+<para>Policy for quality check failures. Default: FAIL_CLOSED (reject low-quality documents). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="285" column="28" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1aa964bb70e8ae77b4e5c4541046f1c18f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8b" kindref="member">ErrorEscapeValvePolicy</ref></type>
+        <definition>ErrorEscapeValvePolicy themis::ingestion::ErrorEscapeValveConfig::connector_escape</definition>
+        <argsstring></argsstring>
+        <name>connector_escape</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::connector_escape</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8ba7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">ErrorEscapeValvePolicy::FAIL_CLOSED</ref></initializer>
+        <briefdescription>
+<para>Policy for connector failures. Default: FAIL_CLOSED (skip documents on connector error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="291" column="28" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a60020759716f7966814912c1cd3720a8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8b" kindref="member">ErrorEscapeValvePolicy</ref></type>
+        <definition>ErrorEscapeValvePolicy themis::ingestion::ErrorEscapeValveConfig::workflow_escape</definition>
+        <argsstring></argsstring>
+        <name>workflow_escape</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::workflow_escape</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8ba7f5e3f26a1a530c4cc7f9b80e963e9cc" kindref="member">ErrorEscapeValvePolicy::DEFER</ref></initializer>
+        <briefdescription>
+<para>Policy for workflow step failures. Default: DEFER (accumulate failed steps for retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="297" column="28" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1af6cf15bb1322d73677a50d5d5dd37eb9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::ErrorEscapeValveConfig::max_transient_retries</definition>
+        <argsstring></argsstring>
+        <name>max_transient_retries</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::max_transient_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum retries for transient errors. Default: 3 retries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="303" column="9" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_error_escape_valve_config_1aa376e9f5108132e9db8c84e309abb038" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::ErrorEscapeValveConfig::max_deferred_items</definition>
+        <argsstring></argsstring>
+        <name>max_deferred_items</name>
+        <qualifiedname>themis::ingestion::ErrorEscapeValveConfig::max_deferred_items</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum items to queue for deferred processing. Default: 1000 items. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="309" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for error escape valve behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Determines what happens when an error occurs and the retry limit is exceeded or a component is degraded. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_error_contract.h" line="274" column="1" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="274" bodyend="310"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1aa964bb70e8ae77b4e5c4541046f1c18f" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>connector_escape</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1aa376e9f5108132e9db8c84e309abb038" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>max_deferred_items</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1af6cf15bb1322d73677a50d5d5dd37eb9" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>max_transient_retries</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a761d92210423c92f94b4cf28b47ba782" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>quality_escape</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a486a4cc4316486f1b642e955d2952b4e" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>validation_escape</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1a60020759716f7966814912c1cd3720a8" prot="public" virt="non-virtual"><scope>themis::ingestion::ErrorEscapeValveConfig</scope><name>workflow_escape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

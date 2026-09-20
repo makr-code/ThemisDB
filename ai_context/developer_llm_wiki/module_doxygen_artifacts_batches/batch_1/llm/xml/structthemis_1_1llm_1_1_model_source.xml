@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelSource</compoundname>
+    <includes refid="llm__deployment__plugin_8h" local="no">llm_deployment_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1a41818df197216be983853d39ab7f4fb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::ModelSource::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="43" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1aba641d2111d6e9650cad2c3e12908705" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSource::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>themis::llm::ModelSource::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="44" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1a9e93ca2f04d4e2d2d73ab0aa166357a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSource::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::llm::ModelSource::checksum_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="45" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1af34e01f7eed4b2e775a3f756a9c4b839" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSource::checksum_value</definition>
+        <argsstring></argsstring>
+        <name>checksum_value</name>
+        <qualifiedname>themis::llm::ModelSource::checksum_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="46" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1a205263c29f89ba0f8cd436803a72f7cc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ModelSource::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::ModelSource::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="47" column="9" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_source_1a0e0ab2003e595da838fc61b44679edfa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ModelSource::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::ModelSource::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="49" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_source_1ae4418f6317a5be02f7de6b954a0b55d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ModelSource::~ModelSource</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelSource</name>
+        <qualifiedname>themis::llm::ModelSource::~ModelSource</qualifiedname>
+        <briefdescription>
+<para>Model Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="42" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_deployment_plugin.h" line="37" column="1" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="37" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_source_1a9e93ca2f04d4e2d2d73ab0aa166357a7" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1af34e01f7eed4b2e775a3f756a9c4b839" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>checksum_value</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1aba641d2111d6e9650cad2c3e12908705" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>location</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1a0e0ab2003e595da838fc61b44679edfa" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1a205263c29f89ba0f8cd436803a72f7cc" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1a41818df197216be983853d39ab7f4fb9" prot="public" virt="non-virtual"><scope>themis::llm::ModelSource</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_source_1ae4418f6317a5be02f7de6b954a0b55d8" prot="public" virt="virtual"><scope>themis::llm::ModelSource</scope><name>~ModelSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

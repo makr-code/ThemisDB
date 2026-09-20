@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_storage_tier_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::StorageTierPolicy</compoundname>
+    <includes refid="voice__audio__storage_8h" local="no">voice_audio_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1af6203cc0002442812d95a6fd867e75e4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::StorageTierPolicy::hot_to_warm_after_ms</definition>
+        <argsstring></argsstring>
+        <name>hot_to_warm_after_ms</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::hot_to_warm_after_ms</qualifiedname>
+        <initializer>= 7LL * 24 * 3600 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="65" column="13" bodyfile="include/voice/voice_audio_storage.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1ab7df747909f8cc7df4e48e1bad66cfc5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::StorageTierPolicy::warm_to_cold_after_ms</definition>
+        <argsstring></argsstring>
+        <name>warm_to_cold_after_ms</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::warm_to_cold_after_ms</qualifiedname>
+        <initializer>= 30LL * 24 * 3600 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="66" column="13" bodyfile="include/voice/voice_audio_storage.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1a74f2271e1174d9bdf7c0d3a83616c083" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::StorageTierPolicy::cold_to_delete_after_ms</definition>
+        <argsstring></argsstring>
+        <name>cold_to_delete_after_ms</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::cold_to_delete_after_ms</qualifiedname>
+        <initializer>= 365LL * 24 * 3600 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="67" column="13" bodyfile="include/voice/voice_audio_storage.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1ac2b821ffd8f04ca11fe2a342889fbe7b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageTierPolicy::max_hot_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_hot_bytes</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::max_hot_bytes</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="68" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1aa0288fdad125241b73d24cc4a4974f05" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StorageTierPolicy::max_warm_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_warm_bytes</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::max_warm_bytes</qualifiedname>
+        <initializer>= 10ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="69" column="12" bodyfile="include/voice/voice_audio_storage.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_storage_tier_policy_1a7fae9de6f5f1a91579bf2fac6f8bff42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::StorageTierPolicy::enable_auto_tier</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_tier</name>
+        <qualifiedname>themis::voice::StorageTierPolicy::enable_auto_tier</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="70" column="10" bodyfile="include/voice/voice_audio_storage.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_audio_storage.h" line="64" column="1" bodyfile="include/voice/voice_audio_storage.h" bodystart="64" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1a74f2271e1174d9bdf7c0d3a83616c083" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>cold_to_delete_after_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1a7fae9de6f5f1a91579bf2fac6f8bff42" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>enable_auto_tier</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1af6203cc0002442812d95a6fd867e75e4" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>hot_to_warm_after_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1ac2b821ffd8f04ca11fe2a342889fbe7b" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>max_hot_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1aa0288fdad125241b73d24cc4a4974f05" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>max_warm_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_storage_tier_policy_1ab7df747909f8cc7df4e48e1bad66cfc5" prot="public" virt="non-virtual"><scope>themis::voice::StorageTierPolicy</scope><name>warm_to_cold_after_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,755 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::metrics::BackendMetrics</compoundname>
+    <includes refid="backend__metrics_8h" local="no">backend_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7e9114847999050fa0244aefafc23058" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::BackendMetrics::backend_name_</definition>
+        <argsstring></argsstring>
+        <name>backend_name_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::backend_name_</qualifiedname>
+        <briefdescription>
+<para>Name of the backend (e.g., &quot;cuda&quot;, &quot;hip&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="283" column="17" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a94f361f2815858a04bb020f7c0d8a6c6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::init_success_</definition>
+        <argsstring></argsstring>
+        <name>init_success_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::init_success_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> for successful initializations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="286" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab4f20497c767727e2161c188d8868753" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::init_failures_</definition>
+        <argsstring></argsstring>
+        <name>init_failures_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::init_failures_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> for failed initializations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="287" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ac4f3ee823edb1c0fb2d9af35ab260b16" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> *</type>
+        <definition>Histogram* themis::acceleration::metrics::BackendMetrics::init_duration_</definition>
+        <argsstring></argsstring>
+        <name>init_duration_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::init_duration_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> of initialization durations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="288" column="15" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7e840d60988e2b1dfac8438dbf55cdd2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> *</type>
+        <definition>Histogram* themis::acceleration::metrics::BackendMetrics::l2_distance_duration_</definition>
+        <argsstring></argsstring>
+        <name>l2_distance_duration_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::l2_distance_duration_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> of L2 operation durations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="291" column="15" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a6330146fc00fb3f7e2b8fa2f5c14fbdd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::l2_distance_ops_</definition>
+        <argsstring></argsstring>
+        <name>l2_distance_ops_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::l2_distance_ops_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> of L2 operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="292" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a615ab66d7e485ed75611003e7d1bc5df" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::l2_distance_vectors_</definition>
+        <argsstring></argsstring>
+        <name>l2_distance_vectors_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::l2_distance_vectors_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> of vectors in L2 operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="293" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a2f2c0d389bb263b77967a96d860ea94c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> *</type>
+        <definition>Histogram* themis::acceleration::metrics::BackendMetrics::cosine_duration_</definition>
+        <argsstring></argsstring>
+        <name>cosine_duration_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::cosine_duration_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_histogram" kindref="compound">Histogram</ref> of cosine operation durations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="295" column="15" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aaa80802460f961c4c37b3986154e9bda" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::cosine_ops_</definition>
+        <argsstring></argsstring>
+        <name>cosine_ops_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::cosine_ops_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> of cosine operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="296" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a83435e0a06a51d44afc348283e7e103d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::cosine_vectors_</definition>
+        <argsstring></argsstring>
+        <name>cosine_vectors_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::cosine_vectors_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> of vectors in cosine operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="297" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a02785b1ba1d4329fc0c0a2121cf13f8c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge* themis::acceleration::metrics::BackendMetrics::device_memory_used_</definition>
+        <argsstring></argsstring>
+        <name>device_memory_used_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::device_memory_used_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> for device memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="300" column="11" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a936c7f8aafe1436d21cd6aafd7008242" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge* themis::acceleration::metrics::BackendMetrics::device_memory_available_</definition>
+        <argsstring></argsstring>
+        <name>device_memory_available_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::device_memory_available_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> for available device memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="301" column="11" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a109ecab0a1f96e0d49d90e5a052b3403" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge* themis::acceleration::metrics::BackendMetrics::queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::queue_depth_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> for command queue depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="302" column="11" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1abf17763643d5623c4ebbb564d9e1c43f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::errors_total_</definition>
+        <argsstring></argsstring>
+        <name>errors_total_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::errors_total_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> for total errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="305" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1acf737b955b92c15a01946ae9fb3374dc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::kernel_launch_failures_</definition>
+        <argsstring></argsstring>
+        <name>kernel_launch_failures_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::kernel_launch_failures_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> for kernel launch failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="306" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aa5dbed5461c6f4d9bd5978d9c9e22a7a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> *</type>
+        <definition>Counter* themis::acceleration::metrics::BackendMetrics::memory_alloc_failures_</definition>
+        <argsstring></argsstring>
+        <name>memory_alloc_failures_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::memory_alloc_failures_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_counter" kindref="compound">Counter</ref> for memory allocation failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="307" column="13" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7653a4667c800c9cb91f226ab6c752c6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge* themis::acceleration::metrics::BackendMetrics::device_count_</definition>
+        <argsstring></argsstring>
+        <name>device_count_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::device_count_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> for number of available devices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="310" column="11" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aea03d9b0e7e3168dc15fbd772c35915b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> *</type>
+        <definition>Gauge* themis::acceleration::metrics::BackendMetrics::active_device_</definition>
+        <argsstring></argsstring>
+        <name>active_device_</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::active_device_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kindref="compound">Gauge</ref> for active device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="311" column="11" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab6c837176550a78f1be2a60d296ef1f6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::BackendMetrics::BackendMetrics</definition>
+        <argsstring>(const std::string &amp;backend_name)</argsstring>
+        <name>BackendMetrics</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::BackendMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_name</declname>
+        </param>
+        <briefdescription>
+<para>Backend Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="28" column="14" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1acbfc6a57972b7e2ffd3efe75d216e32d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordInitSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordInitSuccess</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordInitSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Init Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="37" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a23ea9f0e495ef733966e71ff2e280eb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordInitFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordInitFailure</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordInitFailure</qualifiedname>
+        <briefdescription>
+<para>Record Init Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="47" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a2523d51f9bb9cf9c96a6531e2ac1df2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordInitDuration</definition>
+        <argsstring>(double seconds)</argsstring>
+        <name>recordInitDuration</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordInitDuration</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>seconds</declname>
+        </param>
+        <briefdescription>
+<para>Record Init Duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="58" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a1ad5551a09e8a918ff4ffc6b10e972ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordL2DistanceOperation</definition>
+        <argsstring>(double duration_seconds, size_t vector_count)</argsstring>
+        <name>recordL2DistanceOperation</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordL2DistanceOperation</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vector_count</declname>
+        </param>
+        <briefdescription>
+<para>Record L2 Distance Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observe(), increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="70" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="70" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae27f787546d6dc66931c10c2876ec506" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordCosineOperation</definition>
+        <argsstring>(double duration_seconds, size_t vector_count)</argsstring>
+        <name>recordCosineOperation</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordCosineOperation</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vector_count</declname>
+        </param>
+        <briefdescription>
+<para>Record Cosine Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observe(), increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="88" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="88" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a5501d23ff600261a858d11a3c5f83c3b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::setDeviceMemoryUsed</definition>
+        <argsstring>(double bytes)</argsstring>
+        <name>setDeviceMemoryUsed</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::setDeviceMemoryUsed</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Set Device Memory Used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="105" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a03028dece298f95e9092f6bca40ef4ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::setDeviceMemoryAvailable</definition>
+        <argsstring>(double bytes)</argsstring>
+        <name>setDeviceMemoryAvailable</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::setDeviceMemoryAvailable</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Set Device Memory Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="116" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab36fdc4b4f24ea9cfbf20ea2652ed675" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::setQueueDepth</definition>
+        <argsstring>(double depth)</argsstring>
+        <name>setQueueDepth</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::setQueueDepth</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Set Queue Depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="127" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae573af395a9cd774cde8a00759edd14c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;error_code)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="133" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1afbf18a026dfa52d4c896424c7e5a4c31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordKernelLaunchFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordKernelLaunchFailure</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordKernelLaunchFailure</qualifiedname>
+        <briefdescription>
+<para>Record Kernel Launch Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="143" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="143" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae0bd4b2a79e37fb3c7119bbfa176bd5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::recordMemoryAllocationFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordMemoryAllocationFailure</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::recordMemoryAllocationFailure</qualifiedname>
+        <briefdescription>
+<para>Record Memory Allocation Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="153" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="153" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a34cf65c8ccb4207d3c00eff8fb589d89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::setDeviceCount</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setDeviceCount</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::setDeviceCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set Device Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="164" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="164" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7c30a03397c9bb91d6e1f1c711e1adc1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::setActiveDeviceIndex</definition>
+        <argsstring>(int index)</argsstring>
+        <name>setActiveDeviceIndex</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::setActiveDeviceIndex</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Set Active Device Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="175" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="175" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a5069f61076d86db5f3718ede046e8fe1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::BackendMetrics::getOperationsPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>getOperationsPerSecond</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::getOperationsPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="181" column="12" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a24542aab80db29f58bd88fffa45ae6a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::BackendMetrics::getVectorsPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>getVectorsPerSecond</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::getVectorsPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="189" column="12" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="189" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a401f10dd08c8afe1c6ccf17560212371" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::BackendMetrics::registerMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>registerMetrics</name>
+        <qualifiedname>themis::acceleration::metrics::BackendMetrics::registerMetrics</qualifiedname>
+        <briefdescription>
+<para>Register Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1acceleration_1_1metrics_1_1_metrics_collector_1a15a94e38822ac99e4ce0f1d88ae41f37" kindref="member">MetricsCollector::instance()</ref>, registerCounter(), registerHistogram(), registerGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/backend_metrics.h" line="202" column="10" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="202" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/metrics/backend_metrics.h" line="21" column="1" bodyfile="include/acceleration/metrics/backend_metrics.h" bodystart="21" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aea03d9b0e7e3168dc15fbd772c35915b" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>active_device_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7e9114847999050fa0244aefafc23058" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>backend_name_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab6c837176550a78f1be2a60d296ef1f6" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>BackendMetrics</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a2f2c0d389bb263b77967a96d860ea94c" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>cosine_duration_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aaa80802460f961c4c37b3986154e9bda" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>cosine_ops_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a83435e0a06a51d44afc348283e7e103d" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>cosine_vectors_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7653a4667c800c9cb91f226ab6c752c6" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>device_count_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a936c7f8aafe1436d21cd6aafd7008242" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>device_memory_available_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a02785b1ba1d4329fc0c0a2121cf13f8c" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>device_memory_used_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1abf17763643d5623c4ebbb564d9e1c43f" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>errors_total_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a5069f61076d86db5f3718ede046e8fe1" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>getOperationsPerSecond</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a24542aab80db29f58bd88fffa45ae6a0" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>getVectorsPerSecond</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ac4f3ee823edb1c0fb2d9af35ab260b16" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>init_duration_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab4f20497c767727e2161c188d8868753" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>init_failures_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a94f361f2815858a04bb020f7c0d8a6c6" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>init_success_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1acf737b955b92c15a01946ae9fb3374dc" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>kernel_launch_failures_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7e840d60988e2b1dfac8438dbf55cdd2" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>l2_distance_duration_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a6330146fc00fb3f7e2b8fa2f5c14fbdd" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>l2_distance_ops_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a615ab66d7e485ed75611003e7d1bc5df" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>l2_distance_vectors_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1aa5dbed5461c6f4d9bd5978d9c9e22a7a" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>memory_alloc_failures_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a109ecab0a1f96e0d49d90e5a052b3403" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>queue_depth_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae27f787546d6dc66931c10c2876ec506" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordCosineOperation</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae573af395a9cd774cde8a00759edd14c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a2523d51f9bb9cf9c96a6531e2ac1df2f" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordInitDuration</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a23ea9f0e495ef733966e71ff2e280eb4" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordInitFailure</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1acbfc6a57972b7e2ffd3efe75d216e32d" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordInitSuccess</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1afbf18a026dfa52d4c896424c7e5a4c31" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordKernelLaunchFailure</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a1ad5551a09e8a918ff4ffc6b10e972ea" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordL2DistanceOperation</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ae0bd4b2a79e37fb3c7119bbfa176bd5e" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>recordMemoryAllocationFailure</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a401f10dd08c8afe1c6ccf17560212371" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>registerMetrics</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a7c30a03397c9bb91d6e1f1c711e1adc1" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>setActiveDeviceIndex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a34cf65c8ccb4207d3c00eff8fb589d89" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>setDeviceCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a03028dece298f95e9092f6bca40ef4ae" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>setDeviceMemoryAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1a5501d23ff600261a858d11a3c5f83c3b" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>setDeviceMemoryUsed</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_backend_metrics_1ab36fdc4b4f24ea9cfbf20ea2652ed675" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::BackendMetrics</scope><name>setQueueDepth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

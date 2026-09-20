@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacerocksdb" kind="namespace" language="C++">
+    <compoundname>rocksdb</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB CDC Consumer Group Manager</para>
+<para>Implements consumer group semantics for the CDC changefeed:<itemizedlist>
+<listitem><para>Durable per-group committed-offset tracking in RocksDB</para>
+</listitem><listitem><para>Key-hash partition assignment so consumers in a group each handle a disjoint subset of change events</para>
+</listitem><listitem><para>Resume-from-offset: consumers reconnect and continue from the last acknowledged sequence without scanning the full log</para>
+</listitem></itemizedlist>
+</para>
+<para>RocksDB key layout: cdc_group:{group_id}:config -&gt; JSON-serialised ConsumerGroupConfig cdc_group:{group_id}:offset -&gt; uint64 committed sequence (decimal string)</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC Dead-Letter Queue</para>
+<para>Persistent storage for CDC change events that could not be delivered after exhausting all retry attempts. Entries can be inspected, replayed (re-recorded to the originating <ref refid="class_changefeed" kindref="compound">Changefeed</ref>), or removed.</para>
+<para>Storage layout (RocksDB): Key: &quot;dlq:{20-digit-zero-padded-sequence}&quot; Value: JSON — DLQEntry::toJson() Counter key: &quot;dlq_sequence&quot;</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB CDC Outbox Pattern</para>
+<para>Transactional outbox support for reliable change event publishing.</para>
+<para>The outbox pattern guarantees that application data mutations and their corresponding CDC events are written atomically inside a single RocksDB transaction. A background relay then reads pending outbox records and forwards them to the <ref refid="class_changefeed" kindref="compound">Changefeed</ref>, marking each record as PUBLISHED once the forward succeeds. This eliminates the dual-write problem where a process crash between a DB commit and an event emit would silently drop events.</para>
+<para>Storage layout (RocksDB): Key: &quot;cdc_outbox:{20-digit-zero-padded-sequence}&quot; Value: JSON — OutboxRecord::toJson() Counter: &quot;cdc_outbox_sequence&quot;</para>
+<para>Copyright (c) 2025 ThemisDB Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="30" column="1"/>
+  </compounddef>
+</doxygen>

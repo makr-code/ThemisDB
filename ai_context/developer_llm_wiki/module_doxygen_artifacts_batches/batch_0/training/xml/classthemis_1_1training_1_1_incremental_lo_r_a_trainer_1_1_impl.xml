@@ -1,0 +1,1462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::IncrementalLoRATrainer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ad843f489e5d02f8aa90817b03f95ef83" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_incremental_training_config" kindref="compound">IncrementalTrainingConfig</ref></type>
+        <definition>IncrementalTrainingConfig themis::training::IncrementalLoRATrainer::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1079" column="31" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1079" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1afb590964af4bb1a7e764ec0bc2c5d0b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::IncrementalLoRATrainer::Impl::db_connection_</definition>
+        <argsstring></argsstring>
+        <name>db_connection_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::db_connection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1080" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1080" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae0aeb15e681d40a8d320360573197ff7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::checkpointing_enabled_</definition>
+        <argsstring></argsstring>
+        <name>checkpointing_enabled_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::checkpointing_enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1081" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1081" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac1c14c23d962a3b16540e71a58e6b9e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::IncrementalLoRATrainer::Impl::checkpoint_steps_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_steps_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::checkpoint_steps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1082" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1082" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aae98257af7c0eff0e94185f9a7865b2a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1training_1_1_version_record" kindref="compound">VersionRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, VersionRecord&gt; themis::training::IncrementalLoRATrainer::Impl::version_registry_</definition>
+        <argsstring></argsstring>
+        <name>version_registry_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::version_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1083" column="14" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1083" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aad9ac69b9a5bfc36b474df3856f77f14" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::IncrementalLoRATrainer::Impl::version_registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>version_registry_mutex_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::version_registry_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects version_registry_ reads/writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1084" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1084" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1abf16ba22ff52847aa0eed67a44446b5c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::training::IncrementalLoRATrainer::Impl::training_active_</definition>
+        <argsstring></argsstring>
+        <name>training_active_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::training_active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1086" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1086" bodyend="1086"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a40239a5ee34486d0c28a29c38883fa85" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1training_1_1_i_l_l_m_router" kindref="compound">ILLMRouter</ref> *</type>
+        <definition>ILLMRouter* themis::training::IncrementalLoRATrainer::Impl::llm_router_</definition>
+        <argsstring></argsstring>
+        <name>llm_router_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::llm_router_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1089" column="16" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1089" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a623063ca9196e9920c2a777bd4da03a9" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::IncrementalLoRATrainer::Impl::router_mutex_</definition>
+        <argsstring></argsstring>
+        <name>router_mutex_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::router_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects llm_router_ access across threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1090" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1090" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aa0a71610267fa3d7dbed6e5499ab1b14" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_training_metrics" kindref="compound">TrainingMetrics</ref></type>
+        <definition>TrainingMetrics themis::training::IncrementalLoRATrainer::Impl::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1093" column="21" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1093" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5822d348a05e2648fdc7757b06990b16" prot="public" static="no" mutable="yes">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRACheckpointManager&gt; themis::training::IncrementalLoRATrainer::Impl::checkpoint_manager_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::checkpoint_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1097" column="29" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1097" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a53d883765099ec34294c1cd80379b6cd" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::IncrementalLoRATrainer::Impl::checkpoint_manager_mutex_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_mutex_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::checkpoint_manager_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects checkpoint_manager_ access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1098" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1098" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a9f0fd35171097aed44c7e06ea0b7cc9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::IncrementalLoRATrainer::Impl::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::shard_id_</qualifiedname>
+        <initializer>{&quot;default_shard&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1101" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1101" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ad8df110c1eeb8a8470a847cd791c6489" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::training::IncrementalLoRATrainer::Impl::gradient_accumulator_</definition>
+        <argsstring></argsstring>
+        <name>gradient_accumulator_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::gradient_accumulator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1102" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0c52fef068d948276e01ab4f818c89ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::IncrementalLoRATrainer::Impl::gradient_update_count_</definition>
+        <argsstring></argsstring>
+        <name>gradient_update_count_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::gradient_update_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1103" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1103" bodyend="1103"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a62478c3ee9cb6bdf65f1ac86a164773a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::IncrementalLoRATrainer::Impl::federated_lr_</definition>
+        <argsstring></argsstring>
+        <name>federated_lr_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::federated_lr_</qualifiedname>
+        <initializer>{0.01}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1104" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1104" bodyend="1104"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0adf176af1acaff3892653fedf0f5b6b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::training::IncrementalLoRATrainer::Impl::local_weights_</definition>
+        <argsstring></argsstring>
+        <name>local_weights_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::local_weights_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1105" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a68cb9438026b4279609b312b8d38b67b" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::training::IncrementalLoRATrainer::Impl::known_layers_</definition>
+        <argsstring></argsstring>
+        <name>known_layers_</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::known_layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1106" column="24" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a89784f3a65a13af52e5e4399aa26937b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::training::IncrementalLoRATrainer::Impl::kSyntheticSeedBase</definition>
+        <argsstring></argsstring>
+        <name>kSyntheticSeedBase</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::kSyntheticSeedBase</qualifiedname>
+        <initializer>= 31337</initializer>
+        <briefdescription>
+<para>Per-step entropy factor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1315" column="31" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af673083845853f19eb683f6e1e57b828" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::training::IncrementalLoRATrainer::Impl::kSyntheticBatchMultiplier</definition>
+        <argsstring></argsstring>
+        <name>kSyntheticBatchMultiplier</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::kSyntheticBatchMultiplier</qualifiedname>
+        <initializer>=  997</initializer>
+        <briefdescription>
+<para>Per-batch-element offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1316" column="31" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1acfc43214a8887337200c203a4d21bbdb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::IncrementalLoRATrainer::Impl::Impl</definition>
+        <argsstring>(const IncrementalTrainingConfig &amp;config, const std::string &amp;db_connection)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_incremental_training_config" kindref="compound">IncrementalTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="272" column="14" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="272" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a18deb6fd31c08dc638b4e6f90294e4c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::IncrementalLoRATrainer::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="279" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a4b36fe211958ad836188f98ff0de62bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::training::IncrementalLoRATrainer::Impl::train</definition>
+        <argsstring>(TrainingMode mode, TrainingCallback callback)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::train</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76" kindref="member">TrainingMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 3: Training implementation ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: exchange(), TrainingResult(), THEMIS_ERROR(), std::chrono::steady_clock::now(), sanitizeTrainingPromptLikeText(), store(), reset(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af9e9799a2e3cbf715c88cdda351fd0ea" kindref="member">generateVersionId()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="288" column="20" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="288" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a199dc042a14e370ee7598da543b199d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::training::IncrementalLoRATrainer::Impl::resumeFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_path, TrainingCallback callback)</argsstring>
+        <name>resumeFromCheckpoint</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::resumeFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 5: Resume from checkpoint ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1afd450108763ad87d738d63ee73d60d07" kindref="member">loadCheckpoint()</ref>, <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1accdf36fcd362cbccbe707e5408593c2e" kindref="member">verifyCheckpointPayloadIntegrity()</ref>, <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a1e3d4042020f8c5140fa1259af5c2f23" kindref="member">initLoRAComponents()</ref>, loadCheckpointWeights(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a4b36fe211958ad836188f98ff0de62bf" kindref="member">train()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="449" column="20" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="449" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5d5dfd1ac4f5649f3849c464a8ab0059" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::training::IncrementalLoRATrainer::Impl::evaluate</definition>
+        <argsstring>(const std::string &amp;adapter_version)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 4: Evaluation ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), size(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac080537965bdd64a2f1954aac6f3c317" kindref="member">computeAccuracy()</ref>, std::string(), what(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="531" column="20" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="531" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a3f47779a583977009fd00f2cb04b20f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::deployVersion</definition>
+        <argsstring>(const std::string &amp;adapter_version, float traffic_split)</argsstring>
+        <name>deployVersion</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::deployVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>traffic_split</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 4: Deployment and version management ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">traffic_split</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="583" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="583" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae0f0eda9efe73a8cde2f01a5ae5ed9f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::rollbackVersion</definition>
+        <argsstring>(const std::string &amp;target_version)</argsstring>
+        <name>rollbackVersion</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::rollbackVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Rollback Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="635" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="635" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a862a470564efb1f2b28fd779bb147de7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::IncrementalLoRATrainer::Impl::listVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::listVersions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Version lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="667" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="667" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aaf13ee5b4ee0b1641ccaaafe6a3eb245" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::IncrementalLoRATrainer::Impl::selectAdapterForRequest</definition>
+        <argsstring>() const</argsstring>
+        <name>selectAdapterForRequest</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::selectAdapterForRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Version lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="685" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="685" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a62773ebc1038c8f95d237cac01d8692c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::setHyperparameters</definition>
+        <argsstring>(int rank, float alpha, float learning_rate)</argsstring>
+        <name>setHyperparameters</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::setHyperparameters</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 3: Hyperparameter API ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reset(), defined(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="731" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="731" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a3f75e69fc5425e4ed88dd6f835fea573" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::setCheckpointing</definition>
+        <argsstring>(bool enabled, size_t checkpoint_steps)</argsstring>
+        <name>setCheckpointing</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::setCheckpointing</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>checkpoint_steps</declname>
+        </param>
+        <briefdescription>
+<para>Set Checkpointing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCheckpointing without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="775" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="775" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1acaf4bc3783e9141d3573077b6d4fa90f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::setLLMRouter</definition>
+        <argsstring>(ILLMRouter *router)</argsstring>
+        <name>setLLMRouter</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::setLLMRouter</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_i_l_l_m_router" kindref="compound">ILLMRouter</ref> *</type>
+          <declname>router</declname>
+        </param>
+        <briefdescription>
+<para>Set LLMRouter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="785" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="785" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ab776c4f83843414ac599752d59acd40e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_metrics" kindref="compound">TrainingMetrics</ref></type>
+        <definition>TrainingMetrics themis::training::IncrementalLoRATrainer::Impl::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="790" column="21" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="790" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae6ab39b639ec565419297375d224ae01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::setShardId</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>setShardId</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::setShardId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>── IMPL-A3: Federation bridges ────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="800" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="800" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a6795d6601a6f3089b43b8d2a26dc344f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::setFederatedLearningRate</definition>
+        <argsstring>(double lr)</argsstring>
+        <name>setFederatedLearningRate</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::setFederatedLearningRate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Set Federated Learning Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setFederatedLearningRate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="810" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="810" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1abfe58ce2618ae475988cb6adbd4d834a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::distributed_knowledge::EncryptedGradient</type>
+        <definition>themis::distributed_knowledge::EncryptedGradient themis::training::IncrementalLoRATrainer::Impl::exportGradient</definition>
+        <argsstring>(uint64_t federation_round)</argsstring>
+        <name>exportGradient</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::exportGradient</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>federation_round</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="817" column="5" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="817" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a37cc68543f7a6c4c4f7cbf1fe0d7c9d4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::applyGlobalDelta</definition>
+        <argsstring>(const themis::distributed_knowledge::GlobalAdapterDelta &amp;delta)</argsstring>
+        <name>applyGlobalDelta</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::applyGlobalDelta</qualifiedname>
+        <param>
+          <type>const themis::distributed_knowledge::GlobalAdapterDelta &amp;</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+<para>Apply Global Delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: items(), count(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="846" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="846" bodyend="858"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac7243b32a4c0c18b8551f0f11540e630" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::IncrementalLoRATrainer::Impl::getLocalWeight</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>getLocalWeight</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::getLocalWeight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="860" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="860" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0fb2abd7d34e528c62695950e02c7d3c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::verifyAdapterIntegrity</definition>
+        <argsstring>(const std::string &amp;adapter_version) const</argsstring>
+        <name>verifyAdapterIntegrity</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::verifyAdapterIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Checkpoint lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="873" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="873" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1accdf36fcd362cbccbe707e5408593c2e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::verifyCheckpointPayloadIntegrity</definition>
+        <argsstring>(const std::string &amp;checkpoint_prefix, const std::string &amp;adapter_version, size_t epoch, size_t step, std::string *error_reason) const</argsstring>
+        <name>verifyCheckpointPayloadIntegrity</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::verifyCheckpointPayloadIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error_reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Checkpoint lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="899" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="899" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a9a607bff0760c2b7ca6522cbd9d15ced" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref></type>
+        <definition>DeployResult themis::training::IncrementalLoRATrainer::Impl::deployVersionEx</definition>
+        <argsstring>(const std::string &amp;adapter_version, float traffic_split)</argsstring>
+        <name>deployVersionEx</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::deployVersionEx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>traffic_split</declname>
+        </param>
+        <briefdescription>
+<para>Deploy Version Ex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">traffic_split</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail()</ref>, <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0fb2abd7d34e528c62695950e02c7d3c" kindref="member">verifyAdapterIntegrity()</ref>, version_lock(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a3f47779a583977009fd00f2cb04b20f6" kindref="member">deployVersion()</ref>, lk(), isAvailable(), setAdapterWeight(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="971" column="18" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="971" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ab6412e4b90f7680ab42efc4e9220c4b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref></type>
+        <definition>DeployResult themis::training::IncrementalLoRATrainer::Impl::rollbackVersionEx</definition>
+        <argsstring>(const std::string &amp;target_version)</argsstring>
+        <name>rollbackVersionEx</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::rollbackVersionEx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Rollback Version Ex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail()</ref>, <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0fb2abd7d34e528c62695950e02c7d3c" kindref="member">verifyAdapterIntegrity()</ref>, version_lock(), <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae0f0eda9efe73a8cde2f01a5ae5ed9f0" kindref="member">rollbackVersion()</ref>, lk(), isAvailable(), setAdapterWeight(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1031" column="18" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1031" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a1e3d4042020f8c5140fa1259af5c2f23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::initLoRAComponents</definition>
+        <argsstring>()</argsstring>
+        <name>initLoRAComponents</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::initLoRAComponents</qualifiedname>
+        <briefdescription>
+<para>Init Lo RAComponents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), defined(), num_gpus(), std::to_string(), empty(), create_layer(), spdlog::info(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1157" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1157" bodyend="1307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a8c21d365089b4951f7ec524349ee2c4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::IncrementalLoRATrainer::Impl::encodeSample</definition>
+        <argsstring>(const std::string &amp;text, size_t feature_dim) const</argsstring>
+        <name>encodeSample</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::encodeSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>feature_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Gen. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1319" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1319" bodyend="1347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a75b5665ef5194ddf8e7d1a0701353323" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::IncrementalLoRATrainer::Impl::runTrainingStep</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;training_data, size_t batch_offset, size_t step_idx)</argsstring>
+        <name>runTrainingStep</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::runTrainingStep</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>step_idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1584" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1584" bodyend="1604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aea907ce7a0be4811cbe1e6b3f24b370a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::validateHyperparameters</definition>
+        <argsstring>() const</argsstring>
+        <name>validateHyperparameters</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::validateHyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1767" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1767" bodyend="1782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af09e16b46ce4e950f83f4ef0aac886f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::training::IncrementalLoRATrainer::Impl::activeGpuCount</definition>
+        <argsstring>() const</argsstring>
+        <name>activeGpuCount</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::activeGpuCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1785" column="9" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1785" bodyend="1793"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aa7d42e120488281ac55849a0775e6d69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::saveCheckpoint</definition>
+        <argsstring>(const std::string &amp;version, size_t epoch, size_t step, double loss, double accuracy) const</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::saveCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>loss</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>accuracy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1823" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1823" bodyend="1892"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1afd450108763ad87d738d63ee73d60d07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::IncrementalLoRATrainer::Impl::loadCheckpoint</definition>
+        <argsstring>(const std::string &amp;path, std::string &amp;version, size_t &amp;epoch, size_t &amp;step, double &amp;loss, double &amp;accuracy, std::string *error_reason=nullptr) const</argsstring>
+        <name>loadCheckpoint</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::loadCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>loss</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>accuracy</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error_reason</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the metadata. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1894" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1894" bodyend="1941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5db53b8da9c2d359f821760807131103" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::IncrementalLoRATrainer::Impl::registerVersion</definition>
+        <argsstring>(const TrainingResult &amp;result)</argsstring>
+        <name>registerVersion</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::registerVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 4: Version registry helpers ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1948" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1948" bodyend="1957"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af9e9799a2e3cbf715c88cdda351fd0ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::IncrementalLoRATrainer::Impl::generateVersionId</definition>
+        <argsstring>(const std::string &amp;base_version) const</argsstring>
+        <name>generateVersionId</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::generateVersionId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1962" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1962" bodyend="1987"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1adf77962bf4b274e59358ea42e54cc79e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::IncrementalLoRATrainer::Impl::computeSimulatedLoss</definition>
+        <argsstring>(size_t step, float learning_rate)</argsstring>
+        <name>computeSimulatedLoss</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::computeSimulatedLoss</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+        </param>
+        <briefdescription>
+<para>Simulate a decreasing loss curve (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">learning_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1802" column="19" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1802" bodyend="1807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac080537965bdd64a2f1954aac6f3c317" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::IncrementalLoRATrainer::Impl::computeAccuracy</definition>
+        <argsstring>(double loss)</argsstring>
+        <name>computeAccuracy</name>
+        <qualifiedname>themis::training::IncrementalLoRATrainer::Impl::computeAccuracy</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>loss</declname>
+        </param>
+        <briefdescription>
+<para>Estimate accuracy from loss (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="1815" column="19" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="1815" bodyend="1818"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::training::ILLMRouter</label>
+        <link refid="classthemis_1_1training_1_1_i_l_l_m_router"/>
+      </node>
+      <node id="1">
+        <label>themis::training::IncrementalLoRATrainer::Impl</label>
+        <link refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>llm_router_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>metrics_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::IncrementalTrainingConfig</label>
+        <link refid="structthemis_1_1training_1_1_incremental_training_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::training::QuantizationConfig</label>
+        <link refid="structthemis_1_1training_1_1_quantization_config"/>
+      </node>
+      <node id="5">
+        <label>themis::training::TrainingMetrics</label>
+        <link refid="structthemis_1_1training_1_1_training_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/training/incremental_lora_trainer.cpp" line="264" column="1" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="264" bodyend="1988"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af09e16b46ce4e950f83f4ef0aac886f2" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>activeGpuCount</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a37cc68543f7a6c4c4f7cbf1fe0d7c9d4" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>applyGlobalDelta</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5822d348a05e2648fdc7757b06990b16" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>checkpoint_manager_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a53d883765099ec34294c1cd80379b6cd" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>checkpoint_manager_mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac1c14c23d962a3b16540e71a58e6b9e1" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>checkpoint_steps_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae0aeb15e681d40a8d320360573197ff7" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>checkpointing_enabled_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac080537965bdd64a2f1954aac6f3c317" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>computeAccuracy</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1adf77962bf4b274e59358ea42e54cc79e" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>computeSimulatedLoss</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ad843f489e5d02f8aa90817b03f95ef83" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1afb590964af4bb1a7e764ec0bc2c5d0b0" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>db_connection_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a3f47779a583977009fd00f2cb04b20f6" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>deployVersion</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a9a607bff0760c2b7ca6522cbd9d15ced" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>deployVersionEx</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a8c21d365089b4951f7ec524349ee2c4c" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>encodeSample</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5d5dfd1ac4f5649f3849c464a8ab0059" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1abfe58ce2618ae475988cb6adbd4d834a" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>exportGradient</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a62478c3ee9cb6bdf65f1ac86a164773a" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>federated_lr_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af9e9799a2e3cbf715c88cdda351fd0ea" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>generateVersionId</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ac7243b32a4c0c18b8551f0f11540e630" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>getLocalWeight</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ab776c4f83843414ac599752d59acd40e" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ad8df110c1eeb8a8470a847cd791c6489" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>gradient_accumulator_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0c52fef068d948276e01ab4f818c89ee" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>gradient_update_count_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1acfc43214a8887337200c203a4d21bbdb" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a1e3d4042020f8c5140fa1259af5c2f23" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>initLoRAComponents</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a68cb9438026b4279609b312b8d38b67b" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>known_layers_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1af673083845853f19eb683f6e1e57b828" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>kSyntheticBatchMultiplier</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a89784f3a65a13af52e5e4399aa26937b" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>kSyntheticSeedBase</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a862a470564efb1f2b28fd779bb147de7" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a40239a5ee34486d0c28a29c38883fa85" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>llm_router_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1afd450108763ad87d738d63ee73d60d07" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>loadCheckpoint</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0adf176af1acaff3892653fedf0f5b6b" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>local_weights_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aa0a71610267fa3d7dbed6e5499ab1b14" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a5db53b8da9c2d359f821760807131103" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>registerVersion</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a199dc042a14e370ee7598da543b199d3" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>resumeFromCheckpoint</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae0f0eda9efe73a8cde2f01a5ae5ed9f0" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>rollbackVersion</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ab6412e4b90f7680ab42efc4e9220c4b0" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>rollbackVersionEx</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a623063ca9196e9920c2a777bd4da03a9" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>router_mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a75b5665ef5194ddf8e7d1a0701353323" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>runTrainingStep</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aa7d42e120488281ac55849a0775e6d69" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aaf13ee5b4ee0b1641ccaaafe6a3eb245" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>selectAdapterForRequest</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a3f75e69fc5425e4ed88dd6f835fea573" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>setCheckpointing</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a6795d6601a6f3089b43b8d2a26dc344f" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>setFederatedLearningRate</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a62773ebc1038c8f95d237cac01d8692c" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>setHyperparameters</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1acaf4bc3783e9141d3573077b6d4fa90f" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>setLLMRouter</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1ae6ab39b639ec565419297375d224ae01" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>setShardId</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a9f0fd35171097aed44c7e06ea0b7cc9c" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a4b36fe211958ad836188f98ff0de62bf" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>train</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1abf16ba22ff52847aa0eed67a44446b5c" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>training_active_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aea907ce7a0be4811cbe1e6b3f24b370a" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>validateHyperparameters</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a0fb2abd7d34e528c62695950e02c7d3c" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>verifyAdapterIntegrity</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1accdf36fcd362cbccbe707e5408593c2e" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>verifyCheckpointPayloadIntegrity</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aae98257af7c0eff0e94185f9a7865b2a" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>version_registry_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1aad9ac69b9a5bfc36b474df3856f77f14" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>version_registry_mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1_1_impl_1a18deb6fd31c08dc638b4e6f90294e4c3" prot="public" virt="non-virtual"><scope>themis::training::IncrementalLoRATrainer::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_converged_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConvergedChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module" prot="protected">themisdb::sharding::ConvergedChaosTest::MockConsensusModule</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DualConsensusOrchestrator&gt; themisdb::sharding::ConvergedChaosTest::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="90" column="21" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a95729e7cfe7ceff9995ac4228ce007b2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor" kindref="compound">ConvergedSLOMonitor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConvergedSLOMonitor&gt; themisdb::sharding::ConvergedChaosTest::slo_monitor_</definition>
+        <argsstring></argsstring>
+        <name>slo_monitor_</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::slo_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="91" column="21" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a7fdc26dacb00cd45ffe680bcfb8e2eba" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsensusModule&gt; themisdb::sharding::ConvergedChaosTest::storage_consensus_</definition>
+        <argsstring></argsstring>
+        <name>storage_consensus_</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::storage_consensus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="92" column="21" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a0a71b9e1c85bd8115ae296fb262cefec" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsensusModule&gt; themisdb::sharding::ConvergedChaosTest::cache_consensus_</definition>
+        <argsstring></argsstring>
+        <name>cache_consensus_</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::cache_consensus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="93" column="21" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1ac6ddea4eccdfec235b95746c94972af9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedChaosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="29" column="10" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="29" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a01bfd40f5b21c6ba90688da8ea246666" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ConvergedChaosTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themisdb::sharding::ConvergedChaosTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="56" column="10" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::ConvergedChaosTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1_converged_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::ConvergedChaosTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1_converged_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_converged_chaos.cpp" line="27" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="27" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a0a71b9e1c85bd8115ae296fb262cefec" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>cache_consensus_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>orchestrator_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1ac6ddea4eccdfec235b95746c94972af9" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>SetUp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a95729e7cfe7ceff9995ac4228ce007b2" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>slo_monitor_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a7fdc26dacb00cd45ffe680bcfb8e2eba" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>storage_consensus_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a01bfd40f5b21c6ba90688da8ea246666" prot="protected" virt="non-virtual"><scope>themisdb::sharding::ConvergedChaosTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

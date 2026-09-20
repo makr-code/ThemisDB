@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TensorAwareQueryOptimizer::RewriteStats</compoundname>
+    <includes refid="tensor__aware__query__optimizer_8h" local="no">tensor_aware_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1adc4090753c119c69960b56ac7f21d7d1" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorAwareQueryOptimizer::RewriteStats::nodes_visited</definition>
+        <argsstring></argsstring>
+        <name>nodes_visited</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::RewriteStats::nodes_visited</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total plan nodes examined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="99" column="21" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a20d8b71f4b75648dd3f381683e3055be" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorAwareQueryOptimizer::RewriteStats::nodes_rewritten</definition>
+        <argsstring></argsstring>
+        <name>nodes_rewritten</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::RewriteStats::nodes_rewritten</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Nodes converted to TensorContraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="100" column="21" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a195f7891888d6ec479041e17d52184f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorAwareQueryOptimizer::RewriteStats::total_baseline_cost</definition>
+        <argsstring></argsstring>
+        <name>total_baseline_cost</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::RewriteStats::total_baseline_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="101" column="21" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorAwareQueryOptimizer::RewriteStats::total_optimized_cost</definition>
+        <argsstring></argsstring>
+        <name>total_optimized_cost</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::RewriteStats::total_optimized_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="102" column="21" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a499199e5f73330838b4a634fad713b78" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::TensorAwareQueryOptimizer::RewriteStats::costReductionFactor</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>costReductionFactor</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::RewriteStats::costReductionFactor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="103" column="16" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="103" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_aware_query_optimizer.h" line="98" column="5" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="98" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a499199e5f73330838b4a634fad713b78" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer::RewriteStats</scope><name>costReductionFactor</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a20d8b71f4b75648dd3f381683e3055be" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer::RewriteStats</scope><name>nodes_rewritten</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1adc4090753c119c69960b56ac7f21d7d1" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer::RewriteStats</scope><name>nodes_visited</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a195f7891888d6ec479041e17d52184f2" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer::RewriteStats</scope><name>total_baseline_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer::RewriteStats</scope><name>total_optimized_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

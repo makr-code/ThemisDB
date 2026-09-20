@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_ablation_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::AblationError::AblationError</definition>
+        <argsstring>(std::string_view what)</argsstring>
+        <name>AblationError</name>
+        <qualifiedname>themis::evaluation::AblationError::AblationError</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>what</declname>
+        </param>
+        <briefdescription>
+<para>Ablation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">what</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="180" column="14" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="180" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::AblationError</label>
+        <link refid="classthemis_1_1evaluation_1_1_ablation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::AblationError</label>
+        <link refid="classthemis_1_1evaluation_1_1_ablation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/ablation_framework.h" line="173" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="173" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationError</scope><name>AblationError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_90c896784646d941e86d11b4d52cfeb4" kind="dir">
+    <compoundname>benchmarks/projects</compoundname>
+    <innerfile refid="bench__projects__release__gates_8cpp">bench_projects_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/projects/"/>
+  </compounddef>
+</doxygen>

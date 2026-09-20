@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_retention_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RetentionAuditEntry</compoundname>
+    <includes refid="retention_8h" local="no">retention.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_retention_audit_entry_1a796b9baf71526e9ff9effc4ddf4b533c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::RetentionAuditEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::RetentionAuditEntry::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>When the action occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="56" column="13" bodyfile="include/timeseries/retention.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_audit_entry_1af9190f2c155344035bea25941610de75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RetentionAuditEntry::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::RetentionAuditEntry::metric</qualifiedname>
+        <briefdescription>
+<para>Affected metric (empty = global). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="57" column="17" bodyfile="include/timeseries/retention.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_audit_entry_1a084127ec8fa0402a447e9aedf837479f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RetentionAuditEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::RetentionAuditEntry::action</qualifiedname>
+        <briefdescription>
+<para>&quot;apply&quot;, &quot;async_cycle&quot;, &quot;staged_mark&quot;, &quot;staged_soft&quot;, &quot;hard_delete&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="58" column="17" bodyfile="include/timeseries/retention.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_audit_entry_1a41389a48e1718aaf3fe4542062c923df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RetentionAuditEntry::records_affected</definition>
+        <argsstring></argsstring>
+        <name>records_affected</name>
+        <qualifiedname>themis::RetentionAuditEntry::records_affected</qualifiedname>
+        <briefdescription>
+<para>Number of data points affected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="59" column="12" bodyfile="include/timeseries/retention.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_retention_audit_entry_1a4f4cc8c0ece06f74a4fef606f0aae0b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RetentionAuditEntry::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::RetentionAuditEntry::reason</qualifiedname>
+        <briefdescription>
+<para>Reason/policy description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="60" column="17" bodyfile="include/timeseries/retention.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compliance audit log entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/retention.h" line="55" column="1" bodyfile="include/timeseries/retention.h" bodystart="55" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_retention_audit_entry_1a084127ec8fa0402a447e9aedf837479f" prot="public" virt="non-virtual"><scope>themis::RetentionAuditEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1_retention_audit_entry_1af9190f2c155344035bea25941610de75" prot="public" virt="non-virtual"><scope>themis::RetentionAuditEntry</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_retention_audit_entry_1a4f4cc8c0ece06f74a4fef606f0aae0b3" prot="public" virt="non-virtual"><scope>themis::RetentionAuditEntry</scope><name>reason</name></member>
+      <member refid="structthemis_1_1_retention_audit_entry_1a41389a48e1718aaf3fe4542062c923df" prot="public" virt="non-virtual"><scope>themis::RetentionAuditEntry</scope><name>records_affected</name></member>
+      <member refid="structthemis_1_1_retention_audit_entry_1a796b9baf71526e9ff9effc4ddf4b533c" prot="public" virt="non-virtual"><scope>themis::RetentionAuditEntry</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

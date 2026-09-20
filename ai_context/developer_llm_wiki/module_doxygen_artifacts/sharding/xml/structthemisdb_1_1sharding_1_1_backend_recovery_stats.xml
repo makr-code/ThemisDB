@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_backend_recovery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::BackendRecoveryStats</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1ab49f4e48ded96f22c6f483ed91f73464" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::pending_transactions</definition>
+        <argsstring></argsstring>
+        <name>pending_transactions</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::pending_transactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="239" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a44337dd49530f88c6f61ce0597b0b134" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::snapshot_transactions_restored</definition>
+        <argsstring></argsstring>
+        <name>snapshot_transactions_restored</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::snapshot_transactions_restored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="240" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1aad0172857f1ed3b33161dbd6c7a6b83b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::wal_entries_replayed</definition>
+        <argsstring></argsstring>
+        <name>wal_entries_replayed</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::wal_entries_replayed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="241" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a38b18f78b49ea1f9c74444712e81142c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::stale_transactions_detected</definition>
+        <argsstring></argsstring>
+        <name>stale_transactions_detected</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::stale_transactions_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="242" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a020640698ec32cd77ff69fb24690ee2f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::resume_candidates</definition>
+        <argsstring></argsstring>
+        <name>resume_candidates</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::resume_candidates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="243" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a34e2a8a165cdf95ef6da216fb7c92376" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::failed_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="244" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1aa45bb7d45702b57f057ce0caa8480264" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::BackendRecoveryStats::in_doubt_transactions</definition>
+        <argsstring></argsstring>
+        <name>in_doubt_transactions</name>
+        <qualifiedname>themisdb::sharding::BackendRecoveryStats::in_doubt_transactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="245" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="238" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="238" bodyend="246"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a34e2a8a165cdf95ef6da216fb7c92376" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>failed_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1aa45bb7d45702b57f057ce0caa8480264" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>in_doubt_transactions</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1ab49f4e48ded96f22c6f483ed91f73464" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>pending_transactions</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a020640698ec32cd77ff69fb24690ee2f" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>resume_candidates</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a44337dd49530f88c6f61ce0597b0b134" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>snapshot_transactions_restored</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1a38b18f78b49ea1f9c74444712e81142c" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>stale_transactions_detected</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats_1aad0172857f1ed3b33161dbd6c7a6b83b" prot="public" virt="non-virtual"><scope>themisdb::sharding::BackendRecoveryStats</scope><name>wal_entries_replayed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

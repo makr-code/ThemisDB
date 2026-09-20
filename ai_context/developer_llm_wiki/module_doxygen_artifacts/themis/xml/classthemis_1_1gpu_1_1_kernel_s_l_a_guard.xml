@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelSLAGuard</compoundname>
+    <includes refid="gpu__timeout_8h" local="no">gpu_timeout.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::gpu::KernelSLAGuard::DEFAULT_SLA_DURATION</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_SLA_DURATION</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::DEFAULT_SLA_DURATION</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="19" column="41" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="19" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a4237a10d88d46f2cff39bb1fb36538fb" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::gpu::KernelSLAGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="67" column="41" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a2e3a306f7247d50f343c4dd4784c9028" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::gpu::KernelSLAGuard::deadline_</definition>
+        <argsstring></argsstring>
+        <name>deadline_</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::deadline_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="68" column="41" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a18b9930a6cb5685309f0cc1a2ded40b1" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::gpu::KernelSLAGuard::timeout_duration_</definition>
+        <argsstring></argsstring>
+        <name>timeout_duration_</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::timeout_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="69" column="39" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelSLAGuard::KernelSLAGuard</definition>
+        <argsstring>(std::chrono::steady_clock::duration timeout_duration=DEFAULT_SLA_DURATION) noexcept</argsstring>
+        <name>KernelSLAGuard</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::KernelSLAGuard</qualifiedname>
+        <param>
+          <type>std::chrono::steady_clock::duration</type>
+          <declname>timeout_duration</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" kindref="member">DEFAULT_SLA_DURATION</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="21" column="12" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a5748225e5f8d756e393e6292277b64fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelSLAGuard::KernelSLAGuard</definition>
+        <argsstring>(const KernelSLAGuard &amp;)=delete</argsstring>
+        <name>KernelSLAGuard</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::KernelSLAGuard</qualifiedname>
+        <param>
+          <type>const KernelSLAGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="27" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1afee9ab5f3100e2a10f37bbaf7b24dd43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref> &amp;</type>
+        <definition>KernelSLAGuard &amp; themis::gpu::KernelSLAGuard::operator=</definition>
+        <argsstring>(const KernelSLAGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="28" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a9edee3f6654001f23d807c32f26b2c2e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelSLAGuard::KernelSLAGuard</definition>
+        <argsstring>(KernelSLAGuard &amp;&amp;other) noexcept</argsstring>
+        <name>KernelSLAGuard</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::KernelSLAGuard</qualifiedname>
+        <param>
+          <type>KernelSLAGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="30" column="3" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a6a5296fa1cb7ffc6411ff4f34b893a9d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref> &amp;</type>
+        <definition>KernelSLAGuard &amp; themis::gpu::KernelSLAGuard::operator=</definition>
+        <argsstring>(KernelSLAGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="35" column="18" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="35" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a55d2986fd81379cfec4303ea31f52051" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelSLAGuard::~KernelSLAGuard</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~KernelSLAGuard</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::~KernelSLAGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="44" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aa416c82d1376c4200262a32eff167eb4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelSLAGuard::checkTimeoutDeadline</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>checkTimeoutDeadline</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::checkTimeoutDeadline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="46" column="8" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a92c5bb358f9baa21052617f9eacf210f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::gpu::KernelSLAGuard::getElapsedTime</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getElapsedTime</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::getElapsedTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="51" column="39" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a44a4c668555f0785a0593b9a7d9de14b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::gpu::KernelSLAGuard::getRemainingTime</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRemainingTime</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::getRemainingTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="55" column="39" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aad62e63c32f80ebe36cd553f9081b75a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::gpu::KernelSLAGuard::getSLADuration</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getSLADuration</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::getSLADuration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="59" column="39" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1ad20ba621dafaae02dcb485a805e6868f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::gpu::KernelSLAGuard::getDeadline</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDeadline</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::getDeadline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="63" column="41" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a95053fef2dea905422319c028a41cb2f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::gpu::KernelSLAGuard::getStartTime</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStartTime</name>
+        <qualifiedname>themis::gpu::KernelSLAGuard::getStartTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_timeout.h" line="64" column="41" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/gpu_timeout.h" line="17" column="1" bodyfile="include/themis/gpu/gpu_timeout.h" bodystart="17" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aa416c82d1376c4200262a32eff167eb4" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>checkTimeoutDeadline</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a2e3a306f7247d50f343c4dd4784c9028" prot="private" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>deadline_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>DEFAULT_SLA_DURATION</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1ad20ba621dafaae02dcb485a805e6868f" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>getDeadline</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a92c5bb358f9baa21052617f9eacf210f" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>getElapsedTime</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a44a4c668555f0785a0593b9a7d9de14b" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>getRemainingTime</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aad62e63c32f80ebe36cd553f9081b75a" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>getSLADuration</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a95053fef2dea905422319c028a41cb2f" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>getStartTime</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>KernelSLAGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a5748225e5f8d756e393e6292277b64fd" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>KernelSLAGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a9edee3f6654001f23d807c32f26b2c2e" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>KernelSLAGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1afee9ab5f3100e2a10f37bbaf7b24dd43" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a6a5296fa1cb7ffc6411ff4f34b893a9d" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a4237a10d88d46f2cff39bb1fb36538fb" prot="private" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a18b9930a6cb5685309f0cc1a2ded40b1" prot="private" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>timeout_duration_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a55d2986fd81379cfec4303ea31f52051" prot="public" virt="non-virtual"><scope>themis::gpu::KernelSLAGuard</scope><name>~KernelSLAGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

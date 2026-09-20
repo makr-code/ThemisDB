@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llamacpp_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::llamacpp::test</compoundname>
+    <innerclass refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" prot="public">themis::llamacpp::test::LlamaCppPluginValidationTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llamacpp_1_1test_1a476c3fcccf6af1fb40509d8b23901f75" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::llamacpp::test::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::llamacpp::test::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="37" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a8101c3fb88e478894015e3d6e255f196" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsNormal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsNormal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="102" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1abc2117f2b368c77c319eacc7b62cd045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsZeroMaxTokens)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsZeroMaxTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="114" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ac203f0170ca6a31e1dd8415744460237" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsNegativeMaxTokens)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsNegativeMaxTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="122" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="122" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1afdb2a9c43c678e512a188d1639099fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsInvalidTemperature)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsInvalidTemperature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="129" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a682cf612d28fc0914964cca9f105820c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsInvalidTopP)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsInvalidTopP</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="136" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="136" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a367a9b906c0e5d1868966bd50f4ce73c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateTokenLimitsContextExceeded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateTokenLimitsContextExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="143" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a166b7a6a76ea15d21a6acfb82c1fb1d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateContextLengthBelowMinimum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateContextLengthBelowMinimum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="153" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="153" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ae450358f7e816ac3647d2e84dae9f1b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateContextLengthAboveMaximum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateContextLengthAboveMaximum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="162" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a3305771a6f383f3bc87f9b70eadd4189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, CudaDetectionEnvDisabled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CudaDetectionEnvDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="175" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="175" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a310f1a737ced6a7983d8d97ab6d02924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, CudaDetectionEnvEnabled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CudaDetectionEnvEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="187" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="187" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ad438665b7572b1550c48b2813edba777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, CudaCheckWithGpuLayers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CudaCheckWithGpuLayers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="195" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="195" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a8cfe5d830c4ab354e6f2e91e0cf6748f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, CudaCheckCpuOnlyMode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>CudaCheckCpuOnlyMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="202" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="202" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1af3031d1f079809d340e59dbfef92897a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateModelInitEmptyPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateModelInitEmptyPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="213" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a33942d53c99f401938652fe3b97074df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateModelInitMissingFile)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateModelInitMissingFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="222" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="222" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1af0c1ee3839bc277dfaf43b26133f15ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateModelInitValidGGUF)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateModelInitValidGGUF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="230" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="230" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a6b7e89a673bf305aaa0f897337321fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateModelInitTooSmallFile)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateModelInitTooSmallFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="244" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="244" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ab57afc7e4efc3ada787bd2f589a17c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateModelInitInvalidGGUFMagic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateModelInitInvalidGGUFMagic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="258" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="258" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a2d620e5a60a500d24a330574957bac99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateMemoryCpuOnlyMode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateMemoryCpuOnlyMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="284" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="284" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ac2bbfdc24fc160b6f0263a5403e7e6a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateMemoryGpuRequested)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateMemoryGpuRequested</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="294" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="294" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a16426b8094143ffc80a9ecf1ef6706a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ValidateMemoryGpuExceedsLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateMemoryGpuExceedsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="310" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="310" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a655c503b0cd72aa5a4c82ec2a91e4616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ConfigContextLengthKey)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigContextLengthKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="327" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="327" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a2806c0fb8f82f1560f44fe33b77904e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ConfigNCtxKey)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigNCtxKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="335" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="335" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a5f81ccc704f78a5c8eff65b1608c322f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ConfigGpuLayersKey)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigGpuLayersKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="343" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="343" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a37dcc946ccb3676c357923961b74e87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, ConfigPreferContextLength)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigPreferContextLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="351" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="351" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a55b7e9b8877d140dd420f10fbcc34786" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginConstructor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="365" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="365" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a7f3d57b2d2e141eb81c88093da3d79af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginLoadModelEmptyPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginLoadModelEmptyPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="372" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="372" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1ae661dadf79175f260b168487f4f13cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginGetCapabilities)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginGetCapabilities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="383" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="383" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a306598c754302f9ec796838155f472d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginGetMemoryStats)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginGetMemoryStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="399" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="399" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a7e0ac0d68c0d8735b6b60237f484e1f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginGenerateStubMode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginGenerateStubMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="410" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="410" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1_1test_1a9c1dd9b33b22703c4e9a6b06cf4d197e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::test::TEST_F</definition>
+        <argsstring>(LlamaCppPluginValidationTest, PluginUnloadModel)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llamacpp::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llamacpp_1_1test_1_1_llama_cpp_plugin_validation_test" kindref="compound">LlamaCppPluginValidationTest</ref></type>
+        </param>
+        <param>
+          <type>PluginUnloadModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="426" column="1" bodyfile="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" bodystart="426" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llama_cpp_plugin_validation_gates.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::RetryPolicy</compoundname>
+    <includes refid="kernel__fallback__dispatcher_8h" local="no">kernel_fallback_dispatcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_retry_policy_1a93e80db394610b5a3dfb3ea1726a0e37" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::RetryPolicy::maxAttempts</definition>
+        <argsstring></argsstring>
+        <name>maxAttempts</name>
+        <qualifiedname>themis::acceleration::RetryPolicy::maxAttempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="57" column="14" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_retry_policy_1afa7d2ba4a2e34e3b6ba78fae884170ea" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::RetryPolicy::initialDelayMs</definition>
+        <argsstring></argsstring>
+        <name>initialDelayMs</name>
+        <qualifiedname>themis::acceleration::RetryPolicy::initialDelayMs</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="59" column="14" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_retry_policy_1a2d658605234d1bc2b6efe9e5c069231f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::RetryPolicy::maxDelayMs</definition>
+        <argsstring></argsstring>
+        <name>maxDelayMs</name>
+        <qualifiedname>themis::acceleration::RetryPolicy::maxDelayMs</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="61" column="14" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_retry_policy_1a31c2ddf1a79bcc6eea00067c6bfa37ef" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::RetryPolicy::backoffMultiplier</definition>
+        <argsstring></argsstring>
+        <name>backoffMultiplier</name>
+        <qualifiedname>themis::acceleration::RetryPolicy::backoffMultiplier</qualifiedname>
+        <initializer>= 2.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="63" column="14" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_fallback_dispatcher.h" line="56" column="1" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="56" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_retry_policy_1a31c2ddf1a79bcc6eea00067c6bfa37ef" prot="public" virt="non-virtual"><scope>themis::acceleration::RetryPolicy</scope><name>backoffMultiplier</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_retry_policy_1afa7d2ba4a2e34e3b6ba78fae884170ea" prot="public" virt="non-virtual"><scope>themis::acceleration::RetryPolicy</scope><name>initialDelayMs</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_retry_policy_1a93e80db394610b5a3dfb3ea1726a0e37" prot="public" virt="non-virtual"><scope>themis::acceleration::RetryPolicy</scope><name>maxAttempts</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_retry_policy_1a2d658605234d1bc2b6efe9e5c069231f" prot="public" virt="non-virtual"><scope>themis::acceleration::RetryPolicy</scope><name>maxDelayMs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

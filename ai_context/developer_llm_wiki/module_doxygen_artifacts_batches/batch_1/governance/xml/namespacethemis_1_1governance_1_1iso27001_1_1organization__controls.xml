@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1organization__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::organization_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1organization__controls_1a52e0d3c4b23304342af2747e539296e2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::organization_controls::kAccessControlPolicy</definition>
+        <argsstring></argsstring>
+        <name>kAccessControlPolicy</name>
+        <qualifiedname>themis::governance::iso27001::organization_controls::kAccessControlPolicy</qualifiedname>
+        <initializer>= &quot;A.5.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="117" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1organization__controls_1a4949d3c8f680abe50a2d4a2fc701d0e8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::organization_controls::kInfoSecurityRoles</definition>
+        <argsstring></argsstring>
+        <name>kInfoSecurityRoles</name>
+        <qualifiedname>themis::governance::iso27001::organization_controls::kInfoSecurityRoles</qualifiedname>
+        <initializer>= &quot;A.5.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="118" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1organization__controls_1a9ba3db03b1b98a761fb3b50e00642270" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::organization_controls::kSegregationOfDuties</definition>
+        <argsstring></argsstring>
+        <name>kSegregationOfDuties</name>
+        <qualifiedname>themis::governance::iso27001::organization_controls::kSegregationOfDuties</qualifiedname>
+        <initializer>= &quot;A.5.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="119" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="116" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,926 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyEngine</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" prot="public">themis::governance::PolicyEngine::IPolicyEvaluator</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1aeb17eaa73739c33dfe9c2d01af30b635" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::PolicyEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::PolicyEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="231" column="24" bodyfile="include/governance/policy_engine.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1aca48d6846062716457e30ee1604738b7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_classification_profile" kindref="compound">ClassificationProfile</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ClassificationProfile&gt; themis::governance::PolicyEngine::classification_profiles_</definition>
+        <argsstring></argsstring>
+        <name>classification_profiles_</name>
+        <qualifiedname>themis::governance::PolicyEngine::classification_profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="232" column="24" bodyfile="include/governance/policy_engine.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a0c5b5d24ae1e7f40f5106590015373bf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::governance::PolicyEngine::resource_mapping_</definition>
+        <argsstring></argsstring>
+        <name>resource_mapping_</name>
+        <qualifiedname>themis::governance::PolicyEngine::resource_mapping_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="233" column="24" bodyfile="include/governance/policy_engine.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a02a99c943a9da30b5d73cbe94dc3f244" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyEngine::default_mode_</definition>
+        <argsstring></argsstring>
+        <name>default_mode_</name>
+        <qualifiedname>themis::governance::PolicyEngine::default_mode_</qualifiedname>
+        <initializer>= &quot;enforce&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="234" column="17" bodyfile="include/governance/policy_engine.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a0b8c54a87f197ff5c1f9d37955c08fce" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::AuditLogger&gt; themis::governance::PolicyEngine::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::governance::PolicyEngine::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="235" column="21" bodyfile="include/governance/policy_engine.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a6f35d8ddd792f36e45bf1b4240e134e6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyEngine::loaded_yaml_path_</definition>
+        <argsstring></argsstring>
+        <name>loaded_yaml_path_</name>
+        <qualifiedname>themis::governance::PolicyEngine::loaded_yaml_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="238" column="17" bodyfile="include/governance/policy_engine.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1aa818797be80ca36f26f8d02a20d0716b" prot="private" static="no" mutable="no">
+        <type>std::filesystem::file_time_type</type>
+        <definition>std::filesystem::file_time_type themis::governance::PolicyEngine::last_loaded_mtime_</definition>
+        <argsstring></argsstring>
+        <name>last_loaded_mtime_</name>
+        <qualifiedname>themis::governance::PolicyEngine::last_loaded_mtime_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="239" column="37" bodyfile="include/governance/policy_engine.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a500a3c0482ee91a662810acc4e92f988" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::unordered_set&lt;std::string&gt; &gt; themis::governance::PolicyEngine::ccpa_opt_out_subjects_</definition>
+        <argsstring></argsstring>
+        <name>ccpa_opt_out_subjects_</name>
+        <qualifiedname>themis::governance::PolicyEngine::ccpa_opt_out_subjects_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="242" column="21" bodyfile="include/governance/policy_engine.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1a7c1f258393cedb5084eb512d8ff33474" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_model_governance_policy" kindref="compound">ModelGovernancePolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ModelGovernancePolicy&gt; themis::governance::PolicyEngine::model_governance_policy_</definition>
+        <argsstring></argsstring>
+        <name>model_governance_policy_</name>
+        <qualifiedname>themis::governance::PolicyEngine::model_governance_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="245" column="21" bodyfile="include/governance/policy_engine.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1aa2249d22c93a6475352f3f90e9f8d5de" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref></type>
+        <definition>FieldMaskingPolicy themis::governance::PolicyEngine::masking_rules_</definition>
+        <argsstring></argsstring>
+        <name>masking_rules_</name>
+        <qualifiedname>themis::governance::PolicyEngine::masking_rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="248" column="24" bodyfile="include/governance/policy_engine.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1af24b206d80f9745fce56b109dc08e59b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref> *</type>
+        <definition>IPolicyEvaluator* themis::governance::PolicyEngine::opa_evaluator_</definition>
+        <argsstring></argsstring>
+        <name>opa_evaluator_</name>
+        <qualifiedname>themis::governance::PolicyEngine::opa_evaluator_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="251" column="22" bodyfile="include/governance/policy_engine.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_engine_1ac7ec78ccafe3237da7485c2cfb910d7f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_safe_access_validator" kindref="compound">SafeAccessValidator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SafeAccessValidator&gt; themis::governance::PolicyEngine::safety_validator_</definition>
+        <argsstring></argsstring>
+        <name>safety_validator_</name>
+        <qualifiedname>themis::governance::PolicyEngine::safety_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="254" column="21" bodyfile="include/governance/policy_engine.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1aa57c5f02a7f123af12bb8ef00ddd7b50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyEngine::PolicyEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>PolicyEngine</name>
+        <qualifiedname>themis::governance::PolicyEngine::PolicyEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a8d798e64bd152ecc9b888c31412202da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PolicyEngine::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::governance::PolicyEngine::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load From YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: YAML::LoadFile(), normalize(), IsSequence(), THEMIS_WARN(), empty(), push_back(), std::move(), std::filesystem::last_write_time(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="129" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="69" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a5005f4213fc73c8bb1215737fe644a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PolicyEngine::reloadIfChanged</definition>
+        <argsstring>(std::string *err=nullptr)</argsstring>
+        <name>reloadIfChanged</name>
+        <qualifiedname>themis::governance::PolicyEngine::reloadIfChanged</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>err</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Reload If Changed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), std::filesystem::last_write_time(), std::string(), what(), observability::MetricsCollector::getInstance(), addCounter(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="131" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="218" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a9f769269f46687a9b657dc332a7ba203" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PolicyEngine::getLoadedFilePath</definition>
+        <argsstring>() const</argsstring>
+        <name>getLoadedFilePath</name>
+        <qualifiedname>themis::governance::PolicyEngine::getLoadedFilePath</qualifiedname>
+        <briefdescription>
+<para>Get Loaded File Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="137" column="17" bodyfile="src/governance/policy_engine.cpp" bodystart="284" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1ac7a83a8575ca35ffc91724e7d723c703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicyEngine::setAuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; themis::utils::AuditLogger &gt; logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::governance::PolicyEngine::setAuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="143" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="313" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1ad61501778809438dac0844aec888d038" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicyEngine::setOpaEvaluator</definition>
+        <argsstring>(IPolicyEvaluator *evaluator)</argsstring>
+        <name>setOpaEvaluator</name>
+        <qualifiedname>themis::governance::PolicyEngine::setOpaEvaluator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref> *</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Set Opa Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="149" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="323" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1af6ec636c9f7f564c3ccf80d5cddde7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicyEngine::setCcpaOptOutSubjects</definition>
+        <argsstring>(std::shared_ptr&lt; std::unordered_set&lt; std::string &gt; &gt; opt_out_registry)</argsstring>
+        <name>setCcpaOptOutSubjects</name>
+        <qualifiedname>themis::governance::PolicyEngine::setCcpaOptOutSubjects</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>opt_out_registry</declname>
+        </param>
+        <briefdescription>
+<para>Set Ccpa Opt Out Subjects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opt_out_registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opt_out_registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="156" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1ab0edeb300ad7866e66ec2e2dc1eae0fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PolicyEngine::isCcpaOptedOut</definition>
+        <argsstring>(const std::string &amp;subject_id) const</argsstring>
+        <name>isCcpaOptedOut</name>
+        <qualifiedname>themis::governance::PolicyEngine::isCcpaOptedOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Ccpa Opted Out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="163" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="340" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a4e95c26b124a8534b9c33bf283a23add" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicyEngine::setModelGovernancePolicy</definition>
+        <argsstring>(std::shared_ptr&lt; ModelGovernancePolicy &gt; policy)</argsstring>
+        <name>setModelGovernancePolicy</name>
+        <qualifiedname>themis::governance::PolicyEngine::setModelGovernancePolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_model_governance_policy" kindref="compound">ModelGovernancePolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Governance Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="170" column="10" bodyfile="src/governance/policy_engine.cpp" bodystart="651" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1ac6c273f559ff5d5943f762f9fb634e75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_model_governance_decision" kindref="compound">ModelGovernanceDecision</ref></type>
+        <definition>ModelGovernanceDecision PolicyEngine::checkExportPermission</definition>
+        <argsstring>(const ModelTrainingExportRequest &amp;request) const</argsstring>
+        <name>checkExportPermission</name>
+        <qualifiedname>themis::governance::PolicyEngine::checkExportPermission</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_model_training_export_request" kindref="compound">ModelTrainingExportRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Check Export Permission. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="177" column="29" bodyfile="src/governance/policy_engine.cpp" bodystart="656" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a8c85e0829c879e03bdebed57a2f6c527" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref></type>
+        <definition>PolicyDecision PolicyEngine::evaluate</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::PolicyEngine::evaluate</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="181" column="20" bodyfile="src/governance/policy_engine.cpp" bodystart="356" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a047f168dc46ca29de387fdcf74b65aeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_query_permission_result" kindref="compound">QueryPermissionResult</ref></type>
+        <definition>QueryPermissionResult PolicyEngine::checkQueryPermission</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route) const</argsstring>
+        <name>checkQueryPermission</name>
+        <qualifiedname>themis::governance::PolicyEngine::checkQueryPermission</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="184" column="27" bodyfile="src/governance/policy_engine.cpp" bodystart="708" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref></type>
+        <definition>InferencePermissionResult PolicyEngine::checkInferencePermission</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers) const</argsstring>
+        <name>checkInferencePermission</name>
+        <qualifiedname>themis::governance::PolicyEngine::checkInferencePermission</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="187" column="31" bodyfile="src/governance/policy_engine.cpp" bodystart="732" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1aed7d1d895439757b498b8c8e17bfffe0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref></type>
+        <definition>FieldMaskingPolicy PolicyEngine::getMaskingPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaskingPolicy</name>
+        <qualifiedname>themis::governance::PolicyEngine::getMaskingPolicy</qualifiedname>
+        <briefdescription>
+<para>Get Masking Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="194" column="24" bodyfile="src/governance/policy_engine.cpp" bodystart="698" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a41ce8c770060eb2d5b63c7fc80dcc09c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_simulation_result" kindref="compound">SimulationResult</ref></type>
+        <definition>SimulationResult PolicyEngine::simulateDecision</definition>
+        <argsstring>(const SimulationRequest &amp;request) const</argsstring>
+        <name>simulateDecision</name>
+        <qualifiedname>themis::governance::PolicyEngine::simulateDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Simulate Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="201" column="22" bodyfile="src/governance/policy_engine.cpp" bodystart="530" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1ab9573376caa65418811f718ec3787da2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_safe_access_result" kindref="compound">SafeAccessResult</ref></type>
+        <definition>SafeAccessResult PolicyEngine::validateAccessSafety</definition>
+        <argsstring>(const AccessRequest &amp;request)</argsstring>
+        <name>validateAccessSafety</name>
+        <qualifiedname>themis::governance::PolicyEngine::validateAccessSafety</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_access_request" kindref="compound">AccessRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Validate Access Safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1governance_1ad7d10c7f5129c149609a3a513f6f45e3" kindref="member">getGlobalDiagnosticAggregator()</ref>, validateAccessRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="208" column="22" bodyfile="src/governance/policy_engine.cpp" bodystart="830" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a2a5334c7fcce60c6e56aa7f78fa70f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_safe_access_validator" kindref="compound">SafeAccessValidator</ref> &amp;</type>
+        <definition>SafeAccessValidator &amp; PolicyEngine::getSafeAccessValidator</definition>
+        <argsstring>()</argsstring>
+        <name>getSafeAccessValidator</name>
+        <qualifiedname>themis::governance::PolicyEngine::getSafeAccessValidator</qualifiedname>
+        <briefdescription>
+<para>Get Safe Access Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1governance_1ad7d10c7f5129c149609a3a513f6f45e3" kindref="member">getGlobalDiagnosticAggregator()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="214" column="25" bodyfile="src/governance/policy_engine.cpp" bodystart="846" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a1985d21e6510286032cbdaa2fa761850" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_classification_profile" kindref="compound">ClassificationProfile</ref> &gt;</type>
+        <definition>std::optional&lt; ClassificationProfile &gt; PolicyEngine::getClassificationProfile</definition>
+        <argsstring>(const std::string &amp;level) const</argsstring>
+        <name>getClassificationProfile</name>
+        <qualifiedname>themis::governance::PolicyEngine::getClassificationProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Get Classification Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="221" column="19" bodyfile="src/governance/policy_engine.cpp" bodystart="294" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1a25ee11434c524c2306c1de6a7d580198" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PolicyEngine::isStrictClass</definition>
+        <argsstring>(const std::string &amp;cls)</argsstring>
+        <name>isStrictClass</name>
+        <qualifiedname>themis::governance::PolicyEngine::isStrictClass</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+<para>Is Strict Class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: normalize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="228" column="17" bodyfile="src/governance/policy_engine.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_engine_1aaa5262969ad9e880ae1cd21800d1cad5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PolicyEngine::normalize</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::governance::PolicyEngine::normalize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Normalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), tolower(), empty(), is_space(), front(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="261" column="24" bodyfile="src/governance/policy_engine.cpp" bodystart="37" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_engine.h" line="109" column="1" bodyfile="include/governance/policy_engine.h" bodystart="109" bodyend="262"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a0b8c54a87f197ff5c1f9d37955c08fce" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a500a3c0482ee91a662810acc4e92f988" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>ccpa_opt_out_subjects_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ac6c273f559ff5d5943f762f9fb634e75" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>checkExportPermission</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>checkInferencePermission</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a047f168dc46ca29de387fdcf74b65aeb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>checkQueryPermission</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aca48d6846062716457e30ee1604738b7" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>classification_profiles_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a02a99c943a9da30b5d73cbe94dc3f244" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>default_mode_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a8c85e0829c879e03bdebed57a2f6c527" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a1985d21e6510286032cbdaa2fa761850" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>getClassificationProfile</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a9f769269f46687a9b657dc332a7ba203" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>getLoadedFilePath</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aed7d1d895439757b498b8c8e17bfffe0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>getMaskingPolicy</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a2a5334c7fcce60c6e56aa7f78fa70f07" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>getSafeAccessValidator</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ab0edeb300ad7866e66ec2e2dc1eae0fe" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>isCcpaOptedOut</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a25ee11434c524c2306c1de6a7d580198" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>isStrictClass</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aa818797be80ca36f26f8d02a20d0716b" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>last_loaded_mtime_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a6f35d8ddd792f36e45bf1b4240e134e6" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>loaded_yaml_path_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a8d798e64bd152ecc9b888c31412202da" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>loadFromYAML</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aa2249d22c93a6475352f3f90e9f8d5de" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>masking_rules_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a7c1f258393cedb5084eb512d8ff33474" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>model_governance_policy_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aeb17eaa73739c33dfe9c2d01af30b635" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aaa5262969ad9e880ae1cd21800d1cad5" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>normalize</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1af24b206d80f9745fce56b109dc08e59b" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>opa_evaluator_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1aa57c5f02a7f123af12bb8ef00ddd7b50" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>PolicyEngine</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a5005f4213fc73c8bb1215737fe644a46" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>reloadIfChanged</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a0c5b5d24ae1e7f40f5106590015373bf" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>resource_mapping_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ac7ec78ccafe3237da7485c2cfb910d7f" prot="private" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>safety_validator_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ac7a83a8575ca35ffc91724e7d723c703" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1af6ec636c9f7f564c3ccf80d5cddde7d4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>setCcpaOptOutSubjects</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a4e95c26b124a8534b9c33bf283a23add" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>setModelGovernancePolicy</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ad61501778809438dac0844aec888d038" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>setOpaEvaluator</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1a41ce8c770060eb2d5b63c7fc80dcc09c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>simulateDecision</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_engine_1ab9573376caa65418811f718ec3787da2" prot="public" virt="non-virtual"><scope>themis::governance::PolicyEngine</scope><name>validateAccessSafety</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

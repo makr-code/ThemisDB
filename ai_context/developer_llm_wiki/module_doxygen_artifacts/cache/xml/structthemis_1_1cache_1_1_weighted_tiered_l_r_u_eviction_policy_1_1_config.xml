@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::WeightedTieredLRUEvictionPolicy::Config</compoundname>
+    <includes refid="cache__eviction__policy_8h" local="no">cache_eviction_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aacd6244a6a0ec7d191877196b1c436d3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::l2_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>l2_promotion_threshold</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::l2_promotion_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="237" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a77dcb88ebd435b5b6fd0c538f73e8a0f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::l1_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>l1_promotion_threshold</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::l1_promotion_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="238" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a40800615c5e133c30fd99f36b12e00d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::WeightedTieredLRUEvictionPolicy::Config::frequency_weight</definition>
+        <argsstring></argsstring>
+        <name>frequency_weight</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::frequency_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="239" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aa2e5efec5316dba36343f64965a55e2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::WeightedTieredLRUEvictionPolicy::Config::recency_weight</definition>
+        <argsstring></argsstring>
+        <name>recency_weight</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::recency_weight</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="240" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a2a8e3b29d135fc6aa91a304bbd430835" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::WeightedTieredLRUEvictionPolicy::Config::frequency_decay_factor</definition>
+        <argsstring></argsstring>
+        <name>frequency_decay_factor</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::frequency_decay_factor</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="241" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a4e60a68656927b33074a6442c51db910" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::trigger_threshold_percent</definition>
+        <argsstring></argsstring>
+        <name>trigger_threshold_percent</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::trigger_threshold_percent</qualifiedname>
+        <initializer>= 70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="242" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1acb9a5306244975883da448ada29d07f0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::safe_threshold_percent</definition>
+        <argsstring></argsstring>
+        <name>safe_threshold_percent</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::safe_threshold_percent</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="243" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a1cdd0af60fc35edd1e0696518c030a0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::severe_threshold_percent</definition>
+        <argsstring></argsstring>
+        <name>severe_threshold_percent</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::severe_threshold_percent</qualifiedname>
+        <initializer>= 85</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="244" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aa205d10dcb98212a32e561dd2aa73bcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::WeightedTieredLRUEvictionPolicy::Config::adaptive_thresholds</definition>
+        <argsstring></argsstring>
+        <name>adaptive_thresholds</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::adaptive_thresholds</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="245" column="14" bodyfile="include/cache/cache_eviction_policy.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1ae9b78fb6214856af8aac02d94cf212c7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::WeightedTieredLRUEvictionPolicy::Config::threshold_adjustment_interval_ns</definition>
+        <argsstring></argsstring>
+        <name>threshold_adjustment_interval_ns</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::Config::threshold_adjustment_interval_ns</qualifiedname>
+        <initializer>= 600000000000LL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="246" column="17" bodyfile="include/cache/cache_eviction_policy.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_eviction_policy.h" line="236" column="5" bodyfile="include/cache/cache_eviction_policy.h" bodystart="236" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aa205d10dcb98212a32e561dd2aa73bcd" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>adaptive_thresholds</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a2a8e3b29d135fc6aa91a304bbd430835" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>frequency_decay_factor</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a40800615c5e133c30fd99f36b12e00d9" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>frequency_weight</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a77dcb88ebd435b5b6fd0c538f73e8a0f" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>l1_promotion_threshold</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aacd6244a6a0ec7d191877196b1c436d3" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>l2_promotion_threshold</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1aa2e5efec5316dba36343f64965a55e2b" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>recency_weight</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1acb9a5306244975883da448ada29d07f0" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>safe_threshold_percent</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a1cdd0af60fc35edd1e0696518c030a0b" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>severe_threshold_percent</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1ae9b78fb6214856af8aac02d94cf212c7" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>threshold_adjustment_interval_ns</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_config_1a4e60a68656927b33074a6442c51db910" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::Config</scope><name>trigger_threshold_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

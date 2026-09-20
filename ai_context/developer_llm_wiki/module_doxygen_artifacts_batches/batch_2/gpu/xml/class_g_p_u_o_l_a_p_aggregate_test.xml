@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_o_l_a_p_aggregate_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUOLAPAggregateTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_g_p_u_o_l_a_p_aggregate_test_1ad67199bf1f8843153db31c6fe3ebc79f" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; themis::gpu::GPUQueryAccelerator::Row &gt;</type>
+        <definition>static std::vector&lt; themis::gpu::GPUQueryAccelerator::Row &gt; GPUOLAPAggregateTest::makeRows</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>makeRows</name>
+        <qualifiedname>GPUOLAPAggregateTest::makeRows</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="171" column="5" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="171" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_o_l_a_p_aggregate_test_1ada92e07602f2082750d860f6c37b1d83" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double GPUOLAPAggregateTest::extractValue</definition>
+        <argsstring>(const themis::gpu::GPUQueryAccelerator::Row &amp;r)</argsstring>
+        <name>extractValue</name>
+        <qualifiedname>GPUOLAPAggregateTest::extractValue</qualifiedname>
+        <param>
+          <type>const themis::gpu::GPUQueryAccelerator::Row &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="186" column="19" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="186" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_o_l_a_p_aggregate_test_1ad1c9e49d0253468ff38dc39094010845" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::gpu::GPUQueryAccelerator::Config</type>
+        <definition>themis::gpu::GPUQueryAccelerator::Config GPUOLAPAggregateTest::cpuConfig</definition>
+        <argsstring>()</argsstring>
+        <name>cpuConfig</name>
+        <qualifiedname>GPUOLAPAggregateTest::cpuConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="195" column="46" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="195" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUOLAPAggregateTest</label>
+        <link refid="class_g_p_u_o_l_a_p_aggregate_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUOLAPAggregateTest</label>
+        <link refid="class_g_p_u_o_l_a_p_aggregate_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="167" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="167" bodyend="200"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_o_l_a_p_aggregate_test_1ad1c9e49d0253468ff38dc39094010845" prot="protected" virt="non-virtual"><scope>GPUOLAPAggregateTest</scope><name>cpuConfig</name></member>
+      <member refid="class_g_p_u_o_l_a_p_aggregate_test_1ada92e07602f2082750d860f6c37b1d83" prot="protected" virt="non-virtual"><scope>GPUOLAPAggregateTest</scope><name>extractValue</name></member>
+      <member refid="class_g_p_u_o_l_a_p_aggregate_test_1ad67199bf1f8843153db31c6fe3ebc79f" prot="protected" virt="non-virtual"><scope>GPUOLAPAggregateTest</scope><name>makeRows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

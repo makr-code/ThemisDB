@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::NLIResult</compoundname>
+    <includes refid="nli__faithfulness__verifier_8h" local="no">nli_faithfulness_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1a595dd6f453d292e0c638e54a2d0d5c20" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541" kindref="member">NLILabel</ref></type>
+        <definition>NLILabel themis::rag::judge::NLIResult::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::rag::judge::NLIResult::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="38" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1a179726ffbc9559a9894ae94a4b797a18" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIResult::entailment_score</definition>
+        <argsstring></argsstring>
+        <name>entailment_score</name>
+        <qualifiedname>themis::rag::judge::NLIResult::entailment_score</qualifiedname>
+        <briefdescription>
+<para>P(entailment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="39" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1ab9eacfc8ec6face685f70095496189af" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIResult::neutral_score</definition>
+        <argsstring></argsstring>
+        <name>neutral_score</name>
+        <qualifiedname>themis::rag::judge::NLIResult::neutral_score</qualifiedname>
+        <briefdescription>
+<para>P(neutral). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="40" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1af18d81b80880fdb60a2ae6633f2a71aa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIResult::contradiction_score</definition>
+        <argsstring></argsstring>
+        <name>contradiction_score</name>
+        <qualifiedname>themis::rag::judge::NLIResult::contradiction_score</qualifiedname>
+        <briefdescription>
+<para>P(contradiction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="41" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1ab357cc53f459f586ea595cdd867f24c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::NLIResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence in prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="42" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result from NLI model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/nli_faithfulness_verifier.h" line="37" column="1" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1ab357cc53f459f586ea595cdd867f24c9" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1af18d81b80880fdb60a2ae6633f2a71aa" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIResult</scope><name>contradiction_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1a179726ffbc9559a9894ae94a4b797a18" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIResult</scope><name>entailment_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1a595dd6f453d292e0c638e54a2d0d5c20" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIResult</scope><name>label</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result_1ab9eacfc8ec6face685f70095496189af" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIResult</scope><name>neutral_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

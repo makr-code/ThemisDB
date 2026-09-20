@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_index_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::IndexApiHandler</compoundname>
+    <includes refid="index__api__handler_8h" local="no">index_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_index_api_handler_1a9df158c56dbc98cdd32d141f94968e00" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::IndexApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::IndexApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="105" column="21" bodyfile="include/server/index_api_handler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_index_api_handler_1a79eabf1658174d5267a68e22a20b33c5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::IndexApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::IndexApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="106" column="21" bodyfile="include/server/index_api_handler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_index_api_handler_1af27d43567df0a081a14f1b6d10837a76" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AdaptiveIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveIndexManager&gt; themis::server::IndexApiHandler::adaptive_index_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_index_</name>
+        <qualifiedname>themis::server::IndexApiHandler::adaptive_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="107" column="21" bodyfile="include/server/index_api_handler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_index_api_handler_1a5243ff5af8c0b08ed2e50da3dbd4a3d1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::IndexApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::IndexApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="108" column="21" bodyfile="include/server/index_api_handler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1acea75c32f73995a46b6bdff6f355cfdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::IndexApiHandler::IndexApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; AdaptiveIndexManager &gt; adaptive_index, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>IndexApiHandler</name>
+        <qualifiedname>themis::server::IndexApiHandler::IndexApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; AdaptiveIndexManager &gt;</type>
+          <declname>adaptive_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="34" column="5" bodyfile="src/server/index_api_handler.cpp" bodystart="27" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a1a4094f9978f4b2dd7cbbb51ba88b1b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleCreate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreate</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleCreate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(), createRangeIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="46" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="46" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a06448a1f6dffd658da1f3c33c8f1d711" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleDrop</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDrop</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleDrop</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Drop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="53" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="174" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1afb6d328c72338e9e42114c9c689bcb21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: body(), empty(), json::parse(), contains(), std::string(), target(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="60" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="223" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a17ee6b837dd9b9ee3ad1ea4eb0650706" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleRebuild</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRebuild</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleRebuild</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), value(), rebuildIndexOnline(), rebuildIndex(), getIndexStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="67" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="334" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a3e42c9174ead89c6b535f65666659570" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleReindex</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleReindex</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleReindex</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Reindex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), contains(), makeErrorResponse(), reindexTable(), getAllIndexStats(), size(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="74" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="381" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a28d372ac7a628bc093dc4ca82344cfc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleSuggestions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSuggestions</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleSuggestions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), iss(), std::getline(), std::stod(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="81" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="430" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1aea65e40ce5bc58f42cc2893a6aabeb01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handlePatterns</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePatterns</name>
+        <qualifiedname>themis::server::IndexApiHandler::handlePatterns</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), setAttribute(), getPatterns(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="88" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="494" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a97a2bc2ffb49bfcb8be0bf2ceb208a1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleRecordPattern</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRecordPattern</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleRecordPattern</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Record Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), json::parse(), body(), value(), int64_t(), empty(), setStatus(), makeErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="95" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="542" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a8340052de6f8fef651f3264faa5dd663" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::handleClearPatterns</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleClearPatterns</name>
+        <qualifiedname>themis::server::IndexApiHandler::handleClearPatterns</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Clear Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getPatternTracker(), size(), clear(), setAttribute(), setStatus(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="102" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="595" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1a910c38624f90131d62a7778744c5c63c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::IndexApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="117" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="628" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_index_api_handler_1aeffed2d49dc99cdf157d6ea7c6d4aa85" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::IndexApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::IndexApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/index_api_handler.h" line="126" column="20" bodyfile="src/server/index_api_handler.cpp" bodystart="647" bodyend="657"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/index_api_handler.h" line="32" column="1" bodyfile="include/server/index_api_handler.h" bodystart="32" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1af27d43567df0a081a14f1b6d10837a76" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>adaptive_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a5243ff5af8c0b08ed2e50da3dbd4a3d1" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a8340052de6f8fef651f3264faa5dd663" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleClearPatterns</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a1a4094f9978f4b2dd7cbbb51ba88b1b7" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleCreate</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a06448a1f6dffd658da1f3c33c8f1d711" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleDrop</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1aea65e40ce5bc58f42cc2893a6aabeb01" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handlePatterns</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a17ee6b837dd9b9ee3ad1ea4eb0650706" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleRebuild</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a97a2bc2ffb49bfcb8be0bf2ceb208a1a" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleRecordPattern</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a3e42c9174ead89c6b535f65666659570" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleReindex</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1afb6d328c72338e9e42114c9c689bcb21" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a28d372ac7a628bc093dc4ca82344cfc9" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>handleSuggestions</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1acea75c32f73995a46b6bdff6f355cfdf" prot="public" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>IndexApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a910c38624f90131d62a7778744c5c63c" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1aeffed2d49dc99cdf157d6ea7c6d4aa85" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a79eabf1658174d5267a68e22a20b33c5" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_index_api_handler_1a9df158c56dbc98cdd32d141f94968e00" prot="private" virt="non-virtual"><scope>themis::server::IndexApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

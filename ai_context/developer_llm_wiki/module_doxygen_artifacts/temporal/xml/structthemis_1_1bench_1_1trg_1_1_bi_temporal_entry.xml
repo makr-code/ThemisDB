@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::trg::BiTemporalEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1a008bef975e02844e4c2667b15c4fc137" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::trg::BiTemporalEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::bench::trg::BiTemporalEntry::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="77" column="18" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1a5572a96b5fda80d427efa22a0c980ce6" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::trg::BiTemporalEntry::valid_start</definition>
+        <argsstring></argsstring>
+        <name>valid_start</name>
+        <qualifiedname>themis::bench::trg::BiTemporalEntry::valid_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="78" column="18" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1ac2dc038e5420086706beb59a67d793d9" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::trg::BiTemporalEntry::valid_end</definition>
+        <argsstring></argsstring>
+        <name>valid_end</name>
+        <qualifiedname>themis::bench::trg::BiTemporalEntry::valid_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="79" column="18" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1afe98727d7dc95c253c84f19680da8957" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::trg::BiTemporalEntry::tx_time</definition>
+        <argsstring></argsstring>
+        <name>tx_time</name>
+        <qualifiedname>themis::bench::trg::BiTemporalEntry::tx_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="80" column="18" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="76" column="1" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="76" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1a008bef975e02844e4c2667b15c4fc137" prot="public" virt="non-virtual"><scope>themis::bench::trg::BiTemporalEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1afe98727d7dc95c253c84f19680da8957" prot="public" virt="non-virtual"><scope>themis::bench::trg::BiTemporalEntry</scope><name>tx_time</name></member>
+      <member refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1ac2dc038e5420086706beb59a67d793d9" prot="public" virt="non-virtual"><scope>themis::bench::trg::BiTemporalEntry</scope><name>valid_end</name></member>
+      <member refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1a5572a96b5fda80d427efa22a0c980ce6" prot="public" virt="non-virtual"><scope>themis::bench::trg::BiTemporalEntry</scope><name>valid_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

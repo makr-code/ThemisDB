@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__phase__b__e2e_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_phase_b_e2e.cpp</compoundname>
+    <includes refid="hybrid__retriever_8h" local="yes">rag/hybrid_retriever.h</includes>
+    <includes refid="llm__judge__integration_8h" local="yes">rag/llm_judge_integration.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/hybrid_retriever.h</label>
+        <link refid="hybrid__retriever_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>rag/llm_judge_integration.h</label>
+        <link refid="llm__judge__integration_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>rag/prompt_templates.h</label>
+        <link refid="prompt__templates_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>rag/response_parser.h</label>
+        <link refid="response__parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>rag/vectorizer_interface.h</label>
+        <link refid="vectorizer__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_phase_b_e2e.cpp</label>
+        <link refid="test__rag__phase__b__e2e_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, RrfFusesBm25AndHnswCandidates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>RrfFusesBm25AndHnswCandidates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="88" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="88" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1a982c887e0ac8bbd98dff15367b637f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, Bm25OnlyModeExcludesHnswDocs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>Bm25OnlyModeExcludesHnswDocs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="142" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="142" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1aea44ae63a6ab5ce3a4e3bd2ba8dfe665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, VectorOnlyModeExcludesBm25Docs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>VectorOnlyModeExcludesBm25Docs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="180" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="180" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1aa089fa051bc0d762badd54569e178c84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, RrfK60ScoresPositiveAndOrdered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>RrfK60ScoresPositiveAndOrdered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="217" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="217" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1a5b0aab638a563112768e541f6ab3cee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, LlmJudgeRealEngineNotMock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>LlmJudgeRealEngineNotMock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="259" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="259" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1a0789432a104e81ad14176f0e9d8311a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, LlmJudgeGateDisabledReturnsUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>LlmJudgeGateDisabledReturnsUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="293" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="293" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__phase__b__e2e_8cpp_1a6eea3141b57b743f919b6dca53f306c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RagPhaseBE2E, FullPhaseBChainBm25HnswRrfLlmJudge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RagPhaseBE2E</type>
+        </param>
+        <param>
+          <type>FullPhaseBChainBm25HnswRrfLlmJudge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_phase_b_e2e.cpp" line="317" column="1" bodyfile="tests/rag/test_rag_phase_b_e2e.cpp" bodystart="317" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sprint 1 — Phase B Kern end-to-end activation tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates that the four Phase-B retrieval building blocks — BM25+ (via <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> weights), HNSW (vector candidates), RRF fusion (HybridRetriever::fuseRRF), and LLM-Judge (<ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> real-engine path) — are wired together end-to-end with no mock fallback in the production code path.</para>
+<para>Tests: PHASE-B-E2E-01 <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> RRF fuses BM25 + HNSW candidates, returns non-empty ranked list with correct count. PHASE-B-E2E-02 BM25-only mode (vector_weight=0): HNSW-exclusive docs absent from fused result. PHASE-B-E2E-03 Vector-only mode (bm25_weight=0): BM25-exclusive docs absent from fused result. PHASE-B-E2E-04 RRF with k=60 (standard parameter): hybrid scores are positive and strictly ordered descending. PHASE-B-E2E-05 <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> with real <ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref>: isMockMode()==false and evaluateDimension returns the injected engine&apos;s response, not mock text. PHASE-B-E2E-06 <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> with gate disabled (enable_llm_judge=false) returns unavailable sentinel, never a mock score. PHASE-B-E2E-07 Full Phase B chain: BM25 docs → HNSW docs → RRF fusion → LLM-Judge scores the top-ranked document content.</para>
+<para>All tests are self-contained (no RocksDB, no network dependency).</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="see"><para>src/rag/ROADMAP.md §Q4 2026 — Advanced Retrieval + LLM-Judge </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="hybrid__retriever_8h" kindref="compound">include/rag/hybrid_retriever.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="llm__judge__integration_8h" kindref="compound">include/rag/llm_judge_integration.h</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__retriever_8h" kindref="compound">rag/hybrid_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__judge__integration_8h" kindref="compound">rag/llm_judge_integration.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>makeDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>score)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>d;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1ab4c5dbdcc47ac579d33603f713d1a370" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a13a7721cc1eaad3d89335467a5aca5c6" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a470d2fdc59604430e11a52a1fedaf51f" kindref="member">similarity_score</ref><sp/>=<sp/>score;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DeterministicEngine<sp/>final<sp/>:<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>DeterministicEngine(std::string<sp/>response)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>response_(std::move(response))<sp/>{}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>response_;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>response_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-01:<sp/>RRF<sp/>fuses<sp/>BM25<sp/>and<sp/>HNSW<sp/>candidates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>RrfFusesBm25AndHnswCandidates)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BM25<sp/>candidates<sp/>(simulated<sp/>fulltext<sp/>scorer<sp/>output)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;bm25-doc-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BM25<sp/>top<sp/>result<sp/>about<sp/>HNSW<sp/>indexing&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.92),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;bm25-doc-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BM25<sp/>second<sp/>result<sp/>about<sp/>graph<sp/>construction&quot;</highlight><highlight class="normal">,<sp/>0.78),</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;shared-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Document<sp/>present<sp/>in<sp/>both<sp/>lists&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.65),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HNSW<sp/>/<sp/>vector<sp/>candidates<sp/>(simulated<sp/>KNN<sp/>output,<sp/>distance<sp/>converted<sp/>to<sp/>similarity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>hnsw<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;shared-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Document<sp/>present<sp/>in<sp/>both<sp/>lists&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>0.88),</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;vec-doc-1&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;Dense<sp/>vector<sp/>result<sp/>about<sp/>FAISS&quot;</highlight><highlight class="normal">,<sp/><sp/>0.81),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;vec-doc-2&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;Dense<sp/>vector<sp/>result<sp/>about<sp/>cosine&quot;</highlight><highlight class="normal">,<sp/>0.74),</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25,<sp/>hnsw);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>unique<sp/>documents<sp/>(bm25-doc-1,<sp/>bm25-doc-2,<sp/>shared-doc,<sp/>vec-doc-1,<sp/>vec-doc-2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.used_rrf);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_candidates,<sp/>5u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scores<sp/>must<sp/>be<sp/>in<sp/>descending<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>result.scores.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.scores[i<sp/>-<sp/>1].hybrid_score,<sp/>result.scores[i].hybrid_score)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Score<sp/>ordering<sp/>violated<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>document<sp/>boosted<sp/>by<sp/>appearing<sp/>in<sp/>both<sp/>lists<sp/>must<sp/>rank<sp/>near<sp/>top</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shared_it<sp/>=<sp/>std::find_if(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.documents.begin(),<sp/>result.documents.end(),</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/>d)<sp/>{<sp/>return<sp/>d.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;shared-doc&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(shared_it,<sp/>result.documents.end())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;shared-doc<sp/>must<sp/>survive<sp/>fusion&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared-doc<sp/>has<sp/>contributions<sp/>from<sp/>both<sp/>BM25<sp/>and<sp/>vector;<sp/>its<sp/>rank<sp/>should<sp/>be<sp/>≤<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shared_rank<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::distance(result.documents.begin(),<sp/>shared_it));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(shared_rank,<sp/>1u)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;shared-doc<sp/>(appears<sp/>in<sp/>both<sp/>lists)<sp/>should<sp/>rank<sp/>first<sp/>or<sp/>second;<sp/>actual<sp/>rank=&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>shared_rank;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-02:<sp/>BM25-only<sp/>mode<sp/>—<sp/>HNSW-exclusive<sp/>docs<sp/>absent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>Bm25OnlyModeExcludesHnswDocs)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref><sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>HNSW<sp/>path<sp/>disabled<sp/>by<sp/>zero<sp/>weight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;bm25-only-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Fulltext<sp/>BM25<sp/>content&quot;</highlight><highlight class="normal">,<sp/>0.85),</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>hnsw<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;hnsw-only-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Dense<sp/>vector<sp/>content&quot;</highlight><highlight class="normal">,<sp/><sp/>0.90),</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25,<sp/>hnsw);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hnsw-only-doc<sp/>receives<sp/>zero<sp/>contribution;<sp/>bm25-only-doc<sp/>must<sp/>score<sp/>higher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.documents.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25_it<sp/>=<sp/>std::find_if(result.documents.begin(),<sp/>result.documents.end(),</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/>d)<sp/>{<sp/>return<sp/>d.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;bm25-only-doc&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hnsw_it<sp/>=<sp/>std::find_if(result.documents.begin(),<sp/>result.documents.end(),</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/>d)<sp/>{<sp/>return<sp/>d.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;hnsw-only-doc&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(bm25_it,<sp/>result.documents.end());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(hnsw_it,<sp/>result.documents.end());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(bm25_it-&gt;similarity_score,<sp/>hnsw_it-&gt;similarity_score)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;With<sp/>bm25_weight=1<sp/>and<sp/>vector_weight=0,<sp/>BM25-sourced<sp/>doc<sp/>must<sp/>outscore<sp/>HNSW-only<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-03:<sp/>Vector-only<sp/>mode<sp/>—<sp/>BM25-exclusive<sp/>docs<sp/>absent<sp/>from<sp/>top</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>VectorOnlyModeExcludesBm25Docs)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>BM25<sp/>path<sp/>disabled<sp/>by<sp/>zero<sp/>weight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;bm25-only-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Fulltext<sp/>BM25<sp/>content&quot;</highlight><highlight class="normal">,<sp/>0.95),</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>hnsw<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;hnsw-only-doc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Dense<sp/>vector<sp/>content&quot;</highlight><highlight class="normal">,<sp/><sp/>0.80),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25,<sp/>hnsw);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.documents.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25_it<sp/>=<sp/>std::find_if(result.documents.begin(),<sp/>result.documents.end(),</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/>d)<sp/>{<sp/>return<sp/>d.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;bm25-only-doc&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hnsw_it<sp/>=<sp/>std::find_if(result.documents.begin(),<sp/>result.documents.end(),</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/>d)<sp/>{<sp/>return<sp/>d.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;hnsw-only-doc&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(bm25_it,<sp/>result.documents.end());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(hnsw_it,<sp/>result.documents.end());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(hnsw_it-&gt;similarity_score,<sp/>bm25_it-&gt;similarity_score)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;With<sp/>vector_weight=1<sp/>and<sp/>bm25_weight=0,<sp/>HNSW-sourced<sp/>doc<sp/>must<sp/>outscore<sp/>BM25-only<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-04:<sp/>RRF<sp/>k=60<sp/>—<sp/>hybrid<sp/>scores<sp/>positive<sp/>and<sp/>strictly<sp/>ordered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>RrfK60ScoresPositiveAndOrdered)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>factory&apos;s<sp/>balanced<sp/>preset:<sp/>RRF<sp/>k=60,<sp/>equal<sp/>weights</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/>retriever<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" kindref="member">HybridRetrieverFactory::createBalanced</ref>(20);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>60.0);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref>,<sp/><sp/><sp/>0.5);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref>,<sp/>0.5);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref>);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>5<sp/>BM25<sp/>and<sp/>5<sp/>HNSW<sp/>candidates<sp/>with<sp/>decreasing<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25_candidates;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>vec_candidates<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bm25_candidates.push_back(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;bm25<sp/>content<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.9<sp/>-<sp/>0.1<sp/>*<sp/>i));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec_candidates.push_back(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;vec<sp/>content<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.85<sp/>-<sp/>0.1<sp/>*<sp/>i));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" kindref="member">fuse</ref>(bm25_candidates,<sp/>vec_candidates);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_candidates,<sp/>10u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.scores.empty());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>hs<sp/>:<sp/>result.scores)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(hs.hybrid_score,<sp/>0.0)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>hybrid<sp/>scores<sp/>must<sp/>be<sp/>positive<sp/>(RRF<sp/>denominator<sp/>never<sp/>zero)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>result.scores.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.scores[i<sp/>-<sp/>1].hybrid_score,<sp/>result.scores[i].hybrid_score)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hybrid<sp/>scores<sp/>must<sp/>be<sp/>in<sp/>non-increasing<sp/>order<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-05:<sp/>LLMJudgeIntegration<sp/>—<sp/>real<sp/>engine,<sp/>production<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>LlmJudgeRealEngineNotMock)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>JSON-like<sp/>response<sp/>from<sp/>a<sp/>real<sp/>model<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kRealResponse<sp/>=</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:4.2,&quot;confidence&quot;:0.91,&quot;reasoning&quot;:&quot;The<sp/>retrieved<sp/>passage<sp/>directly<sp/>addresses<sp/>the<sp/>query.&quot;})&quot;;</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>DeterministicEngine<sp/>engine{kRealResponse};</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">LLMJudgeIntegration::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config_1ac04812c7570810cf778f381d5e9da139" kindref="member">enable_llm_judge</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>(&amp;engine,<sp/>cfg);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.isMockMode())</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;isMockMode()<sp/>must<sp/>be<sp/>false<sp/>when<sp/>a<sp/>real<sp/>ILLMInferenceEngine<sp/>is<sp/>injected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>response<sp/>=</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.evaluateDimension(</highlight><highlight class="stringliteral">&quot;Rate<sp/>the<sp/>relevance<sp/>of<sp/>this<sp/>passage.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aabaa19962dbd6b12c63759e561391fe92" kindref="member">EvaluationDimension::RELEVANCE</ref>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.call_count,<sp/>1)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Engine<sp/>must<sp/>be<sp/>called<sp/>exactly<sp/>once<sp/>per<sp/>evaluateDimension<sp/>call&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response,<sp/>kRealResponse)</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;evaluateDimension<sp/>must<sp/>return<sp/>the<sp/>engine<sp/>response<sp/>verbatim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>the<sp/>response<sp/>does<sp/>not<sp/>contain<sp/>the<sp/>mock<sp/>reasoning<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.find(</highlight><highlight class="stringliteral">&quot;Mock<sp/>evaluation&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Real<sp/>engine<sp/>path<sp/>must<sp/>never<sp/>emit<sp/>mock-evaluation<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-06:<sp/>LLMJudgeIntegration<sp/>gate<sp/>disabled<sp/>→<sp/>unavailable,<sp/>not<sp/>mock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>LlmJudgeGateDisabledReturnsUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>DeterministicEngine<sp/>engine{R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:5.0})&quot;};</highlight></codeline>
+<codeline lineno="295"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="296"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">LLMJudgeIntegration::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="297"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config_1ac04812c7570810cf778f381d5e9da139" kindref="member">enable_llm_judge</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>gate<sp/>explicitly<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>(&amp;engine,<sp/>cfg);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>response<sp/>=</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.evaluateDimension(</highlight><highlight class="stringliteral">&quot;Rate<sp/>faithfulness.&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aa081870dac1c2854cfd63373007ee5be4" kindref="member">EvaluationDimension::FAITHFULNESS</ref>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>disabled:<sp/>no<sp/>engine<sp/>call<sp/>must<sp/>occur</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.call_count,<sp/>0)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Engine<sp/>must<sp/>NOT<sp/>be<sp/>called<sp/>when<sp/>enable_llm_judge=false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>disabled:<sp/>response<sp/>must<sp/>signal<sp/>unavailability,<sp/>not<sp/>mock<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(response.find(</highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Gate-disabled<sp/>path<sp/>must<sp/>return<sp/>a<sp/>response<sp/>containing<sp/>&apos;llm_unavailable&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE-B-E2E-07:<sp/>Full<sp/>Phase<sp/>B<sp/>chain<sp/>—<sp/>BM25<sp/>+<sp/>HNSW<sp/>→<sp/>RRF<sp/>→<sp/>LLM-Judge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__rag__phase__b__e2e_8cpp_1a6a3bbeeda39ef663c60991a55406d7fa" kindref="member">TEST</ref>(RagPhaseBE2E,<sp/>FullPhaseBChainBm25HnswRrfLlmJudge)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>1:<sp/>Simulate<sp/>BM25<sp/>scorer<sp/>output<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(in<sp/>production:<sp/>SecondaryIndexManager::scanFulltextWithScores<sp/>result)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>bm25_results<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-001&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HNSW<sp/>builds<sp/>a<sp/>hierarchical<sp/>navigable<sp/>small-world<sp/>graph<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;for<sp/>approximate<sp/>nearest-neighbour<sp/>search.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.88),</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-002&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BM25+<sp/>improves<sp/>BM25<sp/>by<sp/>adding<sp/>a<sp/>lower-bound<sp/>frequency<sp/>term<sp/>delta.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.76),</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-003&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Reciprocal<sp/>Rank<sp/>Fusion<sp/>combines<sp/>ranked<sp/>lists<sp/>from<sp/>heterogeneous<sp/>retrievers.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.61),</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>2:<sp/>Simulate<sp/>HNSW<sp/>KNN<sp/>output<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(in<sp/>production:<sp/>VectorIndexManager::searchKnn<sp/>result,<sp/>1<sp/>-<sp/>distance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>hnsw_results<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-001&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>with<sp/>BM25</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HNSW<sp/>builds<sp/>a<sp/>hierarchical<sp/>navigable<sp/>small-world<sp/>graph<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;for<sp/>approximate<sp/>nearest-neighbour<sp/>search.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.93),</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-004&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Product<sp/>quantization<sp/>reduces<sp/>memory<sp/>footprint<sp/>for<sp/>large<sp/>vector<sp/>indices.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.82),</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;chunk-003&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>with<sp/>BM25</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Reciprocal<sp/>Rank<sp/>Fusion<sp/>combines<sp/>ranked<sp/>lists<sp/>from<sp/>heterogeneous<sp/>retrievers.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.70),</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>3:<sp/>RRF<sp/>fusion<sp/>(k=60,<sp/>standard<sp/>Phase<sp/>B<sp/>parameters)<sp/>───────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>rrf_cfg;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>rrf_cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>rrf_cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>rrf_cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>rrf_cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>rrf_cfg.<ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/>retriever(rrf_cfg);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fused<sp/>=<sp/>retriever.<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" kindref="member">fuse</ref>(bm25_results,<sp/>hnsw_results);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(fused.documents.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RRF<sp/>must<sp/>return<sp/>at<sp/>least<sp/>one<sp/>fused<sp/>document&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fused.used_rrf);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>chunk-001<sp/>and<sp/>chunk-003<sp/>appear<sp/>in<sp/>both<sp/>lists;<sp/>chunk-001<sp/>should<sp/>rank<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fused.documents.front().id,<sp/></highlight><highlight class="stringliteral">&quot;chunk-001&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;chunk-001<sp/>has<sp/>highest<sp/>scores<sp/>in<sp/>both<sp/>BM25<sp/>and<sp/>HNSW;<sp/>must<sp/>be<sp/>top<sp/>RRF<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>4:<sp/>LLM-Judge<sp/>scores<sp/>the<sp/>top-ranked<sp/>result<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>deterministic<sp/>judge<sp/>response<sp/>for<sp/>the<sp/>top<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>judge_response_json<sp/>=</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:4.5,&quot;confidence&quot;:0.93,&quot;reasoning&quot;:&quot;Top<sp/>chunk<sp/>directly<sp/>answers<sp/>the<sp/>HNSW<sp/>query.&quot;})&quot;;</highlight></codeline>
+<codeline lineno="370"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="371"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>DeterministicEngine<sp/>judge_engine{judge_response_json};</highlight></codeline>
+<codeline lineno="372"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="373"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">LLMJudgeIntegration::Config</ref><sp/>judge_cfg;</highlight></codeline>
+<codeline lineno="374"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>judge_cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config_1ac04812c7570810cf778f381d5e9da139" kindref="member">enable_llm_judge</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>(&amp;judge_engine,<sp/>judge_cfg);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.isMockMode())</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>judge<sp/>must<sp/>NOT<sp/>be<sp/>in<sp/>mock<sp/>mode<sp/>for<sp/>production<sp/>Phase<sp/>B<sp/>chain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>prompt<sp/>from<sp/>the<sp/>top-ranked<sp/>document<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>prompt<sp/>=</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Query:<sp/>What<sp/>is<sp/>HNSW?\nDocument:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>fused.documents.front().content<sp/>+</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\nRate<sp/>relevance<sp/>on<sp/>scale<sp/>1-5.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>judge_result<sp/>=</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>.evaluateDimension(prompt,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aabaa19962dbd6b12c63759e561391fe92" kindref="member">EvaluationDimension::RELEVANCE</ref>);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(judge_engine.call_count,<sp/>1);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(judge_result,<sp/>judge_response_json)</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>judge<sp/>must<sp/>return<sp/>the<sp/>engine<sp/>response<sp/>for<sp/>the<sp/>top<sp/>RRF<sp/>document&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>full<sp/>chain<sp/>produced<sp/>a<sp/>non-mock,<sp/>real-scored<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(judge_result.find(</highlight><highlight class="stringliteral">&quot;Mock<sp/>evaluation&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Phase<sp/>B<sp/>chain<sp/>must<sp/>never<sp/>contain<sp/>mock<sp/>evaluation<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(judge_result.find(</highlight><highlight class="stringliteral">&quot;4.5&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Phase<sp/>B<sp/>chain<sp/>must<sp/>contain<sp/>the<sp/>real<sp/>judge<sp/>score<sp/>from<sp/>the<sp/>engine&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_phase_b_e2e.cpp"/>
+  </compounddef>
+</doxygen>

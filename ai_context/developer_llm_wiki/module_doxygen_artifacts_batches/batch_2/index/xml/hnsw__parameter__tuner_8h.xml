@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hnsw__parameter__tuner_8h" kind="file" language="C++">
+    <compoundname>hnsw_parameter_tuner.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="hnsw__parameter__tuner_8cpp" local="yes">src/index/hnsw_parameter_tuner.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/hnsw_parameter_tuner.h</label>
+        <link refid="hnsw__parameter__tuner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/hnsw_parameter_tuner.h</label>
+        <link refid="hnsw__parameter__tuner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/hnsw_parameter_tuner.cpp</label>
+        <link refid="hnsw__parameter__tuner_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_parameter_tuner" prot="public">themis::index::HnswParameterTuner</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" prot="public">themis::index::HnswParameterTuner::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" prot="public">themis::index::HnswParameterTuner::Stats</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" prot="public">themis::index::HnswParameterTuner::ConstructionParams</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_query_stats" prot="private">themis::index::HnswParameterTuner::QueryStats</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_workload_classifier" prot="public">themis::index::WorkloadClassifier</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" prot="public">themis::index::WorkloadClassifier::Stats</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_memory_optimizer" prot="public">themis::index::HnswMemoryOptimizer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a306bea7439006dbe880f55051ac611f4" kindref="member">HnswParameterTuner</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda3edb9cc3b98f151feb21dbde6323e82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda3edb9cc3b98f151feb21dbde6323e82a" kindref="member">OLTP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdabe25776fa91444b6d85c015efeddfc0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdabe25776fa91444b6d85c015efeddfc0e" kindref="member">ANALYTICS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">MIXED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdafb6a72bbc33faf101b251a60eb3ee087" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefdafb6a72bbc33faf101b251a60eb3ee087" kindref="member">RAG</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda89d9abcd2b9a1a1442a4011c34e1fd0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda89d9abcd2b9a1a1442a4011c34e1fd0a" kindref="member">BATCH_INSERT</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fixed<sp/>parameters<sp/>(set<sp/>at<sp/>index<sp/>creation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a64bc40cd03dd0a04787bdee4480441b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a64bc40cd03dd0a04787bdee4480441b3" kindref="member">M</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1aa4fead32b75904f98654e37be8740406" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1aa4fead32b75904f98654e37be8740406" kindref="member">ef_construction</ref><sp/>=<sp/>200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Workload<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a386a678b464e23ac275f7061cd5fce41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a386a678b464e23ac275f7061cd5fce41" kindref="member">workload</ref><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref>;<sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>tunable<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1ab0846af7f9953bb10d6f38f8ba7a6438" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1ab0846af7f9953bb10d6f38f8ba7a6438" kindref="member">ef_search_min</ref><sp/>=<sp/>32;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1abbe12988cbe5d5911a489d0b48c6545c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1abbe12988cbe5d5911a489d0b48c6545c" kindref="member">ef_search_max</ref><sp/>=<sp/>512;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a2760804478d0500888da794e8a1994d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a2760804478d0500888da794e8a1994d8" kindref="member">ef_search_default</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptation<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a57f540a847f2a6a79975289d74c05b03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a57f540a847f2a6a79975289d74c05b03" kindref="member">adaptive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a5ee803caeb956c76cf733f490706405c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a5ee803caeb956c76cf733f490706405c" kindref="member">target_recall</ref><sp/>=<sp/>0.95;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a348eadd08c60ba21c0ef93ed9614081b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a348eadd08c60ba21c0ef93ed9614081b" kindref="member">target_latency</ref>{10};<sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a68ed1c8104816579eb25624df001a167" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a68ed1c8104816579eb25624df001a167" kindref="member">stats_window_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dataset-based<sp/>scaling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a4581e8dcc15dc29149f000b94f547121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a4581e8dcc15dc29149f000b94f547121" kindref="member">scale_with_dataset</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a306bea7439006dbe880f55051ac611f4" kindref="member">HnswParameterTuner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7e4651692eab0cd73972ca909df6abe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7e4651692eab0cd73972ca909df6abe4" kindref="member">~HnswParameterTuner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a2800636f46098f546c1733a5a4905fd6" kindref="member">getOptimalEfSearch</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a87e4dbc79c16e347356ba436496b504b" kindref="member">recordQueryResult</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ef_used,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>recall<sp/>=<sp/>-1.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a02cb649048605592c31f6ff12b5de106" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a02cb649048605592c31f6ff12b5de106" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a9ea226758b96d46d2825b22c75dcd650" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1aad083aa79a1374e4f19fd8a98ec1b8bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1aad083aa79a1374e4f19fd8a98ec1b8bd" kindref="member">queries_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1ab7b27e0175babe3468ba9526ff64063d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1ab7b27e0175babe3468ba9526ff64063d" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1abc3ae0f865b2fa6142d50c076a4472ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1abc3ae0f865b2fa6142d50c076a4472ce" kindref="member">avg_recall</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1aed54cc07ee528e65704aac1a9bdfe00c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1aed54cc07ee528e65704aac1a9bdfe00c" kindref="member">current_ef_search</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1ab3ba9c855e62c5e3ce37533f4aa3bc3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats_1ab3ba9c855e62c5e3ce37533f4aa3bc3e" kindref="member">adaptations_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a6bd87b598c8b55a0c3c7598b66c70a8d" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a7dad9c99663802e8d097354744aa5134" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1aebf5ac665e7384f3828bb545a16bc14c" kindref="member">getRecommendedM</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size,<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/>workload<sp/>=<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ac6934a227c0b311d779d48b983ffda8e" kindref="member">getRecommendedEfConstruction</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>M,<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/>workload<sp/>=<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a8962cbaad9f3ae41bde549562d308ab2" kindref="member">getWorkloadOptimizedConfig</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size,<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/>workload);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" kindref="compound">ConstructionParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1ac3677c3d52aa014f7670edf44b35ecf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1ac3677c3d52aa014f7670edf44b35ecf4" kindref="member">M</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa6b99e2255605d4633f26f070ae94eea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa6b99e2255605d4633f26f070ae94eea" kindref="member">ef_construction</ref><sp/>=<sp/>200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa5998a00a737b557ccb51757c75f258f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params_1aa5998a00a737b557ccb51757c75f258f" kindref="member">detected_workload</ref><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref>;<sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_construction_params" kindref="compound">ConstructionParams</ref><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1a0d2c78a91db7d20d47b50898c1d2a410" kindref="member">getAutoTunedConstructionParams</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref><sp/>workload_hint<sp/>=<sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>adapt();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>calculateEfSearch(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataset_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QueryStats<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>recall<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ef_used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>adapted<sp/>efSearch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>current_ef_search_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>(using<sp/>mutex<sp/>for<sp/>double<sp/>atomicity<sp/>in<sp/>C++17)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryStats&gt;<sp/>recent_queries_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>queries_processed_{0};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>adaptations_count_{0};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>total_latency_{0.0};<sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>total_recall_{0.0};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>recall_count_{0};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1index_1_1_workload_classifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_workload_classifier" kindref="compound">WorkloadClassifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_workload_classifier_1aa09698a55df7ba4860b56272514596bf" kindref="member">recordInsert</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_workload_classifier_1a708ea504be3876ffd4e379103f21c1e8" kindref="member">recordQuery</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">HnswParameterTuner::WorkloadType</ref><sp/><ref refid="classthemis_1_1index_1_1_workload_classifier_1af1a27bdb0ddc20a4c3ce2ca383c608a2" kindref="member">detectWorkload</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_workload_classifier_1a51c032692867f7bf83de35289024cda7" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ab5a475a4542aab490127e8f507a203ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ab5a475a4542aab490127e8f507a203ed" kindref="member">total_inserts</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ac80d7e7d67100fcc71b24434b8f903ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ac80d7e7d67100fcc71b24434b8f903ab" kindref="member">total_queries</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a6210e671bb575032165b28adb60b9330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a6210e671bb575032165b28adb60b9330" kindref="member">avg_batch_size</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a659bdcfb004ab86a61ca8182e5a421d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a659bdcfb004ab86a61ca8182e5a421d5" kindref="member">avg_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1index_1_1_workload_classifier_1a9fa009a9adb117d4bb7b8278e6f5c5c6" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_inserts_<sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>insert_events_<sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_k_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>query_events_<sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1index_1_1_hnsw_memory_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_hnsw_memory_optimizer" kindref="compound">HnswMemoryOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a468edb72e62a5db44dc792f76e311d97" kindref="member">prefetchNodes</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>node_ids);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a0f9a7f820eabd220d5c502ad55de8eba" kindref="member">getCacheLineSize</ref>();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1a6564acc2f4c95a20fb2ddb2536751244" kindref="member">alignToCacheLine</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_hnsw_memory_optimizer_1adf5c8e7e9bb23d8ca54afbda64a2c848" kindref="member">hasSIMDPrefetch</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/hnsw_parameter_tuner.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ExactFetchResult</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad5a4757a2c5fb4d0c74b08fb3aa80750" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ExactFetchResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="160" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ac19caa91d55d04769b2e82a6f7637b8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ExactFetchResult::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="162" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a41fafc3d6cf8a2fed9b0eab3a425c9ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ExactFetchResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="164" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a0b9e1c5d84b87ecbd02cadc27b7e0674" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ExactFetchResult::error_reason</definition>
+        <argsstring></argsstring>
+        <name>error_reason</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::error_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="166" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a7da16b133501c0fa3093f53078a81ed1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::distributed_tensor::ExactFetchResult::fragment_data</definition>
+        <argsstring></argsstring>
+        <name>fragment_data</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::fragment_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="168" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad3a796855fe994d009ebdfb5c88b353a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ExactFetchResult::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::content_hash</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="170" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1aa4a8ffc9f958e0558f99c8d78966d66d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::ExactFetchResult::fetched_at_ms</definition>
+        <argsstring></argsstring>
+        <name>fetched_at_ms</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::fetched_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="172" column="13" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a2eb82661763ba7a8397a03cfb5b5c171" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::ExactFetchResult::fetch_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>fetch_latency_ms</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::fetch_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="174" column="11" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ae9a8d49b3e4a3e0e2ddf26f8658994e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ExactFetchResult::integrity_verified</definition>
+        <argsstring></argsstring>
+        <name>integrity_verified</name>
+        <qualifiedname>themis::distributed_tensor::ExactFetchResult::integrity_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="176" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="159" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="159" bodyend="177"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ac19caa91d55d04769b2e82a6f7637b8b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad3a796855fe994d009ebdfb5c88b353a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a0b9e1c5d84b87ecbd02cadc27b7e0674" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>error_reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a2eb82661763ba7a8397a03cfb5b5c171" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>fetch_latency_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1aa4a8ffc9f958e0558f99c8d78966d66d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>fetched_at_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a7da16b133501c0fa3093f53078a81ed1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>fragment_data</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ae9a8d49b3e4a3e0e2ddf26f8658994e1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>integrity_verified</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1ad5a4757a2c5fb4d0c74b08fb3aa80750" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result_1a41fafc3d6cf8a2fed9b0eab3a425c9ee" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ExactFetchResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

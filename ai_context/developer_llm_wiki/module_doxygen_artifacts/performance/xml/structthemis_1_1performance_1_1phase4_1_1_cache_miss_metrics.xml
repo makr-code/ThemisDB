@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::CacheMissMetrics</compoundname>
+    <includes refid="pmu__counters_8h" local="no">pmu_counters.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::CacheMissMetrics::l1d_read_misses</definition>
+        <argsstring></argsstring>
+        <name>l1d_read_misses</name>
+        <qualifiedname>themis::performance::phase4::CacheMissMetrics::l1d_read_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>L1 data-cache read misses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="45" column="14" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::CacheMissMetrics::llc_misses</definition>
+        <argsstring></argsstring>
+        <name>llc_misses</name>
+        <qualifiedname>themis::performance::phase4::CacheMissMetrics::llc_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last-level cache misses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="46" column="14" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::CacheMissMetrics::branch_mispredictions</definition>
+        <argsstring></argsstring>
+        <name>branch_mispredictions</name>
+        <qualifiedname>themis::performance::phase4::CacheMissMetrics::branch_mispredictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Branch mispredictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="47" column="14" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::CacheMissMetrics::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::performance::phase4::CacheMissMetrics::available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>false if PMU access failed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="48" column="14" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hardware cache-miss counters collected over a measurement interval. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmu_counters.h" line="44" column="1" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissMetrics</scope><name>available</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissMetrics</scope><name>branch_mispredictions</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissMetrics</scope><name>l1d_read_misses</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" prot="public" virt="non-virtual"><scope>themis::performance::phase4::CacheMissMetrics</scope><name>llc_misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

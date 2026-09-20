@@ -1,0 +1,1835 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::KnowledgeGapDetector</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl" prot="public">themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1abc92e69ed67f2220769b438ae3837c42" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::knowledge_gap::KnowledgeGapDetector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="401" column="21" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a54b8f63f7223b6c2df0a17551e3921b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::knowledge_gap::KnowledgeGapDetector::KnowledgeGapDetector</definition>
+        <argsstring>()</argsstring>
+        <name>KnowledgeGapDetector</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::KnowledgeGapDetector</qualifiedname>
+        <briefdescription>
+<para>Construct detector with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="237" column="5" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ac1c6a8120a1751488de7ac8604fe51c4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::knowledge_gap::KnowledgeGapDetector::KnowledgeGapDetector</definition>
+        <argsstring>(const KnowledgeGapConfig &amp;config)</argsstring>
+        <name>KnowledgeGapDetector</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::KnowledgeGapDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct detector with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detection configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="243" column="14" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a8daeae6287755250c5256a7d120a31c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::knowledge_gap::KnowledgeGapDetector::~KnowledgeGapDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~KnowledgeGapDetector</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::~KnowledgeGapDetector</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="248" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1af8d813b50a0da5d9d7b278af35f5d23b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectPreGeneration</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>detectPreGeneration</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectPreGeneration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Detect knowledge gap before generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Pre Generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result with recommendations</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), snapshotConfig(), size(), std::to_string(), find(), end(), empty(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="256" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="161" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5869dc9dbd5d648438508bfbc6f19edf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectDuringGeneration</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const GenerationContext &amp;context)</argsstring>
+        <name>detectDuringGeneration</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectDuringGeneration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context" kindref="compound">GenerationContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Detect knowledge gap during generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect During Generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation context with probabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result with recommendations</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), empty(), calculateConfidenceScore(), std::to_string(), calculateSlidingWindowPerplexity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="268" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="281" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a24b924d720d53d0610fee8e16a33bc01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectPostGeneration</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;generated_answer)</argsstring>
+        <name>detectPostGeneration</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectPostGeneration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_answer</declname>
+        </param>
+        <briefdescription>
+<para>Detect knowledge gap after generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Post Generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result with recommendations</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), extractClaims(), verifyClaim(), checkSelfConsistency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="281" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="362" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a787da0c110a86a134454f9c04a0eafb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectGap</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;generated_answer)</argsstring>
+        <name>detectGap</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectGap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_answer</declname>
+        </param>
+        <briefdescription>
+<para>Comprehensive detection (all levels). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Gap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined detection result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements detectGap without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="294" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="427" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7db43bfbcd5ccf25ce55d2be742a0609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectGap</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;generated_answer, const GenerationContext &amp;context)</argsstring>
+        <name>detectGap</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectGap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_answer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context" kindref="compound">GenerationContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Comprehensive detection (all levels). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Gap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional generation context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined detection result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snapshotConfig(), snapshotGapCallback(), <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a4c048fea37eac0917632dedad3a3eb91" kindref="member">detectEthicalPerspectiveGap()</ref>, gap_callback(), <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1af8d813b50a0da5d9d7b278af35f5d23b" kindref="member">detectPreGeneration()</ref>, <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5869dc9dbd5d648438508bfbc6f19edf" kindref="member">detectDuringGeneration()</ref>, empty(), <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a24b924d720d53d0610fee8e16a33bc01" kindref="member">detectPostGeneration()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="307" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="444" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab7abbca105fdd5f96f43ec69efe94afb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectWithActiveRetrieval</definition>
+        <argsstring>(const std::string &amp;query, std::vector&lt; RetrievedDocument &gt; &amp;initial_documents, const std::string &amp;tenant_id={})</argsstring>
+        <name>detectWithActiveRetrieval</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectWithActiveRetrieval</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>initial_documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>{}</defval>
+          <briefdescription><para>F5-2: tenant scope for FLARE re-retrieval </para>
+</briefdescription>
+        </param>
+        <briefdescription>
+<para>FLARE-style forward-looking active retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect With Active Retrieval.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional tenant scope for FLARE re-retrieval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result after iterative retrieval</para>
+</simplesect>
+Generates answer sentence-by-sentence, monitoring confidence and dynamically retrieving more documents when confidence drops.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">initial_documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snapshotConfig(), <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1af8d813b50a0da5d9d7b278af35f5d23b" kindref="member">detectPreGeneration()</ref>, THEMIS_DEBUG(), size(), calculateQueryCoverage(), calculateAverageSimilarity(), std::to_string(), findMissingAspects(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="324" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="555" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aa625facdd73d21d8c29364cfaa0b5542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::setConfig</definition>
+        <argsstring>(const KnowledgeGapConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="334" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="679" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a3b8d169e0389e03cb3313af0bfc64512" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref></type>
+        <definition>KnowledgeGapConfig themis::rag::knowledge_gap::KnowledgeGapDetector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="340" column="24" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="683" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a1839520c0a673ba14b8e8bf2cd1f607c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::setGapDetectionCallback</definition>
+        <argsstring>(std::function&lt; void(const DetectionResult &amp;)&gt; callback)</argsstring>
+        <name>setGapDetectionCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::setGapDetectionCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for when gaps are detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call on gap detection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="346" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="687" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1add7487626fb581e38795c29b7edd208b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::setRetrievalCallback</definition>
+        <argsstring>(RetrievalCallback fn)</argsstring>
+        <name>setRetrievalCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::setRetrievalCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" kindref="member">RetrievalCallback</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the retrieval callback used by the FLARE active-retrieval loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retrieval Callback.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab7abbca105fdd5f96f43ec69efe94afb" kindref="member">detectWithActiveRetrieval()</ref></computeroutput> calls this function each time the current document set does not provide sufficient coverage and a reformulated sub-query is available. The callback must be thread-safe with respect to the surrounding context but does not need to be re-entrant.</para>
+<para>Passing a default-constructed (empty) function disables dynamic retrieval; the FLARE loop will then exit after the initial document set check without attempting further searches.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" kindref="member">RetrievalCallback</ref> — receives (query, k) and returns documents.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="365" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="698" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5d59ae754d21b368a79dac079b21b632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::setLlmSampleFn</definition>
+        <argsstring>(LlmSampleFn fn)</argsstring>
+        <name>setLlmSampleFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::setLlmSampleFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" kindref="member">LlmSampleFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an LLM-based sample generator for the self-consistency check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Llm Sample Fn.</para>
+<para>When set, <computeroutput>checkSelfConsistency()</computeroutput> calls this function to obtain answer candidates instead of cycling document sentences. Pass an empty (default-constructed) function to revert to the heuristic path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" kindref="member">LlmSampleFn</ref> — receives (query, num_samples) and returns candidates.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="376" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="707" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a23603060866bd4c7ed5520e70995e9e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::setClaimVerificationFn</definition>
+        <argsstring>(ClaimVerificationFn fn)</argsstring>
+        <name>setClaimVerificationFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::setClaimVerificationFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" kindref="member">ClaimVerificationFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a runtime claim verifier for C1 groundedness checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref> Verification Fn.</para>
+<para>When set, claim verification in <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a24b924d720d53d0610fee8e16a33bc01" kindref="member">detectPostGeneration()</ref> delegates to this function. Pass an empty function to restore the built-in heuristic path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" kindref="member">ClaimVerificationFn</ref> — receives (claim, docs) and returns verified/not verified.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="386" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="716" bodyend="718"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a4c048fea37eac0917632dedad3a3eb91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::rag::knowledge_gap::KnowledgeGapDetector::detectEthicalPerspectiveGap</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>detectEthicalPerspectiveGap</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectEthicalPerspectiveGap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Detect ethical perspective gap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Ethical Perspective Gap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result for ethical perspective gap</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), isEthicalQuery(), countEthicalPerspectives(), calculatePerspectiveDiversity(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="394" column="21" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1746" bodyend="1810"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ad78ca28483b7db78dac37cbe25b0a3fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateAverageSimilarity</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>calculateAverageSimilarity</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateAverageSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Average Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::accumulate(), begin(), end(), size(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="404" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="728" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a38425062e6ebe03b175fe6a1c7490217" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateQueryCoverage</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>calculateQueryCoverage</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateQueryCoverage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Query Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), calculateAverageSimilarity(), std::exp(), size(), length(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="405" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="755" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab92f021562cfba49ff4f3b6f063fc8b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::extractQueryAspects</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>extractQueryAspects</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::extractQueryAspects</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Extract Query Aspects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isalnum(), length(), push_back(), clear(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="407" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="806" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a22761e9425462ad0c8d9b2a67cfe7315" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::findMissingAspects</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>findMissingAspects</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::findMissingAspects</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Find Missing Aspects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractQueryAspects(), empty(), std::transform(), begin(), end(), std::tolower(), find(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="408" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="860" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a3542740cd3f763e666ccb88e429f2ebc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::extractClaims</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractClaims</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::extractClaims</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Extract Claims. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), std::isspace(), find_first_not_of(), find_last_not_of(), substr(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="412" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="957" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a867f9f6b3b4639505ab5c70e34fa3a23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapDetector::verifyClaim</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>verifyClaim</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::verifyClaim</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Verify <ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: snapshotClaimVerificationFn(), claim_verification_fn(), THEMIS_WARN(), what(), empty(), std::isalnum(), std::tolower(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="413" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1016" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab3975d23a26f4bbf07663d9daafa19e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculatePerplexity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;token_probs)</argsstring>
+        <name>calculatePerplexity</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculatePerplexity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>token_probs</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Phase 2: Token Probability &amp; Perplexity Methods ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::log(), std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="417" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1110" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ad3405a3b7d05306c2fd62a7a45a79c74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateSlidingWindowPerplexity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;token_probs, size_t window_size)</argsstring>
+        <name>calculateSlidingWindowPerplexity</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateSlidingWindowPerplexity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>token_probs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Sliding Window Perplexity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), window(), begin(), calculatePerplexity(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="418" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1146" bodyend="1173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7d86c727c6ead32a22e96f5232170e97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapDetector::detectPerplexityAnomaly</definition>
+        <argsstring>(double perplexity, double threshold)</argsstring>
+        <name>detectPerplexityAnomaly</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectPerplexityAnomaly</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>perplexity</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Detect Perplexity Anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">perplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements detectPerplexityAnomaly without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="420" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1182" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aa0a8ece6bfac2feae03ab426b9723067" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateConfidenceScore</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;token_probs)</argsstring>
+        <name>calculateConfidenceScore</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateConfidenceScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>token_probs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Confidence Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), snapshotConfig(), removeOutlierTokens(), std::log(), std::exp(), size(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="421" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1195" bodyend="1223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a2e01f93f6f15c25c18018aa96156513e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::removeOutlierTokens</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;token_probs, double zscore_threshold)</argsstring>
+        <name>removeOutlierTokens</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::removeOutlierTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>token_probs</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zscore_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Remove Outlier Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">zscore_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::accumulate(), begin(), end(), std::sqrt(), std::abs(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="422" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1232" bodyend="1271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a6744901ff09818444d7695f66353e327" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateMovingAverage</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values, size_t window_size)</argsstring>
+        <name>calculateMovingAverage</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateMovingAverage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Moving Average. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), push_back(), std::accumulate(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="424" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1280" bodyend="1306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae1ff44db503216099c980ec71cc842de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapDetector::checkSelfConsistency</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>checkSelfConsistency</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::checkSelfConsistency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Check Self Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: snapshotConfig(), generateMultipleSamples(), size(), calculateConsistencyScore(), THEMIS_DEBUG(), detectContradiction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="427" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="908" bodyend="949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a83ad417f99fed62c929c095d0344b237" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::generateMultipleSamples</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;docs, size_t num_samples)</argsstring>
+        <name>generateMultipleSamples</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::generateMultipleSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Phase 2: Self-Consistency Check Methods ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snapshotLlmSampleFn(), llm_sample_fn(), empty(), size(), std::isspace(), find_first_not_of(), push_back(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="429" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1317" bodyend="1417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aeafe1211026ecaa0c3954cd5f76151bf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateSemanticSimilarity</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>calculateSemanticSimilarity</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateSemanticSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Semantic Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isalnum(), std::tolower(), length(), insert(), clear(), extractWords(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="432" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1426" bodyend="1474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7045b6f65af972c88fae4957987a3b8f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculateConsistencyScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;samples)</argsstring>
+        <name>calculateConsistencyScore</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculateConsistencyScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Consistency Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), calculateSemanticSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="433" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1482" bodyend="1501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae8c0d8ca8d230b60abe9dabb004db1ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapDetector::detectContradiction</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>detectContradiction</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::detectContradiction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Detect Contradiction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: calculateSemanticSimilarity(), std::transform(), begin(), end(), std::tolower(), find(), hasNegation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="434" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1510" bodyend="1550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a942260b7d560d090f54f2f9b7cf98da6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::splitIntoSentences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>splitIntoSentences</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::splitIntoSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Phase 2: FLARE Active Retrieval Methods ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), std::isspace(), find_first_not_of(), substr(), push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="437" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1559" bodyend="1598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab1290c46b9e68432d3dc8694ecc5cb1a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::monitorSentenceConfidence</definition>
+        <argsstring>(const std::string &amp;sentence, const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>monitorSentenceConfidence</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::monitorSentenceConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sentence</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Monitor Sentence Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sentence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isalnum(), std::tolower(), length(), push_back(), clear(), term_set(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="438" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1607" bodyend="1674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ada1cf88d145372981a8ce8f12864c71b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::knowledge_gap::KnowledgeGapDetector::reformulateQuery</definition>
+        <argsstring>(const std::string &amp;original_query, const std::string &amp;missing_info)</argsstring>
+        <name>reformulateQuery</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::reformulateQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>missing_info</declname>
+        </param>
+        <briefdescription>
+<para>Reformulate Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">missing_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="440" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1683" bodyend="1695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a63f06a962ab236cdd8cd6a1f00dabfb9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; themis::rag::knowledge_gap::KnowledgeGapDetector::performDynamicRetrieval</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;tenant_id={})</argsstring>
+        <name>performDynamicRetrieval</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::performDynamicRetrieval</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Perform Dynamic Retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), snapshotRetrievalCallback(), snapshotConfig(), std::max(), empty(), THEMIS_WARN(), retrieval_fn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="442" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1704" bodyend="1737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae01dbf391261840e66740649ac4f7c82" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::KnowledgeGapDetector::isEthicalQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>isEthicalQuery</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::isEthicalQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Is Ethical Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: snapshotConfig(), std::transform(), begin(), end(), stream(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="445" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1818" bodyend="1851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aba1821cd5312fad4fcffe1833f4df228" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::rag::knowledge_gap::KnowledgeGapDetector::countEthicalPerspectives</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>countEthicalPerspectives</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::countEthicalPerspectives</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Count Ethical Perspectives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), std::isalnum(), length(), insert(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="446" column="9" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1859" bodyend="1919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a79cd05086b996bb12c17b1f7a5bf7ee1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::KnowledgeGapDetector::calculatePerspectiveDiversity</definition>
+        <argsstring>(const std::vector&lt; RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>calculatePerspectiveDiversity</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::calculatePerspectiveDiversity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Perspective Diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), countEthicalPerspectives(), std::min(), std::transform(), begin(), end(), find(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="447" column="12" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1927" bodyend="1961"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Main Knowledge Gap Detector class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements multi-level detection strategies:<itemizedlist>
+<listitem><para>Level 1: Pre-generation (similarity, document count)</para>
+</listitem><listitem><para>Level 2: During generation (token probabilities, perplexity)</para>
+</listitem><listitem><para>Level 3: Post-generation (consistency, claim verification) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="232" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="232" bodyend="448"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ad78ca28483b7db78dac37cbe25b0a3fa" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateAverageSimilarity</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aa0a8ece6bfac2feae03ab426b9723067" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateConfidenceScore</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7045b6f65af972c88fae4957987a3b8f" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateConsistencyScore</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a6744901ff09818444d7695f66353e327" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateMovingAverage</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab3975d23a26f4bbf07663d9daafa19e7" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculatePerplexity</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a79cd05086b996bb12c17b1f7a5bf7ee1" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculatePerspectiveDiversity</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a38425062e6ebe03b175fe6a1c7490217" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateQueryCoverage</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aeafe1211026ecaa0c3954cd5f76151bf" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateSemanticSimilarity</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ad3405a3b7d05306c2fd62a7a45a79c74" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>calculateSlidingWindowPerplexity</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae1ff44db503216099c980ec71cc842de" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>checkSelfConsistency</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aba1821cd5312fad4fcffe1833f4df228" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>countEthicalPerspectives</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae8c0d8ca8d230b60abe9dabb004db1ad" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectContradiction</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5869dc9dbd5d648438508bfbc6f19edf" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectDuringGeneration</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a4c048fea37eac0917632dedad3a3eb91" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectEthicalPerspectiveGap</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a787da0c110a86a134454f9c04a0eafb4" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectGap</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7db43bfbcd5ccf25ce55d2be742a0609" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectGap</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a7d86c727c6ead32a22e96f5232170e97" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectPerplexityAnomaly</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a24b924d720d53d0610fee8e16a33bc01" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectPostGeneration</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1af8d813b50a0da5d9d7b278af35f5d23b" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectPreGeneration</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab7abbca105fdd5f96f43ec69efe94afb" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>detectWithActiveRetrieval</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a3542740cd3f763e666ccb88e429f2ebc" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>extractClaims</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab92f021562cfba49ff4f3b6f063fc8b0" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>extractQueryAspects</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a22761e9425462ad0c8d9b2a67cfe7315" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>findMissingAspects</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a83ad417f99fed62c929c095d0344b237" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>generateMultipleSamples</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a3b8d169e0389e03cb3313af0bfc64512" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1abc92e69ed67f2220769b438ae3837c42" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ae01dbf391261840e66740649ac4f7c82" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>isEthicalQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a54b8f63f7223b6c2df0a17551e3921b4" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>KnowledgeGapDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ac1c6a8120a1751488de7ac8604fe51c4" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>KnowledgeGapDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ab1290c46b9e68432d3dc8694ecc5cb1a" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>monitorSentenceConfidence</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a63f06a962ab236cdd8cd6a1f00dabfb9" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>performDynamicRetrieval</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1ada1cf88d145372981a8ce8f12864c71b" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>reformulateQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a2e01f93f6f15c25c18018aa96156513e" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>removeOutlierTokens</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a23603060866bd4c7ed5520e70995e9e2" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>setClaimVerificationFn</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1aa625facdd73d21d8c29364cfaa0b5542" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a1839520c0a673ba14b8e8bf2cd1f607c" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>setGapDetectionCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a5d59ae754d21b368a79dac079b21b632" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>setLlmSampleFn</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1add7487626fb581e38795c29b7edd208b" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>setRetrievalCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a942260b7d560d090f54f2f9b7cf98da6" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>splitIntoSentences</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a867f9f6b3b4639505ab5c70e34fa3a23" prot="private" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>verifyClaim</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1a8daeae6287755250c5256a7d120a31c4" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector</scope><name>~KnowledgeGapDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

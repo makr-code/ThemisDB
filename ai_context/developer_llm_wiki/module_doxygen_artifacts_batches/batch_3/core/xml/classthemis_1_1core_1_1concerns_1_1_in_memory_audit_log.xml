@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::InMemoryAuditLog</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" prot="public" virt="non-virtual">themis::core::concerns::IAuditLog</basecompoundref>
+    <includes refid="i__audit__log_8h" local="no">i_audit_log.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1ad5fdb5444dd8a5affe72133e91e3fc02" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::InMemoryAuditLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="168" column="24" bodyfile="include/core/concerns/i_audit_log.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aa00bc865d94df1e701d7fd57d6b7c4c2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt;AuditEvent&gt; themis::core::concerns::InMemoryAuditLog::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="169" column="17" bodyfile="include/core/concerns/i_audit_log.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aaa965441bbf334f1acfcf7531a7e5280" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::InMemoryAuditLog::record</definition>
+        <argsstring>(const AuditEvent &amp;event) noexcept override</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::record</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a56ffdfabec07471bd9d3ddcf4a0963c5">record</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="124" column="10" bodyfile="include/core/concerns/i_audit_log.h" bodystart="124" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a11004952976c858c79a193230920ec3e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AuditEvent &gt; themis::core::concerns::InMemoryAuditLog::getEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getEvents</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::getEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="134" column="17" bodyfile="include/core/concerns/i_audit_log.h" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a48785618cbbb48bdfe8fa3d4559073bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::InMemoryAuditLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="144" column="12" bodyfile="include/core/concerns/i_audit_log.h" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a096b294955fc3eaba889ccfd24c40736" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::InMemoryAuditLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="158" column="10" bodyfile="include/core/concerns/i_audit_log.h" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a54c337d9dc09aae8ab8b63c533742f33" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::InMemoryAuditLog::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a06e3357f276d00e6c26ca2affe279461">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="163" column="10" bodyfile="include/core/concerns/i_audit_log.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a0ac9c5a592c2969d6c0496750b287d3b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::InMemoryAuditLog::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a6259ba30cf6a331f5a008e2fad43f01b">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="164" column="10" bodyfile="include/core/concerns/i_audit_log.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a95fa312b52ad371caf7ee71f0c332601" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::InMemoryAuditLog::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::InMemoryAuditLog::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acac1f85564bdbbf1a32b8851e541c5fd">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_audit_log.h" line="165" column="17" bodyfile="include/core/concerns/i_audit_log.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::InMemoryAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::InMemoryAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/i_audit_log.h" line="122" column="1" bodyfile="include/core/concerns/i_audit_log.h" bodystart="122" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a096b294955fc3eaba889ccfd24c40736" prot="public" virt="non-virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aa00bc865d94df1e701d7fd57d6b7c4c2" prot="private" virt="non-virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>events_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a54c337d9dc09aae8ab8b63c533742f33" prot="public" virt="virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a11004952976c858c79a193230920ec3e" prot="public" virt="non-virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>getEvents</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a95fa312b52ad371caf7ee71f0c332601" prot="public" virt="virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1ad5fdb5444dd8a5affe72133e91e3fc02" prot="private" virt="non-virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aaa965441bbf334f1acfcf7531a7e5280" prot="public" virt="virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a0ac9c5a592c2969d6c0496750b287d3b" prot="public" virt="virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a48785618cbbb48bdfe8fa3d4559073bd" prot="public" virt="non-virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acdfe176daf140fec578238b9cd2caeb7" prot="public" virt="virtual"><scope>themis::core::concerns::InMemoryAuditLog</scope><name>~IAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

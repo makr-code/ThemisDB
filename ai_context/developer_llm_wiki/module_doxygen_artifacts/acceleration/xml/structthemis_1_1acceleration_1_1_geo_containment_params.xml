@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_geo_containment_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::GeoContainmentParams</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_containment_params_1af67d7b29152125cb7583e3db8e09b98e" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoContainmentParams::pointLats</definition>
+        <argsstring></argsstring>
+        <name>pointLats</name>
+        <qualifiedname>themis::acceleration::GeoContainmentParams::pointLats</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Test point latitudes [numPoints]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="117" column="18" bodyfile="include/acceleration/kernel_invocation.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_containment_params_1a2f9862a6068c57dc92af54b6b8e9527e" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoContainmentParams::pointLons</definition>
+        <argsstring></argsstring>
+        <name>pointLons</name>
+        <qualifiedname>themis::acceleration::GeoContainmentParams::pointLons</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Test point longitudes [numPoints]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="118" column="18" bodyfile="include/acceleration/kernel_invocation.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_containment_params_1a4a5963bed52cf0a6f71f1c20b49f6517" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::GeoContainmentParams::numPoints</definition>
+        <argsstring></argsstring>
+        <name>numPoints</name>
+        <qualifiedname>themis::acceleration::GeoContainmentParams::numPoints</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of test points. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="119" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_containment_params_1aea97acf260257350ff22b2c8341766e3" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoContainmentParams::polygonCoords</definition>
+        <argsstring></argsstring>
+        <name>polygonCoords</name>
+        <qualifiedname>themis::acceleration::GeoContainmentParams::polygonCoords</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Interleaved vertex coords [numVertices × 2]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="120" column="18" bodyfile="include/acceleration/kernel_invocation.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_containment_params_1a446fafde1e824a7053651270abccf065" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::GeoContainmentParams::numPolygonVertices</definition>
+        <argsstring></argsstring>
+        <name>numPolygonVertices</name>
+        <qualifiedname>themis::acceleration::GeoContainmentParams::numPolygonVertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of polygon vertices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="121" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes the input shape for a point-in-polygon kernel call. Polygon vertices are interleaved as [lat0, lon0, lat1, lon1, …]. </para>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="116" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="116" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a4a5963bed52cf0a6f71f1c20b49f6517" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoContainmentParams</scope><name>numPoints</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a446fafde1e824a7053651270abccf065" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoContainmentParams</scope><name>numPolygonVertices</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_containment_params_1af67d7b29152125cb7583e3db8e09b98e" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoContainmentParams</scope><name>pointLats</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a2f9862a6068c57dc92af54b6b8e9527e" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoContainmentParams</scope><name>pointLons</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_containment_params_1aea97acf260257350ff22b2c8341766e3" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoContainmentParams</scope><name>polygonCoords</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

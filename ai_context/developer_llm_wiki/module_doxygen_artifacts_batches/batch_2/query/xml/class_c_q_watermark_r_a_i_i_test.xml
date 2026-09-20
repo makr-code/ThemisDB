@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_q_watermark_r_a_i_i_test" kind="class" language="C++" prot="public">
+    <compoundname>CQWatermarkRAIITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_q_watermark_r_a_i_i_test_1a6703886ced9fd8143d005bf0e0746446" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_c_q_watermark" kindref="compound">CQWatermark</ref></type>
+        <definition>CQWatermark CQWatermarkRAIITest::wm_</definition>
+        <argsstring></argsstring>
+        <name>wm_</name>
+        <qualifiedname>CQWatermarkRAIITest::wm_</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="227" column="17" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="227" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CQWatermarkRAIITest</label>
+        <link refid="class_c_q_watermark_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CQWatermarkRAIITest</label>
+        <link refid="class_c_q_watermark_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>wm_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::CQWatermark</label>
+        <link refid="classthemis_1_1query_1_1_c_q_watermark"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="224" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="224" bodyend="228"/>
+    <listofallmembers>
+      <member refid="class_c_q_watermark_r_a_i_i_test_1a6703886ced9fd8143d005bf0e0746446" prot="protected" virt="non-virtual"><scope>CQWatermarkRAIITest</scope><name>wm_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

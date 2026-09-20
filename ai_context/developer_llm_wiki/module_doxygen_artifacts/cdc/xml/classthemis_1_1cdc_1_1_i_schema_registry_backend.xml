@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_schema_registry_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::ISchemaRegistryBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend" prot="public" virt="non-virtual">themis::cdc::InMemorySchemaRegistryBackend</derivedcompoundref>
+    <includes refid="schema__registry_8h" local="no">schema_registry.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a292b4452b7a5e57467b071dba3942035" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::ISchemaRegistryBackend::~ISchemaRegistryBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISchemaRegistryBackend</name>
+        <qualifiedname>themis::cdc::ISchemaRegistryBackend::~ISchemaRegistryBackend</qualifiedname>
+        <briefdescription>
+<para>ISchema Registry Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="133" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a68c8642a422d671523db23f68d8a07d7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::cdc::ISchemaRegistryBackend::registerSchema</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;schema_json, SchemaFormat format)=0</argsstring>
+        <name>registerSchema</name>
+        <qualifiedname>themis::cdc::ISchemaRegistryBackend::registerSchema</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend_1af50edb3c5b7a9e0b6166f2802a8abc0e">registerSchema</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_json</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="135" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a9ba59e7c6320affe5f4a26ebee83437e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cdc_1_1_schema_info" kindref="compound">SchemaInfo</ref> &gt;</type>
+        <definition>virtual std::optional&lt; SchemaInfo &gt; themis::cdc::ISchemaRegistryBackend::getById</definition>
+        <argsstring>(int32_t id) const =0</argsstring>
+        <name>getById</name>
+        <qualifiedname>themis::cdc::ISchemaRegistryBackend::getById</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend_1aafd65df84948a272067f468204f1a2de">getById</reimplementedby>
+        <param>
+          <type>int32_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="139" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a77a79af39445fddf69f012acd6885b9e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cdc_1_1_schema_info" kindref="compound">SchemaInfo</ref> &gt;</type>
+        <definition>virtual std::optional&lt; SchemaInfo &gt; themis::cdc::ISchemaRegistryBackend::getLatest</definition>
+        <argsstring>(const std::string &amp;subject) const =0</argsstring>
+        <name>getLatest</name>
+        <qualifiedname>themis::cdc::ISchemaRegistryBackend::getLatest</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend_1a6b4dfcac0cbf2d6b66fe1f8b0d47a022">getLatest</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="141" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::ISchemaRegistryBackend</label>
+        <link refid="classthemis_1_1cdc_1_1_i_schema_registry_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::cdc::InMemorySchemaRegistryBackend</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_schema_registry_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/schema_registry.h" line="127" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="127" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a9ba59e7c6320affe5f4a26ebee83437e" prot="public" virt="pure-virtual"><scope>themis::cdc::ISchemaRegistryBackend</scope><name>getById</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a77a79af39445fddf69f012acd6885b9e" prot="public" virt="pure-virtual"><scope>themis::cdc::ISchemaRegistryBackend</scope><name>getLatest</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a68c8642a422d671523db23f68d8a07d7" prot="public" virt="pure-virtual"><scope>themis::cdc::ISchemaRegistryBackend</scope><name>registerSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_registry_backend_1a292b4452b7a5e57467b071dba3942035" prot="public" virt="virtual"><scope>themis::cdc::ISchemaRegistryBackend</scope><name>~ISchemaRegistryBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

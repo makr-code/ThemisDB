@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_estimate_validation_1_1_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::EstimateValidation::Sample</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::EstimateValidation::Sample::estimatedRows</definition>
+        <argsstring></argsstring>
+        <name>estimatedRows</name>
+        <qualifiedname>themis::query::EstimateValidation::Sample::estimatedRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="64" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::EstimateValidation::Sample::actualRows</definition>
+        <argsstring></argsstring>
+        <name>actualRows</name>
+        <qualifiedname>themis::query::EstimateValidation::Sample::actualRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="65" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2ce404c9bbc9cd1596dc827abd497673" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EstimateValidation::Sample::queryTemplate</definition>
+        <argsstring></argsstring>
+        <name>queryTemplate</name>
+        <qualifiedname>themis::query::EstimateValidation::Sample::queryTemplate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="66" column="21" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a3553830cbb00b94857547688ab1a5ae9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EstimateValidation::Sample::operationType</definition>
+        <argsstring></argsstring>
+        <name>operationType</name>
+        <qualifiedname>themis::query::EstimateValidation::Sample::operationType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="67" column="21" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1ad6311bcbaf07c0f2a2b51998e8586ec1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::EstimateValidation::Sample::getError</definition>
+        <argsstring>() const</argsstring>
+        <name>getError</name>
+        <qualifiedname>themis::query::EstimateValidation::Sample::getError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="69" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="69" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="63" column="5" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="63" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a509a3bff408a69e58b5086a97d547e41" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation::Sample</scope><name>actualRows</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2a4f7207f26e5afff9ae915c34cfa9c0" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation::Sample</scope><name>estimatedRows</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1ad6311bcbaf07c0f2a2b51998e8586ec1" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation::Sample</scope><name>getError</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a3553830cbb00b94857547688ab1a5ae9" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation::Sample</scope><name>operationType</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample_1a2ce404c9bbc9cd1596dc827abd497673" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation::Sample</scope><name>queryTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

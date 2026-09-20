@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_plugin_sandbox_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PluginSandboxConfig</compoundname>
+    <includes refid="importer__plugin__api_8h" local="no">importer_plugin_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_plugin_sandbox_config_1a363adf319bc3205eb32f493697d1670c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::PluginSandboxConfig::memory_limit_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_limit_bytes</name>
+        <qualifiedname>themis::importers::PluginSandboxConfig::memory_limit_bytes</qualifiedname>
+        <initializer>= 256UL * 1024UL * 1024UL</initializer>
+        <briefdescription>
+<para>256 MiB </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="101" column="14" bodyfile="include/importers/importer_plugin_api.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_plugin_sandbox_config_1a88c3a4e3ca005da6e2be36f8e29229a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::PluginSandboxConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::importers::PluginSandboxConfig::timeout_ms</qualifiedname>
+        <initializer>= 300&apos;000</initializer>
+        <briefdescription>
+<para>5 minutes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="103" column="14" bodyfile="include/importers/importer_plugin_api.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin_api.h" line="100" column="1" bodyfile="include/importers/importer_plugin_api.h" bodystart="100" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_plugin_sandbox_config_1a363adf319bc3205eb32f493697d1670c" prot="public" virt="non-virtual"><scope>themis::importers::PluginSandboxConfig</scope><name>memory_limit_bytes</name></member>
+      <member refid="structthemis_1_1importers_1_1_plugin_sandbox_config_1a88c3a4e3ca005da6e2be36f8e29229a7" prot="public" virt="non-virtual"><scope>themis::importers::PluginSandboxConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

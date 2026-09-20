@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="alignment__examples_8h" kind="file" language="C++">
+    <compoundname>alignment_examples.h</compoundname>
+    <includes refid="alignment__helpers_8h" local="yes">performance/alignment_helpers.h</includes>
+    <includes local="yes">utils/unaligned_access.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">array</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/alignment_examples.h</label>
+        <link refid="alignment__examples_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>performance/alignment_helpers.h</label>
+        <link refid="alignment__helpers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>array</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>type_traits</label>
+      </node>
+      <node id="6">
+        <label>utils/unaligned_access.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" prot="public">themis::examples::CacheLineAlignedCounter</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec4f" prot="public">themis::examples::Vec4f</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec2d" prot="public">themis::examples::Vec2d</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec8f" prot="public">themis::examples::Vec8f</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec16f" prot="public">themis::examples::Vec16f</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_batch_metadata" prot="public">themis::examples::BatchMetadata</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_packet_header" prot="public">themis::examples::PacketHeader</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_file_header" prot="public">themis::examples::FileHeader</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1examples">themis::examples</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Alignment<sp/>Best<sp/>Practices<sp/>Examples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Demonstrates<sp/>proper<sp/>alignment<sp/>verification<sp/>for<sp/>production<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>file<sp/>provides<sp/>examples<sp/>that<sp/>developers<sp/>can<sp/>reference<sp/>when<sp/>writing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>performance-critical<sp/>code<sp/>with<sp/>alignment<sp/>requirements.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="alignment__helpers_8h" kindref="compound">performance/alignment_helpers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/unaligned_access.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1examples" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1examples" kindref="compound">examples</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>1:<sp/>Cache-Line<sp/>Aligned<sp/>Counter<sp/>(Prevents<sp/>False<sp/>Sharing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/><ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" kindref="compound">CacheLineAlignedCounter</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1af4ad939f54e556f5b57f58c427ace14b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1af4ad939f54e556f5b57f58c427ace14b" kindref="member">counter</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1a3ef6c8d7e0f5dfd6bb129fad78d9a9fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1a3ef6c8d7e0f5dfd6bb129fad78d9a9fa" kindref="member">padding</ref>[56];<sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>-<sp/>8<sp/>=<sp/>56<sp/>bytes<sp/>padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1examples_1ac80097ef090c838fe8d4ff800d6538e7" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" kindref="compound">CacheLineAlignedCounter</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1examples_1a78032bedd5a1c273ec124cdeb656a81a" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" kindref="compound">CacheLineAlignedCounter</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>2:<sp/>SIMD<sp/>Vector<sp/>Types<sp/>(16-byte<sp/>alignment<sp/>for<sp/>SSE/NEON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1examples_1_1_vec4f" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(16)<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a98fff165213f12f2ee85d1935068c0d7" kindref="member">Vec4f</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a498a288e3eec837fe7f1caffd3272e12" kindref="member">x</ref>,<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1af053f6e6b410b34c9dc8c00339cf750e" kindref="member">y</ref>,<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a0f3eb079b208e094f6709af552914709" kindref="member">z</ref>,<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" kindref="member">w</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1examples_1_1_vec4f_1a98fff165213f12f2ee85d1935068c0d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a98fff165213f12f2ee85d1935068c0d7" kindref="member">Vec4f</ref>()<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a498a288e3eec837fe7f1caffd3272e12" kindref="member">x</ref>(0),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1af053f6e6b410b34c9dc8c00339cf750e" kindref="member">y</ref>(0),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a0f3eb079b208e094f6709af552914709" kindref="member">z</ref>(0),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" kindref="member">w</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1examples_1_1_vec4f_1a5c4eb1ab72555d8a7cd73e6c9fb138f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a5c4eb1ab72555d8a7cd73e6c9fb138f0" kindref="member">Vec4f</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x_,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>y_,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>z_,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>w_)<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a498a288e3eec837fe7f1caffd3272e12" kindref="member">x</ref>(x_),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1af053f6e6b410b34c9dc8c00339cf750e" kindref="member">y</ref>(y_),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a0f3eb079b208e094f6709af552914709" kindref="member">z</ref>(z_),<sp/><ref refid="structthemis_1_1examples_1_1_vec4f_1a05cb3fa4d27af6835d698581877f0504" kindref="member">w</ref>(w_)<sp/>{}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1examples_1ad34142f9084f45ef1846f63c91ae106d" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref>,<sp/>16);</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1examples_1ae83eb991958ad3feca2174ecea67814d" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref>,<sp/>16);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1examples_1_1_vec2d" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(16)<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1aac1502c04595d16eba584bff91ce0198" kindref="member">Vec2d</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" kindref="member">x</ref>,<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a2c55742b7259aeb25e58444df8af049a" kindref="member">y</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1examples_1_1_vec2d_1aac1502c04595d16eba584bff91ce0198" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1aac1502c04595d16eba584bff91ce0198" kindref="member">Vec2d</ref>()<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" kindref="member">x</ref>(0),<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a2c55742b7259aeb25e58444df8af049a" kindref="member">y</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1examples_1_1_vec2d_1a9a5afe8cf6fa37b118fd5965b10a0a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a9a5afe8cf6fa37b118fd5965b10a0a7f" kindref="member">Vec2d</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y_)<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" kindref="member">x</ref>(x_),<sp/><ref refid="structthemis_1_1examples_1_1_vec2d_1a2c55742b7259aeb25e58444df8af049a" kindref="member">y</ref>(y_)<sp/>{}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1examples_1a20045a9be7c12aea79ac285ef80d75db" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_vec2d" kindref="compound">Vec2d</ref>,<sp/>16);</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1examples_1a3c5d9b1c7ef464f7a95de9efcb37fec6" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_vec2d" kindref="compound">Vec2d</ref>,<sp/>16);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>3:<sp/>AVX-256<sp/>Vector<sp/>Types<sp/>(32-byte<sp/>alignment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1examples_1_1_vec8f" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(32)<sp/><ref refid="structthemis_1_1examples_1_1_vec8f_1a2927ba223f9bb2020c9651ecb9daecf6" kindref="member">Vec8f</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1examples_1_1_vec8f_1a6b7781542185d11a8cf0fa8b795699e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_vec8f_1a6b7781542185d11a8cf0fa8b795699e1" kindref="member">data</ref>[8];</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1examples_1_1_vec8f_1a2927ba223f9bb2020c9651ecb9daecf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec8f_1a2927ba223f9bb2020c9651ecb9daecf6" kindref="member">Vec8f</ref>()<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec8f_1a6b7781542185d11a8cf0fa8b795699e1" kindref="member">data</ref>{}<sp/>{}<sp/><sp/></highlight><highlight class="comment">//<sp/>Zero-initialize<sp/>using<sp/>aggregate<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1examples_1ae3e3eaa3e40cdbc61dd321b7d19f01ad" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_vec8f" kindref="compound">Vec8f</ref>,<sp/>32);</highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1examples_1a141cef1b22b2f8bbaf8cd233734ac8d8" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_vec8f" kindref="compound">Vec8f</ref>,<sp/>32);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>4:<sp/>AVX-512<sp/>Vector<sp/>Types<sp/>(64-byte<sp/>alignment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1examples_1_1_vec16f" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/><ref refid="structthemis_1_1examples_1_1_vec16f_1ad7a05389a06f3e3344a0e02e7ee131e1" kindref="member">Vec16f</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1examples_1_1_vec16f_1a8f8cd4acb528431ef41a37fb74567bbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_vec16f_1a8f8cd4acb528431ef41a37fb74567bbc" kindref="member">data</ref>[16];</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1examples_1_1_vec16f_1ad7a05389a06f3e3344a0e02e7ee131e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec16f_1ad7a05389a06f3e3344a0e02e7ee131e1" kindref="member">Vec16f</ref>()<sp/>:<sp/><ref refid="structthemis_1_1examples_1_1_vec16f_1a8f8cd4acb528431ef41a37fb74567bbc" kindref="member">data</ref>{}<sp/>{}<sp/><sp/></highlight><highlight class="comment">//<sp/>Zero-initialize<sp/>using<sp/>aggregate<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1examples_1a336c468a9e38c3a3668e9533e29cfd05" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_vec16f" kindref="compound">Vec16f</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1examples_1af58c65df34d47b3cf6e9468af0a6af3d" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_vec16f" kindref="compound">Vec16f</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>5:<sp/>Batch<sp/>Processing<sp/>with<sp/>Proper<sp/>Alignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1examples_1_1_batch_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata" kindref="compound">BatchMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1examples_1_1_batch_metadata_1a15e22eaa60ebad45d933805bde09cedc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata_1a15e22eaa60ebad45d933805bde09cedc" kindref="member">batch_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1examples_1_1_batch_metadata_1af37d0b3adfaf1d4340cf4da30f8e5571" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata_1af37d0b3adfaf1d4340cf4da30f8e5571" kindref="member">num_items</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1examples_1_1_batch_metadata_1a11eef6929211967499346c98131f3d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata_1a11eef6929211967499346c98131f3d3b" kindref="member">processed_items</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1examples_1_1_batch_metadata_1a3a308f4ef7ec864228752b111a21b473" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata_1a3a308f4ef7ec864228752b111a21b473" kindref="member">timestamp</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1examples_1_1_batch_metadata_1a2de605ee67d38b1fe7ef53510c984f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_batch_metadata_1a2de605ee67d38b1fe7ef53510c984f23" kindref="member">reserved</ref>[40];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Padding<sp/>to<sp/>64<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1examples_1a430fe1079a086a03cb453fa8b973c398" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" kindref="member">THEMIS_STATIC_ASSERT_ALIGNED</ref>(<ref refid="structthemis_1_1examples_1_1_batch_metadata" kindref="compound">BatchMetadata</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1examples_1af5c0c4fa336fdbdbfb333c86f942b39f" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_batch_metadata" kindref="compound">BatchMetadata</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>6:<sp/>Safe<sp/>Unaligned<sp/>Access<sp/>(Network<sp/>Packets,<sp/>File<sp/>I/O)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1examples_1_1_packet_header" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1examples_1_1_packet_header" kindref="compound">PacketHeader</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1examples_1_1_packet_header_1a9a7ee1a5ba7debb1cd80f78e74a5a5f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_packet_header_1a9a7ee1a5ba7debb1cd80f78e74a5a5f7" kindref="member">magic</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1examples_1_1_packet_header_1ae86a55f02521b184cfd22bf67a33ac9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_packet_header_1ae86a55f02521b184cfd22bf67a33ac9d" kindref="member">length</ref>;</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1examples_1_1_packet_header_1a45e13e5bcf7709710fdf20618ca68d40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1examples_1_1_packet_header_1a45e13e5bcf7709710fdf20618ca68d40" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1examples_1a20ea2d51aac92accacae340899fdf0bd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_packet_header" kindref="compound">PacketHeader</ref><sp/><ref refid="namespacethemis_1_1examples_1a20ea2d51aac92accacae340899fdf0bd" kindref="member">parse_packet_header</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>buffer)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::utils;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_packet_header" kindref="compound">PacketHeader</ref><sp/>header;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Safe:<sp/>Works<sp/>on<sp/>all<sp/>platforms<sp/>including<sp/>ARM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>header.<ref refid="structthemis_1_1examples_1_1_packet_header_1a9a7ee1a5ba7debb1cd80f78e74a5a5f7" kindref="member">magic</ref><sp/>=<sp/>read_unaligned&lt;uint32_t&gt;(buffer);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>header.<ref refid="structthemis_1_1examples_1_1_packet_header_1ae86a55f02521b184cfd22bf67a33ac9d" kindref="member">length</ref><sp/>=<sp/>read_unaligned&lt;uint32_t&gt;(buffer<sp/>+<sp/>4);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>header.<ref refid="structthemis_1_1examples_1_1_packet_header_1a45e13e5bcf7709710fdf20618ca68d40" kindref="member">timestamp</ref><sp/>=<sp/>read_unaligned&lt;uint64_t&gt;(buffer<sp/>+<sp/>8);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>header;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>7:<sp/>Runtime<sp/>Alignment<sp/>Checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="namespacethemis_1_1examples_1ac70887cf7408f917237b9ae35d4ad14a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1examples_1ac70887cf7408f917237b9ae35d4ad14a" kindref="member">is_simd_safe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>pointer<sp/>is<sp/>16-byte<sp/>aligned<sp/>for<sp/>SSE/NEON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="namespacethemis_1_1performance_1a99f431616aaeee8f3b8e63998f002b24" kindref="member">is_aligned&lt;16&gt;</ref>(data))<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>size<sp/>allows<sp/>efficient<sp/>SIMD<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(at<sp/>least<sp/>4<sp/>elements<sp/>for<sp/>Vec4f)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(size<sp/>&lt;<sp/>4)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="namespacethemis_1_1examples_1a68a1b0c42804aeb98227ca9d37be4dfd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1examples_1a68a1b0c42804aeb98227ca9d37be4dfd" kindref="member">align_for_simd</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>buffer,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>aligned<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a2c47cf9f46a5273f887fc3c2d8f7266c" kindref="member">align_up&lt;16&gt;</ref>(buffer));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>we<sp/>have<sp/>enough<sp/>space<sp/>after<sp/>alignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(aligned)<sp/>-<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(buffer);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(offset<sp/>&gt;=<sp/>size<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>enough<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aligned;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>8:<sp/>Checked<sp/>Cast<sp/>for<sp/>Type<sp/>Safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="namespacethemis_1_1examples_1a4e21bb37ccb1f21ce57616e0f3d0154e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref>*<sp/><ref refid="namespacethemis_1_1examples_1a4e21bb37ccb1f21ce57616e0f3d0154e" kindref="member">safe_cast_to_vec4f</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::checked_aligned_cast&lt;Vec4f&gt;(ptr);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="namespacethemis_1_1examples_1a12aac60a504bf3038362d2f96d154829" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1examples_1a12aac60a504bf3038362d2f96d154829" kindref="member">process_vectors</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref>*<sp/>vectors<sp/>=<sp/><ref refid="namespacethemis_1_1examples_1a4e21bb37ccb1f21ce57616e0f3d0154e" kindref="member">safe_cast_to_vec4f</ref>(data);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!vectors)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>not<sp/>properly<sp/>aligned<sp/>-<sp/>use<sp/>fallback<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>reallocate<sp/>with<sp/>proper<sp/>alignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Safe<sp/>to<sp/>use<sp/>SIMD<sp/>instructions<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>vectors[i]<sp/>with<sp/>SIMD...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Example<sp/>9:<sp/>Compile-Time<sp/>Size<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="structthemis_1_1examples_1_1_file_header" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1examples_1_1_file_header" kindref="compound">FileHeader</ref><sp/>{</highlight></codeline>
+<codeline lineno="294" refid="structthemis_1_1examples_1_1_file_header_1adbd87f076a49dfc977ef5c9f11c3b00c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_file_header_1adbd87f076a49dfc977ef5c9f11c3b00c" kindref="member">magic</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="structthemis_1_1examples_1_1_file_header_1ab796c2602eb9d0a25d77aac49796520c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1examples_1_1_file_header_1ab796c2602eb9d0a25d77aac49796520c" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1examples_1_1_file_header_1a43490095cd6c86f98a9d3238e9a99008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1examples_1_1_file_header_1a43490095cd6c86f98a9d3238e9a99008" kindref="member">file_size</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="structthemis_1_1examples_1_1_file_header_1abe55bdff2a696c03b64a30879b28f626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1examples_1_1_file_header_1abe55bdff2a696c03b64a30879b28f626" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="structthemis_1_1examples_1_1_file_header_1a4cebd5a29782436bab8d76de0d16a266" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1examples_1_1_file_header_1a4cebd5a29782436bab8d76de0d16a266" kindref="member">reserved</ref>[40];<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>40<sp/>bytes<sp/>padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total:<sp/>64<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="namespacethemis_1_1examples_1ae66454b188daf1687de8acc9aa0f48cd" refkind="member"><highlight class="normal"><ref refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" kindref="member">THEMIS_STATIC_ASSERT_SIZE</ref>(<ref refid="structthemis_1_1examples_1_1_file_header" kindref="compound">FileHeader</ref>,<sp/>64);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>examples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/alignment_examples.h"/>
+  </compounddef>
+</doxygen>

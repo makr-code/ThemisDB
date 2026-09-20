@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_14e10643d7f507c251fcc76b141a569a" kind="dir">
+    <compoundname>benchmarks/cdc</compoundname>
+    <innerfile refid="bench__cdc__delivery__gates_8cpp">bench_cdc_delivery_gates.cpp</innerfile>
+    <innerfile refid="bench__cdc__pipeline_8cpp">bench_cdc_pipeline.cpp</innerfile>
+    <innerfile refid="bench__changefeed__throughput_8cpp">bench_changefeed_throughput.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/cdc/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_async_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::IAsyncLogger</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_logger" prot="public" virt="non-virtual">themis::core::concerns::ILogger</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger" prot="public" virt="non-virtual">themis::core::concerns::NoOpAsyncLogger</derivedcompoundref>
+    <includes refid="i__async__logger_8h" local="no">i_async_logger.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::logAsync</definition>
+        <argsstring>(Level level, std::string_view message)</argsstring>
+        <name>logAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::logAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ae13478846fc558ea34bc45ee0bd85760">logAsync</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Log Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::async(), std::string(), <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="35" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a9b538d685c75a8672a14d8b398a33214" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::traceAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>traceAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::traceAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a87f65002b4d400585b7062ceda9ae8fc">traceAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Trace Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="48" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a7637acfa28311accd92b46ed1f28ab54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::debugAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>debugAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::debugAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a265132ebd0427fcb1e2640cf5a1dd1fb">debugAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Debug Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="58" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1ae82b90b2238ecf39f6403ae1db56be7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::infoAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>infoAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::infoAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4b12caf1f0f0def20e90d473cf096c6b">infoAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Info Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="68" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a622ec31a01359a26493e3872ddc6a180" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::warnAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>warnAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::warnAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a69c642a24636c68ab601c580e1299901">warnAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Warn Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="78" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a076e42d247c3aebf4532115ad88861dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::errorAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>errorAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::errorAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a8b473f8d0a3cc65256278a664a2ba029">errorAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Error Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="88" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1abab420a7a65bcdc253532722476ffa43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::criticalAsync</definition>
+        <argsstring>(std::string_view message)</argsstring>
+        <name>criticalAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::criticalAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a9fd8042e4320e4dda6c1b6e787fdeca9">criticalAsync</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Critical Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" kindref="member">logAsync()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="98" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a5b6033bf67786be3c0e695cd027282d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; void &gt;</type>
+        <definition>virtual std::future&lt; void &gt; themis::core::concerns::IAsyncLogger::logStructuredAsync</definition>
+        <argsstring>(Level level, std::string_view message, const Fields &amp;fields={})</argsstring>
+        <name>logStructuredAsync</name>
+        <qualifiedname>themis::core::concerns::IAsyncLogger::logStructuredAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a578768f2ea9d2f36a2ec0e5e79ead409">logStructuredAsync</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref> &amp;</type>
+          <declname>fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_async_logger.h" line="102" column="25" bodyfile="include/core/concerns/i_async_logger.h" bodystart="102" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::core::concerns::IAsyncLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::ILogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_logger"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpAsyncLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::core::concerns::IAsyncLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::ILogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_logger"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/i_async_logger.h" line="22" column="1" bodyfile="include/core/concerns/i_async_logger.h" bodystart="22" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>critical</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1abab420a7a65bcdc253532722476ffa43" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>criticalAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>debug</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a7637acfa28311accd92b46ed1f28ab54" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>debugAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>error</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a076e42d247c3aebf4532115ad88861dd" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>errorAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" prot="public" virt="non-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>Fields</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>getLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>info</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1ae82b90b2238ecf39f6403ae1db56be7f" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>infoAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" prot="public" virt="non-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>Level</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1afed30568fb21bc6e89370ef3336ef472" prot="public" virt="non-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>levelFromString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3e3a77f56de7d4c1e09951b87f46c963" prot="public" virt="non-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>levelToString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a97917e78bfe70b45abba529fe2192d85" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>logAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>logStructured</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a5b6033bf67786be3c0e695cd027282d1" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>logStructuredAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>logWithContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>setLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>setPattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>trace</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a9b538d685c75a8672a14d8b398a33214" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>traceAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>warn</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger_1a622ec31a01359a26493e3872ddc6a180" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>warnAsync</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" prot="public" virt="virtual"><scope>themis::core::concerns::IAsyncLogger</scope><name>~ILogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

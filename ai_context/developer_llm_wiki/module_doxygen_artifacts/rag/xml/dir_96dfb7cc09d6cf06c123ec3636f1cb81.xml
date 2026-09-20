@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_96dfb7cc09d6cf06c123ec3636f1cb81" kind="dir">
+    <compoundname>src/rag/examples</compoundname>
+    <innerfile refid="loop__orchestration__example_8cpp">loop_orchestration_example.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/examples/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_spoofing_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::SpoofingDetector</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_detector_1abc37bf60405f6945ff7a96933946a865" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::SpoofingDetector::isRecordedVoice</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>isRecordedVoice</name>
+        <qualifiedname>themis::voice::SpoofingDetector::isRecordedVoice</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="35" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="35" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_detector_1a503b6047ea8871cd6ac84a8049541fcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::SpoofingDetector::isDeepfakeSuspicious</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>isDeepfakeSuspicious</name>
+        <qualifiedname>themis::voice::SpoofingDetector::isDeepfakeSuspicious</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="53" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_detector_1a0125201f71dc2d5b5bd82125087f0b35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::SpoofingDetector::checkLiveness</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>checkLiveness</name>
+        <qualifiedname>themis::voice::SpoofingDetector::checkLiveness</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="59" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="33" column="1" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="33" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_spoofing_detector_1a0125201f71dc2d5b5bd82125087f0b35" prot="public" virt="non-virtual"><scope>themis::voice::SpoofingDetector</scope><name>checkLiveness</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_detector_1a503b6047ea8871cd6ac84a8049541fcf" prot="public" virt="non-virtual"><scope>themis::voice::SpoofingDetector</scope><name>isDeepfakeSuspicious</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_detector_1abc37bf60405f6945ff7a96933946a865" prot="public" virt="non-virtual"><scope>themis::voice::SpoofingDetector</scope><name>isRecordedVoice</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

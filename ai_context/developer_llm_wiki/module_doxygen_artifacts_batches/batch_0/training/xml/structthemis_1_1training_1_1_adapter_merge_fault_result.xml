@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_adapter_merge_fault_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdapterMergeFaultResult</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RecoveryStrategy</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::RecoveryStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840a2805522dd41e1b57da11967ac5fa258c" prot="public">
+          <name>ROLLBACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840afe7f58da6744bbd9a65ac452f79a30dd" prot="public">
+          <name>ABORT_MERGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Resolved recovery strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>ROLLBACK: Discard partial merge; restore from pre_merge_snapshot.</para>
+</listitem><listitem><para>ABORT_MERGE: Merge cannot be completed; caller should stop and report the fault upstream. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="208" column="5" bodyfile="include/training/training_failsafe.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a631f30220464b8ecc06bc5deb24138b7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840" kindref="member">RecoveryStrategy</ref></type>
+        <definition>RecoveryStrategy themis::training::AdapterMergeFaultResult::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::strategy</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840afe7f58da6744bbd9a65ac452f79a30dd" kindref="member">RecoveryStrategy::ABORT_MERGE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="210" column="26" bodyfile="include/training/training_failsafe.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a6dae92baaa4423514822885d2a9f8482" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_adapter_merge_snapshot" kindref="compound">AdapterMergeSnapshot</ref></type>
+        <definition>AdapterMergeSnapshot themis::training::AdapterMergeFaultResult::restore_snapshot</definition>
+        <argsstring></argsstring>
+        <name>restore_snapshot</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::restore_snapshot</qualifiedname>
+        <briefdescription>
+<para>Valid only for ROLLBACK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="211" column="26" bodyfile="include/training/training_failsafe.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a96c5379a4d4dde4a57c6ecd92f6b26d4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterMergeFaultResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="212" column="26" bodyfile="include/training/training_failsafe.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1a780369d700f7d9a59ea204075a91e5ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdapterMergeFaultResult::incident_emitted</definition>
+        <argsstring></argsstring>
+        <name>incident_emitted</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::incident_emitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="213" column="26" bodyfile="include/training/training_failsafe.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_fault_result_1aa34f25bb4ab1f07e2af9330de008ae7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdapterMergeFaultResult::partial_merge_detected</definition>
+        <argsstring></argsstring>
+        <name>partial_merge_detected</name>
+        <qualifiedname>themis::training::AdapterMergeFaultResult::partial_merge_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when layers_merged_before_fault &gt; 0 (partial merge was detected). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="215" column="26" bodyfile="include/training/training_failsafe.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an adapter merge fault handling decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::AdapterMergeFaultResult</label>
+        <link refid="structthemis_1_1training_1_1_adapter_merge_fault_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>restore_snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::AdapterMergeSnapshot</label>
+        <link refid="structthemis_1_1training_1_1_adapter_merge_snapshot"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/training_failsafe.h" line="200" column="1" bodyfile="include/training/training_failsafe.h" bodystart="200" bodyend="216"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a780369d700f7d9a59ea204075a91e5ad" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>incident_emitted</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1aa34f25bb4ab1f07e2af9330de008ae7e" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>partial_merge_detected</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a96c5379a4d4dde4a57c6ecd92f6b26d4" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>RecoveryStrategy</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a6dae92baaa4423514822885d2a9f8482" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>restore_snapshot</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a631f30220464b8ecc06bc5deb24138b7" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFaultResult</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

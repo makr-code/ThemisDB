@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_t_t_p_client_pool_test" kind="class" language="C++" prot="public">
+    <compoundname>HTTPClientPoolTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_h_t_t_p_client_pool_test_1a59d75331104d806be9a720d7a26f351c" prot="protected" static="no" mutable="no">
+        <type>HTTPClientPool::Config</type>
+        <definition>HTTPClientPool::Config HTTPClientPoolTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>HTTPClientPoolTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_client_pool.cpp" line="33" column="28" bodyfile="tests/network/test_http_client_pool.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_t_t_p_client_pool_test_1aae6ac9e5e37cd04c9a14d28030ee6fb6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HTTPClientPoolTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HTTPClientPoolTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_client_pool.cpp" line="22" column="10" bodyfile="tests/network/test_http_client_pool.cpp" bodystart="22" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for HTTPClientPool tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HTTPClientPoolTest</label>
+        <link refid="class_h_t_t_p_client_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HTTPClientPoolTest</label>
+        <link refid="class_h_t_t_p_client_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_client_pool.cpp" line="20" column="1" bodyfile="tests/network/test_http_client_pool.cpp" bodystart="20" bodyend="34"/>
+    <listofallmembers>
+      <member refid="class_h_t_t_p_client_pool_test_1a59d75331104d806be9a720d7a26f351c" prot="protected" virt="non-virtual"><scope>HTTPClientPoolTest</scope><name>config_</name></member>
+      <member refid="class_h_t_t_p_client_pool_test_1aae6ac9e5e37cd04c9a14d28030ee6fb6" prot="protected" virt="non-virtual"><scope>HTTPClientPoolTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

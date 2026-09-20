@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_diagnostics_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DiagnosticsInfo</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_watermarks" kindref="compound">Changefeed::Watermarks</ref></type>
+        <definition>Changefeed::Watermarks themis::cdc::DiagnosticsInfo::watermarks</definition>
+        <argsstring></argsstring>
+        <name>watermarks</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::watermarks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="76" column="28" bodyfile="include/cdc/cdc_admin.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1a59007069b2b832b753fb51f8ec8330ae" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref></type>
+        <definition>CDCMetrics themis::cdc::DiagnosticsInfo::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="77" column="16" bodyfile="include/cdc/cdc_admin.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1aa6bc4d8a6b6d8fd88a9b795f63c57c2b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themis::cdc::DiagnosticsInfo::health</definition>
+        <argsstring></argsstring>
+        <name>health</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::health</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="78" column="18" bodyfile="include/cdc/cdc_admin.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1a9e42d22ae9735274fee2a43a95ecdd61" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::DiagnosticsInfo::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="81" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1ae3717e5189b6005ec42f3d604911e715" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::DiagnosticsInfo::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::buffer_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="82" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_diagnostics_info_1aa8a71ade8c8de692dcdde5738cb8c067" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::cdc::DiagnosticsInfo::uptime_start</definition>
+        <argsstring></argsstring>
+        <name>uptime_start</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::uptime_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="83" column="43" bodyfile="include/cdc/cdc_admin.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_diagnostics_info_1a734871c44e9d68f0e03969104849e15c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DiagnosticsInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::DiagnosticsInfo::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="85" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="85" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::Changefeed::Watermarks</label>
+        <link refid="structthemis_1_1_changefeed_1_1_watermarks"/>
+      </node>
+      <node id="3">
+        <label>themis::cdc::CDCMetrics</label>
+        <link refid="structthemis_1_1cdc_1_1_c_d_c_metrics"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>compression_latency</edgelabel>
+          <edgelabel>decompression_latency</edgelabel>
+          <edgelabel>flush_latency</edgelabel>
+          <edgelabel>record_event_latency</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>throughput</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cdc::DiagnosticsInfo</label>
+        <link refid="structthemis_1_1cdc_1_1_diagnostics_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>watermarks</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>health</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::cdc::HealthStatus</label>
+        <link refid="structthemis_1_1cdc_1_1_health_status"/>
+      </node>
+      <node id="4">
+        <label>themis::cdc::LatencyHistogram</label>
+        <link refid="classthemis_1_1cdc_1_1_latency_histogram"/>
+      </node>
+      <node id="5">
+        <label>themis::cdc::ThroughputTracker</label>
+        <link refid="classthemis_1_1cdc_1_1_throughput_tracker"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/cdc_admin.h" line="75" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="75" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1ae3717e5189b6005ec42f3d604911e715" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>buffer_size</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa6bc4d8a6b6d8fd88a9b795f63c57c2b" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>health</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1a59007069b2b832b753fb51f8ec8330ae" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1a734871c44e9d68f0e03969104849e15c" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1a9e42d22ae9735274fee2a43a95ecdd61" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>total_events</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa8a71ade8c8de692dcdde5738cb8c067" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>uptime_start</name></member>
+      <member refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" prot="public" virt="non-virtual"><scope>themis::cdc::DiagnosticsInfo</scope><name>watermarks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_community_detection_timeout_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::CommunityDetectionTimeoutStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_community_detection_timeout_stress_1aeb44e78d9d50d96ca111caaf93eac300" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::CommunityDetectionTimeoutStress::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::process::CommunityDetectionTimeoutStress::edge_count</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+<para>Edge count for large graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="389" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_community_detection_timeout_stress_1a46461d68fb58c8ea1fd6f7f7a4d04a07" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::CommunityDetectionTimeoutStress::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::process::CommunityDetectionTimeoutStress::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Timeout threshold (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="392" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_community_detection_timeout_stress_1a31d0ac6fc7c602b69b83d65fd56d1a40" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::CommunityDetectionTimeoutStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::CommunityDetectionTimeoutStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with large graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="395" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_community_detection_timeout_stress_1a0cb0a639a7daa494a85bad0f79e3f4be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::CommunityDetectionTimeoutStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::CommunityDetectionTimeoutStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (fallback applied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="398" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_community_detection_timeout_stress_1ab40cbfb5a2e4ec5da917bdfe35115f18" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::CommunityDetectionTimeoutStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::CommunityDetectionTimeoutStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="400" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="400" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Community detection timeout scenario for process retriever. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Large graph (&gt;100k edges) times out during community detection <linebreak/>
+ <bold>Expected Behavior:</bold> Fallback to LOCAL retrieval <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_EXECUTION_TIMEOUT</computeroutput> with fallback logging <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Query completes (no hanging)</para>
+</listitem><listitem><para>Fallback to LOCAL is logged</para>
+</listitem><listitem><para>Result is still usable</para>
+</listitem><listitem><para>Latency &lt;1000 ms (P95) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="387" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="387" bodyend="403"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_community_detection_timeout_stress_1ab40cbfb5a2e4ec5da917bdfe35115f18" prot="public" virt="non-virtual"><scope>themis::process::CommunityDetectionTimeoutStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_community_detection_timeout_stress_1aeb44e78d9d50d96ca111caaf93eac300" prot="public" virt="non-virtual"><scope>themis::process::CommunityDetectionTimeoutStress</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1process_1_1_community_detection_timeout_stress_1a31d0ac6fc7c602b69b83d65fd56d1a40" prot="public" virt="non-virtual"><scope>themis::process::CommunityDetectionTimeoutStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_community_detection_timeout_stress_1a0cb0a639a7daa494a85bad0f79e3f4be" prot="public" virt="non-virtual"><scope>themis::process::CommunityDetectionTimeoutStress</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1process_1_1_community_detection_timeout_stress_1a46461d68fb58c8ea1fd6f7f7a4d04a07" prot="public" virt="non-virtual"><scope>themis::process::CommunityDetectionTimeoutStress</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

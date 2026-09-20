@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_model_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ModelVersion</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a60eabeb5df268a9366134d98de995403" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelVersion::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::ModelVersion::model_id</qualifiedname>
+        <briefdescription>
+<para>Unique model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="152" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1abe531e798a6fe04f76b9927e97c9a92a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ModelVersion::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::process::ModelVersion::version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Version number (from process module version clock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="155" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a74559930671200512fc9a129d1bc8e36" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ModelVersion::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::process::ModelVersion::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Term from consensus replication log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="158" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a571866f7d812e7bfcce4e92f96372df4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelVersion::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::process::ModelVersion::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID where this version originated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="161" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a4b53b0e2d67e5257139c4e8e5aea6ed6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ModelVersion::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::process::ModelVersion::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of model creation/modification (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="164" column="13" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a8912e7bb2bed8e51ad65ebe2a96c35eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelVersion::model_content</definition>
+        <argsstring></argsstring>
+        <name>model_content</name>
+        <qualifiedname>themis::process::ModelVersion::model_content</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Serialized model content (BPMN/CMMN XML or JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="167" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1ac31a39622a27b1e10949f835240cf4b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelVersion::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::process::ModelVersion::content_hash</qualifiedname>
+        <briefdescription>
+<para>Cryptographic hash of model_content (for integrity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="170" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_version_1a50ee32ec410370850f9a4f4ed8ebfde6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ModelVersion::conflict_count</definition>
+        <argsstring></argsstring>
+        <name>conflict_count</name>
+        <qualifiedname>themis::process::ModelVersion::conflict_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Conflict-resolution operation counter (for audit trail). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="173" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Serialized representation of a process model version (opaque to plugin). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains metadata required by plugin to make conflict resolution decision. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="150" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="150" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_model_version_1a50ee32ec410370850f9a4f4ed8ebfde6" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>conflict_count</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1ac31a39622a27b1e10949f835240cf4b9" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1a8912e7bb2bed8e51ad65ebe2a96c35eb" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>model_content</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1a60eabeb5df268a9366134d98de995403" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1a571866f7d812e7bfcce4e92f96372df4" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1a74559930671200512fc9a129d1bc8e36" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>term</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1a4b53b0e2d67e5257139c4e8e5aea6ed6" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_model_version_1abe531e798a6fe04f76b9927e97c9a92a" prot="public" virt="non-virtual"><scope>themis::process::ModelVersion</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

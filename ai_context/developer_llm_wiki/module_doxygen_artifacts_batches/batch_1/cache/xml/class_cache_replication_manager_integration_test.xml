@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_replication_manager_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>CacheReplicationManagerIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_replication_manager_integration_test_1a9003dd53f8df11e45b96c543a316829f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheReplicationManagerIntegrationTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CacheReplicationManagerIntegrationTest::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="581" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="581" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_replication_manager_integration_test_1aae5c03480974afa91649badb40196f33" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_cache_replication_listener" kindref="compound">MockCacheReplicationListener</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockCacheReplicationListener&gt; CacheReplicationManagerIntegrationTest::listener_</definition>
+        <argsstring></argsstring>
+        <name>listener_</name>
+        <qualifiedname>CacheReplicationManagerIntegrationTest::listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="582" column="21" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="582" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cache_replication_manager_integration_test_1a83da62d7c4ca99a9e0be11002795b53b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheReplicationManagerIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CacheReplicationManagerIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="584" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="584" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cache_replication_manager_integration_test_1a31e455079e2d276d8f4f221ad5b524de" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheReplicationManagerIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CacheReplicationManagerIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="589" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="589" bodyend="593"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CacheReplicationManagerIntegrationTest</label>
+        <link refid="class_cache_replication_manager_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CacheReplicationManagerIntegrationTest</label>
+        <link refid="class_cache_replication_manager_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_replication.cpp" line="579" column="1" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="579" bodyend="594"/>
+    <listofallmembers>
+      <member refid="class_cache_replication_manager_integration_test_1a9003dd53f8df11e45b96c543a316829f" prot="protected" virt="non-virtual"><scope>CacheReplicationManagerIntegrationTest</scope><name>db_path_</name></member>
+      <member refid="class_cache_replication_manager_integration_test_1aae5c03480974afa91649badb40196f33" prot="protected" virt="non-virtual"><scope>CacheReplicationManagerIntegrationTest</scope><name>listener_</name></member>
+      <member refid="class_cache_replication_manager_integration_test_1a83da62d7c4ca99a9e0be11002795b53b" prot="protected" virt="non-virtual"><scope>CacheReplicationManagerIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_cache_replication_manager_integration_test_1a31e455079e2d276d8f4f221ad5b524de" prot="protected" virt="non-virtual"><scope>CacheReplicationManagerIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

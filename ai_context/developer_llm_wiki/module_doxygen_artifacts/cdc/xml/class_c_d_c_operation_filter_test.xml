@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_d_c_operation_filter_test" kind="class" language="C++" prot="public">
+    <compoundname>CDCOperationFilterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_d_c_operation_filter_test_1a6ceddda44505304455563af064ec4659" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CDCOperationFilterTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>CDCOperationFilterTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="62" column="17" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_operation_filter_test_1a431d9d9559c6d398a97c205fdd3d7be4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CDCOperationFilterTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CDCOperationFilterTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="63" column="21" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_operation_filter_test_1ad3121a5460c45cc6673dfdb158bafbd0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CDCOperationFilterTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CDCOperationFilterTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="64" column="21" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_d_c_operation_filter_test_1a9ce3f5ed0080e16c88fe62d2ef477ece" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCOperationFilterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CDCOperationFilterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="16" column="10" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="16" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_operation_filter_test_1a38d69e6f5438410dcc01b50e6794b588" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCOperationFilterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CDCOperationFilterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="41" column="10" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_operation_filter_test_1a2023c89d2254056637a13061213e824f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent CDCOperationFilterTest::makeEvent</definition>
+        <argsstring>(Changefeed::ChangeEventType type, const std::string &amp;key)</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>CDCOperationFilterTest::makeEvent</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_operation_filter.cpp" line="52" column="29" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CDCOperationFilterTest</label>
+        <link refid="class_c_d_c_operation_filter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CDCOperationFilterTest</label>
+        <link refid="class_c_d_c_operation_filter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_operation_filter.cpp" line="14" column="1" bodyfile="tests/cdc/test_cdc_operation_filter.cpp" bodystart="14" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_c_d_c_operation_filter_test_1ad3121a5460c45cc6673dfdb158bafbd0" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>changefeed_</name></member>
+      <member refid="class_c_d_c_operation_filter_test_1a431d9d9559c6d398a97c205fdd3d7be4" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>db_</name></member>
+      <member refid="class_c_d_c_operation_filter_test_1a2023c89d2254056637a13061213e824f" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>makeEvent</name></member>
+      <member refid="class_c_d_c_operation_filter_test_1a9ce3f5ed0080e16c88fe62d2ef477ece" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>SetUp</name></member>
+      <member refid="class_c_d_c_operation_filter_test_1a38d69e6f5438410dcc01b50e6794b588" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>TearDown</name></member>
+      <member refid="class_c_d_c_operation_filter_test_1a6ceddda44505304455563af064ec4659" prot="protected" virt="non-virtual"><scope>CDCOperationFilterTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

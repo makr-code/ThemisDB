@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_lineage_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::LineageStatistics</compoundname>
+    <includes refid="data__lineage_8h" local="no">data_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_statistics_1a9dc030f971bea0b25394956584b4df76" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::LineageStatistics::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::governance::LineageStatistics::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="114" column="12" bodyfile="include/governance/data_lineage.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_statistics_1ada4bde8d5e5b4314234de73d04ce31c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::LineageStatistics::total_datasets</definition>
+        <argsstring></argsstring>
+        <name>total_datasets</name>
+        <qualifiedname>themis::governance::LineageStatistics::total_datasets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="115" column="12" bodyfile="include/governance/data_lineage.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_statistics_1a57d2da901e0dd9741fa724f695de5a1d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" kindref="member">CircuitBreakerState</ref></type>
+        <definition>CircuitBreakerState themis::governance::LineageStatistics::circuit_breaker_state</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_state</name>
+        <qualifiedname>themis::governance::LineageStatistics::circuit_breaker_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitBreakerState::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="116" column="25" bodyfile="include/governance/data_lineage.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_statistics_1ab5a1fd30b7daa92f3408ebaf438769d6" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::LineageStatistics::last_error_code</definition>
+        <argsstring></argsstring>
+        <name>last_error_code</name>
+        <qualifiedname>themis::governance::LineageStatistics::last_error_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="117" column="13" bodyfile="include/governance/data_lineage.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_statistics_1a8930bf6a7818c8ee47f873c694576d7b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::LineageStatistics::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::LineageStatistics::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="118" column="13" bodyfile="include/governance/data_lineage.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_lineage.h" line="113" column="1" bodyfile="include/governance/data_lineage.h" bodystart="113" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_lineage_statistics_1a57d2da901e0dd9741fa724f695de5a1d" prot="public" virt="non-virtual"><scope>themis::governance::LineageStatistics</scope><name>circuit_breaker_state</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_statistics_1ab5a1fd30b7daa92f3408ebaf438769d6" prot="public" virt="non-virtual"><scope>themis::governance::LineageStatistics</scope><name>last_error_code</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_statistics_1a8930bf6a7818c8ee47f873c694576d7b" prot="public" virt="non-virtual"><scope>themis::governance::LineageStatistics</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_statistics_1ada4bde8d5e5b4314234de73d04ce31c5" prot="public" virt="non-virtual"><scope>themis::governance::LineageStatistics</scope><name>total_datasets</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_statistics_1a9dc030f971bea0b25394956584b4df76" prot="public" virt="non-virtual"><scope>themis::governance::LineageStatistics</scope><name>total_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

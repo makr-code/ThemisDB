@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::DeadlockMetrics</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a47a22aefb6823a43b3be8756aefe5873" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::DeadlockMetrics::total_detected</definition>
+        <argsstring></argsstring>
+        <name>total_detected</name>
+        <qualifiedname>themis::TransactionManager::DeadlockMetrics::total_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total deadlock cycles detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="611" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="611" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a98a66ac6856602f3c2307aa3aa8be662" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::DeadlockMetrics::total_resolved</definition>
+        <argsstring></argsstring>
+        <name>total_resolved</name>
+        <qualifiedname>themis::TransactionManager::DeadlockMetrics::total_resolved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Successfully resolved (victim aborted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="612" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="612" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a5563bf6c482672bb577d736a9db02352" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TransactionManager::DeadlockMetrics::avg_cycle_length</definition>
+        <argsstring></argsstring>
+        <name>avg_cycle_length</name>
+        <qualifiedname>themis::TransactionManager::DeadlockMetrics::avg_cycle_length</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Average number of transactions per cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="613" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="613" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a502b98ac2afa1577ccecc804cf0c8a82" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::DeadlockMetrics::max_cycle_length</definition>
+        <argsstring></argsstring>
+        <name>max_cycle_length</name>
+        <qualifiedname>themis::TransactionManager::DeadlockMetrics::max_cycle_length</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Largest cycle seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="614" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="614" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a17b954568fb5ee710494af7b88ae44f0" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" kindref="member">DeadlockVictimPolicy</ref></type>
+        <definition>DeadlockVictimPolicy themis::TransactionManager::DeadlockMetrics::active_policy</definition>
+        <argsstring></argsstring>
+        <name>active_policy</name>
+        <qualifiedname>themis::TransactionManager::DeadlockMetrics::active_policy</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1a3ebfaf6242b8db6cc479534dac01939c" kindref="member">DeadlockVictimPolicy::YOUNGEST</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="615" column="30" bodyfile="include/transaction/transaction_manager.h" bodystart="615" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="610" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="610" bodyend="616"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a17b954568fb5ee710494af7b88ae44f0" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockMetrics</scope><name>active_policy</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a5563bf6c482672bb577d736a9db02352" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockMetrics</scope><name>avg_cycle_length</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a502b98ac2afa1577ccecc804cf0c8a82" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockMetrics</scope><name>max_cycle_length</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a47a22aefb6823a43b3be8756aefe5873" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockMetrics</scope><name>total_detected</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics_1a98a66ac6856602f3c2307aa3aa8be662" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockMetrics</scope><name>total_resolved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

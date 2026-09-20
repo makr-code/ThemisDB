@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_capability_requirement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginCapabilityRequirement</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capability_requirement_1ab78f11084ff710db4c4f601ed08f3bc2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginCapabilityRequirement::capability_name</definition>
+        <argsstring></argsstring>
+        <name>capability_name</name>
+        <qualifiedname>themis::plugins::PluginCapabilityRequirement::capability_name</qualifiedname>
+        <briefdescription>
+<para>Named capability (see <ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="234" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capability_requirement_1a40cce9e6c003c4bdcfabe9061d277d4d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_version_range" kindref="compound">PluginVersionRange</ref></type>
+        <definition>PluginVersionRange themis::plugins::PluginCapabilityRequirement::version_range</definition>
+        <argsstring></argsstring>
+        <name>version_range</name>
+        <qualifiedname>themis::plugins::PluginCapabilityRequirement::version_range</qualifiedname>
+        <briefdescription>
+<para>Required plugin version range (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="235" column="24" bodyfile="include/plugins/plugin_interface.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single capability requirement with an optional plugin version range. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The capability_name maps to the boolean flags in <ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref>: &quot;streaming&quot;, &quot;batching&quot;, &quot;transactions&quot;, &quot;thread_safe&quot;, &quot;gpu_accelerated&quot;</para>
+<para>The version_range constrains the plugin version (<ref refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f" kindref="member">IThemisPlugin::getVersion()</ref>), enabling callers to express requirements such as &quot;I need streaming support
+and the plugin must be at least v1.2.0&quot;. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::PluginCapabilityRequirement</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capability_requirement"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version_range</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::PluginVersionRange</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_version_range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/plugin_interface.h" line="233" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="233" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capability_requirement_1ab78f11084ff710db4c4f601ed08f3bc2" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilityRequirement</scope><name>capability_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capability_requirement_1a40cce9e6c003c4bdcfabe9061d277d4d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilityRequirement</scope><name>version_range</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

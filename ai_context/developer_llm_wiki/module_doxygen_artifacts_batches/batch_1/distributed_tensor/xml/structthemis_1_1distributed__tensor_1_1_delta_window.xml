@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_delta_window" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DeltaWindow</compoundname>
+    <includes refid="tensor__delta__log_8h" local="no">tensor_delta_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a9555dc3c8e1224363de9c8c73da28931" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaWindow::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="100" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a61edddd5864e39fbc0a429f8405db673" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DeltaWindow::sequence_start</definition>
+        <argsstring></argsstring>
+        <name>sequence_start</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::sequence_start</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="102" column="12" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a5e019631206d5832bf9662656dfcb021" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DeltaWindow::sequence_end</definition>
+        <argsstring></argsstring>
+        <name>sequence_end</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::sequence_end</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="104" column="12" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a333e23d68dfc55ed5a24cf140f7b75dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" kindref="compound">DeltaLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;DeltaLogEntry&gt; themis::distributed_tensor::DeltaWindow::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="106" column="15" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a2fd79cc325caa2ad95b66f51f00d6ca8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DeltaWindow::total_payload_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_payload_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::total_payload_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="108" column="12" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_delta_window_1aa00e4463cbdc14ae6047aeb82ea3e370" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::DeltaWindow::extracted_at_ms</definition>
+        <argsstring></argsstring>
+        <name>extracted_at_ms</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::extracted_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="110" column="11" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a4e0433e023538996b3b2a1165d2173b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_tensor::DeltaWindow::countInserts</definition>
+        <argsstring>() const</argsstring>
+        <name>countInserts</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::countInserts</qualifiedname>
+        <briefdescription>
+<para>Count Inserts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="116" column="10" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a201faf6c2aee17c2645e667c7931d829" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_tensor::DeltaWindow::countUpdates</definition>
+        <argsstring>() const</argsstring>
+        <name>countUpdates</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::countUpdates</qualifiedname>
+        <briefdescription>
+<para>Count Updates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="122" column="10" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1aadcbc6af2cf85b02e149b0da5e1e5fe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_tensor::DeltaWindow::countDeletes</definition>
+        <argsstring>() const</argsstring>
+        <name>countDeletes</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::countDeletes</qualifiedname>
+        <briefdescription>
+<para>Count Deletes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="128" column="10" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a9600847ef17af85877400eb44a4ef5b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_tensor::DeltaWindow::countShardChanges</definition>
+        <argsstring>() const</argsstring>
+        <name>countShardChanges</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::countShardChanges</qualifiedname>
+        <briefdescription>
+<para>Count Shard Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="134" column="10" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="245" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1abbe31d10d595a272aaa9ef015cc6967b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::DeltaWindow::estimateChangeFraction</definition>
+        <argsstring>(uint64_t artifact_size_bytes) const</argsstring>
+        <name>estimateChangeFraction</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::estimateChangeFraction</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>artifact_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Change Fraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="141" column="10" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1ae531758639e2e55891a718dd85797bde" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DeltaWindow::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="147" column="8" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="259" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a98ae04436df0b2fd2a9ac7ffb10da20e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaWindow::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="153" column="15" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="279" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1aa59b673ca8ec3f796367e07a95011fd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DeltaWindow::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="166" column="15" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="621" bodyend="648"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a658dea674a604bd5ac4e7f7006e938e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &gt;</type>
+        <definition>std::optional&lt; DeltaWindow &gt; themis::distributed_tensor::DeltaWindow::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::getline(), std::stoull(), std::stoll(), push_back(), <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window_1ae531758639e2e55891a718dd85797bde" kindref="member">isValid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="160" column="24" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="301" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_delta_window_1a9a3039de56c7d3acbf9f40f2e68975fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &gt;</type>
+        <definition>std::optional&lt; DeltaWindow &gt; themis::distributed_tensor::DeltaWindow::fromJSON</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::distributed_tensor::DeltaWindow::fromJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractJsonString(), find(), std::stoull(), substr(), size(), std::stoll(), findUint64(), findInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="173" column="24" bodyfile="src/distributed_tensor/src/tensor_delta_log.cc" bodystart="656" bodyend="825"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/tensor_delta_log.h" line="99" column="1" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="99" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9555dc3c8e1224363de9c8c73da28931" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aadcbc6af2cf85b02e149b0da5e1e5fe3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>countDeletes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a4e0433e023538996b3b2a1165d2173b4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>countInserts</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9600847ef17af85877400eb44a4ef5b9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>countShardChanges</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a201faf6c2aee17c2645e667c7931d829" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>countUpdates</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a658dea674a604bd5ac4e7f7006e938e6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a333e23d68dfc55ed5a24cf140f7b75dd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>entries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1abbe31d10d595a272aaa9ef015cc6967b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>estimateChangeFraction</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aa00e4463cbdc14ae6047aeb82ea3e370" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>extracted_at_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a9a3039de56c7d3acbf9f40f2e68975fa" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1ae531758639e2e55891a718dd85797bde" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a5e019631206d5832bf9662656dfcb021" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>sequence_end</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a61edddd5864e39fbc0a429f8405db673" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>sequence_start</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a98ae04436df0b2fd2a9ac7ffb10da20e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1aa59b673ca8ec3f796367e07a95011fd3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_delta_window_1a2fd79cc325caa2ad95b66f51f00d6ca8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DeltaWindow</scope><name>total_payload_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginDependencyResolver::DependencyGraph</compoundname>
+    <includes refid="plugin__dependency__resolver_8h" local="no">plugin_dependency_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph_1a347098cf9c4ab27015404c4b960a873c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::PluginDependencyResolver::DependencyGraph::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::DependencyGraph::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="52" column="18" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph_1af741831afc5ebbd4fc95ae3b954e4160" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::PluginDependencyResolver::DependencyGraph::dependents</definition>
+        <argsstring></argsstring>
+        <name>dependents</name>
+        <qualifiedname>themis::plugins::PluginDependencyResolver::DependencyGraph::dependents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_dependency_resolver.h" line="55" column="18" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dependency Graph Structure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains both forward dependencies (what each plugin depends on) and reverse dependencies (what depends on each plugin) </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_dependency_resolver.h" line="50" column="5" bodyfile="include/plugins/plugin_dependency_resolver.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph_1a347098cf9c4ab27015404c4b960a873c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver::DependencyGraph</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_dependency_resolver_1_1_dependency_graph_1af741831afc5ebbd4fc95ae3b954e4160" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDependencyResolver::DependencyGraph</scope><name>dependents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

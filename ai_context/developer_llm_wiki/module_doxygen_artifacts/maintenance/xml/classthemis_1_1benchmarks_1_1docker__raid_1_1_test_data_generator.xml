@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::benchmarks::docker_raid::TestDataGenerator</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a6bd9be9f97e006b539589f0062d24c6a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::benchmarks::docker_raid::TestDataGenerator::generateData</definition>
+        <argsstring>(size_t size, uint64_t seed=0)</argsstring>
+        <name>generateData</name>
+        <qualifiedname>themis::benchmarks::docker_raid::TestDataGenerator::generateData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="450" column="24" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="450" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a46f932f3da6e7026cdc5520ae45b93b5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::benchmarks::docker_raid::TestDataGenerator::generateDocumentJSON</definition>
+        <argsstring>(size_t target_size)</argsstring>
+        <name>generateDocumentJSON</name>
+        <qualifiedname>themis::benchmarks::docker_raid::TestDataGenerator::generateDocumentJSON</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>target_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="461" column="24" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="461" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a5eaf16617a226f0f9a7feef4ac59f248" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::benchmarks::docker_raid::TestDataGenerator::generateUUID</definition>
+        <argsstring>()</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::benchmarks::docker_raid::TestDataGenerator::generateUUID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="482" column="24" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="482" bodyend="498"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="448" column="1" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="448" bodyend="499"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a6bd9be9f97e006b539589f0062d24c6a" prot="public" virt="non-virtual"><scope>themis::benchmarks::docker_raid::TestDataGenerator</scope><name>generateData</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a46f932f3da6e7026cdc5520ae45b93b5" prot="public" virt="non-virtual"><scope>themis::benchmarks::docker_raid::TestDataGenerator</scope><name>generateDocumentJSON</name></member>
+      <member refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator_1a5eaf16617a226f0f9a7feef4ac59f248" prot="public" virt="non-virtual"><scope>themis::benchmarks::docker_raid::TestDataGenerator</scope><name>generateUUID</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

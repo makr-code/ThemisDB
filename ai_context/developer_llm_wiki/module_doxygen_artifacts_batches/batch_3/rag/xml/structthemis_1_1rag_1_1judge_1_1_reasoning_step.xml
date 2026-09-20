@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_reasoning_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ReasoningStep</compoundname>
+    <includes refid="cot__evaluator_8h" local="no">cot_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a5b006370205a206e2c82116326eb4190" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::ReasoningStep::step_number</definition>
+        <argsstring></argsstring>
+        <name>step_number</name>
+        <qualifiedname>themis::rag::judge::ReasoningStep::step_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="23" column="9" bodyfile="include/rag/cot_evaluator.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a023f553e3892b2dbfd324aee7faebc67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ReasoningStep::question</definition>
+        <argsstring></argsstring>
+        <name>question</name>
+        <qualifiedname>themis::rag::judge::ReasoningStep::question</qualifiedname>
+        <briefdescription>
+<para>Self-questioning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="24" column="17" bodyfile="include/rag/cot_evaluator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a79d1ec644ddde8ec4a3554ca2f602705" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ReasoningStep::observation</definition>
+        <argsstring></argsstring>
+        <name>observation</name>
+        <qualifiedname>themis::rag::judge::ReasoningStep::observation</qualifiedname>
+        <briefdescription>
+<para>What was observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="25" column="17" bodyfile="include/rag/cot_evaluator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a319b533cb0890a428fdc5d53eeb5c32e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ReasoningStep::evidence</definition>
+        <argsstring></argsstring>
+        <name>evidence</name>
+        <qualifiedname>themis::rag::judge::ReasoningStep::evidence</qualifiedname>
+        <briefdescription>
+<para>Supporting evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="26" column="17" bodyfile="include/rag/cot_evaluator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a9157a7b069a15301da6ea3f6b7ec0055" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ReasoningStep::conclusion</definition>
+        <argsstring></argsstring>
+        <name>conclusion</name>
+        <qualifiedname>themis::rag::judge::ReasoningStep::conclusion</qualifiedname>
+        <briefdescription>
+<para>Step conclusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="27" column="17" bodyfile="include/rag/cot_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single reasoning step in CoT. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/cot_evaluator.h" line="22" column="1" bodyfile="include/rag/cot_evaluator.h" bodystart="22" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a9157a7b069a15301da6ea3f6b7ec0055" prot="public" virt="non-virtual"><scope>themis::rag::judge::ReasoningStep</scope><name>conclusion</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a319b533cb0890a428fdc5d53eeb5c32e" prot="public" virt="non-virtual"><scope>themis::rag::judge::ReasoningStep</scope><name>evidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a79d1ec644ddde8ec4a3554ca2f602705" prot="public" virt="non-virtual"><scope>themis::rag::judge::ReasoningStep</scope><name>observation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a023f553e3892b2dbfd324aee7faebc67" prot="public" virt="non-virtual"><scope>themis::rag::judge::ReasoningStep</scope><name>question</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step_1a5b006370205a206e2c82116326eb4190" prot="public" virt="non-virtual"><scope>themis::rag::judge::ReasoningStep</scope><name>step_number</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

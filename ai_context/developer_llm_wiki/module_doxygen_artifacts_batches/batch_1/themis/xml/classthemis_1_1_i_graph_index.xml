@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_graph_index" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IGraphIndex</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1a5781891174b3fbc2ab6b4630fb0a6bf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IGraphIndex::~IGraphIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphIndex</name>
+        <qualifiedname>themis::IGraphIndex::~IGraphIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="195" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1a2a61f289822163f9cada8882a57ab637" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IGraphIndex::insertEdge</definition>
+        <argsstring>(const GraphEdge &amp;edge)=0</argsstring>
+        <name>insertEdge</name>
+        <qualifiedname>themis::IGraphIndex::insertEdge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_graph_edge" kindref="compound">GraphEdge</ref> &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update an edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The edge to insert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="200" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1a0f9f3867f80da13a72f254a8baea96a3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IGraphIndex::removeEdge</definition>
+        <argsstring>(std::string_view from_node, std::string_view to_node, std::string_view edge_type=&quot;&quot;)=0</argsstring>
+        <name>removeEdge</name>
+        <qualifiedname>themis::IGraphIndex::removeEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>from_node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to_node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove an edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source node ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target node ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edge type (empty = all types) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if edge existed and was removed, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="207" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1adfb7b5c18e226fc23d058807049fb951" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_graph_edge" kindref="compound">GraphEdge</ref> &gt;</type>
+        <definition>virtual std::vector&lt; GraphEdge &gt; themis::IGraphIndex::getOutgoingEdges</definition>
+        <argsstring>(std::string_view node_id, std::string_view edge_type=&quot;&quot;) const =0</argsstring>
+        <name>getOutgoingEdges</name>
+        <qualifiedname>themis::IGraphIndex::getOutgoingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get outgoing edges from a node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional edge type filter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of outgoing edges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="215" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1a87f128f956f00340cb9126587311a5b0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_graph_edge" kindref="compound">GraphEdge</ref> &gt;</type>
+        <definition>virtual std::vector&lt; GraphEdge &gt; themis::IGraphIndex::getIncomingEdges</definition>
+        <argsstring>(std::string_view node_id, std::string_view edge_type=&quot;&quot;) const =0</argsstring>
+        <name>getIncomingEdges</name>
+        <qualifiedname>themis::IGraphIndex::getIncomingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get incoming edges to a node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional edge type filter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of incoming edges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="223" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1acd00813165a5262984e2a107153a11ac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::IGraphIndex::findShortestPath</definition>
+        <argsstring>(std::string_view from_node, std::string_view to_node, std::string_view edge_type=&quot;&quot;, uint32_t max_depth=0) const =0</argsstring>
+        <name>findShortestPath</name>
+        <qualifiedname>themis::IGraphIndex::findShortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>from_node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to_node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Find shortest path between two nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional edge type filter </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum search depth (0 = unlimited) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Path as vector of node IDs, empty if no path exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="233" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1a7487e4cee8202a33ea6b1eef5eaf28de" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::IGraphIndex::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::IGraphIndex::getName</qualifiedname>
+        <briefdescription>
+<para>Get index name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Index name/identifier </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="241" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_graph_index_1acb11feffd712d2f8c9aadae1dde2bb19" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::IGraphIndex::getStatistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::IGraphIndex::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get index statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON string with statistics (nodes, edges, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="245" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for graph indexes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Graph indexes store and query graph structure (nodes and edges). They enable efficient graph traversal queries. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="193" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="193" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_graph_index_1acd00813165a5262984e2a107153a11ac" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>findShortestPath</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1a87f128f956f00340cb9126587311a5b0" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>getIncomingEdges</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1a7487e4cee8202a33ea6b1eef5eaf28de" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>getName</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1adfb7b5c18e226fc23d058807049fb951" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>getOutgoingEdges</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1acb11feffd712d2f8c9aadae1dde2bb19" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1a2a61f289822163f9cada8882a57ab637" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>insertEdge</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1a0f9f3867f80da13a72f254a8baea96a3" prot="public" virt="pure-virtual"><scope>themis::IGraphIndex</scope><name>removeEdge</name></member>
+      <member refid="classthemis_1_1_i_graph_index_1a5781891174b3fbc2ab6b4630fb0a6bf3" prot="public" virt="virtual"><scope>themis::IGraphIndex</scope><name>~IGraphIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_coordinator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentCoordinatorConfig</compoundname>
+    <includes refid="subagent__coordinator_8h" local="no">subagent_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1a4c5157483829a699ad3fde4b54390d07" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ac2dfce769b2cc6b4594a035106db712a" kindref="member">SubagentMergeStrategy</ref></type>
+        <definition>SubagentMergeStrategy themis::llm::SubagentCoordinatorConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ac2dfce769b2cc6b4594a035106db712aa80b5fb550c8405be8d06e1184b53e3c0" kindref="member">SubagentMergeStrategy::FIRST_WIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="124" column="27" bodyfile="include/llm/subagent_coordinator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1a639585c5956d3355cb3ffb044d3e49ec" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a93efcf8f2edacf063a09e5aac14c1d18" kindref="member">SubagentCustomMergeFn</ref></type>
+        <definition>SubagentCustomMergeFn themis::llm::SubagentCoordinatorConfig::custom_merge_fn</definition>
+        <argsstring></argsstring>
+        <name>custom_merge_fn</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::custom_merge_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="126" column="27" bodyfile="include/llm/subagent_coordinator.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1aac375e675fb80b06cf65c8692db98e9b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentCoordinatorConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="128" column="9" bodyfile="include/llm/subagent_coordinator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1a08d8eff3067cbef52be197c21d642ab0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt;</type>
+        <definition>std::optional&lt;LLMCorrelationContext&gt; themis::llm::SubagentCoordinatorConfig::correlation_context</definition>
+        <argsstring></argsstring>
+        <name>correlation_context</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::correlation_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="130" column="19" bodyfile="include/llm/subagent_coordinator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1ae396f06c99393e0719ddd054a72ce6a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentCoordinatorConfig::verbose_logging</definition>
+        <argsstring></argsstring>
+        <name>verbose_logging</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::verbose_logging</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="132" column="10" bodyfile="include/llm/subagent_coordinator.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1a793739f83a681211045b6b1d8aa114b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentCoordinatorConfig::fail_on_any_error</definition>
+        <argsstring></argsstring>
+        <name>fail_on_any_error</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::fail_on_any_error</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="134" column="10" bodyfile="include/llm/subagent_coordinator.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_config_1a3d6ed33a658eaaeef4e5bcb3f6cedfed" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentCoordinatorConfig::max_total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_total_latency_ms</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorConfig::max_total_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="136" column="9" bodyfile="include/llm/subagent_coordinator.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_coordinator.h" line="123" column="1" bodyfile="include/llm/subagent_coordinator.h" bodystart="123" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1a08d8eff3067cbef52be197c21d642ab0" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>correlation_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1a639585c5956d3355cb3ffb044d3e49ec" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>custom_merge_fn</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1a793739f83a681211045b6b1d8aa114b3" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>fail_on_any_error</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1a3d6ed33a658eaaeef4e5bcb3f6cedfed" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>max_total_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1a4c5157483829a699ad3fde4b54390d07" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1aac375e675fb80b06cf65c8692db98e9b" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_config_1ae396f06c99393e0719ddd054a72ce6a1" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorConfig</scope><name>verbose_logging</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

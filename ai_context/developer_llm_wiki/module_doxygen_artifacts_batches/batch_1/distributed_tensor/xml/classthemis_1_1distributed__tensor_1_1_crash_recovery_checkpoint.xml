@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::CrashRecoveryCheckpoint</compoundname>
+    <includes refid="crash__recovery__checkpoint_8h" local="no">crash_recovery_checkpoint.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" prot="public">themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aaf9c4521521bee6fb9231590b7363186" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::CrashRecoveryCheckpoint::checkpoint_dir_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir_</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::checkpoint_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="163" column="15" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_dir)</argsstring>
+        <name>CrashRecoveryCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_dir</declname>
+        </param>
+        <briefdescription>
+<para>Crash Recovery <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="83" column="12" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="19" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af894d75b4048b2fbd1e7140529921883" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::CrashRecoveryCheckpoint::~CrashRecoveryCheckpoint</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CrashRecoveryCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::~CrashRecoveryCheckpoint</qualifiedname>
+        <briefdescription>
+<para>Crash Recovery <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="89" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a512f4f3c93e38ea3962ff07d6acd9b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</definition>
+        <argsstring>(const CrashRecoveryCheckpoint &amp;)=delete</argsstring>
+        <name>CrashRecoveryCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</qualifiedname>
+        <param>
+          <type>const CrashRecoveryCheckpoint &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="92" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a7b31ad9560908840c75fc99fed800aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref> &amp;</type>
+        <definition>CrashRecoveryCheckpoint &amp; themis::distributed_tensor::CrashRecoveryCheckpoint::operator=</definition>
+        <argsstring>(const CrashRecoveryCheckpoint &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="93" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a9c6ee1a7e237c92fd0c3817c49f66eab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</definition>
+        <argsstring>(CrashRecoveryCheckpoint &amp;&amp;)=delete</argsstring>
+        <name>CrashRecoveryCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::CrashRecoveryCheckpoint</qualifiedname>
+        <param>
+          <type>CrashRecoveryCheckpoint &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="94" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0b91d8ee2ece8c19c51ca0381a2f2395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref> &amp;</type>
+        <definition>CrashRecoveryCheckpoint &amp; themis::distributed_tensor::CrashRecoveryCheckpoint::operator=</definition>
+        <argsstring>(CrashRecoveryCheckpoint &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="95" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a5890b077435d96e9083371e5d40445a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref></type>
+        <definition>CheckpointStatus themis::distributed_tensor::CrashRecoveryCheckpoint::save</definition>
+        <argsstring>(const std::string &amp;artifact_id, const Checkpoint &amp;checkpoint)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::save</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Save. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0bf83f40ad2a0dba804c46614855a88a" kindref="member">validateCheckpoint()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" kindref="member">getCheckpointPath()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3a70a6e79607513adc1d7c24d446547e" kindref="member">serializeCheckpoint()</ref>, out_file(), is_open(), write(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="103" column="28" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="34" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0f739ff375a612fcdc0ec1516b353b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref></type>
+        <definition>CheckpointStatus themis::distributed_tensor::CrashRecoveryCheckpoint::load</definition>
+        <argsstring>(const std::string &amp;artifact_id, Checkpoint &amp;checkpoint)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" kindref="member">getCheckpointPath()</ref>, fs::exists(), in_file(), is_open(), rdbuf(), close(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="111" column="28" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="90" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a072a479b92364ea969eeee9c84f69ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref></type>
+        <definition>CheckpointStatus themis::distributed_tensor::CrashRecoveryCheckpoint::deleteCheckpoint</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>deleteCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::deleteCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" kindref="member">getCheckpointPath()</ref>, fs::exists(), fs::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="118" column="28" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="141" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a835cd7ea511a5c80776a3e8a21750a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::CrashRecoveryCheckpoint::exists</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" kindref="member">getCheckpointPath()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="125" column="16" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1acc30d11cace6dc251253df9e353c471a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref></type>
+        <definition>CrashRecoveryCheckpoint::CheckpointStats themis::distributed_tensor::CrashRecoveryCheckpoint::getStats</definition>
+        <argsstring>()</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), fs::directory_iterator(), is_regular_file(), path(), extension(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="141" column="27" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="186" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3350af10629220c077bd0e458bbc08bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::CrashRecoveryCheckpoint::cleanupOldCheckpoints</definition>
+        <argsstring>(uint32_t retention_days)</argsstring>
+        <name>cleanupOldCheckpoints</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::cleanupOldCheckpoints</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>retention_days</declname>
+        </param>
+        <briefdescription>
+<para>Cleanup Old Checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::system_clock::now(), std::chrono::hours(), fs::directory_iterator(), is_regular_file(), path(), extension(), fs::last_write_time(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="148" column="20" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="231" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ae8ddafcb861a3d61b2b859e8aa953f30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::CrashRecoveryCheckpoint::setCheckpointDir</definition>
+        <argsstring>(const std::string &amp;checkpoint_dir)</argsstring>
+        <name>setCheckpointDir</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::setCheckpointDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_dir</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> Dir. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), fs::create_directories(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="154" column="8" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="266" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aa20ff7890ec0776fab2969b603bf2f9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::CrashRecoveryCheckpoint::getCheckpointDir</definition>
+        <argsstring>() const</argsstring>
+        <name>getCheckpointDir</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::getCheckpointDir</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> Dir. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="160" column="15" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="273" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3a70a6e79607513adc1d7c24d446547e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::CrashRecoveryCheckpoint::serializeCheckpoint</definition>
+        <argsstring>(const Checkpoint &amp;checkpoint)</argsstring>
+        <name>serializeCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::serializeCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Serialize <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="170" column="15" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="283" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ab0ee19db7a6846242a3b0eaa64a5dbb1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref></type>
+        <definition>Checkpoint themis::distributed_tensor::CrashRecoveryCheckpoint::deserializeCheckpoint</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserializeCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::deserializeCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::getline(), push_back(), size(), std::stoul(), std::stoll(), std::stoull(), std::stod(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="177" column="14" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="310" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::CrashRecoveryCheckpoint::getCheckpointPath</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>getCheckpointPath</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::getCheckpointPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::replace_if(), begin(), end(), std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="184" column="15" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="353" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0bf83f40ad2a0dba804c46614855a88a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref></type>
+        <definition>CheckpointStatus themis::distributed_tensor::CrashRecoveryCheckpoint::validateCheckpoint</definition>
+        <argsstring>(const Checkpoint &amp;checkpoint)</argsstring>
+        <name>validateCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::CrashRecoveryCheckpoint::validateCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Validate <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="191" column="20" bodyfile="src/distributed_tensor/src/crash_recovery_checkpoint.cc" bodystart="369" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="76" column="1" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="76" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aaf9c4521521bee6fb9231590b7363186" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>checkpoint_dir_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3350af10629220c077bd0e458bbc08bb" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>cleanupOldCheckpoints</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>CrashRecoveryCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a512f4f3c93e38ea3962ff07d6acd9b73" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>CrashRecoveryCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a9c6ee1a7e237c92fd0c3817c49f66eab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>CrashRecoveryCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a072a479b92364ea969eeee9c84f69ac7" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>deleteCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ab0ee19db7a6846242a3b0eaa64a5dbb1" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>deserializeCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a835cd7ea511a5c80776a3e8a21750a6c" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>exists</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aa20ff7890ec0776fab2969b603bf2f9d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>getCheckpointDir</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>getCheckpointPath</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1acc30d11cace6dc251253df9e353c471a" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0f739ff375a612fcdc0ec1516b353b70" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>load</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a7b31ad9560908840c75fc99fed800aaa" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0b91d8ee2ece8c19c51ca0381a2f2395" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a5890b077435d96e9083371e5d40445a3" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>save</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3a70a6e79607513adc1d7c24d446547e" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>serializeCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ae8ddafcb861a3d61b2b859e8aa953f30" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>setCheckpointDir</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0bf83f40ad2a0dba804c46614855a88a" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>validateCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af894d75b4048b2fbd1e7140529921883" prot="public" virt="virtual"><scope>themis::distributed_tensor::CrashRecoveryCheckpoint</scope><name>~CrashRecoveryCheckpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

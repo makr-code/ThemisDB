@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="eviction_8h" kind="file" language="C++">
+    <compoundname>eviction.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">security/safe_iterator.h</includes>
+    <includedby refid="eviction_8cpp" local="yes">src/cache/eviction.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/eviction.h</label>
+        <link refid="eviction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>security/safe_iterator.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/eviction.h</label>
+        <link refid="eviction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/cache/eviction.cpp</label>
+        <link refid="eviction_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_candidate" prot="public">themis::cache::EvictionCandidate</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_result" prot="public">themis::cache::EvictionResult</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_eviction_scheduler" prot="public">themis::cache::EvictionScheduler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Cache eviction scheduler with iterator-safe candidate selection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+Provides a policy-driven cache eviction engine that selects entries for removal based on pluggable scoring callbacks. All iterator arithmetic over the candidate list uses <computeroutput>themis::security::SafeIterator</computeroutput> to prevent the unsigned-arithmetic-wraparound and past-end dereference vulnerabilities identified in the Sprint 7 gap scan (gap IDs B012, B013).</para>
+<para><bold>CWE Remediations:</bold><itemizedlist>
+<listitem><para>CWE-129: signed/unsigned overflow guards in candidate selection; <computeroutput>AdvanceSafe::advance()</computeroutput> replaces raw distance arithmetic.</para>
+</listitem><listitem><para>CWE-416: <computeroutput>BoundsChecker::check_dereference()</computeroutput> guards every entry dereference in selection loops. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/safe_iterator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EvictionCandidate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1cache_1_1_eviction_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1cache_1_1_eviction_candidate_1ada0920e73a632fe0b9201368411257cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate_1ada0920e73a632fe0b9201368411257cd" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1cache_1_1_eviction_candidate_1ac6a42e3e4278b61c06ec2be059b76bb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate_1ac6a42e3e4278b61c06ec2be059b76bb9" kindref="member">size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1cache_1_1_eviction_candidate_1acbc83eaaab0deda6c2c13fe3635f4eb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate_1acbc83eaaab0deda6c2c13fe3635f4eb3" kindref="member">last_access_ns</ref>;<sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1cache_1_1_eviction_candidate_1aa0fa92c25aecdb0298ccb7b9277d7511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate_1aa0fa92c25aecdb0298ccb7b9277d7511" kindref="member">access_count</ref>;<sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1cache_1_1_eviction_candidate_1a8bed58b23de7b1bf1af2656f1c4f660c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate_1a8bed58b23de7b1bf1af2656f1c4f660c" kindref="member">score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EvictionPolicy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/>=<sp/>std::function&lt;double(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EvictionResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1cache_1_1_eviction_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_eviction_result" kindref="compound">EvictionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1cache_1_1_eviction_result_1a82f4436480c73443ec965b7f29c177c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1cache_1_1_eviction_result_1a82f4436480c73443ec965b7f29c177c6" kindref="member">evicted_keys</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1cache_1_1_eviction_result_1aca5eb191359620f0873da9bef56e83ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_eviction_result_1aca5eb191359620f0873da9bef56e83ce" kindref="member">freed_bytes</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1cache_1_1_eviction_result_1a3b6b8431ffe72b7211e214c11beb8945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_eviction_result_1a3b6b8431ffe72b7211e214c11beb8945" kindref="member">candidates_evaluated</ref>;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EvictionScheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1cache_1_1_eviction_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>(<ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/>scoring_fn);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1cache_1_1_eviction_scheduler_1aa292dfb1969af4dfb5ddb15d91ec33ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1aa292dfb1969af4dfb5ddb15d91ec33ae" kindref="member">~EvictionScheduler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1cache_1_1_eviction_scheduler_1a964060d2c1f3634d84e7d4b814c906c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a964060d2c1f3634d84e7d4b814c906c7" kindref="member">EvictionScheduler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1cache_1_1_eviction_scheduler_1a66a61b8c74976b5aa7e512cdad3f36ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;<sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a66a61b8c74976b5aa7e512cdad3f36ec" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1cache_1_1_eviction_scheduler_1a6186727cd25803646a35d97f21bcce41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a6186727cd25803646a35d97f21bcce41" kindref="member">EvictionScheduler</ref>(<ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1cache_1_1_eviction_scheduler_1a79433fde48c6e131ee449f7ef534489e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1acc3bafa1b3e69f96dbe9b7d20056e64b" kindref="member">EvictionScheduler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1cache_1_1_eviction_result" kindref="compound">EvictionResult</ref><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1ada8793f5c1b276db55dea16943e71052" kindref="member">select</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref>&gt;&amp;<sp/>candidates,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>target_free_bytes)<sp/>const;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a40e7b81e06ee0f3df49f44d6cda6328a" kindref="member">score</ref>(const<sp/><ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref>&amp;<sp/>c)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a169a6a304d0bc81bee0196970d441475" kindref="member">set_scoring_fn</ref>(<ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/>scoring_fn);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Built-in<sp/>scoring<sp/>policies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a9e2b1b803b5500ac1db82fdefd6fac16" kindref="member">lru_policy</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1a7590fd38f872706893c03963bcdf97a2" kindref="member">lfu_policy</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/><ref refid="classthemis_1_1cache_1_1_eviction_scheduler_1aad6a3db2de6094b3df41374c6391dd07" kindref="member">size_aware_lru_policy</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" kindref="member">EvictionScoringFn</ref><sp/>scoring_fn_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/eviction.h"/>
+  </compounddef>
+</doxygen>

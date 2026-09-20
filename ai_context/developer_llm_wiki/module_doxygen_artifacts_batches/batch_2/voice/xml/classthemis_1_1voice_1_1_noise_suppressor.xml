@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_noise_suppressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::NoiseSuppressor</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_noise_suppressor_1_1_impl" prot="public">themis::voice::NoiseSuppressor::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_noise_suppressor_1aef514dfd85670e4027b95db30b226832" prot="public" static="no">
+        <type>std::function&lt; float(std::vector&lt; float &gt; &amp;, float)&gt;</type>
+        <definition>using themis::voice::NoiseSuppressor::ProcessFramesFn = std::function&lt;float(std::vector&lt;float&gt;&amp;, float)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProcessFramesFn</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::ProcessFramesFn</qualifiedname>
+        <briefdescription>
+<para>Callback function type for frame-by-frame processing (testing). Receives mutable sample buffer and VAD threshold; returns mean VAD probability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="303" column="5" bodyfile="include/voice/audio_preprocessing.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_noise_suppressor_1a2a5b30a89686afe6c0c0faf37bb69428" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1voice_1_1_noise_suppressor_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::voice::NoiseSuppressor::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="361" column="21" bodyfile="include/voice/audio_preprocessing.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_noise_suppressor_1adec6da87a0462733bb9ba2dbe43f1efd" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::NoiseSuppressor::last_vad_prob_</definition>
+        <argsstring></argsstring>
+        <name>last_vad_prob_</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::last_vad_prob_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="362" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_noise_suppressor_1a28030b9e304926feff5506f7e815b7e7" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::NoiseSuppressor::frames_processed_</definition>
+        <argsstring></argsstring>
+        <name>frames_processed_</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::frames_processed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="363" column="14" bodyfile="include/voice/audio_preprocessing.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::NoiseSuppressor::NoiseSuppressor</definition>
+        <argsstring>()</argsstring>
+        <name>NoiseSuppressor</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::NoiseSuppressor</qualifiedname>
+        <briefdescription>
+<para>Construct a new noise suppressor instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="306" column="5" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="73" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a834b4331ed905ffdf0b7b7fc26536d69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::NoiseSuppressor::~NoiseSuppressor</definition>
+        <argsstring>()</argsstring>
+        <name>~NoiseSuppressor</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::~NoiseSuppressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="307" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1ab9938d4111b31d9703848cc3e7a313a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::NoiseSuppressor::NoiseSuppressor</definition>
+        <argsstring>(const NoiseSuppressor &amp;)=delete</argsstring>
+        <name>NoiseSuppressor</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::NoiseSuppressor</qualifiedname>
+        <param>
+          <type>const NoiseSuppressor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="310" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1af4eaf830f9bf6f516f0c92ac8e14f7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" kindref="member">NoiseSuppressor</ref> &amp;</type>
+        <definition>NoiseSuppressor &amp; themis::voice::NoiseSuppressor::operator=</definition>
+        <argsstring>(const NoiseSuppressor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" kindref="member">NoiseSuppressor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="311" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1ac9103dcff92f393a842034de8cd1bec4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::NoiseSuppressor::NoiseSuppressor</definition>
+        <argsstring>(NoiseSuppressor &amp;&amp;) noexcept</argsstring>
+        <name>NoiseSuppressor</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::NoiseSuppressor</qualifiedname>
+        <param>
+          <type>NoiseSuppressor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="314" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1af369bb67a35d4a9c3c65dc691cf1941d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" kindref="member">NoiseSuppressor</ref> &amp;</type>
+        <definition>NoiseSuppressor &amp; themis::voice::NoiseSuppressor::operator=</definition>
+        <argsstring>(NoiseSuppressor &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" kindref="member">NoiseSuppressor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="315" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a6a765466357d6b1b5a603605db08fa6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref></type>
+        <definition>AudioFrame themis::voice::NoiseSuppressor::suppress</definition>
+        <argsstring>(const AudioFrame &amp;frame, float vad_threshold=0.5f)</argsstring>
+        <name>suppress</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::suppress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref> &amp;</type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>vad_threshold</declname>
+          <defval>0.5f</defval>
+        </param>
+        <briefdescription>
+<para>Process a full audio frame through noise suppression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Suppress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input <ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref> (mono preferred; multi-channel downmixed internally). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vad_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VAD probability gate [0.0, 1.0]. Frames below this threshold are attenuated to silence. Default: 0.5f (50% confidence = voice).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>frame.channels should be 1 (mono) </para>
+</simplesect>
+<simplesect kind="post"><para>Output frame resampled back to input sample rate </para>
+</simplesect>
+<simplesect kind="post"><para>last_vad_prob_ updated with mean VAD probability </para>
+</simplesect>
+<simplesect kind="post"><para>frames_processed_ counter incremented</para>
+</simplesect>
+<simplesect kind="return"><para>Processed <ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref> with noise attenuated via RNNoise or fallback. @error 6705 Processing pipeline error (internal RNNoise failure)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vad_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), resampleLinear(), processRNNoiseFrames(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="331" column="16" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="221" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a6ca67cf4c97b16835569c919a5150216" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::NoiseSuppressor::lastVadProbability</definition>
+        <argsstring>() const</argsstring>
+        <name>lastVadProbability</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::lastVadProbability</qualifiedname>
+        <briefdescription>
+<para>Mean VAD probability from last <ref refid="classthemis_1_1voice_1_1_noise_suppressor_1a6a765466357d6b1b5a603605db08fa6f" kindref="member">suppress()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reflects how confident RNNoise is that the frame contains voice. Use alongside voice_activity_ratio for robust voice detection.</para>
+<para><simplesect kind="return"><para>Range [0.0, 1.0]. Returns 0 if no frame processed yet. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="339" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="339" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a8ea3d481f40252d00c0c5533e16e0f64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::NoiseSuppressor::framesProcessed</definition>
+        <argsstring>() const</argsstring>
+        <name>framesProcessed</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::framesProcessed</qualifiedname>
+        <briefdescription>
+<para>Get diagnostic frame counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of frames processed so far (monotonically increasing). </para>
+</simplesect>
+<simplesect kind="note"><para>Never decrements; useful for monitoring suppressor health. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="357" column="14" bodyfile="include/voice/audio_preprocessing.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1ac66998344adde1be274abe7182886243" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::NoiseSuppressor::isRNNoiseEnabled</definition>
+        <argsstring>()</argsstring>
+        <name>isRNNoiseEnabled</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::isRNNoiseEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if real RNNoise library is linked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><simplesect kind="return"><para>true when compiled with THEMIS_ENABLE_RNNOISE and library available; false when fallback spectral gate is active. </para>
+</simplesect>
+<simplesect kind="note"><para>Useful for logging/debugging which suppression backend is active.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isRNNoiseEnabled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="346" column="17" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a923b5f054f42db2622e961b9e8d852d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::NoiseSuppressor::setProcessFramesFn</definition>
+        <argsstring>(ProcessFramesFn fn)</argsstring>
+        <name>setProcessFramesFn</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::setProcessFramesFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_noise_suppressor_1aef514dfd85670e4027b95db30b226832" kindref="member">ProcessFramesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject custom frame processor (testing only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Process Frames Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable(samples, vad_threshold) → mean VAD probability. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Reserved for unit tests; production code uses the default implementation.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="352" column="17" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1aa70fc872528eebf7ef0e9005e5fa9512" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::voice::NoiseSuppressor::resampleLinear</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;in, int src_rate, int dst_rate)</argsstring>
+        <name>resampleLinear</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::resampleLinear</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>src_rate</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_rate</declname>
+        </param>
+        <briefdescription>
+<para>Linear-interpolation resampler (same logic used elsewhere in this file). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+static </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">out_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="366" column="24" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="102" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_noise_suppressor_1a7720affa659234e9f6ef0c53cf7249dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::NoiseSuppressor::processRNNoiseFrames</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;samples_48k, float vad_threshold)</argsstring>
+        <name>processRNNoiseFrames</name>
+        <qualifiedname>themis::voice::NoiseSuppressor::processRNNoiseFrames</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>samples_48k</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>vad_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Process samples_48k (already at 48 kHz, normalised [-1,1]) through RNNoise in kRNNoiseFrameSamples-sized chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">samples_48k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vad_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns the mean VAD probability across all processed frames. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_noise_suppressor_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="368" column="11" bodyfile="src/voice/audio_preprocessing.cpp" bodystart="134" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deep-learning noise suppression via RNNoise or fallback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When compiled with THEMIS_ENABLE_RNNOISE, drives the real rnnoise C library. Without the flag, a spectral-gate fallback provides basic suppression.</para>
+<para><bold>Usage:</bold> <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" kindref="member">NoiseSuppressor</ref><sp/>ns;</highlight></codeline>
+<codeline><highlight class="normal">AudioFrame<sp/>clean<sp/>=<sp/>ns.suppress(noisy_frame,<sp/>vad_threshold);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>vad_prob<sp/>=<sp/>ns.lastVadProbability();<sp/><sp/></highlight><highlight class="comment">//<sp/>mean<sp/>VAD<sp/>from<sp/>last<sp/>call</highlight></codeline>
+</programlisting></para>
+<para><bold>Thread Safety:</bold> NOT thread-safe. Each stream should have its own instance. Move-only to enforce single ownership and prevent use-after-move bugs.</para>
+<para><bold>Implementation Note:</bold> When enable_rnnoise_suppression is true in <ref refid="structthemis_1_1voice_1_1_preprocessing_options" kindref="compound">PreprocessingOptions</ref>, <ref refid="classthemis_1_1voice_1_1_audio_preprocessing_pipeline" kindref="compound">AudioPreprocessingPipeline</ref> automatically instantiates <ref refid="classthemis_1_1voice_1_1_noise_suppressor" kindref="compound">NoiseSuppressor</ref> and calls <ref refid="classthemis_1_1voice_1_1_noise_suppressor_1a6a765466357d6b1b5a603605db08fa6f" kindref="member">suppress()</ref> on each frame. </para>
+    </detaileddescription>
+    <location file="include/voice/audio_preprocessing.h" line="299" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="299" bodyend="370"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a28030b9e304926feff5506f7e815b7e7" prot="private" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>frames_processed_</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a8ea3d481f40252d00c0c5533e16e0f64" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>framesProcessed</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a2a5b30a89686afe6c0c0faf37bb69428" prot="private" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1ac66998344adde1be274abe7182886243" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>isRNNoiseEnabled</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1adec6da87a0462733bb9ba2dbe43f1efd" prot="private" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>last_vad_prob_</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a6ca67cf4c97b16835569c919a5150216" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>lastVadProbability</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1acc5dffb747896c1e6228578e3c0ca34e" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>NoiseSuppressor</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1ab9938d4111b31d9703848cc3e7a313a7" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>NoiseSuppressor</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1ac9103dcff92f393a842034de8cd1bec4" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>NoiseSuppressor</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1af4eaf830f9bf6f516f0c92ac8e14f7cd" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1af369bb67a35d4a9c3c65dc691cf1941d" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1aef514dfd85670e4027b95db30b226832" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>ProcessFramesFn</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a7720affa659234e9f6ef0c53cf7249dd" prot="private" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>processRNNoiseFrames</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1aa70fc872528eebf7ef0e9005e5fa9512" prot="private" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>resampleLinear</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a923b5f054f42db2622e961b9e8d852d8" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>setProcessFramesFn</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a6a765466357d6b1b5a603605db08fa6f" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>suppress</name></member>
+      <member refid="classthemis_1_1voice_1_1_noise_suppressor_1a834b4331ed905ffdf0b7b7fc26536d69" prot="public" virt="non-virtual"><scope>themis::voice::NoiseSuppressor</scope><name>~NoiseSuppressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

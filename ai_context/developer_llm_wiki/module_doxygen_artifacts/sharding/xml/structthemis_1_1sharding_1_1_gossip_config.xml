@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_gossip_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipConfig</compoundname>
+    <includes refid="gossip__protocol_8h" local="no">gossip_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a66fcfee971bd98d1f00ed74a3ae164b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::sharding::GossipConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="140" column="10" bodyfile="include/sharding/gossip_protocol.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1aa69bf2c2e6825aae871a8f0d518755d1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::gossip_interval_sec</definition>
+        <argsstring></argsstring>
+        <name>gossip_interval_sec</name>
+        <qualifiedname>themis::sharding::GossipConfig::gossip_interval_sec</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="141" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a823f377cc4e1d2b3f241fe9dc517327d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::max_peers</definition>
+        <argsstring></argsstring>
+        <name>max_peers</name>
+        <qualifiedname>themis::sharding::GossipConfig::max_peers</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="142" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a22deabd45e56fb8d7ed62b89e7c77912" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::fanout</definition>
+        <argsstring></argsstring>
+        <name>fanout</name>
+        <qualifiedname>themis::sharding::GossipConfig::fanout</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="143" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a60ed482aa5109c038271c1fbcbecffee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::peer_timeout_sec</definition>
+        <argsstring></argsstring>
+        <name>peer_timeout_sec</name>
+        <qualifiedname>themis::sharding::GossipConfig::peer_timeout_sec</qualifiedname>
+        <initializer>= 120</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="144" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a5b07621efc071db2d7b5b91de85756a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::peer_remove_sec</definition>
+        <argsstring></argsstring>
+        <name>peer_remove_sec</name>
+        <qualifiedname>themis::sharding::GossipConfig::peer_remove_sec</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="145" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a771d7d0d5ebd4c13c4b94f2e58615b43" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::GossipConfig::seed_nodes</definition>
+        <argsstring></argsstring>
+        <name>seed_nodes</name>
+        <qualifiedname>themis::sharding::GossipConfig::seed_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="146" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a23a003e75d2415a18ea573bf25b3deea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfig::require_mtls</definition>
+        <argsstring></argsstring>
+        <name>require_mtls</name>
+        <qualifiedname>themis::sharding::GossipConfig::require_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="149" column="10" bodyfile="include/sharding/gossip_protocol.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a31c0dbb22041bd3ce63782938f462c4f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfig::validate_certificates</definition>
+        <argsstring></argsstring>
+        <name>validate_certificates</name>
+        <qualifiedname>themis::sharding::GossipConfig::validate_certificates</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="150" column="10" bodyfile="include/sharding/gossip_protocol.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a4e6b363159091dc140d454b2a91a6075" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::max_message_age_sec</definition>
+        <argsstring></argsstring>
+        <name>max_message_age_sec</name>
+        <qualifiedname>themis::sharding::GossipConfig::max_message_age_sec</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="151" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1acf92e1d4b0c43c9387744d4b30ffbc98" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfig::rate_limit_per_peer</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_per_peer</name>
+        <qualifiedname>themis::sharding::GossipConfig::rate_limit_per_peer</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="152" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1aae0656734f07493a38974ac49f2a3190" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::local_peer_id</definition>
+        <argsstring></argsstring>
+        <name>local_peer_id</name>
+        <qualifiedname>themis::sharding::GossipConfig::local_peer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="155" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1ada84f4ae914af623af7bfe81609e8200" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::local_endpoint</definition>
+        <argsstring></argsstring>
+        <name>local_endpoint</name>
+        <qualifiedname>themis::sharding::GossipConfig::local_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="156" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a76acc5475315f230172315ccc7aeb30e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::local_datacenter</definition>
+        <argsstring></argsstring>
+        <name>local_datacenter</name>
+        <qualifiedname>themis::sharding::GossipConfig::local_datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="157" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1abdd6feef15506e36b8375ff1a0b36f46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::local_region</definition>
+        <argsstring></argsstring>
+        <name>local_region</name>
+        <qualifiedname>themis::sharding::GossipConfig::local_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="158" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a01dc058252faa76c6921e55afbc62325" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::private_key_path</definition>
+        <argsstring></argsstring>
+        <name>private_key_path</name>
+        <qualifiedname>themis::sharding::GossipConfig::private_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="159" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_1a6bf97c543dda44298b619faa3b69b6f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfig::peer_public_keys_dir</definition>
+        <argsstring></argsstring>
+        <name>peer_public_keys_dir</name>
+        <qualifiedname>themis::sharding::GossipConfig::peer_public_keys_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="160" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Gossip Protocol Configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_protocol.h" line="139" column="1" bodyfile="include/sharding/gossip_protocol.h" bodystart="139" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a66fcfee971bd98d1f00ed74a3ae164b6" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a22deabd45e56fb8d7ed62b89e7c77912" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>fanout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1aa69bf2c2e6825aae871a8f0d518755d1" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>gossip_interval_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a76acc5475315f230172315ccc7aeb30e" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>local_datacenter</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1ada84f4ae914af623af7bfe81609e8200" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>local_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1aae0656734f07493a38974ac49f2a3190" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>local_peer_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1abdd6feef15506e36b8375ff1a0b36f46" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>local_region</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a4e6b363159091dc140d454b2a91a6075" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>max_message_age_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a823f377cc4e1d2b3f241fe9dc517327d" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>max_peers</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a6bf97c543dda44298b619faa3b69b6f2" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>peer_public_keys_dir</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a5b07621efc071db2d7b5b91de85756a3" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>peer_remove_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a60ed482aa5109c038271c1fbcbecffee" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>peer_timeout_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a01dc058252faa76c6921e55afbc62325" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>private_key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1acf92e1d4b0c43c9387744d4b30ffbc98" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>rate_limit_per_peer</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a23a003e75d2415a18ea573bf25b3deea" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>require_mtls</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a771d7d0d5ebd4c13c4b94f2e58615b43" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>seed_nodes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_1a31c0dbb22041bd3ce63782938f462c4f" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfig</scope><name>validate_certificates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

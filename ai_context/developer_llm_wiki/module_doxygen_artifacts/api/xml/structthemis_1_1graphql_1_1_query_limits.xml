@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_query_limits" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryLimits</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1a23acc1a4412a3a3439ba27d8c5f74b21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryLimits::max_query_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_query_size_bytes</name>
+        <qualifiedname>themis::graphql::QueryLimits::max_query_size_bytes</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="279" column="12" bodyfile="include/api/graphql.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1ab358750ba7af447ddb7aab7a82555fb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryLimits::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graphql::QueryLimits::max_depth</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="280" column="12" bodyfile="include/api/graphql.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1a04971f0846e69b463a9f4791490651bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryLimits::max_fields</definition>
+        <argsstring></argsstring>
+        <name>max_fields</name>
+        <qualifiedname>themis::graphql::QueryLimits::max_fields</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="281" column="12" bodyfile="include/api/graphql.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1ab3e759bb8c2240c795c7ecd7160d8752" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryLimits::max_ast_nodes</definition>
+        <argsstring></argsstring>
+        <name>max_ast_nodes</name>
+        <qualifiedname>themis::graphql::QueryLimits::max_ast_nodes</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="282" column="12" bodyfile="include/api/graphql.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1a128c70fd68bdc48c2f41d2ce82aed3e7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryLimits::max_subscriptions</definition>
+        <argsstring></argsstring>
+        <name>max_subscriptions</name>
+        <qualifiedname>themis::graphql::QueryLimits::max_subscriptions</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="283" column="12" bodyfile="include/api/graphql.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_limits_1afff6e754661d9001a0db15fafd47c855" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryLimits::allow_introspection</definition>
+        <argsstring></argsstring>
+        <name>allow_introspection</name>
+        <qualifiedname>themis::graphql::QueryLimits::allow_introspection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="285" column="10" bodyfile="include/api/graphql.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_query_limits_1ac121768cfaf48c82f4ec5384291fba1f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref></type>
+        <definition>static QueryLimits themis::graphql::QueryLimits::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::graphql::QueryLimits::defaults</qualifiedname>
+        <briefdescription>
+<para>Default safe limits (development / trusted context). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="292" column="24" bodyfile="include/api/graphql.h" bodystart="292" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_query_limits_1aac80874899a7674df1040e42a181cbac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref></type>
+        <definition>static QueryLimits themis::graphql::QueryLimits::permissive</definition>
+        <argsstring>()</argsstring>
+        <name>permissive</name>
+        <qualifiedname>themis::graphql::QueryLimits::permissive</qualifiedname>
+        <briefdescription>
+<para>More permissive limits for trusted contexts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements permissive without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="301" column="24" bodyfile="include/api/graphql.h" bodystart="301" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_query_limits_1a017764a8ba476d10d95802e98432e4b0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref></type>
+        <definition>static QueryLimits themis::graphql::QueryLimits::production</definition>
+        <argsstring>()</argsstring>
+        <name>production</name>
+        <qualifiedname>themis::graphql::QueryLimits::production</qualifiedname>
+        <briefdescription>
+<para>Production. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements production without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="317" column="24" bodyfile="include/api/graphql.h" bodystart="317" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="278" column="1" bodyfile="include/api/graphql.h" bodystart="278" bodyend="322"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1afff6e754661d9001a0db15fafd47c855" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>allow_introspection</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1ac121768cfaf48c82f4ec5384291fba1f" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1ab3e759bb8c2240c795c7ecd7160d8752" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>max_ast_nodes</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1ab358750ba7af447ddb7aab7a82555fb3" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1a04971f0846e69b463a9f4791490651bd" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>max_fields</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1a23acc1a4412a3a3439ba27d8c5f74b21" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>max_query_size_bytes</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1a128c70fd68bdc48c2f41d2ce82aed3e7" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>max_subscriptions</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1aac80874899a7674df1040e42a181cbac" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>permissive</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_limits_1a017764a8ba476d10d95802e98432e4b0" prot="public" virt="non-virtual"><scope>themis::graphql::QueryLimits</scope><name>production</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_accel_with_error_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryAccelWithErrorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_accel_with_error_test_1a9cdab87951f1c1cff30dd4cc3fd6f5ed" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; QueryAccelWithErrorTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>QueryAccelWithErrorTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="42" column="19" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_accel_with_error_test_1a0a9f3f1c4282769ac06a2032bc6eff12" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUQueryAccelerator &gt;</type>
+        <definition>std::shared_ptr&lt;GPUQueryAccelerator&gt; QueryAccelWithErrorTest::accelerator</definition>
+        <argsstring></argsstring>
+        <name>accelerator</name>
+        <qualifiedname>QueryAccelWithErrorTest::accelerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="43" column="19" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_accel_with_error_test_1af5a3a541b89c30927cd90bb952b886fe" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryAccelWithErrorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryAccelWithErrorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="45" column="8" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryAccelWithErrorTest</label>
+        <link refid="class_query_accel_with_error_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryAccelWithErrorTest</label>
+        <link refid="class_query_accel_with_error_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="40" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="40" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_query_accel_with_error_test_1a0a9f3f1c4282769ac06a2032bc6eff12" prot="protected" virt="non-virtual"><scope>QueryAccelWithErrorTest</scope><name>accelerator</name></member>
+      <member refid="class_query_accel_with_error_test_1a9cdab87951f1c1cff30dd4cc3fd6f5ed" prot="protected" virt="non-virtual"><scope>QueryAccelWithErrorTest</scope><name>handler</name></member>
+      <member refid="class_query_accel_with_error_test_1af5a3a541b89c30927cd90bb952b886fe" prot="protected" virt="non-virtual"><scope>QueryAccelWithErrorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

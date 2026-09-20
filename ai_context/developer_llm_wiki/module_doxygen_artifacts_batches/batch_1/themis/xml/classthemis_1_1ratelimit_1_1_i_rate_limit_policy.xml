@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ratelimit::IRateLimitPolicy</compoundname>
+    <includes refid="irate__limit__policy_8h" local="no">irate_limit_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a742f6e58fbfc9bcdd360de79638160eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ratelimit::IRateLimitPolicy::~IRateLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRateLimitPolicy</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::~IRateLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="53" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</definition>
+        <argsstring>(const IRateLimitPolicy &amp;)=delete</argsstring>
+        <name>IRateLimitPolicy</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</qualifiedname>
+        <param>
+          <type>const IRateLimitPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a08ce9ec444470229a91825301d508bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" kindref="member">IRateLimitPolicy</ref> &amp;</type>
+        <definition>IRateLimitPolicy &amp; themis::ratelimit::IRateLimitPolicy::operator=</definition>
+        <argsstring>(const IRateLimitPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" kindref="member">IRateLimitPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="57" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a8cf48618c4f4bb852face9c6070c5d4c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ratelimit::IRateLimitPolicy::allowRequest</definition>
+        <argsstring>(const std::string &amp;client_id=&quot;&quot;)=0</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::allowRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return true iff the next incoming request is admitted under the global rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses token-bucket semantics for the global budget. Callers must not process the request if this returns false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional client/tenant identifier for per-client accounting; empty string = no per-client tracking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the request is within the global budget. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="74" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a2bbdcaff45a768191013912da4395682" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::ratelimit::IRateLimitPolicy::maxGlobalRequestsPerSecond</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxGlobalRequestsPerSecond</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::maxGlobalRequestsPerSecond</qualifiedname>
+        <briefdescription>
+<para>Maximum global requests per second across all clients; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="79" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a3041d39072d669867886e03d6b372160" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::ratelimit::IRateLimitPolicy::recordSample</definition>
+        <argsstring>(double latency_ms, bool success, const std::string &amp;client_id=&quot;&quot;)=0</argsstring>
+        <name>recordSample</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::recordSample</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a completed backend request to feed the adaptive algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The implementation uses the observed latency and success/failure outcome to adjust the effective rate limit dynamically. Must be called after every dispatched backend call regardless of outcome.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Round-trip latency of the backend call in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true when the backend call succeeded; false on error. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional client identifier for per-client health tracking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="96" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a4dac6fdc7e8f87e186f2cf267c27e25c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ratelimit::IRateLimitPolicy::isThrottled</definition>
+        <argsstring>(const std::string &amp;client_id=&quot;&quot;) const =0</argsstring>
+        <name>isThrottled</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::isThrottled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return true when adaptive throttling is active for <computeroutput>client_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adaptive throttling is considered active when the effective rate has been reduced below the configured maximum due to observed health signals.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client/tenant identifier; empty = global check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="108" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a8be03254a22fcf59f3fa2ec13be4d923" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::ratelimit::IRateLimitPolicy::effectiveRPS</definition>
+        <argsstring>(const std::string &amp;client_id=&quot;&quot;) const =0</argsstring>
+        <name>effectiveRPS</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::effectiveRPS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return the current effective rate limit in requests per second. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For non-adaptive policies this is identical to <ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a2bbdcaff45a768191013912da4395682" kindref="member">maxGlobalRequestsPerSecond()</ref>. For adaptive policies the value may be lower when backends are degraded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client/tenant identifier; empty = global effective rate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Effective RPS; 0 signals unlimited. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="119" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a46eb7106bca49dd31e4aab1d14844a6c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ratelimit::IRateLimitPolicy::isEnforced</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isEnforced</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::isEnforced</qualifiedname>
+        <briefdescription>
+<para>Return true when any rate-limit enforcement is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when the global limit is 0 (unlimited) and no adaptive throttling is triggered, so callers can bypass the check on hot paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="132" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a983185a0b014d3d80e630e3b8209f196" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::ratelimit::IRateLimitPolicy::totalRejectedRequests</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>totalRejectedRequests</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::totalRejectedRequests</qualifiedname>
+        <briefdescription>
+<para>Return the total number of requests rejected due to rate limiting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="137" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a63068b698809a68f4057a1f84b43610a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IRateLimitPolicy</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1aee64ad571a8213240776a3858924d58b" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</definition>
+        <argsstring>(IRateLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IRateLimitPolicy</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::IRateLimitPolicy</qualifiedname>
+        <param>
+          <type>IRateLimitPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a3056de6b5bf7871a3e2f1825ed37513a" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" kindref="member">IRateLimitPolicy</ref> &amp;</type>
+        <definition>IRateLimitPolicy &amp; themis::ratelimit::IRateLimitPolicy::operator=</definition>
+        <argsstring>(IRateLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ratelimit::IRateLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" kindref="member">IRateLimitPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/ratelimit/irate_limit_policy.h" line="142" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract global rate-limit policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls two rate-limiting axes:<itemizedlist>
+<listitem><para><bold>Global RPS</bold> — hard ceiling on total requests per second across all clients and tenants.</para>
+</listitem><listitem><para><bold>Adaptive throttling</bold> — feedback-driven rate reduction when backend health (latency, error rate) degrades.</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installRateLimitPolicy()</computeroutput> and sit above the existing per-tenant AdaptiveRateLimiter / token-bucket layer. </para>
+    </detaileddescription>
+    <location file="include/themis/ratelimit/irate_limit_policy.h" line="51" column="1" bodyfile="include/themis/ratelimit/irate_limit_policy.h" bodystart="51" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a8cf48618c4f4bb852face9c6070c5d4c" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a8be03254a22fcf59f3fa2ec13be4d923" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>effectiveRPS</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a19252b8e3479086aca9faaee8690ad76" prot="public" virt="non-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>IRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a63068b698809a68f4057a1f84b43610a" prot="protected" virt="non-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>IRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1aee64ad571a8213240776a3858924d58b" prot="protected" virt="non-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>IRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a46eb7106bca49dd31e4aab1d14844a6c" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>isEnforced</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a4dac6fdc7e8f87e186f2cf267c27e25c" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>isThrottled</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a2bbdcaff45a768191013912da4395682" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>maxGlobalRequestsPerSecond</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a08ce9ec444470229a91825301d508bec" prot="public" virt="non-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a3056de6b5bf7871a3e2f1825ed37513a" prot="protected" virt="non-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a3041d39072d669867886e03d6b372160" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>recordSample</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a983185a0b014d3d80e630e3b8209f196" prot="public" virt="pure-virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>totalRejectedRequests</name></member>
+      <member refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy_1a742f6e58fbfc9bcdd360de79638160eb" prot="public" virt="virtual"><scope>themis::ratelimit::IRateLimitPolicy</scope><name>~IRateLimitPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_dd3857908acf7d4110beaaf3e46b1f19" kind="dir">
+    <compoundname>include/governance</compoundname>
+    <innerfile refid="audit__batch__writer_8h">audit_batch_writer.h</innerfile>
+    <innerfile refid="ccpa__rules_8h">ccpa_rules.h</innerfile>
+    <innerfile refid="compliance__framework_8h">compliance_framework.h</innerfile>
+    <innerfile refid="compliance__mapping_8h">compliance_mapping.h</innerfile>
+    <innerfile refid="compliance__reporter_8h">compliance_reporter.h</innerfile>
+    <innerfile refid="compliance__reporting_8h">compliance_reporting.h</innerfile>
+    <innerfile refid="compliance__validator_8h">compliance_validator.h</innerfile>
+    <innerfile refid="cross__border__transfer_8h">cross_border_transfer.h</innerfile>
+    <innerfile refid="cross__tenant__policy__inheritance_8h">cross_tenant_policy_inheritance.h</innerfile>
+    <innerfile refid="data__lineage_8h">data_lineage.h</innerfile>
+    <innerfile refid="data__masker_8h">data_masker.h</innerfile>
+    <innerfile refid="gdpr__subject__rights_8h">gdpr_subject_rights.h</innerfile>
+    <innerfile refid="governance__api__contract_8h">governance_api_contract.h</innerfile>
+    <innerfile refid="governance__audit__integrity_8h">governance_audit_integrity.h</innerfile>
+    <innerfile refid="governance__diagnostics_8h">governance_diagnostics.h</innerfile>
+    <innerfile refid="hipaa__rules_8h">hipaa_rules.h</innerfile>
+    <innerfile refid="iso27001__rules_8h">iso27001_rules.h</innerfile>
+    <innerfile refid="model__governance_8h">model_governance.h</innerfile>
+    <innerfile refid="opa__adapter_8h">opa_adapter.h</innerfile>
+    <innerfile refid="operational__audit_8h">operational_audit.h</innerfile>
+    <innerfile refid="pci__dss__rules_8h">pci_dss_rules.h</innerfile>
+    <innerfile refid="policy__approval__workflow_8h">policy_approval_workflow.h</innerfile>
+    <innerfile refid="policy__change__manager_8h">policy_change_manager.h</innerfile>
+    <innerfile refid="policy__conflict__detector_8h">policy_conflict_detector.h</innerfile>
+    <innerfile refid="policy__coordinator_8h">policy_coordinator.h</innerfile>
+    <innerfile refid="policy__engine_8h">policy_engine.h</innerfile>
+    <innerfile refid="policy__file__watcher_8h">policy_file_watcher.h</innerfile>
+    <innerfile refid="policy__manager_8h">policy_manager.h</innerfile>
+    <innerfile refid="policy__manager__versioned_8h">policy_manager_versioned.h</innerfile>
+    <innerfile refid="policy__review_8h">policy_review.h</innerfile>
+    <innerfile refid="policy__template_8h">policy_template.h</innerfile>
+    <innerfile refid="policy__validation_8h">policy_validation.h</innerfile>
+    <innerfile refid="policy__validator_8h">policy_validator.h</innerfile>
+    <innerfile refid="policy__version__history_8h">policy_version_history.h</innerfile>
+    <innerfile refid="review__scheduler_8h">review_scheduler.h</innerfile>
+    <innerfile refid="soc2__controls_8h">soc2_controls.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/"/>
+  </compounddef>
+</doxygen>

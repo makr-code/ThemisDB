@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="spatial__index_8h" kind="file" language="C++">
+    <compoundname>spatial_index.h</compoundname>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">geo/geo_rtree.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cfloat</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includedby refid="secondary__index_8cpp" local="yes">src/index/secondary_index.cpp</includedby>
+    <includedby refid="spatial__index_8cpp" local="yes">src/index/spatial_index.cpp</includedby>
+    <includedby refid="test__spatial__correctness__integration_8cpp" local="yes">tests/index/test_spatial_correctness_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/spatial_index.h</label>
+        <link refid="spatial__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cfloat</label>
+      </node>
+      <node id="4">
+        <label>geo/geo_rtree.h</label>
+      </node>
+      <node id="3">
+        <label>geo/spatial_backend.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="2">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/spatial_index.h</label>
+        <link refid="spatial__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/secondary_index.cpp</label>
+        <link refid="secondary__index_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/index/spatial_index.cpp</label>
+        <link refid="spatial__index_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/index/test_spatial_correctness_integration.cpp</label>
+        <link refid="test__spatial__correctness__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_morton_encoder" prot="public">themis::index::MortonEncoder</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_r_tree_config" prot="public">themis::index::RTreeConfig</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_result" prot="public">themis::index::SpatialResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_spatial_index_manager" prot="public">themis::index::SpatialIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" prot="public">themis::index::SpatialIndexManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" prot="public">themis::index::SpatialIndexManager::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" prot="public">themis::index::SpatialIndexManager::IndexStats</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry" prot="private">themis::index::SpatialIndexManager::SidecarEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;geo/spatial_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;geo/geo_rtree.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cfloat&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Morton<sp/>code<sp/>encoder<sp/>for<sp/>Z-order<sp/>spatial<sp/>indexing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1index_1_1_morton_encoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_morton_encoder" kindref="compound">MortonEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>2D<sp/>coordinates<sp/>to<sp/>Morton<sp/>code<sp/>(Z-order<sp/>curve)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1index_1_1_morton_encoder_1a7231bc68a244f05eda919e3f4436d472" kindref="member">encode2D</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>bounds);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>3D<sp/>coordinates<sp/>to<sp/>Morton<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1index_1_1_morton_encoder_1ad1a62ff44b64f5a6322dbcda636345ff" kindref="member">encode3D</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>bounds);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decode<sp/>Morton<sp/>code<sp/>to<sp/>2D<sp/>coordinates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;double,<sp/>double&gt;<sp/><ref refid="classthemis_1_1index_1_1_morton_encoder_1a5950bf4999abd7b22dec6033d738a5f5" kindref="member">decode2D</ref>(uint64_t<sp/>code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>bounds);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>Morton<sp/>code<sp/>ranges<sp/>for<sp/>MBR<sp/>query<sp/>(multiple<sp/>ranges<sp/>for<sp/>2D<sp/>query<sp/>on<sp/>1D<sp/>curve)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;uint64_t,<sp/>uint64_t&gt;&gt;<sp/><ref refid="classthemis_1_1index_1_1_morton_encoder_1a1136bbdab467ee851f14caffbaa489dd" kindref="member">getRanges</ref>(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>query_bbox,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>total_bounds,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_ranges<sp/>=<sp/>16</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interleave<sp/>bits<sp/>of<sp/>two<sp/>32-bit<sp/>integers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>interleaveBits2D(uint32_t<sp/>x,<sp/>uint32_t<sp/>y);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interleave<sp/>bits<sp/>of<sp/>three<sp/>21-bit<sp/>integers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>interleaveBits3D(uint32_t<sp/>x,<sp/>uint32_t<sp/>y,<sp/>uint32_t<sp/>z);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalize<sp/>coordinate<sp/>to<sp/>[0,<sp/>2^32-1]<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>normalizeCoord(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>coord,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_val,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_val);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R-Tree<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1index_1_1_r_tree_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1index_1_1_r_tree_config_1a76fe2eafdd61d8a6e8dafd19344fe357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config_1a76fe2eafdd61d8a6e8dafd19344fe357" kindref="member">max_entries_per_node</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>M<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1index_1_1_r_tree_config_1a8b1cfca9764b1aea5ce5df3b744a2f34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config_1a8b1cfca9764b1aea5ce5df3b744a2f34" kindref="member">min_entries_per_node</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>m<sp/>parameter<sp/>(typically<sp/>M/4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1index_1_1_r_tree_config_1ae98de9d9167d125b5047c1ae2bf6f60c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config_1ae98de9d9167d125b5047c1ae2bf6f60c" kindref="member">use_3d</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>Z-coordinate<sp/>indexing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1index_1_1_r_tree_config_1a67264e4797884c02f634780b3cb2295f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>geo::MBR<sp/><ref refid="structthemis_1_1index_1_1_r_tree_config_1a67264e4797884c02f634780b3cb2295f" kindref="member">total_bounds</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>bounds<sp/>for<sp/>normalization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Spatial<sp/>query<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1index_1_1_spatial_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1index_1_1_spatial_result_1a92333d1a1e532cfa545f8f808a674594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_spatial_result_1a92333d1a1e532cfa545f8f808a674594" kindref="member">primary_key</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1index_1_1_spatial_result_1a8ac6880db1ffb2752d486f1c2b79e035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>geo::MBR<sp/><ref refid="structthemis_1_1index_1_1_spatial_result_1a8ac6880db1ffb2752d486f1c2b79e035" kindref="member">mbr</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1index_1_1_spatial_result_1ab9ce603e5896ae0b818ed7b1ad14aa1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_result_1ab9ce603e5896ae0b818ed7b1ad14aa1b" kindref="member">z_min</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1index_1_1_spatial_result_1a2e8b32055fda0aa57ec73e0e7c8f0bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_result_1a2e8b32055fda0aa57ec73e0e7c8f0bef" kindref="member">z_max</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1index_1_1_spatial_result_1abdbf9f074f4f4cbe3e0261ad5dcd86d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_result_1abdbf9f074f4f4cbe3e0261ad5dcd86d9" kindref="member">distance</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>distance-based<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Spatial<sp/>Index<sp/>Manager<sp/>(table-agnostic,<sp/>works<sp/>for<sp/>all<sp/>5<sp/>models)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1index_1_1_spatial_index_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a4ffbf32d770f5a7fc9eab542aa5c070e" kindref="member">SpatialIndexManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1af587d8aa3399b4172151612d4a07de22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1af587d8aa3399b4172151612d4a07de22" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1adff5e758a03d8f3db3d7389a51984312" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1adff5e758a03d8f3db3d7389a51984312" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a33c6bae271b03a7c87a565de568d5556" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1af587d8aa3399b4172151612d4a07de22" kindref="member">ok</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>for<sp/>monitoring<sp/>and<sp/>benchmarking<sp/>(G5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ad2cce5edd4cf637fac25fe2ed651210a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ad2cce5edd4cf637fac25fe2ed651210a" kindref="member">query_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>searchIntersects()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1adfc1828c4a65f7d7e57ff891e480ad53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1adfc1828c4a65f7d7e57ff891e480ad53" kindref="member">mbr_candidate_count</ref>{0};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>MBR<sp/>candidates<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a1ce54f0fd46e341309e0e904d998d36a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a1ce54f0fd46e341309e0e904d998d36a" kindref="member">exact_check_count</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>geometry<sp/>checks<sp/>performed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ac1fbc1548ab66d9320dac7dcf724d902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ac1fbc1548ab66d9320dac7dcf724d902" kindref="member">exact_check_passed</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>checks<sp/>that<sp/>passed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ae30577db6e0515ea5f8ae7a585dfa67c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ae30577db6e0515ea5f8ae7a585dfa67c" kindref="member">exact_check_failed</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>checks<sp/>that<sp/>failed<sp/>(false<sp/>positives)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a970892a57a898fc4a74eb2f5d3a22d94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a970892a57a898fc4a74eb2f5d3a22d94" kindref="member">insert_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sidecar<sp/>inserts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a8c5b1109618940c5f0a1d7173c9ae965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a8c5b1109618940c5f0a1d7173c9ae965" kindref="member">remove_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sidecar<sp/>removes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a667629741453149ba992e64fdb5957bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a667629741453149ba992e64fdb5957bc" kindref="member">update_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sidecar<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>all<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a5e48a07e4c5f3a8389541ec1a590af16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a5e48a07e4c5f3a8389541ec1a590af16" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ad2cce5edd4cf637fac25fe2ed651210a" kindref="member">query_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1adfc1828c4a65f7d7e57ff891e480ad53" kindref="member">mbr_candidate_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a1ce54f0fd46e341309e0e904d998d36a" kindref="member">exact_check_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ac1fbc1548ab66d9320dac7dcf724d902" kindref="member">exact_check_passed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1ae30577db6e0515ea5f8ae7a585dfa67c" kindref="member">exact_check_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a970892a57a898fc4a74eb2f5d3a22d94" kindref="member">insert_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a8c5b1109618940c5f0a1d7173c9ae965" kindref="member">remove_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics_1a667629741453149ba992e64fdb5957bc" kindref="member">update_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a4ffbf32d770f5a7fc9eab542aa5c070e" kindref="member">SpatialIndexManager</ref>(RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1index_1_1_spatial_index_manager_1a1584864558718a00cda3b7f00b946709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a1584864558718a00cda3b7f00b946709" kindref="member">~SpatialIndexManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>exact<sp/>geometry<sp/>backend<sp/>(optional,<sp/>for<sp/>exact<sp/>checks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1index_1_1_spatial_index_manager_1a9ad445b4399caff5049bbfde62c9ec64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a9ad445b4399caff5049bbfde62c9ec64" kindref="member">setExactBackend</ref>(geo::ISpatialComputeBackend*<sp/>backend)<sp/>{<sp/>exact_backend_<sp/>=<sp/>backend;<sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>metrics<sp/>(G5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1index_1_1_spatial_index_manager_1adc6d13ef4ecc06e0ad027e9ed19b6776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1adc6d13ef4ecc06e0ad027e9ed19b6776" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1index_1_1_spatial_index_manager_1aa38febae1a5a611436b4899cf910515b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1aa38febae1a5a611436b4899cf910515b" kindref="member">getMetrics</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1index_1_1_spatial_index_manager_1a543d95b1824512572c53c103ec5678e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a543d95b1824512572c53c103ec5678e7" kindref="member">resetMetrics</ref>()<sp/>{<sp/>metrics_.reset();<sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Index<sp/>Management<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1ae523163fd554119897d9b454f889b440" kindref="member">createSpatialIndex</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>geometry_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geometry&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref>&amp;<sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a2972ec8990280ebdb8aea32e91e43d11" kindref="member">dropSpatialIndex</ref>(std::string_view<sp/>table);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a4dc251f895215fb470bcb697167ad403" kindref="member">hasSpatialIndex</ref>(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" kindref="compound">IndexStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a2f0a1c37b884a82fa880d7b78d3ed1d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a2f0a1c37b884a82fa880d7b78d3ed1d8" kindref="member">entry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1ae90c6eab5760fe6ef569ea299af55a45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geo::MBR<sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1ae90c6eab5760fe6ef569ea299af55a45" kindref="member">total_bounds</ref>;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a61d25d4262b259c4f8b10b2b8e0be47c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a61d25d4262b259c4f8b10b2b8e0be47c" kindref="member">avg_area</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a679bca626165e49d5ccd3847c2364a6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a679bca626165e49d5ccd3847c2364a6a" kindref="member">morton_buckets</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" kindref="compound">IndexStats</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a9b25fdce0f3e345052eeb1427e5244c1" kindref="member">getStats</ref>(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Bulk<sp/>Operations<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a01718324d1fd10369f52151606595018" kindref="member">bulkLoad</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>geo::GeoSidecar&gt;&gt;&amp;<sp/>entries</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Insert/Update/Delete<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1aed31858877abd3e59351b62911925cd2" kindref="member">insert</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>sidecar</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a32f79082599ec97c512fcc308a170a36" kindref="member">insertBatch</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::WriteBatchWrapper&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>sidecar</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a38d442f483acba29a12942d820af8537" kindref="member">removeBatch</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::WriteBatchWrapper&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>sidecar</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1afb45df74dcedf9546233fffb1b72030e" kindref="member">update</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>old_sidecar,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>new_sidecar</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1ae89c160bb265570bd3dc354e33afafed" kindref="member">remove</ref>(</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::GeoSidecar&amp;<sp/>sidecar</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Query<sp/>Operations<sp/>(Model-Agnostic)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1aa756b338be2b8a2f0c5bd2d067f2ceb7" kindref="member">searchIntersects</ref>(</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>query_bbox</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a996f31d1bdb22fed578d37fa0d70f841" kindref="member">searchWithin</ref>(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>query_bbox,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_min<sp/>=<sp/>-DBL_MAX,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_max<sp/>=<sp/>DBL_MAX</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a73189858be20d6d4413c68edbcd222a5" kindref="member">searchContains</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/>z<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a744f2cb5f77d1aa62906922d2009a06a" kindref="member">searchNearby</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_distance_meters,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/>z<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a3780e364a5967b61ccb3552524ced3d4" kindref="member">searchKNN</ref>(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/>z<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>3D<sp/>Z-Range<sp/>Queries<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1ac6c3e18cb8520544ff979609e2d81f6d" kindref="member">searchZRange</ref>(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_min,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_max</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpatialResult&gt;<sp/><ref refid="classthemis_1_1index_1_1_spatial_index_manager_1a64e8cf78850daefe716a4fead64cea0b" kindref="member">searchIntersectsWithZ</ref>(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>query_bbox,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_min,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z_max</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>geo::ISpatialComputeBackend*<sp/>exact_backend_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>exact<sp/>geometry<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref><sp/>metrics_;<sp/></highlight><highlight class="comment">//<sp/>G5:<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>In-memory<sp/>R-tree<sp/>index<sp/>(per<sp/>table)<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populated<sp/>lazily<sp/>on<sp/>first<sp/>spatial<sp/>query;<sp/>updated<sp/>on<sp/>every<sp/>write.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provides<sp/>O(log<sp/>n<sp/>+<sp/>k)<sp/>MBR<sp/>pre-filtering,<sp/>replacing<sp/>the<sp/>O(n)<sp/>Morton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>code<sp/>range<sp/>scan<sp/>for<sp/>tables<sp/>with<sp/>&gt;<sp/>10<sp/>000<sp/>entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>geo::GeoRTree&gt;<sp/>rtrees_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-table,<sp/>per-PK<sp/>MBR<sp/>cache<sp/>used<sp/>to<sp/>reconstruct<sp/>SpatialResult<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>R-tree<sp/>query<sp/>(avoids<sp/>a<sp/>per-PK<sp/>RocksDB<sp/>point<sp/>lookup<sp/>in<sp/>the<sp/>hot<sp/>path).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>geo::MBR&gt;&gt;<sp/>mbr_cache_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>of<sp/>tables<sp/>whose<sp/>R-tree<sp/>has<sp/>been<sp/>built<sp/>(lazily<sp/>or<sp/>from<sp/>writes).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;<sp/>rtree_built_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>Safety:<sp/>Lock<sp/>Hierarchy<sp/>(Phase<sp/>3<sp/>A-5<sp/>Circular<sp/>Lock<sp/>Ordering)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>HIERARCHY<sp/>(prevents<sp/>deadlocks<sp/>via<sp/>consistent<sp/>acquisition<sp/>order):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>1<sp/>(Global):<sp/><sp/><sp/><sp/>rtree_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>Acquire<sp/>FIRST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>2<sp/>(Partition):<sp/>[reserved<sp/>for<sp/>future<sp/>per-table<sp/>locks]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>3<sp/>(Element):<sp/><sp/><sp/>[reserved<sp/>for<sp/>future<sp/>per-entry<sp/>locks]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INVARIANT:<sp/>All<sp/>code<sp/>paths<sp/>must<sp/>acquire<sp/>locks<sp/>in<sp/>order<sp/>Tier<sp/>1<sp/>→<sp/>Tier<sp/>2<sp/>→<sp/>Tier<sp/>3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Violating<sp/>this<sp/>order<sp/>creates<sp/>deadlock<sp/>risk.<sp/>ThreadSanitizer<sp/>detects<sp/>violations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See:<sp/>https://github.com/google/sanitizers/wiki/ThreadSanitizerDeadlockDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutex<sp/>protecting<sp/>rtrees_,<sp/>mbr_cache_,<sp/>and<sp/>rtree_built_<sp/>for<sp/>thread-safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>concurrent<sp/>read<sp/>(shared)<sp/>and<sp/>exclusive<sp/>write<sp/>(unique)<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>rtree_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>1:<sp/>Global<sp/>R-tree<sp/>lock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lazily<sp/>build<sp/>the<sp/>R-tree<sp/>for<sp/>`table`<sp/>by<sp/>scanning<sp/>per-PK<sp/>RocksDB<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No-op<sp/>if<sp/>already<sp/>built.<sp/><sp/>Called<sp/>automatically<sp/>inside<sp/>searchIntersects.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ensureRTree(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>an<sp/>MBR<sp/>to<sp/>a<sp/>GeometryInfo<sp/>(polygon)<sp/>suitable<sp/>for<sp/>GeoRTree.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>geo::GeometryInfo<sp/>mbrToGeometryInfo(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geo::MBR&amp;<sp/>mbr);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>key<sp/>prefixes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getSpatialKeyPrefix(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getZRangeKeyPrefix(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getConfigKey(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeSpatialKey(std::string_view<sp/>table,<sp/>uint64_t<sp/>morton_code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeZRangeKey(std::string_view<sp/>table,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>z_bucket)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-PK<sp/>sidecar<sp/>key<sp/>(storage<sp/>improvement)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allows<sp/>updating<sp/>individual<sp/>PKs<sp/>without<sp/>rewriting<sp/>entire<sp/>bucket<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeSpatialPerPKKey(</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>morton_code,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>pk</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get/Set<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RTreeConfig&gt;<sp/>getConfig(std::string_view<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref><sp/>saveConfig(std::string_view<sp/>table,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Haversine<sp/>distance<sp/>(lat/lon<sp/>in<sp/>degrees)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>haversineDistance(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Euclidean<sp/>3D<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>euclidean3DDistance(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Z-bucket<sp/>for<sp/>elevation<sp/>indexing<sp/>(10m<sp/>buckets)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>getZBucket(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>sidecar<sp/>entry<sp/>from<sp/>RocksDB<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SidecarEntry<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>primary_key;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geo::GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SidecarEntry&gt;<sp/>parseSidecarList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serializeSidecarList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SidecarEntry&gt;&amp;<sp/>entries)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/spatial_index.h"/>
+  </compounddef>
+</doxygen>

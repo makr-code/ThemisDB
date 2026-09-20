@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_predicate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::Predicate</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::performance::Predicate::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0ba2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0ba375b332cf2e0c6d522baf007ef7cb554" prot="public">
+          <name>NEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0bac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0bacfe6055d2e0503be378bb63449ec7ba6" prot="public">
+          <name>LE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0bacd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0baf803729628adf4199f224c2a225038e9" prot="public">
+          <name>GE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0baa7598964efa10e649f92662b79e8d4d3" prot="public">
+          <name>LIKE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0bac86ee0d9d7ed3e7b4fdbf486fa6c0ebb" prot="public">
+          <name>IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="153" column="5" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_predicate_1ad4ba5b8a8141cf29f2a856dc40bad1ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::Predicate::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::performance::Predicate::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="155" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_predicate_1ab58bd80186b7e0e1b82f9dcb80f8d467" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0b" kindref="member">Op</ref></type>
+        <definition>Op themis::performance::Predicate::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::performance::Predicate::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0ba2dcbad7477fd40561e8b8198f173bd47" kindref="member">Op::EQ</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="156" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_predicate_1a06627443f2e292423cf09be6b18d65cc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" kindref="member">QueryValue</ref></type>
+        <definition>QueryValue themis::performance::Predicate::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::performance::Predicate::value</qualifiedname>
+        <briefdescription>
+<para>Constant value (monostate = bind param). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="157" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_predicate_1ad895e8aa686266f31df7985d4943f184" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::Predicate::param_name</definition>
+        <argsstring></argsstring>
+        <name>param_name</name>
+        <qualifiedname>themis::performance::Predicate::param_name</qualifiedname>
+        <briefdescription>
+<para>Bind-parameter name when value is monostate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="158" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single predicate clause (e.g. column op value). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="152" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="152" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_predicate_1ad4ba5b8a8141cf29f2a856dc40bad1ad" prot="public" virt="non-virtual"><scope>themis::performance::Predicate</scope><name>column</name></member>
+      <member refid="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0b" prot="public" virt="non-virtual"><scope>themis::performance::Predicate</scope><name>Op</name></member>
+      <member refid="structthemis_1_1performance_1_1_predicate_1ab58bd80186b7e0e1b82f9dcb80f8d467" prot="public" virt="non-virtual"><scope>themis::performance::Predicate</scope><name>op</name></member>
+      <member refid="structthemis_1_1performance_1_1_predicate_1ad895e8aa686266f31df7985d4943f184" prot="public" virt="non-virtual"><scope>themis::performance::Predicate</scope><name>param_name</name></member>
+      <member refid="structthemis_1_1performance_1_1_predicate_1a06627443f2e292423cf09be6b18d65cc" prot="public" virt="non-virtual"><scope>themis::performance::Predicate</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

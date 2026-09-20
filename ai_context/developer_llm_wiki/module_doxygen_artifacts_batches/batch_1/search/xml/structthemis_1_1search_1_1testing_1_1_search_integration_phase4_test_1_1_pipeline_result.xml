@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ab1c5b1531b0de2c6b31d3a1eaa4f7f6f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>std::vector&lt;HybridSearch::Result&gt; themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="52" column="17" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ad547c86f29468d15e5f37662706e6f60" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::total_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="53" column="9" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1a98d6af557cb1664364376408c8602c61" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::errors_encountered</definition>
+        <argsstring></argsstring>
+        <name>errors_encountered</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::errors_encountered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="54" column="9" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1acd5776b74333c641f621be6028cd6b0e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::partial</definition>
+        <argsstring></argsstring>
+        <name>partial</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult::partial</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="55" column="10" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_integration_phase4.cpp" line="51" column="3" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1a98d6af557cb1664364376408c8602c61" prot="public" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</scope><name>errors_encountered</name></member>
+      <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1acd5776b74333c641f621be6028cd6b0e" prot="public" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</scope><name>partial</name></member>
+      <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ab1c5b1531b0de2c6b31d3a1eaa4f7f6f" prot="public" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</scope><name>results</name></member>
+      <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ad547c86f29468d15e5f37662706e6f60" prot="public" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</scope><name>total_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

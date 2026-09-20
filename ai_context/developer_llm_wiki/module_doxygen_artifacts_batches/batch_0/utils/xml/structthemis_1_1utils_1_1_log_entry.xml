@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::LogEntry</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_entry_1a66519f72925a98e4461126764e2f8742" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1ab5e8042d31a3cddab9b1c845096e068f" kindref="member">EventClass</ref></type>
+        <definition>EventClass themis::utils::LogEntry::eventClass</definition>
+        <argsstring></argsstring>
+        <name>eventClass</name>
+        <qualifiedname>themis::utils::LogEntry::eventClass</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1utils_1ab5e8042d31a3cddab9b1c845096e068fa431accab7897f05b0424e002ca30391d" kindref="member">EventClass::Operational</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="363" column="16" bodyfile="include/utils/utils_interfaces.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_entry_1ab7f4a8da535cb5ca497ed10a2613b381" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::LogEntry::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::utils::LogEntry::level</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Numeric log level (e.g. spdlog level values). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="364" column="9" bodyfile="include/utils/utils_interfaces.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_entry_1ace06dd27b83952454ac683482fdd918a" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::utils::LogEntry::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>themis::utils::LogEntry::file</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Source file (for per-call-site buckets). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="365" column="16" bodyfile="include/utils/utils_interfaces.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_entry_1abf8a5a2ea495b8c848f34f6f3be097b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::LogEntry::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>themis::utils::LogEntry::line</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Source line (for per-call-site buckets). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="366" column="9" bodyfile="include/utils/utils_interfaces.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_log_entry_1a3f0a180ff32ed5cd858c161eaded1d37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::LogEntry::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::utils::LogEntry::message</qualifiedname>
+        <briefdescription>
+<para>Log message (may be inspected by adaptive samplers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="367" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A log entry passed to <ref refid="classthemis_1_1utils_1_1_i_structured_log_sampler" kindref="compound">IStructuredLogSampler</ref> for a sampling decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="362" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="362" bodyend="368"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_log_entry_1a66519f72925a98e4461126764e2f8742" prot="public" virt="non-virtual"><scope>themis::utils::LogEntry</scope><name>eventClass</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_entry_1ace06dd27b83952454ac683482fdd918a" prot="public" virt="non-virtual"><scope>themis::utils::LogEntry</scope><name>file</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_entry_1ab7f4a8da535cb5ca497ed10a2613b381" prot="public" virt="non-virtual"><scope>themis::utils::LogEntry</scope><name>level</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_entry_1abf8a5a2ea495b8c848f34f6f3be097b7" prot="public" virt="non-virtual"><scope>themis::utils::LogEntry</scope><name>line</name></member>
+      <member refid="structthemis_1_1utils_1_1_log_entry_1a3f0a180ff32ed5cd858c161eaded1d37" prot="public" virt="non-virtual"><scope>themis::utils::LogEntry</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

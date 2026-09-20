@@ -1,0 +1,509 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__config__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_config_release_gates.cpp</compoundname>
+    <includes refid="config__contract_8h" local="yes">config/config_contract.h</includes>
+    <includes refid="config__encrypted__store_8h" local="yes">config/config_encrypted_store.h</includes>
+    <includes refid="config__file__watcher_8h" local="yes">config/config_file_watcher.h</includes>
+    <includes refid="config__path__resolver_8h" local="yes">config/config_path_resolver.h</includes>
+    <includes refid="config__schema__validator_8h" local="yes">config/config_schema_validator.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/config/bench_config_release_gates.cpp</label>
+        <link refid="bench__config__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>config/config_audit_log.h</label>
+        <link refid="config__audit__log_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>config/config_contract.h</label>
+        <link refid="config__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>config/config_encrypted_store.h</label>
+        <link refid="config__encrypted__store_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>config/config_file_watcher.h</label>
+        <link refid="config__file__watcher_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>config/config_schema_validator.h</label>
+        <link refid="config__schema__validator_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>config/lru_cache.h</label>
+        <link refid="lru__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>config/path_mapping_metadata.h</label>
+        <link refid="path__mapping__metadata_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="31">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="24">
+        <label>csignal</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="23">
+        <label>deque</label>
+      </node>
+      <node id="21">
+        <label>filesystem</label>
+      </node>
+      <node id="32">
+        <label>fstream</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="27">
+        <label>list</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="30">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="13">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" prot="public">themis::config::bench::ConfigResolveHotPathFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture" prot="public">themis::config::bench::ConfigValidateHotPathFixture</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" prot="public">themis::config::bench::ConfigEncryptedStoreHotPathFixture</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config_1_1bench">themis::config::bench</innernamespace>
+    <briefdescription>
+<para>Phase 5 release gate benchmarks for config hot paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This benchmark suite validates performance gates for the config module&apos;s most critical operation paths:<itemizedlist>
+<listitem><para>GATE-CFG-01: resolve() hot path p99 ≤ 1 µs (cache hit)</para>
+</listitem><listitem><para>GATE-CFG-02: validate() hot path p99 ≤ 500 µs (schema validation)</para>
+</listitem><listitem><para>GATE-CFG-03: encrypted-store get() p99 ≤ 100 µs</para>
+</listitem><listitem><para>GATE-CFG-04: encrypted-store put() p99 ≤ 1 ms</para>
+</listitem><listitem><para>GATE-CFG-05: watcher poll cycle latency ≤ kFileWatcherDefaultPollInterval</para>
+</listitem><listitem><para>GATE-CFG-06: metrics/audit overhead &lt; 5% of config operation time</para>
+</listitem></itemizedlist>
+</para>
+<para>All gates are documented in benchmarks/config/release_gate_manifest_config.json and must PASS before release to production. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__contract_8h" kindref="compound">config/config_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__encrypted__store_8h" kindref="compound">config/config_encrypted_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__file__watcher_8h" kindref="compound">config/config_file_watcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__path__resolver_8h" kindref="compound">config/config_path_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__schema__validator_8h" kindref="compound">config/config_schema_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1a4b23015c35da04f1382c415cfd2f5eef" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>benchmark<sp/>seed<sp/>and<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/>kCfgCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CFG-01:<sp/>Resolve<sp/>hot<sp/>path<sp/>(cache<sp/>hit,<sp/>p99<sp/>≤<sp/>1<sp/>µs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" kindref="compound">ConfigResolveHotPathFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1afb40c5bdee323f37235a70adc3ff31f8" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a56de2e75134659e5ff607c1983230931" kindref="member">original_cwd_</ref><sp/>=<sp/>fs::current_path();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themisdb_gate_cfg_01_&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::current_path(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>test<sp/>config<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;test:<sp/>value\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.close();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">ConfigPathResolver::clearCache</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a0b30a5c78d16059e6b3e0679570ee60a" kindref="member">ConfigPathResolver::setCachingEnabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a19801595417e9ec3097b952a39616e12" kindref="member">test_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;config/test.yaml&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a19801595417e9ec3097b952a39616e12" kindref="member">test_path_</ref>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1adfbce5eb2ecb0acd729525813d72968c" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::current_path(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a56de2e75134659e5ff607c1983230931" kindref="member">original_cwd_</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">ConfigPathResolver::clearCache</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a56de2e75134659e5ff607c1983230931" kindref="member">original_cwd_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" kindref="member">temp_root_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a19801595417e9ec3097b952a39616e12" kindref="member">test_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ace6463e9f5914b1f7112ec4746af9bb1" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" kindref="compound">ConfigResolveHotPathFixture</ref>,<sp/>GATE_CFG_01_ResolveCacheHit)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">ConfigPathResolver::tryResolve</ref>(test_path_);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>p99<sp/>≤<sp/>1<sp/>µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">BENCHMARK_REGISTER_F(ConfigResolveHotPathFixture,<sp/>GATE_CFG_01_ResolveCacheHit)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kNanosecond)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CFG-02:<sp/>Validate<sp/>hot<sp/>path<sp/>(schema<sp/>validation,<sp/>p99<sp/>≤<sp/>500<sp/>µs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture" kindref="compound">ConfigValidateHotPathFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1afaac3ab0e18db4875cb6e33f169959cb" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>simple<sp/>but<sp/>realistic<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref><sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;port&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;port&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;number&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;properties&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;boolean&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>[</highlight><highlight class="stringliteral">&quot;required&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>valid<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1ad1efad4f99997713a93dd66b3edd9c4b" kindref="member">config_</ref><sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1ad1efad4f99997713a93dd66b3edd9c4b" kindref="member">config_</ref>[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-service&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1ad1efad4f99997713a93dd66b3edd9c4b" kindref="member">config_</ref>[</highlight><highlight class="stringliteral">&quot;port&quot;</highlight><highlight class="normal">]<sp/>=<sp/>8080;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1ad1efad4f99997713a93dd66b3edd9c4b" kindref="member">config_</ref>[</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a2f288b1404e119cbfe97f0353b3cf45d" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a4b23015c35da04f1382c415cfd2f5eef" kindref="member">json</ref><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1a03dce680d08c9aa99af41a03273e4624" kindref="member">schema_</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a4b23015c35da04f1382c415cfd2f5eef" kindref="member">json</ref><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture_1ad1efad4f99997713a93dd66b3edd9c4b" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ace6463e9f5914b1f7112ec4746af9bb1" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="classthemis_1_1config_1_1bench_1_1_config_validate_hot_path_fixture" kindref="compound">ConfigValidateHotPathFixture</ref>,<sp/>GATE_CFG_02_ValidateCoreSchema)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1config_1_1_config_schema_validator_1a32a49c29136b8b1cc590d99ab5d92afa" kindref="member">ConfigSchemaValidator::validate</ref>(config_,<sp/>schema_);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>p99<sp/>≤<sp/>500<sp/>µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">BENCHMARK_REGISTER_F(ConfigValidateHotPathFixture,<sp/>GATE_CFG_02_ValidateCoreSchema)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CFG-03<sp/>&amp;<sp/>GATE-CFG-04:<sp/>Encrypted-store<sp/>get/put<sp/>hot<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" kindref="compound">ConfigEncryptedStoreHotPathFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a0dab837535ebdb104ad54a6e99be5516" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" kindref="member">store_</ref><sp/>=<sp/>std::make_unique&lt;ConfigEncryptedStore&gt;();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up:<sp/>insert<sp/>the<sp/>key<sp/>that<sp/>will<sp/>be<sp/>read<sp/>in<sp/>GATE-CFG-03</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" kindref="member">store_</ref>-&gt;set(</highlight><highlight class="stringliteral">&quot;bench_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench_value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a5824413d42160058f76585375fe4aeff" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" kindref="member">store_</ref>.reset();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConfigEncryptedStore&gt;<sp/><ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" kindref="member">store_</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ace6463e9f5914b1f7112ec4746af9bb1" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" kindref="compound">ConfigEncryptedStoreHotPathFixture</ref>,<sp/>GATE_CFG_03_EncryptedStoreGet)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_-&gt;get(</highlight><highlight class="stringliteral">&quot;bench_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>p99<sp/>≤<sp/>100<sp/>µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">BENCHMARK_REGISTER_F(ConfigEncryptedStoreHotPathFixture,<sp/>GATE_CFG_03_EncryptedStoreGet)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(0.5);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ace6463e9f5914b1f7112ec4746af9bb1" kindref="member">BENCHMARK_DEFINE_F</ref>(ConfigEncryptedStoreHotPathFixture,<sp/>GATE_CFG_04_EncryptedStorePut)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1config_1_1bench_1ad297617f383299581652efe598e4d0fa" kindref="member">value</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store_-&gt;set(key,<sp/><ref refid="namespacethemis_1_1config_1_1bench_1ad297617f383299581652efe598e4d0fa" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(key);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>p99<sp/>≤<sp/>1<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" kindref="compound">ConfigEncryptedStoreHotPathFixture</ref>,<sp/>GATE_CFG_04_EncryptedStorePut)</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CFG-05:<sp/>Watcher<sp/>poll<sp/>cycle<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>watcher<sp/>contracts<sp/>are<sp/>bounded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BenchmarkGateCfg05WatcherPollInterval(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>polling<sp/>interval<sp/>is<sp/>within<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>poll_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>).count();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(poll_ms);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>all<sp/>intervals<sp/>in<sp/>milliseconds<sp/>for<sp/>consistent<sp/>tooling<sp/>interpretation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;min_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1a008be0f9518536b045f64f07f2b80135" kindref="member">kFileWatcherMinPollInterval</ref>).count()));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;default_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1add3c83b24d1f7f228cf0374dc9f8dc04" kindref="member">kFileWatcherDefaultPollInterval</ref>).count()));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ac5645535ecde04e2620a3bddf0407bea" kindref="member">kFileWatcherMaxPollInterval</ref>).count()));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>poll<sp/>within<sp/>bounds&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ada4c4208f23b72fbdbe64ddda4f40120" kindref="member">BENCHMARK</ref>(BenchmarkGateCfg05WatcherPollInterval)-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CFG-06:<sp/>Metrics/audit<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>metrics<sp/>collection<sp/>overhead<sp/>is<sp/>bounded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BenchmarkGateCfg06MetricsOverhead(benchmark::State&amp;<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>cardinality<sp/>limits<sp/>documented<sp/>in<sp/>config_contract.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder:<sp/>actual<sp/>measurement<sp/>depends<sp/>on<sp/>metrics<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_audit_types&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1config_1a9a39dff907e5fd9172b8d908d163a169" kindref="member">kMaxAuditEventTypeCardinality</ref>));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;max_metrics_labels&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1config_1af04d4606cfc9bc1bd20abfd94b98ac8e" kindref="member">kMaxMetricsLabelCardinality</ref>));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1_1bench_1a718fd79fc1a44c9467332cb5071447c4" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;target:<sp/>&lt;<sp/>5%<sp/>overhead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="namespacethemis_1_1config_1_1bench_1ada4c4208f23b72fbdbe64ddda4f40120" kindref="member">BENCHMARK</ref>(BenchmarkGateCfg06MetricsOverhead)-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/config/bench_config_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

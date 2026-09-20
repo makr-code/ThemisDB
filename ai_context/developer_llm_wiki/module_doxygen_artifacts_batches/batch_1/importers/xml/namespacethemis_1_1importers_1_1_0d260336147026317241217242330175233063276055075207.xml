@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1importers_1_1_0d260336147026317241217242330175233063276055075207" kind="namespace" language="C++">
+    <compoundname>themis::importers::@260336147026317241217242330175233063276055075207</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/importers/debezium_cdc_importer.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

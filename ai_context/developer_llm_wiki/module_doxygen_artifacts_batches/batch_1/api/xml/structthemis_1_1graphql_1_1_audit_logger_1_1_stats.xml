@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_audit_logger_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::AuditLogger::Stats</compoundname>
+    <includes refid="graphql__audit__logger_8h" local="no">graphql_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graphql::AuditLogger::Stats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::graphql::AuditLogger::Stats::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="307" column="18" bodyfile="include/api/graphql_audit_logger.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graphql::AuditLogger::Stats::failure_entries</definition>
+        <argsstring></argsstring>
+        <name>failure_entries</name>
+        <qualifiedname>themis::graphql::AuditLogger::Stats::failure_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="308" column="18" bodyfile="include/api/graphql_audit_logger.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a8c133a43c9f7d618e8a5ebe8f448933e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::AuditLogger::Stats::failureRate</definition>
+        <argsstring>() const</argsstring>
+        <name>failureRate</name>
+        <qualifiedname>themis::graphql::AuditLogger::Stats::failureRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="310" column="16" bodyfile="include/api/graphql_audit_logger.h" bodystart="310" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_audit_logger.h" line="306" column="5" bodyfile="include/api/graphql_audit_logger.h" bodystart="306" bodyend="314"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a39a4241c16523fc26c35d5950a7d7ad8" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogger::Stats</scope><name>failure_entries</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1a8c133a43c9f7d618e8a5ebe8f448933e" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogger::Stats</scope><name>failureRate</name></member>
+      <member refid="structthemis_1_1graphql_1_1_audit_logger_1_1_stats_1afa793ab204512525d459239d59bd371e" prot="public" virt="non-virtual"><scope>themis::graphql::AuditLogger::Stats</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

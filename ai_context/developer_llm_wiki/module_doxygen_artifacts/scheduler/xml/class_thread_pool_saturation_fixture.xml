@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_thread_pool_saturation_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ThreadPoolSaturationFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_thread_pool_saturation_fixture_1a758ee546dd0893dfae9246490f769255" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ThreadPoolManager &gt;</type>
+        <definition>std::unique_ptr&lt;ThreadPoolManager&gt; ThreadPoolSaturationFixture::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>ThreadPoolSaturationFixture::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_thread_pool_saturation.cpp" line="60" column="21" bodyfile="benchmarks/scheduler/bench_thread_pool_saturation.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_thread_pool_saturation_fixture_1a4b574584988f9fbf24df2932286c36fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThreadPoolSaturationFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ThreadPoolSaturationFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_thread_pool_saturation.cpp" line="53" column="10" bodyfile="benchmarks/scheduler/bench_thread_pool_saturation.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_thread_pool_saturation_fixture_1a1801bf040ae1395148af59e41d8d7f4c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThreadPoolSaturationFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ThreadPoolSaturationFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_thread_pool_saturation.cpp" line="56" column="10" bodyfile="benchmarks/scheduler/bench_thread_pool_saturation.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThreadPoolSaturationFixture</label>
+        <link refid="class_thread_pool_saturation_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThreadPoolSaturationFixture</label>
+        <link refid="class_thread_pool_saturation_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/scheduler/bench_thread_pool_saturation.cpp" line="51" column="1" bodyfile="benchmarks/scheduler/bench_thread_pool_saturation.cpp" bodystart="51" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_thread_pool_saturation_fixture_1a758ee546dd0893dfae9246490f769255" prot="public" virt="non-virtual"><scope>ThreadPoolSaturationFixture</scope><name>mgr</name></member>
+      <member refid="class_thread_pool_saturation_fixture_1a4b574584988f9fbf24df2932286c36fc" prot="public" virt="non-virtual"><scope>ThreadPoolSaturationFixture</scope><name>SetUp</name></member>
+      <member refid="class_thread_pool_saturation_fixture_1a1801bf040ae1395148af59e41d8d7f4c" prot="public" virt="non-virtual"><scope>ThreadPoolSaturationFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TARGRetrieval::GateStats</compoundname>
+    <includes refid="targ__retrieval_8h" local="no">targ_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGRetrieval::GateStats::tokens_seen</definition>
+        <argsstring></argsstring>
+        <name>tokens_seen</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::tokens_seen</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="213" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a48503e50182d2dcb3afa938134ef59bc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGRetrieval::GateStats::retrieval_triggers</definition>
+        <argsstring></argsstring>
+        <name>retrieval_triggers</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::retrieval_triggers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="214" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a61922e2accea88128f4f37a74990644e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGRetrieval::GateStats::cooldown_skips</definition>
+        <argsstring></argsstring>
+        <name>cooldown_skips</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::cooldown_skips</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="215" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a2c6f013d688763b00f70559daf3d2d9b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::TARGRetrieval::GateStats::mean_gap</definition>
+        <argsstring></argsstring>
+        <name>mean_gap</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::mean_gap</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="216" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a17424dd3aca3bc1e33dafab863680f7c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGRetrieval::GateStats::min_gap</definition>
+        <argsstring></argsstring>
+        <name>min_gap</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::min_gap</qualifiedname>
+        <initializer>= 1e9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="217" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a62ec35d4f16efe76d3da4a861817b08c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGRetrieval::GateStats::max_gap</definition>
+        <argsstring></argsstring>
+        <name>max_gap</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::max_gap</qualifiedname>
+        <initializer>= -1e9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="218" column="21" bodyfile="include/rag/targ_retrieval.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a7b1f9bf383e22c0bb136cc4b764ece23" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::TARGRetrieval::GateStats::triggerRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>triggerRate</name>
+        <qualifiedname>themis::rag::TARGRetrieval::GateStats::triggerRate</qualifiedname>
+        <briefdescription>
+<para>Fraction of tokens that triggered retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="221" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="221" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/targ_retrieval.h" line="212" column="5" bodyfile="include/rag/targ_retrieval.h" bodystart="212" bodyend="226"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a61922e2accea88128f4f37a74990644e" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>cooldown_skips</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a62ec35d4f16efe76d3da4a861817b08c" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>max_gap</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a2c6f013d688763b00f70559daf3d2d9b" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>mean_gap</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a17424dd3aca3bc1e33dafab863680f7c" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>min_gap</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a48503e50182d2dcb3afa938134ef59bc" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>retrieval_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>tokens_seen</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a7b1f9bf383e22c0bb136cc4b764ece23" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval::GateStats</scope><name>triggerRate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

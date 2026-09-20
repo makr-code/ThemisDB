@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_integration_test_plugin" kind="class" language="C++" prot="public">
+    <compoundname>IntegrationTestPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_integration_test_plugin_1a89d54a66c1624c63737f35cf4dbff206" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool IntegrationTestPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>IntegrationTestPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="12" column="10" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_integration_test_plugin_1a631d397e0bc06cbbb521893892d9b9c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * IntegrationTestPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>IntegrationTestPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="15" column="16" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a0c9b30dcdea9d34e83956251e5eb1adb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * IntegrationTestPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>IntegrationTestPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="16" column="16" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="16" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a747ee7ca888a7ea0fd6a1b1d8aa31b88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType IntegrationTestPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>IntegrationTestPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="18" column="16" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a348e1d658e05a02a1fa4d613c47b0608" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities IntegrationTestPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>IntegrationTestPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="22" column="24" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a84c89c43bbb23582f1a315dde25e5efb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool IntegrationTestPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>IntegrationTestPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="28" column="10" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a7b540537571610811d2688c45346bd9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void IntegrationTestPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>IntegrationTestPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="35" column="10" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_integration_test_plugin_1a8ab48358184ce4730d9d998180dc0a00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * IntegrationTestPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>IntegrationTestPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="39" column="10" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IntegrationTestPlugin</label>
+        <link refid="class_integration_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IntegrationTestPlugin</label>
+        <link refid="class_integration_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_metrics_integration.cpp" line="10" column="1" bodyfile="tests/plugins/test_plugin_metrics_integration.cpp" bodystart="10" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_integration_test_plugin_1a348e1d658e05a02a1fa4d613c47b0608" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_integration_test_plugin_1a8ab48358184ce4730d9d998180dc0a00" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>getInstance</name></member>
+      <member refid="class_integration_test_plugin_1a631d397e0bc06cbbb521893892d9b9c6" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>getName</name></member>
+      <member refid="class_integration_test_plugin_1a747ee7ca888a7ea0fd6a1b1d8aa31b88" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>getType</name></member>
+      <member refid="class_integration_test_plugin_1a0c9b30dcdea9d34e83956251e5eb1adb" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>getVersion</name></member>
+      <member refid="class_integration_test_plugin_1a84c89c43bbb23582f1a315dde25e5efb" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>initialize</name></member>
+      <member refid="class_integration_test_plugin_1a89d54a66c1624c63737f35cf4dbff206" prot="private" virt="non-virtual"><scope>IntegrationTestPlugin</scope><name>initialized_</name></member>
+      <member refid="class_integration_test_plugin_1a7b540537571610811d2688c45346bd9c" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>IntegrationTestPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

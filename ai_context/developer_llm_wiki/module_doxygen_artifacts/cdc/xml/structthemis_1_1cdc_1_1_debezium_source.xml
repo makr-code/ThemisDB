@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_debezium_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DebeziumSource</compoundname>
+    <includes refid="debezium__format_8h" local="no">debezium_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::cdc::DebeziumSource::version</qualifiedname>
+        <initializer>= &quot;1.5.0-dev&quot;</initializer>
+        <briefdescription>
+<para>Connector / server version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="84" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::connector</definition>
+        <argsstring></argsstring>
+        <name>connector</name>
+        <qualifiedname>themis::cdc::DebeziumSource::connector</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>Connector type identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="85" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cdc::DebeziumSource::name</qualifiedname>
+        <initializer>= &quot;themis&quot;</initializer>
+        <briefdescription>
+<para>Logical server / cluster name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="86" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::DebeziumSource::ts_ms</definition>
+        <argsstring></argsstring>
+        <name>ts_ms</name>
+        <qualifiedname>themis::cdc::DebeziumSource::ts_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Source event timestamp (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="87" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::snapshot</definition>
+        <argsstring></argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::cdc::DebeziumSource::snapshot</qualifiedname>
+        <initializer>= &quot;false&quot;</initializer>
+        <briefdescription>
+<para>&quot;true&quot; | &quot;last&quot; | &quot;false&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="88" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::cdc::DebeziumSource::db</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>Database / keyspace name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="89" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumSource::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::cdc::DebeziumSource::table</qualifiedname>
+        <briefdescription>
+<para>Collection / table name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="90" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::DebeziumSource::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::cdc::DebeziumSource::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ThemisDB internal sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="91" column="17" bodyfile="include/cdc/debezium_format.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_debezium_source_1af6d7c1c9fe6cd42fa3305170560ac5ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DebeziumSource::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::DebeziumSource::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="93" column="20" bodyfile="include/cdc/debezium_format.h" bodystart="93" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/debezium_format.h" line="83" column="1" bodyfile="include/cdc/debezium_format.h" bodystart="83" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>connector</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>db</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>name</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>table</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1af6d7c1c9fe6cd42fa3305170560ac5ee" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>ts_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumSource</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

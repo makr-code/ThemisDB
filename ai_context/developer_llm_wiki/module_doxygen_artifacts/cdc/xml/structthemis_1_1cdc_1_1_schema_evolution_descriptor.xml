@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::SchemaEvolutionDescriptor</compoundname>
+    <includes refid="icdc__event__schema_8h" local="no">icdc_event_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a61862173746847c490f7936cff913546" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaEvolutionDescriptor::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::collection</qualifiedname>
+        <briefdescription>
+<para>Affected collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="81" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a6d685b36c25f452ee4788497896ec905" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::SchemaEvolutionDescriptor::old_version</definition>
+        <argsstring></argsstring>
+        <name>old_version</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::old_version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Previous schema version number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="82" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a6ce3504433f4d7ceb2f1229f894dc529" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::SchemaEvolutionDescriptor::new_version</definition>
+        <argsstring></argsstring>
+        <name>new_version</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::new_version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>New schema version number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="83" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1ad01328296f1a9636c2dbf31d6ec184e1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+        <definition>SchemaFormat themis::cdc::SchemaEvolutionDescriptor::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::format</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">SchemaFormat::JSON</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="84" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a53a3b3e8cd236ab8d73d937706ec5c28" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7" kindref="member">SchemaCompatibility</ref></type>
+        <definition>SchemaCompatibility themis::cdc::SchemaEvolutionDescriptor::compatibility</definition>
+        <argsstring></argsstring>
+        <name>compatibility</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::compatibility</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1cdc_1a15621987fa97e60044a85667b62f61e7ab50339a10e1de285ac99d4c3990b8693" kindref="member">SchemaCompatibility::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="85" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a3f9aeb77cf8147f939017af552373fb4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114" kindref="member">MigrationStrategy</ref></type>
+        <definition>MigrationStrategy themis::cdc::SchemaEvolutionDescriptor::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::strategy</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1cdc_1a18d6b6fcd4f32f16828d55225d200114a105b296a83f9c105355403f3332af50f" kindref="member">MigrationStrategy::Pause</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="86" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a91dc3746959646d8991314dab39afe74" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::cdc::SchemaEvolutionDescriptor::affected_fields</definition>
+        <argsstring></argsstring>
+        <name>affected_fields</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::affected_fields</qualifiedname>
+        <briefdescription>
+<para>Fields that changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="87" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a3c2bee02110110eaa79975a32757fd89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaEvolutionDescriptor::old_schema</definition>
+        <argsstring></argsstring>
+        <name>old_schema</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::old_schema</qualifiedname>
+        <briefdescription>
+<para>Serialised old schema definition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="88" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a8facc3a9678b0451dbd4e252b861072e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaEvolutionDescriptor::new_schema</definition>
+        <argsstring></argsstring>
+        <name>new_schema</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::new_schema</qualifiedname>
+        <briefdescription>
+<para>Serialised new schema definition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="89" column="27" bodyfile="include/cdc/icdc_event_schema.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a163e88acaf3af55ddcaa1e68d31e907c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_schema_conflict" kindref="compound">SchemaConflict</ref> &gt;</type>
+        <definition>std::vector&lt;SchemaConflict&gt; themis::cdc::SchemaEvolutionDescriptor::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::cdc::SchemaEvolutionDescriptor::conflicts</qualifiedname>
+        <briefdescription>
+<para>Filled only for incompatible evolutions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="90" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_event_schema.h" line="80" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="80" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a91dc3746959646d8991314dab39afe74" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>affected_fields</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a61862173746847c490f7936cff913546" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>collection</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a53a3b3e8cd236ab8d73d937706ec5c28" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>compatibility</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a163e88acaf3af55ddcaa1e68d31e907c" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1ad01328296f1a9636c2dbf31d6ec184e1" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>format</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a8facc3a9678b0451dbd4e252b861072e" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>new_schema</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a6ce3504433f4d7ceb2f1229f894dc529" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>new_version</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a3c2bee02110110eaa79975a32757fd89" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>old_schema</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a6d685b36c25f452ee4788497896ec905" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>old_version</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor_1a3f9aeb77cf8147f939017af552373fb4" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaEvolutionDescriptor</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

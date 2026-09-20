@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PIIStreamScannerConfig</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a749548439ed1fcadf2982eea1dd8ff21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PIIStreamScannerConfig::lookahead_bytes</definition>
+        <argsstring></argsstring>
+        <name>lookahead_bytes</name>
+        <qualifiedname>themis::utils::PIIStreamScannerConfig::lookahead_bytes</qualifiedname>
+        <initializer>= kDefaultLookaheadBytes</initializer>
+        <briefdescription>
+<para>Buffer to handle cross-chunk entity spans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="320" column="12" bodyfile="include/utils/pii_detection_engine.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a3563f7948ec65da417f5b5f4f28f31d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::PIIStreamScannerConfig::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::utils::PIIStreamScannerConfig::min_confidence</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="321" column="12" bodyfile="include/utils/pii_detection_engine.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for streaming PII scanner. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Default lookahead buffer size for cross-chunk entity span detection. Also used as the floor value returned by <ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249" kindref="member">IPIIDetectionEngine::maxPatternLength()</ref> when no patterns are loaded. </para>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="319" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="319" bodyend="322"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a749548439ed1fcadf2982eea1dd8ff21" prot="public" virt="non-virtual"><scope>themis::utils::PIIStreamScannerConfig</scope><name>lookahead_bytes</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_stream_scanner_config_1a3563f7948ec65da417f5b5f4f28f31d1" prot="public" virt="non-virtual"><scope>themis::utils::PIIStreamScannerConfig</scope><name>min_confidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_i_vectorizer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::IVectorizer</compoundname>
+    <derivedcompoundref refid="class_deterministic_benchmark_vectorizer" prot="public" virt="non-virtual">DeterministicBenchmarkVectorizer</derivedcompoundref>
+    <derivedcompoundref refid="class_test_vectorizer" prot="public" virt="non-virtual">TestVectorizer</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" prot="public" virt="non-virtual">themis::rag::DPRVectorizer</derivedcompoundref>
+    <includes refid="vectorizer__interface_8h" local="no">vectorizer_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1a28824ae036efc37adf5a151faa580326" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::IVectorizer::~IVectorizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVectorizer</name>
+        <qualifiedname>themis::rag::IVectorizer::~IVectorizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="32" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1a3a25d011adb8ef03a97862438ba7a8fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::rag::IVectorizer::initialize</definition>
+        <argsstring>()=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::rag::IVectorizer::initialize</qualifiedname>
+        <reimplementedby refid="class_deterministic_benchmark_vectorizer_1aa7f12facd048f56bc8f5c7f0a93420ca">initialize</reimplementedby>
+        <reimplementedby refid="class_test_vectorizer_1acedfdf8adb675b4ec70486487b1db16b">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0dae9f0b5ac465d0230d5a345e7712c1">initialize</reimplementedby>
+        <briefdescription>
+<para>Initialize the vectorizer with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called before any encoding operations. Must succeed before <ref refid="classthemis_1_1rag_1_1_i_vectorizer_1ab7cc8ceba0472758dc53aadc01eb4ea8" kindref="member">encodeQuery()</ref> or <ref refid="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e" kindref="member">encodePassage()</ref> are called.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if initialization fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="42" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1a7007d76fcbf88751424b4a57b7203b85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::rag::IVectorizer::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::rag::IVectorizer::isInitialized</qualifiedname>
+        <reimplementedby refid="class_deterministic_benchmark_vectorizer_1ab1652b4af1224d0206e397f64d92ddf9">isInitialized</reimplementedby>
+        <reimplementedby refid="class_test_vectorizer_1a795ba099cf3ceb1882990339d831b0c3">isInitialized</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19">isInitialized</reimplementedby>
+        <briefdescription>
+<para>Check if the vectorizer is ready for encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if <ref refid="classthemis_1_1rag_1_1_i_vectorizer_1a3a25d011adb8ef03a97862438ba7a8fd" kindref="member">initialize()</ref> succeeded and models are loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="49" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1ab7cc8ceba0472758dc53aadc01eb4ea8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::rag::IVectorizer::encodeQuery</definition>
+        <argsstring>(const std::string &amp;query)=0</argsstring>
+        <name>encodeQuery</name>
+        <qualifiedname>themis::rag::IVectorizer::encodeQuery</qualifiedname>
+        <reimplementedby refid="class_deterministic_benchmark_vectorizer_1a1179697a459a56f9fe6df343e1f3d935">encodeQuery</reimplementedby>
+        <reimplementedby refid="class_test_vectorizer_1a25baa9d398ec507d91d4588bb8e8a146">encodeQuery</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7118c55df679eb925f69347d4161a56f">encodeQuery</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Encode a query string into a dense vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query encoding typically uses a query-specific model/projection. Implementations may optimize for query-shaped inputs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query text to encode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense vector of query embeddings. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="61" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::rag::IVectorizer::encodePassage</definition>
+        <argsstring>(const std::string &amp;passage)=0</argsstring>
+        <name>encodePassage</name>
+        <qualifiedname>themis::rag::IVectorizer::encodePassage</qualifiedname>
+        <reimplementedby refid="class_deterministic_benchmark_vectorizer_1a2b24eaa0c387270055ba3e1b35cb05d1">encodePassage</reimplementedby>
+        <reimplementedby refid="class_test_vectorizer_1a07ca2b597dff70736e95f739352cd542">encodePassage</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0e816049b858a88df0d58c7e9a2f83f4">encodePassage</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>passage</declname>
+        </param>
+        <briefdescription>
+<para>Encode a passage/document into a dense vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passage encoding typically uses a passage-specific model/projection and is often batch-optimized for high throughput.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>passage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The passage text to encode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense vector of passage embeddings. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="73" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1ac4453b89116cd5abf4b6db044c360c89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; float &gt; &gt; themis::rag::IVectorizer::encodePassageBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;passages)</argsstring>
+        <name>encodePassageBatch</name>
+        <qualifiedname>themis::rag::IVectorizer::encodePassageBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1ad757732b72b1268a558d46feecbb2e47">encodePassageBatch</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>passages</declname>
+        </param>
+        <briefdescription>
+<para>Encode multiple passages in a batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation calls <ref refid="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e" kindref="member">encodePassage()</ref> for each passage. Subclasses may optimize this for GPU batch processing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>passages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of passage texts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of dense vectors (same length as input). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="85" column="25" bodyfile="include/rag/vectorizer_interface.h" bodystart="85" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_vectorizer_1a87b6bae3eab789c4b5753db553d980fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::rag::IVectorizer::getEmbeddingDimension</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getEmbeddingDimension</name>
+        <qualifiedname>themis::rag::IVectorizer::getEmbeddingDimension</qualifiedname>
+        <reimplementedby refid="class_deterministic_benchmark_vectorizer_1a8db759e2af91a78cba334a63cf300531">getEmbeddingDimension</reimplementedby>
+        <reimplementedby refid="class_test_vectorizer_1a1d078a72f92ac88760694f16d56df50c">getEmbeddingDimension</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a6706618c6912999cfe5f7ea65e7304e5">getEmbeddingDimension</reimplementedby>
+        <briefdescription>
+<para>Get the embedding dimension of vectors produced by this vectorizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Dimension (e.g., 384 for CLIP, 768 for DistilBERT). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/vectorizer_interface.h" line="100" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for vector encoding. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations encode text (queries, passages) into dense vectors suitable for similarity-based retrieval and ranking. Implementations must be thread-safe.</para>
+<para>Throws std::runtime_error on initialization or encoding failures. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>DeterministicBenchmarkVectorizer</label>
+        <link refid="class_deterministic_benchmark_vectorizer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>TestVectorizer</label>
+        <link refid="class_test_vectorizer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::DPRVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_d_p_r_vectorizer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::rag::IVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_i_vectorizer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/rag/vectorizer_interface.h" line="30" column="1" bodyfile="include/rag/vectorizer_interface.h" bodystart="30" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e" prot="public" virt="pure-virtual"><scope>themis::rag::IVectorizer</scope><name>encodePassage</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1ac4453b89116cd5abf4b6db044c360c89" prot="public" virt="virtual"><scope>themis::rag::IVectorizer</scope><name>encodePassageBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1ab7cc8ceba0472758dc53aadc01eb4ea8" prot="public" virt="pure-virtual"><scope>themis::rag::IVectorizer</scope><name>encodeQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a87b6bae3eab789c4b5753db553d980fa" prot="public" virt="pure-virtual"><scope>themis::rag::IVectorizer</scope><name>getEmbeddingDimension</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a3a25d011adb8ef03a97862438ba7a8fd" prot="public" virt="pure-virtual"><scope>themis::rag::IVectorizer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a7007d76fcbf88751424b4a57b7203b85" prot="public" virt="pure-virtual"><scope>themis::rag::IVectorizer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a28824ae036efc37adf5a151faa580326" prot="public" virt="virtual"><scope>themis::rag::IVectorizer</scope><name>~IVectorizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

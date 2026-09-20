@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sequence__packer_8h" kind="file" language="C++">
+    <compoundname>sequence_packer.h</compoundname>
+    <includes refid="gpu__tensor_8h" local="yes">llm/lora_framework/gpu_tensor.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstddef</includes>
+    <includedby refid="sequence__packer_8cpp" local="yes">src/llm/lora_framework/sequence_packer.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/sequence_packer.h</label>
+        <link refid="sequence__packer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>cstring</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/sequence_packer.h</label>
+        <link refid="sequence__packer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/sequence_packer.cpp</label>
+        <link refid="sequence__packer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer" prot="public">themis::llm::lora::SequencePacker</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" prot="public">themis::llm::lora::SequencePacker::PackedBatch</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__tensor_8h" kindref="compound">llm/lora_framework/gpu_tensor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a9538054d688d3e27e62995fedbc92ef9" kindref="member">SequencePacker</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a2ceb4d0b7fc6a9c3503112da02b8cb57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a2ceb4d0b7fc6a9c3503112da02b8cb57" kindref="member">~SequencePacker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch" kindref="compound">PackedBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1afb1744ba701ebe3314c22765c2c31f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1afb1744ba701ebe3314c22765c2c31f73" kindref="member">token_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[total_tokens]<sp/>-<sp/>packed<sp/>without<sp/>padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a9f1163bfcdc43a8e32ce11a61cea52dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a9f1163bfcdc43a8e32ce11a61cea52dc" kindref="member">attention_mask</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[total_tokens]<sp/>-<sp/>attention<sp/>mask</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3d382fb52ed069977505adfcf82e56a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3d382fb52ed069977505adfcf82e56a4" kindref="member">sequence_lengths</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Length<sp/>per<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ae07cfbc18372ce23d8c95b74a1910672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ae07cfbc18372ce23d8c95b74a1910672" kindref="member">sequence_offsets</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>offset<sp/>per<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" kindref="member">num_sequences</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3160e9b3a07d0ad7430ca522f51c95e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3160e9b3a07d0ad7430ca522f51c95e1" kindref="member">total_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a7f0310b1f77021456c3575318aa497d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a7f0310b1f77021456c3575318aa497d1" kindref="member">is_valid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" kindref="member">num_sequences</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3160e9b3a07d0ad7430ca522f51c95e1" kindref="member">total_tokens</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1a3d382fb52ed069977505adfcf82e56a4" kindref="member">sequence_lengths</ref>.size()<sp/>==<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" kindref="member">num_sequences</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ae07cfbc18372ce23d8c95b74a1910672" kindref="member">sequence_offsets</ref>.size()<sp/>==<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sequence_packer_1_1_packed_batch_1ac79f4cf97712ef7990be8bc718e23313" kindref="member">num_sequences</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a9538054d688d3e27e62995fedbc92ef9" kindref="member">SequencePacker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda</ref>());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>PackedBatch<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a19b9cef57bc9986979c55dd8e0bf5349" kindref="member">packSequences</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;&amp;<sp/>sequences);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GPUTensor&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1adf536d2be0f216055b726deb8194359a" kindref="member">unpackResults</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>packed_output,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PackedBatch&amp;<sp/>batch_info</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_sequence_packer_1a6233c9129c4ae3e0961f360bba80becc" kindref="member">calculateMemorySavings</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;&amp;<sp/>sequences,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_length</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/>device_;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::vector&lt;std::vector&lt;int&gt;&gt;,<sp/>std::vector&lt;size_t&gt;&gt;<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>sortByLength(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;&amp;<sp/>sequences)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/sequence_packer.h"/>
+  </compounddef>
+</doxygen>

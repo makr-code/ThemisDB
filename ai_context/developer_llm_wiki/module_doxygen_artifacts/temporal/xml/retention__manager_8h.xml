@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="retention__manager_8h" kind="file" language="C++">
+    <compoundname>retention_manager.h</compoundname>
+    <includes refid="temporal__types_8h" local="yes">temporal/temporal_types.h</includes>
+    <includes refid="system__versioned__table_8h" local="yes">temporal/system_versioned_table.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">tuple</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="retention__manager_8cpp" local="yes">src/temporal/retention_manager.cpp</includedby>
+    <includedby refid="test__retention__manager_8cpp" local="yes">tests/temporal/test_retention_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/retention_manager.h</label>
+        <link refid="retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>temporal/system_versioned_table.h</label>
+        <link refid="system__versioned__table_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>tuple</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/temporal/retention_manager.h</label>
+        <link refid="retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/temporal/retention_manager.cpp</label>
+        <link refid="retention__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/temporal/test_retention_manager.cpp</label>
+        <link refid="test__retention__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_rule" prot="public">themisdb::temporal::RetentionRule</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_policy" prot="public">themisdb::temporal::RetentionPolicy</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_stats" prot="public">themisdb::temporal::RetentionStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_archived_record" prot="public">themisdb::temporal::ArchivedRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_retention_manager" prot="public">themisdb::temporal::RetentionManager</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_manager_1_1_scheduled_table" prot="private">themisdb::temporal::RetentionManager::ScheduledTable</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="system__versioned__table_8h" kindref="compound">temporal/system_versioned_table.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">TIME_BASED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6cae8d7dbea92fbb3354978b098e0eb3fee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6cae8d7dbea92fbb3354978b098e0eb3fee" kindref="member">VERSION_COUNT_BASED</ref>,<sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6caa15117130b1b7b9340895579add9ed3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6caa15117130b1b7b9340895579add9ed3d" kindref="member">STORAGE_BASED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1temporal_1_1_retention_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemisdb_1_1temporal_1_1_retention_rule_1ab3451329791dfd784c114c344c83557a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1ab3451329791dfd784c114c344c83557a" kindref="member">type</ref>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">RetentionType::TIME_BASED</ref>};</highlight></codeline>
+<codeline lineno="67" refid="structthemisdb_1_1temporal_1_1_retention_rule_1ac5e805053dbee83671bd0ec9c788a6fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1ac5e805053dbee83671bd0ec9c788a6fb" kindref="member">period</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" kindref="member">max_versions</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" kindref="member">max_bytes</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" kindref="member">tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a55b33087b567f74c6cfbdf9a8af7e192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a55b33087b567f74c6cfbdf9a8af7e192" kindref="member">timeBased</ref>(std::chrono::milliseconds<sp/>p,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>compliance_tag<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">RetentionType::TIME_BASED</ref>,<sp/>p,<sp/>0,<sp/>0,<sp/>std::move(compliance_tag)};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a859e847eccf22d604c83395ed7c621e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a859e847eccf22d604c83395ed7c621e0" kindref="member">versionCount</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>compliance_tag<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6cae8d7dbea92fbb3354978b098e0eb3fee" kindref="member">RetentionType::VERSION_COUNT_BASED</ref>,<sp/>std::chrono::milliseconds{0},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>n,<sp/>0,<sp/>std::move(compliance_tag)};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0e6ecfd20610727e12f613dd9c819774" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0e6ecfd20610727e12f613dd9c819774" kindref="member">storageBased</ref>(uint64_t<sp/>max_b,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>compliance_tag<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6caa15117130b1b7b9340895579add9ed3d" kindref="member">RetentionType::STORAGE_BASED</ref>,<sp/>std::chrono::milliseconds{0},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>max_b,<sp/>std::move(compliance_tag)};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1adc99447ba314cba06cb51f47a127ccb4" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RetentionRule&amp;<sp/>rhs)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a7c44955b975430070cd9b308266155e4" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RetentionRule&amp;<sp/>rhs)<sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemisdb_1_1temporal_1_1_retention_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa7701a76d38dac266b646eb4037487e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa7701a76d38dac266b646eb4037487e4" kindref="member">type</ref>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">RetentionType::TIME_BASED</ref>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>TIME_BASED<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1temporal_1_1_retention_policy_1a7376640799220d4a1e16795b089ffbf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1a7376640799220d4a1e16795b089ffbf6" kindref="member">retention_period</ref>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours(24<sp/>*<sp/>365)};<sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>VERSION_COUNT_BASED<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1temporal_1_1_retention_policy_1ae0805c0249810e17f184b97e961047f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1ae0805c0249810e17f184b97e961047f9" kindref="member">max_versions_per_key</ref>{10};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>STORAGE_BASED<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1temporal_1_1_retention_policy_1a68e3cd3d162e52fd5ab1817382183175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1a68e3cd3d162e52fd5ab1817382183175" kindref="member">max_storage_bytes</ref>{0};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>CUSTOM<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1temporal_1_1_retention_policy_1a2c610899456a735d5aef166e31b7ac0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>&amp;)&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1a2c610899456a735d5aef166e31b7ac0f" kindref="member">should_keep</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Compliance<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1temporal_1_1_retention_policy_1ac80d24ea136aa9b452b2fac165da213c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1ac80d24ea136aa9b452b2fac165da213c" kindref="member">compliance_tag</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1temporal_1_1_retention_policy_1a799ccadda0633e23088f0a6bb2e5f7df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1a799ccadda0633e23088f0a6bb2e5f7df" kindref="member">minimum_retention_period</ref>{0};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Incremental<sp/>enforcement<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemisdb_1_1temporal_1_1_retention_policy_1aef4759414af66a354ca4aa0a9bd88931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1aef4759414af66a354ca4aa0a9bd88931" kindref="member">incremental_batch_size</ref>{0};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Retry<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemisdb_1_1temporal_1_1_retention_policy_1ad5937fac39487d30ff22250b6f9799f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1ad5937fac39487d30ff22250b6f9799f4" kindref="member">max_retries</ref>{0};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Archiving<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemisdb_1_1temporal_1_1_retention_policy_1ace20ad76575a9b3689163399200cb1f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1ace20ad76575a9b3689163399200cb1f5" kindref="member">archive_before_delete</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149" refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa2387b64e1c4a71877c8e285b805c257" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy_1aa2387b64e1c4a71877c8e285b805c257" kindref="member">archive_tag</ref>;<sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemisdb_1_1temporal_1_1_retention_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="156" refid="structthemisdb_1_1temporal_1_1_retention_stats_1ae6dda4c7f8982d917ec51e2fac556429" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1ae6dda4c7f8982d917ec51e2fac556429" kindref="member">versions_examined</ref>{0};</highlight></codeline>
+<codeline lineno="157" refid="structthemisdb_1_1temporal_1_1_retention_stats_1abcebb0f61c891b947bdebbd0cd7f0446" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1abcebb0f61c891b947bdebbd0cd7f0446" kindref="member">versions_deleted</ref>{0};</highlight></codeline>
+<codeline lineno="158" refid="structthemisdb_1_1temporal_1_1_retention_stats_1a11fd8fa2c5950a5fc0f9ff1e3db17b04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a11fd8fa2c5950a5fc0f9ff1e3db17b04" kindref="member">versions_archived</ref>{0};</highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1temporal_1_1_retention_stats_1a989cc8dec22f264da298870be50154a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a989cc8dec22f264da298870be50154a4" kindref="member">space_freed_bytes</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1temporal_1_1_retention_stats_1a84d7070c0127124457991ba96884da37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a84d7070c0127124457991ba96884da37" kindref="member">execution_time</ref>{0};</highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1temporal_1_1_retention_stats_1adcf865e9f7ede4aeb37a8b75830e6c6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1adcf865e9f7ede4aeb37a8b75830e6c6d" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1temporal_1_1_retention_stats_1a0cf6c56a90366eee76142331273dae07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a0cf6c56a90366eee76142331273dae07" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;versions_examined&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1ae6dda4c7f8982d917ec51e2fac556429" kindref="member">versions_examined</ref>},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;versions_deleted&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1abcebb0f61c891b947bdebbd0cd7f0446" kindref="member">versions_deleted</ref>},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;versions_archived&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a11fd8fa2c5950a5fc0f9ff1e3db17b04" kindref="member">versions_archived</ref>},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;space_freed_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a989cc8dec22f264da298870be50154a4" kindref="member">space_freed_bytes</ref>},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;execution_time_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1a84d7070c0127124457991ba96884da37" kindref="member">execution_time</ref>.count()},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats_1adcf865e9f7ede4aeb37a8b75830e6c6d" kindref="member">errors</ref>}};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemisdb_1_1temporal_1_1_archived_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_archived_record" kindref="compound">ArchivedRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1temporal_1_1_archived_record_1a2394d46de877e0431d72549d40931e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_archived_record_1a2394d46de877e0431d72549d40931e63" kindref="member">document</ref>;</highlight></codeline>
+<codeline lineno="178" refid="structthemisdb_1_1temporal_1_1_archived_record_1a0f06d0e5475e21c94b25e38185193201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_archived_record_1a0f06d0e5475e21c94b25e38185193201" kindref="member">archive_tag</ref>;</highlight></codeline>
+<codeline lineno="179" refid="structthemisdb_1_1temporal_1_1_archived_record_1a6d2ea87c3971259c9dd57cdc5420a691" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_archived_record_1a6d2ea87c3971259c9dd57cdc5420a691" kindref="member">archived_at</ref>;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemisdb_1_1temporal_1_1_retention_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a8882311d0a6d95b9481937565640acef" kindref="member">RetentionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202" refid="classthemisdb_1_1temporal_1_1_retention_manager_1a8882311d0a6d95b9481937565640acef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a8882311d0a6d95b9481937565640acef" kindref="member">RetentionManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a55decac14743d95ae2bbc48dca22d71b" kindref="member">~RetentionManager</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Policy<sp/>management<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a816e3446214e676426a1a4e29e741e34" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RetentionPolicy&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1ae3a231d86ff44853bbc983c07096a584" kindref="member">getPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Enforcement<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a0b68edd9f880964928ae49587cae0e98" kindref="member">enforceRetention</ref>(<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>&amp;<sp/>table);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_stats" kindref="compound">RetentionStats</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a0b68edd9f880964928ae49587cae0e98" kindref="member">enforceRetention</ref>(<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Background<sp/>Scheduler<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a33cb599cd9a28f99483a0e181dbe527e" kindref="member">scheduleTable</ref>(<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>interval);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a2f4e1a4a28c7879d5aff64a83b30631c" kindref="member">startScheduler</ref>();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1acbc98e447b9d35f8e851e0c5a6b67dd4" kindref="member">stopScheduler</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1ab4d7d44496d07e03035948785b7b9694" kindref="member">schedulerRunning</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Archive<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_archived_record" kindref="compound">ArchivedRecord</ref>&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1aa459b84d1019fb1667f1851dafd29eca" kindref="member">getArchivedRecords</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_archived_record" kindref="compound">ArchivedRecord</ref>&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1aa459b84d1019fb1667f1851dafd29eca" kindref="member">getArchivedRecords</ref>(</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>table_name)<sp/>const;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1aedb245f1b643b9c85df92f1072f7986f" kindref="member">clearArchive</ref>();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1temporal_1_1_retention_manager_1a6c2b0dee12dbc80758a58159cda32e44" kindref="member">getCumulativeStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref>&gt;<sp/>policies_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_archived_record" kindref="compound">ArchivedRecord</ref>&gt;<sp/>archive_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cumulative<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_deleted_{0};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_archived_{0};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_space_freed_bytes_{0};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>scheduler<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ScheduledTable<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SystemVersionedTable*<sp/>table;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>interval;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>next_run;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScheduledTable&gt;<sp/>scheduled_tables_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>scheduler_thread_;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>scheduler_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>scheduler_stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>schedulerLoop();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>RetentionStats<sp/>applyPolicy(SystemVersionedTable&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RetentionPolicy&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/retention_manager.h"/>
+  </compounddef>
+</doxygen>

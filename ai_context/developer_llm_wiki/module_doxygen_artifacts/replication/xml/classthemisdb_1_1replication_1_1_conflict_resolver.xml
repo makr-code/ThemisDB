@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_conflict_resolver" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::replication::ConflictResolver</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver" prot="public" virt="non-virtual">themisdb::replication::CRDTMergeResolver</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_custom_resolver" prot="public" virt="non-virtual">themisdb::replication::CustomResolver</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver" prot="public" virt="non-virtual">themisdb::replication::LastWriteWinsResolver</derivedcompoundref>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_conflict_resolver_1af763af2577df622c4341e9684d189c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::replication::ConflictResolver::~ConflictResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConflictResolver</name>
+        <qualifiedname>themisdb::replication::ConflictResolver::~ConflictResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="234" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_conflict_resolver_1afa9ae0d1b4f80b1cd7ce78e59cd0f84e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>virtual MMWriteEntry themisdb::replication::ConflictResolver::resolve</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; MMWriteEntry &gt; &amp;conflicting_writes)=0</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::ConflictResolver::resolve</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a113b4ab34a8630afaa67baea78fcb229">resolve</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_custom_resolver_1a89c7a8ce18214bd113ff61dd81391770">resolve</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f">resolve</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>conflicting_writes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="237" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_conflict_resolver_1a03c7947a2aeabdbe0ad0f62437ec2ed7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themisdb::replication::ConflictResolver::strategyName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>strategyName</name>
+        <qualifiedname>themisdb::replication::ConflictResolver::strategyName</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1aa2330946a381fe112245d5f1ea1f831e">strategyName</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_custom_resolver_1a19aa6c8e2cf58af4d83b00f8dd23d8e0">strategyName</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a46027a2e7b6b45937b0d160b6e45f2aa">strategyName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="243" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Conflict Resolution Strategy Interface </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::CRDTMergeResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::CustomResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_custom_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::replication::LastWriteWinsResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/replication/multi_master_replication.h" line="232" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="232" bodyend="244"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1afa9ae0d1b4f80b1cd7ce78e59cd0f84e" prot="public" virt="pure-virtual"><scope>themisdb::replication::ConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1a03c7947a2aeabdbe0ad0f62437ec2ed7" prot="public" virt="pure-virtual"><scope>themisdb::replication::ConflictResolver</scope><name>strategyName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1af763af2577df622c4341e9684d189c2e" prot="public" virt="virtual"><scope>themisdb::replication::ConflictResolver</scope><name>~ConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

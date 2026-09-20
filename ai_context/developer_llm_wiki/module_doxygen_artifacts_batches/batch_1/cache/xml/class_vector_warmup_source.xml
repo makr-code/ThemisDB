@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_vector_warmup_source" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>VectorWarmupSource</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_warmup_source" prot="public" virt="non-virtual">themis::cache::IWarmupSource</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_vector_warmup_source_1a81bcb066edd2f2582f788e260a7949f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref>&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;CacheEntry&lt;std::string, std::string&gt; &gt; &gt; VectorWarmupSource::batches</definition>
+        <argsstring></argsstring>
+        <name>batches</name>
+        <qualifiedname>VectorWarmupSource::batches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="106" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_warmup_source_1a389f364273ddc5825853f08486ec241d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t VectorWarmupSource::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>VectorWarmupSource::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="107" column="12" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_vector_warmup_source_1a609ed1c24c5298e3f35735eed82fa3c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; CacheEntry&lt; std::string, std::string &gt; &gt; VectorWarmupSource::nextBatch</definition>
+        <argsstring>() override</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>VectorWarmupSource::nextBatch</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_warmup_source_1ac0e09ff6c58b7fbc3cdc21ff9bd6ebba">nextBatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="109" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1cache_1_1_i_warmup_source" kindref="compound">IWarmupSource</ref> backed by an in-memory vector of batches. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VectorWarmupSource</label>
+        <link refid="class_vector_warmup_source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IWarmupSource</label>
+        <link refid="structthemis_1_1cache_1_1_i_warmup_source"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VectorWarmupSource</label>
+        <link refid="class_vector_warmup_source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IWarmupSource</label>
+        <link refid="structthemis_1_1cache_1_1_i_warmup_source"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="104" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="104" bodyend="113"/>
+    <listofallmembers>
+      <member refid="class_vector_warmup_source_1a81bcb066edd2f2582f788e260a7949f2" prot="public" virt="non-virtual"><scope>VectorWarmupSource</scope><name>batches</name></member>
+      <member refid="class_vector_warmup_source_1a389f364273ddc5825853f08486ec241d" prot="public" virt="non-virtual"><scope>VectorWarmupSource</scope><name>index</name></member>
+      <member refid="class_vector_warmup_source_1a609ed1c24c5298e3f35735eed82fa3c9" prot="public" virt="virtual"><scope>VectorWarmupSource</scope><name>nextBatch</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_warmup_source_1a644a7a9b831714bc66afc39ffd26962c" prot="public" virt="virtual"><scope>VectorWarmupSource</scope><name>~IWarmupSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::LegalGrounding</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ab4c04336fc0d3d280e26d11b4f788281" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::LegalGrounding::citation_ids</definition>
+        <argsstring></argsstring>
+        <name>citation_ids</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::citation_ids</qualifiedname>
+        <briefdescription>
+<para>Document reference IDs from Legal-DB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="352" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ad08abfa307442aa219ec900acbbb2690" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::LegalGrounding::norm_refs</definition>
+        <argsstring></argsstring>
+        <name>norm_refs</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::norm_refs</qualifiedname>
+        <briefdescription>
+<para>e.g. {&quot;GG Art. 1&quot;, &quot;DSGVO Art. 5&quot;}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="353" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ac9a9d401e1c8790e350044cdebaf3042" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::LegalGrounding::retrieval_timestamp_utc</definition>
+        <argsstring></argsstring>
+        <name>retrieval_timestamp_utc</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::retrieval_timestamp_utc</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 retrieval timestamp from legal_db query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="354" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1af88b366684df57155ee409de3a10f1f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::LegalGrounding::override_permitted</definition>
+        <argsstring></argsstring>
+        <name>override_permitted</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::override_permitted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>From dominant school&apos;s regulatory_constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="355" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a18182b110e5e96ba3f5d2b54620ca842" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::LegalGrounding::grounding_available</definition>
+        <argsstring></argsstring>
+        <name>grounding_available</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::grounding_available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>false when Legal-DB is unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="356" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="356" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a877908bb67aade7e0458a50ae76ffb4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::LegalGrounding::legal_db_unavailable</definition>
+        <argsstring></argsstring>
+        <name>legal_db_unavailable</name>
+        <qualifiedname>themis::plugins::ethics::LegalGrounding::legal_db_unavailable</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Explicit availability flag for compliance export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="357" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="351" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="351" bodyend="358"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ab4c04336fc0d3d280e26d11b4f788281" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>citation_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a18182b110e5e96ba3f5d2b54620ca842" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>grounding_available</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a877908bb67aade7e0458a50ae76ffb4e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>legal_db_unavailable</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ad08abfa307442aa219ec900acbbb2690" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>norm_refs</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1af88b366684df57155ee409de3a10f1f4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>override_permitted</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ac9a9d401e1c8790e350044cdebaf3042" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::LegalGrounding</scope><name>retrieval_timestamp_utc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

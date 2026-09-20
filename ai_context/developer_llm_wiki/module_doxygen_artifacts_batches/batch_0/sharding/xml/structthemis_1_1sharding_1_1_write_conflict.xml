@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_write_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WriteConflict</compoundname>
+    <includes refid="multi__primary__coordinator_8h" local="no">multi_primary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1a77f323a92f4b7341a5cf36e70404f7f2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WriteConflict::lsn1</definition>
+        <argsstring></argsstring>
+        <name>lsn1</name>
+        <qualifiedname>themis::sharding::WriteConflict::lsn1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="86" column="9" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1a1ddf1266a60176b3bbc36bc00243d5ae" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WriteConflict::lsn2</definition>
+        <argsstring></argsstring>
+        <name>lsn2</name>
+        <qualifiedname>themis::sharding::WriteConflict::lsn2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="87" column="9" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1a9e7159e75bc781c0c5eaaeb74cc6dc5a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WriteConflict::timestamp1</definition>
+        <argsstring></argsstring>
+        <name>timestamp1</name>
+        <qualifiedname>themis::sharding::WriteConflict::timestamp1</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="88" column="14" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1af36422d135df965dfb0fdaa8ac2762de" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WriteConflict::timestamp2</definition>
+        <argsstring></argsstring>
+        <name>timestamp2</name>
+        <qualifiedname>themis::sharding::WriteConflict::timestamp2</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="89" column="14" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1a136f71729fdd2e8dc672c06fda1a8baa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WriteConflict::primary_id1</definition>
+        <argsstring></argsstring>
+        <name>primary_id1</name>
+        <qualifiedname>themis::sharding::WriteConflict::primary_id1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="90" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_conflict_1a80969922749a4f8e655ed359feb359e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WriteConflict::primary_id2</definition>
+        <argsstring></argsstring>
+        <name>primary_id2</name>
+        <qualifiedname>themis::sharding::WriteConflict::primary_id2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="91" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_write_conflict_1aa3d39b9f3941ea3dbc5008366d2f0523" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WriteConflict::resolveLastWriteWins</definition>
+        <argsstring>() const</argsstring>
+        <name>resolveLastWriteWins</name>
+        <qualifiedname>themis::sharding::WriteConflict::resolveLastWriteWins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="94" column="9" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Write Conflict Resolution </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::WriteConflict</label>
+        <link refid="structthemis_1_1sharding_1_1_write_conflict"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn1</edgelabel>
+          <edgelabel>lsn2</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/multi_primary_coordinator.h" line="85" column="1" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="85" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1a77f323a92f4b7341a5cf36e70404f7f2" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>lsn1</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1a1ddf1266a60176b3bbc36bc00243d5ae" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>lsn2</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1a136f71729fdd2e8dc672c06fda1a8baa" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>primary_id1</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1a80969922749a4f8e655ed359feb359e6" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>primary_id2</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1aa3d39b9f3941ea3dbc5008366d2f0523" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>resolveLastWriteWins</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1a9e7159e75bc781c0c5eaaeb74cc6dc5a" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>timestamp1</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_conflict_1af36422d135df965dfb0fdaa8ac2762de" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConflict</scope><name>timestamp2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::test::MockLLMPluginManager</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager_1af449eb080d3d8e161aa00fcc2474f960" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::test::MockLLMPluginManager::~MockLLMPluginManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MockLLMPluginManager</name>
+        <qualifiedname>themis::aql::test::MockLLMPluginManager::~MockLLMPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="45" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager_1a2e919f85cf9324ab643a53b9ded225e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockLLMPluginManager::MOCK_METHOD</definition>
+        <argsstring>(std::string, generateText,(const std::string &amp;prompt, const std::string &amp;model_id),())</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::aql::test::MockLLMPluginManager::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type>generateText</type>
+        </param>
+        <param>
+          <type>(const std::string &amp;prompt, const std::string &amp;model_id)</type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="46" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock LLM Plugin Manager for testing LLM generation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="43" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="43" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager_1a2e919f85cf9324ab643a53b9ded225e8" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMPluginManager</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager_1af449eb080d3d8e161aa00fcc2474f960" prot="public" virt="virtual"><scope>themis::aql::test::MockLLMPluginManager</scope><name>~MockLLMPluginManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

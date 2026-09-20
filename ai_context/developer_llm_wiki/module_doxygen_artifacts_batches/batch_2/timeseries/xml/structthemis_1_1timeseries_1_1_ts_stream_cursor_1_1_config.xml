@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::TsStreamCursor::Config</compoundname>
+    <includes refid="ts__stream__cursor_8h" local="no">ts_stream_cursor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config_1a759b5d9b191d2eccf56433213172656c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::timeseries::TsStreamCursor::Config::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::timeseries::TsStreamCursor::Config::page_size</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1timeseries_1_1_ts_stream_cursor_1a62af974f371c62d0d0bfb4b25266e05a" kindref="member">kDefaultPageSize</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How many DataPoints to fetch per internal page request. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_stream_cursor.h" line="35" column="16" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a cursor scan. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_stream_cursor.h" line="33" column="5" bodyfile="include/timeseries/ts_stream_cursor.h" bodystart="33" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_ts_stream_cursor_1_1_config_1a759b5d9b191d2eccf56433213172656c" prot="public" virt="non-virtual"><scope>themis::timeseries::TsStreamCursor::Config</scope><name>page_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

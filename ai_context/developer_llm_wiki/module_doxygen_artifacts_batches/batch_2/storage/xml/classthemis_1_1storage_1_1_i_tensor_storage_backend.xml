@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_i_tensor_storage_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::ITensorStorageBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" prot="public" virt="non-virtual">themis::storage::InMemoryTensorBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend" prot="public" virt="non-virtual">themis::storage::RocksDBTensorBackend</derivedcompoundref>
+    <includes refid="tensor__network__storage__engine_8h" local="no">tensor_network_storage_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a182399675080e1892c6fd7c92d9aa819" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::ITensorStorageBackend::~ITensorStorageBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITensorStorageBackend</name>
+        <qualifiedname>themis::storage::ITensorStorageBackend::~ITensorStorageBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="111" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a8ce62269ecd21071a14b01e47c4fe1ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::ITensorStorageBackend::put</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::ITensorStorageBackend::put</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1a884f45ca0e8a08f0eb63149388ec62ba">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend_1a469dd134508f369aaf52f4c43d016f70">put</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="113" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_tensor_storage_backend_1aa2106b358726cf116107eca01e970642" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::ITensorStorageBackend::get</definition>
+        <argsstring>(const std::string &amp;key) const =0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::ITensorStorageBackend::get</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1aaadaa886a4c9e8fd982db37ba29701b8">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend_1a197aa789d024124eb072939dac5f4516">get</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_tensor_storage_backend_1ae5ed65fa6210ce3fb8f0d0230802dc75" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::ITensorStorageBackend::del</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::storage::ITensorStorageBackend::del</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1a6737d291e51acebd47ac87065c0785bc">del</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend_1a19c22d7b75aee850b31aa36e88aab0e5">del</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="119" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a7407f7f9bfdbf878c7d372ce9322932a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::storage::ITensorStorageBackend::listKeys</definition>
+        <argsstring>(const std::string &amp;prefix) const =0</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::storage::ITensorStorageBackend::listKeys</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_tensor_backend_1a9f032d4d281f4be3d11b36f5c54c9763">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend_1a9b6aa54f496bc87ad0baf9364ce4c7ce">listKeys</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Iterate over all keys with the given prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="123" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal KV-store interface used by <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Concrete implementations: <computeroutput><ref refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend" kindref="compound">RocksDBTensorBackend</ref></computeroutput> (production) and <computeroutput><ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" kindref="compound">InMemoryTensorBackend</ref></computeroutput> (unit tests). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::storage::ITensorStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_tensor_storage_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::storage::InMemoryTensorBackend</label>
+        <link refid="classthemis_1_1storage_1_1_in_memory_tensor_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::storage::RocksDBTensorBackend</label>
+        <link refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/storage/tensor_network_storage_engine.h" line="109" column="1" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="109" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_i_tensor_storage_backend_1ae5ed65fa6210ce3fb8f0d0230802dc75" prot="public" virt="pure-virtual"><scope>themis::storage::ITensorStorageBackend</scope><name>del</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_tensor_storage_backend_1aa2106b358726cf116107eca01e970642" prot="public" virt="pure-virtual"><scope>themis::storage::ITensorStorageBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a7407f7f9bfdbf878c7d372ce9322932a" prot="public" virt="pure-virtual"><scope>themis::storage::ITensorStorageBackend</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a8ce62269ecd21071a14b01e47c4fe1ae" prot="public" virt="pure-virtual"><scope>themis::storage::ITensorStorageBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_tensor_storage_backend_1a182399675080e1892c6fd7c92d9aa819" prot="public" virt="virtual"><scope>themis::storage::ITensorStorageBackend</scope><name>~ITensorStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

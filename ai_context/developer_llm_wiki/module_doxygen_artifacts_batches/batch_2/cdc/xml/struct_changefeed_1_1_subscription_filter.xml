@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_subscription_filter" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::SubscriptionFilter</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_subscription_filter_1a5e361c54ff600ac1151096f927b9bdeb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Changefeed::SubscriptionFilter::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>Changefeed::SubscriptionFilter::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="272" column="21" bodyfile="include/cdc/changefeed.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_subscription_filter_1ae03041e4522637b90c56bafd7b15974e" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="class_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref> &gt;</type>
+        <definition>std::set&lt;ChangeEventType&gt; themis::Changefeed::SubscriptionFilter::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>Changefeed::SubscriptionFilter::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="273" column="18" bodyfile="include/cdc/changefeed.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_changefeed_1_1_subscription_filter_1a92109b5c4abb1b17956867190ffcfa3e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::SubscriptionFilter::matches</definition>
+        <argsstring>(const ChangeEvent &amp;ev) const noexcept</argsstring>
+        <name>matches</name>
+        <qualifiedname>Changefeed::SubscriptionFilter::matches</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+<para>Matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="281" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="1220" bodyend="1228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="271" column="5" bodyfile="include/cdc/changefeed.h" bodystart="271" bodyend="282"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_subscription_filter_1ae03041e4522637b90c56bafd7b15974e" prot="public" virt="non-virtual"><scope>Changefeed::SubscriptionFilter</scope><name>event_types</name></member>
+      <member refid="struct_changefeed_1_1_subscription_filter_1a5e361c54ff600ac1151096f927b9bdeb" prot="public" virt="non-virtual"><scope>Changefeed::SubscriptionFilter</scope><name>key_prefix</name></member>
+      <member refid="struct_changefeed_1_1_subscription_filter_1a92109b5c4abb1b17956867190ffcfa3e" prot="public" virt="non-virtual"><scope>Changefeed::SubscriptionFilter</scope><name>matches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

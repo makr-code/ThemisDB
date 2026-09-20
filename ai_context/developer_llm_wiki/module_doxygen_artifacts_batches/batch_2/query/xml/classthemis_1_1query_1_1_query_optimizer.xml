@@ -1,0 +1,1211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation" prot="public">themis::query::QueryOptimizer::Estimation</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" prot="public">themis::query::QueryOptimizer::Plan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" prot="public">themis::query::QueryOptimizer::VectorGeoCostInput</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result" prot="public">themis::query::QueryOptimizer::VectorGeoCostResult</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_input" prot="public">themis::query::QueryOptimizer::ContentGeoCostInput</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result" prot="public">themis::query::QueryOptimizer::ContentGeoCostResult</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input" prot="public">themis::query::QueryOptimizer::GraphPathCostInput</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_result" prot="public">themis::query::QueryOptimizer::GraphPathCostResult</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_distributed_plan" prot="public">themis::query::QueryOptimizer::DistributedPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_workload_plan" prot="public">themis::query::QueryOptimizer::VectorWorkloadPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan" prot="public">themis::query::QueryOptimizer::GraphWorkloadPlan</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_optimizer_1_1_distributed_query_cost_model" prot="private">themis::query::QueryOptimizer::DistributedQueryCostModel</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_optimizer_1_1_multi_index_optimizer" prot="private">themis::query::QueryOptimizer::MultiIndexOptimizer</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>VectorGeoPlan</name>
+        <qualifiedname>themis::query::QueryOptimizer::VectorGeoPlan</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354a0e0379358543951ef368ceb62e7bea93" prot="public">
+          <name>SpatialThenVector</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354a215b9937359f195ab265beaf7c22ba5d" prot="public">
+          <name>VectorThenSpatial</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="154" column="5" bodyfile="include/query/query_optimizer.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a0174500651bd81a6d4252a2b83d06a56" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref> &amp;</type>
+        <definition>SecondaryIndexManager&amp; themis::query::QueryOptimizer::secIdx_</definition>
+        <argsstring></argsstring>
+        <name>secIdx_</name>
+        <qualifiedname>themis::query::QueryOptimizer::secIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="309" column="27" bodyfile="include/query/query_optimizer.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1ad7f5e6aef399205320a7e8bbfbf0b337" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::adaptive_enabled_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_enabled_</name>
+        <qualifiedname>themis::query::QueryOptimizer::adaptive_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="310" column="10" bodyfile="include/query/query_optimizer.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1ace5169e246995d717eee2a32c893f90a" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ac03df000f880fe2c38cff1ea90b0284c" kindref="member">StatisticsCollector</ref> *</type>
+        <definition>StatisticsCollector* themis::query::QueryOptimizer::stats_collector_</definition>
+        <argsstring></argsstring>
+        <name>stats_collector_</name>
+        <qualifiedname>themis::query::QueryOptimizer::stats_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="313" column="25" bodyfile="include/query/query_optimizer.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a9a43d8f110a6fbdb3a2cd0de8a8833e5" prot="private" static="no" mutable="no">
+        <type>observability::MetricsCollector *</type>
+        <definition>observability::MetricsCollector* themis::query::QueryOptimizer::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>themis::query::QueryOptimizer::metrics_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="314" column="37" bodyfile="include/query/query_optimizer.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a4603308ee3f5d511d86c83bf7f6639ac" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryOptimizer::per_query_cost_model_mutex_</definition>
+        <argsstring></argsstring>
+        <name>per_query_cost_model_mutex_</name>
+        <qualifiedname>themis::query::QueryOptimizer::per_query_cost_model_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="322" column="24" bodyfile="include/query/query_optimizer.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1ad4e92275028b8eb41ac8ed2333f4989e" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; performance::phase3::PerQueryCostModel &gt;</type>
+        <definition>std::shared_ptr&lt;performance::phase3::PerQueryCostModel&gt; themis::query::QueryOptimizer::per_query_cost_model_</definition>
+        <argsstring></argsstring>
+        <name>per_query_cost_model_</name>
+        <qualifiedname>themis::query::QueryOptimizer::per_query_cost_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="326" column="29" bodyfile="include/query/query_optimizer.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a4b0d9f141f6537a2191dea92c9227ebd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryOptimizer::advisor_cost_model_mutex_</definition>
+        <argsstring></argsstring>
+        <name>advisor_cost_model_mutex_</name>
+        <qualifiedname>themis::query::QueryOptimizer::advisor_cost_model_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="336" column="24" bodyfile="include/query/query_optimizer.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1aee7ce40580e1ac2f670dffb7f8acd854" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_optimizer_cost_model" kindref="compound">OptimizerCostModel</ref></type>
+        <definition>OptimizerCostModel themis::query::QueryOptimizer::advisor_cost_model_</definition>
+        <argsstring></argsstring>
+        <name>advisor_cost_model_</name>
+        <qualifiedname>themis::query::QueryOptimizer::advisor_cost_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="342" column="24" bodyfile="include/query/query_optimizer.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a7513166af0d571442d300bc22e970ff0" prot="private" static="no" mutable="yes">
+        <type>std::once_flag</type>
+        <definition>std::once_flag themis::query::QueryOptimizer::adaptive_init_flag_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_init_flag_</name>
+        <qualifiedname>themis::query::QueryOptimizer::adaptive_init_flag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="349" column="28" bodyfile="include/query/query_optimizer.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a8ff92b32f90acbf885ff640e66cdfca6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryOptimizer::adaptive_init_mutex_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_init_mutex_</name>
+        <qualifiedname>themis::query::QueryOptimizer::adaptive_init_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="350" column="24" bodyfile="include/query/query_optimizer.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a03f52e28b220c1d85b5f36d1cc096943" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">AdaptiveQueryStats</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveQueryStats&gt; themis::query::QueryOptimizer::adaptive_stats_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_stats_</name>
+        <qualifiedname>themis::query::QueryOptimizer::adaptive_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="425" column="29" bodyfile="include/query/query_optimizer.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a8a46d4a120d264c34e887744f3def66a" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_adaptive_plan_selector" kindref="compound">AdaptivePlanSelector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptivePlanSelector&gt; themis::query::QueryOptimizer::adaptive_selector_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_selector_</name>
+        <qualifiedname>themis::query::QueryOptimizer::adaptive_selector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="426" column="29" bodyfile="include/query/query_optimizer.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a204de545ad9ccadfae9328d0c84c361f" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; DistributedQueryCostModel &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedQueryCostModel&gt; themis::query::QueryOptimizer::distributed_model_</definition>
+        <argsstring></argsstring>
+        <name>distributed_model_</name>
+        <qualifiedname>themis::query::QueryOptimizer::distributed_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="427" column="29" bodyfile="include/query/query_optimizer.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_optimizer_1a4833d25ab502c10b4a294ddf0321d7b2" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; MultiIndexOptimizer &gt;</type>
+        <definition>std::shared_ptr&lt;MultiIndexOptimizer&gt; themis::query::QueryOptimizer::multi_index_optimizer_</definition>
+        <argsstring></argsstring>
+        <name>multi_index_optimizer_</name>
+        <qualifiedname>themis::query::QueryOptimizer::multi_index_optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="428" column="29" bodyfile="include/query/query_optimizer.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a254e56828382e518bc47e29e4d61ac72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryOptimizer::QueryOptimizer</definition>
+        <argsstring>(SecondaryIndexManager &amp;secIdx, StatisticsCollector *stats_collector=nullptr, observability::MetricsCollector *metrics_collector=nullptr)</argsstring>
+        <name>QueryOptimizer</name>
+        <qualifiedname>themis::query::QueryOptimizer::QueryOptimizer</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref> &amp;</type>
+          <declname>secIdx</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1ac03df000f880fe2c38cff1ea90b0284c" kindref="member">StatisticsCollector</ref> *</type>
+          <declname>stats_collector</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>observability::MetricsCollector *</type>
+          <declname>metrics_collector</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="76" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a3e5ceb76c763e319704c030130f75014" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref></type>
+        <definition>QueryOptimizer::Plan themis::query::QueryOptimizer::chooseOrderForAndQuery</definition>
+        <argsstring>(const ConjunctiveQuery &amp;q, size_t maxProbePerPred=1000) const</argsstring>
+        <name>chooseOrderForAndQuery</name>
+        <qualifiedname>themis::query::QueryOptimizer::chooseOrderForAndQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>maxProbePerPred</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">advisor_cost_model_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="81" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="118" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a547871c9bdd509f8ceb7458575dde49d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryOptimizer::setAdvisorCostConstants</definition>
+        <argsstring>(const OptimizerCostModel::CostConstants &amp;c)</argsstring>
+        <name>setAdvisorCostConstants</name>
+        <qualifiedname>themis::query::QueryOptimizer::setAdvisorCostConstants</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">OptimizerCostModel::CostConstants</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Set Advisor Cost Constants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setConstants(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="91" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="385" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a457b6ad2e7d75b08fbf6753d1aa958e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">OptimizerCostModel::CostConstants</ref></type>
+        <definition>OptimizerCostModel::CostConstants themis::query::QueryOptimizer::advisorCostConstants</definition>
+        <argsstring>() const</argsstring>
+        <name>advisorCostConstants</name>
+        <qualifiedname>themis::query::QueryOptimizer::advisorCostConstants</qualifiedname>
+        <briefdescription>
+<para>Advisor Cost Constants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">advisor_cost_model_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="97" column="39" bodyfile="src/query/query_optimizer.cpp" bodystart="392" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1aad074715469e5f5e8008674b5e925a7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref></type>
+        <definition>QueryOptimizer::Plan themis::query::QueryOptimizer::chooseOrderForAndQueryWithNLP</definition>
+        <argsstring>(const ConjunctiveQuery &amp;q, const std::string &amp;original_query_text, size_t maxProbePerPred=1000) const</argsstring>
+        <name>chooseOrderForAndQueryWithNLP</name>
+        <qualifiedname>themis::query::QueryOptimizer::chooseOrderForAndQueryWithNLP</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_query_text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>maxProbePerPred</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="101" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="229" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a42c7689c7635f6a388cccf0394cca0cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::query::QueryOptimizer::executeOptimizedKeys</definition>
+        <argsstring>(QueryEngine &amp;engine, const ConjunctiveQuery &amp;q, const Plan &amp;plan) const</argsstring>
+        <name>executeOptimizedKeys</name>
+        <qualifiedname>themis::query::QueryOptimizer::executeOptimizedKeys</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="107" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="294" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a39edb5b17e65f688249aa080ad029b33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; BaseEntity &gt; &gt; themis::query::QueryOptimizer::executeOptimizedEntities</definition>
+        <argsstring>(QueryEngine &amp;engine, const ConjunctiveQuery &amp;q, const Plan &amp;plan) const</argsstring>
+        <name>executeOptimizedEntities</name>
+        <qualifiedname>themis::query::QueryOptimizer::executeOptimizedEntities</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="110" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="312" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1adeb7735460e0280bbd2fc745e8a553bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; themis::query::QueryOptimizer::executeOptimizedCount</definition>
+        <argsstring>(QueryEngine &amp;engine, const ConjunctiveQuery &amp;q, const Plan &amp;plan) const</argsstring>
+        <name>executeOptimizedCount</name>
+        <qualifiedname>themis::query::QueryOptimizer::executeOptimizedCount</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="113" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="332" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a926c91743a9c28d0a3e81f18ce7fd754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryOptimizer::attachPerQueryCostModel</definition>
+        <argsstring>(std::shared_ptr&lt; performance::phase3::PerQueryCostModel &gt; new_cost_model)</argsstring>
+        <name>attachPerQueryCostModel</name>
+        <qualifiedname>themis::query::QueryOptimizer::attachPerQueryCostModel</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; performance::phase3::PerQueryCostModel &gt;</type>
+          <declname>new_cost_model</declname>
+        </param>
+        <briefdescription>
+<para>============================= Per-Query Cost Model Integration (Phase 3, Issue #2419) ============================= </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach Per <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Cost Model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_cost_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_cost_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="120" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="356" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a5b39ed88684bc8bcba7451d4d178e035" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; performance::phase3::PerQueryCostModel &gt;</type>
+        <definition>std::shared_ptr&lt; performance::phase3::PerQueryCostModel &gt; themis::query::QueryOptimizer::perQueryCostModel</definition>
+        <argsstring>() const</argsstring>
+        <name>perQueryCostModel</name>
+        <qualifiedname>themis::query::QueryOptimizer::perQueryCostModel</qualifiedname>
+        <briefdescription>
+<para>Per <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Cost Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_query_cost_model_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="127" column="21" bodyfile="src/query/query_optimizer.cpp" bodystart="369" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a7a596df1d5628e9d998e1ba96533dc25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::query::QueryOptimizer::executeOptimizedKeysWithCost</definition>
+        <argsstring>(QueryEngine &amp;engine, const ConjunctiveQuery &amp;q, const Plan &amp;plan, double estimated_cost=0.0) const</argsstring>
+        <name>executeOptimizedKeysWithCost</name>
+        <qualifiedname>themis::query::QueryOptimizer::executeOptimizedKeysWithCost</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimated_cost</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_query_cost_model_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="130" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="403" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a0c4c4c91a49f18804b32ba0f5efa1493" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; BaseEntity &gt; &gt; themis::query::QueryOptimizer::executeOptimizedEntitiesWithCost</definition>
+        <argsstring>(QueryEngine &amp;engine, const ConjunctiveQuery &amp;q, const Plan &amp;plan, double estimated_cost=0.0) const</argsstring>
+        <name>executeOptimizedEntitiesWithCost</name>
+        <qualifiedname>themis::query::QueryOptimizer::executeOptimizedEntitiesWithCost</qualifiedname>
+        <param>
+          <type><ref refid="class_query_engine" kindref="compound">QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimated_cost</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_query_cost_model_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="136" column="5" bodyfile="src/query/query_optimizer.cpp" bodystart="437" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a9e68c79bea68561b8898935f8aeda740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryOptimizer::enableAdaptiveOptimization</definition>
+        <argsstring>(bool enable=true)</argsstring>
+        <name>enableAdaptiveOptimization</name>
+        <qualifiedname>themis::query::QueryOptimizer::enableAdaptiveOptimization</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Enable Adaptive Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="213" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="599" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a74eea59e7aeb21cdd5eb947deb83c17a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::isAdaptiveOptimizationEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isAdaptiveOptimizationEnabled</name>
+        <qualifiedname>themis::query::QueryOptimizer::isAdaptiveOptimizationEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="215" column="10" bodyfile="include/query/query_optimizer.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1ab8a452737209e83dbdcbdd2c7caa470c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryOptimizer::recordQueryExecution</definition>
+        <argsstring>(const std::string &amp;query_hash, size_t estimated_rows, size_t actual_rows, double execution_time_ms)</argsstring>
+        <name>recordQueryExecution</name>
+        <qualifiedname>themis::query::QueryOptimizer::recordQueryExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>actual_rows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), recordExecution(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="224" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="622" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a021e2c57ecda54c156f6c0889f449d38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::getAdaptiveAdjustment</definition>
+        <argsstring>(const std::string &amp;query_hash) const</argsstring>
+        <name>getAdaptiveAdjustment</name>
+        <qualifiedname>themis::query::QueryOptimizer::getAdaptiveAdjustment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <briefdescription>
+<para>Get Adaptive Adjustment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="235" column="12" bodyfile="src/query/query_optimizer.cpp" bodystart="647" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1adb8e4e4aac2546bab4205b30f771e0c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_distributed_plan" kindref="compound">DistributedPlan</ref></type>
+        <definition>QueryOptimizer::DistributedPlan themis::query::QueryOptimizer::optimizeForDistribution</definition>
+        <argsstring>(const ConjunctiveQuery &amp;q, const std::vector&lt; std::string &gt; &amp;available_shards, bool enable_partition_pruning=true) const</argsstring>
+        <name>optimizeForDistribution</name>
+        <qualifiedname>themis::query::QueryOptimizer::optimizeForDistribution</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>available_shards</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_partition_pruning</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="246" column="21" bodyfile="src/query/query_optimizer.cpp" bodystart="655" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1aace9054d213223b62b42c40089349ed9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_workload_plan" kindref="compound">VectorWorkloadPlan</ref></type>
+        <definition>QueryOptimizer::VectorWorkloadPlan themis::query::QueryOptimizer::optimizeVectorWorkload</definition>
+        <argsstring>(size_t k, size_t dataset_size, size_t dimension, double target_recall=0.95) const</argsstring>
+        <name>optimizeVectorWorkload</name>
+        <qualifiedname>themis::query::QueryOptimizer::optimizeVectorWorkload</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target_recall</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="258" column="24" bodyfile="src/query/query_optimizer.cpp" bodystart="954" bodyend="1010"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1aed2ca651e9ae3a88780d6aa0d4aa0453" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan" kindref="compound">GraphWorkloadPlan</ref></type>
+        <definition>QueryOptimizer::GraphWorkloadPlan themis::query::QueryOptimizer::optimizeGraphWorkload</definition>
+        <argsstring>(size_t max_depth, size_t estimated_branching_factor, bool has_spatial_constraint=false) const</argsstring>
+        <name>optimizeGraphWorkload</name>
+        <qualifiedname>themis::query::QueryOptimizer::optimizeGraphWorkload</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_branching_factor</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_spatial_constraint</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="271" column="23" bodyfile="src/query/query_optimizer.cpp" bodystart="1012" bodyend="1073"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1ade47513a5ec1625b21bdfcb0a3f708e2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::setScopeBounds</definition>
+        <argsstring>(Plan &amp;plan, const std::string &amp;scope_id, size_t max_rows=0, size_t max_bytes=0, bool enforce_federation=false) const noexcept</argsstring>
+        <name>setScopeBounds</name>
+        <qualifiedname>themis::query::QueryOptimizer::setScopeBounds</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_rows</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enforce_federation</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="280" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="1079" bodyend="1113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a89178b51009c3b8ee6990c0fb9957a79" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::validateResultBounds</definition>
+        <argsstring>(const Plan &amp;plan, size_t result_rows, size_t result_bytes) const noexcept</argsstring>
+        <name>validateResultBounds</name>
+        <qualifiedname>themis::query::QueryOptimizer::validateResultBounds</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>result_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>result_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Validate Result Bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="294" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="1115" bodyend="1159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1ab038afb57756d7d5e4688a03aca0c320" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::validateFederationScopeIsolation</definition>
+        <argsstring>(const Plan &amp;plan, const std::string &amp;remote_scope_id) const noexcept</argsstring>
+        <name>validateFederationScopeIsolation</name>
+        <qualifiedname>themis::query::QueryOptimizer::validateFederationScopeIsolation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_scope_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate Federation Scope Isolation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_scope_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the remote scope. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="305" column="10" bodyfile="src/query/query_optimizer.cpp" bodystart="1161" bodyend="1188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_result" kindref="compound">VectorGeoCostResult</ref></type>
+        <definition>QueryOptimizer::VectorGeoCostResult themis::query::QueryOptimizer::chooseVectorGeoPlan</definition>
+        <argsstring>(const VectorGeoCostInput &amp;in)</argsstring>
+        <name>chooseVectorGeoPlan</name>
+        <qualifiedname>themis::query::QueryOptimizer::chooseVectorGeoPlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_vector_geo_cost_input" kindref="compound">VectorGeoCostInput</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>Choose Vector Geo <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">Plan</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::warn(), std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="165" column="32" bodyfile="src/query/query_optimizer.cpp" bodystart="475" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a9455a0aa78ca51291e04234c8bf265b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_result" kindref="compound">ContentGeoCostResult</ref></type>
+        <definition>QueryOptimizer::ContentGeoCostResult themis::query::QueryOptimizer::estimateContentGeo</definition>
+        <argsstring>(const ContentGeoCostInput &amp;in)</argsstring>
+        <name>estimateContentGeo</name>
+        <qualifiedname>themis::query::QueryOptimizer::estimateContentGeo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_content_geo_cost_input" kindref="compound">ContentGeoCostInput</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Content Geo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="187" column="33" bodyfile="src/query/query_optimizer.cpp" bodystart="531" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1a9a03a619f1e7d6ed4eb18a6297f9f801" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_result" kindref="compound">GraphPathCostResult</ref></type>
+        <definition>QueryOptimizer::GraphPathCostResult themis::query::QueryOptimizer::estimateGraphPath</definition>
+        <argsstring>(const GraphPathCostInput &amp;in)</argsstring>
+        <name>estimateGraphPath</name>
+        <qualifiedname>themis::query::QueryOptimizer::estimateGraphPath</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_path_cost_input" kindref="compound">GraphPathCostInput</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Graph Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::pow(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="207" column="32" bodyfile="src/query/query_optimizer.cpp" bodystart="570" bodyend="591"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="39" column="1" bodyfile="include/query/query_optimizer.h" bodystart="39" bodyend="429"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ad7f5e6aef399205320a7e8bbfbf0b337" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>adaptive_enabled_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a7513166af0d571442d300bc22e970ff0" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>adaptive_init_flag_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a8ff92b32f90acbf885ff640e66cdfca6" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>adaptive_init_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a8a46d4a120d264c34e887744f3def66a" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>adaptive_selector_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a03f52e28b220c1d85b5f36d1cc096943" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>adaptive_stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1aee7ce40580e1ac2f670dffb7f8acd854" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>advisor_cost_model_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a4b0d9f141f6537a2191dea92c9227ebd" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>advisor_cost_model_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a457b6ad2e7d75b08fbf6753d1aa958e5" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>advisorCostConstants</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a926c91743a9c28d0a3e81f18ce7fd754" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>attachPerQueryCostModel</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a3e5ceb76c763e319704c030130f75014" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>chooseOrderForAndQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1aad074715469e5f5e8008674b5e925a7d" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>chooseOrderForAndQueryWithNLP</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ad14fad74f09b85c0f0b1f068246c1bed" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>chooseVectorGeoPlan</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a204de545ad9ccadfae9328d0c84c361f" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>distributed_model_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a9e68c79bea68561b8898935f8aeda740" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>enableAdaptiveOptimization</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a9455a0aa78ca51291e04234c8bf265b2" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>estimateContentGeo</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a9a03a619f1e7d6ed4eb18a6297f9f801" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>estimateGraphPath</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1adeb7735460e0280bbd2fc745e8a553bc" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>executeOptimizedCount</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a39edb5b17e65f688249aa080ad029b33" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>executeOptimizedEntities</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a0c4c4c91a49f18804b32ba0f5efa1493" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>executeOptimizedEntitiesWithCost</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a42c7689c7635f6a388cccf0394cca0cb" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>executeOptimizedKeys</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a7a596df1d5628e9d998e1ba96533dc25" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>executeOptimizedKeysWithCost</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a021e2c57ecda54c156f6c0889f449d38" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>getAdaptiveAdjustment</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a74eea59e7aeb21cdd5eb947deb83c17a" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>isAdaptiveOptimizationEnabled</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a9a43d8f110a6fbdb3a2cd0de8a8833e5" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>metrics_collector_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a4833d25ab502c10b4a294ddf0321d7b2" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>multi_index_optimizer_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1adb8e4e4aac2546bab4205b30f771e0c2" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>optimizeForDistribution</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1aed2ca651e9ae3a88780d6aa0d4aa0453" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>optimizeGraphWorkload</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1aace9054d213223b62b42c40089349ed9" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>optimizeVectorWorkload</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ad4e92275028b8eb41ac8ed2333f4989e" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>per_query_cost_model_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a4603308ee3f5d511d86c83bf7f6639ac" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>per_query_cost_model_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a5b39ed88684bc8bcba7451d4d178e035" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>perQueryCostModel</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a254e56828382e518bc47e29e4d61ac72" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>QueryOptimizer</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ab8a452737209e83dbdcbdd2c7caa470c" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>recordQueryExecution</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a0174500651bd81a6d4252a2b83d06a56" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>secIdx_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a547871c9bdd509f8ceb7458575dde49d" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>setAdvisorCostConstants</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ade47513a5ec1625b21bdfcb0a3f708e2" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>setScopeBounds</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ace5169e246995d717eee2a32c893f90a" prot="private" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>stats_collector_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1ab038afb57756d7d5e4688a03aca0c320" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>validateFederationScopeIsolation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a89178b51009c3b8ee6990c0fb9957a79" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>validateResultBounds</name></member>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1a46d3742f97904f300007684dce924354" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer</scope><name>VectorGeoPlan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

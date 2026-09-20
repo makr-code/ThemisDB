@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_final_layer_resolution" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FinalLayerResolution</compoundname>
+    <includes refid="final__layer__orchestrator_8h" local="no">final_layer_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a72ba9c300413ff91669dba0daae141b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerResolution::resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::resolved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="83" column="10" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1ab27ecdba4894d5ece442c3784e52e5f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="84" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1adb654b5b3333401625f6e64abab8b110" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::package_id</definition>
+        <argsstring></argsstring>
+        <name>package_id</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::package_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="85" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a0f4d6aa8f9560d59e439b52e0624d4c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::primary_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>primary_adapter_id</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::primary_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="86" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a3e302cade2418c4c256185c938fd47ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::draft_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>draft_adapter_id</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::draft_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="87" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1ab35e66f5026dcc9e54f0cd32548f1222" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="88" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1aba001c3c5fa4f23757e5ddd10bb959b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>routing_reason_code</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::routing_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="89" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1ab7df0805310ab3ab393e75b63010c882" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="90" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a9cb214cef6e363ce00b3f33bd953dbdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="91" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1aa7f828ac08755817ff3f5471772cac53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="92" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1ab06a3c3cc9fb5752feb6913d1b69fef0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::fallback_mode</definition>
+        <argsstring></argsstring>
+        <name>fallback_mode</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::fallback_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="93" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a51241f567902d963a366390af300aa50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::fallback_reason_code</definition>
+        <argsstring></argsstring>
+        <name>fallback_reason_code</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::fallback_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="94" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a9b028ff88171c20c29f4e7c0f2961c81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerResolution::escalation_source_layer</definition>
+        <argsstring></argsstring>
+        <name>escalation_source_layer</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::escalation_source_layer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="95" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a58bd0590bba745cd6efa88b1fb3bc176" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::FinalLayerResolution::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="96" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_resolution_1a5cf1af5de4bc96879b8fda21cc8163be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::FinalLayerResolution::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::FinalLayerResolution::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="97" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/final_layer_orchestrator.h" line="82" column="1" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="82" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9cb214cef6e363ce00b3f33bd953dbdb" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1aa7f828ac08755817ff3f5471772cac53" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab7df0805310ab3ab393e75b63010c882" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a3e302cade2418c4c256185c938fd47ad" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>draft_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a58bd0590bba745cd6efa88b1fb3bc176" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9b028ff88171c20c29f4e7c0f2961c81" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>escalation_source_layer</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab06a3c3cc9fb5752feb6913d1b69fef0" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>fallback_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a51241f567902d963a366390af300aa50" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>fallback_reason_code</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab27ecdba4894d5ece442c3784e52e5f7" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1adb654b5b3333401625f6e64abab8b110" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>package_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a0f4d6aa8f9560d59e439b52e0624d4c8" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>primary_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a72ba9c300413ff91669dba0daae141b1" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>resolved</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab35e66f5026dcc9e54f0cd32548f1222" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1aba001c3c5fa4f23757e5ddd10bb959b3" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>routing_reason_code</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_resolution_1a5cf1af5de4bc96879b8fda21cc8163be" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerResolution</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

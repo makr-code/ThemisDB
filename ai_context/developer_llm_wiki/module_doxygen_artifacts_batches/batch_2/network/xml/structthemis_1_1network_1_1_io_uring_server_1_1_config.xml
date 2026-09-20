@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_io_uring_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::IoUringServer::Config</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a312a8d3e808ca66b84c790f9cc6fccea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::IoUringServer::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::network::IoUringServer::Config::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+<para>Listening address (IPv4/IPv6 dotted notation or host name). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="409" column="21" bodyfile="include/network/kernel_bypass.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1abcbf17fc288268aa37eca651634a991c" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::IoUringServer::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::network::IoUringServer::Config::port</qualifiedname>
+        <initializer>= 8773</initializer>
+        <briefdescription>
+<para>Listening port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="412" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1afcd14f01934882f5bbe4cb5eddc2d9e4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::ring_size</definition>
+        <argsstring></argsstring>
+        <name>ring_size</name>
+        <qualifiedname>themis::network::IoUringServer::Config::ring_size</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>io_uring SQ/CQ ring depth (must be power of two). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="415" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1af2f52c891dc8867929a55440bac1d79e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::IoUringServer::Config::sq_thread_cpu</definition>
+        <argsstring></argsstring>
+        <name>sq_thread_cpu</name>
+        <qualifiedname>themis::network::IoUringServer::Config::sq_thread_cpu</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>CPU core for the kernel SQ polling thread (-1 = no pinning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="418" column="13" bodyfile="include/network/kernel_bypass.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ab6b275770662e50091a62816d3d5a1db" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::sq_thread_idle_ms</definition>
+        <argsstring></argsstring>
+        <name>sq_thread_idle_ms</name>
+        <qualifiedname>themis::network::IoUringServer::Config::sq_thread_idle_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+<para>Milliseconds the kernel SQ thread idles before parking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="421" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a912e98da390e91d3e4180d8e5daad28b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::num_worker_threads</definition>
+        <argsstring></argsstring>
+        <name>num_worker_threads</name>
+        <qualifiedname>themis::network::IoUringServer::Config::num_worker_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Number of application-side worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="424" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1af0780549cd4653018b58cf2cc59f53af" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::network::IoUringServer::Config::max_connections</qualifiedname>
+        <initializer>= 16384</initializer>
+        <briefdescription>
+<para>Maximum number of concurrent connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="427" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1acf69ac2cb84746eb184a873a2fb996be" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::recv_buf_size</definition>
+        <argsstring></argsstring>
+        <name>recv_buf_size</name>
+        <qualifiedname>themis::network::IoUringServer::Config::recv_buf_size</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>Receive buffer size per connection (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="430" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ac71ef30c69b7e980e5171c1668815f74" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::send_buf_size</definition>
+        <argsstring></argsstring>
+        <name>send_buf_size</name>
+        <qualifiedname>themis::network::IoUringServer::Config::send_buf_size</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>Send buffer size per connection (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="433" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ad6f79bdc7d299a6ebf590433ebdd448c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::IoUringServer::Config::num_fixed_buffers</definition>
+        <argsstring></argsstring>
+        <name>num_fixed_buffers</name>
+        <qualifiedname>themis::network::IoUringServer::Config::num_fixed_buffers</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Number of fixed buffers registered with the ring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="436" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a6fc729b1ce2ffec42f515a3b34911ed5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringServer::Config::enable_fast_poll</definition>
+        <argsstring></argsstring>
+        <name>enable_fast_poll</name>
+        <qualifiedname>themis::network::IoUringServer::Config::enable_fast_poll</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable <computeroutput>IORING_FEAT_FAST_POLL</computeroutput> if available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="439" column="14" bodyfile="include/network/kernel_bypass.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a619a743ccaf08ea069aa9bd7ee514d23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringServer::Config::enable_nodrop</definition>
+        <argsstring></argsstring>
+        <name>enable_nodrop</name>
+        <qualifiedname>themis::network::IoUringServer::Config::enable_nodrop</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable <computeroutput>IORING_FEAT_NODROP</computeroutput> if available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="442" column="14" bodyfile="include/network/kernel_bypass.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="407" column="5" bodyfile="include/network/kernel_bypass.h" bodystart="407" bodyend="443"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a6fc729b1ce2ffec42f515a3b34911ed5" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>enable_fast_poll</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a619a743ccaf08ea069aa9bd7ee514d23" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>enable_nodrop</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a312a8d3e808ca66b84c790f9cc6fccea" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1af0780549cd4653018b58cf2cc59f53af" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ad6f79bdc7d299a6ebf590433ebdd448c" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>num_fixed_buffers</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1a912e98da390e91d3e4180d8e5daad28b" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>num_worker_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1abcbf17fc288268aa37eca651634a991c" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>port</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1acf69ac2cb84746eb184a873a2fb996be" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>recv_buf_size</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1afcd14f01934882f5bbe4cb5eddc2d9e4" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>ring_size</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ac71ef30c69b7e980e5171c1668815f74" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>send_buf_size</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1af2f52c891dc8867929a55440bac1d79e" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>sq_thread_cpu</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_config_1ab6b275770662e50091a62816d3d5a1db" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Config</scope><name>sq_thread_idle_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

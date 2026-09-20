@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemDeviceInfo</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a08ae070cdd9e1731e3c528059dcb077a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase4::PMemDeviceInfo::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::performance::phase4::PMemDeviceInfo::path</qualifiedname>
+        <briefdescription>
+<para>Filesystem path (DAX file or /dev/pmemX). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="121" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a37c46c5db2b755511f282f9c4a9373cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemDeviceInfo::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::performance::phase4::PMemDeviceInfo::size_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total usable capacity in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="122" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a8816c0197958141ae0300da5be2da655" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemDeviceInfo::is_dax</definition>
+        <argsstring></argsstring>
+        <name>is_dax</name>
+        <qualifiedname>themis::performance::phase4::PMemDeviceInfo::is_dax</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when mmap&apos;d with MAP_SYNC (DAX). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="123" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1ac6968744580069e2c4525ea25e23db35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemDeviceInfo::is_emulated</definition>
+        <argsstring></argsstring>
+        <name>is_emulated</name>
+        <qualifiedname>themis::performance::phase4::PMemDeviceInfo::is_emulated</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when backed by a regular file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="124" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a7c8da60c0ef399301adc6b71cc836b8e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::phase4::PMemDeviceInfo::numa_node</definition>
+        <argsstring></argsstring>
+        <name>numa_node</name>
+        <qualifiedname>themis::performance::phase4::PMemDeviceInfo::numa_node</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+<para>NUMA node, or -1 if unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="125" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single persistent-memory device or emulated PMem file. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="120" column="1" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="120" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a8816c0197958141ae0300da5be2da655" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemDeviceInfo</scope><name>is_dax</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1ac6968744580069e2c4525ea25e23db35" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemDeviceInfo</scope><name>is_emulated</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a7c8da60c0ef399301adc6b71cc836b8e" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemDeviceInfo</scope><name>numa_node</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a08ae070cdd9e1731e3c528059dcb077a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemDeviceInfo</scope><name>path</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_device_info_1a37c46c5db2b755511f282f9c4a9373cb" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemDeviceInfo</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

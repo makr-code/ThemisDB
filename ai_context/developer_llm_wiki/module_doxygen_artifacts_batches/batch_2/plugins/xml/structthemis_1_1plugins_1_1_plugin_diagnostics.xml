@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_diagnostics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginDiagnostics</compoundname>
+    <includes refid="self__healing__plugin_8h" local="no">self_healing_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref></type>
+        <definition>PluginHealthStatus themis::plugins::PluginDiagnostics::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="31" column="24" bodyfile="include/plugins/self_healing_plugin.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a268790c042aa44f84882ba7ff56469ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginDiagnostics::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="32" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1ab37df4bffa93f22e8e2b87ae8d32250e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginDiagnostics::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::error_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="33" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a0a3088b37885f76db49fff7e02056df6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="36" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a049fc80f36992c8de2eeb3b772cc51d0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>recovery_attempts</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::recovery_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="37" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b92b6a464870faa3180594f3b16f6cd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::successful_recoveries</definition>
+        <argsstring></argsstring>
+        <name>successful_recoveries</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::successful_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="38" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b2b37290c748c7c0e362beb2d723b12" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::failed_recoveries</definition>
+        <argsstring></argsstring>
+        <name>failed_recoveries</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::failed_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="39" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a86cfff0ece7155d1b3b112eb23233fa9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginDiagnostics::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::memory_usage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="42" column="12" bodyfile="include/plugins/self_healing_plugin.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1afe5312275cc9412d4126931636b07fe5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginDiagnostics::cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::cpu_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="43" column="12" bodyfile="include/plugins/self_healing_plugin.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3f6bd107b623dbcc1785ae1307da7d8e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::open_file_handles</definition>
+        <argsstring></argsstring>
+        <name>open_file_handles</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::open_file_handles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="44" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3393f4272259e159aaf4a45c94cd989f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="45" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac402f0d7bb772d2d6c9b11529b39c2a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::PluginDiagnostics::recent_errors</definition>
+        <argsstring></argsstring>
+        <name>recent_errors</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::recent_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="48" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1affaf85ff72fe2cf02201c3b656b8cee1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::PluginDiagnostics::last_error_time</definition>
+        <argsstring></argsstring>
+        <name>last_error_time</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::last_error_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="49" column="43" bodyfile="include/plugins/self_healing_plugin.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a16c53ccafbef4134282b59fc4bfa974f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginDiagnostics::suggested_recovery_action</definition>
+        <argsstring></argsstring>
+        <name>suggested_recovery_action</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::suggested_recovery_action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="52" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a888004850e2fd712a1473b3837dbb34b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::PluginDiagnostics::available_recovery_strategies</definition>
+        <argsstring></argsstring>
+        <name>available_recovery_strategies</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::available_recovery_strategies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="53" column="17" bodyfile="include/plugins/self_healing_plugin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1abc07a9867ff9f80353ada36e87e25f4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginDiagnostics::average_response_time_ms</definition>
+        <argsstring></argsstring>
+        <name>average_response_time_ms</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::average_response_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="56" column="12" bodyfile="include/plugins/self_healing_plugin.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="57" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a92d8bccd3dc327f25f9588fd98a6c419" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginDiagnostics::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="58" column="14" bodyfile="include/plugins/self_healing_plugin.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1a07b76d12293d7c60f7aa4f1d20492459" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::PluginDiagnostics::getErrorRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorRate</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::getErrorRate</qualifiedname>
+        <briefdescription>
+<para>Get error rate (0.0 to 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="63" column="12" bodyfile="include/plugins/self_healing_plugin.h" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac5c55c6fe152bcbc772f979757aad71d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginDiagnostics::needsImmediateAttention</definition>
+        <argsstring>() const</argsstring>
+        <name>needsImmediateAttention</name>
+        <qualifiedname>themis::plugins::PluginDiagnostics::needsImmediateAttention</qualifiedname>
+        <briefdescription>
+<para>Check if plugin needs immediate attention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/self_healing_plugin.h" line="73" column="10" bodyfile="include/plugins/self_healing_plugin.h" bodystart="73" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detailed diagnostic information about plugin health. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/self_healing_plugin.h" line="30" column="1" bodyfile="include/plugins/self_healing_plugin.h" bodystart="30" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3393f4272259e159aaf4a45c94cd989f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a888004850e2fd712a1473b3837dbb34b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>available_recovery_strategies</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1abc07a9867ff9f80353ada36e87e25f4b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>average_response_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1afe5312275cc9412d4126931636b07fe5" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ab37df4bffa93f22e8e2b87ae8d32250e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a0a3088b37885f76db49fff7e02056df6" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a268790c042aa44f84882ba7ff56469ae" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b2b37290c748c7c0e362beb2d723b12" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>failed_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a92d8bccd3dc327f25f9588fd98a6c419" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a07b76d12293d7c60f7aa4f1d20492459" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>getErrorRate</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1affaf85ff72fe2cf02201c3b656b8cee1" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>last_error_time</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a86cfff0ece7155d1b3b112eb23233fa9" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac5c55c6fe152bcbc772f979757aad71d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>needsImmediateAttention</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3f6bd107b623dbcc1785ae1307da7d8e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>open_file_handles</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac402f0d7bb772d2d6c9b11529b39c2a3" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>recent_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a049fc80f36992c8de2eeb3b772cc51d0" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>recovery_attempts</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>status</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b92b6a464870faa3180594f3b16f6cd" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>successful_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a16c53ccafbef4134282b59fc4bfa974f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>suggested_recovery_action</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" prot="public" virt="non-virtual"><scope>themis::plugins::PluginDiagnostics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__plan__visualizer_8h" kind="file" language="C++">
+    <compoundname>query_plan_visualizer.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="query__engine_8h" local="yes">query/query_engine.h</includes>
+    <includes refid="query__optimizer_8h" local="yes">query/query_optimizer.h</includes>
+    <includedby refid="tensor__aware__query__optimizer_8h" local="yes">include/query/tensor_aware_query_optimizer.h</includedby>
+    <includedby refid="aql__runner_8cpp" local="yes">src/query/aql_runner.cpp</includedby>
+    <includedby refid="query__engine_8cpp" local="yes">src/query/query_engine.cpp</includedby>
+    <includedby refid="query__plan__visualizer_8cpp" local="yes">src/query/query_plan_visualizer.cpp</includedby>
+    <includedby refid="test__query__plan__visualizer_8cpp" local="yes">tests/query/test_query_plan_visualizer.cpp</includedby>
+    <incdepgraph>
+      <node id="21">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="24">
+        <label>cstddef</label>
+      </node>
+      <node id="25">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="18">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="16">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="15">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/query/aql_runner.cpp</label>
+        <link refid="aql__runner_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/query/query_engine.cpp</label>
+        <link refid="query__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/query/query_plan_visualizer.cpp</label>
+        <link refid="query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/query/tensor_aware_query_optimizer.cpp</label>
+        <link refid="tensor__aware__query__optimizer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_phase_a_gap_fixes.cpp</label>
+        <link refid="test__query__phase__a__gap__fixes_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/query/test_query_plan_visualizer.cpp</label>
+        <link refid="test__query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_query_plan_node" prot="public">themis::query::QueryPlanNode</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_plan_visualizer" prot="public">themis::query::QueryPlanVisualizer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.25 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__engine_8h" kindref="compound">query/query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__optimizer_8h" kindref="compound">query/query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryPlanNode<sp/>-<sp/>A<sp/>single<sp/>operator<sp/>node<sp/>in<sp/>the<sp/>query<sp/>execution<sp/>plan<sp/>tree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21c" kindref="member">PlanNodeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca3f18bd6473be45124c858db37d6b9495" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca3f18bd6473be45124c858db37d6b9495" kindref="member">SeqScan</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>collection<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca2166606fa6ba860b6f6078448d501ab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca2166606fa6ba860b6f6078448d501ab4" kindref="member">IndexScan</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index-backed<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cad7778d0c64b6ba21494c97f77a66885a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cad7778d0c64b6ba21494c97f77a66885a" kindref="member">Filter</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicate<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca6b46ae48421828d9973deec5fa9aa0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca6b46ae48421828d9973deec5fa9aa0c3" kindref="member">Sort</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ORDER<sp/>BY<sp/>/<sp/>SORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca80d2677cf518f4d04320042f4ea6c146" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa80d2677cf518f4d04320042f4ea6c146" kindref="member">Limit</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LIMIT<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca988fd738de9c6d177440c5dcf69e73ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca988fd738de9c6d177440c5dcf69e73ce" kindref="member">Return</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RETURN<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca2ee34178bb8415b7d7234cd27b83aed6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca2ee34178bb8415b7d7234cd27b83aed6" kindref="member">Aggregate</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COLLECT<sp/>/<sp/>GROUP<sp/>BY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca78e3a48d40583cd018362874c2db2253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca78e3a48d40583cd018362874c2db2253" kindref="member">HashJoin</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash-based<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca25367263a8dc044ac3638f847a4b6ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca25367263a8dc044ac3638f847a4b6ced" kindref="member">NestedLoopJoin</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nested-loop<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21caeaa4511cc1ffaeea0b32d37bbe2797da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21caeaa4511cc1ffaeea0b32d37bbe2797da" kindref="member">GraphTraversal</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>BFS/DFS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cabf32955f21788cca5b24b9d14ae3f037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cabf32955f21788cca5b24b9d14ae3f037" kindref="member">VectorSearch</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ANN<sp/>vector<sp/>similarity<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca282bb41cb386e811af1f6b3b573f8d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca282bb41cb386e811af1f6b3b573f8d56" kindref="member">SpatialFilter</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geospatial<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca93c54fc17e24bdac42c821205e39e9f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca93c54fc17e24bdac42c821205e39e9f0" kindref="member">CTE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>Table<sp/>Expression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca535f8b5656176332dab581887deb23bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca535f8b5656176332dab581887deb23bf" kindref="member">Subquery</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inline<sp/>subquery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cad8df46ea7fcd4a4112df93029ec93c24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cad8df46ea7fcd4a4112df93029ec93c24" kindref="member">TensorContraction</ref>,</highlight><highlight class="comment">//<sp/>TT-compressed<sp/>tensor<sp/>operation<sp/>routed<sp/>by<sp/>TensorAwareQueryOptimizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca80f4f5fcd235fb25ddc95a5f772ab8f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca80f4f5fcd235fb25ddc95a5f772ab8f0" kindref="member">LLMGenerate</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probabilistic<sp/>LLM<sp/>generation<sp/>step<sp/>(non-deterministic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca88183b946cc5f0e8c96b2e66e1c74a7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">Unknown</ref></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1query_1_1_query_plan_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_query_plan_node_1a903f5170e525fddcb7cdc545efabb38a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21c" kindref="member">PlanNodeType</ref><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a903f5170e525fddcb7cdc545efabb38a" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">PlanNodeType::Unknown</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_query_plan_node_1a8b6d7c4d51a9eb3c6aeb80757b76847c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a8b6d7c4d51a9eb3c6aeb80757b76847c" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>estimates<sp/>(always<sp/>present)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1query_1_1_query_plan_node_1a012de1e81e5c135e0636b79cb0296def" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a012de1e81e5c135e0636b79cb0296def" kindref="member">estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1query_1_1_query_plan_node_1a52971bd81dd0151b750f07f78d461f91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a52971bd81dd0151b750f07f78d461f91" kindref="member">estimated_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>statistics<sp/>(populated<sp/>during<sp/>EXPLAIN<sp/>ANALYZE;<sp/>-1<sp/>/<sp/>0<sp/>=<sp/>not<sp/>measured)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1query_1_1_query_plan_node_1a4bc1b631dcdeffb2e6e81d834fc01f60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a4bc1b631dcdeffb2e6e81d834fc01f60" kindref="member">actual_time_ms</ref><sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1query_1_1_query_plan_node_1affe45cb3be8a3011b9604934a6978510" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1affe45cb3be8a3011b9604934a6978510" kindref="member">actual_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>operator<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1query_1_1_query_plan_node_1a2fd33694526c79bf919c40fde60dd408" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a2fd33694526c79bf919c40fde60dd408" kindref="member">index_name</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1_query_plan_node_1a5b58edec860c2da79943a1811065d608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a5b58edec860c2da79943a1811065d608" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1_query_plan_node_1a7cdec385cac97c9aae386df4dd73df60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1a7cdec385cac97c9aae386df4dd73df60" kindref="member">attributes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1query_1_1_query_plan_node_1ac82904a31b0c87be547881aaca23ff75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;QueryPlanNode&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_plan_node_1ac82904a31b0c87be547881aaca23ff75" kindref="member">children</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryPlanVisualizer<sp/>-<sp/>Build<sp/>and<sp/>render<sp/>query<sp/>execution<sp/>plans</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1query_1_1_query_plan_visualizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_query_plan_visualizer" kindref="compound">QueryPlanVisualizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref><sp/><ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a641ee6e3305ad7b3249900e814386586" kindref="member">buildPlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref>&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref>&amp;<sp/>plan);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rendering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a2baf5e8ad27de8441b3c7e0c344bb250" kindref="member">toText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>root,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a3aa80da8a616ce2c7d9e42d7f1fd35dd" kindref="member">toJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>root,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1afbdd0c98c1e3cb8cd27cd8132f99c6b4" kindref="member">toDOT</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>root);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a55d2da383aa5305a9191297477d59ba5" kindref="member">planNodeTypeName</ref>(<ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21c" kindref="member">PlanNodeType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>toTextImpl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>out,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>toJSONImpl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>toJSONImpl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>toDOTImpl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>id_counter,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>nodes_out,<sp/>std::string&amp;<sp/>edges_out);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>toDOTImpl(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>id_counter,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>nodes_out,<sp/>std::string&amp;<sp/>edges_out,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/query_plan_visualizer.h"/>
+  </compounddef>
+</doxygen>

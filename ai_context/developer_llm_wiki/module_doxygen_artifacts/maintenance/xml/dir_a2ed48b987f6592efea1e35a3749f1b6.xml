@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a2ed48b987f6592efea1e35a3749f1b6" kind="dir">
+    <compoundname>benchmarks/maintenance</compoundname>
+    <innerfile refid="bench__docker__raid__comprehensive_8cpp">bench_docker_raid_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__hot__reload__manager_8cpp">bench_hot_reload_manager.cpp</innerfile>
+    <innerfile refid="bench__lock__contention_8cpp">bench_lock_contention.cpp</innerfile>
+    <innerfile refid="bench__maintenance__distributed__gates_8cpp">bench_maintenance_distributed_gates.cpp</innerfile>
+    <innerfile refid="bench__maintenance__release__gates_8cpp">bench_maintenance_release_gates.cpp</innerfile>
+    <innerfile refid="bench__metrics__collector_8cpp">bench_metrics_collector.cpp</innerfile>
+    <innerfile refid="bench__saga__compensation_8cpp">bench_saga_compensation.cpp</innerfile>
+    <innerfile refid="bench__sanity_8cpp">bench_sanity.cpp</innerfile>
+    <innerfile refid="bench__snapshot__manager_8cpp">bench_snapshot_manager.cpp</innerfile>
+    <innerfile refid="bench__update__pipeline_8cpp">bench_update_pipeline.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/maintenance/"/>
+  </compounddef>
+</doxygen>

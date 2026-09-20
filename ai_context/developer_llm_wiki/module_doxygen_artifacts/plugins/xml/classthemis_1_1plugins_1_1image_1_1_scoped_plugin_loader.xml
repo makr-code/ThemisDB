@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::ScopedPluginLoader</compoundname>
+    <includes refid="image__analysis__manager_8h" local="no">image_analysis_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a2283c1689cb272d474ee4a5bee87163d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::ScopedPluginLoader::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="371" column="17" bodyfile="include/plugins/image_analysis_manager.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a7898bc9b666612f28c0e9dcdffe84c54" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ScopedPluginLoader::loaded_</definition>
+        <argsstring></argsstring>
+        <name>loaded_</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="372" column="10" bodyfile="include/plugins/image_analysis_manager.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ae508bfd701df0c2face862987b745e79" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::ScopedPluginLoader::ScopedPluginLoader</definition>
+        <argsstring>(const std::string &amp;name, const PluginConfig &amp;config=PluginConfig(), BackendType backend=BackendType::AUTO)</argsstring>
+        <name>ScopedPluginLoader</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::ScopedPluginLoader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="351" column="5" bodyfile="include/plugins/image_analysis_manager.h" bodystart="351" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a0b4ec9c288313c28c9f79853fd39f79f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::ScopedPluginLoader::~ScopedPluginLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedPluginLoader</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::~ScopedPluginLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="359" column="5" bodyfile="include/plugins/image_analysis_manager.h" bodystart="359" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ad26b98476d324ef160105cbee77f2073" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ScopedPluginLoader::isLoaded</definition>
+        <argsstring>() const</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::isLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="365" column="10" bodyfile="include/plugins/image_analysis_manager.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ae28e90b401c77fea7b8a4b43485d5c7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref> *</type>
+        <definition>IImageAnalysisBackend * themis::plugins::image::ScopedPluginLoader::getPlugin</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::plugins::image::ScopedPluginLoader::getPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="366" column="27" bodyfile="include/plugins/image_analysis_manager.h" bodystart="366" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII Plugin Loader. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically loads plugin on construction and unloads on destruction. Useful for scoped plugin usage. </para>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_manager.h" line="349" column="1" bodyfile="include/plugins/image_analysis_manager.h" bodystart="349" bodyend="373"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ae28e90b401c77fea7b8a4b43485d5c7d" prot="public" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ad26b98476d324ef160105cbee77f2073" prot="public" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a7898bc9b666612f28c0e9dcdffe84c54" prot="private" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>loaded_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a2283c1689cb272d474ee4a5bee87163d" prot="private" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>name_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1ae508bfd701df0c2face862987b745e79" prot="public" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>ScopedPluginLoader</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_scoped_plugin_loader_1a0b4ec9c288313c28c9f79853fd39f79f" prot="public" virt="non-virtual"><scope>themis::plugins::image::ScopedPluginLoader</scope><name>~ScopedPluginLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

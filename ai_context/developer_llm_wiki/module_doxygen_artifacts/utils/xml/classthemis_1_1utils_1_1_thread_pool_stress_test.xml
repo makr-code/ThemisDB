@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_thread_pool_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPoolStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::ThreadPoolStressTest</label>
+        <link refid="classthemis_1_1utils_1_1_thread_pool_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::ThreadPoolStressTest</label>
+        <link refid="classthemis_1_1utils_1_1_thread_pool_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_thread_pool_stress_saturation.cpp" line="18" column="1" bodyfile="tests/utils/test_utils_thread_pool_stress_saturation.cpp" bodystart="18" bodyend="18"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptBudgetExceededError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="context__window__manager_8h" local="no">context_window_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1acc636c62ebefd40d22c726ead41ef4fc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptBudgetExceededError::total_tokens_</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::total_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="65" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1aecb0c4d4f6271a33795988ce5e98cbd4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptBudgetExceededError::max_tokens_</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::max_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="66" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a092fdadb9b1ad62034303a9b1098255c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptBudgetExceededError::model_name_</definition>
+        <argsstring></argsstring>
+        <name>model_name_</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::model_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="67" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a058b621ebc9d9be70496b6989b4f39ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptBudgetExceededError::PromptBudgetExceededError</definition>
+        <argsstring>(size_t total_tokens, size_t max_tokens, const std::string &amp;model_name)</argsstring>
+        <name>PromptBudgetExceededError</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::PromptBudgetExceededError</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual token count of the attempted prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hard limit for the target model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="44" column="5" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="44" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a04adb9721168cfa160768e9a0b3afbc4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptBudgetExceededError::totalTokens</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalTokens</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::totalTokens</qualifiedname>
+        <briefdescription>
+<para>Actual token count that triggered the error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="56" column="12" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a7d48b950594abc4ee4ad70daab336011" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptBudgetExceededError::maxTokens</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxTokens</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::maxTokens</qualifiedname>
+        <briefdescription>
+<para>Hard limit that was exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="59" column="12" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a77905d771fd437f7b51cbda60feaa2ca" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::PromptBudgetExceededError::modelName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>modelName</name>
+        <qualifiedname>themis::prompt_engineering::PromptBudgetExceededError::modelName</qualifiedname>
+        <briefdescription>
+<para>Name of the model whose limit was exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="62" column="23" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown when the assembled prompt exceeds the model&apos;s token limit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers should catch this exception and either reduce the number of context chunks or truncate the user query before retrying. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptBudgetExceededError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptBudgetExceededError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/context_window_manager.h" line="37" column="1" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="37" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1aecb0c4d4f6271a33795988ce5e98cbd4" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>max_tokens_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a7d48b950594abc4ee4ad70daab336011" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>maxTokens</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a092fdadb9b1ad62034303a9b1098255c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>model_name_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a77905d771fd437f7b51cbda60feaa2ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>modelName</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a058b621ebc9d9be70496b6989b4f39ac" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>PromptBudgetExceededError</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1acc636c62ebefd40d22c726ead41ef4fc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>total_tokens_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error_1a04adb9721168cfa160768e9a0b3afbc4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptBudgetExceededError</scope><name>totalTokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

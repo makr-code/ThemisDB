@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::WireProtocolConnectionPool::PooledConnection</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1af6c9fe355542a43246d60c630038c34f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_socket_wrapper" kindref="compound">SocketWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SocketWrapper&gt; themis::network::WireProtocolConnectionPool::PooledConnection::socket</definition>
+        <argsstring></argsstring>
+        <name>socket</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::socket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="320" column="25" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1acb36e492335e86afab59cd699e8697a3" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::WireProtocolConnectionPool::PooledConnection::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="321" column="47" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1affae0a2a30710a05b874428ef3167a1f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::WireProtocolConnectionPool::PooledConnection::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="322" column="47" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a5940985e6889ac8ae98af85b8520a8fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::PooledConnection::in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::in_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="323" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a8a789651d97cbef477997dbdbb71f0ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::PooledConnection::authenticated</definition>
+        <argsstring></argsstring>
+        <name>authenticated</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::authenticated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="324" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a01503bed7f1ad58b09d8222198c2b303" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::PooledConnection::isStale</definition>
+        <argsstring>(std::chrono::seconds timeout) const</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::isStale</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="326" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="326" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a1188819e448e0cc0ec9bc53bbcaec3df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::PooledConnection::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::PooledConnection::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="331" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="331" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pooled connection with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="319" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="319" bodyend="334"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a8a789651d97cbef477997dbdbb71f0ea" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>authenticated</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1affae0a2a30710a05b874428ef3167a1f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a5940985e6889ac8ae98af85b8520a8fe" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>in_use</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a1188819e448e0cc0ec9bc53bbcaec3df" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1a01503bed7f1ad58b09d8222198c2b303" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>isStale</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1acb36e492335e86afab59cd699e8697a3" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_pooled_connection_1af6c9fe355542a43246d60c630038c34f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::PooledConnection</scope><name>socket</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

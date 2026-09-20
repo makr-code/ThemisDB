@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gossip_overhead_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GossipOverheadFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gossip_overhead_fixture_1a583621fd278ca690ad842e32b7ad1350" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GossipOverheadFixture::num_peers_</definition>
+        <argsstring></argsstring>
+        <name>num_peers_</name>
+        <qualifiedname>GossipOverheadFixture::num_peers_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1215" column="9" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1215" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_overhead_fixture_1a99de9115c2f3baa4dc84b0d791a0032e" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GossipOverheadFixture::peers_</definition>
+        <argsstring></argsstring>
+        <name>peers_</name>
+        <qualifiedname>GossipOverheadFixture::peers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1216" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_overhead_fixture_1a78d881d654f2d6b2b238df425d3f8c97" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GossipOverheadFixture::gossip_message_</definition>
+        <argsstring></argsstring>
+        <name>gossip_message_</name>
+        <qualifiedname>GossipOverheadFixture::gossip_message_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1217" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1217" bodyend="1217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_gossip_overhead_fixture_1a65774b0fb4c211440c6f7737b52e5df6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GossipOverheadFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GossipOverheadFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1184" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1184" bodyend="1207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gossip_overhead_fixture_1a5025bc171186a2272d0f9f10ca76c848" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GossipOverheadFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GossipOverheadFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1209" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1209" bodyend="1212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GossipOverheadFixture</label>
+        <link refid="class_gossip_overhead_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GossipOverheadFixture</label>
+        <link refid="class_gossip_overhead_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1182" column="1" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1182" bodyend="1218"/>
+    <listofallmembers>
+      <member refid="class_gossip_overhead_fixture_1a78d881d654f2d6b2b238df425d3f8c97" prot="protected" virt="non-virtual"><scope>GossipOverheadFixture</scope><name>gossip_message_</name></member>
+      <member refid="class_gossip_overhead_fixture_1a583621fd278ca690ad842e32b7ad1350" prot="protected" virt="non-virtual"><scope>GossipOverheadFixture</scope><name>num_peers_</name></member>
+      <member refid="class_gossip_overhead_fixture_1a99de9115c2f3baa4dc84b0d791a0032e" prot="protected" virt="non-virtual"><scope>GossipOverheadFixture</scope><name>peers_</name></member>
+      <member refid="class_gossip_overhead_fixture_1a65774b0fb4c211440c6f7737b52e5df6" prot="public" virt="non-virtual"><scope>GossipOverheadFixture</scope><name>SetUp</name></member>
+      <member refid="class_gossip_overhead_fixture_1a5025bc171186a2272d0f9f10ca76c848" prot="public" virt="non-virtual"><scope>GossipOverheadFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1_0d360142137027144076337206146172017153051030066105" kind="namespace" language="C++">
+    <compoundname>themis::training::@360142137027144076337206146172017153051030066105</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/adalora_tt_bridge.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

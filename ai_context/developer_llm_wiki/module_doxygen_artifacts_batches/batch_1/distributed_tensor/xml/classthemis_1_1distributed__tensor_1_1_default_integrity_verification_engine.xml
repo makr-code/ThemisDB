@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DefaultIntegrityVerificationEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine" prot="public" virt="non-virtual">themis::distributed_tensor::IntegrityVerificationEngine</basecompoundref>
+    <includes refid="include_2distributed__tensor_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</definition>
+        <argsstring>()</argsstring>
+        <name>DefaultIntegrityVerificationEngine</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="213" column="3" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="67" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1ae3ced5b2cb59900717ef10862d3163ac" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</definition>
+        <argsstring>(HashAlgorithm algorithm)</argsstring>
+        <name>DefaultIntegrityVerificationEngine</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>Default Integrity Verification Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="220" column="12" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a3c71727243876586fd4b415a9662d949" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</definition>
+        <argsstring>(DefaultIntegrityVerificationEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>DefaultIntegrityVerificationEngine</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::DefaultIntegrityVerificationEngine</qualifiedname>
+        <param>
+          <type>DefaultIntegrityVerificationEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="222" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1ad8c35d6b5dd983a1e0cecf20720466b5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref> &amp;</type>
+        <definition>DefaultIntegrityVerificationEngine &amp; themis::distributed_tensor::DefaultIntegrityVerificationEngine::operator=</definition>
+        <argsstring>(DefaultIntegrityVerificationEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="225" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a8cddc36a7be81c43d6b209f59baad917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultIntegrityVerificationEngine::~DefaultIntegrityVerificationEngine</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~DefaultIntegrityVerificationEngine</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::~DefaultIntegrityVerificationEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="228" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a00096b25e3f91dc2839e33bc344938c6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref></type>
+        <definition>IntegrityVerificationReceipt themis::distributed_tensor::DefaultIntegrityVerificationEngine::compute_verification</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest) const noexcept override</argsstring>
+        <name>compute_verification</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::compute_verification</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a66a3c995225d0a2ccdd6426c5fde0744">compute_verification</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Compute verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="230" column="32" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="80" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a108e0634a4acae950d691a92c95cec31" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DefaultIntegrityVerificationEngine::verify_integrity</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, const IntegrityVerificationReceipt &amp;receipt) const noexcept override</argsstring>
+        <name>verify_integrity</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::verify_integrity</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aafe0a00f070a8ffce0a3a35f59a69512">verify_integrity</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref> &amp;</type>
+          <declname>receipt</declname>
+        </param>
+        <briefdescription>
+<para>Verify integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="233" column="8" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="131" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a2e6d1d92b7b27812c067ca635402014f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DefaultIntegrityVerificationEngine::verify_shard</definition>
+        <argsstring>(const std::string &amp;shard_data, const std::string &amp;expected_hash) const noexcept override</argsstring>
+        <name>verify_shard</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::verify_shard</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8299932437acb78292c4a71f666136fc">verify_shard</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="237" column="8" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="162" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a6f3c7da9732492145e602bbf26d0b984" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DefaultIntegrityVerificationEngine::compute_hash</definition>
+        <argsstring>(const std::string &amp;data) const noexcept override</argsstring>
+        <name>compute_hash</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::compute_hash</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aa87ba4da3614763a85d18046ddd29985">compute_hash</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="241" column="15" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1adfc027da83c9334b66040bef5f52aac3" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" kindref="compound">MerkleTreeNode</ref> &gt;</type>
+        <definition>std::vector&lt; MerkleTreeNode &gt; themis::distributed_tensor::DefaultIntegrityVerificationEngine::build_merkle_tree</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;shard_hashes) const noexcept</argsstring>
+        <name>build_merkle_tree</name>
+        <qualifiedname>themis::distributed_tensor::DefaultIntegrityVerificationEngine::build_merkle_tree</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>shard_hashes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="243" column="15" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="178" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::distributed_tensor::DefaultIntegrityVerificationEngine</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::IntegrityVerificationEngine</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_tensor::DefaultIntegrityVerificationEngine</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::IntegrityVerificationEngine</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_tensor/integrity_verification.h" line="211" column="1" bodyfile="include/distributed_tensor/integrity_verification.h" bodystart="211" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a96569ee94c5b3ae4f4e19c2954ddbdfe" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>algorithm_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1adfc027da83c9334b66040bef5f52aac3" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>build_merkle_tree</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a6f3c7da9732492145e602bbf26d0b984" prot="private" virt="virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>compute_hash</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a00096b25e3f91dc2839e33bc344938c6" prot="public" virt="virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>compute_verification</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>DefaultIntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1ae3ced5b2cb59900717ef10862d3163ac" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>DefaultIntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a3c71727243876586fd4b415a9662d949" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>DefaultIntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>IntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a1da72c326489e33ce85e375efcd2bb98" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>IntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a2ef2a4660f003981d258ea9e31bb1317" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>IntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a885692721e583fec4c81fe2ab0479f5d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>IntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1ad8c35d6b5dd983a1e0cecf20720466b5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1afa0a731cdd979b239dcdb66fb2d8b3f2" prot="public" virt="non-virtual" ambiguityscope="themis::distributed_tensor::IntegrityVerificationEngine::"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1ac0cc462049b4a51479c6b7532d44a57f" prot="public" virt="non-virtual" ambiguityscope="themis::distributed_tensor::IntegrityVerificationEngine::"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a108e0634a4acae950d691a92c95cec31" prot="public" virt="virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>verify_integrity</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a2e6d1d92b7b27812c067ca635402014f" prot="public" virt="virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>verify_shard</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a8cddc36a7be81c43d6b209f59baad917" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>~DefaultIntegrityVerificationEngine</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a34d81bdd68df0e64f3ce5653bf7d51e8" prot="public" virt="virtual"><scope>themis::distributed_tensor::DefaultIntegrityVerificationEngine</scope><name>~IntegrityVerificationEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

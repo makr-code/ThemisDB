@@ -1,0 +1,530 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1replication_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::replication::test</compoundname>
+    <innerclass refid="structthemis_1_1replication_1_1test_1_1_mock_g_counter" prot="public">themis::replication::test::MockGCounter</innerclass>
+    <innerclass refid="structthemis_1_1replication_1_1test_1_1_mock_version" prot="public">themis::replication::test::MockVersion</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MockCrdtType</name>
+        <qualifiedname>themis::replication::test::MockCrdtType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269cab2d307b078e3da62f97eb4cbc6e1de72" prot="public">
+          <name>GCounter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269ca5b8719c2cc07c6d5c7f7ec90073708ee" prot="public">
+          <name>PNCounter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="90" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1_1test_1a1e0abcf9aac9e0ab80fd2c390a2ab00f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::replication::test::kReplicationContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kReplicationContractSeed</name>
+        <qualifiedname>themis::replication::test::kReplicationContractSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all RCH tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="59" column="27" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a103d278630f902e6ff1524b2544625b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; ReplicationErrorCode &gt; themis::replication::test::mockCrdtMergeTypes</definition>
+        <argsstring>(MockCrdtType a, MockCrdtType b)</argsstring>
+        <name>mockCrdtMergeTypes</name>
+        <qualifiedname>themis::replication::test::mockCrdtMergeTypes</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" kindref="member">MockCrdtType</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1replication_1_1test_1ae98c26f38f1126b28c28f0a79869269c" kindref="member">MockCrdtType</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Simulates type-mismatch detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="93" column="22" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1aedde6d0a81bf748dd6e3c6fba9f020d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref></type>
+        <definition>static MockVersion themis::replication::test::mockLwwResolve</definition>
+        <argsstring>(const MockVersion &amp;v1, const MockVersion &amp;v2)</argsstring>
+        <name>mockLwwResolve</name>
+        <qualifiedname>themis::replication::test::mockLwwResolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref> &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1test_1_1_mock_version" kindref="compound">MockVersion</ref> &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="109" column="20" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="109" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a3f2a4372dd3c247b4371c838f9321802" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>static std::vector&lt; int &gt; themis::replication::test::mockPartitionStream</definition>
+        <argsstring>(std::vector&lt; int &gt; events)</argsstring>
+        <name>mockPartitionStream</name>
+        <qualifiedname>themis::replication::test::mockPartitionStream</qualifiedname>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Simulates partition-ordered event stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="125" column="20" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a2bc27d523b677a9d14fc252972672d0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; ReplicationErrorCode &gt; themis::replication::test::mockValidateOffset</definition>
+        <argsstring>(std::int64_t offset, std::int64_t current_committed)</argsstring>
+        <name>mockValidateOffset</name>
+        <qualifiedname>themis::replication::test::mockValidateOffset</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>current_committed</declname>
+        </param>
+        <briefdescription>
+<para>Simulates offset validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="131" column="22" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="131" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1ac8e7f83904d7b1e88899c5fe902fb9e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; ReplicationErrorCode &gt; themis::replication::test::mockCheckLsnGap</definition>
+        <argsstring>(std::int64_t prev_lsn, std::int64_t next_lsn)</argsstring>
+        <name>mockCheckLsnGap</name>
+        <qualifiedname>themis::replication::test::mockCheckLsnGap</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>prev_lsn</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>next_lsn</declname>
+        </param>
+        <briefdescription>
+<para>Simulates LSN gap detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="140" column="22" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="140" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1af68085a9098925d4fb674d9e4e2e144e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::replication::test::mockApplyIdempotent</definition>
+        <argsstring>(std::vector&lt; std::int64_t &gt; &amp;applied_lsns, std::int64_t lsn)</argsstring>
+        <name>mockApplyIdempotent</name>
+        <qualifiedname>themis::replication::test::mockApplyIdempotent</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::int64_t &gt; &amp;</type>
+          <declname>applied_lsns</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Simulates idempotent apply (tracks applied LSNs in a set). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="149" column="13" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="149" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a636abab4c3948685dd6a9621abf1d20f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH01_GCounterMergeCommutative)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH01_GCounterMergeCommutative</type>
+        </param>
+        <briefdescription>
+<para>RCH-01: GCounter merge is commutative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="163" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="163" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1aa1376252c20e84f8b76022f517d7aec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH02_GCounterMergeIdempotent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH02_GCounterMergeIdempotent</type>
+        </param>
+        <briefdescription>
+<para>RCH-02: GCounter merge is idempotent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="178" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a7046f3063682daee59cf50200f4d89ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH03_GCounterMergeAssociative)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH03_GCounterMergeAssociative</type>
+        </param>
+        <briefdescription>
+<para>RCH-03: GCounter merge is associative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="188" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="188" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1aeea7cf790c507d6c645b38c7cb96752b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH04_CrdtTypeMismatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH04_CrdtTypeMismatch</type>
+        </param>
+        <briefdescription>
+<para>RCH-04: Merging incompatible CRDT types raises CRDT_TYPE_MISMATCH. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="201" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a3d19ef0e7e0584b2b67f604303a552c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH05_LwwDeterministic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH05_LwwDeterministic</type>
+        </param>
+        <briefdescription>
+<para>RCH-05: LWW resolution is deterministic — same inputs always same winner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="213" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="213" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a4a25a004e49ec47f103ec07dd091caa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH06_TieBreakByNodeId)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH06_TieBreakByNodeId</type>
+        </param>
+        <briefdescription>
+<para>RCH-06: Tie-break by node-ID is consistent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="225" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="225" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a7128c7324b6debf64118019e59ec790e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH07_TombstoneWins)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH07_TombstoneWins</type>
+        </param>
+        <briefdescription>
+<para>RCH-07: Tombstone wins over concurrent update at same timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="235" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="235" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a0dab3b6b8ab2bd31345945204e98b3b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH08_LwwWinnerHasGreaterTimestamp)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH08_LwwWinnerHasGreaterTimestamp</type>
+        </param>
+        <briefdescription>
+<para>RCH-08: LWW winner always has the greater timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="244" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="244" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a2f34eab7130592325162e79309e939ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH09_PartitionOrderPreserved)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH09_PartitionOrderPreserved</type>
+        </param>
+        <briefdescription>
+<para>RCH-09: Events within a partition are delivered in commit order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="265" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="265" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1aa3549de2d807bbe7401a39f63af4d3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH10_AtLeastOnceDelivery)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH10_AtLeastOnceDelivery</type>
+        </param>
+        <briefdescription>
+<para>RCH-10: At-least-once: a committed event appears in the delivered stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="272" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="272" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a1fdf70de8e47d81fdb4d68da9c001cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH11_RedeliveryIdempotent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH11_RedeliveryIdempotent</type>
+        </param>
+        <briefdescription>
+<para>RCH-11: Redelivery is idempotent — applying same LSN twice is a no-op. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="283" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="283" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1aad2edcecd1b16c1b299c25b7bf199dd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH12_StreamOffsetError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH12_StreamOffsetError</type>
+        </param>
+        <briefdescription>
+<para>RCH-12: Invalid offset raises STREAM_OFFSET_ERROR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="295" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="295" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a7c16eefe3dfafb6b6c86d2470d2ce53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH13_LsnMonotonic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH13_LsnMonotonic</type>
+        </param>
+        <briefdescription>
+<para>RCH-13: LSNs are monotonically increasing in a generated sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="314" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="314" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1ae4e90b4bcecff14ae5243b7ecb1814f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH14_LsnGapDetected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH14_LsnGapDetected</type>
+        </param>
+        <briefdescription>
+<para>RCH-14: LSN gap (jump by &gt; 1) triggers REPLICATION_LAG_EXCEEDED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="327" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="327" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1af2b832b22cf0943a984d4a6e0f96efb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH15_RetryIdempotent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH15_RetryIdempotent</type>
+        </param>
+        <briefdescription>
+<para>RCH-15: Idempotent re-apply of same LSN is safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="339" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="339" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1_1test_1a281efdb43129749a864753f46d919081" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::replication::test::TEST</definition>
+        <argsstring>(ReplicationContractHardening, RCH16_MaxPendingWalEventsReasonable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationContractHardening</type>
+        </param>
+        <param>
+          <type>RCH16_MaxPendingWalEventsReasonable</type>
+        </param>
+        <briefdescription>
+<para>RCH-16: kMaxPendingWalEvents is a positive, finite constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="355" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="355" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="56" column="1"/>
+  </compounddef>
+</doxygen>

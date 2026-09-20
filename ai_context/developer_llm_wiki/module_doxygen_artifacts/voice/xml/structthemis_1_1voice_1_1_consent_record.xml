@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_consent_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ConsentRecord</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1a1a4619c09bab7c1d99f7a3676faebbde" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ConsentRecord::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::ConsentRecord::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="103" column="17" bodyfile="include/voice/voice_security.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1a23ef9b246631765e28e603d586718e8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ConsentRecord::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::ConsentRecord::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="104" column="17" bodyfile="include/voice/voice_security.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1a9e9d2f5db68adfb6348e628088728386" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ConsentRecord::recording_consent</definition>
+        <argsstring></argsstring>
+        <name>recording_consent</name>
+        <qualifiedname>themis::voice::ConsentRecord::recording_consent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="105" column="10" bodyfile="include/voice/voice_security.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1ad23d6ff1a831f24e2cff0ce79c4df626" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ConsentRecord::transcription_consent</definition>
+        <argsstring></argsstring>
+        <name>transcription_consent</name>
+        <qualifiedname>themis::voice::ConsentRecord::transcription_consent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="106" column="10" bodyfile="include/voice/voice_security.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1ac772fed07331937afade847df0e138b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ConsentRecord::data_retention_consent</definition>
+        <argsstring></argsstring>
+        <name>data_retention_consent</name>
+        <qualifiedname>themis::voice::ConsentRecord::data_retention_consent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="107" column="10" bodyfile="include/voice/voice_security.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1ab60bc0cb246fd9a9abcb20739f3dc722" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::ConsentRecord::analytics_consent</definition>
+        <argsstring></argsstring>
+        <name>analytics_consent</name>
+        <qualifiedname>themis::voice::ConsentRecord::analytics_consent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="108" column="10" bodyfile="include/voice/voice_security.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1ad29512c8e4506a564c976735a5e3d479" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::ConsentRecord::consent_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>consent_timestamp_ms</name>
+        <qualifiedname>themis::voice::ConsentRecord::consent_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="109" column="13" bodyfile="include/voice/voice_security.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1a9566f0a0178d505545e5ccab59c9941b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ConsentRecord::consent_version</definition>
+        <argsstring></argsstring>
+        <name>consent_version</name>
+        <qualifiedname>themis::voice::ConsentRecord::consent_version</qualifiedname>
+        <initializer>= &quot;1.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="110" column="17" bodyfile="include/voice/voice_security.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_consent_record_1a5b6a20979691a9683f57316b74891b31" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::ConsentRecord::custom_consents</definition>
+        <argsstring></argsstring>
+        <name>custom_consents</name>
+        <qualifiedname>themis::voice::ConsentRecord::custom_consents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="111" column="10" bodyfile="include/voice/voice_security.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="102" column="1" bodyfile="include/voice/voice_security.h" bodystart="102" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1ab60bc0cb246fd9a9abcb20739f3dc722" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>analytics_consent</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1ad29512c8e4506a564c976735a5e3d479" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>consent_timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1a9566f0a0178d505545e5ccab59c9941b" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>consent_version</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1a5b6a20979691a9683f57316b74891b31" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>custom_consents</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1ac772fed07331937afade847df0e138b6" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>data_retention_consent</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1a9e9d2f5db68adfb6348e628088728386" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>recording_consent</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1a23ef9b246631765e28e603d586718e8b" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1ad23d6ff1a831f24e2cff0ce79c4df626" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>transcription_consent</name></member>
+      <member refid="structthemis_1_1voice_1_1_consent_record_1a1a4619c09bab7c1d99f7a3676faebbde" prot="public" virt="non-virtual"><scope>themis::voice::ConsentRecord</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

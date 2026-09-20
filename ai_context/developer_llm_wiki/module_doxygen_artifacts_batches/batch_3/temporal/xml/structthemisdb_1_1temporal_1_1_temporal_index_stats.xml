@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_index_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalIndexStats</compoundname>
+    <includes refid="temporal__index_8h" local="no">temporal_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1aae17e6e19aded0fda6051b3912ee86a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndexStats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::total_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="47" column="12" bodyfile="include/temporal/temporal_index.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a67da491a667bd57ea9517c62cbbaedd1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TemporalIndexStats::min_timestamp</definition>
+        <argsstring></argsstring>
+        <name>min_timestamp</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::min_timestamp</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="48" column="15" bodyfile="include/temporal/temporal_index.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a44a0c5dde2dbe569c2fc8cf7f7eb034d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TemporalIndexStats::max_timestamp</definition>
+        <argsstring></argsstring>
+        <name>max_timestamp</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::max_timestamp</qualifiedname>
+        <initializer>{kMinTimestamp}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="49" column="15" bodyfile="include/temporal/temporal_index.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1aef24d8ef7741b98c9bdc8cea9a990ac8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::temporal::TemporalIndexStats::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::avg_duration_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="50" column="12" bodyfile="include/temporal/temporal_index.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1af1c6ccbcaaadaffc11d5f25c2d19e43c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndexStats::point_queries</definition>
+        <argsstring></argsstring>
+        <name>point_queries</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::point_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="51" column="12" bodyfile="include/temporal/temporal_index.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a643e0823e6fac61e1991ce058b1d83b1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndexStats::range_queries</definition>
+        <argsstring></argsstring>
+        <name>range_queries</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::range_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="52" column="12" bodyfile="include/temporal/temporal_index.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a025e428a6379b061e27c673b8589b29f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalIndexStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::TemporalIndexStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="54" column="20" bodyfile="include/temporal/temporal_index.h" bodystart="54" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Statistics for a <ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref> instance. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_index.h" line="46" column="1" bodyfile="include/temporal/temporal_index.h" bodystart="46" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1aef24d8ef7741b98c9bdc8cea9a990ac8" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a44a0c5dde2dbe569c2fc8cf7f7eb034d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>max_timestamp</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a67da491a667bd57ea9517c62cbbaedd1" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>min_timestamp</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1af1c6ccbcaaadaffc11d5f25c2d19e43c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>point_queries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a643e0823e6fac61e1991ce058b1d83b1" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>range_queries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1a025e428a6379b061e27c673b8589b29f" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_index_stats_1aae17e6e19aded0fda6051b3912ee86a7" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndexStats</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

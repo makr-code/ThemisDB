@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="targ__retrieval_8h" kind="file" language="C++">
+    <compoundname>targ_retrieval.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__rag__pipeline_8h" local="yes">include/rag/tensor_rag_pipeline.h</includedby>
+    <includedby refid="targ__retrieval_8cpp" local="yes">src/rag/targ_retrieval.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/targ_retrieval.h</label>
+        <link refid="targ__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/targ_retrieval.h</label>
+        <link refid="targ__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/tensor_rag_pipeline.h</label>
+        <link refid="tensor__rag__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/rag/targ_retrieval.cpp</label>
+        <link refid="targ__retrieval_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/tensor_rag_pipeline.cpp</label>
+        <link refid="tensor__rag__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_tensor_rag_provenance.cpp</label>
+        <link refid="test__tensor__rag__provenance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_config" prot="public">themis::rag::TARGConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_decision" prot="public">themis::rag::TARGDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" prot="public">themis::rag::TARGRetrieval</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override" prot="public">themis::rag::TARGRetrieval::ScopedFullEntropyFnOverride</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" prot="public">themis::rag::TARGRetrieval::GateStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TARGConfig<sp/>—<sp/>gating<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1_t_a_r_g_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1abf8d8fa7a6fbf7f038b634688ac47d75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1abf8d8fa7a6fbf7f038b634688ac47d75" kindref="member">gap_threshold</ref><sp/>=<sp/>5.0f;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a3e3d536d0f7cef15b10de388d28f95fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a3e3d536d0f7cef15b10de388d28f95fe" kindref="member">min_consecutive_uncertain</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aca99519d9f56d2503537096b5c473762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aca99519d9f56d2503537096b5c473762" kindref="member">retrieval_cooldown_tokens</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a5de4cae31ca83256f974dc87f63fa6ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a5de4cae31ca83256f974dc87f63fa6ec" kindref="member">top_k</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1afecf9144fcf9de6ee76957b5717614b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1afecf9144fcf9de6ee76957b5717614b0" kindref="member">use_entropy_gate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aee6194ce3b01772064d09ca837adb265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aee6194ce3b01772064d09ca837adb265" kindref="member">entropy_threshold</ref><sp/>=<sp/>4.0f;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TARGDecision<sp/>—<sp/>result<sp/>of<sp/>a<sp/>single<sp/>gating<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1rag_1_1_t_a_r_g_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision" kindref="compound">TARGDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac313153b81fc9478f7d3587fd4087dbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac313153b81fc9478f7d3587fd4087dbb" kindref="member">should_retrieve</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac9d0f6b15e651158dd190da021352222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac9d0f6b15e651158dd190da021352222" kindref="member">logit_gap</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a94c4358750bc04334dee011f3628c5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a94c4358750bc04334dee011f3628c5b0" kindref="member">entropy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a6c09a3e7ca644b670cb08bfeaec19193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a6c09a3e7ca644b670cb08bfeaec19193" kindref="member">in_cooldown</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1af8cc622c70d2532485959326261d4e0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1af8cc622c70d2532485959326261d4e0e" kindref="member">consecutive_uncertain</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TARGRetrieval<sp/>—<sp/>stateful<sp/>gating<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a638832d13de7c9657b1be8ec8d8f3942" kindref="member">TARGRetrieval</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a638832d13de7c9657b1be8ec8d8f3942" kindref="member">TARGRetrieval</ref>(<ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Primary<sp/>API<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision" kindref="compound">TARGDecision</ref><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" kindref="member">gate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>logits);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7359849e3b21c642d7f01de3db7175af" kindref="member">shouldRetrieve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>logits);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>FullEntropyFn<sp/>bridge<sp/>(STUB<sp/>#262)<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref><sp/>=<sp/>std::function&lt;float(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a826ab7de445f30853fd4286f8e8f6039" kindref="member">setFullEntropyFn</ref>(<ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a89e5b7d4ee37ae03c7a3d09dea3338da" kindref="member">clearFullEntropyFn</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a1e47ec44dcf558f891c91b127a599969" kindref="member">ScopedFullEntropyFnOverride</ref><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a1e47ec44dcf558f891c91b127a599969" kindref="member">ScopedFullEntropyFnOverride</ref>(<ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a484b22cb7ecc89911c727ca383e6f791" kindref="member">~ScopedFullEntropyFnOverride</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a6b1d6013a0de6a1d2ee15fc8c19a48a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a6b1d6013a0de6a1d2ee15fc8c19a48a2" kindref="member">ScopedFullEntropyFnOverride</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a1e47ec44dcf558f891c91b127a599969" kindref="member">ScopedFullEntropyFnOverride</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a846a09cf40b80df623d1c378f71d6f7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a1e47ec44dcf558f891c91b127a599969" kindref="member">ScopedFullEntropyFnOverride</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a846a09cf40b80df623d1c378f71d6f7b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override_1a1e47ec44dcf558f891c91b127a599969" kindref="member">ScopedFullEntropyFnOverride</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>active_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>State<sp/>management<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1aaa304f7fe29a1dd01023164280386f2d" kindref="member">notifyRetrievalExecuted</ref>();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1afaa2e4e0e64d0fc45a89ac86a5f4ac0a" kindref="member">notifyTokenEmitted</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a11f3b5036fd7c382b82543ccfac9c911" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Diagnostics<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" kindref="compound">GateStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" kindref="member">tokens_seen</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a48503e50182d2dcb3afa938134ef59bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a48503e50182d2dcb3afa938134ef59bc" kindref="member">retrieval_triggers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a61922e2accea88128f4f37a74990644e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a61922e2accea88128f4f37a74990644e" kindref="member">cooldown_skips</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a2c6f013d688763b00f70559daf3d2d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a2c6f013d688763b00f70559daf3d2d9b" kindref="member">mean_gap</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a17424dd3aca3bc1e33dafab863680f7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a17424dd3aca3bc1e33dafab863680f7c" kindref="member">min_gap</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1e9f;</highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a62ec35d4f16efe76d3da4a861817b08c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a62ec35d4f16efe76d3da4a861817b08c" kindref="member">max_gap</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1e9f;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a7b1f9bf383e22c0bb136cc4b764ece23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a7b1f9bf383e22c0bb136cc4b764ece23" kindref="member">triggerRate</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" kindref="member">tokens_seen</ref><sp/>&gt;<sp/>0</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a48503e50182d2dcb3afa938134ef59bc" kindref="member">retrieval_triggers</ref>)<sp/>/<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats_1a905087e765b0c4c3a5d6510c452e5ebe" kindref="member">tokens_seen</ref></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a165c7cb0e49e6d263949992526d8f4f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" kindref="compound">GateStats</ref><sp/><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a165c7cb0e49e6d263949992526d8f4f6" kindref="member">stats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>consecutive_uncertain_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>cooldown_remaining_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>GateStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>computeMetrics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>logits,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&amp;<sp/><sp/>out_gap,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&amp;<sp/><sp/>out_entropy,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>compute_entropy);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/targ_retrieval.h"/>
+  </compounddef>
+</doxygen>

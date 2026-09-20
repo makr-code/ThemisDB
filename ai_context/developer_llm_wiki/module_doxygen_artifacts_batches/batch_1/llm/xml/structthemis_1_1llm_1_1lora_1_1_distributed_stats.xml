@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedStats</compoundname>
+    <includes refid="distributed__trainer_8h" local="no">distributed_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a33eca5e7b832c8bb36a638aa808c348c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedStats::world_size</definition>
+        <argsstring></argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::world_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="99" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1af5811ffc6e0daf1444a27e60c4851492" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedStats::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="100" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::DistributedStats::communication_time_ms</definition>
+        <argsstring></argsstring>
+        <name>communication_time_ms</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::communication_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="101" column="11" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::DistributedStats::computation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>computation_time_ms</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::computation_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="102" column="11" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a074b6a6801156d6810e4a9b4724d94b8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedStats::bytes_communicated</definition>
+        <argsstring></argsstring>
+        <name>bytes_communicated</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::bytes_communicated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="103" column="12" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a6d59bbe25aa0cf14a079ecac2689e71b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedStats::num_syncs</definition>
+        <argsstring></argsstring>
+        <name>num_syncs</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::num_syncs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="104" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a15c55b3c9090c34567eb78c9a1bc99ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::DistributedStats::~DistributedStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedStats</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::~DistributedStats</qualifiedname>
+        <briefdescription>
+<para>Distributed Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="98" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a2ab5b3f2a9a7f5c6c2f916966bcdace4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::DistributedStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::DistributedStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="106" column="10" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="106" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_trainer.h" line="93" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="93" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a074b6a6801156d6810e4a9b4724d94b8" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>bytes_communicated</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a3b8b2b55ee153e7630e52be9c9f10c0e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>communication_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1ab1b1593046a379fdca554ceba638fd7f" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>computation_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a6d59bbe25aa0cf14a079ecac2689e71b" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>num_syncs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1af5811ffc6e0daf1444a27e60c4851492" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>rank</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a2ab5b3f2a9a7f5c6c2f916966bcdace4" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a33eca5e7b832c8bb36a638aa808c348c" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedStats</scope><name>world_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats_1a15c55b3c9090c34567eb78c9a1bc99ad" prot="public" virt="virtual"><scope>themis::llm::lora::DistributedStats</scope><name>~DistributedStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_index_tier_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::IndexTierMeta</compoundname>
+    <includes refid="tiered__index__manager_8h" local="no">tiered_index_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Tier</name>
+        <qualifiedname>themis::index::IndexTierMeta::Tier</qualifiedname>
+        <enumvalue id="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6ac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6a11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6a3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="58" column="5" bodyfile="include/index/tiered_index_manager.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_tier_meta_1ae7a9ec09fd896708b6c5402b91ed9cbc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">Tier</ref></type>
+        <definition>Tier themis::index::IndexTierMeta::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::index::IndexTierMeta::tier</qualifiedname>
+        <initializer>= Tier::HOT</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="70" column="10" bodyfile="include/index/tiered_index_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_tier_meta_1a0f1368a1dca94d0ce76f3795f43624b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::IndexTierMeta::data_path</definition>
+        <argsstring></argsstring>
+        <name>data_path</name>
+        <qualifiedname>themis::index::IndexTierMeta::data_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Filesystem or object-storage path where index data resides on this tier. For HOT tier this is the live data directory; for WARM/COLD it is the exported snapshot location. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="75" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_tier_meta_1a4f23f1eb454fd1c8a23d0658f3264d78" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::index::IndexTierMeta::last_access</definition>
+        <argsstring></argsstring>
+        <name>last_access</name>
+        <qualifiedname>themis::index::IndexTierMeta::last_access</qualifiedname>
+        <briefdescription>
+<para>Wall-clock time of the most recent access (query or write). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="78" column="43" bodyfile="include/index/tiered_index_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_tier_meta_1aed327ba597c4731c040078ddb5f964f7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexTierMeta::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::index::IndexTierMeta::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of accesses since registration (or last reset). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="81" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_tier_meta_1a4c3cbded13e7d131adac463465294a95" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexTierMeta::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::index::IndexTierMeta::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate size in bytes (informational; 0 means unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="84" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_index_tier_meta_1ade453fe4997814704b534e945f7b2b4b" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::index::IndexTierMeta::tierName</definition>
+        <argsstring>(Tier t) noexcept</argsstring>
+        <name>tierName</name>
+        <qualifiedname>themis::index::IndexTierMeta::tierName</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">Tier</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable tier name for logging / API responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="61" column="23" bodyfile="include/index/tiered_index_manager.h" bodystart="61" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata describing an index&apos;s current tier and access statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/tiered_index_manager.h" line="57" column="1" bodyfile="include/index/tiered_index_manager.h" bodystart="57" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1aed327ba597c4731c040078ddb5f964f7" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1a0f1368a1dca94d0ce76f3795f43624b0" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>data_path</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1a4f23f1eb454fd1c8a23d0658f3264d78" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>last_access</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1a4c3cbded13e7d131adac463465294a95" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>Tier</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1ae7a9ec09fd896708b6c5402b91ed9cbc" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>tier</name></member>
+      <member refid="structthemis_1_1index_1_1_index_tier_meta_1ade453fe4997814704b534e945f7b2b4b" prot="public" virt="non-virtual"><scope>themis::index::IndexTierMeta</scope><name>tierName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

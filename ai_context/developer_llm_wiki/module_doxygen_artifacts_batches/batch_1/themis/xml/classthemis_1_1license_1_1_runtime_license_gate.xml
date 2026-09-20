@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1license_1_1_runtime_license_gate" kind="class" language="C++" prot="public">
+    <compoundname>themis::license::RuntimeLicenseGate</compoundname>
+    <includes refid="runtime__license__gate_8h" local="no">runtime_license_gate.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_runtime_license_gate_1ab3fb2e29a3b137dc00a1166f363b33c2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::license::RuntimeLicenseGate::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="233" column="34" bodyfile="include/themis/runtime_license_gate.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_runtime_license_gate_1a909a5d8184ef201cfdef43ef5bc6b7f6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::license::RuntimeLicenseGate::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="234" column="34" bodyfile="include/themis/runtime_license_gate.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_runtime_license_gate_1a96556e9b1c5c0680734ee7a0025cdbcf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>LicenseActivationResult themis::license::RuntimeLicenseGate::activation_</definition>
+        <argsstring></argsstring>
+        <name>activation_</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::activation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="235" column="34" bodyfile="include/themis/runtime_license_gate.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_runtime_license_gate_1ade163f13ade0229a72e0b53c162414e1" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt;</type>
+        <definition>std::optional&lt;LicenseData&gt; themis::license::RuntimeLicenseGate::license_</definition>
+        <argsstring></argsstring>
+        <name>license_</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::license_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="236" column="21" bodyfile="include/themis/runtime_license_gate.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref> &amp;</type>
+        <definition>static RuntimeLicenseGate &amp; themis::license::RuntimeLicenseGate::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::instance</qualifiedname>
+        <briefdescription>
+<para>Retrieve the process-wide singleton. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="132" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::RuntimeLicenseGate::RuntimeLicenseGate</definition>
+        <argsstring>(const RuntimeLicenseGate &amp;)=delete</argsstring>
+        <name>RuntimeLicenseGate</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::RuntimeLicenseGate</qualifiedname>
+        <param>
+          <type>const RuntimeLicenseGate &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a91fb480f72bede626312d976acc62955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref> &amp;</type>
+        <definition>RuntimeLicenseGate &amp; themis::license::RuntimeLicenseGate::operator=</definition>
+        <argsstring>(const RuntimeLicenseGate &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="136" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::license::RuntimeLicenseGate::initialize</definition>
+        <argsstring>(const LicenseActivationResult &amp;activation, const std::optional&lt; LicenseData &gt; &amp;license=std::nullopt)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref> &amp;</type>
+          <declname>activation</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt; &amp;</type>
+          <declname>license</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Initialise the gate with the result of a <ref refid="classthemis_1_1license_1_1_license_client_1a4f9dd5f87a7b72af7c405d24606d9fe3" kindref="member">LicenseClient::activate()</ref> or validate() call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called once at server startup (after license validation) before any feature checks are performed. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result from <ref refid="classthemis_1_1license_1_1_license_client_1a4f9dd5f87a7b72af7c405d24606d9fe3" kindref="member">LicenseClient::activate()</ref> / validate(). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>license</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional authoritative license data (may come from activation.refreshed_license or <ref refid="namespacethemis_1_1license_1ab8fe53fe64a9f428f396975e824be913" kindref="member">getEmbeddedLicense()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="153" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a8382119fd8c1d06027951645394666ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::license::RuntimeLicenseGate::update</definition>
+        <argsstring>(const LicenseActivationResult &amp;activation, const std::optional&lt; LicenseData &gt; &amp;license=std::nullopt)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::update</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref> &amp;</type>
+          <declname>activation</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt; &amp;</type>
+          <declname>license</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Re-initialise the gate (used after a periodic license refresh). Equivalent to <computeroutput><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" kindref="member">initialize()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="160" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::license::RuntimeLicenseGate::isFeatureAllowed</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>isFeatureAllowed</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::isFeatureAllowed</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if the named feature is allowed at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The following features are gated:<itemizedlist>
+<listitem><para>&quot;enterprise_plugins&quot;</para>
+</listitem><listitem><para>&quot;multi_master&quot;</para>
+</listitem><listitem><para>&quot;field_encryption&quot;</para>
+</listitem><listitem><para>&quot;rbac&quot;</para>
+</listitem><listitem><para>&quot;hsm&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para>Features not on the list (e.g. Community-edition features) are always allowed — the gate only restricts Enterprise/Hyperscaler capabilities.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feature name (see <ref refid="namespacethemis_1_1edition_1ab4183d356fc89c5f4119b7dfab68bd00" kindref="member">edition::IsFeatureEnabled()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the feature may be used; false if blocked. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="183" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1abd68cb273c4a2a95a3ebfeacdbda4499" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::license::RuntimeLicenseGate::isFeatureAllowed</definition>
+        <argsstring>(std::string_view feature_name, std::string &amp;error_out) const</argsstring>
+        <name>isFeatureAllowed</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::isFeatureAllowed</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Like <ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" kindref="member">isFeatureAllowed()</ref> but also sets <computeroutput>error_out</computeroutput> on failure with a human-readable message (license key, expiry info, contact email). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feature to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated with an error string when returning false. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if allowed; false with <computeroutput>error_out</computeroutput> filled in if blocked. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="193" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1aa09ba002672b984d8b8a5b4bb5792bbb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_gate_result" kindref="compound">GateResult</ref></type>
+        <definition>GateResult themis::license::RuntimeLicenseGate::checkFeature</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>checkFeature</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::checkFeature</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a named feature is allowed, returning a <ref refid="structthemis_1_1license_1_1_gate_result" kindref="compound">GateResult</ref> that includes the structured denial reason for programmatic handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefer this over <ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" kindref="member">isFeatureAllowed()</ref> when the caller needs to distinguish between different denial reasons (e.g. show an upgrade prompt for TIER_TOO_LOW vs. a &quot;renew your license&quot; prompt for LICENSE_EXPIRED).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feature_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feature name (see <ref refid="namespacethemis_1_1edition_1ab4183d356fc89c5f4119b7dfab68bd00" kindref="member">edition::IsFeatureEnabled()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1license_1_1_gate_result" kindref="compound">GateResult</ref> with allowed flag and denial_reason set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="207" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a1f1b188334daee2b9a18a8e8775a5d27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::license::RuntimeLicenseGate::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::isInitialized</qualifiedname>
+        <briefdescription>
+<para>Returns true if the gate has been initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="214" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a982e4b168ba9f05685d5b106026613a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::license::RuntimeLicenseGate::licenseStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>licenseStatus</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::licenseStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the current license status string (&quot;active&quot;, &quot;grace&quot;, &quot;expired&quot;, &quot;invalid&quot;, &quot;offline&quot;, …). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="218" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1ad72a27f7dcea317b8ec959871f220679" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::license::RuntimeLicenseGate::graceDaysRemaining</definition>
+        <argsstring>() const</argsstring>
+        <name>graceDaysRemaining</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::graceDaysRemaining</qualifiedname>
+        <briefdescription>
+<para>Returns the number of grace days remaining (0 if not in grace period). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="221" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a6dda1b04b8c322a8ceb1346894c0b95a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt;</type>
+        <definition>std::optional&lt; LicenseData &gt; themis::license::RuntimeLicenseGate::currentLicense</definition>
+        <argsstring>() const</argsstring>
+        <name>currentLicense</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::currentLicense</qualifiedname>
+        <briefdescription>
+<para>Returns the active license data (if available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="224" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a518663f342b57a9a82a79c9e2458587e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::RuntimeLicenseGate::RuntimeLicenseGate</definition>
+        <argsstring>()=default</argsstring>
+        <name>RuntimeLicenseGate</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::RuntimeLicenseGate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="227" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a9fa0e96190ede126e7b1a7b165b3d1a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::RuntimeLicenseGate::~RuntimeLicenseGate</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RuntimeLicenseGate</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::~RuntimeLicenseGate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="228" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_runtime_license_gate_1a5318522455c4b631969bbaf949499ecb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::license::RuntimeLicenseGate::buildDenialMessage</definition>
+        <argsstring>(std::string_view feature_name) const</argsstring>
+        <name>buildDenialMessage</name>
+        <qualifiedname>themis::license::RuntimeLicenseGate::buildDenialMessage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feature_name</declname>
+        </param>
+        <briefdescription>
+<para>Build a user-facing denial message for a blocked feature. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/runtime_license_gate.h" line="231" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Singleton that enforces runtime license validity for Enterprise / Hyperscaler features. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The gate evaluates <bold>two independent conditions</bold> before allowing a feature:</para>
+<para><orderedlist>
+<listitem><para><bold>Compile-time gate</bold> – <computeroutput>edition::IsFeatureEnabled(feature_name)</computeroutput> must return true. If the binary was built as Community edition, the feature is never allowed regardless of any license.</para>
+</listitem><listitem><para><bold>Runtime gate</bold> – The current license (set by <computeroutput><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" kindref="member">initialize()</ref></computeroutput>) must be valid. An expired or invalid license blocks all Enterprise/Hyperscaler features, even in an ENTERPRISE-edition binary.</para>
+</listitem></orderedlist>
+</para>
+<para>Grace-period handling: when the license server is temporarily unreachable, <computeroutput><ref refid="classthemis_1_1license_1_1_license_client" kindref="compound">LicenseClient</ref></computeroutput> sets <computeroutput>status = "grace"</computeroutput> and <computeroutput>grace_days_remaining &gt; 0</computeroutput>. The gate treats grace-period activations as valid and logs a warning.</para>
+<para>Community edition note: Community-edition features are always allowed regardless of license state — Community users should never be blocked. </para>
+    </detaileddescription>
+    <location file="include/themis/runtime_license_gate.h" line="129" column="1" bodyfile="include/themis/runtime_license_gate.h" bodystart="129" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a96556e9b1c5c0680734ee7a0025cdbcf" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>activation_</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a5318522455c4b631969bbaf949499ecb" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>buildDenialMessage</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1aa09ba002672b984d8b8a5b4bb5792bbb" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>checkFeature</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a6dda1b04b8c322a8ceb1346894c0b95a" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>currentLicense</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1ad72a27f7dcea317b8ec959871f220679" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>graceDaysRemaining</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a909a5d8184ef201cfdef43ef5bc6b7f6" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>instance</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>isFeatureAllowed</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1abd68cb273c4a2a95a3ebfeacdbda4499" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>isFeatureAllowed</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a1f1b188334daee2b9a18a8e8775a5d27" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1ade163f13ade0229a72e0b53c162414e1" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>license_</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a982e4b168ba9f05685d5b106026613a7" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>licenseStatus</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1ab3fb2e29a3b137dc00a1166f363b33c2" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a91fb480f72bede626312d976acc62955" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>RuntimeLicenseGate</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a518663f342b57a9a82a79c9e2458587e" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>RuntimeLicenseGate</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a8382119fd8c1d06027951645394666ad" prot="public" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>update</name></member>
+      <member refid="classthemis_1_1license_1_1_runtime_license_gate_1a9fa0e96190ede126e7b1a7b165b3d1a4" prot="private" virt="non-virtual"><scope>themis::license::RuntimeLicenseGate</scope><name>~RuntimeLicenseGate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

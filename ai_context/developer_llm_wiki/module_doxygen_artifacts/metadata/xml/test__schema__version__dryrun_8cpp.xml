@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__version__dryrun_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_version_dryrun.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="schema__version__manager_8h" local="yes">metadata/schema_version_manager.h</includes>
+    <includes refid="schema__manager_8h" local="yes">metadata/schema_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <incdepgraph>
+      <node id="17">
+        <label>metadata/schema_audit_log.h</label>
+        <link refid="schema__audit__log_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>metadata/schema_manager.h</label>
+        <link refid="schema__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>metadata/schema_version_manager.h</label>
+        <link refid="schema__version__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_version_dryrun.cpp</label>
+        <link refid="test__schema__version__dryrun_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>deque</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="19">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="18">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_dry_run_migration_test" prot="public">DryRunMigrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a942f7b571908ca77e273c4163f1044e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string makeTempDbPath</definition>
+        <argsstring>(const std::string &amp;prefix)</argsstring>
+        <name>makeTempDbPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="17" column="20" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, EmptyNameFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyNameFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="68" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a07d87763e00a29ef306934bbfbe57384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, NoColumnsFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>NoColumnsFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="76" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a8c7b0fcc7cdd996a9e7a114d50ef5961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, DuplicateColumnFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicateColumnFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="84" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a631be96a2ff2d38d7c1edd6bf956e77d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, ValidSchemaNoVersionPasses)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidSchemaNoVersionPasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="96" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a832669d069899f7eece6b098fa4e5f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, ValidSchemaDoesNotPersist)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>ValidSchemaDoesNotPersist</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="104" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a3a3a28d8f2ca678d25b4055c5df2f129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, IdenticalSchemaToCurrentVersionFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>IdenticalSchemaToCurrentVersionFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="119" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a5be22b0fa12cf288c65339744be93e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, DifferentSchemaFromCurrentVersionPasses)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentSchemaFromCurrentVersionPasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="133" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="133" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1ac1d816aee855598a1493d7e7769af90b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, EmptyColumnNameFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyColumnNameFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="150" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="150" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__version__dryrun_8cpp_1a4391f42bc73c08bc258ed3dbfd5e8e7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DryRunMigrationTest, DryRunLeavesHistoryUnchanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref></type>
+        </param>
+        <param>
+          <type>DryRunLeavesHistoryUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_version_dryrun.cpp" line="165" column="1" bodyfile="tests/metadata/test_schema_version_dryrun.cpp" bodystart="165" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>SchemaVersionManager::validateMigration()<sp/>(dry-run<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__version__manager_8h" kindref="compound">metadata/schema_version_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__manager_8h" kindref="compound">metadata/schema_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeTempDbPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/<sp/>(prefix<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_dry_run_migration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dry_run_migration_test_1a633d009d2ee07cfdc10883f55719a0fd" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeTempDbPath(</highlight><highlight class="stringliteral">&quot;test_dryrun_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>-&gt;open())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>test<sp/>database&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1a1365c0a59063417fb9143f50efc0b5d0" kindref="member">idx_mgr_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1ad6617ea474cd4df1f0279c889f52f4f5" kindref="member">schema_</ref><sp/><sp/>=<sp/>std::make_unique&lt;SchemaManager&gt;(*<ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>,<sp/><ref refid="class_dry_run_migration_test_1a1365c0a59063417fb9143f50efc0b5d0" kindref="member">idx_mgr_</ref>.get());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dry_run_migration_test_1a28751a7d56e1ed17f797316e86170c53" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/><ref refid="class_dry_run_migration_test_1a6cdde2a6806093e17eaa54e5fccb5f14" kindref="member">makeSchema</ref>(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>columns)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="46"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>ts;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;relational&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>columns)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>p;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" kindref="member">properties</ref>.push_back(p);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ts;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1ae611642548525eaf851a6f20a0be33b5" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_dry_run_migration_test_1a1365c0a59063417fb9143f50efc0b5d0" kindref="member">idx_mgr_</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SchemaManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dry_run_migration_test_1ad6617ea474cd4df1f0279c889f52f4f5" kindref="member">schema_</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateMigration<sp/>–<sp/>empty/invalid<sp/>inputs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>EmptyNameFails)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>NoColumnsFails)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{});<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>columns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;column&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>DuplicateColumnFails)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">});<sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;duplicate&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateMigration<sp/>–<sp/>valid<sp/>schema<sp/>(no<sp/>prior<sp/>version)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>ValidSchemaNoVersionPasses)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.error_message;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.value);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>ValidSchemaDoesNotPersist)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>validateMigration<sp/>must<sp/>NOT<sp/>create<sp/>a<sp/>version<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;sku&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>schema);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>version<sp/>should<sp/>exist<sp/>after<sp/>dry-run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cur<sp/>=<sp/>svm.getCurrentVersion(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cur.ok);<sp/><sp/></highlight><highlight class="comment">//<sp/>TABLE_NOT_FOUND<sp/>because<sp/>nothing<sp/>was<sp/>persisted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateMigration<sp/>–<sp/>schema<sp/>identical<sp/>to<sp/>latest<sp/>version<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>IdenticalSchemaToCurrentVersionFails)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>register<sp/>and<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>ts<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>schema_-&gt;setTableSchema(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>ts);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>svm.createSchemaVersion(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dry-run<sp/>the<sp/>identical<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>ts);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;identical&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>DifferentSchemaFromCurrentVersionPasses)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>ts<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>schema_-&gt;setTableSchema(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>ts);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>svm.createSchemaVersion(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>column<sp/>→<sp/>schema<sp/>is<sp/>different</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts2<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>ts2);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.error_message;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateMigration<sp/>–<sp/>empty<sp/>column<sp/>name<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>EmptyColumnNameFails)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>ts<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>bad_col;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_col.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>bad_col.type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ts.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" kindref="member">properties</ref>.push_back(bad_col);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>ts);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateMigration<sp/>does<sp/>not<sp/>affect<sp/>getChangeHistory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__schema__version__dryrun_8cpp_1accddc85f212b9afb234d3a6260bd39d5" kindref="member">TEST_F</ref>(<ref refid="class_dry_run_migration_test" kindref="compound">DryRunMigrationTest</ref>,<sp/>DryRunLeavesHistoryUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>ts<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>schema_-&gt;setTableSchema(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/>ts);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref><sp/>svm(*db_,<sp/>*schema_);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>svm.createSchemaVersion(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history_before<sp/>=<sp/>svm.getChangeHistory(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(history_before.ok);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count_before<sp/>=<sp/>history_before.value.size();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dry-run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>different<sp/>=<sp/>makeSchema(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;level&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>svm.validateMigration(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/>different);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history_after<sp/>=<sp/>svm.getChangeHistory(</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(history_after.ok);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history_after.value.size(),<sp/>count_before);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_version_dryrun.cpp"/>
+  </compounddef>
+</doxygen>

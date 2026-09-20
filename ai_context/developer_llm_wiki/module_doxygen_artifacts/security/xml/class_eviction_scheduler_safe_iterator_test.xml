@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_eviction_scheduler_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>EvictionSchedulerSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" prot="protected" static="no">
+        <type>themis::cache::EvictionCandidate</type>
+        <definition>using EvictionSchedulerSafeIteratorTest::Candidate = themis::cache::EvictionCandidate</definition>
+        <argsstring></argsstring>
+        <name>Candidate</name>
+        <qualifiedname>EvictionSchedulerSafeIteratorTest::Candidate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="377" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_eviction_scheduler_safe_iterator_test_1a7ffe299c4f0c82f4153d3fcd926bdc08" prot="protected" static="no">
+        <type>themis::cache::EvictionScheduler</type>
+        <definition>using EvictionSchedulerSafeIteratorTest::Scheduler = themis::cache::EvictionScheduler</definition>
+        <argsstring></argsstring>
+        <name>Scheduler</name>
+        <qualifiedname>EvictionSchedulerSafeIteratorTest::Scheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="378" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_eviction_scheduler_safe_iterator_test_1ae798a279d505e06e7e403833857de766" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" kindref="member">Candidate</ref></type>
+        <definition>Candidate EvictionSchedulerSafeIteratorTest::make_candidate</definition>
+        <argsstring>(std::string key, std::size_t size_bytes, std::int64_t last_access_ns=0)</argsstring>
+        <name>make_candidate</name>
+        <qualifiedname>EvictionSchedulerSafeIteratorTest::make_candidate</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>last_access_ns</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="380" column="15" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="380" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EvictionSchedulerSafeIteratorTest</label>
+        <link refid="class_eviction_scheduler_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EvictionSchedulerSafeIteratorTest</label>
+        <link refid="class_eviction_scheduler_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="375" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="375" bodyend="389"/>
+    <listofallmembers>
+      <member refid="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" prot="protected" virt="non-virtual"><scope>EvictionSchedulerSafeIteratorTest</scope><name>Candidate</name></member>
+      <member refid="class_eviction_scheduler_safe_iterator_test_1ae798a279d505e06e7e403833857de766" prot="protected" virt="non-virtual"><scope>EvictionSchedulerSafeIteratorTest</scope><name>make_candidate</name></member>
+      <member refid="class_eviction_scheduler_safe_iterator_test_1a7ffe299c4f0c82f4153d3fcd926bdc08" prot="protected" virt="non-virtual"><scope>EvictionSchedulerSafeIteratorTest</scope><name>Scheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

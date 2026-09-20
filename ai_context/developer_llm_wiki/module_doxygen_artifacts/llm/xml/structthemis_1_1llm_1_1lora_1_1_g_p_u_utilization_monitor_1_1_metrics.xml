@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUUtilizationMonitor::Metrics</compoundname>
+    <includes refid="gpu__utilization__monitor_8h" local="no">gpu_utilization_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a1c9e700e14bf10c7a9bc210f79fc4483" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUUtilizationMonitor::Metrics::gpu_utilization_pct</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilization_pct</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::gpu_utilization_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="26" column="15" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a8d566ea147aa6b8e2de243c839c08f87" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUUtilizationMonitor::Metrics::memory_utilization_pct</definition>
+        <argsstring></argsstring>
+        <name>memory_utilization_pct</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::memory_utilization_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="27" column="15" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1aaf22b27fbdea66cc2f0a8fed40b8cb28" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUUtilizationMonitor::Metrics::compute_throughput_tflops</definition>
+        <argsstring></argsstring>
+        <name>compute_throughput_tflops</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::compute_throughput_tflops</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="28" column="15" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a44edda9ba6e03729eaa0d4819f36d22d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUUtilizationMonitor::Metrics::memory_bandwidth_gb_s</definition>
+        <argsstring></argsstring>
+        <name>memory_bandwidth_gb_s</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::memory_bandwidth_gb_s</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="29" column="15" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1af72cc00e3f7bb6741aafb888d18aabec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUUtilizationMonitor::Metrics::active_sms</definition>
+        <argsstring></argsstring>
+        <name>active_sms</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::active_sms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="30" column="16" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a5bdca8806ea30c99e96642e816d43049" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUUtilizationMonitor::Metrics::sm_occupancy_pct</definition>
+        <argsstring></argsstring>
+        <name>sm_occupancy_pct</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::sm_occupancy_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="31" column="15" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a0c33e0ed92e5afd50d24af08010a7006" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long themis::llm::lora::GPUUtilizationMonitor::Metrics::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::Metrics::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="34" column="19" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="25" column="5" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1af72cc00e3f7bb6741aafb888d18aabec" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>active_sms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1aaf22b27fbdea66cc2f0a8fed40b8cb28" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>compute_throughput_tflops</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a1c9e700e14bf10c7a9bc210f79fc4483" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>gpu_utilization_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a44edda9ba6e03729eaa0d4819f36d22d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>memory_bandwidth_gb_s</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a8d566ea147aa6b8e2de243c839c08f87" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>memory_utilization_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a5bdca8806ea30c99e96642e816d43049" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>sm_occupancy_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics_1a0c33e0ed92e5afd50d24af08010a7006" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor::Metrics</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

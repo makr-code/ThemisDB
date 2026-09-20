@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::test::MockConnectionPool::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config_1ad9fca340376cfc22cad821f0c45557dd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::Config::max_connections</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="128" column="13" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="127" column="5" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="127" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config_1ad9fca340376cfc22cad821f0c45557dd" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool::Config</scope><name>max_connections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

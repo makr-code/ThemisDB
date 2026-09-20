@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacestd" kind="namespace" language="C++">
+    <compoundname>std</compoundname>
+    <innerclass refid="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4" prot="public">std::hash&lt; themis::api::CorrelationId &gt;</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/correlation_id.h" line="195" column="1"/>
+  </compounddef>
+</doxygen>

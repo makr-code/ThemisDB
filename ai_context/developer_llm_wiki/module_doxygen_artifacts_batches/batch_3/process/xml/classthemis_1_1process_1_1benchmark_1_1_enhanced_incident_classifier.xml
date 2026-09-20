@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::EnhancedIncidentClassifier</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1_1_classification_rule" prot="private">themis::process::benchmark::EnhancedIncidentClassifier::ClassificationRule</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a16968f0d6f7cea9c078e089362ffe26b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ClassificationRule &gt;</type>
+        <definition>std::vector&lt;ClassificationRule&gt; themis::process::benchmark::EnhancedIncidentClassifier::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="103" column="17" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a03bc660775ac9a612fc1355320524151" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::process::benchmark::EnhancedIncidentClassifier::classification_cache_</definition>
+        <argsstring></argsstring>
+        <name>classification_cache_</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::classification_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="104" column="24" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a38555daa6f3da0098335267e04cec1c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::EnhancedIncidentClassifier::EnhancedIncidentClassifier</definition>
+        <argsstring>()</argsstring>
+        <name>EnhancedIncidentClassifier</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::EnhancedIncidentClassifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="107" column="5" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="107" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a5cd0f40e89f2869a7fdc56fceb64a720" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bd" kindref="member">IncidentType</ref></type>
+        <definition>IncidentType themis::process::benchmark::EnhancedIncidentClassifier::classifyWithDiagnostics</definition>
+        <argsstring>(const ProcessIncident &amp;incident)</argsstring>
+        <name>classifyWithDiagnostics</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::classifyWithDiagnostics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_incident" kindref="compound">ProcessIncident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Classify incident with full diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="124" column="18" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="124" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a419e977a7aac422ec22310fcae45e2b6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::benchmark::EnhancedIncidentClassifier::analyzeIncidentDetails</definition>
+        <argsstring>(const ProcessIncident &amp;incident)</argsstring>
+        <name>analyzeIncidentDetails</name>
+        <qualifiedname>themis::process::benchmark::EnhancedIncidentClassifier::analyzeIncidentDetails</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_incident" kindref="compound">ProcessIncident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Simulate detailed incident analysis (the overhead). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="162" column="10" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="162" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enhanced incident classifier (with diagnostics). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="95" column="1" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="95" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a419e977a7aac422ec22310fcae45e2b6" prot="private" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier</scope><name>analyzeIncidentDetails</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a03bc660775ac9a612fc1355320524151" prot="private" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier</scope><name>classification_cache_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a5cd0f40e89f2869a7fdc56fceb64a720" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier</scope><name>classifyWithDiagnostics</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a38555daa6f3da0098335267e04cec1c2" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier</scope><name>EnhancedIncidentClassifier</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_enhanced_incident_classifier_1a16968f0d6f7cea9c078e089362ffe26b" prot="private" virt="non-virtual"><scope>themis::process::benchmark::EnhancedIncidentClassifier</scope><name>rules_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

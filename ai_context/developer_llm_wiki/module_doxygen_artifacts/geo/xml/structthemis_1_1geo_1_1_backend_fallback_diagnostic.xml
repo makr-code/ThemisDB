@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_backend_fallback_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::BackendFallbackDiagnostic</compoundname>
+    <includes refid="phase2__phase3__hardening_8h" local="no">phase2_phase3_hardening.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a79767a4b77515d99e0562a21cb3dbddb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::operation_name</definition>
+        <argsstring></argsstring>
+        <name>operation_name</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::operation_name</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;ST_Intersects&quot;, &quot;ST_Contains&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="228" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aa819bfff5431f868824d11790563465d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::geometry_type_a</definition>
+        <argsstring></argsstring>
+        <name>geometry_type_a</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::geometry_type_a</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;Polygon&quot;, &quot;Point&quot;, &quot;LineString&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="229" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a0aab4ccc85fb6eb62a1f6b38698d75e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::geometry_type_b</definition>
+        <argsstring></argsstring>
+        <name>geometry_type_b</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::geometry_type_b</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;Polygon&quot;, &quot;Point&quot;, &quot;LineString&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="230" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a20c1f4865395a92daf6c518e896ed403" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::BackendFallbackDiagnostic::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::batch_size</qualifiedname>
+        <briefdescription>
+<para>Number of geometry pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="231" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1adbb0c7d8a3f02c540864e2cd31d2f379" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::backend_name</definition>
+        <argsstring></argsstring>
+        <name>backend_name</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::backend_name</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;CUDA&quot;, &quot;HIP&quot;, &quot;CPU_FALLBACK&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="234" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a785b98e6444b400afe1b2e573b2fad53" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::BackendFallbackDiagnostic::backend_version</definition>
+        <argsstring></argsstring>
+        <name>backend_version</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::backend_version</qualifiedname>
+        <briefdescription>
+<para>GPU compute capability or driver version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="235" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a3fe904e4f14ea482c946223d56c68eaf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::device_name</definition>
+        <argsstring></argsstring>
+        <name>device_name</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::device_name</qualifiedname>
+        <briefdescription>
+<para>GPU model (e.g., &quot;RTX 3090&quot;, &quot;MI250X&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="236" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a9f45284544b956d3be9b93c5b25133ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::failure_reason</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;timeout_exceeded&quot;, &quot;device_out_of_memory&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="239" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1ab1e794fcced3b87114734785a3ac6a06" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::BackendFallbackDiagnostic::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::error_code</qualifiedname>
+        <briefdescription>
+<para>OS/driver-specific error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="240" column="17" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aedcdcc23011c9a5a69f90a1340fd02d6" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::geo::BackendFallbackDiagnostic::elapsed_micros</definition>
+        <argsstring></argsstring>
+        <name>elapsed_micros</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::elapsed_micros</qualifiedname>
+        <briefdescription>
+<para>Time spent in GPU operation before timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="241" column="18" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aef326a86c42b056d3c3908f23c2d66d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::BackendFallbackDiagnostic::fallback_taken</definition>
+        <argsstring></argsstring>
+        <name>fallback_taken</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::fallback_taken</qualifiedname>
+        <briefdescription>
+<para>true if CPU fallback was invoked </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="244" column="10" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a68b699b7d305c4dfec88c9cf786aeba6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::BackendFallbackDiagnostic::result_verified</definition>
+        <argsstring></argsstring>
+        <name>result_verified</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::result_verified</qualifiedname>
+        <briefdescription>
+<para>true if result was consistent with GPU attempt </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="245" column="10" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a45c45290fa5f4d057b6d421956592ebe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::formatMessage</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>formatMessage</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::formatMessage</qualifiedname>
+        <briefdescription>
+<para>Format diagnostic as human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Formatted string suitable for logging or user error reporting </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="251" column="18" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="335" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a45c45290fa5f4d057b6d421956592ebe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::BackendFallbackDiagnostic::formatMessage</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>formatMessage</name>
+        <qualifiedname>themis::geo::BackendFallbackDiagnostic::formatMessage</qualifiedname>
+        <briefdescription>
+<para>Format diagnostic as human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Formatted string suitable for logging or user error reporting </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="281" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured diagnostic context for backend fallback incidents. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Unified diagnostics per Phase 3 requirements: &quot;unify diagnostics across join/clustering/raster/temporal and fallback paths&quot;</para>
+<para>Contains machine-readable context for actionable error reporting:<itemizedlist>
+<listitem><para>geometry type and operation</para>
+</listitem><listitem><para>backend (GPU model, CUDA version, HIP version)</para>
+</listitem><listitem><para>failure reason (timeout, device OOM, driver error, etc.)</para>
+</listitem><listitem><para>recovery action taken (CPU fallback, retry, circuit-breaker)</para>
+</listitem></itemizedlist>
+</para>
+<para>Unified diagnostics per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> and Phase 3 requirements: &quot;unify diagnostics across join/clustering/raster/temporal and fallback paths&quot;</para>
+<para>Contains machine-readable context for actionable error reporting:<itemizedlist>
+<listitem><para>geometry type and operation</para>
+</listitem><listitem><para>backend (GPU model, CUDA version, HIP version)</para>
+</listitem><listitem><para>failure reason (timeout, device OOM, driver error, etc.)</para>
+</listitem><listitem><para>recovery action taken (CPU fallback, retry, circuit-breaker) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/geo/phase2_phase3_hardening.h" line="226" column="1" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="226" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1adbb0c7d8a3f02c540864e2cd31d2f379" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>backend_name</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a785b98e6444b400afe1b2e573b2fad53" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>backend_version</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a20c1f4865395a92daf6c518e896ed403" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a3fe904e4f14ea482c946223d56c68eaf" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>device_name</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aedcdcc23011c9a5a69f90a1340fd02d6" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>elapsed_micros</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1ab1e794fcced3b87114734785a3ac6a06" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a9f45284544b956d3be9b93c5b25133ab" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aef326a86c42b056d3c3908f23c2d66d6" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>fallback_taken</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a45c45290fa5f4d057b6d421956592ebe" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>formatMessage</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a45c45290fa5f4d057b6d421956592ebe" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>formatMessage</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aa819bfff5431f868824d11790563465d" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>geometry_type_a</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a0aab4ccc85fb6eb62a1f6b38698d75e6" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>geometry_type_b</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a79767a4b77515d99e0562a21cb3dbddb" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>operation_name</name></member>
+      <member refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a68b699b7d305c4dfec88c9cf786aeba6" prot="public" virt="non-virtual"><scope>themis::geo::BackendFallbackDiagnostic</scope><name>result_verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

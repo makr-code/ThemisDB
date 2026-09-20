@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiMasterReplicationManager::TopologyNode</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1ab79af0556095b337568c04d47d3bc8e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::TopologyNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="451" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a15765d50e36513efc2e963ee0bcc4cd0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::TopologyNode::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="452" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a09465be332a114e47e781694b1795c8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::TopologyNode::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="453" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a6f79fb5dda4ec0fd097c28da13c1b883" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::TopologyNode::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="454" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a7923ae21b38b8162423c803353f06fc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::TopologyNode::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="455" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a6df1fda3f1155bc24339162c7164d454" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::TopologyNode::replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::replication_lag_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="456" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a4376110be22a6983e9e04bad2a42f108" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiMasterReplicationManager::TopologyNode::is_local</definition>
+        <argsstring></argsstring>
+        <name>is_local</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::TopologyNode::is_local</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="457" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="450" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="450" bodyend="458"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a09465be332a114e47e781694b1795c8b" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a15765d50e36513efc2e963ee0bcc4cd0" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a4376110be22a6983e9e04bad2a42f108" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>is_local</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1ab79af0556095b337568c04d47d3bc8e9" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a6f79fb5dda4ec0fd097c28da13c1b883" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>region</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a6df1fda3f1155bc24339162c7164d454" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_topology_node_1a7923ae21b38b8162423c803353f06fc4" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::TopologyNode</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

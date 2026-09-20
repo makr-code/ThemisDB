@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::MergeResult</compoundname>
+    <includes refid="project__diff_8h" local="no">project_diff.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_merge_result_1a5c474dee77fe05a11f04eee10db299cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::MergeResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::projects::MergeResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when merge completed without conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="81" column="14" bodyfile="include/projects/project_diff.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_merge_result_1a7c2a333abc3313afeb8ba7a5c302de38" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref></type>
+        <definition>DeltaSet themis::projects::MergeResult::applied</definition>
+        <argsstring></argsstring>
+        <name>applied</name>
+        <qualifiedname>themis::projects::MergeResult::applied</qualifiedname>
+        <briefdescription>
+<para>Changes successfully applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="82" column="14" bodyfile="include/projects/project_diff.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_merge_result_1a3a0519e370e8c4c287f570ef3c633d08" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref></type>
+        <definition>DeltaSet themis::projects::MergeResult::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::projects::MergeResult::conflicts</qualifiedname>
+        <briefdescription>
+<para>Deltas that could not be auto-resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="83" column="14" bodyfile="include/projects/project_diff.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_merge_result_1a7ce72079c4ae6b429441e9b87ccc5a7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::MergeResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::projects::MergeResult::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable status / error description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="84" column="17" bodyfile="include/projects/project_diff.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a three-way project merge. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::projects::DeltaSet</label>
+        <link refid="structthemis_1_1projects_1_1_delta_set"/>
+      </node>
+      <node id="1">
+        <label>themis::projects::MergeResult</label>
+        <link refid="structthemis_1_1projects_1_1_merge_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>applied</edgelabel>
+          <edgelabel>conflicts</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/projects/project_diff.h" line="80" column="1" bodyfile="include/projects/project_diff.h" bodystart="80" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_merge_result_1a7c2a333abc3313afeb8ba7a5c302de38" prot="public" virt="non-virtual"><scope>themis::projects::MergeResult</scope><name>applied</name></member>
+      <member refid="structthemis_1_1projects_1_1_merge_result_1a3a0519e370e8c4c287f570ef3c633d08" prot="public" virt="non-virtual"><scope>themis::projects::MergeResult</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1projects_1_1_merge_result_1a7ce72079c4ae6b429441e9b87ccc5a7c" prot="public" virt="non-virtual"><scope>themis::projects::MergeResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1projects_1_1_merge_result_1a5c474dee77fe05a11f04eee10db299cc" prot="public" virt="non-virtual"><scope>themis::projects::MergeResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

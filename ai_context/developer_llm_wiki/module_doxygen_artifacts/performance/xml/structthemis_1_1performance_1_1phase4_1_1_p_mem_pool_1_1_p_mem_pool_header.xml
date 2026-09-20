@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::phase4::PMemPool::PMemPoolHeader</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a474f96b6f78e846c322eb67412271249" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::magic</definition>
+        <argsstring></argsstring>
+        <name>magic</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::magic</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0xPMEM_MAGIC </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="217" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1acc1f229966869baa3fb13d5a159ce1c0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="218" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1aea12dc1cd9f9d4d96f7fedc0af852fa2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::pool_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bytes in the pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="219" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a72042bf216673651c89508894870ab42" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::data_offset</definition>
+        <argsstring></argsstring>
+        <name>data_offset</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::data_offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Byte offset of data arena from base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="220" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1ad3a800e14e34cea356c3a58d7bac3f52" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::bitmap_offset</definition>
+        <argsstring></argsstring>
+        <name>bitmap_offset</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::bitmap_offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Byte offset of alloc bitmap from base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="221" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a211b2d1a8312a2a9e3595f30ca8c6c29" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::bump_offset</definition>
+        <argsstring></argsstring>
+        <name>bump_offset</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::bump_offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Next free byte in data arena (CAS target). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="222" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a40b6887c1396a8343576db8a3d871aa2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::alloc_count</definition>
+        <argsstring></argsstring>
+        <name>alloc_count</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::alloc_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="223" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a7b2bc0b505ab7e4456d86624f0114d7e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::PMemPoolHeader::free_count</definition>
+        <argsstring></argsstring>
+        <name>free_count</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::free_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="224" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a5ba3cb2603eade6920c1503d94cfbb55" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::performance::phase4::PMemPool::PMemPoolHeader::padding[kPMemCacheLineSize - 8 *8]</definition>
+        <argsstring>[kPMemCacheLineSize - 8 *8]</argsstring>
+        <name>padding</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPoolHeader::padding</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="225" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="216" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="216" bodyend="226"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a40b6887c1396a8343576db8a3d871aa2" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>alloc_count</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1ad3a800e14e34cea356c3a58d7bac3f52" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>bitmap_offset</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a211b2d1a8312a2a9e3595f30ca8c6c29" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>bump_offset</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a72042bf216673651c89508894870ab42" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>data_offset</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a7b2bc0b505ab7e4456d86624f0114d7e" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>free_count</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a474f96b6f78e846c322eb67412271249" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>magic</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1a5ba3cb2603eade6920c1503d94cfbb55" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>padding</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1aea12dc1cd9f9d4d96f7fedc0af852fa2" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header_1acc1f229966869baa3fb13d5a159ce1c0" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::PMemPoolHeader</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

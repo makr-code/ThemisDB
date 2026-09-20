@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="response__parser_8h" kind="file" language="C++">
+    <compoundname>response_parser.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="llm__judge__integration_8h" local="yes">include/rag/llm_judge_integration.h</includedby>
+    <includedby refid="coherence__evaluator_8cpp" local="yes">src/rag/coherence_evaluator.cpp</includedby>
+    <includedby refid="completeness__evaluator_8cpp" local="yes">src/rag/completeness_evaluator.cpp</includedby>
+    <includedby refid="cot__evaluator_8cpp" local="yes">src/rag/cot_evaluator.cpp</includedby>
+    <includedby refid="faithfulness__evaluator_8cpp" local="yes">src/rag/faithfulness_evaluator.cpp</includedby>
+    <includedby refid="pairwise__comparator_8cpp" local="yes">src/rag/pairwise_comparator.cpp</includedby>
+    <includedby refid="rag__judge_8cpp" local="yes">src/rag/rag_judge.cpp</includedby>
+    <includedby refid="relevance__evaluator_8cpp" local="yes">src/rag/relevance_evaluator.cpp</includedby>
+    <includedby refid="response__parser_8cpp" local="yes">src/rag/response_parser.cpp</includedby>
+    <includedby refid="rubric__evaluator_8cpp" local="yes">src/rag/rubric_evaluator.cpp</includedby>
+    <includedby refid="test__rag__judge__phase1_8cpp" local="yes">tests/rag/test_rag_judge_phase1.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/response_parser.h</label>
+        <link refid="response__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/rag/llm_judge_integration.h</label>
+        <link refid="llm__judge__integration_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/response_parser.h</label>
+        <link refid="response__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/rag/coherence_evaluator.cpp</label>
+        <link refid="coherence__evaluator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/completeness_evaluator.cpp</label>
+        <link refid="completeness__evaluator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/rag/cot_evaluator.cpp</label>
+        <link refid="cot__evaluator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/rag/faithfulness_evaluator.cpp</label>
+        <link refid="faithfulness__evaluator_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/rag/llm_judge_integration.cpp</label>
+        <link refid="llm__judge__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/rag/pairwise_comparator.cpp</label>
+        <link refid="pairwise__comparator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/rag/rag_judge.cpp</label>
+        <link refid="rag__judge_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/rag/relevance_evaluator.cpp</label>
+        <link refid="relevance__evaluator_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/rag/response_parser.cpp</label>
+        <link refid="response__parser_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/rag/rubric_evaluator.cpp</label>
+        <link refid="rubric__evaluator_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/rag/test_rag_judge_phase1.cpp</label>
+        <link refid="test__rag__judge__phase1_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/rag/test_rag_phase_b_e2e.cpp</label>
+        <link refid="test__rag__phase__b__e2e_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" prot="public">themis::rag::judge::ParsedResponse</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_response_parser" prot="public">themis::rag::judge::ResponseParser</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 89/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a4902cb174f7a9a57008dcbac6af1862e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a4902cb174f7a9a57008dcbac6af1862e" kindref="member">success</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a5b1b1f205190fbdfd7687131f57cb851" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a5b1b1f205190fbdfd7687131f57cb851" kindref="member">score</ref>;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a18ceecd60e7ef77e81ea0ed8fa7af028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a18ceecd60e7ef77e81ea0ed8fa7af028" kindref="member">confidence</ref>;</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a0b34def7c4b7fe00ba3f271b8d396597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a0b34def7c4b7fe00ba3f271b8d396597" kindref="member">reasoning</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1af78be66fa3d32985f7332c4d56fa2885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1af78be66fa3d32985f7332c4d56fa2885" kindref="member">supporting_claims</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aff90cbbafa3fb34ffce2a13db1029352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aff90cbbafa3fb34ffce2a13db1029352" kindref="member">unsupported_claims</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aafd6a416bcb87f7d1eef38bbdec20fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1aafd6a416bcb87f7d1eef38bbdec20fb4" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a336e06f01223e5561d3cda7ea9f1f398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response_1a336e06f01223e5561d3cda7ea9f1f398" kindref="member">is_mock</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1rag_1_1judge_1_1_response_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a3c9dd2b12b0d0cb6275e096d125b7920" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a2a68ac675d14e812b30b115b655dc68e" kindref="member">parseJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1ab90140a64ab76bff02579f32abaa1d74" kindref="member">parseWithRegex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a673242e67341afb9b8d60c449b9b71ec" kindref="member">parseJSONResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a96970be63d2b6a96d3a2360d4708d611" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref>&amp;<sp/>parsed);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a540a463f901c94abf4fe132551a51259" kindref="member">normalizeScore</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_range<sp/>=<sp/>1.0,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_range<sp/>=<sp/>5.0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;double&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1aa069e0842647bfab7019ed7b4f19e736" kindref="member">extractScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1adb676049fd460bdb5f371087ccd3d0cd" kindref="member">extractExplanation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1aacb1c1168867b71a44d2e0a03bfabbc4" kindref="member">extractClaims</ref>(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>supported<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a79e6f253c8c6de67128ed7b1d7e0263e" kindref="member">validateSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1aaa5376fee3cc3530cff9bb4a862651ad" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regex<sp/>patterns<sp/>for<sp/>fallback<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>SCORE_PATTERN_1;<sp/></highlight><highlight class="comment">//<sp/>&quot;score:<sp/>0.85&quot;<sp/>or<sp/>&quot;score:<sp/>85%&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>SCORE_PATTERN_2;<sp/></highlight><highlight class="comment">//<sp/>&quot;rating:<sp/>4/5&quot;<sp/>or<sp/>&quot;4<sp/>out<sp/>of<sp/>5&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>SCORE_PATTERN_3;<sp/></highlight><highlight class="comment">//<sp/>standalone<sp/>number<sp/>at<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>EXPLANATION_PATTERN;<sp/></highlight><highlight class="comment">//<sp/>&quot;reasoning:&quot;<sp/>or<sp/>&quot;explanation:&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>CLAIMS_PATTERN;<sp/></highlight><highlight class="comment">//<sp/>&quot;supported:&quot;<sp/>or<sp/>&quot;verified:&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/response_parser.h"/>
+  </compounddef>
+</doxygen>

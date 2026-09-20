@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_shard_ownership_table" kind="struct" language="C++" prot="public">
+    <compoundname>ShardOwnershipTable</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_shard_ownership_table_1aee85cf453d7b741c094cde100bc80f2a" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex ShardOwnershipTable::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>ShardOwnershipTable::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="63" column="45" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_shard_ownership_table_1aca1af96d6cc08f32d99236fa6c877674" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint32_t&gt; ShardOwnershipTable::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>ShardOwnershipTable::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="64" column="25" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_shard_ownership_table_1a16c3f606c96db6e5c3b042815ba64afd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardOwnershipTable::assign</definition>
+        <argsstring>(uint64_t key, uint32_t shard)</argsstring>
+        <name>assign</name>
+        <qualifiedname>ShardOwnershipTable::assign</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="66" column="10" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_shard_ownership_table_1ad1e8bd16535bb985e236446ea8f7c9eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ShardOwnershipTable::reassign</definition>
+        <argsstring>(uint64_t key, uint32_t from, uint32_t to)</argsstring>
+        <name>reassign</name>
+        <qualifiedname>ShardOwnershipTable::reassign</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="71" column="10" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_highcardinality_stress.cpp" line="62" column="1" bodyfile="tests/sharding/test_sharding_highcardinality_stress.cpp" bodystart="62" bodyend="78"/>
+    <listofallmembers>
+      <member refid="struct_shard_ownership_table_1a16c3f606c96db6e5c3b042815ba64afd" prot="public" virt="non-virtual"><scope>ShardOwnershipTable</scope><name>assign</name></member>
+      <member refid="struct_shard_ownership_table_1aee85cf453d7b741c094cde100bc80f2a" prot="public" virt="non-virtual"><scope>ShardOwnershipTable</scope><name>mu</name></member>
+      <member refid="struct_shard_ownership_table_1ad1e8bd16535bb985e236446ea8f7c9eb" prot="public" virt="non-virtual"><scope>ShardOwnershipTable</scope><name>reassign</name></member>
+      <member refid="struct_shard_ownership_table_1aca1af96d6cc08f32d99236fa6c877674" prot="public" virt="non-virtual"><scope>ShardOwnershipTable</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

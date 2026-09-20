@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1storage_1_1_0d150055135130030122331034004036165123166210062130" kind="namespace" language="C++">
+    <compoundname>themisdb::storage::@150055135130030122331034004036165123166210062130</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/blob_redundancy_manager.cpp" line="107" column="1"/>
+  </compounddef>
+</doxygen>

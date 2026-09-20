@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_o_auth_device_flow" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthDeviceFlow</compoundname>
+    <includes refid="oauth__device__flow_8h" local="no">oauth_device_flow.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response" prot="public">themis::auth::OAuthDeviceFlow::DeviceCodeResponse</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response" prot="public">themis::auth::OAuthDeviceFlow::TokenResponse</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config" prot="public">themis::auth::OAuthDeviceFlow::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PollStatus</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::PollStatus</qualifiedname>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974aa206428462686af481cb072b8db11784" prot="public">
+          <name>Authorized</name>
+          <briefdescription>
+<para>Token granted; claims populated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974ad3dcb18a7ceb5fa96089ec73630a97bd" prot="public">
+          <name>AuthorizationPending</name>
+          <briefdescription>
+<para>User has not yet authorized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974a20d4b2a77c2ccdf5bb124ca75ed8edd9" prot="public">
+          <name>SlowDown</name>
+          <briefdescription>
+<para>Server requests slower polling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974acbcc0759909213e7cdba1f0cbf253126" prot="public">
+          <name>AccessDenied</name>
+          <briefdescription>
+<para>User denied authorization. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974a5bbf0d15107d4c9066766da530a4aeec" prot="public">
+          <name>ExpiredToken</name>
+          <briefdescription>
+<para>Device code expired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974a902b0d55fddef6f8d651fe1035b7d4bd" prot="public">
+          <name>Error</name>
+          <briefdescription>
+<para>Unexpected error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="38" column="5" bodyfile="include/auth/oauth_device_flow.h" bodystart="38" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a491e36647437b17601e9222ec135ff64" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::OAuthDeviceFlow::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="115" column="12" bodyfile="include/auth/oauth_device_flow.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_device_flow_1ae6278efc428a20fc0bb409e9a9c95f8c" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url, const std::string&amp; body)&gt; themis::auth::OAuthDeviceFlow::http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_post_fn_</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::http_post_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="116" column="19" bodyfile="include/auth/oauth_device_flow.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_device_flow_1aa0287bb503df14d9fe3bffee4a2d1401" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::OAuthDeviceFlow::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="117" column="24" bodyfile="include/auth/oauth_device_flow.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1aea26a2213c7582dc0b3296e445c63a4a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::OAuthDeviceFlow::OAuthDeviceFlow</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OAuthDeviceFlow</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::OAuthDeviceFlow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>OAuth Device Flow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="72" column="14" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="53" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a89e089f77e035bc12bb707c386076e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response" kindref="compound">DeviceCodeResponse</ref></type>
+        <definition>OAuthDeviceFlow::DeviceCodeResponse themis::auth::OAuthDeviceFlow::requestDeviceCode</definition>
+        <argsstring>()</argsstring>
+        <name>requestDeviceCode</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::requestDeviceCode</qualifiedname>
+        <briefdescription>
+<para>Request Device Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ RFC 8628 §3.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+1 – Device Authorization Request ============================================================================ Calls: empty(), size(), emplace_back(), buildFormBody(), spdlog::debug(), httpPost(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="78" column="24" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="84" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a14fbb01eb1558ac03eca64076661e65c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response" kindref="compound">TokenResponse</ref></type>
+        <definition>OAuthDeviceFlow::TokenResponse themis::auth::OAuthDeviceFlow::pollForToken</definition>
+        <argsstring>(const std::string &amp;device_code, PollStatus &amp;status_out)</argsstring>
+        <name>pollForToken</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::pollForToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>device_code</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974" kindref="member">PollStatus</ref> &amp;</type>
+          <declname>status_out</declname>
+        </param>
+        <briefdescription>
+<para>Poll For Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ RFC 8628 §3.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">status_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4 – Device Access Token Request ============================================================================ Calls: empty(), emplace_back(), buildFormBody(), spdlog::debug(), httpPost(), what(), find(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="86" column="19" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="156" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a48ad2c5eb928b7190e94efbea9379707" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref></type>
+        <definition>JWTClaims themis::auth::OAuthDeviceFlow::validateIdToken</definition>
+        <argsstring>(const TokenResponse &amp;token_response)</argsstring>
+        <name>validateIdToken</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::validateIdToken</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_token_response" kindref="compound">TokenResponse</ref> &amp;</type>
+          <declname>token_response</declname>
+        </param>
+        <briefdescription>
+<para>Validate Id Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), AuthError(), validator(), parseAndValidate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="93" column="15" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="288" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a338f8f4e01b0cf1a5caacc3084785e13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref></type>
+        <definition>JWTClaims themis::auth::OAuthDeviceFlow::authenticate</definition>
+        <argsstring>(std::function&lt; void(const DeviceCodeResponse &amp;)&gt; progress_cb=nullptr)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::authenticate</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response" kindref="compound">DeviceCodeResponse</ref> &amp;)&gt;</type>
+          <declname>progress_cb</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="95" column="15" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="306" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a12d7d69f88221c63c4c4a998e6a8d4cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OAuthDeviceFlow::setHttpPostForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt; fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="103" column="10" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a24315ce3be54cbb981f4a836a52de4a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OAuthDeviceFlow::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="112" column="10" bodyfile="include/auth/oauth_device_flow.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a6a18623352eccb1394054caa133ce7d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::httpPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: http_post_fn_(), curl_easy_init(), curl_easy_setopt(), c_str(), size(), curl_slist_append(), curl_multi_init(), curl_slist_free_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="125" column="17" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="392" bodyend="474"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1a5ab76d1347f5e3b260fb9b468c14ca05" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::urlEncode</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>urlEncode</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::urlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: curl_easy_init(), curl_easy_escape(), c_str(), size(), curl_free(), curl_easy_cleanup(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="132" column="24" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="486" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_device_flow_1aa9381e14663509df3234ebe985406d69" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::buildFormBody</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;params)</argsstring>
+        <name>buildFormBody</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::buildFormBody</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="133" column="24" bodyfile="src/auth/oauth_device_flow.cpp" bodystart="502" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_device_flow.h" line="27" column="1" bodyfile="include/auth/oauth_device_flow.h" bodystart="27" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1aa0287bb503df14d9fe3bffee4a2d1401" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a338f8f4e01b0cf1a5caacc3084785e13" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1aa9381e14663509df3234ebe985406d69" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>buildFormBody</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a491e36647437b17601e9222ec135ff64" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1ae6278efc428a20fc0bb409e9a9c95f8c" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>http_post_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a6a18623352eccb1394054caa133ce7d7" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1aea26a2213c7582dc0b3296e445c63a4a" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>OAuthDeviceFlow</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a14fbb01eb1558ac03eca64076661e65c" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>pollForToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a0bc7257a2ccfce513511bd1c7b5b7974" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>PollStatus</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a89e089f77e035bc12bb707c386076e8a" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>requestDeviceCode</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a24315ce3be54cbb981f4a836a52de4a7" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a12d7d69f88221c63c4c4a998e6a8d4cc" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a5ab76d1347f5e3b260fb9b468c14ca05" prot="private" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>urlEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_device_flow_1a48ad2c5eb928b7190e94efbea9379707" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow</scope><name>validateIdToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

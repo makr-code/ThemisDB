@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_llama_wrapper_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>LlamaWrapper::Config</compoundname>
+    <includes refid="llama__wrapper_8h" local="no">llama_wrapper.h</includes>
+    <innerclass refid="struct_llama_wrapper_1_1_config_1_1_grammar_config" prot="public">LlamaWrapper::Config::GrammarConfig</innerclass>
+    <innerclass refid="struct_llama_wrapper_1_1_config_1_1_rope_scaling_config" prot="public">LlamaWrapper::Config::RopeScalingConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a36f02f570e5bdebd12973f41be5d0595" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::n_gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>n_gpu_layers</name>
+        <qualifiedname>LlamaWrapper::Config::n_gpu_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="120" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a04c0f94d837a06d07ae7a3bd08ca2ccd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_mmap</definition>
+        <argsstring></argsstring>
+        <name>use_mmap</name>
+        <qualifiedname>LlamaWrapper::Config::use_mmap</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="121" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a6527d8eb2099049cdfd32c834b6f7583" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_mlock</definition>
+        <argsstring></argsstring>
+        <name>use_mlock</name>
+        <qualifiedname>LlamaWrapper::Config::use_mlock</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="122" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ad28b455d824476cbfc83feddd1f8ac48" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::n_ctx</definition>
+        <argsstring></argsstring>
+        <name>n_ctx</name>
+        <qualifiedname>LlamaWrapper::Config::n_ctx</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="125" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a9cccfc55efd2753c4251359407975b3c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::n_batch</definition>
+        <argsstring></argsstring>
+        <name>n_batch</name>
+        <qualifiedname>LlamaWrapper::Config::n_batch</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="126" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a60bb3c68e2e1155cef021e2e8a7da47d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::n_threads</definition>
+        <argsstring></argsstring>
+        <name>n_threads</name>
+        <qualifiedname>LlamaWrapper::Config::n_threads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="127" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a458fa1c7eb80752d58d76eddba661e25" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Config::max_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_mb</name>
+        <qualifiedname>LlamaWrapper::Config::max_vram_mb</qualifiedname>
+        <initializer>= 14336</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="130" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ad18f1f503d4145fce58fc9faef8595ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::unified_memory</definition>
+        <argsstring></argsstring>
+        <name>unified_memory</name>
+        <qualifiedname>LlamaWrapper::Config::unified_memory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="131" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a1f21b223aa7cc0bec07b73631410f737" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_flash_attn</definition>
+        <argsstring></argsstring>
+        <name>use_flash_attn</name>
+        <qualifiedname>LlamaWrapper::Config::use_flash_attn</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="134" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a211ea63b0bdd9bae24a3feec46698944" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_kv_cache_reuse</definition>
+        <argsstring></argsstring>
+        <name>use_kv_cache_reuse</name>
+        <qualifiedname>LlamaWrapper::Config::use_kv_cache_reuse</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="135" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a5b229146e53ccdb2cdb8f6beaca355ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_embeddings</definition>
+        <argsstring></argsstring>
+        <name>enable_embeddings</name>
+        <qualifiedname>LlamaWrapper::Config::enable_embeddings</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="136" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a232301a211c0efe1a88862925ffa410b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_speculative_decoding</definition>
+        <argsstring></argsstring>
+        <name>use_speculative_decoding</name>
+        <qualifiedname>LlamaWrapper::Config::use_speculative_decoding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="139" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1aba3b71399bb7fbf03d713e9a6c6187c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LlamaWrapper::Config::draft_model_path</definition>
+        <argsstring></argsstring>
+        <name>draft_model_path</name>
+        <qualifiedname>LlamaWrapper::Config::draft_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="140" column="21" bodyfile="include/llm/llama_wrapper.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a413d55a166f7769cd2f37196620f1ea4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::draft_n_gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>draft_n_gpu_layers</name>
+        <qualifiedname>LlamaWrapper::Config::draft_n_gpu_layers</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="141" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a79169a777a7d44c492558d19dbb60f99" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::speculative_tokens</definition>
+        <argsstring></argsstring>
+        <name>speculative_tokens</name>
+        <qualifiedname>LlamaWrapper::Config::speculative_tokens</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="142" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a9bc18e461eb8bc4a4761deeb2fb0464e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LlamaWrapper::Config::acceptance_threshold</definition>
+        <argsstring></argsstring>
+        <name>acceptance_threshold</name>
+        <qualifiedname>LlamaWrapper::Config::acceptance_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="143" column="15" bodyfile="include/llm/llama_wrapper.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a12a668c0f61b95c6cb68175e85e7d1b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_draft_kv_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_draft_kv_cache</name>
+        <qualifiedname>LlamaWrapper::Config::enable_draft_kv_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="144" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a66fe90f73be83e2948d231ef2fee3494" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::use_continuous_batching</definition>
+        <argsstring></argsstring>
+        <name>use_continuous_batching</name>
+        <qualifiedname>LlamaWrapper::Config::use_continuous_batching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="147" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a96e31e4c25bf5b5333a91ee197f24ba4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Config::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>LlamaWrapper::Config::max_batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="148" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a4ee8c50ff0cd812b0a6b24cc06bc40bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Config::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>LlamaWrapper::Config::max_concurrent_requests</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="149" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1aa172a31d317cf037cc9bbd132203a974" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Config::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>LlamaWrapper::Config::max_tokens_per_batch</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="150" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a8355801aee87ee72f6ec6d3222fd19e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LlamaWrapper::Config::scheduler_policy</definition>
+        <argsstring></argsstring>
+        <name>scheduler_policy</name>
+        <qualifiedname>LlamaWrapper::Config::scheduler_policy</qualifiedname>
+        <initializer>= &quot;priority&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="151" column="21" bodyfile="include/llm/llama_wrapper.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1acd23ce425043b3496ebdd1566852c437" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_preemption</definition>
+        <argsstring></argsstring>
+        <name>enable_preemption</name>
+        <qualifiedname>LlamaWrapper::Config::enable_preemption</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="152" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a8b9ac7e9f167e573d676493e24535581" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_chunked_prefill</definition>
+        <argsstring></argsstring>
+        <name>enable_chunked_prefill</name>
+        <qualifiedname>LlamaWrapper::Config::enable_chunked_prefill</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="153" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ac62f36b4d1463fedabd8ee462aa247c3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Config::prefill_chunk_size</definition>
+        <argsstring></argsstring>
+        <name>prefill_chunk_size</name>
+        <qualifiedname>LlamaWrapper::Config::prefill_chunk_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="154" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a841c5c0e44ac6e5cf3fe3b26e40d6fc7" prot="public" static="no" mutable="no">
+        <type>LazyModelLoader::Config</type>
+        <definition>LazyModelLoader::Config themis::llm::LlamaWrapper::Config::lazy_loader_config</definition>
+        <argsstring></argsstring>
+        <name>lazy_loader_config</name>
+        <qualifiedname>LlamaWrapper::Config::lazy_loader_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="157" column="33" bodyfile="include/llm/llama_wrapper.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a8d4b1f44a084294202cd52381e426841" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref></type>
+        <definition>MultiLoRAManager::Config themis::llm::LlamaWrapper::Config::multi_lora_config</definition>
+        <argsstring></argsstring>
+        <name>multi_lora_config</name>
+        <qualifiedname>LlamaWrapper::Config::multi_lora_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="160" column="34" bodyfile="include/llm/llama_wrapper.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ad40547ba558d2a3d9a0fe39a09a99cd1" prot="public" static="no" mutable="no">
+        <type>LLMPrefixCache::Config</type>
+        <definition>LLMPrefixCache::Config themis::llm::LlamaWrapper::Config::prefix_cache_config</definition>
+        <argsstring></argsstring>
+        <name>prefix_cache_config</name>
+        <qualifiedname>LlamaWrapper::Config::prefix_cache_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="163" column="32" bodyfile="include/llm/llama_wrapper.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a92a304cc33b31a0e9feba1d97508cf82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_response_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_response_cache</name>
+        <qualifiedname>LlamaWrapper::Config::enable_response_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="167" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a42fc576731d60a33b662bf6e35a79ab4" prot="public" static="no" mutable="no">
+        <type>LLMResponseCache::Config</type>
+        <definition>LLMResponseCache::Config themis::llm::LlamaWrapper::Config::response_cache_config</definition>
+        <argsstring></argsstring>
+        <name>response_cache_config</name>
+        <qualifiedname>LlamaWrapper::Config::response_cache_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="168" column="34" bodyfile="include/llm/llama_wrapper.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a1daad65150d200a9f0e008e976b7f562" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_llama_wrapper_1_1_config_1_1_grammar_config" kindref="compound">GrammarConfig</ref></type>
+        <definition>GrammarConfig themis::llm::LlamaWrapper::Config::grammar_config</definition>
+        <argsstring></argsstring>
+        <name>grammar_config</name>
+        <qualifiedname>LlamaWrapper::Config::grammar_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="178" column="23" bodyfile="include/llm/llama_wrapper.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a4e1d18e2489edfb638394ec730a83224" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config" kindref="compound">themis::llm::LlamaWrapper::Config::RopeScalingConfig</ref></type>
+        <definition>struct themis::llm::LlamaWrapper::Config::RopeScalingConfig themis::llm::LlamaWrapper::Config::rope_scaling</definition>
+        <argsstring></argsstring>
+        <name>rope_scaling</name>
+        <qualifiedname>LlamaWrapper::Config::rope_scaling</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="191" column="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1afec9220f1864edcc73be4b31a314f3bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_vision</definition>
+        <argsstring></argsstring>
+        <name>enable_vision</name>
+        <qualifiedname>LlamaWrapper::Config::enable_vision</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="193" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a2321a6cb5af69f931e4f08f75d89202b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LlamaWrapper::Config::clip_model_path</definition>
+        <argsstring></argsstring>
+        <name>clip_model_path</name>
+        <qualifiedname>LlamaWrapper::Config::clip_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="194" column="21" bodyfile="include/llm/llama_wrapper.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1aad8df94016c8e32518477566e894985d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::vision_threads</definition>
+        <argsstring></argsstring>
+        <name>vision_threads</name>
+        <qualifiedname>LlamaWrapper::Config::vision_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="195" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ada8926869cfe678eecbe288d35dd900a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::preload_vision</definition>
+        <argsstring></argsstring>
+        <name>preload_vision</name>
+        <qualifiedname>LlamaWrapper::Config::preload_vision</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="196" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a9f2d131ff066438df5821868391baa1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::enable_output_validation</definition>
+        <argsstring></argsstring>
+        <name>enable_output_validation</name>
+        <qualifiedname>LlamaWrapper::Config::enable_output_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="199" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a1130d6f0045b68c93d140e15273a2982" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::min_output_length</definition>
+        <argsstring></argsstring>
+        <name>min_output_length</name>
+        <qualifiedname>LlamaWrapper::Config::min_output_length</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="200" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a33b9de58e9ae243222998ca4ee1c7555" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::max_output_length</definition>
+        <argsstring></argsstring>
+        <name>max_output_length</name>
+        <qualifiedname>LlamaWrapper::Config::max_output_length</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="201" column="13" bodyfile="include/llm/llama_wrapper.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1af41c187d51253b5cb8ebf8a2702bc928" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::require_utf8</definition>
+        <argsstring></argsstring>
+        <name>require_utf8</name>
+        <qualifiedname>LlamaWrapper::Config::require_utf8</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="202" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1ae96fc70787306812096696ff6e214805" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LlamaWrapper::Config::min_coherence</definition>
+        <argsstring></argsstring>
+        <name>min_coherence</name>
+        <qualifiedname>LlamaWrapper::Config::min_coherence</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="203" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1a0320d4c553910c2b4975a1574922daed" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::LlamaWrapper::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>LlamaWrapper::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="210" column="18" bodyfile="include/llm/llama_wrapper.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1aba76c4399376a55f97ce2042eb52e151" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LlamaWrapper::Config::expected_model_sha256</definition>
+        <argsstring></argsstring>
+        <name>expected_model_sha256</name>
+        <qualifiedname>LlamaWrapper::Config::expected_model_sha256</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="216" column="21" bodyfile="include/llm/llama_wrapper.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_config_1aca8a7c4a0af6ebf6c822ff96a48a1e7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::require_model_integrity</definition>
+        <argsstring></argsstring>
+        <name>require_model_integrity</name>
+        <qualifiedname>LlamaWrapper::Config::require_model_integrity</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="222" column="14" bodyfile="include/llm/llama_wrapper.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlamaWrapper::Config</label>
+        <link refid="struct_llama_wrapper_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lazy_loader_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>multi_lora_config</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>prefix_cache_config</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>response_cache_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>grammar_config</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>rope_scaling</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::LLMPrefixCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config"/>
+      </node>
+      <node id="7">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::LazyModelLoader::Config</label>
+        <link refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config"/>
+      </node>
+      <node id="9">
+        <label>themis::llm::LlamaWrapper::Config::GrammarConfig</label>
+        <link refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_grammar_config"/>
+      </node>
+      <node id="10">
+        <label>themis::llm::LlamaWrapper::Config::RopeScalingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::LoRAQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::MultiGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_g_p_u_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::MultiLoRAManager::Config</label>
+        <link refid="structthemis_1_1llm_1_1_multi_lo_r_a_manager_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>multi_gpu</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/llama_wrapper.h" line="118" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="118" bodyend="223"/>
+    <listofallmembers>
+      <member refid="struct_llama_wrapper_1_1_config_1a9bc18e461eb8bc4a4761deeb2fb0464e" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>acceptance_threshold</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a2321a6cb5af69f931e4f08f75d89202b" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>clip_model_path</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1aba3b71399bb7fbf03d713e9a6c6187c1" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>draft_model_path</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a413d55a166f7769cd2f37196620f1ea4" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>draft_n_gpu_layers</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a8b9ac7e9f167e573d676493e24535581" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_chunked_prefill</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a12a668c0f61b95c6cb68175e85e7d1b3" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_draft_kv_cache</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a5b229146e53ccdb2cdb8f6beaca355ea" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_embeddings</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a9f2d131ff066438df5821868391baa1d" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_output_validation</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1acd23ce425043b3496ebdd1566852c437" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_preemption</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a92a304cc33b31a0e9feba1d97508cf82" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_response_cache</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1afec9220f1864edcc73be4b31a314f3bd" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>enable_vision</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1aba76c4399376a55f97ce2042eb52e151" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>expected_model_sha256</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a1daad65150d200a9f0e008e976b7f562" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>grammar_config</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a841c5c0e44ac6e5cf3fe3b26e40d6fc7" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>lazy_loader_config</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a96e31e4c25bf5b5333a91ee197f24ba4" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>max_batch_size</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a4ee8c50ff0cd812b0a6b24cc06bc40bd" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>max_concurrent_requests</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a33b9de58e9ae243222998ca4ee1c7555" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>max_output_length</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1aa172a31d317cf037cc9bbd132203a974" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>max_tokens_per_batch</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a458fa1c7eb80752d58d76eddba661e25" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>max_vram_mb</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ae96fc70787306812096696ff6e214805" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>min_coherence</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a1130d6f0045b68c93d140e15273a2982" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>min_output_length</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a8d4b1f44a084294202cd52381e426841" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>multi_lora_config</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a9cccfc55efd2753c4251359407975b3c" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>n_batch</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ad28b455d824476cbfc83feddd1f8ac48" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>n_ctx</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a36f02f570e5bdebd12973f41be5d0595" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>n_gpu_layers</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a60bb3c68e2e1155cef021e2e8a7da47d" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>n_threads</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ac62f36b4d1463fedabd8ee462aa247c3" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>prefill_chunk_size</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ad40547ba558d2a3d9a0fe39a09a99cd1" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>prefix_cache_config</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ada8926869cfe678eecbe288d35dd900a" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>preload_vision</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a0320d4c553910c2b4975a1574922daed" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1aca8a7c4a0af6ebf6c822ff96a48a1e7c" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>require_model_integrity</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1af41c187d51253b5cb8ebf8a2702bc928" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>require_utf8</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a42fc576731d60a33b662bf6e35a79ab4" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>response_cache_config</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a4e1d18e2489edfb638394ec730a83224" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>rope_scaling</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a8355801aee87ee72f6ec6d3222fd19e3" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>scheduler_policy</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a79169a777a7d44c492558d19dbb60f99" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>speculative_tokens</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1ad18f1f503d4145fce58fc9faef8595ed" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>unified_memory</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a66fe90f73be83e2948d231ef2fee3494" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_continuous_batching</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a1f21b223aa7cc0bec07b73631410f737" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_flash_attn</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a211ea63b0bdd9bae24a3feec46698944" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_kv_cache_reuse</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a6527d8eb2099049cdfd32c834b6f7583" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_mlock</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a04c0f94d837a06d07ae7a3bd08ca2ccd" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_mmap</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1a232301a211c0efe1a88862925ffa410b" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>use_speculative_decoding</name></member>
+      <member refid="struct_llama_wrapper_1_1_config_1aad8df94016c8e32518477566e894985d" prot="public" virt="non-virtual"><scope>LlamaWrapper::Config</scope><name>vision_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

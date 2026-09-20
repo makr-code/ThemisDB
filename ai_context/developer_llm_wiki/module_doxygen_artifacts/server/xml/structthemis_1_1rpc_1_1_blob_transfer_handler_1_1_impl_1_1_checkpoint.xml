@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint" kind="struct" language="C++" prot="private">
+    <compoundname>themis::rpc::BlobTransferHandler::Impl::Checkpoint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1aa7029b06d5c11d3734b3256c10494f29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobTransferHandler::Impl::Checkpoint::checkpoint_id</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_id</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::Checkpoint::checkpoint_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="639" column="21" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="639" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1aecf3b44c486dab78d6585b43eca35518" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobTransferHandler::Impl::Checkpoint::transferred_bytes</definition>
+        <argsstring></argsstring>
+        <name>transferred_bytes</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::Checkpoint::transferred_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="640" column="18" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1a99aa5f0a072d9bc552303d33d71edbb1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::BlobTransferHandler::Impl::Checkpoint::transferred_chunks</definition>
+        <argsstring></argsstring>
+        <name>transferred_chunks</name>
+        <qualifiedname>themis::rpc::BlobTransferHandler::Impl::Checkpoint::transferred_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="641" column="18" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="641" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/rpc/blob_transfer_handler.cpp" line="638" column="5" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="638" bodyend="642"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1aa7029b06d5c11d3734b3256c10494f29" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl::Checkpoint</scope><name>checkpoint_id</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1aecf3b44c486dab78d6585b43eca35518" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl::Checkpoint</scope><name>transferred_bytes</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_transfer_handler_1_1_impl_1_1_checkpoint_1a99aa5f0a072d9bc552303d33d71edbb1" prot="public" virt="non-virtual"><scope>themis::rpc::BlobTransferHandler::Impl::Checkpoint</scope><name>transferred_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

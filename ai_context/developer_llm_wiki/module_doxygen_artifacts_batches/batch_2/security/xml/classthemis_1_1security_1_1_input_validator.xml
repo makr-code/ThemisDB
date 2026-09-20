@@ -1,0 +1,1221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_input_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::InputValidator</compoundname>
+    <includes refid="input__validator_8hpp" local="no">input_validator.hpp</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a7bb19b4388ebbdce7f998604a8cac267" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_FIELD_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_FIELD_SIZE</name>
+        <qualifiedname>themis::security::InputValidator::MAX_FIELD_SIZE</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="281" column="27" bodyfile="include/security/input_validator.hpp" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a8f22420614ceb212d1e770d83abb25af" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_JSON_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_JSON_SIZE</name>
+        <qualifiedname>themis::security::InputValidator::MAX_JSON_SIZE</qualifiedname>
+        <initializer>= 100&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="282" column="27" bodyfile="include/security/input_validator.hpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a20a18785b7c3a66e125f69d9dc3f1a74" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_IDENTIFIER_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_IDENTIFIER_LENGTH</name>
+        <qualifiedname>themis::security::InputValidator::MAX_IDENTIFIER_LENGTH</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="283" column="27" bodyfile="include/security/input_validator.hpp" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a897b456ea03767e8c9f6897674f77c72" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_URI_PARAMETER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_URI_PARAMETER_SIZE</name>
+        <qualifiedname>themis::security::InputValidator::MAX_URI_PARAMETER_SIZE</qualifiedname>
+        <initializer>= 8&apos;192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="284" column="27" bodyfile="include/security/input_validator.hpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a576a957f679a38a4d11b3d7de23b0b1f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_HEADER_VALUE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_HEADER_VALUE_SIZE</name>
+        <qualifiedname>themis::security::InputValidator::MAX_HEADER_VALUE_SIZE</qualifiedname>
+        <initializer>= 8&apos;192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="285" column="27" bodyfile="include/security/input_validator.hpp" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a7f7763a282342a654e8381716badeeb5" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_JSON_NESTING_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_JSON_NESTING_DEPTH</name>
+        <qualifiedname>themis::security::InputValidator::MAX_JSON_NESTING_DEPTH</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="286" column="27" bodyfile="include/security/input_validator.hpp" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1a42973ae0e17663b43504935fc1fb1490" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::InputValidator::MAX_FILE_UPLOAD_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_FILE_UPLOAD_SIZE</name>
+        <qualifiedname>themis::security::InputValidator::MAX_FILE_UPLOAD_SIZE</qualifiedname>
+        <initializer>= 500&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="287" column="27" bodyfile="include/security/input_validator.hpp" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_input_validator_1afc0966e3340711b61380dc75f919621e" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::security::InputValidator::ALLOWED_UPLOAD_EXTENSIONS[]</definition>
+        <argsstring>[]</argsstring>
+        <name>ALLOWED_UPLOAD_EXTENSIONS</name>
+        <qualifiedname>themis::security::InputValidator::ALLOWED_UPLOAD_EXTENSIONS</qualifiedname>
+        <initializer>                                                            = {
+  &quot;.txt&quot;, &quot;.csv&quot;, &quot;.json&quot;, &quot;.xml&quot;,
+  &quot;.pdf&quot;, &quot;.doc&quot;, &quot;.docx&quot;,
+  &quot;.jpg&quot;, &quot;.jpeg&quot;, &quot;.png&quot;, &quot;.gif&quot;,
+  &quot;.zip&quot;, &quot;.tar&quot;, &quot;.gz&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="290" column="37" bodyfile="include/security/input_validator.hpp" bodystart="290" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a1b3702a6976cdf9d45b181128be0ada3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::InputValidator::InputValidator</definition>
+        <argsstring>()=delete</argsstring>
+        <name>InputValidator</name>
+        <qualifiedname>themis::security::InputValidator::InputValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="66" column="3"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1afedf27745b64b7ba6d131de3580d2952" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateUserInput</definition>
+        <argsstring>(std::string_view input, ValidationContext context)</argsstring>
+        <name>validateUserInput</name>
+        <qualifiedname>themis::security::InputValidator::validateUserInput</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1af26ae3f19ccb98a3639230fc467c52be" kindref="member">ValidationContext</ref></type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Validates user-supplied strings against injection attacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> Input.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> input to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of validation to apply (SQL, JSON, file, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref> with is_valid flag and error details</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), validateSqlInjectionRisk(), size(), std::to_string(), <ref refid="classthemis_1_1security_1_1_input_validator_1aa68120c082ea9cd9b327d5b44493d183" kindref="member">validateIdentifier()</ref>, <ref refid="classthemis_1_1security_1_1_input_validator_1a22080c2a21797ce14416cf2ddd03622e" kindref="member">validateJsonPayload()</ref>, <ref refid="classthemis_1_1security_1_1_input_validator_1a3224a9da1d6315b96beaeb529563e618" kindref="member">validateUriParameter()</ref>, <ref refid="classthemis_1_1security_1_1_input_validator_1af7767a9ade009fb92592c76c9a59376e" kindref="member">validateSearchQuery()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="77" column="27" bodyfile="src/security/input_validator.cpp" bodystart="29" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a22080c2a21797ce14416cf2ddd03622e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateJsonPayload</definition>
+        <argsstring>(std::string_view payload)</argsstring>
+        <name>validateJsonPayload</name>
+        <qualifiedname>themis::security::InputValidator::validateJsonPayload</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Validates JSON payload structure and size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Json Payload.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>Total size &lt; 100MB</para>
+</listitem><listitem><para>Nesting depth &lt; 20 levels</para>
+</listitem><listitem><para>No null bytes in strings</para>
+</listitem><listitem><para>Valid UTF-8 encoding</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON string to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::to_string(), <ref refid="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" kindref="member">containsNullBytes()</ref>, <ref refid="classthemis_1_1security_1_1_input_validator_1ad92a2d3f68522863e14e37f47403f033" kindref="member">isValidUtf8()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="93" column="27" bodyfile="src/security/input_validator.cpp" bodystart="102" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a5751b61ac7dcfa3a099f0320c061de74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateFileUpload</definition>
+        <argsstring>(std::string_view filename, size_t file_size, std::string_view mime_type)</argsstring>
+        <name>validateFileUpload</name>
+        <qualifiedname>themis::security::InputValidator::validateFileUpload</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>file_size</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Validates file upload: name, size, MIME type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate File Upload.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>Filename contains only safe characters [a-zA-Z0-9._-]</para>
+</listitem><listitem><para>No path traversal sequences (../, ..\, etc.)</para>
+</listitem><listitem><para>Extension is whitelisted</para>
+</listitem><listitem><para>Total size &lt; configured maximum (default 500MB)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original filename from upload </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Content-Type from HTTP header </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validatePathTraversal(), isalnum(), std::string(), rfind(), ext(), substr(), std::transform(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="109" column="27" bodyfile="src/security/input_validator.cpp" bodystart="156" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a3224a9da1d6315b96beaeb529563e618" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateUriParameter</definition>
+        <argsstring>(std::string_view uri_param)</argsstring>
+        <name>validateUriParameter</name>
+        <qualifiedname>themis::security::InputValidator::validateUriParameter</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>uri_param</declname>
+        </param>
+        <briefdescription>
+<para>Validates URI/URL parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Uri Parameter.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>No control characters (0x00-0x1F, 0x7F)</para>
+</listitem><listitem><para>No null bytes</para>
+</listitem><listitem><para>Valid percent-encoding if present</para>
+</listitem><listitem><para>Length &lt; 8192 bytes</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri_param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter value from URL query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uri_param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::to_string(), <ref refid="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" kindref="member">containsNullBytes()</ref>, <ref refid="classthemis_1_1security_1_1_input_validator_1a746f8d7f28cf4bf4d0aba85f84914a9e" kindref="member">containsControlCharacters()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="126" column="27" bodyfile="src/security/input_validator.cpp" bodystart="220" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1afc5c94ad0b2b52c88aa58abd1aa25169" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateRequestHeader</definition>
+        <argsstring>(std::string_view header_name, std::string_view header_value)</argsstring>
+        <name>validateRequestHeader</name>
+        <qualifiedname>themis::security::InputValidator::validateRequestHeader</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>header_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>header_value</declname>
+        </param>
+        <briefdescription>
+<para>Validates HTTP request headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Request Header.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>No null bytes</para>
+</listitem><listitem><para>No newline/carriage return (header injection)</para>
+</listitem><listitem><para>Length &lt; 8KB</para>
+</listitem><listitem><para>Valid characters for header values</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>header_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Header name (e.g., &quot;User-Agent&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>header_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Header value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the header. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">header_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::to_string(), <ref refid="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" kindref="member">containsNullBytes()</ref>, find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="141" column="27" bodyfile="src/security/input_validator.cpp" bodystart="252" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1af7767a9ade009fb92592c76c9a59376e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateSearchQuery</definition>
+        <argsstring>(std::string_view query, bool allow_wildcards=false)</argsstring>
+        <name>validateSearchQuery</name>
+        <qualifiedname>themis::security::InputValidator::validateSearchQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_wildcards</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Validates search query input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Search Query.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>Length between 1-256 characters</para>
+</listitem><listitem><para>No SQL wildcards unless explicitly allowed</para>
+</listitem><listitem><para>No regex control characters unless in regex mode</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_wildcards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, allow * and % wildcards </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allow_wildcards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), validateSqlInjectionRisk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="157" column="27" bodyfile="src/security/input_validator.cpp" bodystart="289" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a2c34daba7280fea4d51f889439861859" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::InputValidator::sanitizeForHtml</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>sanitizeForHtml</name>
+        <qualifiedname>themis::security::InputValidator::sanitizeForHtml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitizes string for safe display in HTML context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize For Html.</para>
+<para>Escapes:<itemizedlist>
+<listitem><para>&lt; → &lt;</para>
+</listitem><listitem><para>&gt; → &gt;</para>
+</listitem><listitem><para>&amp; → &amp;</para>
+</listitem><listitem><para>" → "</para>
+</listitem><listitem><para>&apos; → &amp;#39;</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTML-safe string</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="176" column="22" bodyfile="src/security/input_validator.cpp" bodystart="389" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1acca6f1987a52fc9c0dee035da836d4f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::InputValidator::sanitizeForSqlLogging</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>sanitizeForSqlLogging</name>
+        <qualifiedname>themis::security::InputValidator::sanitizeForSqlLogging</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitizes string for safe use in SQL (for logging only, not queries!). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize For Sql Logging.</para>
+<para>WARNING: This is for LOGGING ONLY. Never use this for SQL queries! Always use parameterized queries with placeholders (?).</para>
+<para>Escapes single quotes and backslashes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SQL-safe string (for logging)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="189" column="22" bodyfile="src/security/input_validator.cpp" bodystart="413" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1affc453c06740ef7c285e7cda8a68bff1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::InputValidator::sanitizeForShell</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>sanitizeForShell</name>
+        <qualifiedname>themis::security::InputValidator::sanitizeForShell</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitizes string for safe use in shell commands (not recommended!). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize For Shell.</para>
+<para>WARNING: Avoid executing shell commands with user input. Prefer native APIs when available.</para>
+<para>Wraps string in single quotes and escapes existing quotes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shell-safe string</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements sanitizeForShell without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="202" column="22" bodyfile="src/security/input_validator.cpp" bodystart="434" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a2e2368f16719eeda10f42cd29594e23e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::InputValidator::sanitizeForJson</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>sanitizeForJson</name>
+        <qualifiedname>themis::security::InputValidator::sanitizeForJson</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitizes string for safe display in JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize For Json.</para>
+<para>Escapes:<itemizedlist>
+<listitem><para>Backslash → \</para>
+</listitem><listitem><para>Newline → <linebreak/>
+</para>
+</listitem><listitem><para>Tab → \t</para>
+</listitem><listitem><para>Quote → "</para>
+</listitem><listitem><para>Control characters → \uXXXX</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to sanitize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-safe string</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), snprintf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="217" column="22" bodyfile="src/security/input_validator.cpp" bodystart="457" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1aa68120c082ea9cd9b327d5b44493d183" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateIdentifier</definition>
+        <argsstring>(std::string_view identifier)</argsstring>
+        <name>validateIdentifier</name>
+        <qualifiedname>themis::security::InputValidator::validateIdentifier</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>identifier</declname>
+        </param>
+        <briefdescription>
+<para>Validates identifier (table/column/database name). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Identifier.</para>
+<para>Uses strict whitelist: [a-zA-Z_][a-zA-Z0-9_]* Maximum length: 128 characters</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::to_string(), isalpha(), isalnum(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="230" column="27" bodyfile="src/security/input_validator.cpp" bodystart="322" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a53ed1b10f4371b8800e0b350a688966e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::InputValidator::validateConfigPath</definition>
+        <argsstring>(std::string_view path, std::string_view allowed_extension=&quot;.conf&quot;)</argsstring>
+        <name>validateConfigPath</name>
+        <qualifiedname>themis::security::InputValidator::validateConfigPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>allowed_extension</declname>
+          <defval>&quot;.conf&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validates configuration file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate <ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Path.</para>
+<para>Checks:<itemizedlist>
+<listitem><para>Must be absolute or relative to safe directory</para>
+</listitem><listitem><para>No path traversal (../, ..)</para>
+</listitem><listitem><para>Must end in allowed extension</para>
+</listitem><listitem><para>Must exist and be readable</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allowed_extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allowed file extension (e.g., &quot;.conf&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_validation_result" kindref="compound">ValidationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allowed_extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validatePathTraversal(), empty(), find(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="245" column="27" bodyfile="src/security/input_validator.cpp" bodystart="356" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a99688c9a462c2eaf01e5c43d6dd853c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::isAlphanumericWithUnderscore</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>isAlphanumericWithUnderscore</name>
+        <qualifiedname>themis::security::InputValidator::isAlphanumericWithUnderscore</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Checks if string contains only alphanumeric characters and underscores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Alphanumeric With Underscore.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if safe identifier, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="256" column="15" bodyfile="src/security/input_validator.cpp" bodystart="495" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::containsNullBytes</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>containsNullBytes</name>
+        <qualifiedname>themis::security::InputValidator::containsNullBytes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Checks if string contains null bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains Null Bytes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if null bytes found, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="263" column="15" bodyfile="src/security/input_validator.cpp" bodystart="510" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a746f8d7f28cf4bf4d0aba85f84914a9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::containsControlCharacters</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>containsControlCharacters</name>
+        <qualifiedname>themis::security::InputValidator::containsControlCharacters</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Checks if string contains control characters (0x00-0x1F, 0x7F). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains Control Characters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if control characters found, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements containsControlCharacters without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="270" column="15" bodyfile="src/security/input_validator.cpp" bodystart="520" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1ad92a2d3f68522863e14e37f47403f033" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::isValidUtf8</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>isValidUtf8</name>
+        <qualifiedname>themis::security::InputValidator::isValidUtf8</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Checks if string is valid UTF-8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Valid Utf8.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid UTF-8, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="277" column="15" bodyfile="src/security/input_validator.cpp" bodystart="535" bodyend="572"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a81b406bf1eb0035844fc70b3be785693" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::InputValidator::validateSqlQueryPattern</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>validateSqlQueryPattern</name>
+        <qualifiedname>themis::security::InputValidator::validateSqlQueryPattern</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Validation helper methods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="302" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1abb61d8e816c4bdd69a27d21385b10539" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::validateSqlInjectionRisk</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>validateSqlInjectionRisk</name>
+        <qualifiedname>themis::security::InputValidator::validateSqlInjectionRisk</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Validate Sql Injection Risk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: upper_input(), std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="308" column="15" bodyfile="src/security/input_validator.cpp" bodystart="584" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1a1ea62b1d84e3afd90a594e8fed6ae83b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::validateXssRisk</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>validateXssRisk</name>
+        <qualifiedname>themis::security::InputValidator::validateXssRisk</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Validate Xss Risk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lower_input(), std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="314" column="15" bodyfile="src/security/input_validator.cpp" bodystart="620" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_input_validator_1aa2e19a830263070e788a303341ca9496" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::InputValidator::validatePathTraversal</definition>
+        <argsstring>(std::string_view path)</argsstring>
+        <name>validatePathTraversal</name>
+        <qualifiedname>themis::security::InputValidator::validatePathTraversal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Path Traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="320" column="15" bodyfile="src/security/input_validator.cpp" bodystart="652" bodyend="661"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1security_1_1_input_validator" kindref="compound">InputValidator</ref> — Static validation methods for all input types. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/input_validator.hpp" line="64" column="1" bodyfile="include/security/input_validator.hpp" bodystart="64" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_input_validator_1afc0966e3340711b61380dc75f919621e" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>ALLOWED_UPLOAD_EXTENSIONS</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a746f8d7f28cf4bf4d0aba85f84914a9e" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>containsControlCharacters</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a62128fc5ac625ca31c428c6bcb4755bb" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>containsNullBytes</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a1b3702a6976cdf9d45b181128be0ada3" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>InputValidator</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a99688c9a462c2eaf01e5c43d6dd853c8" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>isAlphanumericWithUnderscore</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1ad92a2d3f68522863e14e37f47403f033" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>isValidUtf8</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a7bb19b4388ebbdce7f998604a8cac267" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_FIELD_SIZE</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a42973ae0e17663b43504935fc1fb1490" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_FILE_UPLOAD_SIZE</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a576a957f679a38a4d11b3d7de23b0b1f" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_HEADER_VALUE_SIZE</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a20a18785b7c3a66e125f69d9dc3f1a74" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_IDENTIFIER_LENGTH</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a7f7763a282342a654e8381716badeeb5" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_JSON_NESTING_DEPTH</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a8f22420614ceb212d1e770d83abb25af" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_JSON_SIZE</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a897b456ea03767e8c9f6897674f77c72" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>MAX_URI_PARAMETER_SIZE</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a2c34daba7280fea4d51f889439861859" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>sanitizeForHtml</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a2e2368f16719eeda10f42cd29594e23e" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>sanitizeForJson</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1affc453c06740ef7c285e7cda8a68bff1" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>sanitizeForShell</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1acca6f1987a52fc9c0dee035da836d4f4" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>sanitizeForSqlLogging</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a53ed1b10f4371b8800e0b350a688966e" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateConfigPath</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a5751b61ac7dcfa3a099f0320c061de74" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateFileUpload</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1aa68120c082ea9cd9b327d5b44493d183" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateIdentifier</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a22080c2a21797ce14416cf2ddd03622e" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateJsonPayload</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1aa2e19a830263070e788a303341ca9496" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validatePathTraversal</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1afc5c94ad0b2b52c88aa58abd1aa25169" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateRequestHeader</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1af7767a9ade009fb92592c76c9a59376e" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateSearchQuery</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1abb61d8e816c4bdd69a27d21385b10539" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateSqlInjectionRisk</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a81b406bf1eb0035844fc70b3be785693" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateSqlQueryPattern</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a3224a9da1d6315b96beaeb529563e618" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateUriParameter</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1afedf27745b64b7ba6d131de3580d2952" prot="public" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateUserInput</name></member>
+      <member refid="classthemis_1_1security_1_1_input_validator_1a1ea62b1d84e3afd90a594e8fed6ae83b" prot="private" virt="non-virtual"><scope>themis::security::InputValidator</scope><name>validateXssRisk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

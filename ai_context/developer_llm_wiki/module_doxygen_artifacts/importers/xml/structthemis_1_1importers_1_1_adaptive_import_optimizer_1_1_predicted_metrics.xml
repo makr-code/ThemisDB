@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::AdaptiveImportOptimizer::PredictedMetrics</compoundname>
+    <includes refid="adaptive__import_8h" local="no">adaptive_import.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1ab315fc990eb2c12323ff9d3c13f462f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_import_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>estimated_import_time_seconds</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_import_time_seconds</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="62" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1ae71da3097f1a3d73e73720cee817d809" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_peak_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>estimated_peak_memory_mb</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_peak_memory_mb</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="63" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1abe57848cdeb760c137a9a5c19b3e0007" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_io_ops</definition>
+        <argsstring></argsstring>
+        <name>estimated_io_ops</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::PredictedMetrics::estimated_io_ops</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="64" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/adaptive_import.h" line="61" column="5" bodyfile="include/importers/adaptive_import.h" bodystart="61" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1ab315fc990eb2c12323ff9d3c13f462f1" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::PredictedMetrics</scope><name>estimated_import_time_seconds</name></member>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1abe57848cdeb760c137a9a5c19b3e0007" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::PredictedMetrics</scope><name>estimated_io_ops</name></member>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics_1ae71da3097f1a3d73e73720cee817d809" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::PredictedMetrics</scope><name>estimated_peak_memory_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

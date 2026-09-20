@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_edge_case_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::EdgeCaseResult</compoundname>
+    <includes refid="updates__edge__case__handler_8h" local="no">updates_edge_case_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_result_1a379743c5adc5c4165162ef2df66635fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::EdgeCaseResult::handled</definition>
+        <argsstring></argsstring>
+        <name>handled</name>
+        <qualifiedname>themis::updates::EdgeCaseResult::handled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when an edge case was detected and classified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="54" column="10" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_result_1a238e1ef403cd07babebbf77c822d0b15" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::EdgeCaseResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::updates::EdgeCaseResult::error_code</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a31f101efbfd415022a25b20a84f724bf" kindref="member">DiagnosticErrorCode::STATE_INVALID_TRANSITION</ref>}</initializer>
+        <briefdescription>
+<para>The canonical error code identifying the edge case category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="57" column="25" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_result_1a20f7a3e4c16e89d6fb4a5b397eb55054" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::EdgeCaseResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::updates::EdgeCaseResult::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the detected condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="60" column="17" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_result_1a640d37e3f8438dc20da6371f9452b7fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::EdgeCaseResult::requires_rollback</definition>
+        <argsstring></argsstring>
+        <name>requires_rollback</name>
+        <qualifiedname>themis::updates::EdgeCaseResult::requires_rollback</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when a rollback is the recommended recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="63" column="10" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single edge-case detection invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput><ref refid="structthemis_1_1updates_1_1_edge_case_result_1a379743c5adc5c4165162ef2df66635fd" kindref="member">handled</ref></computeroutput> is false all other fields are undefined/default and the caller should treat the state machine as operating normally. </para>
+    </detaileddescription>
+    <location file="include/updates/updates_edge_case_handler.h" line="52" column="1" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="52" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_edge_case_result_1a20f7a3e4c16e89d6fb4a5b397eb55054" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1updates_1_1_edge_case_result_1a238e1ef403cd07babebbf77c822d0b15" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1updates_1_1_edge_case_result_1a379743c5adc5c4165162ef2df66635fd" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseResult</scope><name>handled</name></member>
+      <member refid="structthemis_1_1updates_1_1_edge_case_result_1a640d37e3f8438dc20da6371f9452b7fc" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseResult</scope><name>requires_rollback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

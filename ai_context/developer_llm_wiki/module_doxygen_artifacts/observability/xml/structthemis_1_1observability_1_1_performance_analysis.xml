@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_performance_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::PerformanceAnalysis</compoundname>
+    <includes refid="performance__analyzer_8h" local="no">performance_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analysis_1a04502dd9a3ffed6d02f93d657924fec7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::PerformanceAnalysis::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="65" column="43" bodyfile="include/observability/performance_analyzer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analysis_1a57e883d19c447b8c0a61f58e4d1f945a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref> &gt;</type>
+        <definition>std::vector&lt;PerformanceIssue&gt; themis::observability::PerformanceAnalysis::issues</definition>
+        <argsstring></argsstring>
+        <name>issues</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::issues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="66" column="17" bodyfile="include/observability/performance_analyzer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analysis_1a25ccda4aa91632fec2f8a0bfd2890181" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::PerformanceAnalysis::summary_metrics</definition>
+        <argsstring></argsstring>
+        <name>summary_metrics</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::summary_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="67" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analysis_1ad2f1a16e34ec8a99d8eb676dd94c7131" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::PerformanceAnalysis::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="68" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_performance_analysis_1a654d6072a4aa1e7721e050629fba22ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::PerformanceAnalysis::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="70" column="10" bodyfile="src/observability/performance_analyzer.cpp" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_performance_analysis_1a406afe24dc52580e0c17dc6db8caa264" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::PerformanceAnalysis::toReport</definition>
+        <argsstring>() const</argsstring>
+        <name>toReport</name>
+        <qualifiedname>themis::observability::PerformanceAnalysis::toReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="71" column="17" bodyfile="src/observability/performance_analyzer.cpp" bodystart="87" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance analysis result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/performance_analyzer.h" line="64" column="1" bodyfile="include/observability/performance_analyzer.h" bodystart="64" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1a57e883d19c447b8c0a61f58e4d1f945a" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>issues</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1ad2f1a16e34ec8a99d8eb676dd94c7131" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1a25ccda4aa91632fec2f8a0bfd2890181" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>summary_metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1a04502dd9a3ffed6d02f93d657924fec7" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1a654d6072a4aa1e7721e050629fba22ff" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analysis_1a406afe24dc52580e0c17dc6db8caa264" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalysis</scope><name>toReport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

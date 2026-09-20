@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_type_1_1_features" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentType::Features</compoundname>
+    <includes refid="content__type_8h" local="no">content_type.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1_1_features_1a67653c8f82e2dd9cc2f71b763c6fc9bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::Features::geospatial</definition>
+        <argsstring></argsstring>
+        <name>geospatial</name>
+        <qualifiedname>themis::content::ContentType::Features::geospatial</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="51" column="14" bodyfile="include/content/content_type.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1_1_features_1a73de92fdefd249c02c29eb741c7d2abd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::Features::temporal</definition>
+        <argsstring></argsstring>
+        <name>temporal</name>
+        <qualifiedname>themis::content::ContentType::Features::temporal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="52" column="14" bodyfile="include/content/content_type.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1_1_features_1a681a6480dae92d14860769e98fd9bcb2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::Features::hierarchical</definition>
+        <argsstring></argsstring>
+        <name>hierarchical</name>
+        <qualifiedname>themis::content::ContentType::Features::hierarchical</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="53" column="14" bodyfile="include/content/content_type.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1_1_features_1a92d00f5321f0ce93a157756338225de3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::Features::versioned</definition>
+        <argsstring></argsstring>
+        <name>versioned</name>
+        <qualifiedname>themis::content::ContentType::Features::versioned</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="54" column="14" bodyfile="include/content/content_type.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1_1_features_1a4fca4e6cd948deb6c3c1314ca9141c03" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::Features::multimodal</definition>
+        <argsstring></argsstring>
+        <name>multimodal</name>
+        <qualifiedname>themis::content::ContentType::Features::multimodal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="55" column="14" bodyfile="include/content/content_type.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_type.h" line="50" column="5" bodyfile="include/content/content_type.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_type_1_1_features_1a67653c8f82e2dd9cc2f71b763c6fc9bf" prot="public" virt="non-virtual"><scope>themis::content::ContentType::Features</scope><name>geospatial</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1_1_features_1a681a6480dae92d14860769e98fd9bcb2" prot="public" virt="non-virtual"><scope>themis::content::ContentType::Features</scope><name>hierarchical</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1_1_features_1a4fca4e6cd948deb6c3c1314ca9141c03" prot="public" virt="non-virtual"><scope>themis::content::ContentType::Features</scope><name>multimodal</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1_1_features_1a73de92fdefd249c02c29eb741c7d2abd" prot="public" virt="non-virtual"><scope>themis::content::ContentType::Features</scope><name>temporal</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1_1_features_1a92d00f5321f0ce93a157756338225de3" prot="public" virt="non-virtual"><scope>themis::content::ContentType::Features</scope><name>versioned</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::RecoverableTwoPhaseTransaction</compoundname>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="no">recoverable_two_phase_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a71c537642fd340e537f234b1ffdc9697" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RecoverableTwoPhaseTransaction::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseTransaction::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Coordinator-local transaction identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="69" column="30" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a72b1efa5e77a8966150b248c55ff2945" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454" kindref="member">RecoverableTwoPhaseState</ref></type>
+        <definition>RecoverableTwoPhaseState themis::transaction::RecoverableTwoPhaseTransaction::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseTransaction::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">RecoverableTwoPhaseState::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Canonical recovery state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="70" column="30" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a1c1efd87ea5eaeaacb9488854cb7b5d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RecoverableTwoPhaseTransaction::decision_recorded</definition>
+        <argsstring></argsstring>
+        <name>decision_recorded</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseTransaction::decision_recorded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a durable COMMIT/ABORT decision exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="71" column="30" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1aca4e66fd924e48706b259b49d1964997" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RecoverableTwoPhaseTransaction::decision_commit</definition>
+        <argsstring></argsstring>
+        <name>decision_commit</name>
+        <qualifiedname>themis::transaction::RecoverableTwoPhaseTransaction::decision_commit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Valid when decision_recorded is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="72" column="30" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Normalized per-transaction snapshot exposed by recoverable coordinators. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinators fill this struct from their internal state so that the global recovery manager can compute aggregated in-doubt counts without needing to know coordinator-specific types. </para>
+    </detaileddescription>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h" line="68" column="1" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="68" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1aca4e66fd924e48706b259b49d1964997" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseTransaction</scope><name>decision_commit</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a1c1efd87ea5eaeaacb9488854cb7b5d5" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseTransaction</scope><name>decision_recorded</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a72b1efa5e77a8966150b248c55ff2945" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseTransaction</scope><name>state</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a71c537642fd340e537f234b1ffdc9697" prot="public" virt="non-virtual"><scope>themis::transaction::RecoverableTwoPhaseTransaction</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_memory_tracker" kind="class" language="C++" prot="public">
+    <compoundname>MemoryTracker</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_memory_tracker_1ac1440f1e61ba1db83ab156a881a432e2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t MemoryTracker::currentUsageBytes</definition>
+        <argsstring>()</argsstring>
+        <name>currentUsageBytes</name>
+        <qualifiedname>MemoryTracker::currentUsageBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="213" column="21" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple memory tracking via RSS estimation (Linux-compatible approach). Note: On non-Linux or in tests without /proc, returns reasonable estimates. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="211" column="1" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="211" bodyend="218"/>
+    <listofallmembers>
+      <member refid="class_memory_tracker_1ac1440f1e61ba1db83ab156a881a432e2" prot="public" virt="non-virtual"><scope>MemoryTracker</scope><name>currentUsageBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

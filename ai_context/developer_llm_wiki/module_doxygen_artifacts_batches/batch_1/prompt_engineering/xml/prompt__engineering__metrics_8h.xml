@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__engineering__metrics_8h" kind="file" language="C++">
+    <compoundname>prompt_engineering_metrics.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__prompt__engineering_8cpp" local="yes">benchmarks/prompt_engineering/bench_prompt_engineering.cpp</includedby>
+    <includedby refid="prompt__engineering__integration_8h" local="yes">include/prompt_engineering/prompt_engineering_integration.h</includedby>
+    <includedby refid="prompt__engineering__metrics_8cpp" local="yes">src/prompt_engineering/prompt_engineering_metrics.cpp</includedby>
+    <includedby refid="test__prompt__engineering__focused_8cpp" local="yes">tests/prompt_engineering/test_prompt_engineering_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_engineering_metrics.h</label>
+        <link refid="prompt__engineering__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/prompt_engineering/bench_prompt_engineering.cpp</label>
+        <link refid="bench__prompt__engineering_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/prompt_engineering/prompt_engineering_integration.h</label>
+        <link refid="prompt__engineering__integration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_engineering_metrics.h</label>
+        <link refid="prompt__engineering__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/prompt_engineering/prompt_engineering_integration.cpp</label>
+        <link refid="prompt__engineering__integration_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/prompt_engineering/prompt_engineering_metrics.cpp</label>
+        <link refid="prompt__engineering__metrics_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/prompt_engineering/test_prompt_engineering_focused.cpp</label>
+        <link refid="test__prompt__engineering__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" prot="public">themis::prompt_engineering::PromptEngineeringMetrics</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config" prot="public">themis::prompt_engineering::PromptEngineeringMetrics::Config</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" prot="public">themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event" prot="public">themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac2bdb680064ee781286a953ab4774430" kindref="member">PromptEngineeringMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config_1ad7dd0dca7af2401fefddf13b1d446926" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config_1ad7dd0dca7af2401fefddf13b1d446926" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config_1a2fe7f28e2535941a2355686be2b70bc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config_1a2fe7f28e2535941a2355686be2b70bc4" kindref="member">namespace_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_prompt_engineering&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" kindref="compound">AlertConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a439d78b9252aec052b5f18a3809e6486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a439d78b9252aec052b5f18a3809e6486" kindref="member">max_failure_rate</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1accd4b7c213e56910cbc0d4a84ac06bcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1accd4b7c213e56910cbc0d4a84ac06bcd" kindref="member">min_success_rate</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a81565a92f8fccd7acd4eb931d58cfc83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a81565a92f8fccd7acd4eb931d58cfc83" kindref="member">max_hallucinations</ref><sp/>=<sp/>10;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event" kindref="compound">AlertEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a0b991108283651a8f2123cb60c364a6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a0b991108283651a8f2123cb60c364a6d" kindref="member">metric_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1af5a83ba1d57e5d2139894cf0dfc4bf30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1af5a83ba1d57e5d2139894cf0dfc4bf30" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a6d072404973c0fc685d846a02b853f44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a6d072404973c0fc685d846a02b853f44" kindref="member">threshold</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1ac4057efbcf61c9c8a0bf28f9bb387ddc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1ac4057efbcf61c9c8a0bf28f9bb387ddc" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a100903015b8a3fd661b3697e3476f5a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a100903015b8a3fd661b3697e3476f5a2" kindref="member">AlertCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event" kindref="compound">AlertEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a4cbc3449d98c42ce44047e4ffd9cd39c" kindref="member">PromptEngineeringMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a4cbc3449d98c42ce44047e4ffd9cd39c" kindref="member">PromptEngineeringMetrics</ref>();</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a4edb27d62d2208178965ad1ecc2da6b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a4edb27d62d2208178965ad1ecc2da6b1" kindref="member">~PromptEngineeringMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a2e373ac0f1f0b4baca8dbe9e8a05082f" kindref="member">recordOptimizationAttempt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1aeb7ba8cfa924e306ddd2ed0b40894098" kindref="member">recordOptimizationSuccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>improvement);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac10472fba155121cf46cb7509c870b2e" kindref="member">recordOptimizationFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a9d472102e899718c0c4c7346cdc10d0b" kindref="member">recordOptimizationDuration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ae0e8d5934e81bdc56ac8b17dd465d527" kindref="member">recordOptimizationIterations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>testing<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1afe2de314e042670158a9fca1338cab7d" kindref="member">recordABTestStart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>test_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1aff8039ff07565aa135d580825bc438df" kindref="member">recordABTestObservation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>test_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a1ddae9098af5c3ce6e756522f4b174b8" kindref="member">recordABTestCompletion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>test_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>winner,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>confidence);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1affc54838b4c7386e80a36b06b819875e" kindref="member">recordABTestDuration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>test_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_seconds);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ad98e819775d121642df6c13b45152ad8" kindref="member">recordActiveABTests</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>tracking<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1af072ccad30c879ad021c069a46e8f2bf" kindref="member">recordPromptExecution</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a333c349fa115629ee5322c7f457b3ffd" kindref="member">recordPromptSuccessRate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rate);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a5175b28488704336a8cc0fa85847f5ce" kindref="member">recordPromptAverageLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a7b4babbfdbc0ac8aea616c63de599f9d" kindref="member">recordPromptExecutionCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/>int64_t<sp/>count);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feedback<sp/>collection<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a002d5b76386c931817de0d9b6334d3ae" kindref="member">recordFeedback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a59e4b4a8edcfb7ccdeb76d84471ec373" kindref="member">recordFeedbackSeverity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>severity);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a17f5a54e2380c1cd8a291ac319d06ce5" kindref="member">recordHallucinationDetection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac42bd3e951c9dd819e220ae1d5a1d797" kindref="member">recordFailedQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failure_type);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac66c36998cad1b458bb2c4d813f47e65" kindref="member">recordTotalFeedbackCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/>int64_t<sp/>count);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a57b07e9bdbe262a9b62fad3ecac4d701" kindref="member">recordPositiveRatio</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ratio);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>control<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1adad63f778f1be57bd755ea53929ecad0" kindref="member">recordVersionCommit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a2a6681b1398c20251faa252885c4a084" kindref="member">recordVersionRollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a6105e3f815b8c914948ab230a86bd148" kindref="member">recordBranchCreation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac83ab42a43ca1b5e79b2780033f259d4" kindref="member">recordMergeOperation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>strategy,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a3150dd0e9046588fb56088df3cb5b081" kindref="member">recordVersionCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Integration<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ad1117b8286c35daa5f2ece3e5242be03" kindref="member">recordIntegrationExecution</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>before);<sp/><sp/></highlight><highlight class="comment">//<sp/>true=beforeExecution,<sp/>false=afterExecution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a5a8021a987ed3f4325583e842a93199c" kindref="member">recordBackgroundWorkerCycle</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a6d2196f8e0f413f63eabfba8da703f9a" kindref="member">recordBackgroundWorkerDuration</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reflection<sp/>Tuning<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac87a792da30cbc1bfaa9078d3b6ff9ed" kindref="member">recordReflectionCycleStart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a711c8bd7cb817ad4ff9f5466b1b844e1" kindref="member">recordReflectionCycleComplete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iterations,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>improved);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1aa39132df3637cdd9c73873c89b65c967" kindref="member">recordReflectionGuardFired</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a470e6a38bd880bfe381fb2df789043d8" kindref="member">recordReflectionQualityDelta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac832302c20c12ef7fc429fd2a66c2bca" kindref="member">exportMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a94df72942a8b4afc7e2dd1807373a70a" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistence:<sp/>snapshot<sp/>/<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a5f3e836bc8b27970b2dee7662504b3fb" kindref="member">snapshotToJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a427db0eb0e18bd03bbf42e59216cd417" kindref="member">restoreFromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alerting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ae9b968b892d903e16f6efb7fecec7559" kindref="member">setAlertConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" kindref="compound">AlertConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a24a3c69e7432e8b718e4f6b84c8b5f31" kindref="member">setAlertCallback</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a100903015b8a3fd661b3697e3476f5a2" kindref="member">AlertCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" kindref="compound">AlertConfig</ref><sp/>alert_config_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a100903015b8a3fd661b3697e3476f5a2" kindref="member">AlertCallback</ref><sp/>alert_callback_;<sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>optimization_attempts_{0};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>optimization_successes_{0};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>optimization_failures_{0};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>optimization_total_duration_ms_{0.0};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>optimization_total_iterations_{0};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>testing<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>ab_test_starts_{0};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>ab_test_completions_{0};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>ab_test_observations_{0};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>active_ab_tests_{0};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>tracking<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>prompt_executions_{0};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>prompt_successes_{0};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>prompt_failures_{0};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>prompt_total_latency_ms_{0.0};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feedback<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>feedback_total_{0};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>feedback_positive_{0};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>feedback_negative_{0};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>hallucination_detections_{0};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>failed_queries_{0};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>control<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>version_commits_{0};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>version_rollbacks_{0};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>branch_creations_{0};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>merge_operations_{0};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>merge_successes_{0};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Integration<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>integration_before_calls_{0};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>integration_after_calls_{0};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>background_worker_cycles_{0};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/>background_worker_total_duration_ms_{0.0};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reflection<sp/>Tuning<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>reflection_cycle_starts_{0};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>reflection_cycle_completions_{0};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>reflection_iterations_total_{0};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>reflection_improvements_{0};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>reflection_guard_fires_{0};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;double&gt;<sp/><sp/>reflection_quality_delta_sum_{0.0};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-prompt<sp/>metrics<sp/>(protected<sp/>by<sp/>mutex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/>prompt_success_rates_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/>prompt_avg_latencies_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>prompt_execution_counts_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/>prompt_version_counts_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatMetric(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatMetric(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>value,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatMetric(</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatLabels(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_engineering_metrics.h"/>
+  </compounddef>
+</doxygen>

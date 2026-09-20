@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_switch_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterSwitchPolicy</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a9b4870bfa37bc775113c4f06b66322f2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterSwitchPolicy::min_switch_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>min_switch_interval_ms</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::min_switch_interval_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="403" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a24c181f24a252445ee28d2dc22bfdba1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdapterSwitchPolicy::min_similarity_gain</definition>
+        <argsstring></argsstring>
+        <name>min_similarity_gain</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::min_similarity_gain</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="404" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1ae279976dd1aadbb0cf8bb0379d5436e2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterSwitchPolicy::max_switches_per_request</definition>
+        <argsstring></argsstring>
+        <name>max_switches_per_request</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::max_switches_per_request</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="405" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1af665fb97661c2f7af71f93469d987215" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterSwitchPolicy::max_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_retry_attempts</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::max_retry_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Additional retries after first apply attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="406" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a3b28e3a143c62ea0ae17dd629360e60e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterSwitchPolicy::retry_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_ms</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::retry_backoff_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Backoff between retries for retryable failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="407" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a78faf149f9cd204bb42d55e2a052a186" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterSwitchPolicy::enable_cost_budget_gate</definition>
+        <argsstring></argsstring>
+        <name>enable_cost_budget_gate</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::enable_cost_budget_gate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable pre-apply cost budget guard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="408" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a78716c78dab37afeefa126961855193d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::AdapterSwitchPolicy::max_total_cost</definition>
+        <argsstring></argsstring>
+        <name>max_total_cost</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::max_total_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Max projected total RAG cost. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="409" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a6fe4eb06216ca92333f106928a6b1005" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterSwitchPolicy::enable_cost_top_k_adaptation</definition>
+        <argsstring></argsstring>
+        <name>enable_cost_top_k_adaptation</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::enable_cost_top_k_adaptation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Adapt retrieval top_k to fit budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="410" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_switch_policy_1a0a30408d29ef75fed05a805fd1ca2f28" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterSwitchPolicy::min_top_k_under_budget</definition>
+        <argsstring></argsstring>
+        <name>min_top_k_under_budget</name>
+        <qualifiedname>themis::llm::AdapterSwitchPolicy::min_top_k_under_budget</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Lower bound for budget-driven top_k reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="411" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="402" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="402" bodyend="412"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a78faf149f9cd204bb42d55e2a052a186" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>enable_cost_budget_gate</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a6fe4eb06216ca92333f106928a6b1005" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>enable_cost_top_k_adaptation</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1af665fb97661c2f7af71f93469d987215" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>max_retry_attempts</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1ae279976dd1aadbb0cf8bb0379d5436e2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>max_switches_per_request</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a78716c78dab37afeefa126961855193d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>max_total_cost</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a24c181f24a252445ee28d2dc22bfdba1" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>min_similarity_gain</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a9b4870bfa37bc775113c4f06b66322f2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>min_switch_interval_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a0a30408d29ef75fed05a805fd1ca2f28" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>min_top_k_under_budget</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_switch_policy_1a3b28e3a143c62ea0ae17dd629360e60e" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSwitchPolicy</scope><name>retry_backoff_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

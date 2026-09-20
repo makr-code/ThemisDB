@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="icdc__backpressure__signal_8h" kind="file" language="C++">
+    <compoundname>icdc_backpressure_signal.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="test__cdc__backpressure__signal_8cpp" local="yes">tests/cdc/test_cdc_backpressure_signal.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cdc/icdc_backpressure_signal.h</label>
+        <link refid="icdc__backpressure__signal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/icdc_backpressure_signal.h</label>
+        <link refid="icdc__backpressure__signal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/cdc/test_cdc_backpressure_signal.cpp</label>
+        <link refid="test__cdc__backpressure__signal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" prot="public">themis::cdc::ICDCBackpressureSignal</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal" prot="public">themis::cdc::InMemoryBackpressureSignal</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>BackpressureLevel<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa28d0edd045e05cf5af64e35ae0c4c6ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa28d0edd045e05cf5af64e35ae0c4c6ef" kindref="member">Low</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa87f8a6ab85c9ced3702b4ea641ad4bb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa87f8a6ab85c9ced3702b4ea641ad4bb5" kindref="member">Medium</ref><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa655d20c1ca69519ca647684edbb2db35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa655d20c1ca69519ca647684edbb2db35" kindref="member">High</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa278d01e5af56273bae1bb99a98b370cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa278d01e5af56273bae1bb99a98b370cd" kindref="member">Critical</ref><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>ICDCBackpressureSignal<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" kindref="compound">ICDCBackpressureSignal</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a30af9215ca9039e0e1c195f4c9112f9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a30af9215ca9039e0e1c195f4c9112f9e" kindref="member">~ICDCBackpressureSignal</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1ac78696fb43cdc7a69a242b2f4d157372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1ac78696fb43cdc7a69a242b2f4d157372" kindref="member">signalBackpressure</ref>(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/>level)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a277b9d9961aaeded825c52180072ee80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a277b9d9961aaeded825c52180072ee80" kindref="member">clearBackpressure</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a39dc222749b20e5b3145ea8860c6e681" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a39dc222749b20e5b3145ea8860c6e681" kindref="member">currentLevel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>InMemoryBackpressureSignal<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1adf62b5f5c36690142076049b6bc8a1b6" kindref="member">InMemoryBackpressureSignal</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" kindref="compound">ICDCBackpressureSignal</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/></highlight><highlight class="comment">/*new_level*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1adf62b5f5c36690142076049b6bc8a1b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1adf62b5f5c36690142076049b6bc8a1b6" kindref="member">InMemoryBackpressureSignal</ref>(<ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref><sp/>cb<sp/>=<sp/>{})</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>level_(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref>::<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>),<sp/>callback_(std::move(cb))<sp/>{}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>ICDCBackpressureSignal<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a53ac95d3e871e09264dcadd54b485b51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a53ac95d3e871e09264dcadd54b485b51" kindref="member">signalBackpressure</ref>(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/>level)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/>prev<sp/>=<sp/>level_.exchange(level,<sp/>std::memory_order_acq_rel);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prev<sp/>!=<sp/>level<sp/>&amp;&amp;<sp/>callback_)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(cb_mutex_);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(callback_)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_(level);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1afce7df76237dce9e515946796ed76d2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1afce7df76237dce9e515946796ed76d2a" kindref="member">clearBackpressure</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a53ac95d3e871e09264dcadd54b485b51" kindref="member">signalBackpressure</ref>(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">BackpressureLevel::None</ref>);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affc318574900865c329cee567347000a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affc318574900865c329cee567347000a" kindref="member">currentLevel</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>level_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1ac4038b8da21286a268c2779533a6a066" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1ac4038b8da21286a268c2779533a6a066" kindref="member">setCallback</ref>(<ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref><sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(cb_mutex_);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;BackpressureLevel&gt;<sp/>level_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_mutex_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/icdc_backpressure_signal.h"/>
+  </compounddef>
+</doxygen>

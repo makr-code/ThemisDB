@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_aql_ddl_phase2_test" kind="class" language="C++" prot="public">
+    <compoundname>AqlDdlPhase2Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_aql_ddl_phase2_test_1a48d9ec835ace7fb219e7366cdd7785de" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref></type>
+        <definition>AQLParser AqlDdlPhase2Test::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>AqlDdlPhase2Test::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="34" column="19" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_aql_ddl_phase2_test_1a5bd2f75d61e0075f4de25e73e41284c6" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_schema_registry" kindref="compound">SchemaRegistry</ref></type>
+        <definition>SchemaRegistry AqlDdlPhase2Test::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>AqlDdlPhase2Test::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="35" column="20" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_aql_ddl_phase2_test_1a53373bbabcb2e89b71e5b82d24dde04e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref></type>
+        <definition>SchemaDDL AqlDdlPhase2Test::parse_ok</definition>
+        <argsstring>(const std::string &amp;stmt)</argsstring>
+        <name>parse_ok</name>
+        <qualifiedname>AqlDdlPhase2Test::parse_ok</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="38" column="15" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_aql_ddl_phase2_test_1a67b3644e037471c06625af3e967a5fa0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AqlDdlPhase2Test::parse_err</definition>
+        <argsstring>(const std::string &amp;stmt)</argsstring>
+        <name>parse_err</name>
+        <qualifiedname>AqlDdlPhase2Test::parse_err</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="47" column="10" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_aql_ddl_phase2_test_1a4447e49e58558bb2ba61260699b48361" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AqlDdlPhase2Test::exec_ok</definition>
+        <argsstring>(const SchemaDDL &amp;ddl)</argsstring>
+        <name>exec_ok</name>
+        <qualifiedname>AqlDdlPhase2Test::exec_ok</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref> &amp;</type>
+          <declname>ddl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="54" column="10" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_aql_ddl_phase2_test_1abd23ca4576296d9c903fbae791dcc360" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AqlDdlPhase2Test::exec_err</definition>
+        <argsstring>(const SchemaDDL &amp;ddl)</argsstring>
+        <name>exec_err</name>
+        <qualifiedname>AqlDdlPhase2Test::exec_err</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref> &amp;</type>
+          <declname>ddl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_ddl_phase2.cpp" line="64" column="10" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AqlDdlPhase2Test</label>
+        <link refid="class_aql_ddl_phase2_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AqlDdlPhase2Test</label>
+        <link refid="class_aql_ddl_phase2_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>registry</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::AQLParser</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser"/>
+      </node>
+      <node id="4">
+        <label>themis::query::SchemaRegistry</label>
+        <link refid="classthemis_1_1query_1_1_schema_registry"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_ddl_phase2.cpp" line="32" column="1" bodyfile="tests/query/test_aql_ddl_phase2.cpp" bodystart="32" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_aql_ddl_phase2_test_1abd23ca4576296d9c903fbae791dcc360" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>exec_err</name></member>
+      <member refid="class_aql_ddl_phase2_test_1a4447e49e58558bb2ba61260699b48361" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>exec_ok</name></member>
+      <member refid="class_aql_ddl_phase2_test_1a67b3644e037471c06625af3e967a5fa0" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>parse_err</name></member>
+      <member refid="class_aql_ddl_phase2_test_1a53373bbabcb2e89b71e5b82d24dde04e" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>parse_ok</name></member>
+      <member refid="class_aql_ddl_phase2_test_1a48d9ec835ace7fb219e7366cdd7785de" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>parser</name></member>
+      <member refid="class_aql_ddl_phase2_test_1a5bd2f75d61e0075f4de25e73e41284c6" prot="protected" virt="non-virtual"><scope>AqlDdlPhase2Test</scope><name>registry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

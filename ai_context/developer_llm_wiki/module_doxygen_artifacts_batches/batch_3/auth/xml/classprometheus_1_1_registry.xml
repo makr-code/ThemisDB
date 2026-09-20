@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classprometheus_1_1_registry" kind="class" language="C++" prot="public">
+    <compoundname>prometheus::Registry</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="32" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="32" bodyend="32"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

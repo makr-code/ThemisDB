@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::PerClientRateLimiter::ClientBucket</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a6a5f8df61d9a44ad08037c4e9679306e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter" kindref="compound">TokenBucketRateLimiter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TokenBucketRateLimiter&gt; themis::server::PerClientRateLimiter::ClientBucket::limiter</definition>
+        <argsstring></argsstring>
+        <name>limiter</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientBucket::limiter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="310" column="25" bodyfile="include/server/rate_limiter_v2.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1aa23855829f62f9704c0dece50e69bcfb" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::PerClientRateLimiter::ClientBucket::last_access</definition>
+        <argsstring></argsstring>
+        <name>last_access</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientBucket::last_access</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="311" column="47" bodyfile="include/server/rate_limiter_v2.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a6b2686f83c939f7836c649287c1f3725" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::PerClientRateLimiter::ClientBucket::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientBucket::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="312" column="21" bodyfile="include/server/rate_limiter_v2.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a4bdf500bdac50cffbc442a57899cb6d7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::PerClientRateLimiter::ClientBucket::total_rejections</definition>
+        <argsstring></argsstring>
+        <name>total_rejections</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientBucket::total_rejections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="313" column="21" bodyfile="include/server/rate_limiter_v2.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter_v2.h" line="309" column="5" bodyfile="include/server/rate_limiter_v2.h" bodystart="309" bodyend="314"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1aa23855829f62f9704c0dece50e69bcfb" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientBucket</scope><name>last_access</name></member>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a6a5f8df61d9a44ad08037c4e9679306e" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientBucket</scope><name>limiter</name></member>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a4bdf500bdac50cffbc442a57899cb6d7" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientBucket</scope><name>total_rejections</name></member>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket_1a6b2686f83c939f7836c649287c1f3725" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientBucket</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

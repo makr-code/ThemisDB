@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HotShardSplitPolicy::SplitProposal</compoundname>
+    <includes refid="auto__rebalancer_8h" local="no">auto_rebalancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1a4e9c829d210c74ec6650fdf1a92e0f95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotShardSplitPolicy::SplitProposal::hot_shard_id</definition>
+        <argsstring></argsstring>
+        <name>hot_shard_id</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::SplitProposal::hot_shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard that should be split. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="105" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1aac9bf13d8c13fe1fe5679fe232f39c9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotShardSplitPolicy::SplitProposal::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::SplitProposal::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Human-readable reason (e.g. &quot;CPU 85%&quot;, &quot;predicted composite 82/100&quot;, &quot;ML failure probability 0.72&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="109" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1ab3c7266e8cdace88502a121087b1ea1a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::HotShardSplitPolicy::SplitProposal::current_load_percent</definition>
+        <argsstring></argsstring>
+        <name>current_load_percent</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::SplitProposal::current_load_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Current composite load score (0–100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="112" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1ae8097c56439a19e93f29a47e1b8d5f76" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::HotShardSplitPolicy::SplitProposal::predicted_load_percent</definition>
+        <argsstring></argsstring>
+        <name>predicted_load_percent</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::SplitProposal::predicted_load_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Predicted composite load score (0–100); equals current_load_percent when the proposal is reactive rather than predictive. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="116" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1a28128df97d0499a86dba2031fa4145e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotShardSplitPolicy::SplitProposal::is_predictive</definition>
+        <argsstring></argsstring>
+        <name>is_predictive</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::SplitProposal::is_predictive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the proposal is based on forecasted (not current) load. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="119" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Proposal to split a specific hot shard. </para>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="103" column="5" bodyfile="include/sharding/auto_rebalancer.h" bodystart="103" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1ab3c7266e8cdace88502a121087b1ea1a" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::SplitProposal</scope><name>current_load_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1a4e9c829d210c74ec6650fdf1a92e0f95" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::SplitProposal</scope><name>hot_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1a28128df97d0499a86dba2031fa4145e2" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::SplitProposal</scope><name>is_predictive</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1ae8097c56439a19e93f29a47e1b8d5f76" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::SplitProposal</scope><name>predicted_load_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal_1aac9bf13d8c13fe1fe5679fe232f39c9a" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy::SplitProposal</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

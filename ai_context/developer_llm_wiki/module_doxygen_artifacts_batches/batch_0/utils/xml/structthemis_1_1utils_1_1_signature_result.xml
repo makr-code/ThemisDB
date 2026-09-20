@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_signature_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SignatureResult</compoundname>
+    <includes refid="pki__client_8h" local="no">pki_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signature_result_1a101172a33d3c2bde10a2ec60161ae63b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::SignatureResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::utils::SignatureResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="54" column="10" bodyfile="include/utils/pki_client.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signature_result_1aa140f5ae0193e2a022678bb9996553ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignatureResult::signature_id</definition>
+        <argsstring></argsstring>
+        <name>signature_id</name>
+        <qualifiedname>themis::utils::SignatureResult::signature_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="55" column="17" bodyfile="include/utils/pki_client.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signature_result_1ab64fba3393e817dc85b74bdab5dce329" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignatureResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::utils::SignatureResult::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="56" column="17" bodyfile="include/utils/pki_client.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signature_result_1ad2679d812a7221c85e78337821bf0eda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignatureResult::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::utils::SignatureResult::signature_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="57" column="17" bodyfile="include/utils/pki_client.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signature_result_1a72fc496c28ee91b910dba2c2af9ebca9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignatureResult::cert_serial</definition>
+        <argsstring></argsstring>
+        <name>cert_serial</name>
+        <qualifiedname>themis::utils::SignatureResult::cert_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="58" column="17" bodyfile="include/utils/pki_client.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pki_client.h" line="53" column="1" bodyfile="include/utils/pki_client.h" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_signature_result_1ab64fba3393e817dc85b74bdab5dce329" prot="public" virt="non-virtual"><scope>themis::utils::SignatureResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1utils_1_1_signature_result_1a72fc496c28ee91b910dba2c2af9ebca9" prot="public" virt="non-virtual"><scope>themis::utils::SignatureResult</scope><name>cert_serial</name></member>
+      <member refid="structthemis_1_1utils_1_1_signature_result_1a101172a33d3c2bde10a2ec60161ae63b" prot="public" virt="non-virtual"><scope>themis::utils::SignatureResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1utils_1_1_signature_result_1ad2679d812a7221c85e78337821bf0eda" prot="public" virt="non-virtual"><scope>themis::utils::SignatureResult</scope><name>signature_b64</name></member>
+      <member refid="structthemis_1_1utils_1_1_signature_result_1aa140f5ae0193e2a022678bb9996553ec" prot="public" virt="non-virtual"><scope>themis::utils::SignatureResult</scope><name>signature_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

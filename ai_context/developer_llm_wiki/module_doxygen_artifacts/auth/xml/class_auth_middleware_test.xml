@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_auth_middleware_test" kind="class" language="C++" prot="public">
+    <compoundname>AuthMiddlewareTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_auth_middleware_test_1a5f5e797d7f39158601a485b9b11d3951" prot="protected" static="no" mutable="no">
+        <type>AuthMiddleware</type>
+        <definition>AuthMiddleware AuthMiddlewareTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>AuthMiddlewareTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_middleware.cpp" line="23" column="20" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_auth_middleware_test_1ab0c756870ff96a1bbc99f3817f4a7af6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuthMiddlewareTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuthMiddlewareTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_middleware.cpp" line="25" column="10" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="25" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuthMiddlewareTest</label>
+        <link refid="class_auth_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuthMiddlewareTest</label>
+        <link refid="class_auth_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_middleware.cpp" line="21" column="1" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="21" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_auth_middleware_test_1a5f5e797d7f39158601a485b9b11d3951" prot="protected" virt="non-virtual"><scope>AuthMiddlewareTest</scope><name>auth_</name></member>
+      <member refid="class_auth_middleware_test_1ab0c756870ff96a1bbc99f3817f4a7af6" prot="protected" virt="non-virtual"><scope>AuthMiddlewareTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

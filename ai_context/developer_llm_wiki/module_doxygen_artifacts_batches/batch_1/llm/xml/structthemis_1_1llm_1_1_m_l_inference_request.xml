@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_m_l_inference_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MLInferenceRequest</compoundname>
+    <includes refid="ml__model__manager_8h" local="no">ml_model_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1a40a1811f5710c1fc7f9f332cb66513c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceRequest::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="205" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1abf7ce7c1eae754afa91d47b4d1caacbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceRequest::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="206" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1a7b3647c7813a862ba167f865040abae1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLInferenceRequest::input_data</definition>
+        <argsstring></argsstring>
+        <name>input_data</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::input_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="207" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1a62d566fb7d6ec1af51ed9ad617ab0dbc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLInferenceRequest::inference_params</definition>
+        <argsstring></argsstring>
+        <name>inference_params</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::inference_params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="208" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1a7dac4ef52721359d640466516a2ecd68" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLInferenceRequest::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="209" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_request_1aa8d92787055b92787f4531165409d8bb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLInferenceRequest::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="210" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_m_l_inference_request_1a10d590f730d3d2cbeed834044980111b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::MLInferenceRequest::~MLInferenceRequest</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MLInferenceRequest</name>
+        <qualifiedname>themis::llm::MLInferenceRequest::~MLInferenceRequest</qualifiedname>
+        <briefdescription>
+<para>MLInference Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="204" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ml_model_manager.h" line="199" column="1" bodyfile="include/llm/ml_model_manager.h" bodystart="199" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1a62d566fb7d6ec1af51ed9ad617ab0dbc" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>inference_params</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1a7b3647c7813a862ba167f865040abae1" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>input_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1a40a1811f5710c1fc7f9f332cb66513c2" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1abf7ce7c1eae754afa91d47b4d1caacbe" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1aa8d92787055b92787f4531165409d8bb" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1a7dac4ef52721359d640466516a2ecd68" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceRequest</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_request_1a10d590f730d3d2cbeed834044980111b" prot="public" virt="virtual"><scope>themis::llm::MLInferenceRequest</scope><name>~MLInferenceRequest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_e_w_k_b_test" kind="class" language="C++" prot="public">
+    <compoundname>EWKBTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_e_w_k_b_test_1a03b8c5b019b4725fdd737aa80de8fc49" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EWKBTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>EWKBTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_ewkb.cpp" line="9" column="10" bodyfile="tests/geo/test_geo_ewkb.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_e_w_k_b_test_1acdbd877f32783e6b04da15a9e9542f80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EWKBTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>EWKBTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_ewkb.cpp" line="10" column="10" bodyfile="tests/geo/test_geo_ewkb.cpp" bodystart="10" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_e_w_k_b_test_1a3f274d628736b1cfeebb0fdae06e2877" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool EWKBTest::approxEqual</definition>
+        <argsstring>(double a, double b, double epsilon=1e-9)</argsstring>
+        <name>approxEqual</name>
+        <qualifiedname>EWKBTest::approxEqual</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>1e-9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_ewkb.cpp" line="12" column="10" bodyfile="tests/geo/test_geo_ewkb.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EWKBTest</label>
+        <link refid="class_e_w_k_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EWKBTest</label>
+        <link refid="class_e_w_k_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_geo_ewkb.cpp" line="7" column="1" bodyfile="tests/geo/test_geo_ewkb.cpp" bodystart="7" bodyend="15"/>
+    <listofallmembers>
+      <member refid="class_e_w_k_b_test_1a3f274d628736b1cfeebb0fdae06e2877" prot="protected" virt="non-virtual"><scope>EWKBTest</scope><name>approxEqual</name></member>
+      <member refid="class_e_w_k_b_test_1a03b8c5b019b4725fdd737aa80de8fc49" prot="protected" virt="non-virtual"><scope>EWKBTest</scope><name>SetUp</name></member>
+      <member refid="class_e_w_k_b_test_1acdbd877f32783e6b04da15a9e9542f80" prot="protected" virt="non-virtual"><scope>EWKBTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

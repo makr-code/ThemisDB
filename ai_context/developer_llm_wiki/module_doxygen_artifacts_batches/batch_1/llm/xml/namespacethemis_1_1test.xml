@@ -1,0 +1,575 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" prot="public">themis::test::LLMModelEnumerationTest</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_model_loader_error_handling_test" prot="public">themis::test::ModelLoaderErrorHandlingTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1ad1826695e027173bc71913a28206279f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, ListModelsEmptyInitially)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>ListModelsEmptyInitially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="56" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7cb5b84b0a0c4abf6c461be3bb88b454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, ListSingleModel)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>ListSingleModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="62" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="62" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a770316c742581803939f590a6fdef983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, ListMultipleModels)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>ListMultipleModels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="77" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="77" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3a365d8e3e9bf2b0704667e9ebef696a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, FilterModelsBySubstring)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>FilterModelsBySubstring</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="105" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="105" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3195904abc18fc3f85f56354acb723d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, FilterReturnsOnlyMatching)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>FilterReturnsOnlyMatching</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="132" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="132" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a09ec01dd40b6dfc5ea535178cd9ed13d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, ListModelsAfterDelete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>ListModelsAfterDelete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="151" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="151" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac8a64e7b7a7360911992f1195805e392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(LLMModelEnumerationTest, PrefixIteratorIfAvailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_l_l_m_model_enumeration_test" kindref="compound">LLMModelEnumerationTest</ref></type>
+        </param>
+        <param>
+          <type>PrefixIteratorIfAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_enumeration.cpp" line="177" column="1" bodyfile="tests/llm/test_llm_model_enumeration.cpp" bodystart="177" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a75fca2468e988897af1b768fa6077213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, NewErrorCodesRegistered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>NewErrorCodesRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="72" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="72" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7455b41375cf39371805594db4bb4f17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrorMetadataComplete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMetadataComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="92" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="92" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1afc9cddd81fa8aaa42aa8a92073200e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, FileNotFoundReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>FileNotFoundReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="109" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a6999deb4218c780c9cae5da6a80cc939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, FileNotFoundErrorContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>FileNotFoundErrorContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="122" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="122" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab03e9fa778f6a37e5ae9ec62fbbd2b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, InvalidModelFileReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidModelFileReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="140" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3d55f8f804cc0ca16afbe8bd84050441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, LoadFailureErrorMetadata)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadFailureErrorMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="144" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="144" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a6a3f21d2b8d0be91d1b1a83d5a82a170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ContextCreationErrorRegistered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ContextCreationErrorRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="160" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="160" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0b0d5d2e3c51fc8b8d5e3c38649147d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, AsyncLoadingPropagatesError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>AsyncLoadingPropagatesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="176" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="176" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac688a41474897edfe473496d7139986e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, PreloadHandlesErrors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>PreloadHandlesErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="192" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a127d320ac1cbe4aa6a95a7b7a59e51c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrorMessagesIncludeContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessagesIncludeContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="210" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="210" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1abb72874bc0bc353e95dcfc290c18f680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrorMessagesAreActionable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessagesAreActionable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="224" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="224" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab947840936b5282e1820b5ad4d203b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, CanSearchForLLMErrors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>CanSearchForLLMErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="241" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="241" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a5037c9c44bb544ee6e2d2c0f8ee623ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, CanSearchForLoRAErrors)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>CanSearchForLoRAErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="258" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="258" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1af510616dfe45ce0ad51794259ba80b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, LLMErrorsByCategory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>LLMErrorsByCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="285" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="285" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9b83589458e09b2964192501ada70ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, LoRAErrorsByCategory)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>LoRAErrorsByCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="317" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="317" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab713d4af87c635a5ccdc4b950f2509e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ResultTypeUsedInternally)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ResultTypeUsedInternally</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="343" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="343" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1c44c49a45d4e6dd617357928a3c4c6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrHelperFunctionWorks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrHelperFunctionWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="358" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="358" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae27996f7c4a7fb3aaf118ce69b54e3e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrorsHaveDocumentation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorsHaveDocumentation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="376" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="376" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1af3df196976541067a688bcd0c4b4a7f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, ErrorsHaveSearchableKeywords)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorsHaveSearchableKeywords</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="388" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="388" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a43956b22acb5779d69a6c4109cfc16a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, TrainingDivergedHasRecoverySteps)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>TrainingDivergedHasRecoverySteps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="409" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="409" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1affda297f16d68db8dc3a588503c11acb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ModelLoaderErrorHandlingTest, AdapterConflictHasResolution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_model_loader_error_handling_test" kindref="compound">ModelLoaderErrorHandlingTest</ref></type>
+        </param>
+        <param>
+          <type>AdapterConflictHasResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="425" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="425" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_model_enumeration.cpp" line="14" column="1"/>
+  </compounddef>
+</doxygen>

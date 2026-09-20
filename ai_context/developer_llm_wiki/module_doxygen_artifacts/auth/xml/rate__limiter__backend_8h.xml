@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rate__limiter__backend_8h" kind="file" language="C++">
+    <compoundname>rate_limiter_backend.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="auth__rate__limiter_8h" local="yes">include/auth/auth_rate_limiter.h</includedby>
+    <includedby refid="rate__limiter__backend_8cpp" local="yes">src/auth/rate_limiter_backend.cpp</includedby>
+    <includedby refid="test__auth__rate__limiter__distributed_8cpp" local="yes">tests/auth/test_auth_rate_limiter_distributed.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/rate_limiter_backend.h</label>
+        <link refid="rate__limiter__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/auth/auth_rate_limiter.h</label>
+        <link refid="auth__rate__limiter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/rate_limiter_backend.h</label>
+        <link refid="rate__limiter__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/auth/auth_rate_limiter.cpp</label>
+        <link refid="auth__rate__limiter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/auth/rate_limiter_backend.cpp</label>
+        <link refid="rate__limiter__backend_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_auth_anomaly_detection.cpp</label>
+        <link refid="test__auth__anomaly__detection_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/auth/test_auth_rate_limiter.cpp</label>
+        <link refid="test__auth__rate__limiter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/auth/test_auth_rate_limiter_distributed.cpp</label>
+        <link refid="test__auth__rate__limiter__distributed_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/auth/test_auth_wavec_rate_limiting.cpp</label>
+        <link refid="test__auth__wavec__rate__limiting_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" prot="public">themis::auth::IRateLimiterBackend</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend" prot="public">themis::auth::InMemoryRateLimiterBackend</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend" prot="public">themis::auth::RedisRateLimiterBackend</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" prot="public">themis::auth::RedisRateLimiterBackend::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>to<sp/>avoid<sp/>pulling<sp/>in<sp/>hiredis<sp/>from<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">redisContext;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IRateLimiterBackend<sp/>—<sp/>abstract<sp/>counter-storage<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" kindref="compound">IRateLimiterBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a11da8b57fd176e70d3afde135bee6319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a11da8b57fd176e70d3afde135bee6319" kindref="member">~IRateLimiterBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a4cabe99a9275eebd10bf04dd786ec4e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a4cabe99a9275eebd10bf04dd786ec4e6" kindref="member">kBackendUnavailable</ref><sp/>=<sp/>INT64_MAX;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a0c9aad8a75f5f0c44ee12e56c0faf414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a0c9aad8a75f5f0c44ee12e56c0faf414" kindref="member">increment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1abefa51780becda17ec5d4d0854d8fc7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1abefa51780becda17ec5d4d0854d8fc7c" kindref="member">getCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a7bf0f37dae0d7fb6b4b42cae158f415a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a7bf0f37dae0d7fb6b4b42cae158f415a" kindref="member">reset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryRateLimiterBackend<sp/>—<sp/>in-process<sp/>sliding-window<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" kindref="member">InMemoryRateLimiterBackend</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" kindref="compound">IRateLimiterBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" kindref="member">InMemoryRateLimiterBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1aa25cb8414220bd92e7b2536ae17d9f90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1aa25cb8414220bd92e7b2536ae17d9f90" kindref="member">~InMemoryRateLimiterBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a63f0fede9ca070d1b8a55d7b8c96ebd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a63f0fede9ca070d1b8a55d7b8c96ebd6" kindref="member">InMemoryRateLimiterBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" kindref="member">InMemoryRateLimiterBackend</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a2f18bf38e5388867c83074ed33ec7da5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" kindref="member">InMemoryRateLimiterBackend</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a2f18bf38e5388867c83074ed33ec7da5" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a79d1b9f7165572a69d1966deeaca3a71" kindref="member">InMemoryRateLimiterBackend</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a799bb5e738b0d57a4d41b38850bea9ca" kindref="member">increment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1a6894b95950e4d1ec47bf4eddb0378152" kindref="member">getCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend_1ad6e939a1e7ce589ba198910a875228a6" kindref="member">reset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">TimePoint<sp/>=<sp/>std::chrono::steady_clock::time_point;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;TimePoint&gt;&gt;<sp/>counters_;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RedisRateLimiterBackend<sp/>—<sp/>Redis-backed<sp/>sliding-window<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" kindref="compound">IRateLimiterBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" kindref="member">IncrementFn</ref><sp/>=<sp/>std::function&lt;int64_t(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/>uint32_t)&gt;;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" kindref="member">GetCountFn</ref><sp/>=<sp/>std::function&lt;int64_t(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/>uint32_t)&gt;;</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" kindref="member">ResetFn</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" kindref="member">IsConnectedFn</ref><sp/>=<sp/>std::function&lt;bool()&gt;;</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" kindref="member">ReconnectFn</ref><sp/>=<sp/>std::function&lt;bool()&gt;;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1ac02591636746fafd5865df786a8661b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1ac02591636746fafd5865df786a8661b9" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a606faa18f0f53b210c353bb554d66507" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a606faa18f0f53b210c353bb554d66507" kindref="member">port</ref><sp/>=<sp/>6379;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a3c5c59fda6c757b94fcc310eea4bc29c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a3c5c59fda6c757b94fcc310eea4bc29c" kindref="member">auth</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a42a9bbafa9f74aec9b124fc7a51dc44f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a42a9bbafa9f74aec9b124fc7a51dc44f" kindref="member">key_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis:rl:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1aa65b278c20e9f4c2e0daa3eb8ee5c4a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1aa65b278c20e9f4c2e0daa3eb8ee5c4a2" kindref="member">connect_timeout_ms</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3a4977859e9bf35a1f4967e53c330e4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3a4977859e9bf35a1f4967e53c330e4b" kindref="member">~RedisRateLimiterBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1aaa82a7fea967e32299041ffba613fb7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1aaa82a7fea967e32299041ffba613fb7a" kindref="member">RedisRateLimiterBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5787707dc2dfa7ba29c7a07342bfd7df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5787707dc2dfa7ba29c7a07342bfd7df" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IRateLimiterBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a39efda64e0d9e25933a0e37dd7be2b36" kindref="member">increment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95ff0cba98c82a79928178e69d1f79fa" kindref="member">getCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/>uint32_t<sp/>window_seconds)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6719adf7b6d3395d5bf069546be7aa47" kindref="member">reset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connectivity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6f45b13dd08792ede6819826210e2788" kindref="member">isConnected</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a859e95126c541e20841de70d11bf2d37" kindref="member">reconnect</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a22bee7cfd9f8be59a2ab755f07b43943" kindref="member">setIncrementFn</ref>(<ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" kindref="member">IncrementFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae2d49549f43c65f3f73bed7fec6e991e" kindref="member">setGetCountFn</ref>(<ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" kindref="member">GetCountFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad89fc829606ec279afbceb4f3d144efd" kindref="member">setResetFn</ref>(<ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" kindref="member">ResetFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a0a6618bf39dfbb6348a83bc33503e73f" kindref="member">setIsConnectedFn</ref>(<ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" kindref="member">IsConnectedFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5fdb131099fd384fca957af9e7f5474d" kindref="member">setReconnectFn</ref>(<ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" kindref="member">ReconnectFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lua<sp/>script:<sp/>atomic<sp/>sliding-window<sp/>increment<sp/>using<sp/>a<sp/>sorted<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KEYS[1]<sp/>=<sp/>key,<sp/>ARGV[1]<sp/>=<sp/>now_us,<sp/>ARGV[2]<sp/>=<sp/>window_us,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ARGV[3]<sp/>=<sp/>window_seconds,<sp/>ARGV[4]<sp/>=<sp/>unique_member</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kIncrScript<sp/>=</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>key<sp/>=<sp/>KEYS[1]\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>now_us<sp/>=<sp/>tonumber(ARGV[1])\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>window_us<sp/>=<sp/>tonumber(ARGV[2])\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>window_seconds<sp/>=<sp/>tonumber(ARGV[3])\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>member<sp/>=<sp/>ARGV[4]\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;redis.call(&apos;ZREMRANGEBYSCORE&apos;,<sp/>key,<sp/>&apos;-inf&apos;,<sp/>now_us<sp/>-<sp/>window_us)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;redis.call(&apos;ZADD&apos;,<sp/>key,<sp/>now_us,<sp/>member)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;redis.call(&apos;EXPIRE&apos;,<sp/>key,<sp/>window_seconds<sp/>+<sp/>1)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;return<sp/>redis.call(&apos;ZCARD&apos;,<sp/>key)\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lua<sp/>script:<sp/>read-only<sp/>count<sp/>(prunes<sp/>stale<sp/>entries,<sp/>no<sp/>new<sp/>record<sp/>added).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KEYS[1]<sp/>=<sp/>key,<sp/>ARGV[1]<sp/>=<sp/>now_us,<sp/>ARGV[2]<sp/>=<sp/>window_us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kCountScript<sp/>=</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>key<sp/>=<sp/>KEYS[1]\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>now_us<sp/>=<sp/>tonumber(ARGV[1])\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;local<sp/>window_us<sp/>=<sp/>tonumber(ARGV[2])\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;redis.call(&apos;ZREMRANGEBYSCORE&apos;,<sp/>key,<sp/>&apos;-inf&apos;,<sp/>now_us<sp/>-<sp/>window_us)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;return<sp/>redis.call(&apos;ZCARD&apos;,<sp/>key)\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_REDIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>redisContext*<sp/><sp/><sp/><sp/><sp/><sp/>ctx_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>connect();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>disconnect();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>counter<sp/>appended<sp/>to<sp/>each<sp/>sorted-set<sp/>member<sp/>to<sp/>guarantee<sp/>uniqueness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>even<sp/>when<sp/>two<sp/>requests<sp/>arrive<sp/>within<sp/>the<sp/>same<sp/>microsecond<sp/>on<sp/>the<sp/>same<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>member_counter_;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/rate_limiter_backend.h"/>
+  </compounddef>
+</doxygen>

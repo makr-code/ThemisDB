@@ -1,0 +1,954 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__cancellation_8cpp" kind="file" language="C++">
+    <compoundname>test_query_cancellation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes refid="query__canceller_8h" local="yes">query/query_canceller.h</includes>
+    <includes refid="aql__runner_8h" local="yes">query/aql_runner.h</includes>
+    <includes refid="query__engine_8h" local="yes">query/query_engine.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <incdepgraph>
+      <node id="16">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>query/aql_runner.h</label>
+        <link refid="aql__runner_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>query/aql_translator.h</label>
+        <link refid="aql__translator_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>query/mutation_execution_plan.h</label>
+        <link refid="mutation__execution__plan_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>query/mutation_executor.h</label>
+        <link refid="mutation__executor_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>query/query_canceller.h</label>
+        <link refid="query__canceller_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>query/query_resource_limits.h</label>
+        <link refid="query__resource__limits_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/result_type_annotation.h</label>
+        <link refid="result__type__annotation_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>query/sql_parser.h</label>
+        <link refid="sql__parser_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_cancellation.cpp</label>
+        <link refid="test__query__cancellation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="34">
+        <label>cstddef</label>
+      </node>
+      <node id="24">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="27">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="39">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="25">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>set</label>
+      </node>
+      <node id="38">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="37">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>string_view</label>
+      </node>
+      <node id="30">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="31">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="29">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>unordered_set</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="40">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="21">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="18">
+        <label>variant</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_execute_aql_cancellable_test" prot="public">ExecuteAqlCancellableTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1af1d2ed7bdde95c43999b610746c6c34d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string tmpCancelTestPath</definition>
+        <argsstring>(const std::string &amp;suffix)</argsstring>
+        <name>tmpCancelTestPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="25" column="20" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellationTokenTest, InitiallyNotCancelled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCancellationTokenTest</type>
+        </param>
+        <param>
+          <type>InitiallyNotCancelled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="35" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a4a17d1c301b15120679e446e4598edd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellationTokenTest, CancelSetsFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCancellationTokenTest</type>
+        </param>
+        <param>
+          <type>CancelSetsFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="40" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1ac06f985be19c381d989f25aea1238a55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellationTokenTest, CancelIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCancellationTokenTest</type>
+        </param>
+        <param>
+          <type>CancelIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="46" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a9bdd3f9b1fc6c4549ff5d75aafdfb366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellationTokenTest, CrossThreadCancellation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCancellationTokenTest</type>
+        </param>
+        <param>
+          <type>CrossThreadCancellation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="53" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="53" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a577d2f63c0fbc72b758baac8d09ce39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, RegisterReturnsToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterReturnsToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="77" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a4e53c6d9047d6128681ae5f699eb39d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, CancelExistingQuery_ReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>CancelExistingQuery_ReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="84" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1ac2d37e97f3f988ce76563065bef628de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, CancelUnknownId_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>CancelUnknownId_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="93" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1aeb1ce927f5a880eea46325317df534c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, UnregisterRemovesToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterRemovesToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="99" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a42e8a9e55a29f90cea1572e9b710f5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, UnregisterNonExistentId_IsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterNonExistentId_IsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="109" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a8af989c5db7f5cedb96c8adaab8d7869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, ReregisterReplacesToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>ReregisterReplacesToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="115" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="115" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a3b119430e7d449872b1800003ea0a22b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, ScopedRegistration_UnregistersOnDestruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>ScopedRegistration_UnregistersOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="130" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="130" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a0c0a46ff4afb3db2561da134e12a4656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, TokenExpiredAfterQueryOwnerDrops)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>TokenExpiredAfterQueryOwnerDrops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="144" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1aacdfd9b4d003c6675202fca40d737948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCancellerTest, ConcurrentCancelFromMultipleThreads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCancelFromMultipleThreads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="155" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="155" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a4cb270d603f6e0d40f6bbe97a4a0b989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExecuteAqlCancellableTest, SuccessfulExecution_ReturnsResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref></type>
+        </param>
+        <param>
+          <type>SuccessfulExecution_ReturnsResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="204" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="204" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a19eab205e7407764ddc01b4354d18a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref></type>
+        </param>
+        <param>
+          <type>CancelDuringExecution_TokenIsSignalled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="215" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="215" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a65217704743e1f9ab2f9c67e87ce49b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExecuteAqlCancellableTest, UnregisteredAfterExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisteredAfterExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="254" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="254" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__cancellation_8cpp_1a5a4222efa75868f94d9103602921cf65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExecuteAqlCancellableTest, ParseError_PropagatedUnchanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref></type>
+        </param>
+        <param>
+          <type>ParseError_PropagatedUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_cancellation.cpp" line="270" column="1" bodyfile="tests/query/test_query_cancellation.cpp" bodystart="270" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>query<sp/>cancellation<sp/>via<sp/>request<sp/>ID.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Covers<sp/>QueryCancellationToken,<sp/>QueryCanceller,<sp/>and<sp/>executeAqlCancellable().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__canceller_8h" kindref="compound">query/query_canceller.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__runner_8h" kindref="compound">query/aql_runner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__engine_8h" kindref="compound">query/query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>tmpCancelTestPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>suffix)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_ct_&quot;</highlight><highlight class="normal"><sp/>+<sp/>suffix<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryCancellationToken<sp/>–<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(QueryCancellationTokenTest,<sp/>InitiallyNotCancelled)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cancellation_token" kindref="compound">QueryCancellationToken</ref><sp/>token;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(QueryCancellationTokenTest,<sp/>CancelSetsFlag)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cancellation_token" kindref="compound">QueryCancellationToken</ref><sp/>token;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(QueryCancellationTokenTest,<sp/>CancelIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cancellation_token" kindref="compound">QueryCancellationToken</ref><sp/>token;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" kindref="member">cancel</ref>();<sp/></highlight><highlight class="comment">//<sp/>second<sp/>call<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>change<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token.<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(QueryCancellationTokenTest,<sp/>CrossThreadCancellation)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>std::make_shared&lt;QueryCancellationToken&gt;();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>canceller_thread([token]()<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Busy-wait<sp/>until<sp/>cancelled<sp/>(≤<sp/>500<sp/>ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_LT(std::chrono::steady_clock::now(),<sp/>deadline)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Token<sp/>was<sp/>not<sp/>cancelled<sp/>within<sp/>500<sp/>ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>canceller_thread.join();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryCanceller<sp/>–<sp/>unit<sp/>tests<sp/>(using<sp/>local<sp/>instance<sp/>to<sp/>avoid<sp/>singleton<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>RegisterReturnsToken)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(token,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>CancelExistingQuery_ReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-002&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cancelled<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-002&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cancelled);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>CancelUnknownId_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;no-such-id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>UnregisterRemovesToken)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-003&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1af48f2b6d2790c9eaaba4c43ef6f13284" kindref="member">unregisterQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-003&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>unregister,<sp/>cancel<sp/>should<sp/>return<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-003&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>UnregisterNonExistentId_IsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw<sp/>or<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1af48f2b6d2790c9eaaba4c43ef6f13284" kindref="member">unregisterQuery</ref>(</highlight><highlight class="stringliteral">&quot;never-registered&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>ReregisterReplacesToken)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token1<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-004&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-register<sp/>with<sp/>the<sp/>same<sp/>ID;<sp/>old<sp/>token<sp/>is<sp/>replaced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token2<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-004&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(token1,<sp/>token2);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cancelling<sp/>via<sp/>the<sp/>registry<sp/>should<sp/>signal<sp/>token2,<sp/>not<sp/>token1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-004&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token2-&gt;isCancelled());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>token1<sp/>is<sp/>no<sp/>longer<sp/>tracked;<sp/>its<sp/>state<sp/>is<sp/>unspecified<sp/>but<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(token1-&gt;isCancelled()));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>ScopedRegistration_UnregistersOnDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-005&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller_1_1_scoped_registration" kindref="compound">QueryCanceller::ScopedRegistration</ref><sp/>guard(</highlight><highlight class="stringliteral">&quot;req-005&quot;</highlight><highlight class="normal">,<sp/>canceller);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>token<sp/>is<sp/>still<sp/>live<sp/>inside<sp/>the<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>scope:<sp/>guard&apos;s<sp/>destructor<sp/>called<sp/>unregisterQuery(&quot;req-005&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-005&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);<sp/></highlight><highlight class="comment">//<sp/>already<sp/>unregistered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>TokenExpiredAfterQueryOwnerDrops)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-006&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>token<sp/>is<sp/>the<sp/>only<sp/>strong<sp/>reference;<sp/>it<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>weak_ptr<sp/>inside<sp/>the<sp/>registry<sp/>is<sp/>now<sp/>expired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-006&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__query__cancellation_8cpp_1a77d6a6ff160ac61241a2a1b671312a19" kindref="member">TEST</ref>(<ref refid="classthemis_1_1query_1_1_query_canceller_test" kindref="compound">QueryCancellerTest</ref>,<sp/>ConcurrentCancelFromMultipleThreads)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1a7d977da5b6881327d4c3bdec7446778a" kindref="member">registerQuery</ref>(</highlight><highlight class="stringliteral">&quot;req-007&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cancel_count{0};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cancel_fn<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-007&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++cancel_count;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t1(cancel_fn);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t2(cancel_fn);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.join();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.join();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>cancel<sp/>must<sp/>have<sp/>succeeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cancel_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(token-&gt;<ref refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" kindref="member">isCancelled</ref>());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeAqlCancellable<sp/>–<sp/>integration<sp/>tests<sp/>(requires<sp/>a<sp/>live<sp/>QueryEngine)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="class_execute_aql_cancellable_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_execute_aql_cancellable_test_1aa0da020cf95c2030a719815c6e67957a" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a810304498d25f834a990e63fe905436e" kindref="member">db_path_</ref><sp/>=<sp/>tmpCancelTestPath(</highlight><highlight class="stringliteral">&quot;cancel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="class_execute_aql_cancellable_test_1a810304498d25f834a990e63fe905436e" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref>-&gt;open();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a4698667edce306130fcc4b49076e8a6a" kindref="member">sec_idx_</ref><sp/>=<sp/>std::make_shared&lt;SecondaryIndexManager&gt;(*<ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a12c2da489a07927f9304dd37410e0618" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref>,<sp/>*<ref refid="class_execute_aql_cancellable_test_1a4698667edce306130fcc4b49076e8a6a" kindref="member">sec_idx_</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_execute_aql_cancellable_test_1a32aff317df46c04a7ba2a5bbd677817a" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a12c2da489a07927f9304dd37410e0618" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref>.reset();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_execute_aql_cancellable_test_1a810304498d25f834a990e63fe905436e" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_execute_aql_cancellable_test_1a810304498d25f834a990e63fe905436e" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_execute_aql_cancellable_test_1a81d2126c775f844274f2e120a3062f1e" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_execute_aql_cancellable_test_1a4698667edce306130fcc4b49076e8a6a" kindref="member">sec_idx_</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_execute_aql_cancellable_test_1a12c2da489a07927f9304dd37410e0618" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref>,<sp/>SuccessfulExecution_ReturnsResult)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" kindref="member">executeAqlCancellable</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>entities<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*engine_,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;req-100&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canceller</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref>,<sp/>CancelDuringExecution_TokenIsSignalled)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>query_started{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Launch<sp/>a<sp/>background<sp/>thread<sp/>that<sp/>cancels<sp/>the<sp/>query<sp/>as<sp/>soon<sp/>as<sp/>it<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>registered<sp/>(i.e.<sp/>when<sp/>executeAqlCancellable<sp/>has<sp/>called<sp/>registerQuery).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>cancel_thread([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Busy-wait<sp/>until<sp/>the<sp/>query<sp/>is<sp/>registered<sp/>(≤<sp/>500<sp/>ms).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!query_started.load())<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>&gt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-200&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signal<sp/>that<sp/>we&apos;re<sp/>about<sp/>to<sp/>enter<sp/>executeAqlCancellable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>query_started.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" kindref="member">executeAqlCancellable</ref>(</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>entities<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*engine_,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;req-200&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canceller</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cancel_thread.join();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>query<sp/>may<sp/>have<sp/>completed<sp/>before<sp/>the<sp/>cancel<sp/>arrived<sp/>(success)<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>been<sp/>detected<sp/>as<sp/>cancelled<sp/>in<sp/>the<sp/>post-execution<sp/>check<sp/>(error).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>outcome<sp/>is<sp/>valid;<sp/>we<sp/>only<sp/>assert<sp/>there<sp/>is<sp/>no<sp/>crash<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>error<sp/>code<sp/>–<sp/>if<sp/>present<sp/>–<sp/>is<sp/>ERR_QUERY_CANCELLED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),<sp/>errors::ErrorCode::ERR_QUERY_CANCELLED);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref>,<sp/>UnregisteredAfterExecution)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" kindref="member">executeAqlCancellable</ref>(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>entities<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*engine_,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;req-300&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canceller</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>call,<sp/>the<sp/>ScopedRegistration<sp/>inside<sp/>executeAqlCancellable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>has<sp/>already<sp/>unregistered<sp/>&quot;req-300&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cancelled<sp/>=<sp/>canceller.<ref refid="classthemis_1_1query_1_1_query_canceller_1ad97f1c953b1d6ddbe20521093f880fe3" kindref="member">cancel</ref>(</highlight><highlight class="stringliteral">&quot;req-300&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cancelled);<sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>to<sp/>cancel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_execute_aql_cancellable_test" kindref="compound">ExecuteAqlCancellableTest</ref>,<sp/>ParseError_PropagatedUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref><sp/>canceller;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" kindref="member">executeAqlCancellable</ref>(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;THIS<sp/>IS<sp/>NOT<sp/>VALID<sp/>AQL<sp/>!!!&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*engine_,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;req-400&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canceller</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(result));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),<sp/>errors::ErrorCode::ERR_QUERY_PARSE_FAILED);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_cancellation.cpp"/>
+  </compounddef>
+</doxygen>

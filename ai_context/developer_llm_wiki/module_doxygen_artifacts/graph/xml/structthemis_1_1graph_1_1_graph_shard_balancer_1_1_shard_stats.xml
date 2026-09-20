@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphShardBalancer::ShardStats</compoundname>
+    <includes refid="graph__load__balancer_8h" local="no">graph_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a45e31cb5893e95eac0b58127ad2d5e27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphShardBalancer::ShardStats::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="195" column="21" bodyfile="include/graph/graph_load_balancer.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad0757a5c1c9ffaf9d963d04262bf5f88" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphShardBalancer::ShardStats::inflight</definition>
+        <argsstring></argsstring>
+        <name>inflight</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::inflight</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Currently in-flight query count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="196" column="21" bodyfile="include/graph/graph_load_balancer.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad69d6aa70109459ca9b7bb4e9e32db34" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphShardBalancer::ShardStats::total_routed</definition>
+        <argsstring></argsstring>
+        <name>total_routed</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::total_routed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total queries routed to this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="197" column="21" bodyfile="include/graph/graph_load_balancer.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a543e702d68ea299925a76f1d1250fe59" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphShardBalancer::ShardStats::ema_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>ema_latency_ms</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::ema_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>EMA of observed latencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="198" column="21" bodyfile="include/graph/graph_load_balancer.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad129f41c0392fc6c568348fd2654faa5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphShardBalancer::ShardStats::healthy</definition>
+        <argsstring></argsstring>
+        <name>healthy</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Health flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="199" column="21" bodyfile="include/graph/graph_load_balancer.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a7e9145949c024d9bf71ee7b7b6978b5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphShardBalancer::ShardStats::recordLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::graph::GraphShardBalancer::ShardStats::recordLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordLatency without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="206" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="206" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_load_balancer.h" line="194" column="5" bodyfile="include/graph/graph_load_balancer.h" bodystart="194" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a543e702d68ea299925a76f1d1250fe59" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>ema_latency_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad129f41c0392fc6c568348fd2654faa5" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>healthy</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad0757a5c1c9ffaf9d963d04262bf5f88" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>inflight</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a7e9145949c024d9bf71ee7b7b6978b5e" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>recordLatency</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1a45e31cb5893e95eac0b58127ad2d5e27" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_shard_balancer_1_1_shard_stats_1ad69d6aa70109459ca9b7bb4e9e32db34" prot="public" virt="non-virtual"><scope>themis::graph::GraphShardBalancer::ShardStats</scope><name>total_routed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

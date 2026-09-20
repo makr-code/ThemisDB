@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ethics__ai__ldm8__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ethics_ai_ldm8_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm8__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaLoRABiasCorrector, IdentityHasNoAdapters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaLoRABiasCorrector</type>
+        </param>
+        <param>
+          <type>IdentityHasNoAdapters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>LDM8-01: <ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref> has no adapters for any school. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" line="33" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm8__focused_8cpp_1a617dc43493832e1aaf403f8d6caf9247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaLoRABiasCorrector, IdentityReturnsRawScoreUnchanged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaLoRABiasCorrector</type>
+        </param>
+        <param>
+          <type>IdentityReturnsRawScoreUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>LDM8-02: <ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref> returns raw_score unchanged. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" line="43" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm8__focused_8cpp_1a01eff5c783fe02c6615d60c26e21ff7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaLoRABiasCorrector, ScalarHasAdapterOnlyForRegistered)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaLoRABiasCorrector</type>
+        </param>
+        <param>
+          <type>ScalarHasAdapterOnlyForRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>LDM8-03: hasAdapter() returns true only for registered schools. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" line="58" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm8__focused_8cpp_1a1c50384677dd8a9675db56f52c90c193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaLoRABiasCorrector, ScalarClampsResultToUnitInterval)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaLoRABiasCorrector</type>
+        </param>
+        <param>
+          <type>ScalarClampsResultToUnitInterval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>LDM8-04: Corrected score is clamped to [0.0, 1.0] and deterministic. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" line="70" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" bodystart="70" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__ldm8__focused_8cpp_1a5473fe14274b735959c8b8c7da36cdfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaLoRABiasCorrector, PolymorphicDispatchWorksCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaLoRABiasCorrector</type>
+        </param>
+        <param>
+          <type>PolymorphicDispatchWorksCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>LDM8 — Polymorphic dispatch through <ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector" kindref="compound">IAdaLoRABiasCorrector</ref> base pointer. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" line="93" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LDM-8: AdaLoRA adapter for score-bias correction (LDM8-01..LDM8-04). </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__ethics__ai__ldm8__focused_8cpp_1autotoc_md6_1s1"><sect2 id="test__ethics__ai__ldm8__focused_8cpp_1autotoc_md6">
+<title>Test families</title><para>LDM8-01 <ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref>: hasAdapter() == false for any school LDM8-02 <ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref>: applyBiasCorrection() returns raw_score unchanged LDM8-03 <ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kindref="compound">ScalarAdaLoRABiasCorrector</ref>: hasAdapter() reflects registered schools LDM8-04 <ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kindref="compound">ScalarAdaLoRABiasCorrector</ref>: corrected score is clamped to [0.0, 1.0]</para>
+<para><simplesect kind="see"><para><ref refid="ethics__ai__types_8h" kindref="compound">include/ethics_ai/ethics_ai_types.h</ref> — LDM-8 types </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">themis::plugins::ethics</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM8-01..02<sp/>—<sp/>IdentityAdaLoRABiasCorrector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>(AdaLoRABiasCorrector,<sp/>IdentityHasNoAdapters)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref><sp/>corrector;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>(AdaLoRABiasCorrector,<sp/>IdentityReturnsRawScoreUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kindref="compound">IdentityAdaLoRABiasCorrector</ref><sp/>corrector;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>:<sp/>{0.0,<sp/>0.25,<sp/>0.5,<sp/>0.75,<sp/>1.0})<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a9887b25e0097e6a4a89351d0258e1ef7" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;any_school&quot;</highlight><highlight class="normal">,<sp/>score),<sp/>score)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Identity<sp/>corrector<sp/>must<sp/>not<sp/>modify<sp/>score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>score;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM8-03..04<sp/>—<sp/>ScalarAdaLoRABiasCorrector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>(AdaLoRABiasCorrector,<sp/>ScalarHasAdapterOnlyForRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kindref="compound">ScalarAdaLoRABiasCorrector</ref><sp/>corrector;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" kindref="member">registerAdapter</ref>(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/>1.2);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" kindref="member">hasAdapter</ref>(</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>(AdaLoRABiasCorrector,<sp/>ScalarClampsResultToUnitInterval)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kindref="compound">ScalarAdaLoRABiasCorrector</ref><sp/>corrector;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factor<sp/>&gt;<sp/>1:<sp/>boosts<sp/>scores;<sp/>1.0<sp/>*<sp/>1.5<sp/>=<sp/>1.5<sp/>→<sp/>clamped<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" kindref="member">registerAdapter</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>1.5);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>1.0),<sp/>1.0);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>0.6),<sp/>0.9);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factor<sp/>&lt;<sp/>1:<sp/>reduces<sp/>scores;<sp/>0.5<sp/>*<sp/>0.4<sp/>=<sp/>0.2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" kindref="member">registerAdapter</ref>(</highlight><highlight class="stringliteral">&quot;latin_liberation_theology&quot;</highlight><highlight class="normal">,<sp/>0.4);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;latin_liberation_theology&quot;</highlight><highlight class="normal">,<sp/>0.5),<sp/>0.2);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>school:<sp/>identity<sp/>(returns<sp/>raw_score).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;unknown_school&quot;</highlight><highlight class="normal">,<sp/>0.7),<sp/>0.7);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Determinism:<sp/>same<sp/>inputs<sp/>→<sp/>same<sp/>output.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>0.3);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>corrector.<ref refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kindref="member">applyBiasCorrection</ref>(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>0.3);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(r1,<sp/>r2);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>(AdaLoRABiasCorrector,<sp/>PolymorphicDispatchWorksCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>scalar<sp/>=<sp/>std::make_unique&lt;ScalarAdaLoRABiasCorrector&gt;();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>scalar-&gt;registerAdapter(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>1.1);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IAdaLoRABiasCorrector&gt;<sp/>corrector<sp/>=<sp/>std::move(scalar);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(corrector-&gt;hasAdapter(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(corrector-&gt;applyBiasCorrection(</highlight><highlight class="stringliteral">&quot;maori_ethics&quot;</highlight><highlight class="normal">,<sp/>0.5),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.55);<sp/><sp/></highlight><highlight class="comment">//<sp/>0.5<sp/>*<sp/>1.1<sp/>=<sp/>0.55</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ethics_ai/test_ethics_ai_ldm8_focused.cpp"/>
+  </compounddef>
+</doxygen>

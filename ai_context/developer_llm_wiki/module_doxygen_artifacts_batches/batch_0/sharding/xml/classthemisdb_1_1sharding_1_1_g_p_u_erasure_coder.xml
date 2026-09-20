@@ -1,0 +1,714 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::GPUErasureCoder</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_erasure_coder" prot="public" virt="non-virtual">themis::sharding::ErasureCoder</basecompoundref>
+    <includes refid="gpu__erasure__coder_8h" local="no">gpu_erasure_coder.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1_1_performance_stats" prot="public">themisdb::sharding::GPUErasureCoder::PerformanceStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1acd6e78203a8b130d5235f249306ce978" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ff" kindref="member">AccelerationType</ref></type>
+        <definition>AccelerationType themis::sharding::GPUErasureCoder::accel_type_</definition>
+        <argsstring></argsstring>
+        <name>accel_type_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::accel_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="184" column="22" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1acdc7bbe18ec881f3d929b5387f7f505e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref></type>
+        <definition>GPUConfig themis::sharding::GPUErasureCoder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="185" column="15" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a108fe9e1c556daf64627bb49f3d49e86" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06a" kindref="member">ErasureCodingAlgorithm</ref></type>
+        <definition>ErasureCodingAlgorithm themis::sharding::GPUErasureCoder::algorithm_</definition>
+        <argsstring></argsstring>
+        <name>algorithm_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::algorithm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="186" column="28" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ad31bccb1be16442a63ff2898b09cae59" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl" kindref="compound">GPUErasureCoderImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUErasureCoderImpl&gt; themis::sharding::GPUErasureCoder::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="189" column="21" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a591059aaad20ef89badf03a1d8eef9cb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_erasure_coder" kindref="compound">ErasureCoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ErasureCoder&gt; themis::sharding::GPUErasureCoder::cpu_coder_</definition>
+        <argsstring></argsstring>
+        <name>cpu_coder_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::cpu_coder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="192" column="21" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a62f44d6e49db3e31292a7f6334658583" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUErasureCoder::force_cpu_</definition>
+        <argsstring></argsstring>
+        <name>force_cpu_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::force_cpu_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="195" column="10" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a8c9008d270fc536d7defe412a29d9c23" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GPUErasureCoder::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="199" column="24" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a310831ca148c8eb3a046002a5e1a526f" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1_1_performance_stats" kindref="compound">PerformanceStats</ref></type>
+        <definition>PerformanceStats themis::sharding::GPUErasureCoder::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="200" column="30" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GPUErasureCoder::GPUErasureCoder</definition>
+        <argsstring>(AccelerationType accel_type=AccelerationType::AUTO, const GPUConfig &amp;config=GPUConfig{}, ErasureCodingAlgorithm algorithm=ErasureCodingAlgorithm::REED_SOLOMON)</argsstring>
+        <name>GPUErasureCoder</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::GPUErasureCoder</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ff" kindref="member">AccelerationType</ref></type>
+          <declname>accel_type</declname>
+          <defval><ref refid="namespacethemis_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ffae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">AccelerationType::AUTO</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06a" kindref="member">ErasureCodingAlgorithm</ref></type>
+          <declname>algorithm</declname>
+          <defval><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06aa5655e05ab6bf36148ebb3f9a12837992" kindref="member">ErasureCodingAlgorithm::REED_SOLOMON</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create GPU erasure coder with specified acceleration type</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>accel_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Acceleration type (CUDA/OpenCL/Auto) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Erasure coding algorithm (default: Reed-Solomon) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="81" column="14" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="57" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a147d50f8dac6001f17d7b43adae34262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GPUErasureCoder::GPUErasureCoder</definition>
+        <argsstring>(const GPUErasureCoder &amp;)=delete</argsstring>
+        <name>GPUErasureCoder</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::GPUErasureCoder</qualifiedname>
+        <param>
+          <type>const GPUErasureCoder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a990066caeafee2646858b54e9775c95d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GPUErasureCoder::GPUErasureCoder</definition>
+        <argsstring>(GPUErasureCoder &amp;&amp;) noexcept=delete</argsstring>
+        <name>GPUErasureCoder</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::GPUErasureCoder</qualifiedname>
+        <param>
+          <type>GPUErasureCoder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aeaa24077ffc71c2cbbbaa2d67cbdac2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GPUErasureCoder::~GPUErasureCoder</definition>
+        <argsstring>() override</argsstring>
+        <name>~GPUErasureCoder</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::~GPUErasureCoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a84de1a87a75544ff6ed2032893896b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" kindref="member">GPUErasureCoder</ref> &amp;</type>
+        <definition>GPUErasureCoder &amp; themis::sharding::GPUErasureCoder::operator=</definition>
+        <argsstring>(const GPUErasureCoder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" kindref="member">GPUErasureCoder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="91" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af4ef5ac01e3d67863a1f5c58bcf989bb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" kindref="member">GPUErasureCoder</ref> &amp;</type>
+        <definition>GPUErasureCoder &amp; themis::sharding::GPUErasureCoder::operator=</definition>
+        <argsstring>(GPUErasureCoder &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" kindref="member">GPUErasureCoder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="93" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a10de5dcecfde1487bf38167405947ff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::GPUErasureCoder::encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>encode</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::encode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a34d0060f7cc4611a3e3540d300ba903e">encode</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode data into data + parity chunks using GPU acceleration</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input data to encode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data chunks </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of parity chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of encoded chunks (data + parity)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), shouldUseGPU(), size(), spdlog::warn(), what(), count(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="103" column="17" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="162" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aa26a23d7e23f78e5469ff4dfe642bde6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::GPUErasureCoder::decode</definition>
+        <argsstring>(const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;available_chunks, const std::vector&lt; uint32_t &gt; &amp;missing_indices, uint32_t data_shards, uint32_t parity_shards) override</argsstring>
+        <name>decode</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::decode</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_erasure_coder_1a5dfbe05b158429f4c286db593bd5a40d">decode</reimplements>
+        <param>
+          <type>const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>available_chunks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>missing_indices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode/recover original data from available chunks using GPU acceleration</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>available_chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map from chunk index to chunk data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>missing_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Indices of missing chunks </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data chunks </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of parity chunks </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovered original data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="118" column="17" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="216" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a673c2779fbdbf3a071cfe2166c59ff84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &gt; themis::sharding::GPUErasureCoder::batchEncode</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;data_blocks, uint32_t data_shards, uint32_t parity_shards)</argsstring>
+        <name>batchEncode</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::batchEncode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>data_blocks</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+<para>Batch Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Batch encode multiple data blocks More efficient than encoding one at a time</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of data blocks to encode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data chunks per block </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of parity chunks per block </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of encoded chunk vectors (one per input block)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parity_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), shouldUseGPU(), spdlog::warn(), what(), lk(), reserve(), push_back(), <ref refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_1a10de5dcecfde1487bf38167405947ff8" kindref="member">encode()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="134" column="17" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="292" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a83c87365e15aa36e7c4e2985a3a9ce49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUErasureCoder::isGPUAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isGPUAvailable</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::isGPUAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if GPU acceleration is available and initialized </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="143" column="10" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="325" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a38a2b5cd856c5a35dce3709653bd16ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ff" kindref="member">AccelerationType</ref></type>
+        <definition>AccelerationType themis::sharding::GPUErasureCoder::getAccelerationType</definition>
+        <argsstring>() const</argsstring>
+        <name>getAccelerationType</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::getAccelerationType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current acceleration type being used </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="148" column="22" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="329" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aabdf108b9fb384d6bee7a75c751a3844" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> &amp;</type>
+        <definition>const GPUConfig &amp; themis::sharding::GPUErasureCoder::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get GPU configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="153" column="21" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a21518848b6db1af157a61d3bbabbe436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GPUErasureCoder::forceCPUFallback</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>forceCPUFallback</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::forceCPUFallback</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Force CPUFallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force CPU fallback (for testing/debugging)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="158" column="10" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="341" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aea9014559ca66dc54207700e887e6a24" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1_1_performance_stats" kindref="compound">PerformanceStats</ref></type>
+        <definition>PerformanceStats themis::sharding::GPUErasureCoder::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="177" column="22" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ae5b22c909717d160172ddb0b4fc7f764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GPUErasureCoder::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="181" column="10" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="352" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ae6d7ec8f20802d4e9375e61319866885" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUErasureCoder::initializeGPU</definition>
+        <argsstring>()</argsstring>
+        <name>initializeGPU</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::initializeGPU</qualifiedname>
+        <briefdescription>
+<para>Move semantics intentionally deleted (non-moveable due to mutable std::mutex stats_mutex_) See header file for details. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), defined(), spdlog::warn(), createCUDAErasureCoder(), createOpenCLErasureCoder(), spdlog::error(), initialize(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="203" column="10" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="86" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1abf4d62b66068980b3ac3ef5e05ebc2c2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GPUErasureCoder::shouldUseGPU</definition>
+        <argsstring>(size_t data_size) const</argsstring>
+        <name>shouldUseGPU</name>
+        <qualifiedname>themisdb::sharding::GPUErasureCoder::shouldUseGPU</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>data_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="206" column="10" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>GPU-Accelerated Erasure Coder</para>
+<para>Provides GPU acceleration for Reed-Solomon erasure coding operations with automatic CPU fallback and batching support. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::GPUErasureCoder</label>
+        <link refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::GPUErasureCoder</label>
+        <link refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/gpu_erasure_coder.h" line="72" column="1" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="72" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1acd6e78203a8b130d5235f249306ce978" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>accel_type_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a108fe9e1c556daf64627bb49f3d49e86" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>algorithm_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a673c2779fbdbf3a071cfe2166c59ff84" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>batchEncode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1acdc7bbe18ec881f3d929b5387f7f505e" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a591059aaad20ef89badf03a1d8eef9cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>cpu_coder_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1a5248ba694168c808d46a622afeb38359" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>create</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aa26a23d7e23f78e5469ff4dfe642bde6" prot="public" virt="virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>decode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a10de5dcecfde1487bf38167405947ff8" prot="public" virt="virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>encode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a62f44d6e49db3e31292a7f6334658583" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>force_cpu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a21518848b6db1af157a61d3bbabbe436" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>forceCPUFallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a38a2b5cd856c5a35dce3709653bd16ad" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>getAccelerationType</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aabdf108b9fb384d6bee7a75c751a3844" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aea9014559ca66dc54207700e887e6a24" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af09aac864ccf409bf462547cf5a7b83e" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>GPUErasureCoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a147d50f8dac6001f17d7b43adae34262" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>GPUErasureCoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a990066caeafee2646858b54e9775c95d" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>GPUErasureCoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ad31bccb1be16442a63ff2898b09cae59" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>impl_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ae6d7ec8f20802d4e9375e61319866885" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>initializeGPU</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a83c87365e15aa36e7c4e2985a3a9ce49" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>isGPUAvailable</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a84de1a87a75544ff6ed2032893896b0a" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1af4ef5ac01e3d67863a1f5c58bcf989bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1ae5b22c909717d160172ddb0b4fc7f764" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1abf4d62b66068980b3ac3ef5e05ebc2c2" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>shouldUseGPU</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a310831ca148c8eb3a046002a5e1a526f" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1a8c9008d270fc536d7defe412a29d9c23" prot="private" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_erasure_coder_1aeefb61c591a606c2f8fdb23e7e3f933d" prot="public" virt="virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>~ErasureCoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder_1aeaa24077ffc71c2cbbbaa2d67cbdac2d" prot="public" virt="non-virtual"><scope>themisdb::sharding::GPUErasureCoder</scope><name>~GPUErasureCoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

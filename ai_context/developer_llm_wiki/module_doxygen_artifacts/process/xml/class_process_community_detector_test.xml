@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_community_detector_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessCommunityDetectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessCommunityDetectorTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProcessCommunityDetectorTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="66" column="17" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProcessCommunityDetectorTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessCommunityDetectorTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="67" column="35" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; ProcessCommunityDetectorTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ProcessCommunityDetectorTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="68" column="21" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_community_detector_test_1a10d5e0dc2e2cfbdb144b8c4d961e9317" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">themis::process::ProcessCommunityDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessCommunityDetector&gt; ProcessCommunityDetectorTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>ProcessCommunityDetectorTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="69" column="21" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_community_detector_test_1a9238a9fad2dcf401301b7cf7355487ec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessCommunityDetectorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessCommunityDetectorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="30" column="10" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="30" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_community_detector_test_1a5e32cce3db1ad64b153bc17fb1ddf4a4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessCommunityDetectorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessCommunityDetectorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="48" column="10" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_community_detector_test_1aec93066f0aff9f3c8b821780c71fd402" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessCommunityDetectorTest::saveModel</definition>
+        <argsstring>(const std::string &amp;model_id, const json &amp;nodes, const json &amp;edges)</argsstring>
+        <name>saveModel</name>
+        <qualifiedname>ProcessCommunityDetectorTest::saveModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Persist a model with given nodes/edges in normalized form. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_community_detector.cpp" line="56" column="10" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="56" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessCommunityDetectorTest</label>
+        <link refid="class_process_community_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessCommunityDetectorTest</label>
+        <link refid="class_process_community_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_community_detector.cpp" line="28" column="1" bodyfile="tests/process/test_process_community_detector.cpp" bodystart="28" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_process_community_detector_test_1a562656860e27f58a4492187aac41ba03" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>db_</name></member>
+      <member refid="class_process_community_detector_test_1ae89c22f10a01fa03950e23e56ea5d56a" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>db_path_</name></member>
+      <member refid="class_process_community_detector_test_1a10d5e0dc2e2cfbdb144b8c4d961e9317" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>detector_</name></member>
+      <member refid="class_process_community_detector_test_1a330ecfcb5f9a6e9a3d39c34183b1b6b2" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>mgr_</name></member>
+      <member refid="class_process_community_detector_test_1aec93066f0aff9f3c8b821780c71fd402" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>saveModel</name></member>
+      <member refid="class_process_community_detector_test_1a9238a9fad2dcf401301b7cf7355487ec" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>SetUp</name></member>
+      <member refid="class_process_community_detector_test_1a5e32cce3db1ad64b153bc17fb1ddf4a4" prot="protected" virt="non-virtual"><scope>ProcessCommunityDetectorTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

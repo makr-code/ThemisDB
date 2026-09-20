@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_ingestion_quality_judge" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionQualityJudge</compoundname>
+    <includes refid="ingestion__quality__judge_8h" local="no">ingestion_quality_judge.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a45af713277a0be0456bc38b0a228c5d9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITextGenerationBackend&gt; themis::ingestion::IngestionQualityJudge::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="302" column="33" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ab2af4d4cf9af117e46ca0ab24dffcdb2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_judge_config" kindref="compound">IngestionJudgeConfig</ref></type>
+        <definition>IngestionJudgeConfig themis::ingestion::IngestionQualityJudge::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="303" column="57" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1aceeeea45274fef563a2903b61e089059" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::IngestionQualityJudge::observer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>observer_mutex_</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::observer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="304" column="57" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1aae576a2bcef9fa8d79743260caf5ce4b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer" kindref="compound">IIngestionQualityObserver</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IIngestionQualityObserver&gt; &gt; themis::ingestion::IngestionQualityJudge::observers_</definition>
+        <argsstring></argsstring>
+        <name>observers_</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::observers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="305" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a66d806eb327caa6ee43a4573360f0d1a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionQualityJudge::IngestionQualityJudge</definition>
+        <argsstring>(std::shared_ptr&lt; ITextGenerationBackend &gt; backend, IngestionJudgeConfig config={})</argsstring>
+        <name>IngestionQualityJudge</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::IngestionQualityJudge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_judge_config" kindref="compound">IngestionJudgeConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an LLM backend and optional configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text generation backend (must not be null). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Judge configuration; defaults apply when omitted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="219" column="14" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="130" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a7bbfdf49577351deda796455d388e8e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionQualityJudge::~IngestionQualityJudge</definition>
+        <argsstring>()</argsstring>
+        <name>~IngestionQualityJudge</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::~IngestionQualityJudge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="223" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a2823ea63c063e613f1b90a5e7d44cca6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref></type>
+        <definition>IngestionQualityReport themis::ingestion::IngestionQualityJudge::evaluate</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the quality of an extraction result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>ctx.raw_text</computeroutput> as the reference source for groundedness and completeness checks. If the backend is unavailable or the context is too sparse (&lt; <computeroutput>min_text_bytes_for_eval</computeroutput>), the report is returned with all scores set to -1.0 and <computeroutput>passed = true</computeroutput> (fail-open).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completed extraction context from the workflow engine. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quality report with per-dimension scores and recommendations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="238" column="28" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="206" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a0d70d8216a0832138ad63d720ba9b906" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref></type>
+        <definition>IngestionQualityReport themis::ingestion::IngestionQualityJudge::evaluate</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx, const std::string &amp;source_text) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_text</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate with an explicit source text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this when the canonical source text differs from <computeroutput>ctx.raw_text</computeroutput> (e.g. when comparing against a pre-parsed reference copy).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Extraction context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference text for groundedness/completeness checks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quality report. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="250" column="28" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="212" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1acaec6c0896ade690bb5077ef8702d350" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_judge_config" kindref="compound">IngestionJudgeConfig</ref> &amp;</type>
+        <definition>const IngestionJudgeConfig &amp; themis::ingestion::IngestionQualityJudge::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="255" column="32" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a1283f0dff2dbbaa7e228dc1926647492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionQualityJudge::setConfig</definition>
+        <argsstring>(const IngestionJudgeConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_judge_config" kindref="compound">IngestionJudgeConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="256" column="10" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a920aff49e54131a731136c79f225e990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionQualityJudge::addObserver</definition>
+        <argsstring>(std::shared_ptr&lt; IIngestionQualityObserver &gt; observer)</argsstring>
+        <name>addObserver</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::addObserver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer" kindref="compound">IIngestionQualityObserver</ref> &gt;</type>
+          <declname>observer</declname>
+        </param>
+        <briefdescription>
+<para>Add Observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="260" column="10" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="163" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a61e1447984a4379feb31f8fdd962ead0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionQualityJudge::removeObserver</definition>
+        <argsstring>(const IIngestionQualityObserver *observer)</argsstring>
+        <name>removeObserver</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::removeObserver</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_i_ingestion_quality_observer" kindref="compound">IIngestionQualityObserver</ref> *</type>
+          <declname>observer</declname>
+        </param>
+        <briefdescription>
+<para>Remove Observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="261" column="10" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="182" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ab243521e06da37e641420a7789b0a5a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityJudge::buildCompletenessPrompt</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx, const std::string &amp;source) const</argsstring>
+        <name>buildCompletenessPrompt</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::buildCompletenessPrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="266" column="17" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="317" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ac3a710963bdba78dd45ce3d44d66f27c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityJudge::buildGroundednessPrompt</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx, const std::string &amp;source) const</argsstring>
+        <name>buildGroundednessPrompt</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::buildGroundednessPrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="268" column="17" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="338" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a5f3b7a2551579884178e1b4edd836db0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityJudge::buildEntityCoveragePrompt</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx, const std::string &amp;source) const</argsstring>
+        <name>buildEntityCoveragePrompt</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::buildEntityCoveragePrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="270" column="17" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="358" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a972e58051961862e22720eb43a65d271" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityJudge::buildRelationCoherencePrompt</definition>
+        <argsstring>(const ::themis::ingestion::ExtractionContext &amp;ctx) const</argsstring>
+        <name>buildRelationCoherencePrompt</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::buildRelationCoherencePrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">::themis::ingestion::ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="272" column="17" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="377" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a3bb74dc95d68aca34090d7f64c9db27f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityJudge::computeOverallScore</definition>
+        <argsstring>(const IngestionQualityReport &amp;r) const noexcept</argsstring>
+        <name>computeOverallScore</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::computeOverallScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="290" column="12" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="510" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a1b73f3b9a9c9d0874e6f0b5d0b63aa8f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionQualityJudge::checkThresholds</definition>
+        <argsstring>(const IngestionQualityReport &amp;r) const noexcept</argsstring>
+        <name>checkThresholds</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::checkThresholds</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="291" column="12" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="531" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a46ea6c6bbae59152a27ff164c9e8192a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::IngestionQualityJudge::computeRecommendedSteps</definition>
+        <argsstring>(const IngestionQualityReport &amp;r) const</argsstring>
+        <name>computeRecommendedSteps</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::computeRecommendedSteps</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="292" column="17" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="551" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1af1a748f5ac315b30d1e93336f7f7e68a" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionQualityJudge::notifyEvaluated</definition>
+        <argsstring>(const std::string &amp;doc_id, const IngestionQualityReport &amp;report) const noexcept</argsstring>
+        <name>notifyEvaluated</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::notifyEvaluated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="297" column="10" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="597" bodyend="614"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a5803800fef9f61df0fb11e58eebea70e" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityJudge::parseScore</definition>
+        <argsstring>(const std::string &amp;response) noexcept</argsstring>
+        <name>parseScore</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::parseScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract a float score from a line like &quot;SCORE: 0.82&quot; in <computeroutput>response</computeroutput>. Returns -1.0 when no parseable score is found. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="278" column="19" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="399" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a153d82d2f8d05b7805ade0e1deddb96b" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityJudge::parseRationale</definition>
+        <argsstring>(const std::string &amp;response) noexcept</argsstring>
+        <name>parseRationale</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::parseRationale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Extract a rationale sentence after &quot;RATIONALE:&quot; in <computeroutput>response</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="281" column="24" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="440" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1afc3b415d15dba32de6ffa0812d60ed94" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::IngestionQualityJudge::parseBulletList</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;section_tag) noexcept</argsstring>
+        <name>parseBulletList</name>
+        <qualifiedname>themis::ingestion::IngestionQualityJudge::parseBulletList</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section_tag</declname>
+        </param>
+        <briefdescription>
+<para>Extract bullet-listed items after &quot;MISSING:&quot; or &quot;UNGROUNDED:&quot; etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="284" column="24" bodyfile="src/ingestion/ingestion_quality_judge.cpp" bodystart="462" bodyend="504"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM-as-judge evaluator for ingestion extraction results. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Builds structured prompts for each quality dimension, calls the injected <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref></computeroutput>, parses the numeric score from the response, and aggregates into an <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_quality_report" kindref="compound">IngestionQualityReport</ref></computeroutput>.</para>
+<para>The judge is <bold>stateless</bold> between calls — <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a2823ea63c063e613f1b90a5e7d44cca6" kindref="member">evaluate()</ref></computeroutput> is thread-safe.</para>
+<para>Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;LlmIngestionBridge&gt;(plugin_mgr);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a66d806eb327caa6ee43a4573360f0d1a" kindref="member">IngestionQualityJudge</ref><sp/>judge(backend);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>judge.evaluate(ctx);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!report.passed)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>re-ingest<sp/>with<sp/>report.recommended_steps<sp/>as<sp/>hints</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_quality_judge.h" line="211" column="1" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="211" bodyend="306"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a920aff49e54131a731136c79f225e990" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>addObserver</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a45af713277a0be0456bc38b0a228c5d9" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ab243521e06da37e641420a7789b0a5a5" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>buildCompletenessPrompt</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a5f3b7a2551579884178e1b4edd836db0" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>buildEntityCoveragePrompt</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ac3a710963bdba78dd45ce3d44d66f27c" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>buildGroundednessPrompt</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a972e58051961862e22720eb43a65d271" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>buildRelationCoherencePrompt</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a1b73f3b9a9c9d0874e6f0b5d0b63aa8f" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>checkThresholds</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a3bb74dc95d68aca34090d7f64c9db27f" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>computeOverallScore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a46ea6c6bbae59152a27ff164c9e8192a" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>computeRecommendedSteps</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1acaec6c0896ade690bb5077ef8702d350" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>config</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1ab2af4d4cf9af117e46ca0ab24dffcdb2" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a2823ea63c063e613f1b90a5e7d44cca6" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a0d70d8216a0832138ad63d720ba9b906" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a66d806eb327caa6ee43a4573360f0d1a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>IngestionQualityJudge</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1af1a748f5ac315b30d1e93336f7f7e68a" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>notifyEvaluated</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1aceeeea45274fef563a2903b61e089059" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>observer_mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1aae576a2bcef9fa8d79743260caf5ce4b" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>observers_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1afc3b415d15dba32de6ffa0812d60ed94" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>parseBulletList</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a153d82d2f8d05b7805ade0e1deddb96b" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>parseRationale</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a5803800fef9f61df0fb11e58eebea70e" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>parseScore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a61e1447984a4379feb31f8fdd962ead0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>removeObserver</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a1283f0dff2dbbaa7e228dc1926647492" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge_1a7bbfdf49577351deda796455d388e8e2" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityJudge</scope><name>~IngestionQualityJudge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

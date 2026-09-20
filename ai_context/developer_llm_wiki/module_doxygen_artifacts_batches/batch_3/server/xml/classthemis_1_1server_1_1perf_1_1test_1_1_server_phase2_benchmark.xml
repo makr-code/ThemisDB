@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1test_1_1_server_phase2_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::test::ServerPhase2Benchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ServerPhase2Benchmark</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_server_phase2_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ServerPhase2Benchmark</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_server_phase2_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="467" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="467" bodyend="467"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

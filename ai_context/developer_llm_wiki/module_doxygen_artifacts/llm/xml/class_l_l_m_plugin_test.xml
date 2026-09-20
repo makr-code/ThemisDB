@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_plugin_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMPluginTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_plugin_test_1a6917d14e8176412e9e5b1c1b42882e4e" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LLMPluginTest::test_model_dir</definition>
+        <argsstring></argsstring>
+        <name>test_model_dir</name>
+        <qualifiedname>LLMPluginTest::test_model_dir</qualifiedname>
+        <initializer>= &quot;./test_llm_models&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="23" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_plugin_test_1a3f3c11b486ffd1e3222220cd94cc56cb" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LLMPluginTest::test_lora_dir</definition>
+        <argsstring></argsstring>
+        <name>test_lora_dir</name>
+        <qualifiedname>LLMPluginTest::test_lora_dir</qualifiedname>
+        <initializer>= &quot;./test_llm_loras&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="24" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a483b9bb73a15282402c83d7426f34980" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPluginTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMPluginTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="26" column="10" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a01443eee1fb2e9273adc7a8b7229a885" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPluginTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMPluginTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="38" column="10" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a6afd1795f06b932007a82434a8d8b0c0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFString</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;value)</argsstring>
+        <name>writeGGUFString</name>
+        <qualifiedname>LLMPluginTest::writeGGUFString</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="50" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1ae6629646679df0c91794a5a027ed08bf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFUInt32</definition>
+        <argsstring>(std::ostream &amp;out, uint32_t value)</argsstring>
+        <name>writeGGUFUInt32</name>
+        <qualifiedname>LLMPluginTest::writeGGUFUInt32</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="58" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a0269c5470a524f619f9152dc2cd56b2c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFUInt64</definition>
+        <argsstring>(std::ostream &amp;out, uint64_t value)</argsstring>
+        <name>writeGGUFUInt64</name>
+        <qualifiedname>LLMPluginTest::writeGGUFUInt64</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="62" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1afc9ded7d04f4b45c8c36475c67ccc214" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFMetadataString</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>writeGGUFMetadataString</name>
+        <qualifiedname>LLMPluginTest::writeGGUFMetadataString</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="66" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a37e012ce92bb783eec60da0b71b54509" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFMetadataUInt32</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, uint32_t value)</argsstring>
+        <name>writeGGUFMetadataUInt32</name>
+        <qualifiedname>LLMPluginTest::writeGGUFMetadataUInt32</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="72" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a282fae37360909ab1e1595ec2356e761" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFFloat32</definition>
+        <argsstring>(std::ostream &amp;out, float value)</argsstring>
+        <name>writeGGUFFloat32</name>
+        <qualifiedname>LLMPluginTest::writeGGUFFloat32</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="78" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a0984f28e87a9308063447aea75e53d8c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFMetadataFloat32</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, float value)</argsstring>
+        <name>writeGGUFMetadataFloat32</name>
+        <qualifiedname>LLMPluginTest::writeGGUFMetadataFloat32</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="82" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="82" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1aaa83b8fcc8bd1bb718a470a996fb699a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFMetadataBool</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, bool value)</argsstring>
+        <name>writeGGUFMetadataBool</name>
+        <qualifiedname>LLMPluginTest::writeGGUFMetadataBool</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="88" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a3cd241ef5f5b24758c6edfceef9345bb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFStringArray</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>writeGGUFStringArray</name>
+        <qualifiedname>LLMPluginTest::writeGGUFStringArray</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="95" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1aea74ad985de9c1b06ed330066d8558c1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFUInt32Array</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, const std::vector&lt; uint32_t &gt; &amp;values)</argsstring>
+        <name>writeGGUFUInt32Array</name>
+        <qualifiedname>LLMPluginTest::writeGGUFUInt32Array</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="105" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1aa8a1202af7c6adcf457349486a3b93b5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeGGUFFloat32Array</definition>
+        <argsstring>(std::ostream &amp;out, const std::string &amp;key, const std::vector&lt; float &gt; &amp;values)</argsstring>
+        <name>writeGGUFFloat32Array</name>
+        <qualifiedname>LLMPluginTest::writeGGUFFloat32Array</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="115" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1ae97e46296b832e05bf75dddd20676a6f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LLMPluginTest::writeMinimalValidGGUF</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;model_name, size_t bytes_to_write)</argsstring>
+        <name>writeMinimalValidGGUF</name>
+        <qualifiedname>LLMPluginTest::writeMinimalValidGGUF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_to_write</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="125" column="17" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="125" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1ae3ce9d55edd50a4c25a6ce05fd56a0c2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string LLMPluginTest::resolveRealModelPath</definition>
+        <argsstring>()</argsstring>
+        <name>resolveRealModelPath</name>
+        <qualifiedname>LLMPluginTest::resolveRealModelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="275" column="24" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="275" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1aa1d87b7c55d6b3a141a9c793956183e4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string LLMPluginTest::resolveModelPathForInference</definition>
+        <argsstring>(const std::string &amp;fallback_name, size_t fallback_size_mb=50)</argsstring>
+        <name>resolveModelPathForInference</name>
+        <qualifiedname>LLMPluginTest::resolveModelPathForInference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fallback_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>fallback_size_mb</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="301" column="24" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="301" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a8de3417113dea36ee770fefee04f73c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPluginTest::createDummyModel</definition>
+        <argsstring>(const std::string &amp;filename, size_t size_mb=100)</argsstring>
+        <name>createDummyModel</name>
+        <qualifiedname>LLMPluginTest::createDummyModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_mb</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="314" column="10" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_plugin_test_1a76b639a26ad38b56c79741b501e88d43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPluginTest::createDummyLoRA</definition>
+        <argsstring>(const std::string &amp;filename, size_t size_mb=10)</argsstring>
+        <name>createDummyLoRA</name>
+        <qualifiedname>LLMPluginTest::createDummyLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_mb</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_plugin.cpp" line="320" column="10" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="320" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMPluginTest</label>
+        <link refid="class_l_l_m_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMPluginTest</label>
+        <link refid="class_l_l_m_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_plugin.cpp" line="21" column="1" bodyfile="tests/llm/test_llm_plugin.cpp" bodystart="21" bodyend="324"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_plugin_test_1a76b639a26ad38b56c79741b501e88d43" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>createDummyLoRA</name></member>
+      <member refid="class_l_l_m_plugin_test_1a8de3417113dea36ee770fefee04f73c2" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>createDummyModel</name></member>
+      <member refid="class_l_l_m_plugin_test_1aa1d87b7c55d6b3a141a9c793956183e4" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>resolveModelPathForInference</name></member>
+      <member refid="class_l_l_m_plugin_test_1ae3ce9d55edd50a4c25a6ce05fd56a0c2" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>resolveRealModelPath</name></member>
+      <member refid="class_l_l_m_plugin_test_1a483b9bb73a15282402c83d7426f34980" prot="protected" virt="non-virtual"><scope>LLMPluginTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_plugin_test_1a01443eee1fb2e9273adc7a8b7229a885" prot="protected" virt="non-virtual"><scope>LLMPluginTest</scope><name>TearDown</name></member>
+      <member refid="class_l_l_m_plugin_test_1a3f3c11b486ffd1e3222220cd94cc56cb" prot="protected" virt="non-virtual"><scope>LLMPluginTest</scope><name>test_lora_dir</name></member>
+      <member refid="class_l_l_m_plugin_test_1a6917d14e8176412e9e5b1c1b42882e4e" prot="protected" virt="non-virtual"><scope>LLMPluginTest</scope><name>test_model_dir</name></member>
+      <member refid="class_l_l_m_plugin_test_1a282fae37360909ab1e1595ec2356e761" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFFloat32</name></member>
+      <member refid="class_l_l_m_plugin_test_1aa8a1202af7c6adcf457349486a3b93b5" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFFloat32Array</name></member>
+      <member refid="class_l_l_m_plugin_test_1aaa83b8fcc8bd1bb718a470a996fb699a" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFMetadataBool</name></member>
+      <member refid="class_l_l_m_plugin_test_1a0984f28e87a9308063447aea75e53d8c" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFMetadataFloat32</name></member>
+      <member refid="class_l_l_m_plugin_test_1afc9ded7d04f4b45c8c36475c67ccc214" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFMetadataString</name></member>
+      <member refid="class_l_l_m_plugin_test_1a37e012ce92bb783eec60da0b71b54509" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFMetadataUInt32</name></member>
+      <member refid="class_l_l_m_plugin_test_1a6afd1795f06b932007a82434a8d8b0c0" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFString</name></member>
+      <member refid="class_l_l_m_plugin_test_1a3cd241ef5f5b24758c6edfceef9345bb" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFStringArray</name></member>
+      <member refid="class_l_l_m_plugin_test_1ae6629646679df0c91794a5a027ed08bf" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFUInt32</name></member>
+      <member refid="class_l_l_m_plugin_test_1aea74ad985de9c1b06ed330066d8558c1" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFUInt32Array</name></member>
+      <member refid="class_l_l_m_plugin_test_1a0269c5470a524f619f9152dc2cd56b2c" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeGGUFUInt64</name></member>
+      <member refid="class_l_l_m_plugin_test_1ae97e46296b832e05bf75dddd20676a6f" prot="public" virt="non-virtual"><scope>LLMPluginTest</scope><name>writeMinimalValidGGUF</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

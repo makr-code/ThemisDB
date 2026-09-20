@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_auth_rate_limit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::AuthRateLimitConfig</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" prot="public">themis::auth::AuthRateLimitConfig::CredentialStuffingRedisConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a106f40290c361a6e2f32536798e4a456" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimitConfig::max_attempts_per_ip_per_minute</definition>
+        <argsstring></argsstring>
+        <name>max_attempts_per_ip_per_minute</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::max_attempts_per_ip_per_minute</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="44" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a484b87c230a850e4e0aa78406d1e2c8c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimitConfig::max_attempts_per_user_per_minute</definition>
+        <argsstring></argsstring>
+        <name>max_attempts_per_user_per_minute</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::max_attempts_per_user_per_minute</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="47" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a5e6bc45bfd1a49c855fbc359274bf933" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimitConfig::lockout_failed_attempts</definition>
+        <argsstring></argsstring>
+        <name>lockout_failed_attempts</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::lockout_failed_attempts</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="53" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1ab64dc9385964271aa14292f3d509f63e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimitConfig::max_failures_before_lockout</definition>
+        <argsstring></argsstring>
+        <name>max_failures_before_lockout</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::max_failures_before_lockout</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="54" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a0e00c71a8aef0f08573ad42ddb54eeef" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::auth::AuthRateLimitConfig::lockout_window</definition>
+        <argsstring></argsstring>
+        <name>lockout_window</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::lockout_window</qualifiedname>
+        <initializer>{15}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="55" column="26" bodyfile="include/auth/auth_rate_limiter.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a9178b0b7e55d802c34f1b59ec049e6b7" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::auth::AuthRateLimitConfig::lockout_duration</definition>
+        <argsstring></argsstring>
+        <name>lockout_duration</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::lockout_duration</qualifiedname>
+        <initializer>{15}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="56" column="26" bodyfile="include/auth/auth_rate_limiter.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a59c7ef24fbbf01f139946aac8d49eb48" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimitConfig::enable_ip_rate_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_ip_rate_limiting</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::enable_ip_rate_limiting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="59" column="10" bodyfile="include/auth/auth_rate_limiter.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a8537bee8ec512787f15770297947dff8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimitConfig::enable_user_rate_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_user_rate_limiting</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::enable_user_rate_limiting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="60" column="10" bodyfile="include/auth/auth_rate_limiter.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a86ba6dd3d85725a74c6bcc03aebc4146" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimitConfig::enable_account_lockout</definition>
+        <argsstring></argsstring>
+        <name>enable_account_lockout</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::enable_account_lockout</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="61" column="10" bodyfile="include/auth/auth_rate_limiter.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a295be80e0a86f246ebfa5e44d089f670" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::AuthRateLimitConfig::whitelist_ips</definition>
+        <argsstring></argsstring>
+        <name>whitelist_ips</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::whitelist_ips</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="64" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a536fbf9bc7d7de806ff7d00283d8cebe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimitConfig::enable_credential_stuffing_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_credential_stuffing_detection</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::enable_credential_stuffing_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="71" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a51e56d78a8cf830ff34a2f71796d2d2d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimitConfig::credential_stuffing_user_threshold</definition>
+        <argsstring></argsstring>
+        <name>credential_stuffing_user_threshold</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::credential_stuffing_user_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>distinct usernames per IP </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="72" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a077157ad320f83ed17d3e45b490645ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::AuthRateLimitConfig::credential_stuffing_window_seconds</definition>
+        <argsstring></argsstring>
+        <name>credential_stuffing_window_seconds</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::credential_stuffing_window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+<para>rolling window (seconds) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="73" column="14" bodyfile="include/auth/auth_rate_limiter.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1ad3a98a2b8e42d9b24930bf8062bfcde3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimitConfig::enable_cs_persistent_backend</definition>
+        <argsstring></argsstring>
+        <name>enable_cs_persistent_backend</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::enable_cs_persistent_backend</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="81" column="10" bodyfile="include/auth/auth_rate_limiter.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limit_config_1a2290737c6a6f8f06f200cdbe3e923e22" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config" kindref="compound">CredentialStuffingRedisConfig</ref></type>
+        <definition>CredentialStuffingRedisConfig themis::auth::AuthRateLimitConfig::cs_redis</definition>
+        <argsstring></argsstring>
+        <name>cs_redis</name>
+        <qualifiedname>themis::auth::AuthRateLimitConfig::cs_redis</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="89" column="35" bodyfile="include/auth/auth_rate_limiter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::AuthRateLimitConfig</label>
+        <link refid="structthemis_1_1auth_1_1_auth_rate_limit_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cs_redis</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::AuthRateLimitConfig::CredentialStuffingRedisConfig</label>
+        <link refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1_1_credential_stuffing_redis_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/auth_rate_limiter.h" line="42" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="42" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a51e56d78a8cf830ff34a2f71796d2d2d" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>credential_stuffing_user_threshold</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a077157ad320f83ed17d3e45b490645ee" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>credential_stuffing_window_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a2290737c6a6f8f06f200cdbe3e923e22" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>cs_redis</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a86ba6dd3d85725a74c6bcc03aebc4146" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>enable_account_lockout</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a536fbf9bc7d7de806ff7d00283d8cebe" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>enable_credential_stuffing_detection</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ad3a98a2b8e42d9b24930bf8062bfcde3" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>enable_cs_persistent_backend</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a59c7ef24fbbf01f139946aac8d49eb48" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>enable_ip_rate_limiting</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a8537bee8ec512787f15770297947dff8" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>enable_user_rate_limiting</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a9178b0b7e55d802c34f1b59ec049e6b7" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>lockout_duration</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a5e6bc45bfd1a49c855fbc359274bf933" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>lockout_failed_attempts</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a0e00c71a8aef0f08573ad42ddb54eeef" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>lockout_window</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a106f40290c361a6e2f32536798e4a456" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>max_attempts_per_ip_per_minute</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a484b87c230a850e4e0aa78406d1e2c8c" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>max_attempts_per_user_per_minute</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ab64dc9385964271aa14292f3d509f63e" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>max_failures_before_lockout</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a295be80e0a86f246ebfa5e44d089f670" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimitConfig</scope><name>whitelist_ips</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

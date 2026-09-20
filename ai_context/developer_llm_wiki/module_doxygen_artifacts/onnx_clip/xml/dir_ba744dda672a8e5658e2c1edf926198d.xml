@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ba744dda672a8e5658e2c1edf926198d" kind="dir">
+    <compoundname>tests/onnx_clip</compoundname>
+    <innerfile refid="test__onnx__clip__golden__embeddings__focused_8cpp">test_onnx_clip_golden_embeddings_focused.cpp</innerfile>
+    <innerfile refid="test__onnx__clip__highcardinality__stress_8cpp">test_onnx_clip_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__onnx__clip__hot__swap__focused_8cpp">test_onnx_clip_hot_swap_focused.cpp</innerfile>
+    <innerfile refid="test__onnx__clip__mmap__focused_8cpp">test_onnx_clip_mmap_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/onnx_clip/"/>
+  </compounddef>
+</doxygen>

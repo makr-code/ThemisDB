@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_quality_gate_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QualityGateConfig</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QualityGateConfig::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::name</qualifiedname>
+        <briefdescription>
+<para>Gate identifier (e.g. &quot;min_confidence&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="34" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_config_1a18090c0716b5b2b2ad7c3ccc0e1cc49d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QualityGateConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="35" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_config_1af27b138f59eeacc590dd9dcd1424374d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::QualityGateConfig::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Numeric threshold (meaning depends on gate type). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="36" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_config_1a4351608e0143556d18b5f82867ff4a63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QualityGateConfig::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, failure blocks ingestion; if false, warn only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="37" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_quality_gate_config_1a7e78084cad27f47ffe053d03b4a5168a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::QualityGateConfig::QualityGateConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>QualityGateConfig</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::QualityGateConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_quality_gate_config_1a3710f157740d42c55c460789cb2c1f8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::QualityGateConfig::QualityGateConfig</definition>
+        <argsstring>(std::string name_, std::string desc, double thresh, bool req=false)</argsstring>
+        <name>QualityGateConfig</name>
+        <qualifiedname>themis::ingestion::QualityGateConfig::QualityGateConfig</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>desc</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>thresh</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>req</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="40" column="5" bodyfile="include/ingestion/semantic_validator.h" bodystart="40" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single quality gate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Quality gates are pass/fail checks applied to extracted legal provisions. Each gate has a name, a numeric threshold (where applicable), and an action to take when the gate fails. </para>
+    </detaileddescription>
+    <location file="include/ingestion/semantic_validator.h" line="33" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="33" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a18090c0716b5b2b2ad7c3ccc0e1cc49d" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a7e78084cad27f47ffe053d03b4a5168a" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>QualityGateConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a3710f157740d42c55c460789cb2c1f8d" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>QualityGateConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a4351608e0143556d18b5f82867ff4a63" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>required</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_config_1af27b138f59eeacc590dd9dcd1424374d" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateConfig</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

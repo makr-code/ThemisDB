@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_c_q_watermark" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CQWatermark</compoundname>
+    <includes refid="cq__watermark_8h" local="no">cq_watermark.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_1a86bd03b7f01c0db1df57e1c6c0cb54ce" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::CQWatermark::allowed_lateness_us_</definition>
+        <argsstring></argsstring>
+        <name>allowed_lateness_us_</name>
+        <qualifiedname>themis::query::CQWatermark::allowed_lateness_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="57" column="26" bodyfile="include/query/cq_watermark.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_1a249e0c06b83a23cadb7f6416b57e1c14" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::query::CQWatermark::max_seen_us_</definition>
+        <argsstring></argsstring>
+        <name>max_seen_us_</name>
+        <qualifiedname>themis::query::CQWatermark::max_seen_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="58" column="17" bodyfile="include/query/cq_watermark.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_1a900f45ae4890ddbf70faec433299fdcd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::query::CQWatermark::watermark_us_</definition>
+        <argsstring></argsstring>
+        <name>watermark_us_</name>
+        <qualifiedname>themis::query::CQWatermark::watermark_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="59" column="17" bodyfile="include/query/cq_watermark.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_1acb07a27aaac9264a1381279b61512511" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::CQWatermark::late_processed_</definition>
+        <argsstring></argsstring>
+        <name>late_processed_</name>
+        <qualifiedname>themis::query::CQWatermark::late_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="60" column="17" bodyfile="include/query/cq_watermark.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_1ae96cd28538524341faaef22cec7a2731" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::CQWatermark::late_dropped_</definition>
+        <argsstring></argsstring>
+        <name>late_dropped_</name>
+        <qualifiedname>themis::query::CQWatermark::late_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="61" column="17" bodyfile="include/query/cq_watermark.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1ae3179e021960d86ad72dc37cde9704f8" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CQWatermark::CQWatermark</definition>
+        <argsstring>(int64_t allowed_lateness_ms=500) noexcept</argsstring>
+        <name>CQWatermark</name>
+        <qualifiedname>themis::query::CQWatermark::CQWatermark</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>allowed_lateness_ms</declname>
+          <defval>500</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="26" column="14" bodyfile="src/query/cq_watermark.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1a74216d327f82c8a49a394f0dca3ab1a6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CQWatermark::observe</definition>
+        <argsstring>(int64_t event_ts_us) noexcept</argsstring>
+        <name>observe</name>
+        <qualifiedname>themis::query::CQWatermark::observe</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>event_ts_us</declname>
+        </param>
+        <briefdescription>
+<para>Observe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_ts_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="34" column="10" bodyfile="src/query/cq_watermark.cpp" bodystart="32" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1a1e68f56736feb74027ad1f1da9daf103" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CQWatermark::advance</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::query::CQWatermark::advance</qualifiedname>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="40" column="10" bodyfile="src/query/cq_watermark.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1a824c50aa18e04bebe2194b74ee42a592" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::CQWatermark::watermarkUs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>watermarkUs</name>
+        <qualifiedname>themis::query::CQWatermark::watermarkUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="42" column="14" bodyfile="src/query/cq_watermark.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1abba8562d54ab652f9550055eead95c2a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::CQWatermark::maxSeenUs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxSeenUs</name>
+        <qualifiedname>themis::query::CQWatermark::maxSeenUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="44" column="14" bodyfile="src/query/cq_watermark.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1ab7579355b7d354b073f7477756301572" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::CQWatermark::lateProcessed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lateProcessed</name>
+        <qualifiedname>themis::query::CQWatermark::lateProcessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="46" column="15" bodyfile="src/query/cq_watermark.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1a9535a877177b55f4063b712b211b097e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::CQWatermark::lateDropped</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lateDropped</name>
+        <qualifiedname>themis::query::CQWatermark::lateDropped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="48" column="15" bodyfile="src/query/cq_watermark.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_watermark_1afd783ee43d68dbbf01978fcad8c28bce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CQWatermark::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::CQWatermark::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cq_watermark.h" line="54" column="10" bodyfile="src/query/cq_watermark.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cq_watermark.h" line="24" column="1" bodyfile="include/query/cq_watermark.h" bodystart="24" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a1e68f56736feb74027ad1f1da9daf103" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>advance</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a86bd03b7f01c0db1df57e1c6c0cb54ce" prot="private" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>allowed_lateness_us_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1ae3179e021960d86ad72dc37cde9704f8" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>CQWatermark</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1ae96cd28538524341faaef22cec7a2731" prot="private" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>late_dropped_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1acb07a27aaac9264a1381279b61512511" prot="private" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>late_processed_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a9535a877177b55f4063b712b211b097e" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>lateDropped</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1ab7579355b7d354b073f7477756301572" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>lateProcessed</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a249e0c06b83a23cadb7f6416b57e1c14" prot="private" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>max_seen_us_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1abba8562d54ab652f9550055eead95c2a" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>maxSeenUs</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a74216d327f82c8a49a394f0dca3ab1a6" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>observe</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1afd783ee43d68dbbf01978fcad8c28bce" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a900f45ae4890ddbf70faec433299fdcd" prot="private" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>watermark_us_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_1a824c50aa18e04bebe2194b74ee42a592" prot="public" virt="non-virtual"><scope>themis::query::CQWatermark</scope><name>watermarkUs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_column_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ColumnSchema</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_column_schema_1a2d759c9647f16d202130fcb2a40c1719" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ColumnSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::performance::ColumnSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="107" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_column_schema_1a79beda108157a96f93ea280092e5de13" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97" kindref="member">ColumnType</ref></type>
+        <definition>ColumnType themis::performance::ColumnSchema::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::performance::ColumnSchema::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ColumnType::Unknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="108" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_column_schema_1a771d21bec7ae3c23f7b9052b31496915" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::ColumnSchema::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themis::performance::ColumnSchema::nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="109" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_column_schema_1aaab4bb3af623a8388df0452ef0c1bc33" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::ColumnSchema::has_index</definition>
+        <argsstring></argsstring>
+        <name>has_index</name>
+        <qualifiedname>themis::performance::ColumnSchema::has_index</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="110" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1performance_1_1_schema" kindref="compound">Schema</ref> descriptor for one table column. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="106" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="106" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_column_schema_1aaab4bb3af623a8388df0452ef0c1bc33" prot="public" virt="non-virtual"><scope>themis::performance::ColumnSchema</scope><name>has_index</name></member>
+      <member refid="structthemis_1_1performance_1_1_column_schema_1a2d759c9647f16d202130fcb2a40c1719" prot="public" virt="non-virtual"><scope>themis::performance::ColumnSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1performance_1_1_column_schema_1a771d21bec7ae3c23f7b9052b31496915" prot="public" virt="non-virtual"><scope>themis::performance::ColumnSchema</scope><name>nullable</name></member>
+      <member refid="structthemis_1_1performance_1_1_column_schema_1a79beda108157a96f93ea280092e5de13" prot="public" virt="non-virtual"><scope>themis::performance::ColumnSchema</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

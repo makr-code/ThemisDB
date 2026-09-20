@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWTKeyRotationManager::Config</compoundname>
+    <includes refid="jwt__key__rotation__manager_8h" local="no">jwt_key_rotation_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1a763cb1e8e440eadaf621568b644aad7e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::JWTKeyRotationManager::Config::passive_grace_period</definition>
+        <argsstring></argsstring>
+        <name>passive_grace_period</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Config::passive_grace_period</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="61" column="30" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1acfed9c10da5d7b9c251a0d7687894c74" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::JWTKeyRotationManager::Config::max_key_age</definition>
+        <argsstring></argsstring>
+        <name>max_key_age</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Config::max_key_age</qualifiedname>
+        <initializer>{86400 * 30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="63" column="30" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1aaf3976c4f8928df4a9c36e757c06b649" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTKeyRotationManager::Config::auto_revoke_expired_passive</definition>
+        <argsstring></argsstring>
+        <name>auto_revoke_expired_passive</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Config::auto_revoke_expired_passive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="65" column="14" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1ad15bf5ed44dfa83a01a71d70737e1349" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::JWTKeyRotationManager::Config::max_keys</definition>
+        <argsstring></argsstring>
+        <name>max_keys</name>
+        <qualifiedname>themis::auth::JWTKeyRotationManager::Config::max_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="67" column="16" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_key_rotation_manager.h" line="60" column="5" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="60" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1aaf3976c4f8928df4a9c36e757c06b649" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Config</scope><name>auto_revoke_expired_passive</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1acfed9c10da5d7b9c251a0d7687894c74" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Config</scope><name>max_key_age</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1ad15bf5ed44dfa83a01a71d70737e1349" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Config</scope><name>max_keys</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_key_rotation_manager_1_1_config_1a763cb1e8e440eadaf621568b644aad7e" prot="public" virt="non-virtual"><scope>themis::auth::JWTKeyRotationManager::Config</scope><name>passive_grace_period</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

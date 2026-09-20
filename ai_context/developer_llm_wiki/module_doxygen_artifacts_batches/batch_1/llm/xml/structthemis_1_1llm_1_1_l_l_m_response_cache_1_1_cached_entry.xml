@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::LLMResponseCache::CachedEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a6c864ee224be7d5ac125406d332a50a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMResponseCache::CachedEntry::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::LLMResponseCache::CachedEntry::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="148" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a272054b151c60ed6cc7c4dbf99d13cfc" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::LLMResponseCache::CachedEntry::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::llm::LLMResponseCache::CachedEntry::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="149" column="27" bodyfile="include/llm/llm_response_cache.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a177f11a01014851f13b61e4accf34b84" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMResponseCache::CachedEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::LLMResponseCache::CachedEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="150" column="47" bodyfile="include/llm/llm_response_cache.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a610c91f43a013b9326c5cf839afd6b25" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::LLMResponseCache::CachedEntry::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::LLMResponseCache::CachedEntry::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="151" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::InferenceResponse</label>
+        <link refid="structthemis_1_1llm_1_1_inference_response"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::LLMResponseCache::CachedEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>response</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/llm_response_cache.h" line="147" column="5" bodyfile="include/llm/llm_response_cache.h" bodystart="147" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a610c91f43a013b9326c5cf839afd6b25" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::CachedEntry</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a6c864ee224be7d5ac125406d332a50a3" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::CachedEntry</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a272054b151c60ed6cc7c4dbf99d13cfc" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::CachedEntry</scope><name>response</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_cached_entry_1a177f11a01014851f13b61e4accf34b84" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::CachedEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

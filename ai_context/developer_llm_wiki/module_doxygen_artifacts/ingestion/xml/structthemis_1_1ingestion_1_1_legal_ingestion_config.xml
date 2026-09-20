@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_legal_ingestion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LegalIngestionConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1af1369a4140aaacad3f954f4d60aca266" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LegalIngestionConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable semantic extraction pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="777" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="777" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8706c4a220a3fd77a952a0a454b27f87" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::LegalIngestionConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Minimum deontic extraction confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="778" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="778" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a01d0e95cc3204d99c1f9efe79de9c5fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LegalIngestionConfig::validate_references</definition>
+        <argsstring></argsstring>
+        <name>validate_references</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::validate_references</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run <ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator" kindref="compound">AgenticReferenceValidator</ref> on each doc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="779" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="779" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1ad3b39820931333819bcb0579dbda4d8f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LegalIngestionConfig::require_section_struct</definition>
+        <argsstring></argsstring>
+        <name>require_section_struct</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::require_section_struct</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Reject docs without § section structure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="780" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="780" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8dbd6b8f7cc2a0e78d986848f7c6526a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LegalIngestionConfig::flag_low_confidence</definition>
+        <argsstring></argsstring>
+        <name>flag_low_confidence</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::flag_low_confidence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Add warning step to lineage when confidence low. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="781" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="781" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1aa7c6bd97508145bbb0b8092c1c41a847" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::LegalIngestionConfig::LegalIngestionConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>LegalIngestionConfig</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::LegalIngestionConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="783" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a6cc661a3cad9407a560fddabf0f9616e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::LegalIngestionConfig::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::ingestion::LegalIngestionConfig::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Returns true when the pipeline is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="786" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="786" bodyend="786"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the LLM-driven legal text ingestion pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When registered for a source via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1aa54e43c5509619da322fdae6508d5eae" kindref="member">IngestionManager::setLegalIngestionConfig()</ref></computeroutput>, each document ingested from that source is run through the semantic extraction pipeline (deontic extraction + semantic validation + reference validation). The results are accessible via <computeroutput>IngestionManager::getLastLegalExtractionResult()</computeroutput>.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1aa7c6bd97508145bbb0b8092c1c41a847" kindref="member">LegalIngestionConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enabled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.confidence_threshold<sp/><sp/><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline><highlight class="normal">cfg.validate_references<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">mgr.setLegalIngestionConfig(</highlight><highlight class="stringliteral">&quot;bimschg_source&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="776" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="776" bodyend="787"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8706c4a220a3fd77a952a0a454b27f87" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1af1369a4140aaacad3f954f4d60aca266" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8dbd6b8f7cc2a0e78d986848f7c6526a" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>flag_low_confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a6cc661a3cad9407a560fddabf0f9616e" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>isEnabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1aa7c6bd97508145bbb0b8092c1c41a847" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>LegalIngestionConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1ad3b39820931333819bcb0579dbda4d8f" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>require_section_struct</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a01d0e95cc3204d99c1f9efe79de9c5fe" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalIngestionConfig</scope><name>validate_references</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

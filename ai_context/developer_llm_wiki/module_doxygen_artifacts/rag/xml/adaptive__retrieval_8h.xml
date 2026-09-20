@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__retrieval_8h" kind="file" language="C++">
+    <compoundname>adaptive_retrieval.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includedby refid="adaptive__retrieval_8cpp" local="yes">src/rag/adaptive_retrieval.cpp</includedby>
+    <includedby refid="test__rag__adaptive__retrieval_8cpp" local="yes">tests/rag/test_rag_adaptive_retrieval.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/adaptive_retrieval.h</label>
+        <link refid="adaptive__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/adaptive_retrieval.h</label>
+        <link refid="adaptive__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/adaptive_retrieval.cpp</label>
+        <link refid="adaptive__retrieval_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_adaptive_retrieval.cpp</label>
+        <link refid="test__rag__adaptive__retrieval_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" prot="public">themis::rag::AdaptiveRetrievalConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_complexity_analysis" prot="public">themis::rag::ComplexityAnalysis</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" prot="public">themis::rag::AdaptiveRetrievalParams</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_i_complexity_scorer" prot="public">themis::rag::IComplexityScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_adaptive_retrieval" prot="public">themis::rag::AdaptiveRetrieval</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory" prot="public">themis::rag::AdaptiveRetrievalFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryComplexity<sp/>—<sp/>tiered<sp/>complexity<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3ae5564829e2f85f6a6873a9d5c4f26d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3ae5564829e2f85f6a6873a9d5c4f26d09" kindref="member">SIMPLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a5137485eff3ff278d233d993c8539599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a5137485eff3ff278d233d993c8539599" kindref="member">MODERATE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a921a0157a6e61eebbaa0f713fdfbb0f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a921a0157a6e61eebbaa0f713fdfbb0f7" kindref="member">COMPLEX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a38ae9f135d11dd8d32d606c6b2e069a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3a38ae9f135d11dd8d32d606c6b2e069a4" kindref="member">VERY_COMPLEX</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveRetrievalConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a4d3cf95af520d0c35f585f87eeac2089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a4d3cf95af520d0c35f585f87eeac2089" kindref="member">base_top_k</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a20cb61a1a08d3b61d2a2b492a831e0e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a20cb61a1a08d3b61d2a2b492a831e0e8" kindref="member">max_top_k</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a8ebecc0579cbff1f19d60290f0b3f6e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a8ebecc0579cbff1f19d60290f0b3f6e4" kindref="member">base_similarity_threshold</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1af70f34dd6d439badec7e28896039a614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1af70f34dd6d439badec7e28896039a614" kindref="member">min_similarity_threshold</ref><sp/>=<sp/>0.40;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a3ba4416b0ccdc07718ec42585475ec54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a3ba4416b0ccdc07718ec42585475ec54" kindref="member">complexity_scaling</ref><sp/>=<sp/>1.5;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1ae0d1ac3c52002f1e810736f214bb8bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1ae0d1ac3c52002f1e810736f214bb8bba" kindref="member">long_query_threshold</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a537bf1eb6190c4cf02b6551a18b5b3d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a537bf1eb6190c4cf02b6551a18b5b3d7" kindref="member">connective_bump_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ComplexityAnalysis<sp/>—<sp/>output<sp/>of<sp/>the<sp/>analysis<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1_complexity_analysis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1_complexity_analysis_1a4d5d8167af85a90b6c0e560733a95f34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1a4d5d8167af85a90b6c0e560733a95f34" kindref="member">complexity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3ae5564829e2f85f6a6873a9d5c4f26d09" kindref="member">QueryComplexity::SIMPLE</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1_complexity_analysis_1a6500abbeee846ebe2f14a1367f86194f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1a6500abbeee846ebe2f14a1367f86194f" kindref="member">raw_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1rag_1_1_complexity_analysis_1a6c7e290a630cade642defb406a16186b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1a6c7e290a630cade642defb406a16186b" kindref="member">connective_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1_complexity_analysis_1a775e7efd9069ed26daa26c209117ec52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1a775e7efd9069ed26daa26c209117ec52" kindref="member">question_word_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1rag_1_1_complexity_analysis_1ac1501a07ebf3ab885fa69dd5f16586e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1ac1501a07ebf3ab885fa69dd5f16586e8" kindref="member">is_long_query</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1_complexity_analysis_1a340fcf7b06acf98c7cff568d6f690f33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis_1a340fcf7b06acf98c7cff568d6f690f33" kindref="member">explanation</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveRetrievalParams<sp/>—<sp/>computed<sp/>retrieval<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" kindref="compound">AdaptiveRetrievalParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adbdb4279d0ae0f197f2f6d58245ddb92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adbdb4279d0ae0f197f2f6d58245ddb92" kindref="member">top_k</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adb81aaa12469e6ce1e68752957a41627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1adb81aaa12469e6ce1e68752957a41627" kindref="member">similarity_threshold</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1a0616b0ecf578b17c347c6a684d3eda09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params_1a0616b0ecf578b17c347c6a684d3eda09" kindref="member">analysis</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IComplexityScorer<sp/>—<sp/>optional<sp/>LLM-based<sp/>scorer<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1rag_1_1_i_complexity_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer" kindref="compound">IComplexityScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1rag_1_1_i_complexity_scorer_1aab76d12f67204aca4e91dc059af53cef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer_1aab76d12f67204aca4e91dc059af53cef" kindref="member">~IComplexityScorer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1rag_1_1_i_complexity_scorer_1a1d128a7db961a2c9e87e1155067221bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer_1a1d128a7db961a2c9e87e1155067221bb" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveRetrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1rag_1_1_adaptive_retrieval" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" kindref="member">AdaptiveRetrieval</ref><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" kindref="member">AdaptiveRetrieval</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" kindref="member">AdaptiveRetrieval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aea80d0bf00aae5831b2dd783e586d3c7" kindref="member">analyzeComplexity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" kindref="compound">AdaptiveRetrievalParams</ref><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a1898637f5f2da541c63775623f095606" kindref="member">computeParams</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a78def0798039e53a55a2d1cada6832af" kindref="member">scoreToComplexity</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>raw_score);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a07d88b69b31d6a079963721c9cf8ebd4" kindref="member">complexityToString</ref>(<ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/>complexity);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1ac29d44d8f4215bf69ad1cf7aa9eb9b26" kindref="member">setScorer</ref>(<ref refid="structthemis_1_1rag_1_1_i_complexity_scorer" kindref="compound">IComplexityScorer</ref>*<sp/>scorer);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1acf0c903a3590ef8e59e271a4dbe75128" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a0932f1402a30895f926f9ef69ceb2d9a" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer" kindref="compound">IComplexityScorer</ref>*<sp/>scorer_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref><sp/>heuristicAnalyze(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>complexityToTopK(<ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/>complexity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>complexityToThreshold(<ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref><sp/>complexity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveRetrievalFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory" kindref="compound">AdaptiveRetrievalFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AdaptiveRetrieval&gt;<sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a2dfc03c17d2db745657dcfe0ab7091ad" kindref="member">createLightweight</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AdaptiveRetrieval&gt;<sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a777ccd3893bc0f21450f6c3503b45d8f" kindref="member">createBalanced</ref>();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AdaptiveRetrieval&gt;<sp/><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a61844ddf9c8affa241b3b18765a8a116" kindref="member">createHighRecall</ref>();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/adaptive_retrieval.h"/>
+  </compounddef>
+</doxygen>

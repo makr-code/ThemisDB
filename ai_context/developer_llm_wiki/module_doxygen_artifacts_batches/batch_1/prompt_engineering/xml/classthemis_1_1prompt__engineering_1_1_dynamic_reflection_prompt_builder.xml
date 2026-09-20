@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DynamicReflectionPromptBuilder</compoundname>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a31893a645cbd12645358d8fd34c49e1b" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+        <definition>ReflectionStrategy themis::prompt_engineering::DynamicReflectionPromptBuilder::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="337" column="24" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1ab9db8f19db9ebf509885f91d9281a5ab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DynamicReflectionPromptBuilder::DynamicReflectionPromptBuilder</definition>
+        <argsstring>(ReflectionStrategy strategy=ReflectionStrategy::SELF_REFINE)</argsstring>
+        <name>DynamicReflectionPromptBuilder</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::DynamicReflectionPromptBuilder</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" kindref="member">ReflectionStrategy::SELF_REFINE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct with the given reflection strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="277" column="14" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a630c1b4d7ae10162a247b819f2c1a19f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DynamicReflectionPromptBuilder::buildCritiquePrompt</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response, const SelfAwareContext &amp;ctx=SelfAwareContext{}) const</argsstring>
+        <name>buildCritiquePrompt</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::buildCritiquePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref> &amp;</type>
+          <declname>ctx</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build a critique prompt using the current strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original task prompt sent to the LLM. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The response to be critiqued. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Self-aware context from the response (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build Self Aware Context Header. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="287" column="17" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="224" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a0e8702ed3a464e7b3b90c251133370cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DynamicReflectionPromptBuilder::buildRevisionPrompt</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response, const std::string &amp;critique, const SelfAwareContext &amp;ctx=SelfAwareContext{}) const</argsstring>
+        <name>buildRevisionPrompt</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::buildRevisionPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref> &amp;</type>
+          <declname>ctx</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build a revision prompt instructing the LLM to revise <computeroutput>response</computeroutput> based on <computeroutput>critique</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build Self Aware Context Header. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="296" column="17" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="281" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a9c9fb70f5e3de1fcb5c159764a335ef4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DynamicReflectionPromptBuilder::buildConstitutionalCritiquePrompt</definition>
+        <argsstring>(const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;principles) const</argsstring>
+        <name>buildConstitutionalCritiquePrompt</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::buildConstitutionalCritiquePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>principles</declname>
+        </param>
+        <briefdescription>
+<para>Build a constitutional critique prompt (CONSTITUTIONAL strategy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates <computeroutput>response</computeroutput> against each principle in <computeroutput>principles</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="307" column="17" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="321" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1acee49f5fa0e5c26e2add927520a5cb6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DynamicReflectionPromptBuilder::buildSocraticPrompt</definition>
+        <argsstring>(const std::string &amp;claim, size_t iteration) const</argsstring>
+        <name>buildSocraticPrompt</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::buildSocraticPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iteration</declname>
+        </param>
+        <briefdescription>
+<para>Build a Socratic questioning prompt (SOCRATIC strategy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cycles through a set of probing questions; <computeroutput>iteration</computeroutput> selects the question modulo the question count. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="317" column="17" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="337" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a2f23e862dd955ca8f0709e1e0758efa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DynamicReflectionPromptBuilder::buildSelfAwareContextHeader</definition>
+        <argsstring>(const SelfAwareContext &amp;ctx) const</argsstring>
+        <name>buildSelfAwareContextHeader</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::buildSelfAwareContextHeader</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Build the self-aware context preamble injected at the start of critique/revision prompts when the context is meaningful. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an empty string when the context is neutral (no uncertainty markers and confidence ≥ 0.7). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="328" column="17" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="187" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a293a2f3487dc537aadd91b877416f2ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::DynamicReflectionPromptBuilder::setStrategy</definition>
+        <argsstring>(ReflectionStrategy strategy)</argsstring>
+        <name>setStrategy</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::setStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="331" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1ac8be262f5746c8e935c00847c60f26ed" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+        <definition>ReflectionStrategy themis::prompt_engineering::DynamicReflectionPromptBuilder::getStrategy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::prompt_engineering::DynamicReflectionPromptBuilder::getStrategy</qualifiedname>
+        <briefdescription>
+<para>Return the current strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="334" column="24" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Builds strategy-specific, self-aware critique and revision prompts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The &quot;dynamic&quot; nature comes from injecting the <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref></computeroutput> extracted from the model&apos;s own response back into the next critique prompt, creating a feedback loop:</para>
+<para>response → <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context_1a251a3f892425e56c5770d6079a46b4e8" kindref="member">SelfAwareContext::fromResponse()</ref> → context-adaptive critique</para>
+<para>When <computeroutput>ctx</computeroutput> indicates low confidence, the critique template emphasises factual verification. When <computeroutput>ctx</computeroutput> indicates high confidence, the template checks for overconfidence that may mask inaccuracies. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="274" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="274" bodyend="338"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a9c9fb70f5e3de1fcb5c159764a335ef4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>buildConstitutionalCritiquePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a630c1b4d7ae10162a247b819f2c1a19f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>buildCritiquePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a0e8702ed3a464e7b3b90c251133370cf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>buildRevisionPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a2f23e862dd955ca8f0709e1e0758efa6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>buildSelfAwareContextHeader</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1acee49f5fa0e5c26e2add927520a5cb6b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>buildSocraticPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1ab9db8f19db9ebf509885f91d9281a5ab" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>DynamicReflectionPromptBuilder</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1ac8be262f5746c8e935c00847c60f26ed" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a293a2f3487dc537aadd91b877416f2ff" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>setStrategy</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder_1a31893a645cbd12645358d8fd34c49e1b" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DynamicReflectionPromptBuilder</scope><name>strategy_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

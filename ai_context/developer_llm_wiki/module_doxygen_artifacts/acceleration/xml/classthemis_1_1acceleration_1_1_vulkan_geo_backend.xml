@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_vulkan_geo_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::VulkanGeoBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public" virt="non-virtual">themis::acceleration::IGeoBackend</basecompoundref>
+    <includes refid="graphics__backends_8h" local="no">graphics_backends.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a39737b47a8de5fdb83db427a0eeadb3c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanGeoBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="443" column="10" bodyfile="include/acceleration/graphics_backends.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a074e7891cff4c291dfc378a646465e1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VulkanGeoBackend::VulkanGeoBackend</definition>
+        <argsstring>()</argsstring>
+        <name>VulkanGeoBackend</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::VulkanGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="411" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a4dc0738b597bb69d4359af5b38a3b204" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::VulkanGeoBackend::~VulkanGeoBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~VulkanGeoBackend</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::~VulkanGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="412" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4960" bodyend="4962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a3f2a17931123e125f9d566cc2289c5b7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::VulkanGeoBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="414" column="16" bodyfile="include/acceleration/graphics_backends.h" bodystart="414" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a175a6d7b1c4ace8b7a762ddc65d9d03d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::VulkanGeoBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="415" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="415" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1af3c1a5674d2b9ab42543dc0c29a8e211" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanGeoBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="416" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4964" bodyend="4982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1adaecd99b75f8d12d38a8c391d35c2d9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::VulkanGeoBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="418" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4984" bodyend="4995"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a45d3d9f278d329f9f709995032ce8dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanGeoBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1af3c1a5674d2b9ab42543dc0c29a8e211" kindref="member">isAvailable()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="419" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="5002" bodyend="5017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1aca237d8024f09b9fd55c06e0ae573110" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::VulkanGeoBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="420" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="5023" bodyend="5025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a663cf57b3864b54ff141f8d41b4b397b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::VulkanGeoBackend::batchDistances</definition>
+        <argsstring>(const double *latitudes1, const double *longitudes1, const double *latitudes2, const double *longitudes2, size_t count, bool useHaversine=true) override</argsstring>
+        <name>batchDistances</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::batchDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ae34e694d046de8d04e9d4bc5a6f9bf20">batchDistances</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHaversine</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Batch Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, out(), vulkan_haversine_km(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="422" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="5038" bodyend="5079"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a33ed98142b8c284dbb2edbef3f154c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt; bool &gt; themis::acceleration::VulkanGeoBackend::batchPointInPolygon</definition>
+        <argsstring>(const double *pointLats, const double *pointLons, size_t numPoints, const double *polygonCoords, size_t numPolygonVertices) override</argsstring>
+        <name>batchPointInPolygon</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::batchPointInPolygon</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1aa209021f6690e6716d739ce59b6e3b38">batchPointInPolygon</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>pointLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygonCoords</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <briefdescription>
+<para>Batch Point In Polygon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonCoords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, out(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="431" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="5091" bodyend="5150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a8890302a07df450c00be717f5301af94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::VulkanGeoBackend::populateGeoDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateGeoDispatch</name>
+        <qualifiedname>themis::acceleration::VulkanGeoBackend::populateGeoDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1add9612e93b771a0133e09e91a7baa0e5">populateGeoDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="440" column="23" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="5152" bodyend="5161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::VulkanGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::VulkanGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/graphics_backends.h" line="409" column="1" bodyfile="include/acceleration/graphics_backends.h" bodystart="409" bodyend="444"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a663cf57b3864b54ff141f8d41b4b397b" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>batchDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a33ed98142b8c284dbb2edbef3f154c3c" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>batchPointInPolygon</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1adaecd99b75f8d12d38a8c391d35c2d9e" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a45d3d9f278d329f9f709995032ce8dbf" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a39737b47a8de5fdb83db427a0eeadb3c" prot="private" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1af3c1a5674d2b9ab42543dc0c29a8e211" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a3f2a17931123e125f9d566cc2289c5b7" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a8890302a07df450c00be717f5301af94" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>populateGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1aca237d8024f09b9fd55c06e0ae573110" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a175a6d7b1c4ace8b7a762ddc65d9d03d" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a074e7891cff4c291dfc378a646465e1e" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>VulkanGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ab1b7cba05606ee8ec1ae8cf06a24dc8f" prot="public" virt="virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>~IGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a4dc0738b597bb69d4359af5b38a3b204" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanGeoBackend</scope><name>~VulkanGeoBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

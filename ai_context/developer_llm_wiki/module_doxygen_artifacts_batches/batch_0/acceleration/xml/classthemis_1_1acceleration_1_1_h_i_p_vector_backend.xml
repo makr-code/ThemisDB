@@ -1,0 +1,555 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::HIPVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <includes refid="hip__backend_8h" local="no">hip_backend.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config" prot="public">themis::acceleration::HIPVectorBackend::HIPConfig</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info" prot="public">themis::acceleration::HIPVectorBackend::DeviceInfo</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DistanceMetric</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DistanceMetric</qualifiedname>
+        <enumvalue id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20fa7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20fae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20fa5dbd0030546e2ee560ccd7c5e4bfcfc8" prot="public">
+          <name>INNER_PRODUCT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="83" column="5" bodyfile="include/acceleration/hip_backend.h" bodystart="83" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a2e56d9b2e2d3c7694a00e11a903baffb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HIPBackendImpl &gt;</type>
+        <definition>std::unique_ptr&lt;HIPBackendImpl&gt; themis::acceleration::HIPVectorBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="140" column="21" bodyfile="include/acceleration/hip_backend.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aebeadebdaa1e9324d065379b3c8ed842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::HIPVectorBackend::HIPVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>HIPVectorBackend</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a17f5f2d29d372bdda34abccba3575647" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::HIPVectorBackend::HIPVectorBackend</definition>
+        <argsstring>(const HIPConfig &amp;config)</argsstring>
+        <name>HIPVectorBackend</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPVectorBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config" kindref="compound">HIPConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>HIPVector Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="51" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af6ebdb03bd93fab8af42564ad9d737a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::HIPVectorBackend::~HIPVectorBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~HIPVectorBackend</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::~HIPVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a3c06ee50e0b282aa2d0b6e06cd4b6576" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::HIPVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="55" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a22feeb8ea7d7f7d0e03b8c21579fd719" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::HIPVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="56" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aaa11139df0c5c72d7d1e3b4fb09511a6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="57" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a8ffee19a30f398b35bb3678e46f43a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::HIPVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="58" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a73adb308d2103d7f9baefcf848e74e22" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="59" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1adcc0c64cfe85f15a2c30eafe69c333e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::HIPVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="60" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a3cd428085d94a9fe2f5b109ffb9ded2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::HIPVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2=true) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="63" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aaea1cf49af8028f38cb3d1dc3c1d4bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::HIPVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2=true) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="72" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a56175461e9a21238c72f8d069243f402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::HIPVectorBackend::batchKnnSearchWithMetric</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, DistanceMetric metric)</argsstring>
+        <name>batchKnnSearchWithMetric</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::batchKnnSearchWithMetric</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20f" kindref="member">DistanceMetric</ref></type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="89" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af42ddd1707660cdf9fc91666c62b97d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info" kindref="compound">DeviceInfo</ref></type>
+        <definition>DeviceInfo themis::acceleration::HIPVectorBackend::getDeviceInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeviceInfo</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getDeviceInfo</qualifiedname>
+        <briefdescription>
+<para>Get Device Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="105" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af269c1f0ef0a2c514f1afe6b963c02bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::HIPVectorBackend::setConfig</definition>
+        <argsstring>(const HIPConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config" kindref="compound">HIPConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="111" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a431e8f1b403ca48b367c3381d885dd07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config" kindref="compound">HIPConfig</ref></type>
+        <definition>HIPConfig themis::acceleration::HIPVectorBackend::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="117" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a8987d796b86cb827997223eda4d675e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref></type>
+        <definition>ANNKernelDispatch themis::acceleration::HIPVectorBackend::populateANNDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateANNDispatch</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::populateANNDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573">populateANNDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="137" column="23" bodyfile="src/acceleration/hip_backend.cpp" bodystart="1377" bodyend="1379"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1ae8ed7eef7cf43883bdd597391d57468d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt;</type>
+        <definition>static std::vector&lt; DeviceInfo &gt; themis::acceleration::HIPVectorBackend::getAvailableDevices</definition>
+        <argsstring>()</argsstring>
+        <name>getAvailableDevices</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getAvailableDevices</qualifiedname>
+        <briefdescription>
+<para>Get Available Devices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="123" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aa4123fdf6fdeeb41c80c4b5179fc43eb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::acceleration::HIPVectorBackend::getHIPVersion</definition>
+        <argsstring>()</argsstring>
+        <name>getHIPVersion</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getHIPVersion</qualifiedname>
+        <briefdescription>
+<para>Get HIPVersion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="129" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a5cfb1c38359fa3a57dc62febf72eea47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::acceleration::HIPVectorBackend::getROCmVersion</definition>
+        <argsstring>()</argsstring>
+        <name>getROCmVersion</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::getROCmVersion</qualifiedname>
+        <briefdescription>
+<para>Get ROCm Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="135" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::HIPVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::HIPVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/hip_backend.h" line="25" column="1" bodyfile="include/acceleration/hip_backend.h" bodystart="25" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aaea1cf49af8028f38cb3d1dc3c1d4bc5" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a56175461e9a21238c72f8d069243f402" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>batchKnnSearchWithMetric</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a3cd428085d94a9fe2f5b109ffb9ded2f" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a9d5fdfa3e159d9754e5f30674e65f20f" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>DistanceMetric</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1ae8ed7eef7cf43883bdd597391d57468d" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getAvailableDevices</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a8ffee19a30f398b35bb3678e46f43a74" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a431e8f1b403ca48b367c3381d885dd07" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af42ddd1707660cdf9fc91666c62b97d4" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getDeviceInfo</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aa4123fdf6fdeeb41c80c4b5179fc43eb" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getHIPVersion</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a5cfb1c38359fa3a57dc62febf72eea47" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>getROCmVersion</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aebeadebdaa1e9324d065379b3c8ed842" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>HIPVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a17f5f2d29d372bdda34abccba3575647" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>HIPVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a2e56d9b2e2d3c7694a00e11a903baffb" prot="private" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a73adb308d2103d7f9baefcf848e74e22" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aaa11139df0c5c72d7d1e3b4fb09511a6" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a3c06ee50e0b282aa2d0b6e06cd4b6576" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a8987d796b86cb827997223eda4d675e2" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af269c1f0ef0a2c514f1afe6b963c02bb" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1adcc0c64cfe85f15a2c30eafe69c333e4" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a22feeb8ea7d7f7d0e03b8c21579fd719" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1af6ebdb03bd93fab8af42564ad9d737a4" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>~HIPVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::HIPVectorBackend</scope><name>~IVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_eval_evaluator_test" kind="class" language="C++" prot="public">
+    <compoundname>GEvalEvaluatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_eval_evaluator_test_1a2ada986f0a289b1c55a5a79b37cae129" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">GEvalEvaluator::Config</ref></type>
+        <definition>GEvalEvaluator::Config GEvalEvaluatorTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>GEvalEvaluatorTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="348" column="28" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_eval_evaluator_test_1a38ec5e7a0e06c45ac50aff75098a9d37" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; GEvalEvaluatorTest::sample_docs</definition>
+        <argsstring></argsstring>
+        <name>sample_docs</name>
+        <qualifiedname>GEvalEvaluatorTest::sample_docs</qualifiedname>
+        <initializer>                        = {
+    {&quot;doc1&quot;, &quot;Paris is the capital of France with over 2 million people.&quot;},
+    {&quot;doc2&quot;, &quot;The Eiffel Tower is an iconic Paris landmark built in 1889.&quot;}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="350" column="17" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="350" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GEvalEvaluatorTest</label>
+        <link refid="class_g_eval_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GEvalEvaluatorTest</label>
+        <link refid="class_g_eval_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::GEvalEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase4.cpp" line="346" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="346" bodyend="354"/>
+    <listofallmembers>
+      <member refid="class_g_eval_evaluator_test_1a2ada986f0a289b1c55a5a79b37cae129" prot="protected" virt="non-virtual"><scope>GEvalEvaluatorTest</scope><name>config</name></member>
+      <member refid="class_g_eval_evaluator_test_1a38ec5e7a0e06c45ac50aff75098a9d37" prot="protected" virt="non-virtual"><scope>GEvalEvaluatorTest</scope><name>sample_docs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

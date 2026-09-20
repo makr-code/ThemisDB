@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_rollback_safety_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::RollbackSafetyReport</compoundname>
+    <includes refid="policy__change__manager_8h" local="no">policy_change_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a00de2317e04c4d883743642e69df6f4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackSafetyReport::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::rule_id</qualifiedname>
+        <briefdescription>
+<para>Rule being rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="62" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a207152c2de259973b17e8e20deddb9b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackSafetyReport::target_version</definition>
+        <argsstring></argsstring>
+        <name>target_version</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::target_version</qualifiedname>
+        <briefdescription>
+<para>Target rollback version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="63" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a8eb0031cc1dd44ffbb2027051bd1d78a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a61586ef0b3e4fa0d9c8bcc39ae65542d" kindref="member">RollbackSafetyLevel</ref></type>
+        <definition>RollbackSafetyLevel themis::governance::RollbackSafetyReport::safety_level</definition>
+        <argsstring></argsstring>
+        <name>safety_level</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::safety_level</qualifiedname>
+        <briefdescription>
+<para>Safety assessment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="64" column="25" bodyfile="include/governance/policy_change_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a4b0d0be01fb640eecc655361b67d9a6f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::RollbackSafetyReport::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::conflicts</qualifiedname>
+        <briefdescription>
+<para>Conflicting rule IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="66" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a0f2bfda7e61e8118cbdd520e34178552" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::RollbackSafetyReport::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::warnings</qualifiedname>
+        <briefdescription>
+<para>Warning messages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="67" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1ac9478711654d53c544d123b417949d24" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_dependency" kindref="compound">PolicyDependency</ref> &gt;</type>
+        <definition>std::vector&lt;PolicyDependency&gt; themis::governance::RollbackSafetyReport::affected_dependencies</definition>
+        <argsstring></argsstring>
+        <name>affected_dependencies</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::affected_dependencies</qualifiedname>
+        <briefdescription>
+<para>Dependencies that would be affected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="68" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a2361a1a569f9354c6c306d499db8c67a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::RollbackSafetyReport::estimated_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_duration_ms</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::estimated_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated rollback duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="70" column="9" bodyfile="include/governance/policy_change_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_safety_report_1a851c63427f1c70ab278f08a1654229b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::RollbackSafetyReport::is_reversible</definition>
+        <argsstring></argsstring>
+        <name>is_reversible</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::is_reversible</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether rollback can be reversed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="71" column="10" bodyfile="include/governance/policy_change_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_rollback_safety_report_1aee9e52b3c25912aec15534f849e04907" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::RollbackSafetyReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="77" column="20" bodyfile="src/governance/policy_change_manager.cpp" bodystart="58" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_rollback_safety_report_1a0a533155fdc27d7b0817227517101cd7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_safety_report" kindref="compound">RollbackSafetyReport</ref></type>
+        <definition>RollbackSafetyReport themis::governance::RollbackSafetyReport::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::RollbackSafetyReport::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="83" column="33" bodyfile="src/governance/policy_change_manager.cpp" bodystart="82" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_change_manager.h" line="61" column="1" bodyfile="include/governance/policy_change_manager.h" bodystart="61" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1ac9478711654d53c544d123b417949d24" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>affected_dependencies</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a4b0d0be01fb640eecc655361b67d9a6f" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a2361a1a569f9354c6c306d499db8c67a" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>estimated_duration_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a0a533155fdc27d7b0817227517101cd7" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a851c63427f1c70ab278f08a1654229b6" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>is_reversible</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a00de2317e04c4d883743642e69df6f4d" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a8eb0031cc1dd44ffbb2027051bd1d78a" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>safety_level</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a207152c2de259973b17e8e20deddb9b5" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>target_version</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1aee9e52b3c25912aec15534f849e04907" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_safety_report_1a0f2bfda7e61e8118cbdd520e34178552" prot="public" virt="non-virtual"><scope>themis::governance::RollbackSafetyReport</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

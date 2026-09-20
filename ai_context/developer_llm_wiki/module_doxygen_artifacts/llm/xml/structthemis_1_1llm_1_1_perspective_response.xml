@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_perspective_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PerspectiveResponse</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_perspective_response_1a20aa6d12e3454f8a332f0c31f69395c0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref></type>
+        <definition>EthicalPerspective themis::llm::PerspectiveResponse::perspective</definition>
+        <argsstring></argsstring>
+        <name>perspective</name>
+        <qualifiedname>themis::llm::PerspectiveResponse::perspective</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="36" column="24" bodyfile="include/llm/multi_perspective_generator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_perspective_response_1ab2b32b9bbd8cbe8ba48730c196a6c06b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PerspectiveResponse::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::llm::PerspectiveResponse::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="37" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_perspective_response_1a91ee9526a691a07473dc40363a971842" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::PerspectiveResponse::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::PerspectiveResponse::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="38" column="11" bodyfile="include/llm/multi_perspective_generator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_perspective_response_1a51c4cd22be1f42916480d579e162888e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::PerspectiveResponse::key_points</definition>
+        <argsstring></argsstring>
+        <name>key_points</name>
+        <qualifiedname>themis::llm::PerspectiveResponse::key_points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="39" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_perspective_response_1ac9156c22db770b9214342f8dc94fd5d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PerspectiveResponse::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::llm::PerspectiveResponse::reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="40" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::EthicalPerspective</label>
+        <link refid="structthemis_1_1llm_1_1_ethical_perspective"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::PerspectiveResponse</label>
+        <link refid="structthemis_1_1llm_1_1_perspective_response"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>perspective</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/multi_perspective_generator.h" line="35" column="1" bodyfile="include/llm/multi_perspective_generator.h" bodystart="35" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_perspective_response_1a91ee9526a691a07473dc40363a971842" prot="public" virt="non-virtual"><scope>themis::llm::PerspectiveResponse</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_perspective_response_1a51c4cd22be1f42916480d579e162888e" prot="public" virt="non-virtual"><scope>themis::llm::PerspectiveResponse</scope><name>key_points</name></member>
+      <member refid="structthemis_1_1llm_1_1_perspective_response_1a20aa6d12e3454f8a332f0c31f69395c0" prot="public" virt="non-virtual"><scope>themis::llm::PerspectiveResponse</scope><name>perspective</name></member>
+      <member refid="structthemis_1_1llm_1_1_perspective_response_1ac9156c22db770b9214342f8dc94fd5d6" prot="public" virt="non-virtual"><scope>themis::llm::PerspectiveResponse</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1llm_1_1_perspective_response_1ab2b32b9bbd8cbe8ba48730c196a6c06b" prot="public" virt="non-virtual"><scope>themis::llm::PerspectiveResponse</scope><name>response</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

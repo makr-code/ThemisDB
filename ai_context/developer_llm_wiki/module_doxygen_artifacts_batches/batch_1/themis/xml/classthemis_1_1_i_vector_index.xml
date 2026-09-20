@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_vector_index" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IVectorIndex</compoundname>
+    <includes refid="index__interface_8h" local="no">index_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1afc9cbdf1a36854c39cb661bcb4e64b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IVectorIndex::~IVectorIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVectorIndex</name>
+        <qualifiedname>themis::IVectorIndex::~IVectorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="127" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1ae634b71588f2de6d05d92414b4b77f12" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IVectorIndex::insert</definition>
+        <argsstring>(std::string_view primary_key, const std::vector&lt; float &gt; &amp;vector)=0</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::IVectorIndex::insert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update a vector entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The primary key of the document </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The embedding vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="133" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1aa3578853c1b83c3c6d1bb2a11fe1096d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::IVectorIndex::remove</definition>
+        <argsstring>(std::string_view primary_key)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::IVectorIndex::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove a vector entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The primary key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entry existed and was removed, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="139" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1a650c0ccaf0a4484497637de9407f3736" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_vector_search_result" kindref="compound">VectorSearchResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; VectorSearchResult &gt; themis::IVectorIndex::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, uint32_t k, const IExpressionEvaluator *filter=nullptr) const =0</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::IVectorIndex::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_i_expression_evaluator" kindref="compound">IExpressionEvaluator</ref> *</type>
+          <declname>filter</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Search for k nearest neighbors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of results to return </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional filter expression (injected evaluator) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Top k results sorted by distance (closest first) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="146" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1a036d112992428ccdb25d85a472154b49" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_vector_search_result" kindref="compound">VectorSearchResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; VectorSearchResult &gt; themis::IVectorIndex::rangeSearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, float max_distance, const IExpressionEvaluator *filter=nullptr) const =0</argsstring>
+        <name>rangeSearch</name>
+        <qualifiedname>themis::IVectorIndex::rangeSearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_distance</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_i_expression_evaluator" kindref="compound">IExpressionEvaluator</ref> *</type>
+          <declname>filter</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Range search (all vectors within distance threshold). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum distance threshold </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional filter expression </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All results within threshold </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="156" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1a508a3f4389afc22088ee5b965eb2a3b0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::IVectorIndex::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::IVectorIndex::getName</qualifiedname>
+        <briefdescription>
+<para>Get index name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Index name/identifier </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="163" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1a6ab814880927b94b354e619b9891becd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::IVectorIndex::getDimension</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>themis::IVectorIndex::getDimension</qualifiedname>
+        <briefdescription>
+<para>Get vector dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Dimension of indexed vectors </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="167" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_vector_index_1a967ad0f80695cbf24cdda1df2b369cf5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::IVectorIndex::getStatistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::IVectorIndex::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get index statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON string with statistics (count, memory usage, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="171" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for vector indexes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Vector indexes enable similarity search over high-dimensional embeddings. Common implementations include HNSW, IVF, and PQ-based indexes. </para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/index_interface.h" line="125" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="125" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_vector_index_1a6ab814880927b94b354e619b9891becd" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>getDimension</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1a508a3f4389afc22088ee5b965eb2a3b0" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>getName</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1a967ad0f80695cbf24cdda1df2b369cf5" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1ae634b71588f2de6d05d92414b4b77f12" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>insert</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1a036d112992428ccdb25d85a472154b49" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>rangeSearch</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1aa3578853c1b83c3c6d1bb2a11fe1096d" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1a650c0ccaf0a4484497637de9407f3736" prot="public" virt="pure-virtual"><scope>themis::IVectorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1_i_vector_index_1afc9cbdf1a36854c39cb661bcb4e64b21" prot="public" virt="virtual"><scope>themis::IVectorIndex</scope><name>~IVectorIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

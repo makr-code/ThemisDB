@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_replay_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryReplayController</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller" prot="public" virt="non-virtual">themis::cdc::ICDCReplayController</basecompoundref>
+    <includes refid="icdc__replay__controller_8h" local="no">icdc_replay_controller.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a25ed2645a5748290fadb2f5728f9655f" prot="private" static="no" mutable="no">
+        <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+        <definition>Changefeed* themis::cdc::InMemoryReplayController::feed_</definition>
+        <argsstring></argsstring>
+        <name>feed_</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="308" column="30" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1ae712a97042eadf34e04b9d8ae37824b5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::cdc::InMemoryReplayController::sessions_created_</definition>
+        <argsstring></argsstring>
+        <name>sessions_created_</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::sessions_created_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="309" column="18" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1afd6443843d5676cbfec4d7977ff73218" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryReplayController::InMemoryReplayController</definition>
+        <argsstring>(Changefeed *feed)</argsstring>
+        <name>InMemoryReplayController</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::InMemoryReplayController</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>feed</declname>
+        </param>
+        <briefdescription>
+<para>In Memory Replay Controller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">feed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="223" column="14" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="223" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1abf798cb36514e4f3dc79c0b5583c754f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_replay_session" kindref="compound">IReplaySession</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IReplaySession &gt; themis::cdc::InMemoryReplayController::beginReplay</definition>
+        <argsstring>(const ReplayOptions &amp;options) override</argsstring>
+        <name>beginReplay</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::beginReplay</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller_1a52c28eb574fce67c454498fe32492a8b">beginReplay</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_replay_options" kindref="compound">ReplayOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="228" column="21" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="228" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a273cae2db70c860a4968bf0d38b3bd2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_replay_session" kindref="compound">IReplaySession</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IReplaySession &gt; themis::cdc::InMemoryReplayController::replayFromTimestamp</definition>
+        <argsstring>(int64_t from_timestamp_ms, int64_t to_timestamp_ms=0) override</argsstring>
+        <name>replayFromTimestamp</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::replayFromTimestamp</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller_1aa52430b70eb14c43805d80076d9efca0">replayFromTimestamp</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="237" column="21" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="237" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a0a7f4b3648a34cf0e0f9a40206bc7d22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_replay_session" kindref="compound">IReplaySession</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IReplaySession &gt; themis::cdc::InMemoryReplayController::replayFromSequence</definition>
+        <argsstring>(uint64_t from_sequence, uint64_t to_sequence=0) override</argsstring>
+        <name>replayFromSequence</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::replayFromSequence</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller_1a5a5e926d37fbf43139abb3270b12a436">replayFromSequence</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>to_sequence</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="247" column="21" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="247" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a69c25a3d0cafce4d2b9e2250c2d0ffb5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryReplayController::totalSessionsCreated</definition>
+        <argsstring>() const override</argsstring>
+        <name>totalSessionsCreated</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::totalSessionsCreated</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller_1a4680a3141a9757b12ce23779295bf8aa">totalSessionsCreated</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="257" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="257" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_replay_controller_1ab27335c8185e4cbef6d41b1339b9d971" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::InMemoryReplayController::fetchAndFilter</definition>
+        <argsstring>(const ReplayOptions &amp;opts) const</argsstring>
+        <name>fetchAndFilter</name>
+        <qualifiedname>themis::cdc::InMemoryReplayController::fetchAndFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_replay_options" kindref="compound">ReplayOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="262" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="262" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCReplayController</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryReplayController</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_replay_controller"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCReplayController</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryReplayController</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_replay_controller"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_replay_controller.h" line="216" column="1" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="216" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1abf798cb36514e4f3dc79c0b5583c754f" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>beginReplay</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a25ed2645a5748290fadb2f5728f9655f" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>feed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1ab27335c8185e4cbef6d41b1339b9d971" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>fetchAndFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1afd6443843d5676cbfec4d7977ff73218" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>InMemoryReplayController</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a0a7f4b3648a34cf0e0f9a40206bc7d22" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>replayFromSequence</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a273cae2db70c860a4968bf0d38b3bd2c" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>replayFromTimestamp</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1ae712a97042eadf34e04b9d8ae37824b5" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>sessions_created_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a69c25a3d0cafce4d2b9e2250c2d0ffb5" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>totalSessionsCreated</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_replay_controller_1a43d9556fa615b29335671c60bc302567" prot="public" virt="virtual"><scope>themis::cdc::InMemoryReplayController</scope><name>~ICDCReplayController</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

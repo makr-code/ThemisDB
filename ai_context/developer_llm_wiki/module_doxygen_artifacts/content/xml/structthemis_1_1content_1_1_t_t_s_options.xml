@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_t_t_s_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::TTSOptions</compoundname>
+    <includes refid="tts__processor_8h" local="no">tts_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1abe852a11a7a59fb8b9509ef945d2c2a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSOptions::voice_id</definition>
+        <argsstring></argsstring>
+        <name>voice_id</name>
+        <qualifiedname>themis::content::TTSOptions::voice_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="23" column="17" bodyfile="include/content/tts_processor.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1a1adf21923259706a1d78e41a5bc006ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSOptions::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::content::TTSOptions::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="24" column="17" bodyfile="include/content/tts_processor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1ae5fe020fef6eab51c1e9f157397e6e22" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::TTSOptions::speed</definition>
+        <argsstring></argsstring>
+        <name>speed</name>
+        <qualifiedname>themis::content::TTSOptions::speed</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="25" column="11" bodyfile="include/content/tts_processor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1a83bffc1bec2718ba9ad06e85251e440e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::TTSOptions::pitch</definition>
+        <argsstring></argsstring>
+        <name>pitch</name>
+        <qualifiedname>themis::content::TTSOptions::pitch</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="26" column="11" bodyfile="include/content/tts_processor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1a2c2d04dd9cf1fb3007e55cc1be23d619" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::TTSOptions::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::content::TTSOptions::sample_rate</qualifiedname>
+        <initializer>= 22050</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="27" column="9" bodyfile="include/content/tts_processor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1a1d512d44a2ced6ae954f4154ea564702" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSOptions::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::content::TTSOptions::format</qualifiedname>
+        <initializer>= &quot;wav&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="28" column="17" bodyfile="include/content/tts_processor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_options_1a7a9402ca9817f505dd44a1456bdd721d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::TTSOptions::normalize_audio</definition>
+        <argsstring></argsstring>
+        <name>normalize_audio</name>
+        <qualifiedname>themis::content::TTSOptions::normalize_audio</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="29" column="10" bodyfile="include/content/tts_processor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/tts_processor.h" line="22" column="1" bodyfile="include/content/tts_processor.h" bodystart="22" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1a1d512d44a2ced6ae954f4154ea564702" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>format</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1a1adf21923259706a1d78e41a5bc006ff" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>language</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1a7a9402ca9817f505dd44a1456bdd721d" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>normalize_audio</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1a83bffc1bec2718ba9ad06e85251e440e" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>pitch</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1a2c2d04dd9cf1fb3007e55cc1be23d619" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1ae5fe020fef6eab51c1e9f157397e6e22" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>speed</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_options_1abe852a11a7a59fb8b9509ef945d2c2a3" prot="public" virt="non-virtual"><scope>themis::content::TTSOptions</scope><name>voice_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

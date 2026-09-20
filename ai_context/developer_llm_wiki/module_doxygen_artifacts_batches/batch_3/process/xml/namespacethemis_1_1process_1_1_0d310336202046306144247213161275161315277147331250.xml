@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1process_1_1_0d310336202046306144247213161275161315277147331250" kind="namespace" language="C++">
+    <compoundname>themis::process::@310336202046306144247213161275161315277147331250</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/cmmn_serializer.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

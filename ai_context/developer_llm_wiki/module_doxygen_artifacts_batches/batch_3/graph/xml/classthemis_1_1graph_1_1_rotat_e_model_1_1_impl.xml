@@ -1,0 +1,748 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::RotatEModel::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a91c8fc175c83c41efb1fd878cbffd801" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::RotatEModel::Impl::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="530" column="31" bodyfile="src/graph/rotate_completion.cpp" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a933290f200eb83b6ef1c15fcd7778e34" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref></type>
+        <definition>RotatEConfig themis::graph::RotatEModel::Impl::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="531" column="31" bodyfile="src/graph/rotate_completion.cpp" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a5592259c72d038682d971db2602ff112" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::graph::RotatEModel::Impl::entity_index_</definition>
+        <argsstring></argsstring>
+        <name>entity_index_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entity_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="533" column="24" bodyfile="src/graph/rotate_completion.cpp" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a761ecda46362f21dec97f1524c42f8ab" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::graph::RotatEModel::Impl::relation_index_</definition>
+        <argsstring></argsstring>
+        <name>relation_index_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relation_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="534" column="24" bodyfile="src/graph/rotate_completion.cpp" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aaf222740e03e2caca92add783b656546" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::RotatEModel::Impl::entity_names_</definition>
+        <argsstring></argsstring>
+        <name>entity_names_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entity_names_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="535" column="32" bodyfile="src/graph/rotate_completion.cpp" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a935b9412caccbf355fc80f6c35314937" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::RotatEModel::Impl::relation_names_</definition>
+        <argsstring></argsstring>
+        <name>relation_names_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relation_names_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="536" column="32" bodyfile="src/graph/rotate_completion.cpp" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a2477fe3e90c387c49d157c73b827ee41" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::graph::RotatEModel::Impl::entity_re_</definition>
+        <argsstring></argsstring>
+        <name>entity_re_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entity_re_</qualifiedname>
+        <briefdescription>
+<para>Real parts (n_ent × d). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="539" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ae22f6cfb95a718652db8a9693ab6d7e4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::graph::RotatEModel::Impl::entity_im_</definition>
+        <argsstring></argsstring>
+        <name>entity_im_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entity_im_</qualifiedname>
+        <briefdescription>
+<para>Imag parts (n_ent × d). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="540" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1af1001c5eaf2c992b7f7ec9dbb9216024" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::graph::RotatEModel::Impl::relation_phase_</definition>
+        <argsstring></argsstring>
+        <name>relation_phase_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relation_phase_</qualifiedname>
+        <briefdescription>
+<para>Phases φ (n_rel × d). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="541" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ad72cc508410b618eae4fcd566d63af8a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::RotatEModel::Impl::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="543" column="10" bodyfile="src/graph/rotate_completion.cpp" bodystart="543" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a8a1c457c24fcc2d0d770af05fe4ff6af" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::RotatEModel::Impl::Impl</definition>
+        <argsstring>(RotatEConfig cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_rotat_e_config" kindref="compound">RotatEConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="51" column="14" bodyfile="src/graph/rotate_completion.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a1ffd0ba5ae42e1f38fe2e3aca77c9537" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::addEntity</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>addEntity</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::addEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), emplace(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="63" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1afd034bf92e11a5fde88660c007154223" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::addRelation</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>addRelation</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::addRelation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Add Relation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), emplace(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="78" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1abe2486783b28e6e0cbb9f75e61ac16e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::entityCount</definition>
+        <argsstring>() const</argsstring>
+        <name>entityCount</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entityCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="87" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a37ec508f629eee4912c9354734638f5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::relationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>relationCount</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="97" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aa53dccb082ac283df0a92a7b217ebf45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::entityIdx</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>entityIdx</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entityIdx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="111" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1abf985fcb06ddd8df3a3676f1088452f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEModel::Impl::relationIdx</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>relationIdx</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relationIdx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="118" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a7c48dbea57b4ea6eb902690fb96f3da1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::graph::RotatEModel::Impl::entityEmbedding</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>entityEmbedding</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entityEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="129" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="129" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a758f5a77ef58c9ffdd046d09c691dbf1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::graph::RotatEModel::Impl::relationPhase</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>relationPhase</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::relationPhase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="157" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="157" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ac876cb68f545fd529d1f84708da85690" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::RotatEModel::Impl::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::isTrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="171" column="10" bodyfile="src/graph/rotate_completion.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a8089cb94b37fc52daeb831ce72012423" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::RotatEModel::Impl::scoreImpl</definition>
+        <argsstring>(size_t h_idx, size_t r_idx, size_t t_idx) const</argsstring>
+        <name>scoreImpl</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::scoreImpl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>h_idx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>r_idx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>t_idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="185" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="185" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a5363686a7c0e04ac50cb9836caa94faa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::RotatEModel::Impl::score</definition>
+        <argsstring>(const std::string &amp;h, const std::string &amp;r, const std::string &amp;t) const</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::score</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="205" column="12" bodyfile="src/graph/rotate_completion.cpp" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aba21db5b9105dbeb2d91364a7780305c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_rotat_e_train_result" kindref="compound">RotatETrainResult</ref></type>
+        <definition>RotatETrainResult themis::graph::RotatEModel::Impl::train</definition>
+        <argsstring>(const std::vector&lt; KGTriple &gt; &amp;triples)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_k_g_triple" kindref="compound">KGTriple</ref> &gt; &amp;</type>
+          <declname>triples</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">triples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), size(), empty(), <ref refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aa53dccb082ac283df0a92a7b217ebf45" kindref="member">entityIdx()</ref>, <ref refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1abf985fcb06ddd8df3a3676f1088452f1" kindref="member">relationIdx()</ref>, rng(), init_dist(), phase_dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="229" column="23" bodyfile="src/graph/rotate_completion.cpp" bodystart="229" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a467cd25ad27d82a3e796fcd33106f93a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_link_prediction" kindref="compound">LinkPrediction</ref> &gt;</type>
+        <definition>std::vector&lt; LinkPrediction &gt; themis::graph::RotatEModel::Impl::rankAll</definition>
+        <argsstring>(size_t h_idx, size_t r_idx, bool predict_tail, size_t top_k) const</argsstring>
+        <name>rankAll</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::rankAll</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>h_idx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>r_idx</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>predict_tail</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="413" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="413" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a273c35a9570a4a360649d911a9c0bf0a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RotatEModel::Impl::entityName</definition>
+        <argsstring>(size_t idx) const</argsstring>
+        <name>entityName</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::entityName</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="445" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="445" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aafa8c93ba7d3c9e9013d2ccd5ced4619" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::RotatEModel::Impl::canTraverseFullFanOut</definition>
+        <argsstring>(const std::string &amp;relation_name, size_t entity_count) const</argsstring>
+        <name>canTraverseFullFanOut</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::canTraverseFullFanOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>entity_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="465" column="10" bodyfile="src/graph/rotate_completion.cpp" bodystart="465" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a43e5717306106f43ea9528417ebe0b12" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_link_prediction" kindref="compound">LinkPrediction</ref> &gt;</type>
+        <definition>std::vector&lt; LinkPrediction &gt; themis::graph::RotatEModel::Impl::rankTailPublic</definition>
+        <argsstring>(const std::string &amp;head, const std::string &amp;relation, size_t top_k) const</argsstring>
+        <name>rankTailPublic</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::rankTailPublic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>head</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="499" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="499" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a89526d4b45ab5442cbc97269e43da4b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_link_prediction" kindref="compound">LinkPrediction</ref> &gt;</type>
+        <definition>std::vector&lt; LinkPrediction &gt; themis::graph::RotatEModel::Impl::rankHeadPublic</definition>
+        <argsstring>(const std::string &amp;relation, const std::string &amp;tail, size_t top_k) const</argsstring>
+        <name>rankHeadPublic</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::rankHeadPublic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tail</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="514" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="514" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ab7834deec649f656a4e8e6954bb8c01e" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::graph::RotatEModel::Impl::constraintThreshold</definition>
+        <argsstring>(double score, double threshold) noexcept</argsstring>
+        <name>constraintThreshold</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::constraintThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="459" column="17" bodyfile="src/graph/rotate_completion.cpp" bodystart="459" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a2be44a6807d85a4d72d3dba2fb035028" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::graph::RotatEModel::Impl::fallbackFitnessScore</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>fallbackFitnessScore</name>
+        <qualifiedname>themis::graph::RotatEModel::Impl::fallbackFitnessScore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/rotate_completion.cpp" line="491" column="19" bodyfile="src/graph/rotate_completion.cpp" bodystart="491" bodyend="496"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/graph/rotate_completion.cpp" line="49" column="1" bodyfile="src/graph/rotate_completion.cpp" bodystart="49" bodyend="544"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a1ffd0ba5ae42e1f38fe2e3aca77c9537" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>addEntity</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1afd034bf92e11a5fde88660c007154223" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>addRelation</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aafa8c93ba7d3c9e9013d2ccd5ced4619" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>canTraverseFullFanOut</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a933290f200eb83b6ef1c15fcd7778e34" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ab7834deec649f656a4e8e6954bb8c01e" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>constraintThreshold</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ae22f6cfb95a718652db8a9693ab6d7e4" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entity_im_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a5592259c72d038682d971db2602ff112" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entity_index_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aaf222740e03e2caca92add783b656546" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entity_names_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a2477fe3e90c387c49d157c73b827ee41" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entity_re_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1abe2486783b28e6e0cbb9f75e61ac16e7" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entityCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a7c48dbea57b4ea6eb902690fb96f3da1" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entityEmbedding</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aa53dccb082ac283df0a92a7b217ebf45" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entityIdx</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a273c35a9570a4a360649d911a9c0bf0a" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>entityName</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a2be44a6807d85a4d72d3dba2fb035028" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>fallbackFitnessScore</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a8a1c457c24fcc2d0d770af05fe4ff6af" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ac876cb68f545fd529d1f84708da85690" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a91c8fc175c83c41efb1fd878cbffd801" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a467cd25ad27d82a3e796fcd33106f93a" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>rankAll</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a89526d4b45ab5442cbc97269e43da4b0" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>rankHeadPublic</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a43e5717306106f43ea9528417ebe0b12" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>rankTailPublic</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a761ecda46362f21dec97f1524c42f8ab" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relation_index_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a935b9412caccbf355fc80f6c35314937" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relation_names_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1af1001c5eaf2c992b7f7ec9dbb9216024" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relation_phase_</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a37ec508f629eee4912c9354734638f5b" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relationCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1abf985fcb06ddd8df3a3676f1088452f1" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relationIdx</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a758f5a77ef58c9ffdd046d09c691dbf1" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>relationPhase</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a5363686a7c0e04ac50cb9836caa94faa" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>score</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1a8089cb94b37fc52daeb831ce72012423" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>scoreImpl</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1aba21db5b9105dbeb2d91364a7780305c" prot="public" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>train</name></member>
+      <member refid="classthemis_1_1graph_1_1_rotat_e_model_1_1_impl_1ad72cc508410b618eae4fcd566d63af8a" prot="private" virt="non-virtual"><scope>themis::graph::RotatEModel::Impl</scope><name>trained_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

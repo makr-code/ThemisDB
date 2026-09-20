@@ -1,0 +1,843 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::KnowledgeGraphEnricher::Impl</compoundname>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a8343280d1ee930e4ddfdb4fc2ffead4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class KnowledgeGraphEnricher</definition>
+        <argsstring></argsstring>
+        <name>KnowledgeGraphEnricher</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::KnowledgeGraphEnricher</qualifiedname>
+        <param>
+          <type>KnowledgeGraphEnricher</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="188" column="18" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a405cb496a45de8868ab234433808255d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_config" kindref="compound">EnrichmentConfig</ref></type>
+        <definition>EnrichmentConfig themis::training::KnowledgeGraphEnricher::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="588" column="22" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aaedcc10d5adc47eb4a852d7392167e16" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::db_connection_</definition>
+        <argsstring></argsstring>
+        <name>db_connection_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::db_connection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="589" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a11e3c5ad9b1a9258888d2fa2179877a8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::training::KnowledgeGraphEnricher::Impl::custom_queries_</definition>
+        <argsstring></argsstring>
+        <name>custom_queries_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::custom_queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="590" column="24" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a93e4b640de34607fb3496a0dff671044" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache" kindref="compound">EnrichmentLRUCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;EnrichmentLRUCache&gt; themis::training::KnowledgeGraphEnricher::Impl::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::cache_</qualifiedname>
+        <briefdescription>
+<para>optional LRU cache (Phase 9) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="591" column="21" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a3ad7733a09c87a98f4dbb8a747b44fda" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager *</type>
+        <definition>VectorIndexManager* themis::training::KnowledgeGraphEnricher::Impl::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::vector_index_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>non-owning; nullptr = offline/stub </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="592" column="24" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="592" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aaa3b667201a6002c8f6a9370ad2c8368" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::graph_version_</definition>
+        <argsstring></argsstring>
+        <name>graph_version_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::graph_version_</qualifiedname>
+        <initializer>= &quot;v0&quot;</initializer>
+        <briefdescription>
+<para>version appended to cache keys; updateable via setGraphVersion() </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="593" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a95fb79264fdfaf9e8353924e1efecdff" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::training::KnowledgeGraphEnricher::Impl::source_doc_map_</definition>
+        <argsstring></argsstring>
+        <name>source_doc_map_</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::source_doc_map_</qualifiedname>
+        <briefdescription>
+<para>sample_id → doc_id registry </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="594" column="24" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="594" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a1886e9a6290353a2319a44598eaf7a03" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::KnowledgeGraphEnricher::Impl::Impl</definition>
+        <argsstring>(const EnrichmentConfig &amp;config, const std::string &amp;db_connection)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_enrichment_config" kindref="compound">EnrichmentConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="196" column="14" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="196" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1abda30456ac20b791476bb923be0f8436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::KnowledgeGraphEnricher::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="206" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab30598d613ccf5476812269b8f3578a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_stats" kindref="compound">EnrichmentStats</ref></type>
+        <definition>EnrichmentStats themis::training::KnowledgeGraphEnricher::Impl::enrichAll</definition>
+        <argsstring>(EnrichmentCallback callback)</argsstring>
+        <name>enrichAll</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::enrichAll</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a4bbbc514a6d2387b8fb13ce2854cf50e" kindref="member">EnrichmentCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 6: Enrich all samples in collection ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EnrichmentStats(), std::chrono::steady_clock::now(), <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af584311f7dad263543d3bdf755974b83" kindref="member">enrichSample()</ref>, size(), empty(), persistContext(), callback(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="214" column="21" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="214" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af584311f7dad263543d3bdf755974b83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_graph_context" kindref="compound">GraphContext</ref></type>
+        <definition>GraphContext themis::training::KnowledgeGraphEnricher::Impl::enrichSample</definition>
+        <argsstring>(const std::string &amp;sample_id)</argsstring>
+        <name>enrichSample</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::enrichSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 6: Enrich a single sample ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sample. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), resolveSourceDocumentId(), get(), cacheKey(), <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a20bf454cba47e40376c56c05959a80f6" kindref="member">findRelatedProvisions()</ref>, <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aa3a724fd1936eeb700b5a2d06abcf94e" kindref="member">findRelatedCaseLaw()</ref>, <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a6554fd08ff1e48251cdd66e53b6a5657" kindref="member">findSimilarDocuments()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="265" column="18" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="265" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af7239a1ae0ed46162126e1b54b712ece" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_stats" kindref="compound">EnrichmentStats</ref></type>
+        <definition>EnrichmentStats themis::training::KnowledgeGraphEnricher::Impl::enrichQuery</definition>
+        <argsstring>(const std::string &amp;aql_query, EnrichmentCallback callback)</argsstring>
+        <name>enrichQuery</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::enrichQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a4bbbc514a6d2387b8fb13ce2854cf50e" kindref="member">EnrichmentCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 6: Query-based enrichment ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af584311f7dad263543d3bdf755974b83" kindref="member">enrichSample()</ref>, size(), persistContext(), callback(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="332" column="21" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="332" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a20bf454cba47e40376c56c05959a80f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::KnowledgeGraphEnricher::Impl::findRelatedProvisions</definition>
+        <argsstring>(const std::string &amp;document_id, size_t max_results)</argsstring>
+        <name>findRelatedProvisions</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::findRelatedProvisions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_results</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 6: Graph traversal helpers ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="385" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="385" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aa3a724fd1936eeb700b5a2d06abcf94e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::KnowledgeGraphEnricher::Impl::findRelatedCaseLaw</definition>
+        <argsstring>(const std::string &amp;document_id, size_t max_results)</argsstring>
+        <name>findRelatedCaseLaw</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::findRelatedCaseLaw</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_results</declname>
+        </param>
+        <briefdescription>
+<para>Find Related Case Law. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="416" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="416" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7b10bf01239233fcf28bd920845ee052" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::KnowledgeGraphEnricher::Impl::findRelatedGuidance</definition>
+        <argsstring>(const std::string &amp;document_id, size_t max_results)</argsstring>
+        <name>findRelatedGuidance</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::findRelatedGuidance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_results</declname>
+        </param>
+        <briefdescription>
+<para>Find Related Guidance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="439" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="439" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a6554fd08ff1e48251cdd66e53b6a5657" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::training::KnowledgeGraphEnricher::Impl::findSimilarDocuments</definition>
+        <argsstring>(const std::string &amp;document_id, size_t max_results)</argsstring>
+        <name>findSimilarDocuments</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::findSimilarDocuments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="455" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="455" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7f3870141eff58a84710f9dc065aae93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::setCustomQuery</definition>
+        <argsstring>(const std::string &amp;query_name, const std::string &amp;aql_query)</argsstring>
+        <name>setCustomQuery</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::setCustomQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Set Custom Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCustomQuery without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="518" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="518" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a59c2e81cb835bb3c7a1beef13e0a691a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::setVectorIndex</definition>
+        <argsstring>(VectorIndexManager *vim)</argsstring>
+        <name>setVectorIndex</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::setVectorIndex</qualifiedname>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vim</declname>
+        </param>
+        <briefdescription>
+<para>Set Vector Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">vim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setVectorIndex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="527" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="527" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1afb4d306616e43f7092e6ffdd23608d16" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::getQueryTemplate</definition>
+        <argsstring>(const std::string &amp;query_name) const</argsstring>
+        <name>getQueryTemplate</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::getQueryTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="532" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="532" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a339847b15110f4bb8c074d6f530b6254" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::enableCache</definition>
+        <argsstring>(const EnrichmentCacheConfig &amp;cfg)</argsstring>
+        <name>enableCache</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::enableCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_enrichment_cache_config" kindref="compound">EnrichmentCacheConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 9: LRU cache management ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements enableCache without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="564" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="564" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a468959fdb0d7b2641c4fd60376d5b9d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::disableCache</definition>
+        <argsstring>()</argsstring>
+        <name>disableCache</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::disableCache</qualifiedname>
+        <briefdescription>
+<para>Disable Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: evictAll(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="573" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="573" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aa2b80bacca06fd496938d231022bd2a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_stats" kindref="compound">EnrichmentCacheStats</ref></type>
+        <definition>EnrichmentCacheStats themis::training::KnowledgeGraphEnricher::Impl::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::getCacheStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="580" column="26" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="580" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a96de6a1d3b25d927a393932118d7ed15" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::training::KnowledgeGraphEnricher::Impl::distanceToSimilarityScore</definition>
+        <argsstring>(float distance)</argsstring>
+        <name>distanceToSimilarityScore</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::distanceToSimilarityScore</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+<para>Convert a VectorIndexManager distance to a cosine similarity score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so similarity = 1 - distance. Clamped to [0, 1] to guard against floating- point rounding artefacts near the boundaries. Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="602" column="18" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="602" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab3069544300f147195424adb8ec99859" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::KnowledgeGraphEnricher::Impl::computeContextQuality</definition>
+        <argsstring>(const GraphContext &amp;context)</argsstring>
+        <name>computeContextQuality</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::computeContextQuality</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_graph_context" kindref="compound">GraphContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Phase 6: Compute context quality score [0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+.1] Calls: empty(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="670" column="19" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="670" bodyend="685"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab6ab9947d55f3155760a8c9971bfe5d9" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::cacheKey</definition>
+        <argsstring>(const std::string &amp;entity_key) const</argsstring>
+        <name>cacheKey</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::cacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="607" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="607" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a9947dd920abfe7a9d03c65ccc028471f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::setGraphVersion</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>setGraphVersion</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::setGraphVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Set the graph schema version used in cache-key generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="620" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="620" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ad0759b6f190f210e81d13fc262aad7d3" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::registerSourceDocument</definition>
+        <argsstring>(const std::string &amp;sample_id, const std::string &amp;document_id)</argsstring>
+        <name>registerSourceDocument</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::registerSourceDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Register a sample → source-document mapping for offline/in-process use. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerSourceDocument without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="632" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="632" bodyend="635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a34a19d67c915402b3235b72b03c196b1" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::resolveSourceDocumentId</definition>
+        <argsstring>(const std::string &amp;sample_id) const</argsstring>
+        <name>resolveSourceDocumentId</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::resolveSourceDocumentId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="638" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="638" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7a13df3edfbfdcb6e19a75c2ec343a07" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::KnowledgeGraphEnricher::Impl::persistContext</definition>
+        <argsstring>(const std::string &amp;sample_id, const GraphContext &amp;context) const</argsstring>
+        <name>persistContext</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::persistContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_graph_context" kindref="compound">GraphContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="652" column="10" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="652" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a445836bcad3a806acb1f3fa3f53e098f" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::KnowledgeGraphEnricher::Impl::buildContextSummary</definition>
+        <argsstring>(const GraphContext &amp;context) const</argsstring>
+        <name>buildContextSummary</name>
+        <qualifiedname>themis::training::KnowledgeGraphEnricher::Impl::buildContextSummary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_graph_context" kindref="compound">GraphContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/knowledge_graph_enricher.cpp" line="688" column="17" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="688" bodyend="705"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/knowledge_graph_enricher.cpp" line="186" column="1" bodyfile="src/training/knowledge_graph_enricher.cpp" bodystart="186" bodyend="706"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a445836bcad3a806acb1f3fa3f53e098f" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>buildContextSummary</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a93e4b640de34607fb3496a0dff671044" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab6ab9947d55f3155760a8c9971bfe5d9" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>cacheKey</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab3069544300f147195424adb8ec99859" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>computeContextQuality</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a405cb496a45de8868ab234433808255d" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a11e3c5ad9b1a9258888d2fa2179877a8" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>custom_queries_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aaedcc10d5adc47eb4a852d7392167e16" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>db_connection_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a468959fdb0d7b2641c4fd60376d5b9d8" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>disableCache</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a96de6a1d3b25d927a393932118d7ed15" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>distanceToSimilarityScore</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a339847b15110f4bb8c074d6f530b6254" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>enableCache</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ab30598d613ccf5476812269b8f3578a9" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>enrichAll</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af7239a1ae0ed46162126e1b54b712ece" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>enrichQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1af584311f7dad263543d3bdf755974b83" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>enrichSample</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aa3a724fd1936eeb700b5a2d06abcf94e" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>findRelatedCaseLaw</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7b10bf01239233fcf28bd920845ee052" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>findRelatedGuidance</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a20bf454cba47e40376c56c05959a80f6" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>findRelatedProvisions</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a6554fd08ff1e48251cdd66e53b6a5657" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>findSimilarDocuments</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aa2b80bacca06fd496938d231022bd2a7" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1afb4d306616e43f7092e6ffdd23608d16" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>getQueryTemplate</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1aaa3b667201a6002c8f6a9370ad2c8368" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>graph_version_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a1886e9a6290353a2319a44598eaf7a03" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a8343280d1ee930e4ddfdb4fc2ffead4b" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>KnowledgeGraphEnricher</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7a13df3edfbfdcb6e19a75c2ec343a07" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>persistContext</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1ad0759b6f190f210e81d13fc262aad7d3" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>registerSourceDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a34a19d67c915402b3235b72b03c196b1" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>resolveSourceDocumentId</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a7f3870141eff58a84710f9dc065aae93" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>setCustomQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a9947dd920abfe7a9d03c65ccc028471f" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>setGraphVersion</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a59c2e81cb835bb3c7a1beef13e0a691a" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>setVectorIndex</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a95fb79264fdfaf9e8353924e1efecdff" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>source_doc_map_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1a3ad7733a09c87a98f4dbb8a747b44fda" prot="private" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1training_1_1_knowledge_graph_enricher_1_1_impl_1abda30456ac20b791476bb923be0f8436" prot="public" virt="non-virtual"><scope>themis::training::KnowledgeGraphEnricher::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

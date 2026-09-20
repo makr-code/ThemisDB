@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_document_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::DocumentMetadata</compoundname>
+    <includes refid="fts__index_8h" local="no">fts_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_document_metadata_1abe53e57f1476134f9512042c1abb09db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::DocumentMetadata::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::query::fts::DocumentMetadata::doc_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="30" column="12" bodyfile="include/query/fts_index.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_document_metadata_1af868198b7789709526d5f32961a96927" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::fts::DocumentMetadata::length_tokens</definition>
+        <argsstring></argsstring>
+        <name>length_tokens</name>
+        <qualifiedname>themis::query::fts::DocumentMetadata::length_tokens</qualifiedname>
+        <briefdescription>
+<para>Document length in tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="31" column="12" bodyfile="include/query/fts_index.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_document_metadata_1a4dce7c5b3cf3107d852819e74c29cb17" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::DocumentMetadata::avg_term_freq</definition>
+        <argsstring></argsstring>
+        <name>avg_term_freq</name>
+        <qualifiedname>themis::query::fts::DocumentMetadata::avg_term_freq</qualifiedname>
+        <briefdescription>
+<para>Average term frequency in document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="32" column="9" bodyfile="include/query/fts_index.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_document_metadata_1a1762db8a807b207e8b64489b8815f6c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::fts::DocumentMetadata::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::query::fts::DocumentMetadata::language</qualifiedname>
+        <briefdescription>
+<para>Document language (&quot;en&quot;, &quot;de&quot;, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="33" column="15" bodyfile="include/query/fts_index.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_index.h" line="29" column="1" bodyfile="include/query/fts_index.h" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a4dce7c5b3cf3107d852819e74c29cb17" prot="public" virt="non-virtual"><scope>themis::query::fts::DocumentMetadata</scope><name>avg_term_freq</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1abe53e57f1476134f9512042c1abb09db" prot="public" virt="non-virtual"><scope>themis::query::fts::DocumentMetadata</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a1762db8a807b207e8b64489b8815f6c9" prot="public" virt="non-virtual"><scope>themis::query::fts::DocumentMetadata</scope><name>language</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1af868198b7789709526d5f32961a96927" prot="public" virt="non-virtual"><scope>themis::query::fts::DocumentMetadata</scope><name>length_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

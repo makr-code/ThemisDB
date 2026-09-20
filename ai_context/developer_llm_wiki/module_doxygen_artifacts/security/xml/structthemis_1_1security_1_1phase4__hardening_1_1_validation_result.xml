@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::phase4_hardening::ValidationResult</compoundname>
+    <includes refid="input__validation_8h" local="no">input_validation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a3cab0db86d2614be58287633819d6d68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::ValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the input passed validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="34" column="8" bodyfile="include/security/input_validation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a84fc8274c54029b111fd37777490d3cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::phase4_hardening::ValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error message if validation failed (empty if valid). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="37" column="15" bodyfile="include/security/input_validation.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a8c797d0b2081cff37dfdac6a7b1675f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::phase4_hardening::ValidationResult::sanitized_value</definition>
+        <argsstring></argsstring>
+        <name>sanitized_value</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::sanitized_value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Sanitized input value (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="40" column="15" bodyfile="include/security/input_validation.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a4c32b74010ad04557c89117c0f8f4676" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::phase4_hardening::ValidationResult::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::details</qualifiedname>
+        <briefdescription>
+<para>Additional details for logging/debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="43" column="15" bodyfile="include/security/input_validation.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1aa2bac6837ef5d6ab1e8620f9c58cd96e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::phase4_hardening::ValidationResult::ValidationResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>ValidationResult</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::ValidationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="45" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1ac2518acdc19453f4a767d62f79135d0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::phase4_hardening::ValidationResult::ValidationResult</definition>
+        <argsstring>(bool v, std::string_view msg=&quot;&quot;, std::string_view sanitized=&quot;&quot;)</argsstring>
+        <name>ValidationResult</name>
+        <qualifiedname>themis::security::phase4_hardening::ValidationResult::ValidationResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>sanitized</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="47" column="3" bodyfile="include/security/input_validation.h" bodystart="47" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of input validation operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/input_validation.h" line="32" column="1" bodyfile="include/security/input_validation.h" bodystart="32" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a4c32b74010ad04557c89117c0f8f4676" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>details</name></member>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a84fc8274c54029b111fd37777490d3cd" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a8c797d0b2081cff37dfdac6a7b1675f7" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>sanitized_value</name></member>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1a3cab0db86d2614be58287633819d6d68" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1aa2bac6837ef5d6ab1e8620f9c58cd96e" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>ValidationResult</name></member>
+      <member refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result_1ac2518acdc19453f4a767d62f79135d0d" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::ValidationResult</scope><name>ValidationResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

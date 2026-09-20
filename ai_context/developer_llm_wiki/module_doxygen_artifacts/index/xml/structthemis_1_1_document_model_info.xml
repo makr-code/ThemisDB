@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_document_model_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DocumentModelInfo</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1a1a8e6fa0f4ab6f90eb03a4254cd9fcc4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::is_graph_node</definition>
+        <argsstring></argsstring>
+        <name>is_graph_node</name>
+        <qualifiedname>themis::DocumentModelInfo::is_graph_node</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _type aber kein _from/_to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="133" column="10" bodyfile="include/index/process_graph.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1ab9e6af2de25ecb1b768ee97d74b58595" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::is_graph_edge</definition>
+        <argsstring></argsstring>
+        <name>is_graph_edge</name>
+        <qualifiedname>themis::DocumentModelInfo::is_graph_edge</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _from und _to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="134" column="10" bodyfile="include/index/process_graph.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1a1728d3aac25a7e6c16ff5780a459701a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::has_vector</definition>
+        <argsstring></argsstring>
+        <name>has_vector</name>
+        <qualifiedname>themis::DocumentModelInfo::has_vector</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="135" column="10" bodyfile="include/index/process_graph.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1a550857386888d9056cb8162ef37c29d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::has_geo</definition>
+        <argsstring></argsstring>
+        <name>has_geo</name>
+        <qualifiedname>themis::DocumentModelInfo::has_geo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _geometry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="136" column="10" bodyfile="include/index/process_graph.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1a358565910303f3d57aa2dc9bfb50e149" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::has_temporal</definition>
+        <argsstring></argsstring>
+        <name>has_temporal</name>
+        <qualifiedname>themis::DocumentModelInfo::has_temporal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _valid_from oder _valid_to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="137" column="10" bodyfile="include/index/process_graph.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_document_model_info_1a6f8b5a0fa0db2a4dba71b0db14bb92a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DocumentModelInfo::is_process</definition>
+        <argsstring></argsstring>
+        <name>is_process</name>
+        <qualifiedname>themis::DocumentModelInfo::is_process</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Hat _state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="138" column="10" bodyfile="include/index/process_graph.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_document_model_info_1a9bcf4c5a3633943ac9d23b97a63748b7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_document_model_info" kindref="compound">DocumentModelInfo</ref></type>
+        <definition>static DocumentModelInfo themis::DocumentModelInfo::detect</definition>
+        <argsstring>(const BaseEntity &amp;doc)</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::DocumentModelInfo::detect</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="140" column="30" bodyfile="include/index/process_graph.h" bodystart="140" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Erkennt automatisch die Multi-Model-Aspekte eines Dokuments. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="132" column="1" bodyfile="include/index/process_graph.h" bodystart="132" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_document_model_info_1a9bcf4c5a3633943ac9d23b97a63748b7" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>detect</name></member>
+      <member refid="structthemis_1_1_document_model_info_1a550857386888d9056cb8162ef37c29d2" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>has_geo</name></member>
+      <member refid="structthemis_1_1_document_model_info_1a358565910303f3d57aa2dc9bfb50e149" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>has_temporal</name></member>
+      <member refid="structthemis_1_1_document_model_info_1a1728d3aac25a7e6c16ff5780a459701a" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>has_vector</name></member>
+      <member refid="structthemis_1_1_document_model_info_1ab9e6af2de25ecb1b768ee97d74b58595" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>is_graph_edge</name></member>
+      <member refid="structthemis_1_1_document_model_info_1a1a8e6fa0f4ab6f90eb03a4254cd9fcc4" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>is_graph_node</name></member>
+      <member refid="structthemis_1_1_document_model_info_1a6f8b5a0fa0db2a4dba71b0db14bb92a8" prot="public" virt="non-virtual"><scope>themis::DocumentModelInfo</scope><name>is_process</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

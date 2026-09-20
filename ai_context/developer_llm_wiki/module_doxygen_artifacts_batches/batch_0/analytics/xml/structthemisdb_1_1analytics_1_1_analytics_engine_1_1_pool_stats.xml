@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AnalyticsEngine::PoolStats</compoundname>
+    <includes refid="analytics__engine_8h" local="no">analytics_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1aae5e2cb9329c8afc65c533602931a73e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AnalyticsEngine::PoolStats::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::PoolStats::available</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="105" column="13" bodyfile="include/analytics/analytics_engine.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1a261cbfbd4d6dccd45bba085df493aa80" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AnalyticsEngine::PoolStats::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::PoolStats::total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="106" column="13" bodyfile="include/analytics/analytics_engine.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1a4747dca795e1fdb0b9f84d930db91e52" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AnalyticsEngine::PoolStats::peak_used</definition>
+        <argsstring></argsstring>
+        <name>peak_used</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::PoolStats::peak_used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="107" column="13" bodyfile="include/analytics/analytics_engine.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="104" column="5" bodyfile="include/analytics/analytics_engine.h" bodystart="104" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1aae5e2cb9329c8afc65c533602931a73e" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine::PoolStats</scope><name>available</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1a4747dca795e1fdb0b9f84d930db91e52" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine::PoolStats</scope><name>peak_used</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats_1a261cbfbd4d6dccd45bba085df493aa80" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine::PoolStats</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

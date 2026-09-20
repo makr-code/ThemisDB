@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::MetricAnomalyDetector::StreamState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1abb62145daee24301268ce2b94a7f92ff" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref></type>
+        <definition>MonitoredMetric themis::observability::MetricAnomalyDetector::StreamState::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::MetricAnomalyDetector::StreamState::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="308" column="51" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1a549a8bbb252ed85809f5ea2b3d8fff3f" prot="public" static="no" mutable="no">
+        <type>themisdb::analytics::StreamingAnomalyDetector</type>
+        <definition>themisdb::analytics::StreamingAnomalyDetector themis::observability::MetricAnomalyDetector::StreamState::sad</definition>
+        <argsstring></argsstring>
+        <name>sad</name>
+        <qualifiedname>themis::observability::MetricAnomalyDetector::StreamState::sad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="309" column="55" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1ade8d84ade077e39a04db72c7c4ff31f5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_metric_anomaly" kindref="compound">MetricAnomaly</ref> &gt;</type>
+        <definition>std::vector&lt;MetricAnomaly&gt; themis::observability::MetricAnomalyDetector::StreamState::anomalies</definition>
+        <argsstring></argsstring>
+        <name>anomalies</name>
+        <qualifiedname>themis::observability::MetricAnomalyDetector::StreamState::anomalies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="310" column="36" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1aee99c581d2810ecde52f47370691002e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricAnomalyDetector::StreamState::points_seen</definition>
+        <argsstring></argsstring>
+        <name>points_seen</name>
+        <qualifiedname>themis::observability::MetricAnomalyDetector::StreamState::points_seen</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="311" column="51" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1a343be9d8fa9d803634c33e6f36703d0c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricAnomalyDetector::StreamState::StreamState</definition>
+        <argsstring>(const MonitoredMetric &amp;cfg)</argsstring>
+        <name>StreamState</name>
+        <qualifiedname>themis::observability::MetricAnomalyDetector::StreamState::StreamState</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_anomaly_detector.h" line="313" column="18" bodyfile="src/observability/metric_anomaly_detector.cpp" bodystart="45" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::MetricAnomalyDetector::StreamState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::MonitoredMetric</label>
+        <link refid="structthemis_1_1observability_1_1_monitored_metric"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/metric_anomaly_detector.h" line="307" column="5" bodyfile="include/observability/metric_anomaly_detector.h" bodystart="307" bodyend="314"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1ade8d84ade077e39a04db72c7c4ff31f5" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomalyDetector::StreamState</scope><name>anomalies</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1abb62145daee24301268ce2b94a7f92ff" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomalyDetector::StreamState</scope><name>config</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1aee99c581d2810ecde52f47370691002e" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomalyDetector::StreamState</scope><name>points_seen</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1a549a8bbb252ed85809f5ea2b3d8fff3f" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomalyDetector::StreamState</scope><name>sad</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state_1a343be9d8fa9d803634c33e6f36703d0c" prot="public" virt="non-virtual"><scope>themis::observability::MetricAnomalyDetector::StreamState</scope><name>StreamState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

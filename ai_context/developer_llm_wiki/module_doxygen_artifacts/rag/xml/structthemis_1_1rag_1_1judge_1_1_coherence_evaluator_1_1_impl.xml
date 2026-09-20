@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoherenceEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a2bfd2a04e43c927690b9ac49bc7746d8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::CoherenceEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="28" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1aa6581548a350f609041d068e75eb701e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::CoherenceEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="29" column="21" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a9acf19e156b279c3573344acef609232" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::CoherenceEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="30" column="20" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a031ae74d2e8849b8f4acd01341f5dcff" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::CoherenceEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="31" column="24" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a0dac08bafe6328be0614ba3b35099cda" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::Impl::calculateReadability</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>calculateReadability</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::calculateReadability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Calculate readability score (Flesch-like metric). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), std::distance(), stream(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="39" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="39" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a5bd50db032ba7083ae9b8b973740adc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CoherenceEvaluator::Impl::countTransitionWords</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTransitionWords</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Impl::countTransitionWords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check for transition words. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/coherence_evaluator.cpp" line="91" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="91" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::CoherenceEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::CoherenceEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/coherence_evaluator.cpp" line="27" column="1" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="27" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a0dac08bafe6328be0614ba3b35099cda" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>calculateReadability</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a2bfd2a04e43c927690b9ac49bc7746d8" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a5bd50db032ba7083ae9b8b973740adc3" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>countTransitionWords</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1aa6581548a350f609041d068e75eb701e" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a9acf19e156b279c3573344acef609232" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl_1a031ae74d2e8849b8f4acd01341f5dcff" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

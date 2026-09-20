@@ -1,0 +1,947 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_metadata_shard" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataShard</compoundname>
+    <includes refid="metadata__shard_8h" local="no">metadata_shard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a60259d6bf0e5776a01005b119aed79e3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" kindref="compound">MetadataShardConfig</ref></type>
+        <definition>MetadataShardConfig themisdb::sharding::MetadataShard::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="246" column="25" bodyfile="include/sharding/metadata_shard.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ae35b7421aae7681a726be18f7b5bc4a0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsensusModule&gt; themisdb::sharding::MetadataShard::consensus_</definition>
+        <argsstring></argsstring>
+        <name>consensus_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::consensus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="247" column="21" bodyfile="include/sharding/metadata_shard.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ad9acbcf5ebea862bba4f0dde5c023214" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::MetadataShard::storage_mutex_</definition>
+        <argsstring></argsstring>
+        <name>storage_mutex_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::storage_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="250" column="24" bodyfile="include/sharding/metadata_shard.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a3b5d2fa4bebcfa27020fee532cd2fa39" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref>, std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &gt; &gt;</type>
+        <definition>std::map&lt;MetadataPartitionKey, std::map&lt;std::string, MetadataEntry&gt; &gt; themisdb::sharding::MetadataShard::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="251" column="14" bodyfile="include/sharding/metadata_shard.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a7bb104b63940d7aefed7174e2390f394" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::cache::BoundedLRUCache &gt;</type>
+        <definition>std::unique_ptr&lt;themis::cache::BoundedLRUCache&gt; themisdb::sharding::MetadataShard::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="254" column="21" bodyfile="include/sharding/metadata_shard.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a5b31e8d2a4baae45149805f07b9a0c59" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::MetadataShard::subscriptions_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_mutex_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::subscriptions_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="257" column="24" bodyfile="include/sharding/metadata_shard.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ac2d24d8db2aad9050385fe96fea9328c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref>, std::vector&lt; std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &amp;)&gt; &gt; &gt;</type>
+        <definition>std::map&lt;MetadataPartitionKey, std::vector&lt;std::function&lt;void(const MetadataEntry&amp;)&gt; &gt; &gt; themisdb::sharding::MetadataShard::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="259" column="2" bodyfile="include/sharding/metadata_shard.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a2dfac52e32a5d3b975d456bd56a61b58" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::MetadataShard::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="262" column="17" bodyfile="include/sharding/metadata_shard.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a9289f0b057bd17b960ae2ad627973ab1" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::MetadataShard::total_reads_</definition>
+        <argsstring></argsstring>
+        <name>total_reads_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::total_reads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="265" column="25" bodyfile="include/sharding/metadata_shard.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ab637d5e9913fe65fdd2255b8e6f1050b" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::MetadataShard::total_writes_</definition>
+        <argsstring></argsstring>
+        <name>total_writes_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::total_writes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="266" column="25" bodyfile="include/sharding/metadata_shard.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ae8828ccbd1e6458e339bb9ea35df891e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::MetadataShard::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::cache_hits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="267" column="25" bodyfile="include/sharding/metadata_shard.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a44ca78ef5ef2adf820ac1c20bb97c802" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::MetadataShard::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::cache_misses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="268" column="25" bodyfile="include/sharding/metadata_shard.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a67a358e77ddefa16854ade7157052ec2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l" kindref="compound">MetadataWAL</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MetadataWAL&gt; themisdb::sharding::MetadataShard::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="271" column="21" bodyfile="include/sharding/metadata_shard.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1aece3b8dfdcbb5e14434693896ddb1fec" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager" kindref="compound">MetadataSnapshotManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MetadataSnapshotManager&gt; themisdb::sharding::MetadataShard::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="272" column="21" bodyfile="include/sharding/metadata_shard.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1aa1fe6ffaa0c910a05a6ab29ab5d05a98" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::MetadataShard::operations_since_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>operations_since_snapshot_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::operations_since_snapshot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="273" column="17" bodyfile="include/sharding/metadata_shard.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a49c62bfe34fbffd68ffb9cce016d6629" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::MetadataShard::last_applied_lsn_</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn_</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::last_applied_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="274" column="9" bodyfile="include/sharding/metadata_shard.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ab7000f81a924342673f52ee64ec2e719" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MetadataShard::MetadataShard</definition>
+        <argsstring>(const MetadataShardConfig &amp;config, std::shared_ptr&lt; ConsensusModule &gt; consensus)</argsstring>
+        <name>MetadataShard</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::MetadataShard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" kindref="compound">MetadataShardConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> &gt;</type>
+          <declname>consensus</declname>
+        </param>
+        <briefdescription>
+<para>Construct metadata shard with routing/config and optional consensus module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="140" column="14" bodyfile="src/sharding/metadata_shard.cpp" bodystart="35" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a6fce7ef421ee410b7e46d3280295dbcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MetadataShard::~MetadataShard</definition>
+        <argsstring>()</argsstring>
+        <name>~MetadataShard</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::~MetadataShard</qualifiedname>
+        <briefdescription>
+<para>Destructor stops shard and releases cache/persistence resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="146" column="5" bodyfile="src/sharding/metadata_shard.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a2211dfc9695909ecfa4bc3dc3a548cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize partitions, persistence backends, and recovery state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), spdlog::warn(), reset(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a66cab23e5c5498730f23b468644ad2f8" kindref="member">recoverFromWAL()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="149" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="102" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a7bad0c4a624289e86bb33bc99c70dac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::start</qualifiedname>
+        <briefdescription>
+<para>Mark shard as running and ready to serve operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), spdlog::info(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="152" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a261ae8c13e1774b6a3422afc2b84fad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::MetadataShard::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::stop</qualifiedname>
+        <briefdescription>
+<para>Stop shard and clear volatile cache state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: load(), spdlog::info(), store(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="155" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="148" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1adda6f14200bfbfc814d564e102fa9c8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataEntry &gt; themisdb::sharding::MetadataShard::get</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::get</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get metadata entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Metadata entry or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="163" column="19" bodyfile="src/sharding/metadata_shard.cpp" bodystart="162" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a193e02438636e0446c442c75d179b999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::put</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key, const nlohmann::json &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::put</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put metadata entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition to write to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fetch_add(), std::chrono::system_clock::now(), logPut(), shouldCreateSnapshot(), spdlog::info(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7e9078177de6b4518340e10f5d67c49d" kindref="member">createPeriodicSnapshot()</ref>, spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="175" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="214" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a7cc31669c42955cc436b59cdf8a113c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::remove</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::remove</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete metadata entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition to delete from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), logDelete(), spdlog::warn(), what(), applyChange(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="187" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="295" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a1f8eed2337b089d011e7f53c053aa810" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::MetadataShard::listKeys</definition>
+        <argsstring>(MetadataPartitionKey partition) const</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::listKeys</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>List all keys in a partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition to list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of keys </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="197" column="17" bodyfile="src/sharding/metadata_shard.cpp" bodystart="348" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a49ef776ab3e2e865d5089b13b6b46b19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataShard::getPartitionStats</definition>
+        <argsstring>(MetadataPartitionKey partition) const</argsstring>
+        <name>getPartitionStats</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::getPartitionStats</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Return statistics for one partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="200" column="20" bodyfile="src/sharding/metadata_shard.cpp" bodystart="368" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ab4e8a0e500c74acf7c4510c6bb08a684" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataShard::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return shard-wide statistics including cache and partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="203" column="20" bodyfile="src/sharding/metadata_shard.cpp" bodystart="390" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a178387a3a661c9ff994864297fa8be35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::MetadataShard::subscribe</definition>
+        <argsstring>(MetadataPartitionKey partition, std::function&lt; void(const MetadataEntry &amp;)&gt; callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::subscribe</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe to metadata changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition to watch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback for changes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscriptions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="210" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="416" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a7e9078177de6b4518340e10f5d67c49d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::createPeriodicSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>createPeriodicSnapshot</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::createPeriodicSnapshot</qualifiedname>
+        <briefdescription>
+<para>Create snapshot from current storage when persistence is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Periodic Snapshot.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), createSnapshot(), has_value(), store(), spdlog::info(), value(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="216" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="694" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a66cab23e5c5498730f23b468644ad2f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::recoverFromWAL</definition>
+        <argsstring>()</argsstring>
+        <name>recoverFromWAL</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::recoverFromWAL</qualifiedname>
+        <briefdescription>
+<para>Recover shard state from latest snapshot plus WAL replay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover From WAL.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), loadLatestSnapshot(), has_value(), lock(), clear(), <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a575fc0808fb57f2bbd1fa591d6e6cef8" kindref="member">MetadataEntry::fromJson()</ref>, size(), <ref refid="namespacethemisdb_1_1sharding_1a30ca8477e987a93d08d46fd650d0df7a" kindref="member">LSN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="219" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="728" bodyend="812"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a16085fc2dc7b9d991af062137dab353e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataShard::determineShardOwner</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key) const</argsstring>
+        <name>determineShardOwner</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::determineShardOwner</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Determine owning shard id for given partition/key pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="223" column="17" bodyfile="src/sharding/metadata_shard.cpp" bodystart="429" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a32a8e96319d453cfcb2b738369736e50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::MetadataShard::cacheEntry</definition>
+        <argsstring>(const MetadataEntry &amp;entry)</argsstring>
+        <name>cacheEntry</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::cacheEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Insert/update one entry in cache when cache is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeCacheKey(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a193e02438636e0446c442c75d179b999" kindref="member">put()</ref>, toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="229" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="444" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1ad84bee2086120ee053d9fc74db170f43" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataEntry &gt; themisdb::sharding::MetadataShard::getCachedEntry</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key) const</argsstring>
+        <name>getCachedEntry</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::getCachedEntry</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Lookup entry in cache by partition/key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="231" column="19" bodyfile="src/sharding/metadata_shard.cpp" bodystart="451" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a517dbbbb0e62fca5cb6a45793ab03869" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::MetadataShard::invalidateCache</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key)</argsstring>
+        <name>invalidateCache</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::invalidateCache</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate one cache key after mutation/removal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invalidate Cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeCacheKey(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7cc31669c42955cc436b59cdf8a113c9" kindref="member">remove()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="236" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="474" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_shard_1a1321a16cda3c964abed53f167d293d56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataShard::applyChange</definition>
+        <argsstring>(const std::string &amp;operation, MetadataPartitionKey partition, const std::string &amp;key, const nlohmann::json &amp;value)</argsstring>
+        <name>applyChange</name>
+        <qualifiedname>themisdb::sharding::MetadataShard::applyChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Propose and wait for consensus commit of metadata mutation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Change.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: propose(), has_value(), spdlog::warn(), waitForCommit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="239" column="10" bodyfile="src/sharding/metadata_shard.cpp" bodystart="490" bodyend="526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata Shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a horizontally partitioned subset of cluster metadata. Provides:<itemizedlist>
+<listitem><para>Distributed metadata storage</para>
+</listitem><listitem><para>Versioning and conflict resolution</para>
+</listitem><listitem><para>Caching for performance</para>
+</listitem><listitem><para>Consistency via consensus module </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/metadata_shard.h" line="137" column="1" bodyfile="include/sharding/metadata_shard.h" bodystart="137" bodyend="275"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a1321a16cda3c964abed53f167d293d56" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>applyChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7bb104b63940d7aefed7174e2390f394" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>cache_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ae8828ccbd1e6458e339bb9ea35df891e" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>cache_hits_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a44ca78ef5ef2adf820ac1c20bb97c802" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>cache_misses_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a32a8e96319d453cfcb2b738369736e50" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>cacheEntry</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a60259d6bf0e5776a01005b119aed79e3" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ae35b7421aae7681a726be18f7b5bc4a0" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>consensus_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7e9078177de6b4518340e10f5d67c49d" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>createPeriodicSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a16085fc2dc7b9d991af062137dab353e" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>determineShardOwner</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1adda6f14200bfbfc814d564e102fa9c8d" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ad84bee2086120ee053d9fc74db170f43" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>getCachedEntry</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a49ef776ab3e2e865d5089b13b6b46b19" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>getPartitionStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab4e8a0e500c74acf7c4510c6bb08a684" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a2211dfc9695909ecfa4bc3dc3a548cf6" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a517dbbbb0e62fca5cb6a45793ab03869" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>invalidateCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a49c62bfe34fbffd68ffb9cce016d6629" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>last_applied_lsn_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a1f8eed2337b089d011e7f53c053aa810" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>listKeys</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab7000f81a924342673f52ee64ec2e719" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>MetadataShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1aa1fe6ffaa0c910a05a6ab29ab5d05a98" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>operations_since_snapshot_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a193e02438636e0446c442c75d179b999" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>put</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a66cab23e5c5498730f23b468644ad2f8" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>recoverFromWAL</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7cc31669c42955cc436b59cdf8a113c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a2dfac52e32a5d3b975d456bd56a61b58" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1aece3b8dfdcbb5e14434693896ddb1fec" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a7bad0c4a624289e86bb33bc99c70dac5" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a261ae8c13e1774b6a3422afc2b84fad7" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a3b5d2fa4bebcfa27020fee532cd2fa39" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>storage_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ad9acbcf5ebea862bba4f0dde5c023214" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>storage_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a178387a3a661c9ff994864297fa8be35" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>subscribe</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ac2d24d8db2aad9050385fe96fea9328c" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>subscriptions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a5b31e8d2a4baae45149805f07b9a0c59" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>subscriptions_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a9289f0b057bd17b960ae2ad627973ab1" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>total_reads_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1ab637d5e9913fe65fdd2255b8e6f1050b" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>total_writes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a67a358e77ddefa16854ade7157052ec2" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_shard_1a6fce7ef421ee410b7e46d3280295dbcc" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataShard</scope><name>~MetadataShard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,851 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__cluster__coordinator_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_cluster_coordinator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/cluster_coordinator.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_cluster_coordinator.cpp</label>
+        <link refid="test__gpu__cluster__coordinator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/cluster_coordinator.h</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ae5d9b8d5769767dd402e95e2dc0d9695" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ClusterConfig</type>
+        <definition>static ClusterConfig MakeStandaloneConfig</definition>
+        <argsstring>()</argsstring>
+        <name>MakeStandaloneConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="13" column="22" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="13" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ab9e8b473cf767bfe3abd3a9c694a3aa9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ClusterConfig</type>
+        <definition>static ClusterConfig MakeCoordinatorConfig</definition>
+        <argsstring>()</argsstring>
+        <name>MakeCoordinatorConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="20" column="22" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="20" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a83c5a70031a83d622238d61204ccbc35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ClusterConfig</type>
+        <definition>static ClusterConfig MakeWorkerConfig</definition>
+        <argsstring>()</argsstring>
+        <name>MakeWorkerConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="35" column="22" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Standalone_Initialize_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Standalone_Initialize_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="50" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a8ca5b5aeafce46321d923937ea8ab4c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Standalone_IsCoordinator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Standalone_IsCoordinator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="56" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a053609e1ffa89cab45875e2b21cc6eab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Standalone_HasOneOnlineNode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Standalone_HasOneOnlineNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="62" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a0fa959657feb5236d2677c153e645422" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Standalone_SelectNode_ReturnsLocalNode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Standalone_SelectNode_ReturnsLocalNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="69" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a7ab6bca20011b6a2eb745d672c5166f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Coordinator_Initialize_SeedsNodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Coordinator_Initialize_SeedsNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="81" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1abc4bb736892400fa3dff50fbd49f1dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Coordinator_Initialize_NodesStartOffline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Coordinator_Initialize_NodesStartOffline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="87" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1af581733d7fa6466b27d8bdd7fd029d79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Coordinator_IsCoordinator_ReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Coordinator_IsCoordinator_ReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="94" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a945d4cedc247c61181b6cadf5072e351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Coordinator_SelectNode_NullWhenAllOffline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Coordinator_SelectNode_NullWhenAllOffline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="100" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ae242df28eb3d55a3072ce22605d6c91a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Worker_Initialize_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Worker_Initialize_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="110" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ad62928a1ce7a0f1a6c79c5d2b6b8c8d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, Worker_IsCoordinator_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>Worker_IsCoordinator_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="115" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a5ebad2b04f49ee76e092ab687cafd65e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, RegisterNode_AppearsInCluster)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>RegisterNode_AppearsInCluster</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="125" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="125" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a259218910ac1e47649189f727a0788ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, DeregisterNode_RemovesFromCluster)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>DeregisterNode_RemovesFromCluster</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="144" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ad2c5d71525e7d0fb8fb3a36751bb6551" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, DeregisterNode_NonExistent_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>DeregisterNode_NonExistent_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="152" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="152" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ac27d83bfce8d96d042a828b47b3f916b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, UpdateHeartbeat_BringsNodeOnline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>UpdateHeartbeat_BringsNodeOnline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="163" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="163" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a8e7349b82ca02753c974d6ba8a750571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, UpdateHeartbeat_UpdatesFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>UpdateHeartbeat_UpdatesFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="171" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="171" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1aa6a46baff604bfdaaa2ef224dac884a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, UpdateHeartbeat_UnknownNode_NoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>UpdateHeartbeat_UnknownNode_NoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="186" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="186" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a3522545465cb3e1df88182acc145d64b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, MarkNodeOffline_SetsStatus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>MarkNodeOffline_SetsStatus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="199" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="199" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a982bc4ccc0d8d847785033496faeef4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, SelectNode_PicksNodeWithMostFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>SelectNode_PicksNodeWithMostFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="214" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="214" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1aedd8ed050cb5ee373f8ceb72b37fcc84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, SelectNode_SkipsOfflineNodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>SelectNode_SkipsOfflineNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="226" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="226" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ae1f579f8e52ca6e412959b6f6a9b69ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, SelectNode_RequiredVRAM_SkipsInsufficientNodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>SelectNode_RequiredVRAM_SkipsInsufficientNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="239" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="239" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1abe74bd3ed3154db9e0c2dc4dbf5e50d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, SelectNode_RequiredVRAM_NullWhenNoneSuffice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>SelectNode_RequiredVRAM_NullWhenNoneSuffice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="252" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1aaa03ef4e3ff54ce97f89d38b024a7906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, ExpireStaleNodes_MarksTimedOutNodesOffline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>ExpireStaleNodes_MarksTimedOutNodesOffline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="267" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="267" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1ad00a7daec1c82ddbbccb3f8737b83cc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, ExpireStaleNodes_FreshHeartbeat_StaysOnline)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>ExpireStaleNodes_FreshHeartbeat_StaysOnline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="284" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="284" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__cluster__coordinator_8cpp_1a125cd92b7258ff9fc10107d2fb498331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUClusterCoordinatorTest, GetOnlineNodes_ReturnsOnlyOnlineNodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUClusterCoordinatorTest</type>
+        </param>
+        <param>
+          <type>GetOnlineNodes_ReturnsOnlyOnlineNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_coordinator.cpp" line="301" column="1" bodyfile="tests/gpu/test_gpu_cluster_coordinator.cpp" bodystart="301" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/cluster_coordinator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ClusterConfig<sp/>MakeStandaloneConfig()<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>ClusterConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enabled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.mode<sp/><sp/><sp/><sp/>=<sp/>ClusterConfig::Mode::STANDALONE;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ClusterConfig<sp/>MakeCoordinatorConfig()<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>ClusterConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enabled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ClusterConfig::Mode::COORDINATOR;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.coordinator_address<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.100:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;coordinator&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.heartbeat_interval_ms<sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_timeout_ms<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3000;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.101:9000&quot;</highlight><highlight class="normal">,<sp/>4},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.102:9000&quot;</highlight><highlight class="normal">,<sp/>4},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ClusterConfig<sp/>MakeWorkerConfig()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>ClusterConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enabled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ClusterConfig::Mode::WORKER;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.coordinator_address<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.100:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.heartbeat_interval_ms<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_timeout_ms<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3000;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STANDALONE<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Standalone_Initialize_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.initialize(MakeStandaloneConfig()));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.isInitialized());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Standalone_IsCoordinator)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeStandaloneConfig());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.isCoordinator());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Standalone_HasOneOnlineNode)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeStandaloneConfig());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.totalNodes(),<sp/>1u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Standalone_SelectNode_ReturnsLocalNode)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeStandaloneConfig());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>node<sp/>=<sp/>c.selectNode();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(node,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(node-&gt;status,<sp/>GPUClusterCoordinator::NodeStatus::ONLINE);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COORDINATOR<sp/>mode<sp/>—<sp/>initialize<sp/>seeds<sp/>nodes<sp/>as<sp/>OFFLINE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Coordinator_Initialize_SeedsNodes)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.totalNodes(),<sp/>2u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Coordinator_Initialize_NodesStartOffline)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>seeded<sp/>nodes<sp/>start<sp/>OFFLINE<sp/>until<sp/>first<sp/>heartbeat<sp/>arrives.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Coordinator_IsCoordinator_ReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.isCoordinator());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Coordinator_SelectNode_NullWhenAllOffline)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.selectNode(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WORKER<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Worker_Initialize_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.initialize(MakeWorkerConfig()));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>Worker_IsCoordinator_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeWorkerConfig());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.isCoordinator());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>registerNode<sp/>/<sp/>deregisterNode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>RegisterNode_AppearsInCluster)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeStandaloneConfig());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator::NodeInfo<sp/>n;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>n.id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;extra-node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>n.address<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.5:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>n.status<sp/><sp/><sp/><sp/>=<sp/>GPUClusterCoordinator::NodeStatus::ONLINE;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>n.gpu_count<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>c.registerNode(n);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(c.totalNodes(),<sp/>2u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>node<sp/>:<sp/>c.getClusterNodes())<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(node.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;extra-node&quot;</highlight><highlight class="normal">)<sp/>{<sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>DeregisterNode_RemovesFromCluster)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.deregisterNode(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.totalNodes(),<sp/>1u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>DeregisterNode_NonExistent_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.deregisterNode(</highlight><highlight class="stringliteral">&quot;does-not-exist&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>updateHeartbeat</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>UpdateHeartbeat_BringsNodeOnline)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>UpdateHeartbeat_UpdatesFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>vram<sp/>=<sp/>16ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>vram);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>c.getClusterNodes())<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n.id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(n.free_vram_bytes,<sp/>vram);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>UpdateHeartbeat_UnknownNode_NoOp)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>c.onlineNodeCount();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;ghost-node&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>before);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>markNodeOffline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>MarkNodeOffline_SetsStatus)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>c.markNodeOffline(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>selectNode<sp/>—<sp/>LEAST_LOADED<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>SelectNode_PicksNodeWithMostFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>4ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/>16ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>best<sp/>=<sp/>c.selectNode();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(best,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best-&gt;id,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>SelectNode_SkipsOfflineNodes)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>4ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/>16ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>c.markNodeOffline(</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>best<sp/>=<sp/>c.selectNode();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(best,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best-&gt;id,<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>SelectNode_RequiredVRAM_SkipsInsufficientNodes)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>required<sp/>=<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>best<sp/>=<sp/>c.selectNode(required);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(best,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best-&gt;id,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>SelectNode_RequiredVRAM_NullWhenNoneSuffice)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>required<sp/>=<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.selectNode(required),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>expireStaleNodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>ExpireStaleNodes_MarksTimedOutNodesOffline)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ClusterConfig<sp/>cfg<sp/>=<sp/>MakeCoordinatorConfig();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_timeout_ms<sp/>=<sp/>50;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>short<sp/>timeout<sp/>for<sp/>test<sp/>speed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(cfg);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>the<sp/>heartbeat<sp/>to<sp/>expire.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>c.expireStaleNodes();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>ExpireStaleNodes_FreshHeartbeat_StaysOnline)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>ClusterConfig<sp/>cfg<sp/>=<sp/>MakeCoordinatorConfig();</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.node_timeout_ms<sp/>=<sp/>5000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>generous<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(cfg);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>c.expireStaleNodes();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.onlineNodeCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getOnlineNodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__gpu__cluster__coordinator_8cpp_1a74c2ce0cae58e47c4315eeefb0a59332" kindref="member">TEST</ref>(GPUClusterCoordinatorTest,<sp/>GetOnlineNodes_ReturnsOnlyOnlineNodes)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterCoordinator&amp;<sp/>c<sp/>=<sp/>GPUClusterCoordinator::GetInstance();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>c.initialize(MakeCoordinatorConfig());</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>c.updateHeartbeat(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>node-2<sp/>remains<sp/>OFFLINE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>online<sp/>=<sp/>c.getOnlineNodes();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(online.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(online[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_cluster_coordinator.cpp"/>
+  </compounddef>
+</doxygen>

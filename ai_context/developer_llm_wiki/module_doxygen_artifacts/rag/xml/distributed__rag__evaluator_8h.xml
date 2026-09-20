@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__rag__evaluator_8h" kind="file" language="C++">
+    <compoundname>distributed_rag_evaluator.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__rag__evaluation_8cpp" local="yes">benchmarks/rag/bench_rag_evaluation.cpp</includedby>
+    <includedby refid="distributed__rag__evaluator_8cpp" local="yes">src/rag/distributed_rag_evaluator.cpp</includedby>
+    <includedby refid="test__rag__distributed__evaluator_8cpp" local="yes">tests/rag/test_rag_distributed_evaluator.cpp</includedby>
+    <includedby refid="test__wave5__rag__hardening_8cpp" local="yes">tests/rag/test_wave5_rag_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/distributed_rag_evaluator.h</label>
+        <link refid="distributed__rag__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/rag/bench_rag_evaluation.cpp</label>
+        <link refid="bench__rag__evaluation_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/rag/distributed_rag_evaluator.h</label>
+        <link refid="distributed__rag__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/rag/distributed_rag_evaluator.cpp</label>
+        <link refid="distributed__rag__evaluator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_distributed_evaluator.cpp</label>
+        <link refid="test__rag__distributed__evaluator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_wave5_rag_hardening.cpp</label>
+        <link refid="test__wave5__rag__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" prot="public">themis::rag::distributed::JudgeWorkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" prot="public">themis::rag::distributed::DistributedEvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" prot="public">themis::rag::distributed::DistributedEvaluationMeta</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" prot="public">themis::rag::distributed::DistributedRAGEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory" prot="public">themis::rag::distributed::DistributedEvaluatorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1distributed">themis::rag::distributed</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1distributed" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1distributed" kindref="compound">themis::rag::distributed</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" kindref="member">MEAN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" kindref="member">WEIGHTED_MEAN</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae228895a1ed873c8a427c17d4bead255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae228895a1ed873c8a427c17d4bead255" kindref="member">MAJORITY_VOTING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a61de06a2818a5c55f7c71c48715addd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a61de06a2818a5c55f7c71c48715addd5" kindref="member">BEST_OF_N</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kindref="compound">JudgeWorkerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1ab6f70d8124d0600a71c7414ce546f490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1ab6f70d8124d0600a71c7414ce546f490" kindref="member">judge_id</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1a24d88fd3e2d90cf5f9e718bc1f716237" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">judge::RAGJudgeConfig</ref><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1a24d88fd3e2d90cf5f9e718bc1f716237" kindref="member">judge_config</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1aa12869d9c9d00d2f255b6dcee411fbf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1aa12869d9c9d00d2f255b6dcee411fbf0" kindref="member">weight</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1afdefafcdf1bdaa57061fb6219f3d033b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1afdefafcdf1bdaa57061fb6219f3d033b" kindref="member">max_parallel_judges</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a3807adeb84a5d6baf77e9c837047eb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a3807adeb84a5d6baf77e9c837047eb2c" kindref="member">aggregation</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" kindref="member">AggregationStrategy::WEIGHTED_MEAN</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" kindref="member">per_judge_timeout</ref>{0};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a529d33066b51266f2765cd5348a2dca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a529d33066b51266f2765cd5348a2dca9" kindref="member">skip_failed_judges</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a0e989b6986ea2648c6f0cab0835838dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a0e989b6986ea2648c6f0cab0835838dc" kindref="member">min_successful_judges</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kindref="compound">DistributedEvaluationMeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1aa248de0598d9fa533d82db0354af1bb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1aa248de0598d9fa533d82db0354af1bb2" kindref="member">successful_judges</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1ab1772665e95865bba92145fb9a259586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1ab1772665e95865bba92145fb9a259586" kindref="member">failed_judges</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a18104d7dea57a55fc0209845f3a55c89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::EvaluationResult&gt;<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a18104d7dea57a55fc0209845f3a55c89" kindref="member">individual_results</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a1eca961b823b4f8dea4fb692ee6d4b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a1eca961b823b4f8dea4fb692ee6d4b8f" kindref="member">inter_judge_agreement</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a5300631fb266600cdca98426aa884b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a5300631fb266600cdca98426aa884b60" kindref="member">total_elapsed</ref>{0};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;JudgeWorkerConfig&gt;<sp/><sp/><sp/><sp/><sp/><sp/>workers,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref>&amp;<sp/><sp/><sp/>config<sp/>=<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref>{}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa6e6a6d1340ab36ebf754e3d5f8d77c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa6e6a6d1340ab36ebf754e3d5f8d77c2" kindref="member">~DistributedRAGEvaluator</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5167bbb3950bb4931552ee81a206391e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5167bbb3950bb4931552ee81a206391e" kindref="member">DistributedRAGEvaluator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ad4d47f123ff44a7a4f2eac0a1116a008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ad4d47f123ff44a7a4f2eac0a1116a008" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa62fb8c084b99d8471fde99774ad457f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aa62fb8c084b99d8471fde99774ad457f" kindref="member">DistributedRAGEvaluator</ref>(<ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a3059a33064b470e95f6a494bd70cd2e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ac4ea737151c38272973ce9bb7ff77c58" kindref="member">DistributedRAGEvaluator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationResult,<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kindref="compound">DistributedEvaluationMeta</ref>&gt;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a0bc6b74525d72029496515b05066b37b" kindref="member">evaluate</ref>(const<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationInput&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationResult,<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kindref="compound">DistributedEvaluationMeta</ref>&gt;&gt;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1ab545ace1d66c8e38df46357ca4abab84" kindref="member">batchEvaluate</ref>(const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationInput&gt;&amp;<sp/>inputs);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a5d791436f4bbf494048d78ad8034185f" kindref="member">setAggregationStrategy</ref>(<ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref><sp/>strategy);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1aaf3819bce4baf3d51430e0377fc3d39a" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1af1165ded928d5a7adae4d31b7aeff735" kindref="member">judgeCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1a18ee87d2affa20828d38c3669a73fd34" kindref="member">totalEvaluations</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationResult<sp/>aggregateResults(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationResult&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>weights,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strategy</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeAgreement(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::EvaluationResult&gt;&amp;<sp/>results</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory" kindref="compound">DistributedEvaluatorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;DistributedRAGEvaluator&gt;<sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a79fc185de1f6d5a7cb6648b4d0e75c68" kindref="member">createHomogeneous</ref>(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>judge_count,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516" kindref="member">judge::EvaluationMode</ref><sp/><sp/><sp/><sp/>mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a0cb4635d100151dcaac6f91db856c402" kindref="member">judge::EvaluationMode::BALANCED</ref>,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref><sp/><sp/><sp/><sp/><sp/><sp/>aggregation<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationStrategy::MEAN</ref></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;DistributedRAGEvaluator&gt;<sp/><ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory_1a98db4fb804177df4b509f8d02620612c" kindref="member">createFastThorough</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::distributed</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/distributed_rag_evaluator.h"/>
+  </compounddef>
+</doxygen>

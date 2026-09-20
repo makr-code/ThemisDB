@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_deduplication_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::DeduplicationConfig</compoundname>
+    <includes refid="tensor__deduplication__manager_8h" local="no">tensor_deduplication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_config_1abc6c49170eda374166d010ddd2483d45" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::DeduplicationConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::graph::DeduplicationConfig::similarity_threshold</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="38" column="12" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_config_1a54366bd88afa09bf6d2187a6197fe03b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::DeduplicationConfig::delta_eps</definition>
+        <argsstring></argsstring>
+        <name>delta_eps</name>
+        <qualifiedname>themis::graph::DeduplicationConfig::delta_eps</qualifiedname>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="40" column="12" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_config_1a2e1fcd743ad7cdc9ca8ccec6b3a6501d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::DeduplicationConfig::delta_max_rank</definition>
+        <argsstring></argsstring>
+        <name>delta_max_rank</name>
+        <qualifiedname>themis::graph::DeduplicationConfig::delta_max_rank</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="42" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_deduplication_config_1ab23446ec78d9467e3f246609845e20b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::DeduplicationConfig::allow_full_storage_fallback</definition>
+        <argsstring></argsstring>
+        <name>allow_full_storage_fallback</name>
+        <qualifiedname>themis::graph::DeduplicationConfig::allow_full_storage_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="44" column="10" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_deduplication_manager.h" line="37" column="1" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_deduplication_config_1ab23446ec78d9467e3f246609845e20b5" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationConfig</scope><name>allow_full_storage_fallback</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_config_1a54366bd88afa09bf6d2187a6197fe03b" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationConfig</scope><name>delta_eps</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_config_1a2e1fcd743ad7cdc9ca8ccec6b3a6501d" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationConfig</scope><name>delta_max_rank</name></member>
+      <member refid="structthemis_1_1graph_1_1_deduplication_config_1abc6c49170eda374166d010ddd2483d45" prot="public" virt="non-virtual"><scope>themis::graph::DeduplicationConfig</scope><name>similarity_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

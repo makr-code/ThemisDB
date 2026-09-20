@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_tier_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TierPolicy</compoundname>
+    <includes refid="temporal__tier__manager_8h" local="no">temporal_tier_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a673a60d1ecb9f363bb9678dec83c68d9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierPolicy::hot_max_versions_per_key</definition>
+        <argsstring></argsstring>
+        <name>hot_max_versions_per_key</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::hot_max_versions_per_key</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Max closed (historical) versions kept in the hot tier per key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="231" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a981dc89f9157c3213705a3886462d1fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierPolicy::warm_max_blocks_per_key</definition>
+        <argsstring></argsstring>
+        <name>warm_max_blocks_per_key</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::warm_max_blocks_per_key</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Max VersionBlocks kept in the warm tier per key before cold flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="235" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a7f069824e676daa26b06289b0ea90a93" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TierPolicy::warm_block_size</definition>
+        <argsstring></argsstring>
+        <name>warm_block_size</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::warm_block_size</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Target number of versions per <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> (flush granularity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="238" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1afb45fa6f3aca1d0c8026967286c5e269" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TierPolicy::max_warm_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_warm_bytes</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::max_warm_bytes</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Global RAM budget for all warm-tier blocks combined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="241" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a806424cdb4441679eeb01e90a6d1faa9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::TierPolicy::cold_after_age</definition>
+        <argsstring></argsstring>
+        <name>cold_after_age</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::cold_after_age</qualifiedname>
+        <initializer>{
+        std::chrono::hours(24 * 30)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Versions whose sys_end is older than this are flush-eligible regardless of the hot version count. 0 = disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="246" column="31" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="246" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a4b7eff23f8cd8a0727db9584b0fc897a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TierPolicy::auto_compact</definition>
+        <argsstring></argsstring>
+        <name>auto_compact</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::auto_compact</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="250" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1aacb32e75c94bcf69377cf05099cc2d23" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::TierPolicy::compact_interval</definition>
+        <argsstring></argsstring>
+        <name>compact_interval</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::compact_interval</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="251" column="31" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_tier_policy_1a4873a64ceb88ade9ead90bbe810e93d5" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" kindref="member">TierDecision</ref>(const <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;TierDecision(const TierDecisionContext&amp;)&gt; themisdb::temporal::TierPolicy::decision_fn</definition>
+        <argsstring></argsstring>
+        <name>decision_fn</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::decision_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional autonomous tier-decision function.</para>
+<para>When set, this callable completely replaces the built-in threshold logic in <ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" kindref="member">evaluate()</ref>. It receives a fully-populated <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref> and must return a <ref refid="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" kindref="member">TierDecision</ref> <bold>synchronously</bold>.</para>
+<para>Planned future use: wired to the ThemisDB LoRA adapter router so that a fine-tuned model observes workload signals (access frequency, RAM pressure, query patterns) and makes per-key tier decisions autonomously without hard-coded thresholds.</para>
+<para>Leave nullptr to use the built-in threshold policy (current default). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="268" column="19" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" kindref="member">TierDecision</ref></type>
+        <definition>TierDecision themisdb::temporal::TierPolicy::evaluate</definition>
+        <argsstring>(const TierDecisionContext &amp;ctx) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themisdb::temporal::TierPolicy::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Built-in threshold-based evaluation. Called by <ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" kindref="member">evaluate()</ref> when decision_fn is nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="272" column="18" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="95" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration and decision logic for the three-tier manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="structthemisdb_1_1temporal_1_1_tier_policy_1autotoc_md23_1s1"><sect2 id="structthemisdb_1_1temporal_1_1_tier_policy_1autotoc_md23">
+<title>Default behaviour (threshold-based)</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a673a60d1ecb9f363bb9678dec83c68d9" kindref="member">hot_max_versions_per_key</ref></computeroutput>: max closed versions kept in the hot tier. When exceeded → FLUSH_HOT_TO_WARM.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a981dc89f9157c3213705a3886462d1fa" kindref="member">warm_max_blocks_per_key</ref></computeroutput>: max VersionBlocks kept in the warm tier. When exceeded → FLUSH_WARM_TO_COLD.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1afb45fa6f3aca1d0c8026967286c5e269" kindref="member">max_warm_bytes</ref></computeroutput>: global RAM budget for all warm blocks. When exceeded → FLUSH_WARM_TO_COLD (evict oldest block, any key).</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a806424cdb4441679eeb01e90a6d1faa9" kindref="member">cold_after_age</ref></computeroutput>: versions older than this are ineligible for the hot tier regardless of count → FLUSH_HOT_TO_WARM.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a7f069824e676daa26b06289b0ea90a93" kindref="member">warm_block_size</ref></computeroutput>: target number of versions per <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref>.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="structthemisdb_1_1temporal_1_1_tier_policy_1autotoc_md24_1s1"><sect2 id="structthemisdb_1_1temporal_1_1_tier_policy_1autotoc_md24">
+<title>Future hook — LLM / LoRA autonomous decisions</title><para>Set <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a4873a64ceb88ade9ead90bbe810e93d5" kindref="member">decision_fn</ref></computeroutput> to replace the threshold logic with a custom callable. The callable receives a fully-populated <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref> and must return a <ref refid="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" kindref="member">TierDecision</ref> synchronously (it will be called while the caller holds a write lock, so it must be fast — no blocking I/O).</para>
+<para>Planned wiring with ThemisDB LoRA advisor:</para>
+<para>policy.decision_fn = [&amp;router](const <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref>&amp; ctx) { return router.adviseTierDecision(ctx); // future API };</para>
+<para>Until the LoRA advisor is integrated, leave <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1a4873a64ceb88ade9ead90bbe810e93d5" kindref="member">decision_fn</ref></computeroutput> empty (nullptr) and the built-in <ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" kindref="member">evaluate()</ref> is used automatically. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/temporal_tier_manager.h" line="228" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="228" bodyend="273"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a4b7eff23f8cd8a0727db9584b0fc897a" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>auto_compact</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a806424cdb4441679eeb01e90a6d1faa9" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>cold_after_age</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1aacb32e75c94bcf69377cf05099cc2d23" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>compact_interval</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a4873a64ceb88ade9ead90bbe810e93d5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>decision_fn</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>evaluate</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a673a60d1ecb9f363bb9678dec83c68d9" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>hot_max_versions_per_key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1afb45fa6f3aca1d0c8026967286c5e269" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>max_warm_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a7f069824e676daa26b06289b0ea90a93" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>warm_block_size</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_tier_policy_1a981dc89f9157c3213705a3886462d1fa" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierPolicy</scope><name>warm_max_blocks_per_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_rewrite_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::RewriteResult</compoundname>
+    <includes refid="geospatial__query__rewrite_8h" local="no">geospatial_query_rewrite.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_result_1a5b26b6ba33a81b0cc60e99cede173f33" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::RewriteResult::applied</definition>
+        <argsstring></argsstring>
+        <name>applied</name>
+        <qualifiedname>themis::query::RewriteResult::applied</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="32" column="10" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_result_1a0b9be6cfaa1a5620ca3aad5c1b7c0420" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::RewriteResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::query::RewriteResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="33" column="10" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_result_1a5fdc5ede2bf24e878f130ae416cd897d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RewriteResult::costReduction</definition>
+        <argsstring></argsstring>
+        <name>costReduction</name>
+        <qualifiedname>themis::query::RewriteResult::costReduction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="34" column="12" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rewrite_result_1aa365b158c3b90928d70d6a1ad2f0951b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RewriteResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::query::RewriteResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="35" column="17" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_rewrite_result_1ad644f175d96ea6b7a7be7237b5d206bd" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::RewriteResult::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::query::RewriteResult::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="37" column="14" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_query_rewrite.h" line="31" column="1" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="31" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_rewrite_result_1a5b26b6ba33a81b0cc60e99cede173f33" prot="public" virt="non-virtual"><scope>themis::query::RewriteResult</scope><name>applied</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_result_1a5fdc5ede2bf24e878f130ae416cd897d" prot="public" virt="non-virtual"><scope>themis::query::RewriteResult</scope><name>costReduction</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_result_1ad644f175d96ea6b7a7be7237b5d206bd" prot="public" virt="non-virtual"><scope>themis::query::RewriteResult</scope><name>operator bool</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_result_1aa365b158c3b90928d70d6a1ad2f0951b" prot="public" virt="non-virtual"><scope>themis::query::RewriteResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1query_1_1_rewrite_result_1a0b9be6cfaa1a5620ca3aad5c1b7c0420" prot="public" virt="non-virtual"><scope>themis::query::RewriteResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

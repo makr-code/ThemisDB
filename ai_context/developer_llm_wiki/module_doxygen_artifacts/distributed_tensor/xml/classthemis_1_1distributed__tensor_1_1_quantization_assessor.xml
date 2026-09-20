@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_quantization_assessor" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::QuantizationAssessor</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a8a7a87d0a3bf3f41cda6d74aafcff718" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::QuantizationAssessor::kTypicalL2Error[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kTypicalL2Error</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessor::kTypicalL2Error</qualifiedname>
+        <initializer>                                        = {
+    0.0,    
+    0.001,  
+    0.002,  
+    0.01,   
+    0.05,   
+    0.20,   
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="147" column="29" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="147" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a824e1725661e8e169c29164a0253600c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment" kindref="compound">QuantizationAssessment</ref></type>
+        <definition>QuantizationAssessment themis::distributed_tensor::QuantizationAssessor::assess</definition>
+        <argsstring>(const QuantizationConstraints &amp;constraints)</argsstring>
+        <name>assess</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessor::assess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints" kindref="compound">QuantizationConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Assess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a4f48d5537cf9ef0970416bcce3fd7f88" kindref="member">isFeasible()</ref>, typicalL2Error(), <ref refid="namespacethemis_1_1distributed__tensor_1acc929172e5eec0af52a716ee01e204e7" kindref="member">bytesPerParam()</ref>, emplace_back(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="139" column="36" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="397" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a4f48d5537cf9ef0970416bcce3fd7f88" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::QuantizationAssessor::isFeasible</definition>
+        <argsstring>(QuantizationLevel level, const QuantizationConstraints &amp;constraints) noexcept</argsstring>
+        <name>isFeasible</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessor::isFeasible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints" kindref="compound">QuantizationConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="142" column="18" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="358" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="137" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="137" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a824e1725661e8e169c29164a0253600c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessor</scope><name>assess</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a4f48d5537cf9ef0970416bcce3fd7f88" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessor</scope><name>isFeasible</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_quantization_assessor_1a8a7a87d0a3bf3f41cda6d74aafcff718" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessor</scope><name>kTypicalL2Error</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

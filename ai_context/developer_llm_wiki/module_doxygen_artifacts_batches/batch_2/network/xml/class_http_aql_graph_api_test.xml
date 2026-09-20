@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_graph_api_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlGraphApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1a65334efb3172fb4991a2396da9410ff7" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HttpAqlGraphApiTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpAqlGraphApiTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="130" column="17" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1aa09f4fd4a0e8ea02b730a89a0dd2785f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlGraphApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlGraphApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="131" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1adb181d5b6e1f7308a9ae925333e8a90f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlGraphApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlGraphApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="132" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1a4f52179d88206b6b32338fe650f1010f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlGraphApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlGraphApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="133" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1a5a3f2e34c08323c1a0ae9c7fcdff31b0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlGraphApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlGraphApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="134" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1ae596ea87da6eb32975e9be05132f8350" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlGraphApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlGraphApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="135" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_graph_api_test_1aaf911429e3efdf63386d4a79278244da" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlGraphApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlGraphApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="136" column="21" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_graph_api_test_1aa72ffa03aa9f1a532644fa92cc73a573" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlGraphApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlGraphApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="25" column="10" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="25" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_graph_api_test_1a9092e08907c55f7abaa2bfe341fc8110" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlGraphApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlGraphApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="53" column="10" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_graph_api_test_1ab88e8349fae6ed04c5aeb709dc726148" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlGraphApiTest::setupGraph</definition>
+        <argsstring>()</argsstring>
+        <name>setupGraph</name>
+        <qualifiedname>HttpAqlGraphApiTest::setupGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="61" column="10" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="61" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_graph_api_test_1a5e5d74971bda930ae76127e044cc9d55" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlGraphApiTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;j)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpAqlGraphApiTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="80" column="20" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="80" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_graph_api_test_1a0cc7cec578be4a9d50c3db331c415c9c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlGraphApiTest::delete_</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>delete_</name>
+        <qualifiedname>HttpAqlGraphApiTest::delete_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_graph.cpp" line="106" column="20" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="106" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlGraphApiTest</label>
+        <link refid="class_http_aql_graph_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlGraphApiTest</label>
+        <link refid="class_http_aql_graph_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_aql_graph.cpp" line="23" column="1" bodyfile="tests/network/test_http_aql_graph.cpp" bodystart="23" bodyend="137"/>
+    <listofallmembers>
+      <member refid="class_http_aql_graph_api_test_1a65334efb3172fb4991a2396da9410ff7" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>db_path_</name></member>
+      <member refid="class_http_aql_graph_api_test_1a0cc7cec578be4a9d50c3db331c415c9c" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>delete_</name></member>
+      <member refid="class_http_aql_graph_api_test_1a5a3f2e34c08323c1a0ae9c7fcdff31b0" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_graph_api_test_1a5e5d74971bda930ae76127e044cc9d55" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>post</name></member>
+      <member refid="class_http_aql_graph_api_test_1a4f52179d88206b6b32338fe650f1010f" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_graph_api_test_1aa09f4fd4a0e8ea02b730a89a0dd2785f" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_graph_api_test_1aa72ffa03aa9f1a532644fa92cc73a573" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_graph_api_test_1ab88e8349fae6ed04c5aeb709dc726148" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>setupGraph</name></member>
+      <member refid="class_http_aql_graph_api_test_1adb181d5b6e1f7308a9ae925333e8a90f" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_graph_api_test_1a9092e08907c55f7abaa2bfe341fc8110" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_graph_api_test_1aaf911429e3efdf63386d4a79278244da" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_graph_api_test_1ae596ea87da6eb32975e9be05132f8350" prot="protected" virt="non-virtual"><scope>HttpAqlGraphApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

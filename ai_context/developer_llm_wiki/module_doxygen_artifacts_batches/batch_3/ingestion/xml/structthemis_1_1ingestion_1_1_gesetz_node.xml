@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_gesetz_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::GesetzNode</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_node_1ad3ece2c7013951a5223309ec47ea539e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644b" kindref="member">GesetzNodeType</ref></type>
+        <definition>GesetzNodeType themis::ingestion::GesetzNode::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ingestion::GesetzNode::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba9d0870ccd5ed03091e682bd219fc3ee5" kindref="member">GesetzNodeType::GESETZ</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="44" column="29" bodyfile="include/ingestion/legal_domain.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_node_1a11eff142e53d37e220c80b3d7296ffb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GesetzNode::number</definition>
+        <argsstring></argsstring>
+        <name>number</name>
+        <qualifiedname>themis::ingestion::GesetzNode::number</qualifiedname>
+        <briefdescription>
+<para>&quot;§ 3&quot;, &quot;Teil 2&quot;, &quot;Abs. 1&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="45" column="29" bodyfile="include/ingestion/legal_domain.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_node_1a2261fda0a8e5f1bb7189c4d0a9a65ca1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GesetzNode::heading</definition>
+        <argsstring></argsstring>
+        <name>heading</name>
+        <qualifiedname>themis::ingestion::GesetzNode::heading</qualifiedname>
+        <briefdescription>
+<para>Heading text (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="46" column="29" bodyfile="include/ingestion/legal_domain.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_node_1a303cbbc57e6133dc4f1cf5d616a1cc99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GesetzNode::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::ingestion::GesetzNode::text</qualifiedname>
+        <briefdescription>
+<para>Plain text content of this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="47" column="29" bodyfile="include/ingestion/legal_domain.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_gesetz_node_1a4231de46e22940f2a62cabf28d858c99" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref> &gt;</type>
+        <definition>std::vector&lt;GesetzNode&gt; themis::ingestion::GesetzNode::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>themis::ingestion::GesetzNode::children</qualifiedname>
+        <briefdescription>
+<para>Direct child nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="48" column="17" bodyfile="include/ingestion/legal_domain.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_gesetz_node_1aa007c84e5777a9847686e381f21f888a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::GesetzNode::traverse</definition>
+        <argsstring>(std::function&lt; void(const GesetzNode &amp;, int depth)&gt; fn, int depth=0) const</argsstring>
+        <name>traverse</name>
+        <qualifiedname>themis::ingestion::GesetzNode::traverse</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref> &amp;, int depth)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Depth-first traversal helper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="51" column="10" bodyfile="src/ingestion/legal_domain.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single node in the GesetzStruktur parse tree. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Nodes form a tree: GESETZ → TEIL* → ABSCHNITT* → PARAGRAPH* → ABSATZ*. </para>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="43" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="43" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1a4231de46e22940f2a62cabf28d858c99" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>children</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1a2261fda0a8e5f1bb7189c4d0a9a65ca1" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>heading</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1a11eff142e53d37e220c80b3d7296ffb1" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>number</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1a303cbbc57e6133dc4f1cf5d616a1cc99" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>text</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1aa007c84e5777a9847686e381f21f888a" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>traverse</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_gesetz_node_1ad3ece2c7013951a5223309ec47ea539e" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzNode</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

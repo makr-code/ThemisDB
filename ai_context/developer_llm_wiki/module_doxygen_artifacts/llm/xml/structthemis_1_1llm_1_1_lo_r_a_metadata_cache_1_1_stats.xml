@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRAMetadataCache::Stats</compoundname>
+    <includes refid="lora__metadata__cache_8h" local="no">lora_metadata_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1a690ec549a112e625179b51f0f78472d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRAMetadataCache::Stats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::llm::LoRAMetadataCache::Stats::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="117" column="16" bodyfile="include/llm/lora_metadata_cache.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1a699b760505e6ac7982fecd34b6b12f15" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRAMetadataCache::Stats::loaded_entries</definition>
+        <argsstring></argsstring>
+        <name>loaded_entries</name>
+        <qualifiedname>themis::llm::LoRAMetadataCache::Stats::loaded_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="118" column="16" bodyfile="include/llm/lora_metadata_cache.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1af1e935baa44d661729bd03e9028c1df8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRAMetadataCache::Stats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::llm::LoRAMetadataCache::Stats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="119" column="16" bodyfile="include/llm/lora_metadata_cache.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1abc85a8098436269275df424e40e3a31d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::LoRAMetadataCache::Stats::total_accesses</definition>
+        <argsstring></argsstring>
+        <name>total_accesses</name>
+        <qualifiedname>themis::llm::LoRAMetadataCache::Stats::total_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="120" column="18" bodyfile="include/llm/lora_metadata_cache.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_metadata_cache.h" line="116" column="5" bodyfile="include/llm/lora_metadata_cache.h" bodystart="116" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1a699b760505e6ac7982fecd34b6b12f15" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadataCache::Stats</scope><name>loaded_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1abc85a8098436269275df424e40e3a31d" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadataCache::Stats</scope><name>total_accesses</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1a690ec549a112e625179b51f0f78472d7" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadataCache::Stats</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_cache_1_1_stats_1af1e935baa44d661729bd03e9028c1df8" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadataCache::Stats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

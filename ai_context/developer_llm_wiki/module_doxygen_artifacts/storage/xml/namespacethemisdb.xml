@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb" kind="namespace" language="C++">
+    <compoundname>themisdb</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1storage">themisdb::storage</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Erasure Coding Backend for Blob Storage</para>
+<para>Implements space-efficient redundancy using Reed-Solomon erasure codes. Supports RS(10,4), RS(6,3), RS(4,2) and arbitrary (k,m) configurations.</para>
+<para>Benefits over mirroring:<itemizedlist>
+<listitem><para>RS(10,4): 40% overhead vs 200% for 2× mirroring</para>
+</listitem><listitem><para>RS(6,3): 50% overhead, tolerates 3 simultaneous node failures</para>
+</listitem><listitem><para>RS(4,2): 50% overhead, fast encode/decode for smaller blobs</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Blob-Level Redundancy Manager Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Erasure Coding Backend — Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="58" column="1"/>
+  </compounddef>
+</doxygen>

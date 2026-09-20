@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_data_migrator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DataMigratorConfig</compoundname>
+    <includes refid="data__migrator_8h" local="no">data_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a2226f1a6dc80769d4afcbb8e8a9e93b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::source_endpoint</definition>
+        <argsstring></argsstring>
+        <name>source_endpoint</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::source_endpoint</qualifiedname>
+        <briefdescription>
+<para>Source-Endpoint fuer Fetch/Count-Anfragen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="114" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1af78e0df8112da9bcac82d638304d0940" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::target_endpoint</definition>
+        <argsstring></argsstring>
+        <name>target_endpoint</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::target_endpoint</qualifiedname>
+        <briefdescription>
+<para>Target-Endpoint fuer Write-Anfragen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="115" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a43fa1e0058eb95152d69896a925ea822" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::cert_path</qualifiedname>
+        <briefdescription>
+<para>Client-Zertifikatspfad fuer mTLS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="116" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a6e7acaf39dbe7822babcf4582048b284" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::key_path</qualifiedname>
+        <briefdescription>
+<para>Private-Key-Pfad fuer mTLS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="117" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1ae9de17bcbb0d841643a938ad59ed89c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+<para>CA-Zertifikat zur Peer-Validierung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="118" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1afb9bc9d6e42ad1e70a81115bb29bf3a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DataMigratorConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Anzahl Records pro Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="119" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1ad10b572bbcebb526182ad40eddbc4306" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigratorConfig::verify_integrity</definition>
+        <argsstring></argsstring>
+        <name>verify_integrity</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::verify_integrity</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Fuehrt Hash-basierte Integritaetspruefung aus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="120" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a43a8fe75d9101918ca2a16b58b037d99" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DataMigratorConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximalzahl Retries pro fehlgeschlagener Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="121" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a64d92dca19a28f43fc0896349e57edd0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DataMigratorConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Basiswartezeit zwischen Retries in Millisekunden. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="122" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1af8a5759bb5735078c8e0a427af6f32e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigratorConfig::enable_idempotency</definition>
+        <argsstring></argsstring>
+        <name>enable_idempotency</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::enable_idempotency</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Aktiviert idempotente Wiederaufnahme. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="125" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_data_migrator_config_1a7a5f51906b0297168a9718bc71abec70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigratorConfig::idempotency_store_path</definition>
+        <argsstring></argsstring>
+        <name>idempotency_store_path</name>
+        <qualifiedname>themis::sharding::DataMigratorConfig::idempotency_store_path</qualifiedname>
+        <initializer>= &quot;./migrations&quot;</initializer>
+        <briefdescription>
+<para>Persistenzpfad fuer Idempotenzstatus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="126" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Konfiguration des <ref refid="classthemis_1_1sharding_1_1_data_migrator" kindref="compound">DataMigrator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/data_migrator.h" line="113" column="1" bodyfile="include/sharding/data_migrator.h" bodystart="113" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1afb9bc9d6e42ad1e70a81115bb29bf3a1" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1ae9de17bcbb0d841643a938ad59ed89c5" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a43fa1e0058eb95152d69896a925ea822" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1af8a5759bb5735078c8e0a427af6f32e1" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>enable_idempotency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a7a5f51906b0297168a9718bc71abec70" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>idempotency_store_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a6e7acaf39dbe7822babcf4582048b284" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a43a8fe75d9101918ca2a16b58b037d99" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a64d92dca19a28f43fc0896349e57edd0" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1a2226f1a6dc80769d4afcbb8e8a9e93b6" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>source_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1af78e0df8112da9bcac82d638304d0940" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>target_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_data_migrator_config_1ad10b572bbcebb526182ad40eddbc4306" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigratorConfig</scope><name>verify_integrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

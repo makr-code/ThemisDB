@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__meta__analyzer_8h" kind="file" language="C++">
+    <compoundname>llm_meta_analyzer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="llm__meta__analyzer_8cpp" local="yes">src/rag/llm_meta_analyzer.cpp</includedby>
+    <includedby refid="test__rag__uncovered_8cpp" local="yes">tests/rag/test_rag_uncovered.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/llm_meta_analyzer.h</label>
+        <link refid="llm__meta__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/llm_meta_analyzer.h</label>
+        <link refid="llm__meta__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/llm_meta_analyzer.cpp</label>
+        <link refid="llm__meta__analyzer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_uncovered.cpp</label>
+        <link refid="test__rag__uncovered_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" prot="public">themis::rag::LLMMetaAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" prot="public">themis::rag::LLMMetaAnalyzer::AnalysisConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" prot="public">themis::rag::LLMMetaAnalyzer::AnalysisResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" kindref="compound">LLMMetaAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1ab99008e30976d80f39d7b778fc42fb59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1ab99008e30976d80f39d7b778fc42fb59" kindref="member">judge_model</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a9cc4d708ee708f3ebd9958ef256c06c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a9cc4d708ee708f3ebd9958ef256c06c3" kindref="member">use_chain_of_thought</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a29e6e233b2931843c202c2150605e4e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a29e6e233b2931843c202c2150605e4e6" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a4ca75c04892bf3372fccca8f8b18176b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a4ca75c04892bf3372fccca8f8b18176b" kindref="member">min_confidence</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a3864cf4c6e17252ce94b3f754b23fc6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1a3864cf4c6e17252ce94b3f754b23fc6f" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1abd661a094a4cba22eec0e6e3151320dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config_1abd661a094a4cba22eec0e6e3151320dc" kindref="member">cache_size</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" kindref="compound">AnalysisResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1a255112d7d696e34c569baefa1deef1b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1a255112d7d696e34c569baefa1deef1b2" kindref="member">detection_positive</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1abf79c1c65bb757f77d0d56cdeb4bcc7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1abf79c1c65bb757f77d0d56cdeb4bcc7e" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1a9956b831f365e48b73ae2c95cceab448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1a9956b831f365e48b73ae2c95cceab448" kindref="member">reasoning</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1aaa61aeb936c4a857b96e5aa969240ea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1aaa61aeb936c4a857b96e5aa969240ea2" kindref="member">dimension_scores</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1ab3bf3e1ba46a6a7ec28496e722b3f103" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result_1ab3bf3e1ba46a6a7ec28496e722b3f103" kindref="member">raw_response</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab6a2c1da6ca55ec3b5ffdab8592caec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab6a2c1da6ca55ec3b5ffdab8592caec9" kindref="member">~LLMMetaAnalyzer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a65440d4d762f9df57f4c785e35444588" kindref="member">loadConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aaaa53af682c90da0f24ce9e7bbe6ea4c" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a186499a3c5a95d1c071cee2c76311a6b" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aef8d3a16e656922080b76691b24cf591" kindref="member">buildPrompt</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_description,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input_text,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>criteria</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1add6fb623c24216949294b8f63f05b718" kindref="member">buildPromptWithCoT</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_description,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input_text,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>criteria</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1add6fb623c24216949294b8f63f05b718" kindref="member">buildPromptWithCoT</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_description,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input_text,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>criteria,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>examples</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" kindref="compound">AnalysisResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a3d9b35fd1486dd65d494d3c9f8e99cb6" kindref="member">parseResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>llm_response);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1acf607c0ee7cab74781d64bc03605cfb7" kindref="member">parseScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dimension<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a151cec866744cdb7be8033a1958820c9" kindref="member">extractReasoning</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab77697e2179f8e7b5631540e9e2cfa94" kindref="member">callLLM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aff9a708185cc3099eb817c442ec07490" kindref="member">exportMetrics</ref>(std::unordered_map&lt;std::string,<sp/>double&gt;&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a649c52e12611e28f5b851a6da755da34" kindref="member">computeCacheKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/llm_meta_analyzer.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsAuditLog</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0bd73825e2825f83e2d826f46912f27b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::EthicsAuditLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="508" column="33" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9a94f769e2437693adc299d5bf5c77ed" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kindref="compound">RoundAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;RoundAuditEntry&gt; themis::plugins::ethics::EthicsAuditLog::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="509" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>EthicsAuditLog</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="445" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1ab8f8f5dba9152e9081cb0d355a797122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</definition>
+        <argsstring>(const EthicsAuditLog &amp;)=delete</argsstring>
+        <name>EthicsAuditLog</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</qualifiedname>
+        <param>
+          <type>const EthicsAuditLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="448" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1aae83a09713dc9a578a28a89a10936b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" kindref="member">EthicsAuditLog</ref> &amp;</type>
+        <definition>EthicsAuditLog &amp; themis::plugins::ethics::EthicsAuditLog::operator=</definition>
+        <argsstring>(const EthicsAuditLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" kindref="member">EthicsAuditLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="449" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a96201085e9cc9907db58f7943aae0d38" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</definition>
+        <argsstring>(EthicsAuditLog &amp;&amp;) noexcept=default</argsstring>
+        <name>EthicsAuditLog</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::EthicsAuditLog</qualifiedname>
+        <param>
+          <type>EthicsAuditLog &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="450" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a40a1cf83409a7069600ead70dba9f974" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" kindref="member">EthicsAuditLog</ref> &amp;</type>
+        <definition>EthicsAuditLog &amp; themis::plugins::ethics::EthicsAuditLog::operator=</definition>
+        <argsstring>(EthicsAuditLog &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" kindref="member">EthicsAuditLog</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="451" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a04199f399a25c9d553bf1bd5c7b64802" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAuditLog::append</definition>
+        <argsstring>(RoundAuditEntry entry)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::append</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kindref="compound">RoundAuditEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0f3ee6550fff8869861ffeacccfd368b" kindref="member">size()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="459" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="459" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1af9867d1a579ed7f61c9a38be9290f858" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99b" kindref="member">AuditError</ref></type>
+        <definition>AuditError themis::plugins::ethics::EthicsAuditLog::tryOverwrite</definition>
+        <argsstring>(size_t index, const RoundAuditEntry &amp;replacement) const noexcept</argsstring>
+        <name>tryOverwrite</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::tryOverwrite</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kindref="compound">RoundAuditEntry</ref> &amp;</type>
+          <declname>replacement</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="466" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="466" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a3f4728271b2d4e9523547535abb9e023" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99b" kindref="member">AuditError</ref></type>
+        <definition>AuditError themis::plugins::ethics::EthicsAuditLog::tryErase</definition>
+        <argsstring>(size_t index) const noexcept</argsstring>
+        <name>tryErase</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::tryErase</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="472" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="472" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9c44f2b9577c96976282c509b9fd39d0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kindref="compound">RoundAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; RoundAuditEntry &gt; themis::plugins::ethics::EthicsAuditLog::exportAuditLog</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAuditLog</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::exportAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="477" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="477" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0f3ee6550fff8869861ffeacccfd368b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsAuditLog::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="487" column="13" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="487" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a54717dbaaca4d14e093ef095c5699e23" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsAuditLog::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAuditLog::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="497" column="11" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="497" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="443" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="443" bodyend="510"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a04199f399a25c9d553bf1bd5c7b64802" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>append</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a54717dbaaca4d14e093ef095c5699e23" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>empty</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9a94f769e2437693adc299d5bf5c77ed" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>EthicsAuditLog</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1ab8f8f5dba9152e9081cb0d355a797122" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>EthicsAuditLog</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a96201085e9cc9907db58f7943aae0d38" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>EthicsAuditLog</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9c44f2b9577c96976282c509b9fd39d0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>exportAuditLog</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0bd73825e2825f83e2d826f46912f27b" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1aae83a09713dc9a578a28a89a10936b17" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a40a1cf83409a7069600ead70dba9f974" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0f3ee6550fff8869861ffeacccfd368b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>size</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a3f4728271b2d4e9523547535abb9e023" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>tryErase</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1af9867d1a579ed7f61c9a38be9290f858" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAuditLog</scope><name>tryOverwrite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_parser_1_1_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherParser::Token</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a6f99a5929832625045abae262734ac9f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+        <definition>TokenType themis::query::CypherParser::Token::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::CypherParser::Token::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="69" column="15" bodyfile="src/query/cypher_parser.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a9f3b850629f47a5eb8ab8c28362fea11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherParser::Token::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::CypherParser::Token::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="70" column="17" bodyfile="src/query/cypher_parser.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a9ad308b88d6ef8b7969c30bcb8bfb675" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CypherParser::Token::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::CypherParser::Token::position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>byte offset in the original query string </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cypher_parser.cpp" line="71" column="12" bodyfile="src/query/cypher_parser.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/cypher_parser.cpp" line="68" column="1" bodyfile="src/query/cypher_parser.cpp" bodystart="68" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a9ad308b88d6ef8b7969c30bcb8bfb675" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Token</scope><name>position</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a6f99a5929832625045abae262734ac9f" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Token</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_parser_1_1_token_1a9f3b850629f47a5eb8ab8c28362fea11" prot="public" virt="non-virtual"><scope>themis::query::CypherParser::Token</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

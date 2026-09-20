@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_field_encryption_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IFieldEncryptionFactory</compoundname>
+    <includes refid="security__interface_8h" local="no">security_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_factory_1a48e4eb14da6fa8b19aa07ed42f11ce6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IFieldEncryptionFactory::~IFieldEncryptionFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFieldEncryptionFactory</name>
+        <qualifiedname>themis::IFieldEncryptionFactory::~IFieldEncryptionFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="100" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_field_encryption_factory_1a4925009727dfb0cb8444207baf6c0192" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a4d9a6cffb75160033c94bb786247675e" kindref="member">IFieldEncryptionPtr</ref></type>
+        <definition>virtual IFieldEncryptionPtr themis::IFieldEncryptionFactory::create</definition>
+        <argsstring>()=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::IFieldEncryptionFactory::create</qualifiedname>
+        <briefdescription>
+<para>Create a field encryption instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to field encryption </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="107" column="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory interface for field encryption. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/security_interface.h" line="98" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="98" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_field_encryption_factory_1a4925009727dfb0cb8444207baf6c0192" prot="public" virt="pure-virtual"><scope>themis::IFieldEncryptionFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1_i_field_encryption_factory_1a48e4eb14da6fa8b19aa07ed42f11ce6e" prot="public" virt="virtual"><scope>themis::IFieldEncryptionFactory</scope><name>~IFieldEncryptionFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

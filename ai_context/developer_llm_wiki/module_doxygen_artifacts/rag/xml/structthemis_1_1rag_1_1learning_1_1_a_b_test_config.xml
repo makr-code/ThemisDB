@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ABTestConfig</compoundname>
+    <includes refid="ab__testing__framework_8h" local="no">ab_testing_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a61359bc365763c3542fd3e070ad761ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ABTestConfig::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="37" column="17" bodyfile="include/rag/ab_testing_framework.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ab043793d043f63fce581c0be2e7d967e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ABTestConfig::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::component</qualifiedname>
+        <briefdescription>
+<para>Component being tested (LoRA, Prompt, Retrieval). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="38" column="17" bodyfile="include/rag/ab_testing_framework.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a4bbde01910dccee854521cf09c3039e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestConfig::traffic_split</definition>
+        <argsstring></argsstring>
+        <name>traffic_split</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::traffic_split</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Percentage for treatment (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="39" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a89d86dd6bfed69459c24e2e407cfba3b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestConfig::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::min_samples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Minimum samples needed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="40" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a6baf87469e6084b12d1a643a84233f00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestConfig::significance_level</definition>
+        <argsstring></argsstring>
+        <name>significance_level</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::significance_level</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>p-value threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="41" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ac7cd367d49b6b74c066e095fa76c9ac0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestConfig::min_improvement</definition>
+        <argsstring></argsstring>
+        <name>min_improvement</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::min_improvement</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+<para>Minimum improvement to promote (2%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="42" column="12" bodyfile="include/rag/ab_testing_framework.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a25c00eb493b9c973e891077b0b73a047" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::rag::learning::ABTestConfig::max_duration</definition>
+        <argsstring></argsstring>
+        <name>max_duration</name>
+        <qualifiedname>themis::rag::learning::ABTestConfig::max_duration</qualifiedname>
+        <initializer>{72}</initializer>
+        <briefdescription>
+<para>Maximum test duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="43" column="24" bodyfile="include/rag/ab_testing_framework.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for an A/B test. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/ab_testing_framework.h" line="36" column="1" bodyfile="include/rag/ab_testing_framework.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ab043793d043f63fce581c0be2e7d967e" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>component</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a25c00eb493b9c973e891077b0b73a047" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>max_duration</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ac7cd367d49b6b74c066e095fa76c9ac0" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>min_improvement</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a89d86dd6bfed69459c24e2e407cfba3b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a6baf87469e6084b12d1a643a84233f00" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>significance_level</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a61359bc365763c3542fd3e070ad761ff" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a4bbde01910dccee854521cf09c3039e9" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestConfig</scope><name>traffic_split</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

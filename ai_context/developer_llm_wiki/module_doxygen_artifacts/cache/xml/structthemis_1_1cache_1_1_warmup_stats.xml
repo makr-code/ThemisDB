@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_warmup_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::WarmupStats</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_stats_1ad231762a591b653697c45a00e734bbbc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WarmupStats::entries_inserted</definition>
+        <argsstring></argsstring>
+        <name>entries_inserted</name>
+        <qualifiedname>themis::cache::WarmupStats::entries_inserted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries successfully inserted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="125" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_stats_1a1e3340478f567ec00359ab9ff44d71e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WarmupStats::entries_skipped</definition>
+        <argsstring></argsstring>
+        <name>entries_skipped</name>
+        <qualifiedname>themis::cache::WarmupStats::entries_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries skipped (expired TTL, quota exceeded, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="126" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_stats_1ad805c48a6930b19d0d851a2e8be1902c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::WarmupStats::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::cache::WarmupStats::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock duration of the warmup call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="127" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_stats_1a5d7d01872abb5991f80e3eb1fc7faba5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WarmupStats::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::cache::WarmupStats::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries that caused an error during insertion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="128" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="124" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="124" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_warmup_stats_1ad805c48a6930b19d0d851a2e8be1902c" prot="public" virt="non-virtual"><scope>themis::cache::WarmupStats</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_warmup_stats_1ad231762a591b653697c45a00e734bbbc" prot="public" virt="non-virtual"><scope>themis::cache::WarmupStats</scope><name>entries_inserted</name></member>
+      <member refid="structthemis_1_1cache_1_1_warmup_stats_1a1e3340478f567ec00359ab9ff44d71e0" prot="public" virt="non-virtual"><scope>themis::cache::WarmupStats</scope><name>entries_skipped</name></member>
+      <member refid="structthemis_1_1cache_1_1_warmup_stats_1a5d7d01872abb5991f80e3eb1fc7faba5" prot="public" virt="non-virtual"><scope>themis::cache::WarmupStats</scope><name>error_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

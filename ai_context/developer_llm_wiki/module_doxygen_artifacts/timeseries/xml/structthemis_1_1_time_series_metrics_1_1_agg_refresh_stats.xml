@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TimeSeriesMetrics::AggRefreshStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1a75c864493adbb580e0b5b53628f4b962" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::AggRefreshStats::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::TimeSeriesMetrics::AggRefreshStats::total_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="305" column="16" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1a92caa86fce0de7dff12dba91dcdb9130" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::AggRefreshStats::latency_count</definition>
+        <argsstring></argsstring>
+        <name>latency_count</name>
+        <qualifiedname>themis::TimeSeriesMetrics::AggRefreshStats::latency_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="306" column="18" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1ab0e736fa669f3caafc3810154235bc03" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::AggRefreshStats::last_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>last_lag_ms</name>
+        <qualifiedname>themis::TimeSeriesMetrics::AggRefreshStats::last_lag_ms</qualifiedname>
+        <initializer>{-1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="307" column="16" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="307" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_metrics.h" line="304" column="5" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="304" bodyend="308"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1ab0e736fa669f3caafc3810154235bc03" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::AggRefreshStats</scope><name>last_lag_ms</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1a92caa86fce0de7dff12dba91dcdb9130" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::AggRefreshStats</scope><name>latency_count</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_agg_refresh_stats_1a75c864493adbb580e0b5b53628f4b962" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::AggRefreshStats</scope><name>total_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

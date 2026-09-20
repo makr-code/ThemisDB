@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_encryption_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EncryptionConfig</compoundname>
+    <includes refid="voice__audio__storage_8h" local="no">voice_audio_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_encryption_config_1af7fbc5fb654f7fd540cfb2300d81f25d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EncryptionConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::voice::EncryptionConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="75" column="10" bodyfile="include/voice/voice_audio_storage.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_encryption_config_1ac15807675d87b99412f1af279ba65312" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::EncryptionConfig::key_provider</definition>
+        <argsstring></argsstring>
+        <name>key_provider</name>
+        <qualifiedname>themis::voice::EncryptionConfig::key_provider</qualifiedname>
+        <initializer>= &quot;local&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="76" column="17" bodyfile="include/voice/voice_audio_storage.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_encryption_config_1a2f89085e0f9f3108ba81cb52b0ef2daa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::EncryptionConfig::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::voice::EncryptionConfig::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="77" column="17" bodyfile="include/voice/voice_audio_storage.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_encryption_config_1a99f550278380a6a2c9edff95e6512aae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::EncryptionConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::voice::EncryptionConfig::algorithm</qualifiedname>
+        <initializer>= &quot;AES-256-GCM&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audio_storage.h" line="78" column="17" bodyfile="include/voice/voice_audio_storage.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_audio_storage.h" line="74" column="1" bodyfile="include/voice/voice_audio_storage.h" bodystart="74" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_encryption_config_1a99f550278380a6a2c9edff95e6512aae" prot="public" virt="non-virtual"><scope>themis::voice::EncryptionConfig</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1voice_1_1_encryption_config_1af7fbc5fb654f7fd540cfb2300d81f25d" prot="public" virt="non-virtual"><scope>themis::voice::EncryptionConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1voice_1_1_encryption_config_1a2f89085e0f9f3108ba81cb52b0ef2daa" prot="public" virt="non-virtual"><scope>themis::voice::EncryptionConfig</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_encryption_config_1ac15807675d87b99412f1af279ba65312" prot="public" virt="non-virtual"><scope>themis::voice::EncryptionConfig</scope><name>key_provider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

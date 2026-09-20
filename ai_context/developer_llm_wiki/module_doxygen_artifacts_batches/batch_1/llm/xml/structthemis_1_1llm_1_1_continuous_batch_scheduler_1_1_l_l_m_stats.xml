@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ContinuousBatchScheduler::LLMStats</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1a07e5290dca858aebafecf3822d8902fb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::LLMStats::pending_requests</definition>
+        <argsstring></argsstring>
+        <name>pending_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::LLMStats::pending_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="250" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1adf04421d4227dce5727e06219a1cfc74" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContinuousBatchScheduler::LLMStats::avg_queue_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_queue_ms</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::LLMStats::avg_queue_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="251" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/continuous_batch_scheduler.h" line="249" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="249" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1adf04421d4227dce5727e06219a1cfc74" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::LLMStats</scope><name>avg_queue_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1a07e5290dca858aebafecf3822d8902fb" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::LLMStats</scope><name>pending_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

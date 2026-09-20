@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_batch_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::BatchDescriptor</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1a3a1911876815fc9efe37a6875b0ed003" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::acceleration::BatchDescriptor::queries</definition>
+        <argsstring></argsstring>
+        <name>queries</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::queries</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Query matrix [numQueries × dim] (row-major). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="234" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1ac590d9d23fc7caac31dea5ff4992b2cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BatchDescriptor::num_queries</definition>
+        <argsstring></argsstring>
+        <name>num_queries</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::num_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of query vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="235" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1a81fec28e43ad90a3f965aa503d56a6ca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BatchDescriptor::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Dimensionality of each vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="236" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1a584d719b4b04dc23c857157886b72c45" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::acceleration::BatchDescriptor::vectors</definition>
+        <argsstring></argsstring>
+        <name>vectors</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::vectors</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Database/corpus matrix [numVectors × dim] (row-major). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="237" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1abbdd793091fb55966309976f10819a9d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BatchDescriptor::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of database vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="238" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_descriptor_1a94efccfdbc170c0fc24c8221629a6556" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BatchDescriptor::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::acceleration::BatchDescriptor::k</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of nearest neighbors to retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="239" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="233" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="233" bodyend="240"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1a81fec28e43ad90a3f965aa503d56a6ca" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>dim</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1a94efccfdbc170c0fc24c8221629a6556" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>k</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1ac590d9d23fc7caac31dea5ff4992b2cd" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>num_queries</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1abbdd793091fb55966309976f10819a9d" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>num_vectors</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1a3a1911876815fc9efe37a6875b0ed003" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>queries</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_descriptor_1a584d719b4b04dc23c857157886b72c45" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchDescriptor</scope><name>vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

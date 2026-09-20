@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="signed__plugin__repository_8h" kind="file" language="C++">
+    <compoundname>signed_plugin_repository.h</compoundname>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="plugin__manager_8h" local="yes">include/plugins/plugin_manager.h</includedby>
+    <includedby refid="signed__plugin__repository_8cpp" local="yes">src/plugins/signed_plugin_repository.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/signed_plugin_repository.h</label>
+        <link refid="signed__plugin__repository_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>cstdio</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/plugins/bench_plugin_hot_plug.cpp</label>
+        <link refid="bench__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/plugins/bench_plugin_system.cpp</label>
+        <link refid="bench__plugin__system_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/plugins/plugin_manager.h</label>
+        <link refid="plugin__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/signed_plugin_repository.h</label>
+        <link refid="signed__plugin__repository_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/plugins/plugin_health_monitor.cpp</label>
+        <link refid="plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/plugins/plugin_hot_plug_monitor.cpp</label>
+        <link refid="plugin__hot__plug__monitor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/plugins/plugin_manager.cpp</label>
+        <link refid="plugin__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/plugins/signed_plugin_repository.cpp</label>
+        <link refid="signed__plugin__repository_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/plugins/wasm_plugin_loader.cpp</label>
+        <link refid="wasm__plugin__loader_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/plugins/test_plugin_capability_escalation.cpp</label>
+        <link refid="test__plugin__capability__escalation_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/plugins/test_plugin_capability_negotiation.cpp</label>
+        <link refid="test__plugin__capability__negotiation_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/plugins/test_plugin_error_handling_phase3.cpp</label>
+        <link refid="test__plugin__error__handling__phase3_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/plugins/test_plugin_hot_plug.cpp</label>
+        <link refid="test__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/plugins/test_plugin_hot_reload_enhanced.cpp</label>
+        <link refid="test__plugin__hot__reload__enhanced_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/plugins/test_plugin_manager.cpp</label>
+        <link refid="test__plugin__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/plugins/test_plugin_manager_comprehensive.cpp</label>
+        <link refid="test__plugin__manager__comprehensive_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/plugins/test_plugin_manifest_edition_gates_focused.cpp</label>
+        <link refid="test__plugin__manifest__edition__gates__focused_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/plugins/test_plugin_metrics_integration.cpp</label>
+        <link refid="test__plugin__metrics__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1_pinned_key" prot="public">themis::plugins::PinnedKey</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_repository_entry" prot="public">themis::plugins::RepositoryEntry</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_signed_plugin_repository" prot="public">themis::plugins::SignedPluginRepository</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1plugins_1_1_pinned_key" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1plugins_1_1_pinned_key_1ace69ee9f67cb5bcfdbf61563e12846ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_pinned_key_1ace69ee9f67cb5bcfdbf61563e12846ee" kindref="member">fingerprint</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1plugins_1_1_pinned_key_1a6972cddd11c86b2ffe59d71396574f4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_pinned_key_1a6972cddd11c86b2ffe59d71396574f4a" kindref="member">public_key</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1plugins_1_1_pinned_key_1a14e823a55444a54606a03b92af87ee1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_pinned_key_1a14e823a55444a54606a03b92af87ee1a" kindref="member">label</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1plugins_1_1_pinned_key_1a7b706b30100f1847a651951e2b0fbece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_pinned_key_1a7b706b30100f1847a651951e2b0fbece" kindref="member">active</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1plugins_1_1_repository_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1plugins_1_1_repository_entry_1a21083dff04a3bee408c1b09280972979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref><sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry_1a21083dff04a3bee408c1b09280972979" kindref="member">manifest</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1plugins_1_1_repository_entry_1a092d7324e8849761f4d3a269a4bf4edd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry_1a092d7324e8849761f4d3a269a4bf4edd" kindref="member">signature_b64</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1plugins_1_1_repository_entry_1a25c24c447d733bcbca757733b12e0a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry_1a25c24c447d733bcbca757733b12e0a18" kindref="member">key_fingerprint</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1plugins_1_1_signed_plugin_repository" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a161700a0bfb9240059e3dae3958bb951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a161700a0bfb9240059e3dae3958bb951" kindref="member">~SignedPluginRepository</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a9d1bdb26e87b4bce5e4ead16597ee3d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a9d1bdb26e87b4bce5e4ead16597ee3d3" kindref="member">SignedPluginRepository</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ad42acc0d41d862addcb251ac79ac3a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ad42acc0d41d862addcb251ac79ac3a7f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ac712711c6b92b718e7c6e5bae7459397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ac712711c6b92b718e7c6e5bae7459397" kindref="member">SignedPluginRepository</ref>(<ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1abc19b9de1666def006a06810e4e04345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a0e151678b5f55eeeb034fa0bb55a16ab" kindref="member">SignedPluginRepository</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1aa3a4caf8539a72405c74620662f49f9f" kindref="member">addPinnedKey</ref>(<ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref><sp/>key);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1aa4e7d48b0e094b6ea1f21fcd14f8a8fe" kindref="member">removePinnedKey</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a973d8c935c45794c1bb472cc01093538" kindref="member">hasPinnedKey</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint)<sp/>const;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a7559fd3f09e75e73e0ece07882df83bb" kindref="member">getPinnedKeys</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Catalog<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1afb45ca3577248fd4026d84fba1db8d42" kindref="member">addEntry</ref>(const<sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1aade6cd34734829e292bd0f3a52575071" kindref="member">verifyEntry</ref>(const<sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&amp;<sp/>entry)<sp/>const;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ae18e75c2ea25d051ab3e7a49d81d362f" kindref="member">findEntry</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a9c90ee48517ab6c40b9755f9c218fe90" kindref="member">findByName</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name)<sp/>const;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ae67c4e939b40eb31fbec506668e6ba90" kindref="member">listEntries</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1aebddfd391c8e81c8dc8d5508d2fef08f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1a6f6f73c8f14d98478646f0b4414cbb57" kindref="member">computeKeyFingerprint</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>public_key);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ab85be335d3011c814fb2e1145987f5c5" kindref="member">canonicalManifestJson</ref>(const<sp/><ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref>&amp;<sp/>manifest);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/>pinned_keys_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref>*<sp/>findPinnedKeyLocked(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint)<sp/>const;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyEntryLocked(const<sp/><ref refid="structthemis_1_1plugins_1_1_repository_entry" kindref="compound">RepositoryEntry</ref>&amp;<sp/>entry)<sp/>const;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyEd25519Signature(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>public_key,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature)<sp/>const;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/signed_plugin_repository.h"/>
+  </compounddef>
+</doxygen>

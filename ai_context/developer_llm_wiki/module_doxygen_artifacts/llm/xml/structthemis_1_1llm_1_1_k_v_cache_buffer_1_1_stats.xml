@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::KVCacheBuffer::Stats</compoundname>
+    <includes refid="kv__cache__buffer_8h" local="no">kv_cache_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac30c6ca7007756e5d851c6fb85777385" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Stats::total_appends</definition>
+        <argsstring></argsstring>
+        <name>total_appends</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Stats::total_appends</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="43" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac3aa9264e17eef9893f996d014923964" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Stats::total_flushes</definition>
+        <argsstring></argsstring>
+        <name>total_flushes</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Stats::total_flushes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="44" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1a3bdddc109ae51608880c9c9169d358e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Stats::total_tokens_cached</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_cached</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Stats::total_tokens_cached</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="45" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac098b767dd6ac8e84da5b50dac8f2584" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBuffer::Stats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Stats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="46" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1adabd7d96f60183206d076621231f958b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::KVCacheBuffer::Stats::avg_batch_utilization</definition>
+        <argsstring></argsstring>
+        <name>avg_batch_utilization</name>
+        <qualifiedname>themis::llm::KVCacheBuffer::Stats::avg_batch_utilization</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="47" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kv_cache_buffer.h" line="42" column="5" bodyfile="include/llm/kv_cache_buffer.h" bodystart="42" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1adabd7d96f60183206d076621231f958b" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Stats</scope><name>avg_batch_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac098b767dd6ac8e84da5b50dac8f2584" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Stats</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac30c6ca7007756e5d851c6fb85777385" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Stats</scope><name>total_appends</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1ac3aa9264e17eef9893f996d014923964" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Stats</scope><name>total_flushes</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_stats_1a3bdddc109ae51608880c9c9169d358e1" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBuffer::Stats</scope><name>total_tokens_cached</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

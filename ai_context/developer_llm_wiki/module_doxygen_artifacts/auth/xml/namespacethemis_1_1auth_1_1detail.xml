@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::auth::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1detail_1aa075aabc2e6ecf386e292c617bc6490f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::detail::secure_mlock</definition>
+        <argsstring>(void *ptr, std::size_t len) noexcept</argsstring>
+        <name>secure_mlock</name>
+        <qualifiedname>themis::auth::detail::secure_mlock</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="35" column="13" bodyfile="include/auth/secure_memory.h" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1detail_1ab92f6c14864aa63cc49df8a7519e7c98" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::detail::secure_munlock</definition>
+        <argsstring>(void *ptr, std::size_t len) noexcept</argsstring>
+        <name>secure_munlock</name>
+        <qualifiedname>themis::auth::detail::secure_munlock</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="46" column="13" bodyfile="include/auth/secure_memory.h" bodystart="46" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1detail_1a033b4ee30896b22c15da87cd72e5e08a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::auth::detail::secure_release</definition>
+        <argsstring>(T *ptr, std::size_t count) noexcept</argsstring>
+        <name>secure_release</name>
+        <qualifiedname>themis::auth::detail::secure_release</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="58" column="6" bodyfile="include/auth/secure_memory.h" bodystart="58" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/secure_memory.h" line="33" column="1"/>
+  </compounddef>
+</doxygen>

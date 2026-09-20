@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionError</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_error_1a620a738e6cb87d66167a8abe71333017" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+        <definition>IngestionErrorCode themis::ingestion::IngestionError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::ingestion::IngestionError::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="130" column="26" bodyfile="include/ingestion/ingestion_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_error_1abd5b86ac859e6060c538513b69098b2a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65" kindref="member">IngestionErrorSeverity</ref></type>
+        <definition>IngestionErrorSeverity themis::ingestion::IngestionError::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::ingestion::IngestionError::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="131" column="28" bodyfile="include/ingestion/ingestion_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_error_1af53a9102edc3a377a2cbcb1e16a06743" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::ingestion::IngestionError::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="132" column="26" bodyfile="include/ingestion/ingestion_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_error_1aa3c19cf9e31febdb3bc1ab805ca1689c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionError::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::IngestionError::source_id</qualifiedname>
+        <briefdescription>
+<para>Originating source (if known). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="133" column="26" bodyfile="include/ingestion/ingestion_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_error_1a252f29097e42f884a9ac60318c1811d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionError::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::ingestion::IngestionError::details</qualifiedname>
+        <briefdescription>
+<para>Technical detail for logs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="134" column="26" bodyfile="include/ingestion/ingestion_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1aa049f9f54206fb6a481882cc13123746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionError::IngestionError</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionError</name>
+        <qualifiedname>themis::ingestion::IngestionError::IngestionError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1af35685c5d079852c8bc2cb19d5ed5b81" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionError::IngestionError</definition>
+        <argsstring>(IngestionErrorCode c, IngestionErrorSeverity sev, const std::string &amp;msg, const std::string &amp;sid=&quot;&quot;, const std::string &amp;det=&quot;&quot;)</argsstring>
+        <name>IngestionError</name>
+        <qualifiedname>themis::ingestion::IngestionError::IngestionError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65" kindref="member">IngestionErrorSeverity</ref></type>
+          <declname>sev</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sid</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>det</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="138" column="5" bodyfile="include/ingestion/ingestion_manager.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1a6f188c154978d1f95187359133df62c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionError::isOk</definition>
+        <argsstring>() const</argsstring>
+        <name>isOk</name>
+        <qualifiedname>themis::ingestion::IngestionError::isOk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="143" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1a974c9200b7f84b070b429214c80f6876" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionError::isFatal</definition>
+        <argsstring>() const</argsstring>
+        <name>isFatal</name>
+        <qualifiedname>themis::ingestion::IngestionError::isFatal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="144" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1aadfd2f6c0a4f84532025e2d6f5409ad4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionError::isWarning</definition>
+        <argsstring>() const</argsstring>
+        <name>isWarning</name>
+        <qualifiedname>themis::ingestion::IngestionError::isWarning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="145" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionError::isRetryable</definition>
+        <argsstring>() const</argsstring>
+        <name>isRetryable</name>
+        <qualifiedname>themis::ingestion::IngestionError::isRetryable</qualifiedname>
+        <briefdescription>
+<para>Returns true for codes that should trigger a retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="148" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="148" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured ingestion error. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="129" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="129" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1a620a738e6cb87d66167a8abe71333017" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>code</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1a252f29097e42f884a9ac60318c1811d0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>details</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1aa049f9f54206fb6a481882cc13123746" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>IngestionError</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1af35685c5d079852c8bc2cb19d5ed5b81" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>IngestionError</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1a974c9200b7f84b070b429214c80f6876" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>isFatal</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1a6f188c154978d1f95187359133df62c7" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>isOk</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>isRetryable</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1aadfd2f6c0a4f84532025e2d6f5409ad4" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>isWarning</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1af53a9102edc3a377a2cbcb1e16a06743" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1abd5b86ac859e6060c538513b69098b2a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>severity</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_error_1aa3c19cf9e31febdb3bc1ab805ca1689c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionError</scope><name>source_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_failure_handling_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>FailureHandlingIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_failure_handling_integration_test_1afd901579a9e2835d760e4e1f6e9d9506" prot="protected" static="no" mutable="no">
+        <type>FailureRecoveryLog</type>
+        <definition>FailureRecoveryLog FailureHandlingIntegrationTest::recovery_log</definition>
+        <argsstring></argsstring>
+        <name>recovery_log</name>
+        <qualifiedname>FailureHandlingIntegrationTest::recovery_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="518" column="24" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="518" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_failure_handling_integration_test_1a9a446db88aa28b0f70d219f91046bae1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FailureHandlingIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FailureHandlingIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="520" column="10" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="520" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FailureHandlingIntegrationTest</label>
+        <link refid="class_failure_handling_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FailureHandlingIntegrationTest</label>
+        <link refid="class_failure_handling_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>recovery_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:recovery_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="516" column="1" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="516" bodyend="523"/>
+    <listofallmembers>
+      <member refid="class_failure_handling_integration_test_1afd901579a9e2835d760e4e1f6e9d9506" prot="protected" virt="non-virtual"><scope>FailureHandlingIntegrationTest</scope><name>recovery_log</name></member>
+      <member refid="class_failure_handling_integration_test_1a9a446db88aa28b0f70d219f91046bae1" prot="protected" virt="non-virtual"><scope>FailureHandlingIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

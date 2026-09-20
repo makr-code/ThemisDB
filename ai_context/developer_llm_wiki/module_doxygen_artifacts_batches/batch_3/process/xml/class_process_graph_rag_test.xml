@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_graph_rag_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessGraphRagTest</compoundname>
+    <basecompoundref refid="class_process_module_test" prot="public" virt="non-virtual">ProcessModuleTest</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_graph_rag_test_1a86d9d6eb88e753c5d3486dd5afdadb29" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ProcessGraphRagTest::importBauantragModel</definition>
+        <argsstring>()</argsstring>
+        <name>importBauantragModel</name>
+        <qualifiedname>ProcessGraphRagTest::importBauantragModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="529" column="17" bodyfile="tests/process/test_process_module.cpp" bodystart="529" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_graph_rag_test_1ab318624b2c9b9d0aeda83ee1e96ac03a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ProcessGraphRagTest::startInstance</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>startInstance</name>
+        <qualifiedname>ProcessGraphRagTest::startInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_module.cpp" line="537" column="17" bodyfile="tests/process/test_process_module.cpp" bodystart="537" bodyend="551"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessGraphRagTest</label>
+        <link refid="class_process_graph_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ProcessModuleTest</label>
+        <link refid="class_process_module_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessGraphRagTest</label>
+        <link refid="class_process_graph_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ProcessModuleTest</label>
+        <link refid="class_process_module_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_module.cpp" line="526" column="1" bodyfile="tests/process/test_process_module.cpp" bodystart="526" bodyend="585"/>
+    <listofallmembers>
+      <member refid="class_process_module_test_1ae97136ece33455d4e5507949445015bd" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>db_</name></member>
+      <member refid="class_process_module_test_1ac73fd6391b06d16ad72ce7ed900f7a4a" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>db_path_</name></member>
+      <member refid="class_process_module_test_1aa33fd0280903fa5a812bdb9ba65e8a05" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>engine_</name></member>
+      <member refid="class_process_graph_rag_test_1a86d9d6eb88e753c5d3486dd5afdadb29" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>importBauantragModel</name></member>
+      <member refid="class_process_module_test_1a64424a174f9a7b12d1113d95479e2a43" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>linker_</name></member>
+      <member refid="class_process_module_test_1a90799ff28d977b64c6344371cc847484" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>mgr_</name></member>
+      <member refid="class_process_module_test_1a06c756404c7e9e405569c5da20366a26" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>rag_</name></member>
+      <member refid="class_process_module_test_1a13ff91789ed1e932fc7446f62dc5e16d" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>SetUp</name></member>
+      <member refid="class_process_graph_rag_test_1ab318624b2c9b9d0aeda83ee1e96ac03a" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>startInstance</name></member>
+      <member refid="class_process_module_test_1a078c810d24c7a0bfa03f5b0363389d18" prot="protected" virt="non-virtual"><scope>ProcessGraphRagTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

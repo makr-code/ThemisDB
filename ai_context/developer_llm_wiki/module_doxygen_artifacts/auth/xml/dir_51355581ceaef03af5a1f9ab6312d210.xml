@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_51355581ceaef03af5a1f9ab6312d210" kind="dir">
+    <compoundname>include/auth</compoundname>
+    <innerfile refid="api__key__authenticator_8h">api_key_authenticator.h</innerfile>
+    <innerfile refid="auth__audit__logger_8h">auth_audit_logger.h</innerfile>
+    <innerfile refid="auth__error_8h">auth_error.h</innerfile>
+    <innerfile refid="auth__event__bus_8h">auth_event_bus.h</innerfile>
+    <innerfile refid="auth__metrics_8h">auth_metrics.h</innerfile>
+    <innerfile refid="auth__principal__contract_8h">auth_principal_contract.h</innerfile>
+    <innerfile refid="auth__rate__limiter_8h">auth_rate_limiter.h</innerfile>
+    <innerfile refid="auth__redaction_8h">auth_redaction.h</innerfile>
+    <innerfile refid="auth__worker__thread__pool_8h">auth_worker_thread_pool.h</innerfile>
+    <innerfile refid="authorization__policy_8h">authorization_policy.h</innerfile>
+    <innerfile refid="distributed__token__blacklist_8h">distributed_token_blacklist.h</innerfile>
+    <innerfile refid="eid__authenticator_8h">eid_authenticator.h</innerfile>
+    <innerfile refid="federated__identity__manager_8h">federated_identity_manager.h</innerfile>
+    <innerfile refid="gssapi__authenticator_8h">gssapi_authenticator.h</innerfile>
+    <innerfile refid="http__auth__async_8h">http_auth_async.h</innerfile>
+    <innerfile refid="jwks__security_8h">jwks_security.h</innerfile>
+    <innerfile refid="jwks__validator_8h">jwks_validator.h</innerfile>
+    <innerfile refid="jwt__key__rotation__manager_8h">jwt_key_rotation_manager.h</innerfile>
+    <innerfile refid="jwt__validator_8h">jwt_validator.h</innerfile>
+    <innerfile refid="kerberos__security_8h">kerberos_security.h</innerfile>
+    <innerfile refid="ldap__authenticator_8h">ldap_authenticator.h</innerfile>
+    <innerfile refid="ldap__connection__pool_8h">ldap_connection_pool.h</innerfile>
+    <innerfile refid="mfa__authenticator_8h">mfa_authenticator.h</innerfile>
+    <innerfile refid="mtls__authenticator_8h">mtls_authenticator.h</innerfile>
+    <innerfile refid="oauth__device__flow_8h">oauth_device_flow.h</innerfile>
+    <innerfile refid="oauth__pkce__flow_8h">oauth_pkce_flow.h</innerfile>
+    <innerfile refid="oidc__provider_8h">oidc_provider.h</innerfile>
+    <innerfile refid="passkey__authenticator_8h">passkey_authenticator.h</innerfile>
+    <innerfile refid="password__policy_8h">password_policy.h</innerfile>
+    <innerfile refid="principal__validator_8h">principal_validator.h</innerfile>
+    <innerfile refid="rate__limiter__backend_8h">rate_limiter_backend.h</innerfile>
+    <innerfile refid="redis__token__blacklist_8h">redis_token_blacklist.h</innerfile>
+    <innerfile refid="rocksdb__token__blacklist_8h">rocksdb_token_blacklist.h</innerfile>
+    <innerfile refid="saml__authenticator_8h">saml_authenticator.h</innerfile>
+    <innerfile refid="secure__memory_8h">secure_memory.h</innerfile>
+    <innerfile refid="session__manager_8h">session_manager.h</innerfile>
+    <innerfile refid="token__blacklist_8h">token_blacklist.h</innerfile>
+    <innerfile refid="totp__replay__cache_8h">totp_replay_cache.h</innerfile>
+    <innerfile refid="totp__secret__encryption_8h">totp_secret_encryption.h</innerfile>
+    <innerfile refid="webauthn__authenticator_8h">webauthn_authenticator.h</innerfile>
+    <innerfile refid="zero__trust__auth__verifier_8h">zero_trust_auth_verifier.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/"/>
+  </compounddef>
+</doxygen>

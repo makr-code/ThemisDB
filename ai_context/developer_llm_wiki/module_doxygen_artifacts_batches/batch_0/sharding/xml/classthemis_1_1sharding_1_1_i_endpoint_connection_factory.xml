@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_endpoint_connection_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IEndpointConnectionFactory</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory" prot="public" virt="non-virtual">themis::sharding::MTLSConnectionFactory</derivedcompoundref>
+    <includes refid="mtls__connection__factory_8h" local="no">mtls_connection_factory.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1ada365002cbc81eade24ba9b9dba22e0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IEndpointConnectionFactory::~IEndpointConnectionFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEndpointConnectionFactory</name>
+        <qualifiedname>themis::sharding::IEndpointConnectionFactory::~IEndpointConnectionFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="55" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1a6d167b62265979a23dbd49a1c0c059b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::unique_ptr&lt; <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref> &gt; &gt;</type>
+        <definition>virtual std::optional&lt; std::unique_ptr&lt; SSL, SSLDeleter &gt; &gt; themis::sharding::IEndpointConnectionFactory::createConnection</definition>
+        <argsstring>(const std::string &amp;endpoint)=0</argsstring>
+        <name>createConnection</name>
+        <qualifiedname>themis::sharding::IEndpointConnectionFactory::createConnection</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1a001bb0ef227df0cc2cbe305ecc38a570">createConnection</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Create a new mTLS connection to the specified endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs the full connection lifecycle:<orderedlist>
+<listitem><para>TCP connect to endpoint</para>
+</listitem><listitem><para>TLS handshake with mutual authentication</para>
+</listitem><listitem><para>Verify peer certificate</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target endpoint (e.g., &quot;localhost:50051&quot;)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully established <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref> connection, or nullopt on failure:<itemizedlist>
+<listitem><para>nullopt: Connection failed, timeout, or handshake error</para>
+</listitem><listitem><para>unique_ptr&lt;SSL&gt;: Valid connection ready for use</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Caller owns the returned connection and must release it back to the pool via <ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1aee0faf8f2a8c4cacd5fb09ab08ed86d3" kindref="member">EndpointConnectionPool::releaseConnection()</ref></para>
+</simplesect>
+<simplesect kind="note"><para>Implementation should not throw; return nullopt on errors </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="77" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for mTLS connection factory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the contract for creating and establishing mTLS connections. Implementations should handle:<itemizedlist>
+<listitem><para>TLS context configuration</para>
+</listitem><listitem><para>TCP connection establishment</para>
+</listitem><listitem><para>TLS handshake</para>
+</listitem><listitem><para>Error handling and diagnostics</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Thread-safe: implementations must be safe to call from multiple threads </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::IEndpointConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory"/>
+      </node>
+      <node id="2">
+        <label>themis::sharding::MTLSConnectionFactory</label>
+        <link refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_factory"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/mtls_connection_factory.h" line="53" column="1" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="53" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1a6d167b62265979a23dbd49a1c0c059b7" prot="public" virt="pure-virtual"><scope>themis::sharding::IEndpointConnectionFactory</scope><name>createConnection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_endpoint_connection_factory_1ada365002cbc81eade24ba9b9dba22e0d" prot="public" virt="virtual"><scope>themis::sharding::IEndpointConnectionFactory</scope><name>~IEndpointConnectionFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

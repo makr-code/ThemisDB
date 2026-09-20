@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::RebuildStateUtils</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils_1a9001210b18ea34b6c748870c5215c785" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RebuildStateUtils::stateToString</definition>
+        <argsstring>(RebuildState state)</argsstring>
+        <name>stateToString</name>
+        <qualifiedname>themis::distributed_tensor::RebuildStateUtils::stateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995e" kindref="member">RebuildState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>State To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="141" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils_1a6fc7b04e5c6e21ead993a8b18b4e2965" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995e" kindref="member">RebuildState</ref> &gt;</type>
+        <definition>std::optional&lt; RebuildState &gt; themis::distributed_tensor::RebuildStateUtils::stringToState</definition>
+        <argsstring>(const std::string &amp;state_str)</argsstring>
+        <name>stringToState</name>
+        <qualifiedname>themis::distributed_tensor::RebuildStateUtils::stringToState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_str</declname>
+        </param>
+        <briefdescription>
+<para>String To State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToState without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="148" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="187" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_manifest.h" line="135" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="135" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils_1a9001210b18ea34b6c748870c5215c785" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RebuildStateUtils</scope><name>stateToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils_1a6fc7b04e5c6e21ead993a8b18b4e2965" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RebuildStateUtils</scope><name>stringToState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

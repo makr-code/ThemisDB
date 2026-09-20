@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155" kind="namespace" language="C++">
+    <compoundname>themis::updates::@007134175026223065347051347056036036015227346155</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConstraintOp</name>
+        <qualifiedname>themis::updates::@007134175026223065347051347056036036015227346155::ConstraintOp</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bca32d35312e8f24bc1669bd2b45c00d47c" prot="public">
+          <name>GTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bcacd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bcacc981ecc65ecf63ad1673cbec9c64198" prot="public">
+          <name>LTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bcac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bca2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1_1_0d007134175026223065347051347056036036015227346155_1aad7b845d456d4a051e7a5903140982bca375b332cf2e0c6d522baf007ef7cb554" prot="public">
+          <name>NEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/dependency_resolver.cpp" line="90" column="1" bodyfile="src/updates/dependency_resolver.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/updates/dependency_resolver.cpp" line="55" column="1"/>
+  </compounddef>
+</doxygen>

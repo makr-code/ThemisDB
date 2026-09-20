@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_metric_exporter_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubMetricExporterStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_metric_exporter_stress_1a9a4d9d0b36077f19ebcddb3079e06361" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubMetricExporterStress::exported_</definition>
+        <argsstring></argsstring>
+        <name>exported_</name>
+        <qualifiedname>StubMetricExporterStress::exported_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="45" column="17" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_metric_exporter_stress_1a333fd9ab98d61b5ea2d697174edded19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubMetricExporterStress::exportMetric</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>exportMetric</name>
+        <qualifiedname>StubMetricExporterStress::exportMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="39" column="10" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metric_exporter_stress_1ad6a880358f8972397015049a85347de6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubMetricExporterStress::exported</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>exported</name>
+        <qualifiedname>StubMetricExporterStress::exported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="43" column="14" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="37" column="1" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="37" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_stub_metric_exporter_stress_1ad6a880358f8972397015049a85347de6" prot="public" virt="non-virtual"><scope>StubMetricExporterStress</scope><name>exported</name></member>
+      <member refid="class_stub_metric_exporter_stress_1a9a4d9d0b36077f19ebcddb3079e06361" prot="private" virt="non-virtual"><scope>StubMetricExporterStress</scope><name>exported_</name></member>
+      <member refid="class_stub_metric_exporter_stress_1a333fd9ab98d61b5ea2d697174edded19" prot="public" virt="non-virtual"><scope>StubMetricExporterStress</scope><name>exportMetric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

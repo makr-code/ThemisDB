@@ -1,0 +1,544 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_sphincs_plus" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SphincsPlus</compoundname>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair" prot="public">themis::security::SphincsPlus::KeyPair</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Variant</name>
+        <qualifiedname>themis::security::SphincsPlus::Variant</qualifiedname>
+        <enumvalue id="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887aa7af228ae232ca762837fbb6029c8d041" prot="public">
+          <name>SPHINCS_SHA2_256S</name>
+          <briefdescription>
+<para>Small signature, slower signing (conservative). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887aa41372494c35e653143940988ae220662" prot="public">
+          <name>SPHINCS_SHA2_256F</name>
+          <briefdescription>
+<para>Fast signing, larger signatures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="419" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="419" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_sphincs_plus_1ad4fadec5234eb46d7c6546551deb4274" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair" kindref="compound">KeyPair</ref>()&gt;</type>
+        <definition>using themis::security::SphincsPlus::GenerateKeyPairFn = std::function&lt;KeyPair()&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateKeyPairFn</name>
+        <qualifiedname>themis::security::SphincsPlus::GenerateKeyPairFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="476" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_sphincs_plus_1a56a4d7d6c3a323262e4eaa1e029801f8" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;( const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;secret_key)&gt;</type>
+        <definition>using themis::security::SphincsPlus::SignFn = std::function&lt;std::vector&lt;uint8_t&gt;(
+       const std::vector&lt;uint8_t&gt;&amp; message,
+       const std::vector&lt;uint8_t&gt;&amp; secret_key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SignFn</name>
+        <qualifiedname>themis::security::SphincsPlus::SignFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="477" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_sphincs_plus_1a15d4be5f86b023a76a0a2c46e405a2eb" prot="public" static="no">
+        <type>std::function&lt; bool( const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;signature, const std::vector&lt; uint8_t &gt; &amp;public_key)&gt;</type>
+        <definition>using themis::security::SphincsPlus::VerifyFn = std::function&lt;bool(
+       const std::vector&lt;uint8_t&gt;&amp; message,
+       const std::vector&lt;uint8_t&gt;&amp; signature,
+       const std::vector&lt;uint8_t&gt;&amp; public_key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VerifyFn</name>
+        <qualifiedname>themis::security::SphincsPlus::VerifyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="480" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_sphincs_plus_1af91ffb600fb9df071611d530bc4be221" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887a" kindref="member">Variant</ref></type>
+        <definition>Variant themis::security::SphincsPlus::variant_</definition>
+        <argsstring></argsstring>
+        <name>variant_</name>
+        <qualifiedname>themis::security::SphincsPlus::variant_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="511" column="13" bodyfile="include/security/post_quantum_crypto.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_sphincs_plus_1a07adf32ab12a372c3758da982863532f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::security::SphincsPlus::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::security::SphincsPlus::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="513" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SphincsPlus::SphincsPlus</definition>
+        <argsstring>(Variant variant=Variant::SPHINCS_SHA2_256S)</argsstring>
+        <name>SphincsPlus</name>
+        <qualifiedname>themis::security::SphincsPlus::SphincsPlus</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887a" kindref="member">Variant</ref></type>
+          <declname>variant</declname>
+          <defval><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887aa7af228ae232ca762837fbb6029c8d041" kindref="member">Variant::SPHINCS_SHA2_256S</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="424" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a8ff47d12c7418504bec24b2c7f08a35a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SphincsPlus::~SphincsPlus</definition>
+        <argsstring>()</argsstring>
+        <name>~SphincsPlus</name>
+        <qualifiedname>themis::security::SphincsPlus::~SphincsPlus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="425" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a6ba18b7d5685bbb810c63faedf331c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SphincsPlus::SphincsPlus</definition>
+        <argsstring>(const SphincsPlus &amp;)=delete</argsstring>
+        <name>SphincsPlus</name>
+        <qualifiedname>themis::security::SphincsPlus::SphincsPlus</qualifiedname>
+        <param>
+          <type>const SphincsPlus &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="428" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1ae587b6ed2565f0da8c8e33e7437db05d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" kindref="member">SphincsPlus</ref> &amp;</type>
+        <definition>SphincsPlus &amp; themis::security::SphincsPlus::operator=</definition>
+        <argsstring>(const SphincsPlus &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::SphincsPlus::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" kindref="member">SphincsPlus</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="429" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a4719f36cee0ba0c3360fcdce43aaef0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SphincsPlus::SphincsPlus</definition>
+        <argsstring>(SphincsPlus &amp;&amp;) noexcept</argsstring>
+        <name>SphincsPlus</name>
+        <qualifiedname>themis::security::SphincsPlus::SphincsPlus</qualifiedname>
+        <param>
+          <type>SphincsPlus &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="430" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a0e3b4bc27f4b27c849e32326b6b933cf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" kindref="member">SphincsPlus</ref> &amp;</type>
+        <definition>SphincsPlus &amp; themis::security::SphincsPlus::operator=</definition>
+        <argsstring>(SphincsPlus &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::SphincsPlus::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" kindref="member">SphincsPlus</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="431" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1ad63622ad4452a1bae3e3a2383b37a5db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair" kindref="compound">KeyPair</ref></type>
+        <definition>KeyPair themis::security::SphincsPlus::generateKeyPair</definition>
+        <argsstring>()</argsstring>
+        <name>generateKeyPair</name>
+        <qualifiedname>themis::security::SphincsPlus::generateKeyPair</qualifiedname>
+        <briefdescription>
+<para>Generate a SPHINCS+ key pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>New key pair. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="447" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a4e651c1fa60a77507dbcecea04cba1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::SphincsPlus::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;secret_key)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::security::SphincsPlus::sign</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>secret_key</declname>
+        </param>
+        <briefdescription>
+<para>Sign a message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arbitrary byte sequence to sign. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>secret_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPHINCS+ signing key from <ref refid="classthemis_1_1security_1_1_sphincs_plus_1ad63622ad4452a1bae3e3a2383b37a5db" kindref="member">generateKeyPair()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Signature bytes. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if secret_key size is unexpected. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on signing failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="458" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1ac9e1ca66cfa7115fefcecade9ea61ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SphincsPlus::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;message, const std::vector&lt; uint8_t &gt; &amp;signature, const std::vector&lt; uint8_t &gt; &amp;public_key)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::security::SphincsPlus::verify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>public_key</declname>
+        </param>
+        <briefdescription>
+<para>Verify a SPHINCS+ signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original message. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signature to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>public_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signer&apos;s SPHINCS+ public key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the signature is authentic, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="469" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a3f8c8294625793988ecef98cbf30abec" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887a" kindref="member">Variant</ref></type>
+        <definition>Variant themis::security::SphincsPlus::getVariant</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getVariant</name>
+        <qualifiedname>themis::security::SphincsPlus::getVariant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="501" column="13" bodyfile="include/security/post_quantum_crypto.h" bodystart="501" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a268ec1b062c16f82ab89bd42a40242c9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::SphincsPlus::publicKeySize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>publicKeySize</name>
+        <qualifiedname>themis::security::SphincsPlus::publicKeySize</qualifiedname>
+        <briefdescription>
+<para>Expected public key size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="504" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1308" bodyend="1316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a07e5b686ea63fdbab6039f551c59cd47" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::SphincsPlus::secretKeySize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>secretKeySize</name>
+        <qualifiedname>themis::security::SphincsPlus::secretKeySize</qualifiedname>
+        <briefdescription>
+<para>Expected secret key size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="506" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1318" bodyend="1326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1abaebef3274ba9fbfe2a22c32be8610c4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::SphincsPlus::signatureSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>signatureSize</name>
+        <qualifiedname>themis::security::SphincsPlus::signatureSize</qualifiedname>
+        <briefdescription>
+<para>Signature size in bytes (variant-dependent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="508" column="12" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="1328" bodyend="1337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a59977ebd7b6dfd708e084b5c1139746f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::SphincsPlus::setGenerateKeyPairFn</definition>
+        <argsstring>(GenerateKeyPairFn fn)</argsstring>
+        <name>setGenerateKeyPairFn</name>
+        <qualifiedname>themis::security::SphincsPlus::setGenerateKeyPairFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1ad4fadec5234eb46d7c6546551deb4274" kindref="member">GenerateKeyPairFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Generate Key Pair Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="489" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a7bba03fd8c10ebcf6a9b125602d0b6ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::SphincsPlus::setSignFn</definition>
+        <argsstring>(SignFn fn)</argsstring>
+        <name>setSignFn</name>
+        <qualifiedname>themis::security::SphincsPlus::setSignFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a56a4d7d6c3a323262e4eaa1e029801f8" kindref="member">SignFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Sign Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="494" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_sphincs_plus_1a1bcc66813a10252aae28df99c6d7e96a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::SphincsPlus::setVerifyFn</definition>
+        <argsstring>(VerifyFn fn)</argsstring>
+        <name>setVerifyFn</name>
+        <qualifiedname>themis::security::SphincsPlus::setVerifyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_sphincs_plus_1a15d4be5f86b023a76a0a2c46e405a2eb" kindref="member">VerifyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Verify Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="499" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SPHINCS+ hash-based digital signature scheme (Phase 7.1). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>NIST-standardised stateless hash-based signature scheme (FIPS 205 / SLH-DSA). SPHINCS+ provides a conservative security argument based solely on hash function security — unlike lattice-based schemes (Dilithium) it has no algebraic structure that could be attacked by future mathematical advances.</para>
+<para><simplesect kind="note"><para>This implementation uses an OpenSSL-backed software simulation (SHA-256 HMAC + Ed25519) that is API-compatible with the full liboqs backend. Once liboqs is added as a vcpkg dependency the backend will be replaced transparently. The simulation is labeled SPHINCSPLUS_SIM in diagnostic output.</para>
+</simplesect>
+Supported variants: SPHINCS_SHA2_256S — SPHINCS+-SHA2-256s (128-bit security, small signatures) SPHINCS_SHA2_256F — SPHINCS+-SHA2-256f (128-bit security, fast signing)</para>
+<para>Performance targets (per NIST benchmarks): Sign: ≥ 100 ops/s (256s), ≥ 5 000 ops/s (256f) Verify: ≥ 5 000 ops/s for both variants</para>
+<para>Thread safety: all methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/security/post_quantum_crypto.h" line="417" column="1" bodyfile="include/security/post_quantum_crypto.h" bodystart="417" bodyend="514"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1ad63622ad4452a1bae3e3a2383b37a5db" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>generateKeyPair</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1ad4fadec5234eb46d7c6546551deb4274" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>GenerateKeyPairFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a3f8c8294625793988ecef98cbf30abec" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>getVariant</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a07adf32ab12a372c3758da982863532f" prot="private" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1ae587b6ed2565f0da8c8e33e7437db05d" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a0e3b4bc27f4b27c849e32326b6b933cf" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a268ec1b062c16f82ab89bd42a40242c9" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>publicKeySize</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a07e5b686ea63fdbab6039f551c59cd47" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>secretKeySize</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a59977ebd7b6dfd708e084b5c1139746f" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>setGenerateKeyPairFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a7bba03fd8c10ebcf6a9b125602d0b6ce" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>setSignFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a1bcc66813a10252aae28df99c6d7e96a" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>setVerifyFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a4e651c1fa60a77507dbcecea04cba1f7" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>sign</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1abaebef3274ba9fbfe2a22c32be8610c4" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>signatureSize</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a56a4d7d6c3a323262e4eaa1e029801f8" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>SignFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1af910c7c8d34043121818c856cae163fd" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>SphincsPlus</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a6ba18b7d5685bbb810c63faedf331c85" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>SphincsPlus</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a4719f36cee0ba0c3360fcdce43aaef0d" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>SphincsPlus</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a14b5479f97e2ea4cd1bb5d43cfc4887a" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>Variant</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1af91ffb600fb9df071611d530bc4be221" prot="private" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>variant_</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1ac9e1ca66cfa7115fefcecade9ea61ebd" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>verify</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a15d4be5f86b023a76a0a2c46e405a2eb" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>VerifyFn</name></member>
+      <member refid="classthemis_1_1security_1_1_sphincs_plus_1a8ff47d12c7418504bec24b2c7f08a35a" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus</scope><name>~SphincsPlus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

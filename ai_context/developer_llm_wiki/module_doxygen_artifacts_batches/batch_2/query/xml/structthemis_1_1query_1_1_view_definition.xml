@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_view_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ViewDefinition</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1add6593ab0cdf5f5177a2464e1cb951cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ViewDefinition::view_id</definition>
+        <argsstring></argsstring>
+        <name>view_id</name>
+        <qualifiedname>themis::query::ViewDefinition::view_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="21" column="17" bodyfile="include/query/incremental_view.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1aa0c6a952e05b725cfa77583b31367686" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ViewDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::ViewDefinition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="22" column="17" bodyfile="include/query/incremental_view.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1a94e58d07eaf4ce324f6859db630eae36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ViewDefinition::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::query::ViewDefinition::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="23" column="17" bodyfile="include/query/incremental_view.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1a9614f81d2897a5ae374c272323b6342f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ViewDefinition::is_materialized</definition>
+        <argsstring></argsstring>
+        <name>is_materialized</name>
+        <qualifiedname>themis::query::ViewDefinition::is_materialized</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="24" column="10" bodyfile="include/query/incremental_view.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1aedb22d0de6dc63aab5bea7d9a53e4412" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::ViewDefinition::refresh_interval</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval</name>
+        <qualifiedname>themis::query::ViewDefinition::refresh_interval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="25" column="31" bodyfile="include/query/incremental_view.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_view_definition_1a35a5009cbed5db683e601550ec6af499" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::ViewDefinition::source_collections</definition>
+        <argsstring></argsstring>
+        <name>source_collections</name>
+        <qualifiedname>themis::query::ViewDefinition::source_collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/incremental_view.h" line="26" column="17" bodyfile="include/query/incremental_view.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/incremental_view.h" line="20" column="1" bodyfile="include/query/incremental_view.h" bodystart="20" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_view_definition_1a9614f81d2897a5ae374c272323b6342f" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>is_materialized</name></member>
+      <member refid="structthemis_1_1query_1_1_view_definition_1aa0c6a952e05b725cfa77583b31367686" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_view_definition_1a94e58d07eaf4ce324f6859db630eae36" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>query</name></member>
+      <member refid="structthemis_1_1query_1_1_view_definition_1aedb22d0de6dc63aab5bea7d9a53e4412" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>refresh_interval</name></member>
+      <member refid="structthemis_1_1query_1_1_view_definition_1a35a5009cbed5db683e601550ec6af499" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>source_collections</name></member>
+      <member refid="structthemis_1_1query_1_1_view_definition_1add6593ab0cdf5f5177a2464e1cb951cd" prot="public" virt="non-virtual"><scope>themis::query::ViewDefinition</scope><name>view_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_cardinality_limit" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::CardinalityLimit</compoundname>
+    <includes refid="high__cardinality__metrics_8h" local="no">high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_limit_1a84ae8afd11db5714ce6c8b28cc77b5a5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::CardinalityLimit::max_series</definition>
+        <argsstring></argsstring>
+        <name>max_series</name>
+        <qualifiedname>themis::observability::CardinalityLimit::max_series</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum distinct label-set combinations for this metric/family. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="47" column="17" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_limit_1a9ca59b547f9240f1a6de8007758b1254" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60" kindref="member">CardinalityExceededPolicy</ref></type>
+        <definition>CardinalityExceededPolicy themis::observability::CardinalityLimit::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::observability::CardinalityLimit::policy</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7757edc25ce8536c62c33c4247a2ae79" kindref="member">CardinalityExceededPolicy::DROP_NEW_SETS</ref>}</initializer>
+        <briefdescription>
+<para>Action to take when limit is exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="50" column="31" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_limit_1aa6636c017e3b17384767aeb54b00dece" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::CardinalityLimit::emit_diagnostics</definition>
+        <argsstring></argsstring>
+        <name>emit_diagnostics</name>
+        <qualifiedname>themis::observability::CardinalityLimit::emit_diagnostics</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to emit diagnostic counters for cardinality events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="53" column="10" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_limit_1add3a0c0fcbc6ed70c0c97f782c3b52a0" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::observability::CardinalityLimit::alert_grace_period_seconds</definition>
+        <argsstring></argsstring>
+        <name>alert_grace_period_seconds</name>
+        <qualifiedname>themis::observability::CardinalityLimit::alert_grace_period_seconds</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Grace period (in seconds) between cardinality explosion alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="56" column="19" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cardinality limit configuration for a single metric or metric family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the maximum number of distinct label-set combinations (time series) allowed for a metric, and how to handle when the limit is exceeded. </para>
+    </detaileddescription>
+    <location file="include/observability/high_cardinality_metrics.h" line="45" column="1" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="45" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_cardinality_limit_1add3a0c0fcbc6ed70c0c97f782c3b52a0" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityLimit</scope><name>alert_grace_period_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_limit_1aa6636c017e3b17384767aeb54b00dece" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityLimit</scope><name>emit_diagnostics</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_limit_1a84ae8afd11db5714ce6c8b28cc77b5a5" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityLimit</scope><name>max_series</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_limit_1a9ca59b547f9240f1a6de8007758b1254" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityLimit</scope><name>policy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

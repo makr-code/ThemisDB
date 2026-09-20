@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_a_p_i_version_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::APIVersionConfig</compoundname>
+    <includes refid="api__version__config_8h" local="no">api_version_config.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1aea220721baefd1911496c14c5d1676c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::CURRENT_MAJOR</definition>
+        <argsstring></argsstring>
+        <name>CURRENT_MAJOR</name>
+        <qualifiedname>themis::server::APIVersionConfig::CURRENT_MAJOR</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="28" column="31" bodyfile="include/server/api_version_config.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1ad772329981b5c8db790e3a4c66f4d135" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::CURRENT_MINOR</definition>
+        <argsstring></argsstring>
+        <name>CURRENT_MINOR</name>
+        <qualifiedname>themis::server::APIVersionConfig::CURRENT_MINOR</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="29" column="31" bodyfile="include/server/api_version_config.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1af12ccad57d9d54b5412b00d69b9e4c91" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::CURRENT_PATCH</definition>
+        <argsstring></argsstring>
+        <name>CURRENT_PATCH</name>
+        <qualifiedname>themis::server::APIVersionConfig::CURRENT_PATCH</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="30" column="31" bodyfile="include/server/api_version_config.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1a2b31e0ea65524e77299fc5a0ef8fdd3d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::MINIMUM_MAJOR</definition>
+        <argsstring></argsstring>
+        <name>MINIMUM_MAJOR</name>
+        <qualifiedname>themis::server::APIVersionConfig::MINIMUM_MAJOR</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="33" column="31" bodyfile="include/server/api_version_config.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1af226c477cf9506f66dc5d99d644072f0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::MINIMUM_MINOR</definition>
+        <argsstring></argsstring>
+        <name>MINIMUM_MINOR</name>
+        <qualifiedname>themis::server::APIVersionConfig::MINIMUM_MINOR</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="34" column="31" bodyfile="include/server/api_version_config.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1a7222b68498345387af483e72017a57b7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIVersionConfig::MINIMUM_PATCH</definition>
+        <argsstring></argsstring>
+        <name>MINIMUM_PATCH</name>
+        <qualifiedname>themis::server::APIVersionConfig::MINIMUM_PATCH</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="35" column="31" bodyfile="include/server/api_version_config.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_version_config_1a5a71fb6c98003828ea3f3ac0e0197dec" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::APIVersionConfig::DEPRECATION_PERIOD_DAYS</definition>
+        <argsstring></argsstring>
+        <name>DEPRECATION_PERIOD_DAYS</name>
+        <qualifiedname>themis::server::APIVersionConfig::DEPRECATION_PERIOD_DAYS</qualifiedname>
+        <initializer>= 730</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version_config.h" line="38" column="26" bodyfile="include/server/api_version_config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Current API version configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These values should be updated when releasing new API versions. They are synchronized with the VERSION file at build time. </para>
+    </detaileddescription>
+    <location file="include/server/api_version_config.h" line="26" column="1" bodyfile="include/server/api_version_config.h" bodystart="26" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1aea220721baefd1911496c14c5d1676c8" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>CURRENT_MAJOR</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1ad772329981b5c8db790e3a4c66f4d135" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>CURRENT_MINOR</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1af12ccad57d9d54b5412b00d69b9e4c91" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>CURRENT_PATCH</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1a5a71fb6c98003828ea3f3ac0e0197dec" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>DEPRECATION_PERIOD_DAYS</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1a2b31e0ea65524e77299fc5a0ef8fdd3d" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>MINIMUM_MAJOR</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1af226c477cf9506f66dc5d99d644072f0" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>MINIMUM_MINOR</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_version_config_1a7222b68498345387af483e72017a57b7" prot="public" virt="non-virtual"><scope>themis::server::APIVersionConfig</scope><name>MINIMUM_PATCH</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

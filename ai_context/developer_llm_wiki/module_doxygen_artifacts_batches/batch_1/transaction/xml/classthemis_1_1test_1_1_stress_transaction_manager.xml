@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_stress_transaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::StressTransactionManager</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1_stress_transaction_manager_1_1_transaction" prot="public">themis::test::StressTransactionManager::Transaction</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_stress_transaction_manager_1a6db9cb43fc20fdf08b003fb2b69c6867" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="structthemis_1_1test_1_1_stress_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> &gt;</type>
+        <definition>std::map&lt;int, Transaction&gt; themis::test::StressTransactionManager::txns_</definition>
+        <argsstring></argsstring>
+        <name>txns_</name>
+        <qualifiedname>themis::test::StressTransactionManager::txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="84" column="14" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_stress_transaction_manager_1a72c3c08cce22a03d74bfec31151aabbe" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::StressTransactionManager::next_txn_id_</definition>
+        <argsstring></argsstring>
+        <name>next_txn_id_</name>
+        <qualifiedname>themis::test::StressTransactionManager::next_txn_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="85" column="9" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_stress_transaction_manager_1a33f5b5ebcda82a354da00f821ab02e14" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::StressTransactionManager::committed_count_</definition>
+        <argsstring></argsstring>
+        <name>committed_count_</name>
+        <qualifiedname>themis::test::StressTransactionManager::committed_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="86" column="17" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_stress_transaction_manager_1ad314e3585e85b2fb28082d4c7f4b26c6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::StressTransactionManager::aborted_count_</definition>
+        <argsstring></argsstring>
+        <name>aborted_count_</name>
+        <qualifiedname>themis::test::StressTransactionManager::aborted_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="87" column="17" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_stress_transaction_manager_1a6afc5c16d82d757bff6d4fd6595ed3e6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::StressTransactionManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::StressTransactionManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="88" column="24" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1a5472421b17dbb07c7bd11cb589fc39d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::StressTransactionManager::StressTransactionManager</definition>
+        <argsstring>()</argsstring>
+        <name>StressTransactionManager</name>
+        <qualifiedname>themis::test::StressTransactionManager::StressTransactionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="43" column="5" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1abc9dd1ba0fc28666958d05504da0694c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::StressTransactionManager::beginTransaction</definition>
+        <argsstring>()</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::test::StressTransactionManager::beginTransaction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="45" column="9" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1a8f66af7e9b35963568f389be88c66dbf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::StressTransactionManager::commitTransaction</definition>
+        <argsstring>(int txn_id)</argsstring>
+        <name>commitTransaction</name>
+        <qualifiedname>themis::test::StressTransactionManager::commitTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="52" column="10" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="52" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1aebc90be31f4b626e4ec1cd652d31330b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::StressTransactionManager::abortTransaction</definition>
+        <argsstring>(int txn_id)</argsstring>
+        <name>abortTransaction</name>
+        <qualifiedname>themis::test::StressTransactionManager::abortTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="64" column="10" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="64" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1a4897924c56505dc3a0144f98df553435" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::StressTransactionManager::getPendingTransactionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingTransactionCount</name>
+        <qualifiedname>themis::test::StressTransactionManager::getPendingTransactionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="75" column="9" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1a322c74626c34e678c8bf19d90b25fabd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::StressTransactionManager::getCommittedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCommittedCount</name>
+        <qualifiedname>themis::test::StressTransactionManager::getCommittedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="80" column="9" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_stress_transaction_manager_1a0f4cf2424f13bb95f7213ec2eb4951e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::StressTransactionManager::getAbortedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAbortedCount</name>
+        <qualifiedname>themis::test::StressTransactionManager::getAbortedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="81" column="9" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_stress.cpp" line="35" column="1" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="35" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1ad314e3585e85b2fb28082d4c7f4b26c6" prot="private" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>aborted_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1aebc90be31f4b626e4ec1cd652d31330b" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>abortTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1abc9dd1ba0fc28666958d05504da0694c" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a33f5b5ebcda82a354da00f821ab02e14" prot="private" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>committed_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a8f66af7e9b35963568f389be88c66dbf" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>commitTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a0f4cf2424f13bb95f7213ec2eb4951e0" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>getAbortedCount</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a322c74626c34e678c8bf19d90b25fabd" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>getCommittedCount</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a4897924c56505dc3a0144f98df553435" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>getPendingTransactionCount</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a6afc5c16d82d757bff6d4fd6595ed3e6" prot="private" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a72c3c08cce22a03d74bfec31151aabbe" prot="private" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>next_txn_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a5472421b17dbb07c7bd11cb589fc39d8" prot="public" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>StressTransactionManager</name></member>
+      <member refid="classthemis_1_1test_1_1_stress_transaction_manager_1a6db9cb43fc20fdf08b003fb2b69c6867" prot="private" virt="non-virtual"><scope>themis::test::StressTransactionManager</scope><name>txns_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

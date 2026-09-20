@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="intent__classifier_8h" kind="file" language="C++">
+    <compoundname>intent_classifier.h</compoundname>
+    <includes refid="zero__trust__policy__enforcer_8h" local="yes">security/zero_trust_policy_enforcer.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="intent__classifier_8cpp" local="yes">src/security/intent_classifier.cpp</includedby>
+    <includedby refid="test__ai__safety__chaos_8cpp" local="yes">tests/security/ai_safety/test_ai_safety_chaos.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/intent_classifier.h</label>
+        <link refid="intent__classifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>security/zero_trust_policy_enforcer.h</label>
+        <link refid="zero__trust__policy__enforcer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>array</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/intent_classifier.h</label>
+        <link refid="intent__classifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/intent_classifier.cpp</label>
+        <link refid="intent__classifier_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/ai_safety/test_ai_safety_chaos.cpp</label>
+        <link refid="test__ai__safety__chaos_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1security_1_1_intent_classifier" prot="public">themis::security::IntentClassifier</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" prot="public">themis::security::IntentClassifier::ClassificationResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert" prot="public">themis::security::IntentClassifier::IntentAlert</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="zero__trust__policy__enforcer_8h" kindref="compound">security/zero_trust_policy_enforcer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_intent_classifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" kindref="member">IntentClassifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a0acb5f66f3c0048d379123b63d65b412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a0acb5f66f3c0048d379123b63d65b412" kindref="member">LEGITIMATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a4e7a5650f1879b7b49c6828b92b8a80c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a4e7a5650f1879b7b49c6828b92b8a80c" kindref="member">SQL_INJECTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a45ca97de89d961927618e379db60ad87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a45ca97de89d961927618e379db60ad87" kindref="member">DATA_EXFILTRATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a744ca0bbe6b604bc462165f01338faeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a744ca0bbe6b604bc462165f01338faeb" kindref="member">PRIVILEGE_ESCALATION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a8aeca29aea06a16a5fbbc11e0b5b584b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a8aeca29aea06a16a5fbbc11e0b5b584b" kindref="member">ANOMALOUS_PATTERN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AI<sp/>Safety<sp/>Layer<sp/>—<sp/>Schicht<sp/>4<sp/>(ASL-4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Docs:<sp/>docs/de/security/ai_safety/AI_SAFETY_INTENT_CLASSIFIER.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9aac667deccd2981b241ee8adfa89663a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9aac667deccd2981b241ee8adfa89663a7" kindref="member">DATA_DESTRUCTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a999ee975ff966e15de132acf76d25c68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9a999ee975ff966e15de132acf76d25c68" kindref="member">SCHEMA_MUTATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="struct_intent_classifier_1_1_classification_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a06bfb7a93cf5a55705e6ca788f0a1403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a06bfb7a93cf5a55705e6ca788f0a1403" kindref="member">intent</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a51fcb69706370280db777be7a5e8ea45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a51fcb69706370280db777be7a5e8ea45" kindref="member">confidence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a523eddf306c7c505b673809fef85fd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result_1a523eddf306c7c505b673809fef85fd66" kindref="member">primary_indicator</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="struct_intent_classifier_1_1_intent_alert" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_intent_classifier_1_1_intent_alert" kindref="compound">IntentAlert</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1aefa7f06f3c0c0f2e659a416290f18d45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1aefa7f06f3c0c0f2e659a416290f18d45" kindref="member">intent</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a58d80cb16e2da996a2d2b094b97cc0e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a58d80cb16e2da996a2d2b094b97cc0e2" kindref="member">confidence</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1ae5c7fa39916acab4eeea9146faf56cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1ae5c7fa39916acab4eeea9146faf56cbb" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a5f7c0921ab0a6223e4ef5bf8a7dbaefb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a5f7c0921ab0a6223e4ef5bf8a7dbaefb" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a78e7bb1eceb3fb261df9245dd475cb93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a78e7bb1eceb3fb261df9245dd475cb93" kindref="member">evidence_embedding</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a2fe23c209f3fcb14edaa3e2b85ea2b75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_intent_alert_1a2fe23c209f3fcb14edaa3e2b85ea2b75" kindref="member">risk_delta</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" kindref="member">IntentClassifier</ref>(std::string<sp/>shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1security_1_1_intent_classifier_1a347f329cbea5eb9355ab1ecb31f0ea2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a347f329cbea5eb9355ab1ecb31f0ea2b" kindref="member">~IntentClassifier</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1security_1_1_intent_classifier_1ac3bb5aae3434f654126d0713ea00b10a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1ac3bb5aae3434f654126d0713ea00b10a" kindref="member">IntentClassifier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" kindref="member">IntentClassifier</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1security_1_1_intent_classifier_1a0b8ebb124922cc6c1dc953f3e11e4641" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" kindref="member">IntentClassifier</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a0b8ebb124922cc6c1dc953f3e11e4641" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aa849df29f6785cfb63e98557e7c49cfe" kindref="member">IntentClassifier</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aa4fd1e59ac17a74a2278c91251490405" kindref="member">classify</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/>query,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref>&amp;<sp/>session_context</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IntentAlert&gt;<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1acc82a33607ac10354902641b65b68478" kindref="member">maybeAlert</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session_id,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>confidence_threshold<sp/>=<sp/>0.85</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1security_1_1_intent_classifier_1a81b01266aec208088536e516c4f54471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a81b01266aec208088536e516c4f54471" kindref="member">shardId</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_id_;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a1a45f9e0a872dfc3bc27ac11336d32e8" kindref="member">intentName</ref>(<ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/>t);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>LoRA-Adapter<sp/>API<sp/>(ASL-13<sp/>/<sp/>IMPL-A2)<sp/>───────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" kindref="member">LoraLoadResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88ac2d7d194e973a7cbd33f73ce31ed880b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88ac2d7d194e973a7cbd33f73ce31ed880b" kindref="member">kEmptyPath</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a544e79580363066cbb337e559d036538" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88a544e79580363066cbb337e559d036538" kindref="member">kFileNotAccessible</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a9476aa71fba1f684a48bed5c1d21993a" kindref="member">setLoraModelPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a612edb39b9b46bf12244f638fc790d88" kindref="member">LoraLoadResult</ref><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a7038d3e2e42b1c2df6252fcdcb64658b" kindref="member">loadLoraModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a1c50aefeff9ec68bf152db6fb37acb56" kindref="member">isLoraActive</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a04b071440734134197e61d0368e2b8e4" kindref="member">loraModelPath</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Inference<sp/>injection<sp/>API<sp/>(IMPL-A2<sp/>/<sp/>ASL-13)<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>a<sp/>real<sp/>LoRA/LLM<sp/>inference<sp/>backend<sp/>so<sp/>that<sp/>classify()<sp/>delegates<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>instead<sp/>of<sp/>the<sp/>rule-based<sp/>fallback.<sp/><sp/>Setting<sp/>a<sp/>non-null<sp/>function<sp/>also</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>activates<sp/>the<sp/>LoRA<sp/>path<sp/>(i.e.<sp/>isLoraActive()<sp/>returns<sp/>true).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature:<sp/>(query,<sp/>session_context)<sp/>→<sp/>ClassificationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Without<sp/>a<sp/>function<sp/>injected,<sp/>classify()<sp/>uses<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>rule-based<sp/>engine<sp/>(~80<sp/>%<sp/>precision).<sp/><sp/>With<sp/>a<sp/>function,<sp/>precision<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>determined<sp/>by<sp/>the<sp/>injected<sp/>model<sp/>(target<sp/>≥<sp/>92<sp/>%).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Roadmap:<sp/>src/security/ROADMAP.md<sp/>§<sp/>Phase<sp/>4<sp/>(ASL-13)<sp/>/<sp/>IMPL-A2<sp/>Loop-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" kindref="member">InferenceFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_intent_classifier_1_1_classification_result" kindref="compound">ClassificationResult</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref>&amp;<sp/>session_context)&gt;;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1aaafa7031b20b17d8d4907e438b6dec5c" kindref="member">setInferenceFn</ref>(<ref refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" kindref="member">InferenceFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LORA_CLASSIFIER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>configureLoraEndpoint(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint_url,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>api_key<sp/><sp/><sp/><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout_ms<sp/>=<sp/>2000);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_HAS_LORA_CLASSIFIER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_id_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>LoRA<sp/>adapter<sp/>state<sp/>(ASL-13)<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/>lora_model_path_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lora_active_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1adb7a762d5125e9db44e29aceb036dc77" kindref="member">InferenceFn</ref><sp/><sp/>inference_fn_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kEmbeddingDim<sp/>=<sp/>384;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>riskDelta(<ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/>t)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>buildEmbedding(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>intent,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>primary_indicator</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/intent_classifier.h"/>
+  </compounddef>
+</doxygen>

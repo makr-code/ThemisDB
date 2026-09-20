@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_training_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::TrainingSession</compoundname>
+    <innerclass refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats" prot="public">themis::training::TrainingSession::CleanupStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a9171150d8f9a3908cc14943863ddbf34" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::TrainingSession::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::training::TrainingSession::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="153" column="24" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a0e03b5afb8811f10db43bfef50c87b9a" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::training::TrainingSession::training_thread_</definition>
+        <argsstring></argsstring>
+        <name>training_thread_</name>
+        <qualifiedname>themis::training::TrainingSession::training_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="154" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1af31a97fc13bd848dc51f4704de384c1b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingSession::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>themis::training::TrainingSession::session_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="155" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a5fe656132eb0ff80807d8cfecc83aa60" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::training::TrainingSession::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::training::TrainingSession::cancelled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="156" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1af6829c5885003d317b778be59b3085b4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::training::TrainingSession::completed_</definition>
+        <argsstring></argsstring>
+        <name>completed_</name>
+        <qualifiedname>themis::training::TrainingSession::completed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="157" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a108f7d8eb0af40cf79bdca45b6d64366" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::training::TrainingSession::checkpoint_saved_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_saved_</name>
+        <qualifiedname>themis::training::TrainingSession::checkpoint_saved_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="158" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a383edd3502680e386cbbf32d7238f1a1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::training::TrainingSession::current_epoch_</definition>
+        <argsstring></argsstring>
+        <name>current_epoch_</name>
+        <qualifiedname>themis::training::TrainingSession::current_epoch_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="159" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_session_1a7fec858cb26123f67c87055c99849385" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats" kindref="compound">CleanupStats</ref></type>
+        <definition>CleanupStats themis::training::TrainingSession::cleanup_stats_</definition>
+        <argsstring></argsstring>
+        <name>cleanup_stats_</name>
+        <qualifiedname>themis::training::TrainingSession::cleanup_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="160" column="18" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a317e43317f71333b178fdbfc9b60e081" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingSession::TrainingSession</definition>
+        <argsstring>(const std::string &amp;id=&quot;session_1&quot;)</argsstring>
+        <name>TrainingSession</name>
+        <qualifiedname>themis::training::TrainingSession::TrainingSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+          <defval>&quot;session_1&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="36" column="14" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="36" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a67f1797dd4a98af32b3d5f109dc68026" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingSession::startTraining</definition>
+        <argsstring>(int duration_ms=5000)</argsstring>
+        <name>startTraining</name>
+        <qualifiedname>themis::training::TrainingSession::startTraining</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>duration_ms</declname>
+          <defval>5000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="39" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="39" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a0d2b792a85d858a5d89db24409f24012" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingSession::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::training::TrainingSession::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="70" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1abc4a613c15580fb7a5ed0a8eee378d3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingSession::isCancelled</definition>
+        <argsstring>() const</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>themis::training::TrainingSession::isCancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="80" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a3d9f5799a02014913f14e6915288012b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingSession::isCompleted</definition>
+        <argsstring>() const</argsstring>
+        <name>isCompleted</name>
+        <qualifiedname>themis::training::TrainingSession::isCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="84" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1af87ce28f0cf9a0e3e5aaf8ae821bd75c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingSession::hasCheckpointSaved</definition>
+        <argsstring>() const</argsstring>
+        <name>hasCheckpointSaved</name>
+        <qualifiedname>themis::training::TrainingSession::hasCheckpointSaved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="89" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1aa517417c8c2125c4a9e797cb716c5ae7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::training::TrainingSession::getCurrentEpoch</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentEpoch</name>
+        <qualifiedname>themis::training::TrainingSession::getCurrentEpoch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="94" column="9" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a9c5f345c133cf0eef915b4dcf077c626" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingSession::getSessionId</definition>
+        <argsstring>() const</argsstring>
+        <name>getSessionId</name>
+        <qualifiedname>themis::training::TrainingSession::getSessionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="98" column="17" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a393cb023ddddbbca49474f3ebb0dc1b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_session_1_1_cleanup_stats" kindref="compound">CleanupStats</ref></type>
+        <definition>CleanupStats themis::training::TrainingSession::getCleanupStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCleanupStats</name>
+        <qualifiedname>themis::training::TrainingSession::getCleanupStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="109" column="18" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a1dd5fbb3bda78c1d308022bcf5a952a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingSession::waitForCompletion</definition>
+        <argsstring>(int timeout_ms=10000)</argsstring>
+        <name>waitForCompletion</name>
+        <qualifiedname>themis::training::TrainingSession::waitForCompletion</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="114" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a5a94fa9476254b79bf553ece2161293a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingSession::cleanupResources</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupResources</name>
+        <qualifiedname>themis::training::TrainingSession::cleanupResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="127" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="127" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_session_1a8606d1bb38e7aff26109056c98e62669" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingSession::saveCheckpoint</definition>
+        <argsstring>()</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::training::TrainingSession::saveCheckpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_cancellation.cpp" line="148" column="10" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_training_cancellation.cpp" line="34" column="1" bodyfile="tests/training/test_training_cancellation.cpp" bodystart="34" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_session_1a0d2b792a85d858a5d89db24409f24012" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a5fe656132eb0ff80807d8cfecc83aa60" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a108f7d8eb0af40cf79bdca45b6d64366" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>checkpoint_saved_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a7fec858cb26123f67c87055c99849385" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>cleanup_stats_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a5a94fa9476254b79bf553ece2161293a" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>cleanupResources</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1af6829c5885003d317b778be59b3085b4" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>completed_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a383edd3502680e386cbbf32d7238f1a1" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>current_epoch_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a393cb023ddddbbca49474f3ebb0dc1b0" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>getCleanupStats</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1aa517417c8c2125c4a9e797cb716c5ae7" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>getCurrentEpoch</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a9c5f345c133cf0eef915b4dcf077c626" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>getSessionId</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1af87ce28f0cf9a0e3e5aaf8ae821bd75c" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>hasCheckpointSaved</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1abc4a613c15580fb7a5ed0a8eee378d3a" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>isCancelled</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a3d9f5799a02014913f14e6915288012b" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>isCompleted</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a9171150d8f9a3908cc14943863ddbf34" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a8606d1bb38e7aff26109056c98e62669" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1af31a97fc13bd848dc51f4704de384c1b" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>session_id_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a67f1797dd4a98af32b3d5f109dc68026" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>startTraining</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a0e03b5afb8811f10db43bfef50c87b9a" prot="private" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>training_thread_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a317e43317f71333b178fdbfc9b60e081" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>TrainingSession</name></member>
+      <member refid="classthemis_1_1training_1_1_training_session_1a1dd5fbb3bda78c1d308022bcf5a952a6" prot="public" virt="non-virtual"><scope>themis::training::TrainingSession</scope><name>waitForCompletion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

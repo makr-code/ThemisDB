@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1utilities__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::utilities_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1ab71e47360cf74c994b6cf797ca488b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_01_column_batches)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_01_column_batches</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-01: <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> Batch Computation Expected: valid layout </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="717" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="717" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1a85d1b1cfd4da81cb12f1fdeaa1537022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_02_large_dataset)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_02_large_dataset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-02: Large Dataset Expected: handles 1M+ elements </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="727" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="727" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1ae8146e3ac53b64512c4de62c7b692ad4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_03_merge_shards)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_03_merge_shards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-03: Merge Partial Results Expected: two shards </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="737" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="737" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1af5c5b7f072e9f9d6dd6afeed1658dedf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_04_many_shards)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_04_many_shards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-04: Many Shards Expected: completes efficiently </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="747" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="747" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1a683b75d42eaa3a02c015fbeebe4ded62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_05_text_features)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_05_text_features</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-05: Text Features Expected: feature vector </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="757" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="757" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1a338d84cab1caadfda7f1f10c196341cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_06_lora_patterns)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_06_lora_patterns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-06: LoRA Patterns Expected: pattern identification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="767" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="767" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1aeb7f6af2f8e384c94703ed141fb492af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_07_activity_pattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_07_activity_pattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-07: Activity Pattern Matching Expected: sequence match </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="777" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="777" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1ada5cb7862867fc40206939cab5d9b6c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_08_raii_coverage)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_08_raii_coverage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-08: RAII Coverage Expected: all resources released </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="787" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="787" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1ad49b2a118096a4e3fa31197acdc492f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_09_overflow_detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_09_overflow_detection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-09: Overflow Detection Expected: edge cases handled </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="797" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="797" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1aeedd8d165306c8a2d0117d3724e6c091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_10_performance_baseline)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_10_performance_baseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-10: Performance Baseline Expected: no regressions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="807" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="807" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1a44a013dd9014a4bb4309ab57c04bc459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_11_error_propagation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_11_error_propagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-11: Error Propagation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="816" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="816" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1aefbefbf3507683baeea2271543df0a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_12_memory_efficiency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_12_memory_efficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-12: Memory Efficiency </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="825" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="825" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1afa6139c373150b2e4ae12fbb588ed0c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_13_concurrency_safety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_13_concurrency_safety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-13: Concurrency Safety </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="834" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="834" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1ae68a92b66d9275f610fe53f4d5e03183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_14_boundary_conditions)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_14_boundary_conditions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-14: Boundary Conditions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="843" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="843" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1utilities__tests_1af0057423d4c3acaf997e64e3a0b3572c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::utilities_tests::TEST</definition>
+        <argsstring>(Utilities, UT_15_serialization)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::utilities_tests::TEST</qualifiedname>
+        <param>
+          <type>Utilities</type>
+        </param>
+        <param>
+          <type>UT_15_serialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UT-15: Serialization </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="852" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="852" bodyend="856"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="711" column="1"/>
+  </compounddef>
+</doxygen>

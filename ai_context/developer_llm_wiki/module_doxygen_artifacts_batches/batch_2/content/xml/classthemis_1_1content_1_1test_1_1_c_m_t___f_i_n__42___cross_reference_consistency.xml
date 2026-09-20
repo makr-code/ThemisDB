@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a0476e0d9e5215529c2d49c86ddd76b16" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_42_CrossReferenceConsistency::content_module_path</definition>
+        <argsstring></argsstring>
+        <name>content_module_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_42_CrossReferenceConsistency::content_module_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="79" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1acdc4bab2bb56a6543371639f83dbc274" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_42_CrossReferenceConsistency::root_path</definition>
+        <argsstring></argsstring>
+        <name>root_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_42_CrossReferenceConsistency::root_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="80" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1ae62bae82fa1242a86451b87444da6fd2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::CMT_FIN_42_CrossReferenceConsistency::readFile</definition>
+        <argsstring>(const fs::path &amp;path)</argsstring>
+        <name>readFile</name>
+        <qualifiedname>themis::content::test::CMT_FIN_42_CrossReferenceConsistency::readFile</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="82" column="17" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a5bfe67310b501cd21d84f2f921d14afc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::test::CMT_FIN_42_CrossReferenceConsistency::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::test::CMT_FIN_42_CrossReferenceConsistency::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="92" column="10" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp" line="77" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="77" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a0476e0d9e5215529c2d49c86ddd76b16" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</scope><name>content_module_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1ae62bae82fa1242a86451b87444da6fd2" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</scope><name>readFile</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1acdc4bab2bb56a6543371639f83dbc274" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</scope><name>root_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__42___cross_reference_consistency_1a5bfe67310b501cd21d84f2f921d14afc" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_42_CrossReferenceConsistency</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

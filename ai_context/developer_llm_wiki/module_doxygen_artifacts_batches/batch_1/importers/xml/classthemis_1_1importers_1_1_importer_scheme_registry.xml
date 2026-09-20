@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_importer_scheme_registry" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::importers::ImporterSchemeRegistry</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer_plugin_registry" prot="public" virt="non-virtual">themis::importers::IImporterPluginRegistry</basecompoundref>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_scheme_registry_1a3e4373a3fa1c6be0e7a9d803eef587fa" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::importers::ImporterSchemeRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="357" column="31" bodyfile="include/importers/importer_interfaces.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_scheme_registry_1ac07b23dbc1e203a8112af5b01bdc2d1c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="classthemis_1_1importers_1_1_i_importer_plugin" kindref="compound">IImporterPlugin</ref> * &gt;</type>
+        <definition>std::map&lt;std::string, IImporterPlugin*&gt; themis::importers::ImporterSchemeRegistry::schemes_</definition>
+        <argsstring></argsstring>
+        <name>schemes_</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::schemes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="358" column="14" bodyfile="include/importers/importer_interfaces.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_importer_scheme_registry_1afb661d19ae8a763edf14842cdd01eb9c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImporterSchemeRegistry::plugin_ids_</definition>
+        <argsstring></argsstring>
+        <name>plugin_ids_</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::plugin_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="359" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1a880e4fec6bdda40c52b75fb0ef6f9bfe" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ImporterSchemeRegistry &amp;</type>
+        <definition>static ImporterSchemeRegistry &amp; themis::importers::ImporterSchemeRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="287" column="35" bodyfile="include/importers/importer_interfaces.h" bodystart="287" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1addfae8f9eb621b8f1cb8acd61334f158" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImporterSchemeRegistry::registerPlugin</definition>
+        <argsstring>(IImporterPlugin *plugin) override</argsstring>
+        <name>registerPlugin</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::registerPlugin</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_registry_1acb5c6caa1d2b426439de3489737c6a32">registerPlugin</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_i_importer_plugin" kindref="compound">IImporterPlugin</ref> *</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Register Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Id. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="292" column="10" bodyfile="include/importers/importer_interfaces.h" bodystart="292" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1adbd3219443781e8b2241a52830abe3c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_i_importer_plugin" kindref="compound">IImporterPlugin</ref> *</type>
+        <definition>IImporterPlugin * themis::importers::ImporterSchemeRegistry::resolve</definition>
+        <argsstring>(const std::string &amp;source_uri) const override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::resolve</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_registry_1aeffd87178fc679c2dae0752d171489cc">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="321" column="21" bodyfile="include/importers/importer_interfaces.h" bodystart="321" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1a3ed5348489cbbff833d24f06f1d51f86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::ImporterSchemeRegistry::listPluginIds</definition>
+        <argsstring>() const override</argsstring>
+        <name>listPluginIds</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::listPluginIds</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_plugin_registry_1a184f640a0c0ebc3086336c8da1f30476">listPluginIds</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="333" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="333" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1a199b516d466867bfbe85f2983808ab6e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImporterSchemeRegistry::ImporterSchemeRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ImporterSchemeRegistry</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::ImporterSchemeRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="344" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_importer_scheme_registry_1a7270dbe84da42d5f3081614a37ce3b39" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::importers::ImporterSchemeRegistry::extractScheme</definition>
+        <argsstring>(const std::string &amp;uri)</argsstring>
+        <name>extractScheme</name>
+        <qualifiedname>themis::importers::ImporterSchemeRegistry::extractScheme</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+<para>Extract Scheme. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="352" column="24" bodyfile="include/importers/importer_interfaces.h" bodystart="352" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporterPluginRegistry</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer_plugin_registry"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::ImporterSchemeRegistry</label>
+        <link refid="classthemis_1_1importers_1_1_importer_scheme_registry"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporterPluginRegistry</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer_plugin_registry"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::ImporterSchemeRegistry</label>
+        <link refid="classthemis_1_1importers_1_1_importer_scheme_registry"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/importer_interfaces.h" line="280" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="280" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1a7270dbe84da42d5f3081614a37ce3b39" prot="private" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>extractScheme</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1a199b516d466867bfbe85f2983808ab6e" prot="private" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>ImporterSchemeRegistry</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1a880e4fec6bdda40c52b75fb0ef6f9bfe" prot="public" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1a3ed5348489cbbff833d24f06f1d51f86" prot="public" virt="virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>listPluginIds</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1a3e4373a3fa1c6be0e7a9d803eef587fa" prot="private" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1afb661d19ae8a763edf14842cdd01eb9c" prot="private" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>plugin_ids_</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1addfae8f9eb621b8f1cb8acd61334f158" prot="public" virt="virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>registerPlugin</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1adbd3219443781e8b2241a52830abe3c5" prot="public" virt="virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1importers_1_1_importer_scheme_registry_1ac07b23dbc1e203a8112af5b01bdc2d1c" prot="private" virt="non-virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>schemes_</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_plugin_registry_1a5443ce834c6e56e2c57ffa059eff403f" prot="public" virt="virtual"><scope>themis::importers::ImporterSchemeRegistry</scope><name>~IImporterPluginRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

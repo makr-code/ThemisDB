@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c0cd66d8ddae4fc5bc5dc2f24e29763b" kind="dir">
+    <compoundname>src/process</compoundname>
+    <innerfile refid="bpmn__serializer_8cpp">bpmn_serializer.cpp</innerfile>
+    <innerfile refid="cmmn__serializer_8cpp">cmmn_serializer.cpp</innerfile>
+    <innerfile refid="dmn__evaluator_8cpp">dmn_evaluator.cpp</innerfile>
+    <innerfile refid="epk__aris__xml__importer_8cpp">epk_aris_xml_importer.cpp</innerfile>
+    <innerfile refid="epk__serializer_8cpp">epk_serializer.cpp</innerfile>
+    <innerfile refid="federation__consensus__manager_8cpp">federation_consensus_manager.cpp</innerfile>
+    <innerfile refid="federation__replica__manager_8cpp">federation_replica_manager.cpp</innerfile>
+    <innerfile refid="fim__importer_8cpp">fim_importer.cpp</innerfile>
+    <innerfile refid="llm__process__descriptor_8cpp">llm_process_descriptor.cpp</innerfile>
+    <innerfile refid="object__centric__tracer_8cpp">object_centric_tracer.cpp</innerfile>
+    <innerfile refid="ocel__exporter_8cpp">ocel_exporter.cpp</innerfile>
+    <innerfile refid="process__agentic__rag_8cpp">process_agentic_rag.cpp</innerfile>
+    <innerfile refid="process__audit__logger_8cpp">process_audit_logger.cpp</innerfile>
+    <innerfile refid="process__common_8cpp">process_common.cpp</innerfile>
+    <innerfile refid="process__community__detector_8cpp">process_community_detector.cpp</innerfile>
+    <innerfile refid="process__conflict__resolver_8cpp">process_conflict_resolver.cpp</innerfile>
+    <innerfile refid="process__diagnostics_8cpp">process_diagnostics.cpp</innerfile>
+    <innerfile refid="process__graph__rag_8cpp">process_graph_rag.cpp</innerfile>
+    <innerfile refid="process__light__retriever_8cpp">process_light_retriever.cpp</innerfile>
+    <innerfile refid="process__linker_8cpp">process_linker.cpp</innerfile>
+    <innerfile refid="process__model__generator_8cpp">process_model_generator.cpp</innerfile>
+    <innerfile refid="process__model__manager_8cpp">process_model_manager.cpp</innerfile>
+    <innerfile refid="process__telemetry__integration_8cpp">process_telemetry_integration.cpp</innerfile>
+    <innerfile refid="serializer__hardening_8cpp">serializer_hardening.cpp</innerfile>
+    <innerfile refid="vcc__vpb__importer_8cpp">vcc_vpb_importer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/"/>
+  </compounddef>
+</doxygen>

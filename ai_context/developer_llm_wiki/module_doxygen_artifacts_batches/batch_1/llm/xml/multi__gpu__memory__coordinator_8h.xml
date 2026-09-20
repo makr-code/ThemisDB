@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__gpu__memory__coordinator_8h" kind="file" language="C++">
+    <compoundname>multi_gpu_memory_coordinator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="multi__gpu__memory__coordinator_8cpp" local="yes">src/llm/multi_gpu_memory_coordinator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/multi_gpu_memory_coordinator.h</label>
+        <link refid="multi__gpu__memory__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/multi_gpu_memory_coordinator.h</label>
+        <link refid="multi__gpu__memory__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/multi_gpu_memory_coordinator.cpp</label>
+        <link refid="multi__gpu__memory__coordinator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator" prot="public">themis::llm::MultiGPUMemoryCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" prot="public">themis::llm::MultiGPUMemoryCoordinator::GPUDevice</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" prot="public">themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a97c881382f381f83f9a54ab8a461e8f1" kindref="member">MultiGPUMemoryCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" kindref="member">DistributionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a0e7b54c17b418ada25475008f96b2e06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a0e7b54c17b418ada25475008f96b2e06" kindref="member">TENSOR_PARALLEL</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Split<sp/>each<sp/>layer<sp/>across<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a49a19cd8a53df75f69a336aeb24f08de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a49a19cd8a53df75f69a336aeb24f08de" kindref="member">PIPELINE_PARALLEL</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Different<sp/>layers<sp/>on<sp/>different<sp/>GPUs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combination<sp/>of<sp/>tensor<sp/>and<sp/>pipeline<sp/>parallelism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a37d2a3465f7cbf4ab60f4e79944d0638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a37d2a3465f7cbf4ab60f4e79944d0638" kindref="member">DATA_PARALLEL</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replicate<sp/>model,<sp/>split<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kindref="compound">GPUDevice</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a92a9398341fd602a022b3cdf5ab86d0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a92a9398341fd602a022b3cdf5ab86d0d" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1ae6e62b0807966aa1b3a984183c553c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1ae6e62b0807966aa1b3a984183c553c27" kindref="member">total_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a039928c49ea47e7a73e026cf1e100579" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a039928c49ea47e7a73e026cf1e100579" kindref="member">available_vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a488b14224ce0d6ebe7360b6de37a3b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a488b14224ce0d6ebe7360b6de37a3b43" kindref="member">compute_capability</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1af1e4654ab68bc26e7e401ccd45160cd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1af1e4654ab68bc26e7e401ccd45160cd9" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a076953913ea0e041462c964b4d651d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1a076953913ea0e041462c964b4d651d56" kindref="member">temperature_celsius</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1aac08d0f2fa8fb2c96e28a14fa8352fb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device_1aac08d0f2fa8fb2c96e28a14fa8352fb9" kindref="member">utilization_percent</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a16f470d41f07749efc5778cec1bb7028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" kindref="member">DistributionStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a16f470d41f07749efc5778cec1bb7028" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a6155829eb826c77133465ff69bd675df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a6155829eb826c77133465ff69bd675df" kindref="member">gpu_ids</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tensor<sp/>parallelism<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ad247a7e308f23f33df855ff425f816cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ad247a7e308f23f33df855ff425f816cc" kindref="member">tensor_parallel_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5ca8b842e860834f03dc30b15861ce53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5ca8b842e860834f03dc30b15861ce53" kindref="member">shard_sizes</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per-GPU<sp/>shard<sp/>sizes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pipeline<sp/>parallelism<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a19e903670c3bd8f972ed0ee36e2195fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a19e903670c3bd8f972ed0ee36e2195fe" kindref="member">pipeline_parallel_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1acd331083ed2d7ff66374ce3f3e086b3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1acd331083ed2d7ff66374ce3f3e086b3e" kindref="member">layer_assignments</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Layers<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>balancing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af6a64d52433cf60e8a9c99e270f4fada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af6a64d52433cf60e8a9c99e270f4fada" kindref="member">batch_assignments</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>size<sp/>per<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Communication<sp/>topology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ac119ae8e708c00cb161c4481979fcc79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1ac119ae8e708c00cb161c4481979fcc79" kindref="member">enable_p2p</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af37221cfe9b24a2b6c64a2c1fb2f1859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;int,<sp/>int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1af37221cfe9b24a2b6c64a2c1fb2f1859" kindref="member">p2p_pairs</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>pairs<sp/>for<sp/>P2P</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5e41678ed3925e4bf7b3227f5bb31b64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan_1a5e41678ed3925e4bf7b3227f5bb31b64" kindref="member">description</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a97c881382f381f83f9a54ab8a461e8f1" kindref="member">MultiGPUMemoryCoordinator</ref>();</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a0a95d10dd038a443940299d2cd9da2bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a0a95d10dd038a443940299d2cd9da2bf" kindref="member">~MultiGPUMemoryCoordinator</ref>();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a2f3439ba9fa22948d72ae071f1de6710" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>gpu_ids);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a315e619acd7e9a60c23e83a242fd368b" kindref="member">distributeModelWeights</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>gpu_ids,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>model_size_bytes</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a8a4d6cda12f5b1a21d7fe2ef8ce6dc72" kindref="member">distributeLayers</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>gpu_ids,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_layers,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>layer_size_bytes</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ad38e4cc46f77580dadc41b7554d0e628" kindref="member">balanceInferenceLoad</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>gpu_ids,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_batch_size</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a5e21d3103b4bc02fb79106f682f0827d" kindref="member">enableP2P</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>gpu_ids);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kindref="compound">GPUDevice</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3ec64441bbf1881bc4fa457c81ad257c" kindref="member">getGPUInfo</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;GPUDevice&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ae44c57927978e1c0d2b8f5a27a3d725a" kindref="member">getAllGPUs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a16701125c38f79173ff2f037ad90d1f7" kindref="member">getLeastLoadedGPU</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aeb867af1c03679db911a9e133a575f11" kindref="member">canAccessPeer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_gpu,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_gpu)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1accb1224a6a28eaa4180df15a2cb2d90f" kindref="member">transferP2P</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_gpu,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_gpu,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>src_ptr,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>dst_ptr,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3c057b9c69051b696e8e8eff8249a95e" kindref="member">synchronizeAll</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::pair&lt;int,<sp/>bool&gt;&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1af2431be8ef3c330cc64a276b1cc0fa7c" kindref="member">getHealthStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/multi_gpu_memory_coordinator.h"/>
+  </compounddef>
+</doxygen>

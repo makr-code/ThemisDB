@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_oci_manifest_verifier" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::IOciManifestVerifier</compoundname>
+    <includes refid="oci__manifest__signing_8h" local="no">oci_manifest_signing.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a7bd851481d8738647c94d4b8b59f5e9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::IOciManifestVerifier::~IOciManifestVerifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IOciManifestVerifier</name>
+        <qualifiedname>themis::plugins::IOciManifestVerifier::~IOciManifestVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="52" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ab20e65b74b746f38a8c673a9cc530674" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report" kindref="compound">CosignVerifyReport</ref></type>
+        <definition>virtual CosignVerifyReport themis::plugins::IOciManifestVerifier::verify</definition>
+        <argsstring>(const OciImageRef &amp;ref, const CosignVerifyConfig &amp;config)=0</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::plugins::IOciManifestVerifier::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_oci_image_ref" kindref="compound">OciImageRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_cosign_verify_config" kindref="compound">CosignVerifyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="53" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a0769e817269be534b1e563761a296a92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::IOciManifestVerifier::requireSignedPlugins</definition>
+        <argsstring>() const =0</argsstring>
+        <name>requireSignedPlugins</name>
+        <qualifiedname>themis::plugins::IOciManifestVerifier::requireSignedPlugins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="55" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ad1b62a795deeabaff566ad639c8b909d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::plugins::IOciManifestVerifier::setEnforceSignatures</definition>
+        <argsstring>(bool enforce)=0</argsstring>
+        <name>setEnforceSignatures</name>
+        <qualifiedname>themis::plugins::IOciManifestVerifier::setEnforceSignatures</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enforce</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="56" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I oci manifest verifier. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/oci_manifest_signing.h" line="50" column="1" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="50" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a0769e817269be534b1e563761a296a92" prot="public" virt="pure-virtual"><scope>themis::plugins::IOciManifestVerifier</scope><name>requireSignedPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ad1b62a795deeabaff566ad639c8b909d" prot="public" virt="pure-virtual"><scope>themis::plugins::IOciManifestVerifier</scope><name>setEnforceSignatures</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ab20e65b74b746f38a8c673a9cc530674" prot="public" virt="pure-virtual"><scope>themis::plugins::IOciManifestVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a7bd851481d8738647c94d4b8b59f5e9c" prot="public" virt="virtual"><scope>themis::plugins::IOciManifestVerifier</scope><name>~IOciManifestVerifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

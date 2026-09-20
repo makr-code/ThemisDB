@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__sync__manager_8h" kind="file" language="C++">
+    <compoundname>adapter_sync_manager.h</compoundname>
+    <includes refid="lora__config_8h" local="yes">lora_config.h</includes>
+    <includes refid="adapter__consistency__checker_8h" local="yes">adapter_consistency_checker.h</includes>
+    <includes refid="lora__metrics_8h" local="yes">lora_metrics.h</includes>
+    <includes local="yes">sharding/shard_topology.h</includes>
+    <includes local="yes">sharding/shard_rpc_client.h</includes>
+    <includes local="yes">sharding/secure_transport_client.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="adapter__sync__manager_8cpp" local="yes">src/llm/lora_framework/adapter_sync_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>adapter_consistency_checker.h</label>
+        <link refid="adapter__consistency__checker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/adapter_sync_manager.h</label>
+        <link refid="adapter__sync__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>lora_metrics.h</label>
+        <link refid="lora__metrics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>sharding/secure_transport_client.h</label>
+      </node>
+      <node id="13">
+        <label>sharding/shard_rpc_client.h</label>
+      </node>
+      <node id="12">
+        <label>sharding/shard_topology.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/adapter_sync_manager.h</label>
+        <link refid="adapter__sync__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/adapter_sync_manager.cpp</label>
+        <link refid="adapter__sync__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" prot="public">themis::llm::lora::AdapterSyncStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" prot="public">themis::llm::lora::SyncJobResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager" prot="public">themis::llm::lora::AdapterSyncManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" prot="public">themis::llm::lora::AdapterSyncManager::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__config_8h" kindref="compound">lora_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__consistency__checker_8h" kindref="compound">adapter_consistency_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__metrics_8h" kindref="compound">lora_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_topology.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_rpc_client.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/secure_transport_client.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_PROMETHEUS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/registry.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/counter.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/gauge.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/histogram.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" kindref="compound">AdapterSyncStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1aa596f9a46c5cba7fa3b5ba9106596566" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1aa596f9a46c5cba7fa3b5ba9106596566" kindref="member">~AdapterSyncStatus</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a881db7cf8a8bc4333145fde439e70abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a881db7cf8a8bc4333145fde439e70abf" kindref="member">adapter_id</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1af8b28d4a5cca490c194039de32f353b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1af8b28d4a5cca490c194039de32f353b6" kindref="member">is_synced</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a4b49ec0e9edae296aeb895a6fac72b6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a4b49ec0e9edae296aeb895a6fac72b6d" kindref="member">local_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a47005ed6c0feb424e2b6a8078177735b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a47005ed6c0feb424e2b6a8078177735b" kindref="member">remote_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1ae4cdffcf41ab63ec92fb37bdaf930746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1ae4cdffcf41ab63ec92fb37bdaf930746" kindref="member">last_sync_timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a88ecae02fb268480de12621600a6f4b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a88ecae02fb268480de12621600a6f4b7" kindref="member">sync_failure_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a1aca106902bc6907cff41491949ed6d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a1aca106902bc6907cff41491949ed6d6" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a42332a3fa7557e148672f95c7d57e7a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a42332a3fa7557e148672f95c7d57e7a3" kindref="member">synced_shards</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>shards<sp/>in<sp/>sync</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a490f59e0a214950a4459758b0d1ff2c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a490f59e0a214950a4459758b0d1ff2c0" kindref="member">pending_shards</ref>;<sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>shards<sp/>pending<sp/>sync</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" kindref="compound">SyncJobResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a7527942f05edb750c467e9db04a41c31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a7527942f05edb750c467e9db04a41c31" kindref="member">~SyncJobResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a371f60d0ed4690d07bdf587c3cb8a221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a371f60d0ed4690d07bdf587c3cb8a221" kindref="member">adapters_checked</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a4db27f317009fc54fc3112a275c3db00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a4db27f317009fc54fc3112a275c3db00" kindref="member">adapters_synced</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1ad379e8fbe613a81433e8c671c1acda38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1ad379e8fbe613a81433e8c671c1acda38" kindref="member">adapters_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a464f922e234b49221f518aa08288e0a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1a464f922e234b49221f518aa08288e0a8" kindref="member">total_bytes_transferred</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1af58cd072d7308ae52036d3d844124bd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1af58cd072d7308ae52036d3d844124bd4" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1ae2c24f7da7333d7f1550072b6b6cebac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result_1ae2c24f7da7333d7f1550072b6b6cebac" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sync<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1af9e6023ba3f95f057b9139fb12ecdfb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1af9e6023ba3f95f057b9139fb12ecdfb3" kindref="member">sync_interval</ref>{300};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replication<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a7d04d5b2ab8db352ff717318c9d3eaac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a7d04d5b2ab8db352ff717318c9d3eaac" kindref="member">replication_factor</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a770c212ce1b783fabdea9d564cab2212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a770c212ce1b783fabdea9d564cab2212" kindref="member">enable_auto_sync</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-sync<sp/>on<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a991d58737a0c0ba097b131ec72389efa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a991d58737a0c0ba097b131ec72389efa" kindref="member">enable_on_write_sync</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sync<sp/>immediately<sp/>after<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a125c03aa96dd7af605d4266822318fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a125c03aa96dd7af605d4266822318fb4" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a51e478b451ea989cbd2ff54bd8c97a12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a51e478b451ea989cbd2ff54bd8c97a12" kindref="member">retry_delay</ref>{10};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1e71bdac464fa75d3091518cd3138ab9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1e71bdac464fa75d3091518cd3138ab9" kindref="member">enable_exponential_backoff</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Conflict<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a3db781f7936fbe726cffaf43914c7e01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a3db781f7936fbe726cffaf43914c7e01" kindref="member">conflict_resolution</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;newest_wins&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;newest_wins&quot;,<sp/>&quot;manual&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a272c9d00d5882595272da82831360e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a272c9d00d5882595272da82831360e91" kindref="member">max_concurrent_syncs</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1b9d48d17ee241e1c7d01ec2a3a9fc82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1b9d48d17ee241e1c7d01ec2a3a9fc82" kindref="member">max_transfer_rate_mbps</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-LLM<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a93c63776285807f8874e6a69d13d7319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a93c63776285807f8874e6a69d13d7319" kindref="member">enable_multi_llm</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1acbf23bb0e5bd825bd3984c4a4bdbf05f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1acbf23bb0e5bd825bd3984c4a4bdbf05f" kindref="member">llm_models</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>LLM<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1ac9723b44566cedefab6722424bff3b20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1ac9723b44566cedefab6722424bff3b20" kindref="member">enable_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>Prometheus<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5c74e6fe129548d091281bec3a1e57d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5c74e6fe129548d091281bec3a1e57d4" kindref="member">metrics_namespace</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_lora_sync&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transport<sp/>settings<sp/>(mTLS,<sp/>compression,<sp/>retry)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1aa9bb712c32f77b248c23760c6febeadf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1aa9bb712c32f77b248c23760c6febeadf" kindref="member">cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>certificate<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a683f7ac0726682cf097314e4457c1a69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a683f7ac0726682cf097314e4457c1a69" kindref="member">key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>key<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a0b6f1e6ff91e21be0a32366436940a83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a0b6f1e6ff91e21be0a32366436940a83" kindref="member">ca_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>CA<sp/>certificate<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5b9be259f98e240b0af4568f171fdc0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5b9be259f98e240b0af4568f171fdc0f" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>compression<sp/>for<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a9345db3dcf850d5d489ec8cae132463f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a9345db3dcf850d5d489ec8cae132463f" kindref="member">compression_level</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>level<sp/>(1-22<sp/>for<sp/>Zstd)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LoRAStorageService&gt;<sp/>storage_service,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AdapterConsistencyChecker&gt;<sp/>consistency_checker</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa113616dc5c17243a8967121fe7c6c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa113616dc5c17243a8967121fe7c6c52" kindref="member">~AdapterSyncManager</ref>();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1fc53191d05a53273e015c10dd58445b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1fc53191d05a53273e015c10dd58445b" kindref="member">AdapterSyncManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac74a7afdeab3e2dd7b173f3c0b1ca3fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac74a7afdeab3e2dd7b173f3c0b1ca3fe" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa44a35540338eefdf0f820fcd89c9a37" kindref="member">AdapterSyncManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aa283c5266d13ac4dad24831ab178fbd5" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1aabe34d833f6473c4569100e86fc4e848" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a3dd1be3d576f174cab79c18c4c2c66ed" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ac970dcc886c0c298176435ad8b73ea14" kindref="member">syncAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" kindref="compound">SyncJobResult</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ab766d77dd8c7fd1865cfa7ca3ca4f0fc" kindref="member">syncAllAdapters</ref>();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" kindref="compound">AdapterSyncStatus</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a5007041427b3b5d01024eb1a1d23443d" kindref="member">getSyncStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AdapterSyncStatus&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1ad715d589aaaa5159cf329c66c0bde256" kindref="member">getAllSyncStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a1b4a16023e569d0bb19e32e1d669a977" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a38c176d6de10c8ec1453435fb7ad79e3" kindref="member">onSyncComplete</ref>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_sync_job_result" kindref="compound">SyncJobResult</ref>&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1a08e396c23fe9b75a545683fec791c7db" kindref="member">discoverPeers</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/adapter_sync_manager.h"/>
+  </compounddef>
+</doxygen>

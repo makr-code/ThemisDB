@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2c311306fb8c4aff63b084a411c6b5aa" kind="dir">
+    <compoundname>tests/process</compoundname>
+    <innerfile refid="test__bottleneck__analytics_8cpp">test_bottleneck_analytics.cpp</innerfile>
+    <innerfile refid="test__bpmn__s_8cpp">test_bpmn_s.cpp</innerfile>
+    <innerfile refid="test__cmmn__serializer_8cpp">test_cmmn_serializer.cpp</innerfile>
+    <innerfile refid="test__critical__batch1__fixes_8cpp">test_critical_batch1_fixes.cpp</innerfile>
+    <innerfile refid="test__fim__importer_8cpp">test_fim_importer.cpp</innerfile>
+    <innerfile refid="test__object__centric__tracer_8cpp">test_object_centric_tracer.cpp</innerfile>
+    <innerfile refid="test__process__aris__xml_8cpp">test_process_aris_xml.cpp</innerfile>
+    <innerfile refid="test__process__community__detector_8cpp">test_process_community_detector.cpp</innerfile>
+    <innerfile refid="test__process__concurrency__churn__focused_8cpp">test_process_concurrency_churn_focused.cpp</innerfile>
+    <innerfile refid="test__process__contract__hardening__focused_8cpp">test_process_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__process__determinism__conflict__focused_8cpp">test_process_determinism_conflict_focused.cpp</innerfile>
+    <innerfile refid="test__process__diagnostics__incident__focused_8cpp">test_process_diagnostics_incident_focused.cpp</innerfile>
+    <innerfile refid="test__process__graph_8cpp">test_process_graph.cpp</innerfile>
+    <innerfile refid="test__process__high__batch__2a_8cpp">test_process_high_batch_2a.cpp</innerfile>
+    <innerfile refid="test__process__highcardinality__stress_8cpp">test_process_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__process__light__retriever_8cpp">test_process_light_retriever.cpp</innerfile>
+    <innerfile refid="test__process__linker__edge__focused_8cpp">test_process_linker_edge_focused.cpp</innerfile>
+    <innerfile refid="test__process__mining__extended_8cpp">test_process_mining_extended.cpp</innerfile>
+    <innerfile refid="test__process__mining__v2_8cpp">test_process_mining_v2.cpp</innerfile>
+    <innerfile refid="test__process__module_8cpp">test_process_module.cpp</innerfile>
+    <innerfile refid="test__process__parser__edge__focused_8cpp">test_process_parser_edge_focused.cpp</innerfile>
+    <innerfile refid="test__process__retriever__edge__focused_8cpp">test_process_retriever_edge_focused.cpp</innerfile>
+    <innerfile refid="test__process__retriever__resilience__focused_8cpp">test_process_retriever_resilience_focused.cpp</innerfile>
+    <innerfile refid="test__process__stress__churn__focused_8cpp">test_process_stress_churn_focused.cpp</innerfile>
+    <innerfile refid="test__sla__monitoring_8cpp">test_sla_monitoring.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::ZeroCopyBuffer</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a92649dc716dc2c75269a3f25b4f69337" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::sharding::optimizations::ZeroCopyBuffer::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="103" column="17" bodyfile="include/sharding/raid_optimizations.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a2ee6eaa95c0ecb12cbeaadf94f7fb10c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::optimizations::ZeroCopyBuffer::ZeroCopyBuffer</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>ZeroCopyBuffer</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::ZeroCopyBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shared buffer that can be passed by reference without copying </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="88" column="14" bodyfile="include/sharding/raid_optimizations.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a39b8189a5af06b127cab3e36f647ffe3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::optimizations::ZeroCopyBuffer::ZeroCopyBuffer</definition>
+        <argsstring>(const uint8_t *ptr, size_t size)</argsstring>
+        <name>ZeroCopyBuffer</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::ZeroCopyBuffer</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="90" column="5" bodyfile="include/sharding/raid_optimizations.h" bodystart="90" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1addd6a44700f22cfdec98a303912c692d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * themisdb::sharding::optimizations::ZeroCopyBuffer::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="93" column="19" bodyfile="include/sharding/raid_optimizations.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a10970dcd842e867c7e5e8f7c5c2884a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * themisdb::sharding::optimizations::ZeroCopyBuffer::data</definition>
+        <argsstring>()</argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="94" column="13" bodyfile="include/sharding/raid_optimizations.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a396f14370fa08eac21b976548b2394ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::optimizations::ZeroCopyBuffer::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="95" column="12" bodyfile="include/sharding/raid_optimizations.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a3ff2f33650a29927a3e7648c04f9a730" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; const uint8_t *, size_t &gt;</type>
+        <definition>std::pair&lt; const uint8_t *, size_t &gt; themisdb::sharding::optimizations::ZeroCopyBuffer::getView</definition>
+        <argsstring>() const</argsstring>
+        <name>getView</name>
+        <qualifiedname>themisdb::sharding::optimizations::ZeroCopyBuffer::getView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="98" column="15" bodyfile="include/sharding/raid_optimizations.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Zero-Copy Buffer Management. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="83" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="83" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1addd6a44700f22cfdec98a303912c692d" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>data</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a10970dcd842e867c7e5e8f7c5c2884a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>data</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a92649dc716dc2c75269a3f25b4f69337" prot="private" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>data_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a3ff2f33650a29927a3e7648c04f9a730" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>getView</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a396f14370fa08eac21b976548b2394ee" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a2ee6eaa95c0ecb12cbeaadf94f7fb10c" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>ZeroCopyBuffer</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer_1a39b8189a5af06b127cab3e36f647ffe3" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ZeroCopyBuffer</scope><name>ZeroCopyBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

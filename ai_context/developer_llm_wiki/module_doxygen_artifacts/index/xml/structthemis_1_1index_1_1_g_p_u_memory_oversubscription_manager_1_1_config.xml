@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::GPUMemoryOversubscriptionManager::Config</compoundname>
+    <includes refid="gpu__memory__oversubscription_8h" local="no">gpu_memory_oversubscription.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0ea04f37eeabcbb5feac0dea2c30a832" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::Config::enable_oversubscription</definition>
+        <argsstring></argsstring>
+        <name>enable_oversubscription</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::enable_oversubscription</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="38" column="14" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a5a665ff478c366d811473f86a19f7d98" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Config::vram_budget_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_budget_mb</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::vram_budget_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="40" column="16" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a14fcb15dc9f5bd5a554ec30a7f1352b2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Config::host_ram_budget_mb</definition>
+        <argsstring></argsstring>
+        <name>host_ram_budget_mb</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::host_ram_budget_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="42" column="16" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a174251e161a0230e62b633899046a324" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::Config::partition_vectors</definition>
+        <argsstring></argsstring>
+        <name>partition_vectors</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::partition_vectors</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="44" column="16" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0e86129fa98b4427cea8af7912da8149" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref></type>
+        <definition>PrefetchStrategy themis::index::GPUMemoryOversubscriptionManager::Config::prefetch_strategy</definition>
+        <argsstring></argsstring>
+        <name>prefetch_strategy</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::prefetch_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">PrefetchStrategy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="46" column="26" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a7289cb05023d6dcf738841e2257e4024" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::Config::use_unified_memory</definition>
+        <argsstring></argsstring>
+        <name>use_unified_memory</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::Config::use_unified_memory</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="48" column="14" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_memory_oversubscription.h" line="37" column="5" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="37" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0ea04f37eeabcbb5feac0dea2c30a832" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>enable_oversubscription</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a14fcb15dc9f5bd5a554ec30a7f1352b2" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>host_ram_budget_mb</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a174251e161a0230e62b633899046a324" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>partition_vectors</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0e86129fa98b4427cea8af7912da8149" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>prefetch_strategy</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a7289cb05023d6dcf738841e2257e4024" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>use_unified_memory</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a5a665ff478c366d811473f86a19f7d98" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager::Config</scope><name>vram_budget_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

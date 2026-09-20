@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_gremlin_a_s_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GremlinASTNode</compoundname>
+    <includes refid="gremlin__parser_8h" local="no">gremlin_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_a_s_t_node_1af6255aab42f18f93354cd67b39da892f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_gremlin_step" kindref="compound">GremlinStep</ref> &gt;</type>
+        <definition>std::vector&lt;GremlinStep&gt; themis::query::GremlinASTNode::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::query::GremlinASTNode::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="105" column="17" bodyfile="include/query/gremlin_parser.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/gremlin_parser.h" line="103" column="1" bodyfile="include/query/gremlin_parser.h" bodystart="103" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_gremlin_a_s_t_node_1af6255aab42f18f93354cd67b39da892f" prot="public" virt="non-virtual"><scope>themis::query::GremlinASTNode</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

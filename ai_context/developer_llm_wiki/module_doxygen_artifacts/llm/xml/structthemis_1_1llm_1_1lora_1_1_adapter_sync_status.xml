@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterSyncStatus</compoundname>
+    <includes refid="adapter__sync__manager_8h" local="no">adapter_sync_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a881db7cf8a8bc4333145fde439e70abf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncStatus::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="50" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1af8b28d4a5cca490c194039de32f353b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncStatus::is_synced</definition>
+        <argsstring></argsstring>
+        <name>is_synced</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::is_synced</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="51" column="10" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a4b49ec0e9edae296aeb895a6fac72b6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncStatus::local_version</definition>
+        <argsstring></argsstring>
+        <name>local_version</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::local_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="52" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a47005ed6c0feb424e2b6a8078177735b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncStatus::remote_version</definition>
+        <argsstring></argsstring>
+        <name>remote_version</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::remote_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="53" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1ae4cdffcf41ab63ec92fb37bdaf930746" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::AdapterSyncStatus::last_sync_timestamp</definition>
+        <argsstring></argsstring>
+        <name>last_sync_timestamp</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::last_sync_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="54" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a88ecae02fb268480de12621600a6f4b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncStatus::sync_failure_count</definition>
+        <argsstring></argsstring>
+        <name>sync_failure_count</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::sync_failure_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="55" column="9" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a1aca106902bc6907cff41491949ed6d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncStatus::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="56" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a42332a3fa7557e148672f95c7d57e7a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterSyncStatus::synced_shards</definition>
+        <argsstring></argsstring>
+        <name>synced_shards</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::synced_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="57" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a490f59e0a214950a4459758b0d1ff2c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterSyncStatus::pending_shards</definition>
+        <argsstring></argsstring>
+        <name>pending_shards</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::pending_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="58" column="17" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1aa596f9a46c5cba7fa3b5ba9106596566" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::AdapterSyncStatus::~AdapterSyncStatus</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterSyncStatus</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncStatus::~AdapterSyncStatus</qualifiedname>
+        <briefdescription>
+<para>Adapter Sync Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="49" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adapter_sync_manager.h" line="44" column="1" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="44" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a881db7cf8a8bc4333145fde439e70abf" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1af8b28d4a5cca490c194039de32f353b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>is_synced</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a1aca106902bc6907cff41491949ed6d6" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1ae4cdffcf41ab63ec92fb37bdaf930746" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>last_sync_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a4b49ec0e9edae296aeb895a6fac72b6d" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>local_version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a490f59e0a214950a4459758b0d1ff2c0" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>pending_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a47005ed6c0feb424e2b6a8078177735b" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>remote_version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a88ecae02fb268480de12621600a6f4b7" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>sync_failure_count</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1a42332a3fa7557e148672f95c7d57e7a3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>synced_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_status_1aa596f9a46c5cba7fa3b5ba9106596566" prot="public" virt="virtual"><scope>themis::llm::lora::AdapterSyncStatus</scope><name>~AdapterSyncStatus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

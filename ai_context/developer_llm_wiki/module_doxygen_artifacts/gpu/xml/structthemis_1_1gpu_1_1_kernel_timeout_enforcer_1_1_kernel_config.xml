@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelTimeoutEnforcer::KernelConfig</compoundname>
+    <includes refid="kernel__timeout__enforcer_8h" local="no">kernel_timeout_enforcer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::KernelTimeoutEnforcer::KernelConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::KernelConfig::timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Timeout in milliseconds (default: 10s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="43" column="18" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a19ced61132ef24c49f03e0cf98d57b70" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutEnforcer::KernelConfig::enable_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_fallback</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::KernelConfig::enable_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Fall back to CPU on timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="44" column="14" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a80a1508db1460d0745cc68bd8632acb8" prot="public" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::KernelTimeoutEnforcer::KernelConfig::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::gpu::KernelTimeoutEnforcer::KernelConfig::stream</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>CUDA stream for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/kernel_timeout_enforcer.h" line="45" column="22" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for kernel timeout. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/kernel_timeout_enforcer.h" line="42" column="5" bodyfile="include/gpu/kernel_timeout_enforcer.h" bodystart="42" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a19ced61132ef24c49f03e0cf98d57b70" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer::KernelConfig</scope><name>enable_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a80a1508db1460d0745cc68bd8632acb8" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer::KernelConfig</scope><name>stream</name></member>
+      <member refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutEnforcer::KernelConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

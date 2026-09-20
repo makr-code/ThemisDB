@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_document_summarizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSummarizer</compoundname>
+    <includes refid="document__summarizer_8h" local="no">document_summarizer.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl" prot="public">themis::rag::DocumentSummarizer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_document_summarizer_1a8e2eeaccf65e1410c58d52d35d2c201b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_document_summarizer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::DocumentSummarizer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="215" column="21" bodyfile="include/rag/document_summarizer.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSummarizer::DocumentSummarizer</definition>
+        <argsstring>()</argsstring>
+        <name>DocumentSummarizer</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::DocumentSummarizer</qualifiedname>
+        <briefdescription>
+<para>Construct with default (AUTO) configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="137" column="5" bodyfile="src/rag/document_summarizer.cpp" bodystart="304" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a504c49824784ef14fb60a486414ebf00" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSummarizer::DocumentSummarizer</definition>
+        <argsstring>(const DocumentSummarizerConfig &amp;config)</argsstring>
+        <name>DocumentSummarizer</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::DocumentSummarizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Summarization configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="143" column="14" bodyfile="src/rag/document_summarizer.cpp" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a19321430b1646cc6539f5eb679ca3147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSummarizer::~DocumentSummarizer</definition>
+        <argsstring>()</argsstring>
+        <name>~DocumentSummarizer</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::~DocumentSummarizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a4ff43c8e20dd34a07c5e31382578fc53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSummarizer::DocumentSummarizer</definition>
+        <argsstring>(const DocumentSummarizer &amp;)=delete</argsstring>
+        <name>DocumentSummarizer</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::DocumentSummarizer</qualifiedname>
+        <param>
+          <type>const DocumentSummarizer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1abe21e4d0d6c21a17bc0e8cd315404d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref> &amp;</type>
+        <definition>DocumentSummarizer &amp; themis::rag::DocumentSummarizer::operator=</definition>
+        <argsstring>(const DocumentSummarizer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="149" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1af988ebe2c33f3d2bf54ef2083a9b2efd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSummarizer::DocumentSummarizer</definition>
+        <argsstring>(DocumentSummarizer &amp;&amp;) noexcept=default</argsstring>
+        <name>DocumentSummarizer</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::DocumentSummarizer</qualifiedname>
+        <param>
+          <type>DocumentSummarizer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a65c2d391f5b4ceb6df227d90484eac38" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref> &amp;</type>
+        <definition>DocumentSummarizer &amp; themis::rag::DocumentSummarizer::operator=</definition>
+        <argsstring>(DocumentSummarizer &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="151" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1afd90f6140ebb27beada6874da9392386" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summary" kindref="compound">DocumentSummary</ref></type>
+        <definition>DocumentSummary themis::rag::DocumentSummarizer::summarize</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;content, const std::string &amp;query=&quot;&quot;) const</argsstring>
+        <name>summarize</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::summarize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Summarize a single document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier for attribution / tracking </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional query; improves sentence selection in EXTRACTIVE mode and prompt focus in ABSTRACTIVE mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-document summary </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="166" column="21" bodyfile="src/rag/document_summarizer.cpp" bodystart="335" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1ab1b0d348e6652ee42579d691becd3e35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_multi_document_summary" kindref="compound">MultiDocumentSummary</ref></type>
+        <definition>MultiDocumentSummary themis::rag::DocumentSummarizer::summarizeMultiple</definition>
+        <argsstring>(const std::vector&lt; judge::RetrievedDocument &gt; &amp;documents, const std::string &amp;query=&quot;&quot;) const</argsstring>
+        <name>summarizeMultiple</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::summarizeMultiple</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Summarize multiple retrieved documents into a single context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Processes each document individually, then concatenates the results into a combined summary that respects <computeroutput>max_summary_chars</computeroutput>. In ABSTRACTIVE mode a single batched LLM call is used to produce a coherent cross-document summary.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Documents from the re-ranking / retrieval stage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query (improves relevance scoring) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined summary with per-document breakdown and statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="186" column="26" bodyfile="src/rag/document_summarizer.cpp" bodystart="349" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a5015b53bc110e07c4f1d52e0c525dc6e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_multi_document_summary" kindref="compound">MultiDocumentSummary</ref></type>
+        <definition>MultiDocumentSummary themis::rag::DocumentSummarizer::summarizeMultiple</definition>
+        <argsstring>(const std::vector&lt; streaming::StreamedDocument &gt; &amp;documents, const std::string &amp;query=&quot;&quot;) const</argsstring>
+        <name>summarizeMultiple</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::summarizeMultiple</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">streaming::StreamedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Summarize multiple streamed documents into a single context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Overload compatible with StreamingRetriever output.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Documents from StreamingRetriever::stream() </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined summary </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="199" column="26" bodyfile="src/rag/document_summarizer.cpp" bodystart="472" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref> &amp;</type>
+        <definition>const DocumentSummarizerConfig &amp; themis::rag::DocumentSummarizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="208" column="36" bodyfile="src/rag/document_summarizer.cpp" bodystart="318" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_summarizer_1a2e6e0b4bf434694683f4fdf0e83e709a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::DocumentSummarizer::setConfig</definition>
+        <argsstring>(const DocumentSummarizerConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::DocumentSummarizer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="211" column="10" bodyfile="src/rag/document_summarizer.cpp" bodystart="327" bodyend="329"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summarizes multiple retrieved documents before context injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage (default AUTO strategy, no explicit LLM needed for tests): <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref><sp/>summarizer;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>summarizer.summarizeMultiple(docs,<sp/>query);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>inject<sp/>result.combined_summary<sp/>into<sp/>the<sp/>LLM<sp/>prompt</highlight></codeline>
+</programlisting></para>
+<para>Usage with explicit config: <programlisting><codeline><highlight class="normal">DocumentSummarizerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.strategy<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">DocumentSummarizerConfig::Strategy::EXTRACTIVE</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_summary_chars<sp/>=<sp/>1000;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_sentences_per_doc<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" kindref="member">DocumentSummarizer</ref><sp/>summarizer(cfg);</highlight></codeline>
+</programlisting></para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>EXTRACTIVE: &lt;5 ms for 20 documents of 500 chars each</para>
+</listitem><listitem><para>ABSTRACTIVE: latency depends on the connected LLM engine </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/document_summarizer.h" line="132" column="1" bodyfile="include/rag/document_summarizer.h" bodystart="132" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a91e601d7076ffeab3ae1e4448186754f" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>DocumentSummarizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a504c49824784ef14fb60a486414ebf00" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>DocumentSummarizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a4ff43c8e20dd34a07c5e31382578fc53" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>DocumentSummarizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1af988ebe2c33f3d2bf54ef2083a9b2efd" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>DocumentSummarizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a8e2eeaccf65e1410c58d52d35d2c201b" prot="private" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1abe21e4d0d6c21a17bc0e8cd315404d4d" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a65c2d391f5b4ceb6df227d90484eac38" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a2e6e0b4bf434694683f4fdf0e83e709a" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1afd90f6140ebb27beada6874da9392386" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>summarize</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1ab1b0d348e6652ee42579d691becd3e35" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>summarizeMultiple</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a5015b53bc110e07c4f1d52e0c525dc6e" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>summarizeMultiple</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_summarizer_1a19321430b1646cc6539f5eb679ca3147" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizer</scope><name>~DocumentSummarizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

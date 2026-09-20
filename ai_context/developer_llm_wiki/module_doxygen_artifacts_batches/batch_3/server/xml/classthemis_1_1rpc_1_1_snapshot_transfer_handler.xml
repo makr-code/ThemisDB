@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rpc_1_1_snapshot_transfer_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::rpc::SnapshotTransferHandler</compoundname>
+    <includes refid="snapshot__transfer__handler_8h" local="no">snapshot_transfer_handler.h</includes>
+    <innerclass refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1_1_impl" prot="public">themis::rpc::SnapshotTransferHandler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa34061026af8c9b09a0fa1b445600787" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rpc::SnapshotTransferHandler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="152" column="21" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::SnapshotTransferHandler::SnapshotTransferHandler</definition>
+        <argsstring>()</argsstring>
+        <name>SnapshotTransferHandler</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::SnapshotTransferHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="92" column="5" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="878" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa67818ccbcf902e55d96f09247f8aa0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::SnapshotTransferHandler::~SnapshotTransferHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~SnapshotTransferHandler</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::~SnapshotTransferHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a3d8e8d1791a2ff8b48ff2f6c1493875d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::SnapshotTransferHandler::SnapshotTransferHandler</definition>
+        <argsstring>(const SnapshotTransferHandler &amp;)=delete</argsstring>
+        <name>SnapshotTransferHandler</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::SnapshotTransferHandler</qualifiedname>
+        <param>
+          <type>const SnapshotTransferHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a01ee356b911bc18a4a7eada07f6c2c35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref> &amp;</type>
+        <definition>SnapshotTransferHandler &amp; themis::rpc::SnapshotTransferHandler::operator=</definition>
+        <argsstring>(const SnapshotTransferHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" kindref="member">SnapshotTransferHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="97" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afe17cc740a39964224a10ff04910560d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref></type>
+        <definition>SnapshotStatus themis::rpc::SnapshotTransferHandler::CreateSnapshot</definition>
+        <argsstring>(const SnapshotConfig &amp;config)</argsstring>
+        <name>CreateSnapshot</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::CreateSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rpc_1_1_snapshot_config" kindref="compound">SnapshotConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements CreateSnapshot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="104" column="20" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="889" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aabf4e0e6b8c04caf07ac9e939dd2603d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref></type>
+        <definition>SnapshotStatus themis::rpc::SnapshotTransferHandler::StreamChunks</definition>
+        <argsstring>(ChunkCallback callback)</argsstring>
+        <name>StreamChunks</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::StreamChunks</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc_1a7e81b852e40b834aed4a8d198dc3d680" kindref="member">ChunkCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Stream Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements StreamChunks without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="111" column="20" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="899" bodyend="901"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afdb4c6492098532751d7bdff1bdb07f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref></type>
+        <definition>SnapshotStatus themis::rpc::SnapshotTransferHandler::VerifySnapshot</definition>
+        <argsstring>(const std::string &amp;expected_hash)</argsstring>
+        <name>VerifySnapshot</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::VerifySnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements VerifySnapshot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="118" column="20" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="909" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a6878a4f2e560f6110cbac41dc106180c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref></type>
+        <definition>SnapshotStatus themis::rpc::SnapshotTransferHandler::ReceiveChunk</definition>
+        <argsstring>(const shard_proto::SnapshotChunk &amp;chunk)</argsstring>
+        <name>ReceiveChunk</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::ReceiveChunk</qualifiedname>
+        <param>
+          <type>const shard_proto::SnapshotChunk &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Receive Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ReceiveChunk without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="125" column="20" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="919" bodyend="922"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ab12e1ee76a168ec466486ba6284672c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" kindref="member">SnapshotStatus</ref></type>
+        <definition>SnapshotStatus themis::rpc::SnapshotTransferHandler::FinalizeSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>FinalizeSnapshot</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::FinalizeSnapshot</qualifiedname>
+        <briefdescription>
+<para>Finalize Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements FinalizeSnapshot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="131" column="20" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="929" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a9b4a77738b3fa0e6cef60157b638c16f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rpc_1_1_snapshot_progress" kindref="compound">SnapshotProgress</ref></type>
+        <definition>SnapshotProgress themis::rpc::SnapshotTransferHandler::GetProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>GetProgress</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::GetProgress</qualifiedname>
+        <briefdescription>
+<para>Get Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="137" column="22" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="933" bodyend="935"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ae97d011a8d4db04f1da519ce34d559f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::SnapshotTransferHandler::Cancel</definition>
+        <argsstring>()</argsstring>
+        <name>Cancel</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::Cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements Cancel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="142" column="10" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="941" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a27bb4ff32a40b10905601c31ad7b4eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::SnapshotTransferHandler::SetDB</definition>
+        <argsstring>(rocksdb::DB *db)</argsstring>
+        <name>SetDB</name>
+        <qualifiedname>themis::rpc::SnapshotTransferHandler::SetDB</qualifiedname>
+        <param>
+          <type>rocksdb::DB *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Set DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements SetDB without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="148" column="10" bodyfile="src/server/rpc/snapshot_transfer_handler.cpp" bodystart="950" bodyend="952"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/snapshot_transfer_handler.h" line="90" column="1" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="90" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ae97d011a8d4db04f1da519ce34d559f0" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>Cancel</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afe17cc740a39964224a10ff04910560d" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>CreateSnapshot</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1ab12e1ee76a168ec466486ba6284672c8" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>FinalizeSnapshot</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a9b4a77738b3fa0e6cef60157b638c16f" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>GetProgress</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa34061026af8c9b09a0fa1b445600787" prot="private" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a01ee356b911bc18a4a7eada07f6c2c35" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a6878a4f2e560f6110cbac41dc106180c" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>ReceiveChunk</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a27bb4ff32a40b10905601c31ad7b4eca" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>SetDB</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a4239df3d6d02020c2f0192c6855742d4" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>SnapshotTransferHandler</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1a3d8e8d1791a2ff8b48ff2f6c1493875d" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>SnapshotTransferHandler</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aabf4e0e6b8c04caf07ac9e939dd2603d" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>StreamChunks</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1afdb4c6492098532751d7bdff1bdb07f4" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>VerifySnapshot</name></member>
+      <member refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler_1aa67818ccbcf902e55d96f09247f8aa0a" prot="public" virt="non-virtual"><scope>themis::rpc::SnapshotTransferHandler</scope><name>~SnapshotTransferHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

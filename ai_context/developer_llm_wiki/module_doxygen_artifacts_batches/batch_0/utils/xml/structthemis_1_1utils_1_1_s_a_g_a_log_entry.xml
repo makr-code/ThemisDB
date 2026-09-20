@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SAGALogEntry</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a36b176b0b712256172ec35ba4a853abf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogEntry::sagaId</definition>
+        <argsstring></argsstring>
+        <name>sagaId</name>
+        <qualifiedname>themis::utils::SAGALogEntry::sagaId</qualifiedname>
+        <briefdescription>
+<para>SAGA transaction identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="470" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a491efa78db3de7102189166694625b99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogEntry::stepName</definition>
+        <argsstring></argsstring>
+        <name>stepName</name>
+        <qualifiedname>themis::utils::SAGALogEntry::stepName</qualifiedname>
+        <briefdescription>
+<para>Step name within the saga. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="471" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a70bbe2932a5983030e0b4707437c945b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::utils::SAGALogEntry::action</qualifiedname>
+        <briefdescription>
+<para>&quot;forward&quot; or &quot;compensate&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="472" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a739a4fcf5972fcd006864788ceddcce2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::utils::SAGALogEntry::status</qualifiedname>
+        <briefdescription>
+<para>&quot;success&quot;, &quot;failed&quot;, or &quot;pending&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="473" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1adf76c7026d7f49f038b70267262cf056" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGALogEntry::payloadJson</definition>
+        <argsstring></argsstring>
+        <name>payloadJson</name>
+        <qualifiedname>themis::utils::SAGALogEntry::payloadJson</qualifiedname>
+        <briefdescription>
+<para>Step payload serialised as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="474" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a736fe59d7fb3bc8d2e1b3c159a9d1862" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SAGALogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::utils::SAGALogEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="475" column="43" bodyfile="include/utils/utils_interfaces.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal SAGA log entry as surfaced by the replay iterator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Only a subset of fields from the full <ref refid="structthemis_1_1utils_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> is exposed here to decouple the interface from the concrete logger implementation. </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="469" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="469" bodyend="476"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a70bbe2932a5983030e0b4707437c945b" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1adf76c7026d7f49f038b70267262cf056" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>payloadJson</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a36b176b0b712256172ec35ba4a853abf" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>sagaId</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a739a4fcf5972fcd006864788ceddcce2" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>status</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a491efa78db3de7102189166694625b99" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>stepName</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry_1a736fe59d7fb3bc8d2e1b3c159a9d1862" prot="public" virt="non-virtual"><scope>themis::utils::SAGALogEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

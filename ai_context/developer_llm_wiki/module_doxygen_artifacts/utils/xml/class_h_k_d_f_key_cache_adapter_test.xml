@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_k_d_f_key_cache_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>HKDFKeyCacheAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_h_k_d_f_key_cache_adapter_test_1a740bf95264d65ebdf78a1e02c2719ba1" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config" kindref="compound">HKDFCacheConfig</ref></type>
+        <definition>HKDFCacheConfig HKDFKeyCacheAdapterTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>HKDFKeyCacheAdapterTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="71" column="21" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_k_d_f_key_cache_adapter_test_1ae0b3f076bceb58325660bd38c6e038f4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HKDFKeyCacheAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HKDFKeyCacheAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="72" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HKDFKeyCacheAdapterTest</label>
+        <link refid="class_h_k_d_f_key_cache_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HKDFKeyCacheAdapterTest</label>
+        <link refid="class_h_k_d_f_key_cache_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::utils::HKDFCacheConfig</label>
+        <link refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_interfaces.cpp" line="69" column="1" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="69" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_h_k_d_f_key_cache_adapter_test_1a740bf95264d65ebdf78a1e02c2719ba1" prot="protected" virt="non-virtual"><scope>HKDFKeyCacheAdapterTest</scope><name>cfg</name></member>
+      <member refid="class_h_k_d_f_key_cache_adapter_test_1ae0b3f076bceb58325660bd38c6e038f4" prot="protected" virt="non-virtual"><scope>HKDFKeyCacheAdapterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

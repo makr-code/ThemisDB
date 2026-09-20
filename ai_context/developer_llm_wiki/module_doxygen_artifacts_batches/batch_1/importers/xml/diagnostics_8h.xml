@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="diagnostics_8h" kind="file" language="C++">
+    <compoundname>diagnostics.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="importer__interface_8h" local="yes">importer_interface.h</includes>
+    <includedby refid="diagnostics_8cpp" local="yes">src/importers/diagnostics.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/diagnostics.h</label>
+        <link refid="diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>importer_interface.h</label>
+        <link refid="importer__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>future</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>utility</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/diagnostics.h</label>
+        <link refid="diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/diagnostics.cpp</label>
+        <link refid="diagnostics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_diagnostic_record" prot="public">themis::importers::DiagnosticRecord</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_diagnostic_summary" prot="public">themis::importers::DiagnosticSummary</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Structured failure diagnostics for importer operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>PHASE-3-ERROR-HANDLING: Unified diagnostics for all failure types </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-02</para>
+</simplesect>
+This header defines the unified diagnostic system for Phase 3 error handling. All importer failures (schema, conflict, connector, capacity, integrity) flow through this system to produce actionable diagnostics for operators. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="importer__interface_8h" kindref="compound">importer_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5" kindref="member">FailureCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5aeea7dcf467438f9fb1017f2d702a0487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5aeea7dcf467438f9fb1017f2d702a0487" kindref="member">SCHEMA_FAILURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5ae85ce504ca95c1f56a28604dc08bf622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5ae85ce504ca95c1f56a28604dc08bf622" kindref="member">CONFLICT_FAILURE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5a04f2d64b57d278efe3ae58de6ea3bcad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5a04f2d64b57d278efe3ae58de6ea3bcad" kindref="member">CONNECTOR_FAILURE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5ab136a83768b1b99828407d0f6fcf4b8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5ab136a83768b1b99828407d0f6fcf4b8a" kindref="member">CAPACITY_FAILURE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5a1a0d075adb76cfb23593a6ca0ebc4296" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5a1a0d075adb76cfb23593a6ca0ebc4296" kindref="member">INTEGRITY_FAILURE</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1importers_1a2f7b608da991c97ccc850f75e53d04d5" kindref="member">failureCategoryToString</ref>(<ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5" kindref="member">FailureCategory</ref><sp/>cat);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1importers_1_1_diagnostic_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1importers_1_1_diagnostic_record_1a835dc4a564516dbc74d4f2e0b2316b67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5" kindref="member">FailureCategory</ref><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a835dc4a564516dbc74d4f2e0b2316b67" kindref="member">category</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1importers_1_1_diagnostic_record_1ab88f8dc4abda100f584a267ba7322506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1ab88f8dc4abda100f584a267ba7322506" kindref="member">timestamp_ns</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1importers_1_1_diagnostic_record_1a340ac574409f78bda7453d9894d3d44d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a340ac574409f78bda7453d9894d3d44d" kindref="member">error_code</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1importers_1_1_diagnostic_record_1a6f4ba6d8f7be439cbff07116414f1757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a6f4ba6d8f7be439cbff07116414f1757" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1importers_1_1_diagnostic_record_1a91975986a533f3535d3adc0047bd24f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a91975986a533f3535d3adc0047bd24f2" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1importers_1_1_diagnostic_record_1af519974aa6e394ff1cfbf71dbc1642e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1af519974aa6e394ff1cfbf71dbc1642e8" kindref="member">root_cause</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1importers_1_1_diagnostic_record_1aa0929f3da6f529a7c28ecb9bfc68b6ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1aa0929f3da6f529a7c28ecb9bfc68b6ea" kindref="member">remediation_steps</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1importers_1_1_diagnostic_record_1a07ada707139d46cce6c19050aead149e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a07ada707139d46cce6c19050aead149e" kindref="member">logs</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1importers_1_1_diagnostic_record_1ac213276c28aff2aa0c0a6b309818d7a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1ac213276c28aff2aa0c0a6b309818d7a0" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>remediation_json<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>step<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1aa0929f3da6f529a7c28ecb9bfc68b6ea" kindref="member">remediation_steps</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remediation_json.push_back(step);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>logs_json<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>log<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a07ada707139d46cce6c19050aead149e" kindref="member">logs</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logs_json.push_back(log);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2f7b608da991c97ccc850f75e53d04d5" kindref="member">failureCategoryToString</ref>(<ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a835dc4a564516dbc74d4f2e0b2316b67" kindref="member">category</ref>)},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp_ns&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1ab88f8dc4abda100f584a267ba7322506" kindref="member">timestamp_ns</ref>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a340ac574409f78bda7453d9894d3d44d" kindref="member">error_code</ref>)},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a6f4ba6d8f7be439cbff07116414f1757" kindref="member">message</ref>},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;context&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1a91975986a533f3535d3adc0047bd24f2" kindref="member">context</ref>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;root_cause&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_record_1af519974aa6e394ff1cfbf71dbc1642e8" kindref="member">root_cause</ref>},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;remediation_steps&quot;</highlight><highlight class="normal">,<sp/><sp/>remediation_json},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logs_json}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1importers_1_1_diagnostic_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_diagnostic_summary" kindref="compound">DiagnosticSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1importers_1_1_diagnostic_summary_1a9f9a2d9da4626599c9a66b07c264269e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a9f9a2d9da4626599c9a66b07c264269e" kindref="member">import_id</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1importers_1_1_diagnostic_summary_1a1a27766d826f377e8454a320de843511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a1a27766d826f377e8454a320de843511" kindref="member">import_duration_ms</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1importers_1_1_diagnostic_summary_1adf82588952132a8ddaa79206b3a39703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1adf82588952132a8ddaa79206b3a39703" kindref="member">total_records_attempted</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1importers_1_1_diagnostic_summary_1aeb0708f31e274ce376852cc693e51090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1aeb0708f31e274ce376852cc693e51090" kindref="member">failure_count</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1importers_1_1_diagnostic_summary_1a4ae836a74db14dda8faacc1e23f3a23c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a4ae836a74db14dda8faacc1e23f3a23c" kindref="member">warning_count</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1importers_1_1_diagnostic_summary_1a3c7309e15770b8481cea8e40592fc94f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;FailureCategory,<sp/>uint32_t&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a3c7309e15770b8481cea8e40592fc94f" kindref="member">failures_by_category</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1importers_1_1_diagnostic_summary_1abcdeca519677ffcac3ea8f6cce54521b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>uint32_t&gt;&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1abcdeca519677ffcac3ea8f6cce54521b" kindref="member">top_5_root_causes</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1importers_1_1_diagnostic_summary_1ae4111a6de02f91d5b412c4d3d31d38e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1ae4111a6de02f91d5b412c4d3d31d38e7" kindref="member">common_remediation</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1importers_1_1_diagnostic_summary_1a543a15a0f4212f9685422137b5c962ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DiagnosticRecord&gt;<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a543a15a0f4212f9685422137b5c962ec" kindref="member">all_diagnostics</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1importers_1_1_diagnostic_summary_1af42ca34839d45b805b46d712a1174a62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1af42ca34839d45b805b46d712a1174a62" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>failures_by_cat<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[cat,<sp/>count]<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a3c7309e15770b8481cea8e40592fc94f" kindref="member">failures_by_category</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failures_by_cat[<ref refid="namespacethemis_1_1importers_1a2f7b608da991c97ccc850f75e53d04d5" kindref="member">failureCategoryToString</ref>(cat)]<sp/>=<sp/>count;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>top_causes<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[cause,<sp/>count]<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1abcdeca519677ffcac3ea8f6cce54521b" kindref="member">top_5_root_causes</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>top_causes.push_back({{</highlight><highlight class="stringliteral">&quot;cause&quot;</highlight><highlight class="normal">,<sp/>cause},<sp/>{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>count}});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>remediation<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>step<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1ae4111a6de02f91d5b412c4d3d31d38e7" kindref="member">common_remediation</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remediation.push_back(step);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>all_diags<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>diag<sp/>:<sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a543a15a0f4212f9685422137b5c962ec" kindref="member">all_diagnostics</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_diags.push_back(diag.toJson());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;import_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a9f9a2d9da4626599c9a66b07c264269e" kindref="member">import_id</ref>},</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;import_duration_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a1a27766d826f377e8454a320de843511" kindref="member">import_duration_ms</ref>},</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_records_attempted&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1adf82588952132a8ddaa79206b3a39703" kindref="member">total_records_attempted</ref>},</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;failure_count&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1aeb0708f31e274ce376852cc693e51090" kindref="member">failure_count</ref>},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;warning_count&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_diagnostic_summary_1a4ae836a74db14dda8faacc1e23f3a23c" kindref="member">warning_count</ref>},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;failures_by_category&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>failures_by_cat},</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;top_5_root_causes&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>top_causes},</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;common_remediation&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>remediation},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;all_diagnostics&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_diags}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">DiagnosticRecord<sp/><ref refid="namespacethemis_1_1importers_1a0baa1024d4715b6660a31514659a2fbc" kindref="member">produceSchemaDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" kindref="member">ImportErrorCode</ref><sp/>error_code,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">DiagnosticRecord<sp/><ref refid="namespacethemis_1_1importers_1a018cce35f553469d64f528f829259858" kindref="member">produceConflictDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">DiagnosticRecord<sp/><ref refid="namespacethemis_1_1importers_1a74befe4425f724746f89d61ae1ee70d0" kindref="member">produceConnectorDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" kindref="member">ImportErrorCode</ref><sp/>error_code,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">DiagnosticRecord<sp/><ref refid="namespacethemis_1_1importers_1a631cce01ea396844834f313058b0e4e6" kindref="member">produceCapacityDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>limit_name,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>limit_value,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>used_value,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">DiagnosticRecord<sp/><ref refid="namespacethemis_1_1importers_1af0f9614f4a5fbe1a249d20083b40ff4e" kindref="member">produceIntegrityDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>violation_type,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">DiagnosticSummary<sp/><ref refid="namespacethemis_1_1importers_1a7cbe0ae4b786b47a70d702f205b3c26d" kindref="member">aggregateDiagnostics</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>import_id,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>import_duration_ms,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_records_attempted,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DiagnosticRecord&gt;&amp;<sp/>all_diagnostics);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/diagnostics.h"/>
+  </compounddef>
+</doxygen>

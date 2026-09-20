@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_migration_test_case" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::MigrationTestCase</compoundname>
+    <includes refid="schema__migration__tester_8h" local="no">schema_migration_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_test_case_1a219e13ad004a7f956f8e1e890a543415" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationTestCase::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::updates::MigrationTestCase::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="66" column="17" bodyfile="include/updates/schema_migration_tester.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_test_case_1ac6745645215002728909d4422de3a985" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const SchemaManager &amp;staged_schema, const SchemaVersionManager &amp;staged_version_mgr, std::string &amp;error_out)&gt;</type>
+        <definition>std::function&lt;bool( const SchemaManager&amp; staged_schema, const SchemaVersionManager&amp; staged_version_mgr, std::string&amp; error_out )&gt; themis::updates::MigrationTestCase::test_fn</definition>
+        <argsstring></argsstring>
+        <name>test_fn</name>
+        <qualifiedname>themis::updates::MigrationTestCase::test_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="71" column="2" bodyfile="include/updates/schema_migration_tester.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A user-defined test case to run against the staging database after the schema migration has been applied. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The callback receives a read-only view of the staged SchemaManager and SchemaVersionManager. It should return true on pass and false (optionally populating <computeroutput>error_out</computeroutput>) on failure. </para>
+    </detaileddescription>
+    <location file="include/updates/schema_migration_tester.h" line="65" column="1" bodyfile="include/updates/schema_migration_tester.h" bodystart="65" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_migration_test_case_1a219e13ad004a7f956f8e1e890a543415" prot="public" virt="non-virtual"><scope>themis::updates::MigrationTestCase</scope><name>name</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_test_case_1ac6745645215002728909d4422de3a985" prot="public" virt="non-virtual"><scope>themis::updates::MigrationTestCase</scope><name>test_fn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

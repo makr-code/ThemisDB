@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_content_geo_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContentGeoQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1aa96e86d2f7c29c4ed795dbc1812d7c3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentGeoQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::ContentGeoQuery::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="174" column="17" bodyfile="include/query/query_engine.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1a545e4e9a4de62397a12a5486a9c1c830" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentGeoQuery::text_field</definition>
+        <argsstring></argsstring>
+        <name>text_field</name>
+        <qualifiedname>themis::query::ContentGeoQuery::text_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="175" column="17" bodyfile="include/query/query_engine.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1aa9fce16cd75592fc49583a63eb22f217" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentGeoQuery::fulltext_query</definition>
+        <argsstring></argsstring>
+        <name>fulltext_query</name>
+        <qualifiedname>themis::query::ContentGeoQuery::fulltext_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="176" column="17" bodyfile="include/query/query_engine.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1a777e406ce236a6ab680a98311b805642" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentGeoQuery::geom_field</definition>
+        <argsstring></argsstring>
+        <name>geom_field</name>
+        <qualifiedname>themis::query::ContentGeoQuery::geom_field</qualifiedname>
+        <initializer>= &quot;location&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="177" column="17" bodyfile="include/query/query_engine.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1aa2b961f369f99b8cb7ef539d9b804afb" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">query::Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::Expression&gt; themis::query::ContentGeoQuery::spatial_filter</definition>
+        <argsstring></argsstring>
+        <name>spatial_filter</name>
+        <qualifiedname>themis::query::ContentGeoQuery::spatial_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="178" column="21" bodyfile="include/query/query_engine.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1afde6ece4e0ee23b19e3b35dae85dc082" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ContentGeoQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::ContentGeoQuery::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="179" column="12" bodyfile="include/query/query_engine.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1a5abfc42141374939405cec9fb6e81c83" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ContentGeoQuery::boost_by_distance</definition>
+        <argsstring></argsstring>
+        <name>boost_by_distance</name>
+        <qualifiedname>themis::query::ContentGeoQuery::boost_by_distance</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="180" column="10" bodyfile="include/query/query_engine.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_geo_query_1afc09a50e7e6239a582cb6f603e07a7b0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;float&gt; &gt; themis::query::ContentGeoQuery::center_point</definition>
+        <argsstring></argsstring>
+        <name>center_point</name>
+        <qualifiedname>themis::query::ContentGeoQuery::center_point</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="181" column="19" bodyfile="include/query/query_engine.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="173" column="1" bodyfile="include/query/query_engine.h" bodystart="173" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1a5abfc42141374939405cec9fb6e81c83" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>boost_by_distance</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1afc09a50e7e6239a582cb6f603e07a7b0" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>center_point</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1aa9fce16cd75592fc49583a63eb22f217" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>fulltext_query</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1a777e406ce236a6ab680a98311b805642" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>geom_field</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1afde6ece4e0ee23b19e3b35dae85dc082" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1aa2b961f369f99b8cb7ef539d9b804afb" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>spatial_filter</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1aa96e86d2f7c29c4ed795dbc1812d7c3f" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_content_geo_query_1a545e4e9a4de62397a12a5486a9c1c830" prot="public" virt="non-virtual"><scope>themis::query::ContentGeoQuery</scope><name>text_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

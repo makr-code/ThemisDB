@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="deprecated" kind="page">
+    <compoundname>deprecated</compoundname>
+    <title>Deprecated List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Struct <ref refid="structthemis_1_1_query_result" kindref="compound">themis::QueryResult</ref>  </term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000007"/>Use Result&lt;std::string&gt; from utils/expected.h instead. Kept for backward compatibility during migration. All new code must use Result&lt;std::string&gt; from utils/expected.h.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1aa39f1c2338594bcaa75d6508e9dd9516" kindref="member">themis::wire::setWireAqlExecFn</ref>  (<ref refid="namespacethemis_1_1wire_1a2ee6db0d40f61be1622c144678f71873" kindref="member">WireAqlExecFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000001"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1af31db11c6d9a7a4a7a4fdc628d0f41e9" kindref="member">WireProtocolServer::setAqlQueryFn()</ref> for per-server wiring or WireProtocolSession::setQueryAqlFn() for the process-global Protobuf fallback hook.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1acc4b347366ea7a64fbf54a2ad422d556" kindref="member">themis::wire::setWireCursorCloseFn</ref>  (<ref refid="namespacethemis_1_1wire_1aeb99f269ca5c3fb1f17ac0b50cf4b6c9" kindref="member">WireCursorCloseFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000003"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1ab55cb2b211fba6261d68be074f020b02" kindref="member">WireProtocolServer::setCursorCloseFn()</ref> instead.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1a9b0534821ae0d1c9461b6208899313e1" kindref="member">themis::wire::setWireCursorNextFn</ref>  (<ref refid="namespacethemis_1_1wire_1a6781a0192fd9e2e2a443160f232fc662" kindref="member">WireCursorNextFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000002"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a9ce90480cf0dd0acf06a6e2bc46edf80" kindref="member">WireProtocolServer::setCursorNextFn()</ref> instead.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1aaae93d9b18af804690acb911a2e1b1d0" kindref="member">themis::wire::setWireGeoQueryFn</ref>  (<ref refid="namespacethemis_1_1wire_1aaca6789c6092c4a2b27051125f46a77f" kindref="member">WireGeoQueryFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000004"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1ad6bd20d5ae4a8908f8117e9d38107794" kindref="member">WireProtocolServer::setGeoQueryFn()</ref> for per-server wiring or WireProtocolSession::setGeoQueryFn() for the process-global Protobuf fallback hook.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1aad6af2c6d5a4d5d98c072b33ce485d59" kindref="member">themis::wire::setWireGraphTraversalFn</ref>  (<ref refid="namespacethemis_1_1wire_1aa0c3325108e579abdb42d7a36bae013a" kindref="member">WireGraphTraversalFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000006"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a378d8d8247a31ec193939fccecd79103" kindref="member">WireProtocolServer::setGraphTraverseFn()</ref> for per-server wiring or WireProtocolSession::setGraphTraverseFn() for the process-global Protobuf fallback hook.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1wire_1a908f1807483554ee6ab6ff064b1ff6c5" kindref="member">themis::wire::setWireTSQueryFn</ref>  (<ref refid="namespacethemis_1_1wire_1adfc8d5b586d1c06e291f77e91029ee76" kindref="member">WireTSQueryFn</ref> fn)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000005"/>Use <ref refid="classthemis_1_1wire_1_1_wire_protocol_server_1a68fef921c5fbe94f64d1e356358e0378" kindref="member">WireProtocolServer::setTimeseriesQueryFn()</ref> for per-server wiring or WireProtocolSession::setTimeseriesQueryFn() for the process-global Protobuf fallback hook. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="deprecated"/>
+  </compounddef>
+</doxygen>

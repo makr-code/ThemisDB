@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; themis::storage::SegmentKey &gt;</compoundname>
+    <includes refid="columnar__cache_8h" local="no">columnar_cache.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4_1acba62786d5bba3534fe915aef566ea44" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t std::hash&lt; themis::storage::SegmentKey &gt;::operator()</definition>
+        <argsstring>(const themis::storage::SegmentKey &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; themis::storage::SegmentKey &gt;::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">themis::storage::SegmentKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="54" column="12" bodyfile="include/storage/columnar_cache.h" bodystart="54" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_cache.h" line="53" column="1" bodyfile="include/storage/columnar_cache.h" bodystart="53" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4_1acba62786d5bba3534fe915aef566ea44" prot="public" virt="non-virtual"><scope>std::hash&lt; themis::storage::SegmentKey &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_base_tensor_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::BaseTensorSummary</compoundname>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_adapter_summary" prot="public" virt="non-virtual">themis::tensor::AdapterSummary</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_chunk_summary" prot="public" virt="non-virtual">themis::tensor::ChunkSummary</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_entity_summary" prot="public" virt="non-virtual">themis::tensor::EntitySummary</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_fingerprint_summary" prot="public" virt="non-virtual">themis::tensor::FingerprintSummary</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_package_summary" prot="public" virt="non-virtual">themis::tensor::PackageSummary</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1tensor_1_1_shard_summary" prot="public" virt="non-virtual">themis::tensor::ShardSummary</derivedcompoundref>
+    <includes refid="tensor__summary__types_8h" local="no">tensor_summary_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (varies by type: adapter_key, package_id, entity_id, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="34" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="37" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::domain</qualifiedname>
+        <briefdescription>
+<para>Domain tag (e.g., &quot;legal&quot;, &quot;medical&quot;, &quot;scientific&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="40" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::compression_strategy</definition>
+        <argsstring></argsstring>
+        <name>compression_strategy</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::compression_strategy</qualifiedname>
+        <briefdescription>
+<para>Compression strategy used to produce this summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="43" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::BaseTensorSummary::compression_info</definition>
+        <argsstring></argsstring>
+        <name>compression_info</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::compression_info</qualifiedname>
+        <briefdescription>
+<para>Compression metadata and metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="46" column="23" bodyfile="include/tensor/tensor_summary_types.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::BaseTensorSummary::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::similarity_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Query result: similarity score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="49" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::BaseTensorSummary::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::confidence</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Confidence in the similarity score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="52" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::BaseTensorSummary::validated</definition>
+        <argsstring></argsstring>
+        <name>validated</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this summary has been validated against truth data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="55" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::created_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp (ISO-8601) when the summary was created or updated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="58" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::BaseTensorSummary::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::tensor::BaseTensorSummary::routing_reason</qualifiedname>
+        <briefdescription>
+<para>Routing reason for selection (human-readable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="61" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for tensor summaries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains metadata common to all summary types: identifier, compression info, similarity scoring, and routing metadata. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::AdapterSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_adapter_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+      </node>
+      <node id="3">
+        <label>themis::tensor::ChunkSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_chunk_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::tensor::EntitySummary</label>
+        <link refid="structthemis_1_1tensor_1_1_entity_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::tensor::FingerprintSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_fingerprint_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::tensor::PackageSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_package_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::tensor::ShardSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_shard_summary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>compression_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::CompressionResult</label>
+        <link refid="structthemis_1_1tensor_1_1_compression_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_summary_types.h" line="32" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="32" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>compression_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>compression_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" virt="non-virtual"><scope>themis::tensor::BaseTensorSummary</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

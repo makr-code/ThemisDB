@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1test_1_1_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::test::Test</compoundname>
+    <derivedcompoundref refid="class_tensor_core_registry_test" prot="public" virt="non-virtual">TensorCoreRegistryTest</derivedcompoundref>
+    <derivedcompoundref refid="class_tensor_fingerprint_graph_critical1_test" prot="public" virt="non-virtual">TensorFingerprintGraphCritical1Test</derivedcompoundref>
+    <derivedcompoundref refid="class_tensor_index_manager_concurrent_test" prot="public" virt="non-virtual">TensorIndexManagerConcurrentTest</derivedcompoundref>
+    <derivedcompoundref refid="class_tensor_ingestion_bridge_concurrent_test" prot="public" virt="non-virtual">TensorIngestionBridgeConcurrentTest</derivedcompoundref>
+    <derivedcompoundref refid="class_tensor_stress_test" prot="public" virt="non-virtual">TensorStressTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" prot="public" virt="non-virtual">themis::tensor::test::FederatedTensorSummariesTest</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" prot="public" virt="non-virtual">themis::tensor::test::TensorMidLayerIntegrationTest</derivedcompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>TensorCoreRegistryTest</label>
+        <link refid="class_tensor_core_registry_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>TensorFingerprintGraphCritical1Test</label>
+        <link refid="class_tensor_fingerprint_graph_critical1_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>TensorIndexManagerConcurrentTest</label>
+        <link refid="class_tensor_index_manager_concurrent_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>TensorIngestionBridgeConcurrentTest</label>
+        <link refid="class_tensor_ingestion_bridge_concurrent_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>TensorStressTest</label>
+        <link refid="class_tensor_stress_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::tensor::test::FederatedTensorSummariesTest</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::tensor::test::TensorMidLayerIntegrationTest</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::test::Test</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <location file="tests/tensor/test_tensor_core_matmul.cpp" line="292" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

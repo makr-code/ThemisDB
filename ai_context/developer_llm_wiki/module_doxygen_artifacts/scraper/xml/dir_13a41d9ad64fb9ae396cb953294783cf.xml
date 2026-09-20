@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir">
+    <compoundname>benchmarks</compoundname>
+    <innerdir refid="dir_51dd8b6b138d621a876158f622b8743d">benchmarks/scraper</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/"/>
+  </compounddef>
+</doxygen>

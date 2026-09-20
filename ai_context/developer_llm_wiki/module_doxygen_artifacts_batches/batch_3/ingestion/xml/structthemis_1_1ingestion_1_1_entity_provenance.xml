@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_entity_provenance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::EntityProvenance</compoundname>
+    <includes refid="base__entity_8h" local="no">base_entity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_provenance_1a57a6099ebb446ad2eba38005643f1a42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityProvenance::step_name</definition>
+        <argsstring></argsstring>
+        <name>step_name</name>
+        <qualifiedname>themis::ingestion::EntityProvenance::step_name</qualifiedname>
+        <briefdescription>
+<para>Name of the workflow step (e.g. &quot;deontic_extract&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="91" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_provenance_1abc26790f5221000c32e9a42996b1ef4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityProvenance::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themis::ingestion::EntityProvenance::plugin_name</qualifiedname>
+        <briefdescription>
+<para>Fully qualified plugin name (e.g. &quot;builtin.deontic_extractor&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="92" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_provenance_1a87fcc817f2aa13abe754408f6daaee55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::EntityProvenance::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::ingestion::EntityProvenance::confidence</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>Extraction confidence [0.0 – 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="93" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_provenance_1ad7bf6dd02b42e7cde529511889a1872c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityProvenance::extracted_at</definition>
+        <argsstring></argsstring>
+        <name>extracted_at</name>
+        <qualifiedname>themis::ingestion::EntityProvenance::extracted_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 timestamp of extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="94" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Records which workflow step produced a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/base_entity.h" line="90" column="1" bodyfile="include/ingestion/base_entity.h" bodystart="90" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_entity_provenance_1a87fcc817f2aa13abe754408f6daaee55" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityProvenance</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_entity_provenance_1ad7bf6dd02b42e7cde529511889a1872c" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityProvenance</scope><name>extracted_at</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_entity_provenance_1abc26790f5221000c32e9a42996b1ef4c" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityProvenance</scope><name>plugin_name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_entity_provenance_1a57a6099ebb446ad2eba38005643f1a42" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityProvenance</scope><name>step_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_scan_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ParallelScanConfig</compoundname>
+    <includes refid="parallel__scan_8h" local="no">parallel_scan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_scan_config_1a6bf8ecf6d70778f13910317221abd000" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ParallelScanConfig::parallel_threshold</definition>
+        <argsstring></argsstring>
+        <name>parallel_threshold</name>
+        <qualifiedname>themis::ParallelScanConfig::parallel_threshold</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para>Minimum number of collected rows that trigger the parallel path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_scan.h" line="29" column="12" bodyfile="include/query/parallel_scan.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_scan_config_1ac7ded10ba5d2e95aafa1fc96f2be6b8e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ParallelScanConfig::morsel_size</definition>
+        <argsstring></argsstring>
+        <name>morsel_size</name>
+        <qualifiedname>themis::ParallelScanConfig::morsel_size</qualifiedname>
+        <initializer>= 1&apos;024</initializer>
+        <briefdescription>
+<para>Number of rows in each parallel morsel (TBB task granularity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_scan.h" line="32" column="12" bodyfile="include/query/parallel_scan.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the parallel full-table scan path. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When a full-table scan encounters a collection with at least <computeroutput>parallel_threshold</computeroutput> rows, the deserialization and predicate evaluation work is split into fixed-size morsels and processed concurrently via TBB task_group. Smaller collections use the existing sequential path to avoid TBB scheduling overhead. </para>
+    </detaileddescription>
+    <location file="include/query/parallel_scan.h" line="27" column="1" bodyfile="include/query/parallel_scan.h" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_scan_config_1ac7ded10ba5d2e95aafa1fc96f2be6b8e" prot="public" virt="non-virtual"><scope>themis::ParallelScanConfig</scope><name>morsel_size</name></member>
+      <member refid="structthemis_1_1_parallel_scan_config_1a6bf8ecf6d70778f13910317221abd000" prot="public" virt="non-virtual"><scope>themis::ParallelScanConfig</scope><name>parallel_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

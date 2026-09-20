@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_estimation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::Estimation</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a95d06817a9e040060a2f293d0f398259" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_predicate_eq" kindref="compound">PredicateEq</ref></type>
+        <definition>PredicateEq themis::query::QueryOptimizer::Estimation::pred</definition>
+        <argsstring></argsstring>
+        <name>pred</name>
+        <qualifiedname>themis::query::QueryOptimizer::Estimation::pred</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="42" column="21" bodyfile="include/query/query_optimizer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a9e884de4daa7445bce03f8a34e5c774c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::Estimation::estimatedCount</definition>
+        <argsstring></argsstring>
+        <name>estimatedCount</name>
+        <qualifiedname>themis::query::QueryOptimizer::Estimation::estimatedCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="43" column="16" bodyfile="include/query/query_optimizer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a8a82e492e5a956988c99d941022f02aa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::Estimation::capped</definition>
+        <argsstring></argsstring>
+        <name>capped</name>
+        <qualifiedname>themis::query::QueryOptimizer::Estimation::capped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="44" column="14" bodyfile="include/query/query_optimizer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::PredicateEq</label>
+        <link refid="structthemis_1_1query_1_1_predicate_eq"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryOptimizer::Estimation</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>pred</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_optimizer.h" line="41" column="5" bodyfile="include/query/query_optimizer.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a8a82e492e5a956988c99d941022f02aa" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Estimation</scope><name>capped</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a9e884de4daa7445bce03f8a34e5c774c" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Estimation</scope><name>estimatedCount</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation_1a95d06817a9e040060a2f293d0f398259" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Estimation</scope><name>pred</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

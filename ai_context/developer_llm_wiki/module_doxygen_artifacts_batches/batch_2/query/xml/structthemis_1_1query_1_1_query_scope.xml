@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_scope" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryScope</compoundname>
+    <includes refid="scope__enforcer_8h" local="no">scope_enforcer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryScope::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::query::QueryScope::collection_name</qualifiedname>
+        <briefdescription>
+<para>Collection/view name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="23" column="17" bodyfile="include/query/scope_enforcer.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryScope::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::query::QueryScope::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID (for federated queries, may be empty for local). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="24" column="17" bodyfile="include/query/scope_enforcer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryScope::scope_generation</definition>
+        <argsstring></argsstring>
+        <name>scope_generation</name>
+        <qualifiedname>themis::query::QueryScope::scope_generation</qualifiedname>
+        <briefdescription>
+<para>Generation counter for incremental tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="25" column="14" bodyfile="include/query/scope_enforcer.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryScope::is_federated</definition>
+        <argsstring></argsstring>
+        <name>is_federated</name>
+        <qualifiedname>themis::query::QueryScope::is_federated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if result came from federated shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="26" column="10" bodyfile="include/query/scope_enforcer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_scope_1ae82a6c03d1a6c872a383959a73060e45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryScope::operator==</definition>
+        <argsstring>(const QueryScope &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::query::QueryScope::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_scope" kindref="compound">QueryScope</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/scope_enforcer.h" line="28" column="10" bodyfile="include/query/scope_enforcer.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/scope_enforcer.h" line="22" column="1" bodyfile="include/query/scope_enforcer.h" bodystart="22" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_scope_1a818ab7f8eedad972d905a1042af52468" prot="public" virt="non-virtual"><scope>themis::query::QueryScope</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1query_1_1_query_scope_1a497a365e95ec65467d6c2596646425f1" prot="public" virt="non-virtual"><scope>themis::query::QueryScope</scope><name>is_federated</name></member>
+      <member refid="structthemis_1_1query_1_1_query_scope_1ae82a6c03d1a6c872a383959a73060e45" prot="public" virt="non-virtual"><scope>themis::query::QueryScope</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1query_1_1_query_scope_1ae1804a12a21ad5c5050c8d57865e35ad" prot="public" virt="non-virtual"><scope>themis::query::QueryScope</scope><name>scope_generation</name></member>
+      <member refid="structthemis_1_1query_1_1_query_scope_1a5c8910510094f0bfb50171453faf3e3a" prot="public" virt="non-virtual"><scope>themis::query::QueryScope</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

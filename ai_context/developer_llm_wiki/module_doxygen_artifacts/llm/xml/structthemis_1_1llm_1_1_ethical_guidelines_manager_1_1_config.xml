@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicalGuidelinesManager::Config</compoundname>
+    <includes refid="ethical__guidelines__manager_8h" local="no">ethical_guidelines_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a1fdd6c3736a21cdc5e274349ec96449a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="61" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1ae018f091165005896b399b244bff6421" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicalGuidelinesManager::Config::detection_threshold</definition>
+        <argsstring></argsstring>
+        <name>detection_threshold</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::detection_threshold</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="62" column="15" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1af04a4462a8a2bc06213f8ef9a378c761" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::enable_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_logging</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::enable_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="63" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1aa8c6a9c1a00a7d34057ada9149b2a852" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::always_apply_default</definition>
+        <argsstring></argsstring>
+        <name>always_apply_default</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::always_apply_default</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="64" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1af3556ece450f20d1840ab22befb1c08e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::show_disclaimers</definition>
+        <argsstring></argsstring>
+        <name>show_disclaimers</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::show_disclaimers</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="65" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1aeba89dd26329fcd5c8a7f0f2c1649623" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::Config::language_mode</definition>
+        <argsstring></argsstring>
+        <name>language_mode</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::language_mode</qualifiedname>
+        <initializer>= &quot;both&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="66" column="21" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a3713fa47ff3553cdf440725647cc1ed0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::use_llm_as_judge</definition>
+        <argsstring></argsstring>
+        <name>use_llm_as_judge</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::use_llm_as_judge</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="69" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a2a03990b1a847c6913422ac87ffa9e46" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::EthicalGuidelinesManager::Config::llm_judge_threshold</definition>
+        <argsstring></argsstring>
+        <name>llm_judge_threshold</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::llm_judge_threshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="70" column="15" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1acc828bd8c5baac8b656b708a0e25f872" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicalGuidelinesManager::Config::combine_with_keywords</definition>
+        <argsstring></argsstring>
+        <name>combine_with_keywords</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Config::combine_with_keywords</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="71" column="14" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethical_guidelines_manager.h" line="60" column="5" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="60" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1aa8c6a9c1a00a7d34057ada9149b2a852" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>always_apply_default</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1acc828bd8c5baac8b656b708a0e25f872" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>combine_with_keywords</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1ae018f091165005896b399b244bff6421" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>detection_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1af04a4462a8a2bc06213f8ef9a378c761" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>enable_logging</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a1fdd6c3736a21cdc5e274349ec96449a" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1aeba89dd26329fcd5c8a7f0f2c1649623" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>language_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a2a03990b1a847c6913422ac87ffa9e46" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>llm_judge_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1af3556ece450f20d1840ab22befb1c08e" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>show_disclaimers</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_config_1a3713fa47ff3553cdf440725647cc1ed0" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Config</scope><name>use_llm_as_judge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

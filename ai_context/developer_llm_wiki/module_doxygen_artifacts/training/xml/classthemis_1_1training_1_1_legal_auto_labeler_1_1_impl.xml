@@ -1,0 +1,792 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LegalAutoLabeler::Impl</compoundname>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a89fc39b88d90172c1b10bc3c66115ac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class LegalAutoLabeler</definition>
+        <argsstring></argsstring>
+        <name>LegalAutoLabeler</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::LegalAutoLabeler</qualifiedname>
+        <param>
+          <type>LegalAutoLabeler</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="85" column="18" bodyfile="src/training/auto_labeler.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a294ab402ddaf04053c432dd7f0fdd9d8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_auto_label_config" kindref="compound">AutoLabelConfig</ref></type>
+        <definition>AutoLabelConfig themis::training::LegalAutoLabeler::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="444" column="21" bodyfile="src/training/auto_labeler.cpp" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aa7eed7d58a4fbe379b7c1abf6402195b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LegalAutoLabeler::Impl::db_connection_</definition>
+        <argsstring></argsstring>
+        <name>db_connection_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::db_connection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="445" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a96ca534f436b66456bdb9d20648239fb" prot="private" static="no" mutable="no">
+        <type>::themis::query::QueryEngine *</type>
+        <definition>::themis::query::QueryEngine* themis::training::LegalAutoLabeler::Impl::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::query_engine_</qualifiedname>
+        <briefdescription>
+<para>AQL engine (non-owning); nullptr in offline/test mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="446" column="34" bodyfile="src/training/auto_labeler.cpp" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ac1b19911fc8613cc00bc7a85acbd0529" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; analytics::NlpTextAnalyzer &gt;</type>
+        <definition>std::unique_ptr&lt;analytics::NlpTextAnalyzer&gt; themis::training::LegalAutoLabeler::Impl::nlp_analyzer_</definition>
+        <argsstring></argsstring>
+        <name>nlp_analyzer_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::nlp_analyzer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="447" column="21" bodyfile="src/training/auto_labeler.cpp" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a1aaa1ef3f5750759906cde1121c44de8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_modality_detector" kindref="compound">ModalityDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ModalityDetector&gt; themis::training::LegalAutoLabeler::Impl::modality_detector_</definition>
+        <argsstring></argsstring>
+        <name>modality_detector_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::modality_detector_</qualifiedname>
+        <briefdescription>
+<para>Multi-modal document parser (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="448" column="21" bodyfile="src/training/auto_labeler.cpp" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1abee8f5f3b318c8ef829d7cbe243c0e5e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::training::LegalAutoLabeler::Impl::total_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_processed_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::total_processed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="449" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a6a781cbe640bf07a5d2a0df3463791f1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::training::LegalAutoLabeler::Impl::total_errors_</definition>
+        <argsstring></argsstring>
+        <name>total_errors_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::total_errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="450" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a2cea9c4da95c89003b76a0563f6be06f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::LegalAutoLabeler::Impl::pipeline_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pipeline_mutex_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::pipeline_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="451" column="24" bodyfile="src/training/auto_labeler.cpp" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a697393a335329f0face5756593bc95df" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::LegalAutoLabeler::Impl::offline_corpus_mutex_</definition>
+        <argsstring></argsstring>
+        <name>offline_corpus_mutex_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::offline_corpus_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="452" column="24" bodyfile="src/training/auto_labeler.cpp" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a91fa3b8461546e813265e1fbaf1f5695" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::training::LegalAutoLabeler::Impl::offline_corpus_</definition>
+        <argsstring></argsstring>
+        <name>offline_corpus_</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::offline_corpus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="453" column="24" bodyfile="src/training/auto_labeler.cpp" bodystart="453" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a691dd79b14bbe1d7c85f2743f6a13e9e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LegalAutoLabeler::Impl::Impl</definition>
+        <argsstring>(const AutoLabelConfig &amp;config, const std::string &amp;db_connection, ::themis::query::QueryEngine *engine)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_auto_label_config" kindref="compound">AutoLabelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <param>
+          <type>::themis::query::QueryEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="87" column="14" bodyfile="src/training/auto_labeler.cpp" bodystart="87" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a13de692cca524b7eff1c9ddf172e1f0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LegalAutoLabeler::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ab5ad00f5fe0508113556d56da890facd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::LegalAutoLabeler::Impl::labelAll</definition>
+        <argsstring>(LabelingCallback callback)</argsstring>
+        <name>labelAll</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::labelAll</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Label All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: LabelingStats(), std::chrono::steady_clock::now(), buildQuery(), executeAqlQuery(), empty(), fetchAllDocumentIdsDirect(), reserve(), <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afec962a91d24f4aa28acbdf68f530c10" kindref="member">labelDocument()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="117" column="19" bodyfile="src/training/auto_labeler.cpp" bodystart="117" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afec962a91d24f4aa28acbdf68f530c10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::LegalAutoLabeler::Impl::labelDocument</definition>
+        <argsstring>(const std::string &amp;document_id)</argsstring>
+        <name>labelDocument</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::labelDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Label Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), fetchDocumentText(), lock(), parseDocument(), THEMIS_INFO(), mean_conf(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="186" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="186" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ad0b4737ef3a150a99c00782668a84ac6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::LegalAutoLabeler::Impl::labelQuery</definition>
+        <argsstring>(const std::string &amp;aql_query, LabelingCallback callback)</argsstring>
+        <name>labelQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::labelQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Label Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: LabelingStats(), std::chrono::steady_clock::now(), empty(), isReadOnlyAqlQuery(), executeAqlQuery(), reserve(), <ref refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afec962a91d24f4aa28acbdf68f530c10" kindref="member">labelDocument()</ref>, updateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="329" column="19" bodyfile="src/training/auto_labeler.cpp" bodystart="329" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a2a5294a688f3bae2a96090bcde626923" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::LegalAutoLabeler::Impl::getLowConfidenceSamples</definition>
+        <argsstring>(float min_confidence)</argsstring>
+        <name>getLowConfidenceSamples</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::getLowConfidenceSamples</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>min_confidence</declname>
+        </param>
+        <briefdescription>
+<para>Get Low Confidence Samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getLowConfidenceSamples without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="394" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="394" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afde41c360c88e2df26043e286b828171" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::Impl::updateSampleConfidence</definition>
+        <argsstring>(const std::string &amp;sample_id, float new_confidence, const std::string &amp;reviewed_by)</argsstring>
+        <name>updateSampleConfidence</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::updateSampleConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>new_confidence</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewed_by</declname>
+        </param>
+        <briefdescription>
+<para>Update Sample Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewed_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="415" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="415" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a104600d53a416e160fdfd4e054978ba6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LegalAutoLabeler::Impl::getTotalProcessed</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalProcessed</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::getTotalProcessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="430" column="12" bodyfile="src/training/auto_labeler.cpp" bodystart="430" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a97ad4259558761000c6b6c4f9bd30492" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LegalAutoLabeler::Impl::getTotalErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalErrors</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::getTotalErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="431" column="12" bodyfile="src/training/auto_labeler.cpp" bodystart="431" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a660581a8328d5c0fcea4e593a4191833" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LegalAutoLabeler::Impl::getFetchAllQuery</definition>
+        <argsstring>() const</argsstring>
+        <name>getFetchAllQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::getFetchAllQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="434" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aed83d195e12dbdb65c1f6e739ed85b2c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LegalAutoLabeler::Impl::getBatchInsertQuery</definition>
+        <argsstring>() const</argsstring>
+        <name>getBatchInsertQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::getBatchInsertQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="439" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a72b069c18c551cd64c3935b698c99f90" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::Impl::registerDocument</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;text)</argsstring>
+        <name>registerDocument</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::registerDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Register Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="461" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="461" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a972c090e71854c3490579b4345a84a38" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::training::LegalAutoLabeler::Impl::fetchAllDocumentsDirect</definition>
+        <argsstring>() const</argsstring>
+        <name>fetchAllDocumentsDirect</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::fetchAllDocumentsDirect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="466" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="466" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a6f17dd34d96a9e29ac5888f5f1aad000" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::LegalAutoLabeler::Impl::fetchAllDocumentIdsDirect</definition>
+        <argsstring>() const</argsstring>
+        <name>fetchAllDocumentIdsDirect</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::fetchAllDocumentIdsDirect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="479" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="479" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a3779e242bb23d12c7b865c2e9dc0f123" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::LegalAutoLabeler::Impl::tryDirectKeyQueryFallback</definition>
+        <argsstring>(const std::string &amp;aql) const</argsstring>
+        <name>tryDirectKeyQueryFallback</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::tryDirectKeyQueryFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="491" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="491" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a3be24f32d683f9b9699592b9e49bf4cd" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::LegalAutoLabeler::Impl::executeAqlQuery</definition>
+        <argsstring>(const std::string &amp;aql) const</argsstring>
+        <name>executeAqlQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::executeAqlQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="532" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="532" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1acb1d4affbaba2a59c898d995ae599fb4" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LegalAutoLabeler::Impl::fetchDocumentText</definition>
+        <argsstring>(const std::string &amp;document_id) const</argsstring>
+        <name>fetchDocumentText</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::fetchDocumentText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">offline_corpus_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="570" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="570" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a278948ccaab1479c679449a2fc074bf6" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; analytics::LegalModality &gt;</type>
+        <definition>std::vector&lt; analytics::LegalModality &gt; themis::training::LegalAutoLabeler::Impl::extractFallbackModalities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractFallbackModalities</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::extractFallbackModalities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="645" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="645" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a42a71b30f03211e0fc1e8d8a2fe8bfa3" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::Impl::persistSampleBatch</definition>
+        <argsstring>(const std::vector&lt; TrainingSample &gt; &amp;batch) const</argsstring>
+        <name>persistSampleBatch</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::persistSampleBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="723" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="723" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a97c5cad0a9e05c6f28df57c21febcf6f" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LegalAutoLabeler::Impl::updateStats</definition>
+        <argsstring>(LabelingStats &amp;stats, const TrainingSample &amp;sample) const</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::updateStats</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="732" column="10" bodyfile="src/training/auto_labeler.cpp" bodystart="732" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ae03d2ddc0bb89ada36d3db88c1de86ff" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LegalAutoLabeler::Impl::buildQuery</definition>
+        <argsstring>(const std::string &amp;tmpl, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;bindings) const</argsstring>
+        <name>buildQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::buildQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>bindings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="742" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="742" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ab9503a45357cd00f88c7284f4632ad31" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::training::LegalAutoLabeler::Impl::executeAqlWithRetry</definition>
+        <argsstring>(const std::string &amp;aql) const</argsstring>
+        <name>executeAqlWithRetry</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::executeAqlWithRetry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="790" column="19" bodyfile="src/training/auto_labeler.cpp" bodystart="790" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a242b61d01ed3296f6ae12b54319a122f" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref></type>
+        <definition>TrainingSample themis::training::LegalAutoLabeler::Impl::createSampleFromModality</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;text, const analytics::LegalModality &amp;modality) const</argsstring>
+        <name>createSampleFromModality</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::createSampleFromModality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const analytics::LegalModality &amp;</type>
+          <declname>modality</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="811" column="20" bodyfile="src/training/auto_labeler.cpp" bodystart="811" bodyend="837"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aab83491575f2cd2b0ddc6005bada013c" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::LegalAutoLabeler::Impl::isReadOnlyAqlQuery</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>isReadOnlyAqlQuery</name>
+        <qualifiedname>themis::training::LegalAutoLabeler::Impl::isReadOnlyAqlQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Is Read Only Aql Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), push_back(), std::toupper(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="762" column="17" bodyfile="src/training/auto_labeler.cpp" bodystart="762" bodyend="788"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/auto_labeler.cpp" line="83" column="1" bodyfile="src/training/auto_labeler.cpp" bodystart="83" bodyend="838"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ae03d2ddc0bb89ada36d3db88c1de86ff" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>buildQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a294ab402ddaf04053c432dd7f0fdd9d8" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a242b61d01ed3296f6ae12b54319a122f" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>createSampleFromModality</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aa7eed7d58a4fbe379b7c1abf6402195b" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>db_connection_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a3be24f32d683f9b9699592b9e49bf4cd" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>executeAqlQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ab9503a45357cd00f88c7284f4632ad31" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>executeAqlWithRetry</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a278948ccaab1479c679449a2fc074bf6" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>extractFallbackModalities</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a6f17dd34d96a9e29ac5888f5f1aad000" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>fetchAllDocumentIdsDirect</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a972c090e71854c3490579b4345a84a38" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>fetchAllDocumentsDirect</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1acb1d4affbaba2a59c898d995ae599fb4" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>fetchDocumentText</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aed83d195e12dbdb65c1f6e739ed85b2c" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>getBatchInsertQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a660581a8328d5c0fcea4e593a4191833" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>getFetchAllQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a2a5294a688f3bae2a96090bcde626923" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>getLowConfidenceSamples</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a97ad4259558761000c6b6c4f9bd30492" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>getTotalErrors</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a104600d53a416e160fdfd4e054978ba6" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>getTotalProcessed</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a691dd79b14bbe1d7c85f2743f6a13e9e" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1aab83491575f2cd2b0ddc6005bada013c" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>isReadOnlyAqlQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ab5ad00f5fe0508113556d56da890facd" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>labelAll</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afec962a91d24f4aa28acbdf68f530c10" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>labelDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ad0b4737ef3a150a99c00782668a84ac6" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>labelQuery</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a89fc39b88d90172c1b10bc3c66115ac3" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>LegalAutoLabeler</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a1aaa1ef3f5750759906cde1121c44de8" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>modality_detector_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1ac1b19911fc8613cc00bc7a85acbd0529" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>nlp_analyzer_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a91fa3b8461546e813265e1fbaf1f5695" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>offline_corpus_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a697393a335329f0face5756593bc95df" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>offline_corpus_mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a42a71b30f03211e0fc1e8d8a2fe8bfa3" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>persistSampleBatch</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a2cea9c4da95c89003b76a0563f6be06f" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>pipeline_mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a96ca534f436b66456bdb9d20648239fb" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>query_engine_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a72b069c18c551cd64c3935b698c99f90" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>registerDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a6a781cbe640bf07a5d2a0df3463791f1" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>total_errors_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1abee8f5f3b318c8ef829d7cbe243c0e5e" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>total_processed_</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a3779e242bb23d12c7b865c2e9dc0f123" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>tryDirectKeyQueryFallback</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1afde41c360c88e2df26043e286b828171" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>updateSampleConfidence</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a97c5cad0a9e05c6f28df57c21febcf6f" prot="private" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>updateStats</name></member>
+      <member refid="classthemis_1_1training_1_1_legal_auto_labeler_1_1_impl_1a13de692cca524b7eff1c9ddf172e1f0d" prot="public" virt="non-virtual"><scope>themis::training::LegalAutoLabeler::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

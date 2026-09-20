@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_w_i_t_value" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::WITValue</compoundname>
+    <includes refid="wasm__component__model_8h" local="no">wasm_component_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_w_i_t_value_1af435d4ac7e1cc8fd11715f94d8abf0b5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1a1df90127a4d41e385335a19460870a36" kindref="member">WITValueKind</ref></type>
+        <definition>WITValueKind themis::plugins::WITValue::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::plugins::WITValue::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="25" column="18" bodyfile="include/plugins/wasm_component_model.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_w_i_t_value_1acc92b99856e218afc0b14ee4783683ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::WITValue::string_val</definition>
+        <argsstring></argsstring>
+        <name>string_val</name>
+        <qualifiedname>themis::plugins::WITValue::string_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="26" column="17" bodyfile="include/plugins/wasm_component_model.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_w_i_t_value_1a5727314d28e8e285c0c2dca4a4075e71" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::WITValue::numeric_val</definition>
+        <argsstring></argsstring>
+        <name>numeric_val</name>
+        <qualifiedname>themis::plugins::WITValue::numeric_val</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="27" column="12" bodyfile="include/plugins/wasm_component_model.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_w_i_t_value_1a2df4510a53795ce5bc818fc2002acaeb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_w_i_t_value" kindref="compound">WITValue</ref> &gt;</type>
+        <definition>std::vector&lt;WITValue&gt; themis::plugins::WITValue::list_val</definition>
+        <argsstring></argsstring>
+        <name>list_val</name>
+        <qualifiedname>themis::plugins::WITValue::list_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="28" column="17" bodyfile="include/plugins/wasm_component_model.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_w_i_t_value_1a227ee93cd94f917eb0ab784f3f8442dc" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_w_i_t_value" kindref="compound">WITValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, WITValue&gt; themis::plugins::WITValue::record_fields</definition>
+        <argsstring></argsstring>
+        <name>record_fields</name>
+        <qualifiedname>themis::plugins::WITValue::record_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="29" column="14" bodyfile="include/plugins/wasm_component_model.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/wasm_component_model.h" line="24" column="1" bodyfile="include/plugins/wasm_component_model.h" bodystart="24" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_w_i_t_value_1af435d4ac7e1cc8fd11715f94d8abf0b5" prot="public" virt="non-virtual"><scope>themis::plugins::WITValue</scope><name>kind</name></member>
+      <member refid="structthemis_1_1plugins_1_1_w_i_t_value_1a2df4510a53795ce5bc818fc2002acaeb" prot="public" virt="non-virtual"><scope>themis::plugins::WITValue</scope><name>list_val</name></member>
+      <member refid="structthemis_1_1plugins_1_1_w_i_t_value_1a5727314d28e8e285c0c2dca4a4075e71" prot="public" virt="non-virtual"><scope>themis::plugins::WITValue</scope><name>numeric_val</name></member>
+      <member refid="structthemis_1_1plugins_1_1_w_i_t_value_1a227ee93cd94f917eb0ab784f3f8442dc" prot="public" virt="non-virtual"><scope>themis::plugins::WITValue</scope><name>record_fields</name></member>
+      <member refid="structthemis_1_1plugins_1_1_w_i_t_value_1acc92b99856e218afc0b14ee4783683ec" prot="public" virt="non-virtual"><scope>themis::plugins::WITValue</scope><name>string_val</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

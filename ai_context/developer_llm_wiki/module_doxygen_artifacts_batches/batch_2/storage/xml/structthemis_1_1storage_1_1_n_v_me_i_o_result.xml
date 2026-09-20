@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_n_v_me_i_o_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeIOResult</compoundname>
+    <includes refid="nvme__manager_8h" local="no">nvme_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a0621178dfda43b6633f8dff02e877fb8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::NVMeIOResult::user_data</definition>
+        <argsstring></argsstring>
+        <name>user_data</name>
+        <qualifiedname>themis::storage::NVMeIOResult::user_data</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tag provided at submission time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="130" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a84e866dc1d978953d9017c5ccbabdfc9" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::storage::NVMeIOResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::storage::NVMeIOResult::result</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes transferred (&gt;= 0) or -errno on error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="131" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1af8fed69e5aa38823c2fd8a73236b0263" kindref="member">NVMeManager::pollCompletions</ref> for each finished I/O. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/nvme_manager.h" line="129" column="1" bodyfile="include/storage/nvme_manager.h" bodystart="129" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a84e866dc1d978953d9017c5ccbabdfc9" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIOResult</scope><name>result</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_result_1a0621178dfda43b6633f8dff02e877fb8" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIOResult</scope><name>user_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

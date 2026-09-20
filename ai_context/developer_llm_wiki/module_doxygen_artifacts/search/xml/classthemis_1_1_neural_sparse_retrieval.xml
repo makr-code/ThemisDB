@@ -1,0 +1,695 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_neural_sparse_retrieval" kind="class" language="C++" prot="public">
+    <compoundname>themis::NeuralSparseRetrieval</compoundname>
+    <includes refid="neural__sparse__retrieval_8h" local="no">neural_sparse_retrieval.h</includes>
+    <innerclass refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" prot="public">themis::NeuralSparseRetrieval::Config</innerclass>
+    <innerclass refid="structthemis_1_1_neural_sparse_retrieval_1_1_result" prot="public">themis::NeuralSparseRetrieval::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_neural_sparse_retrieval_1a51940cf920302bf4086f8fefc3b29af9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::NeuralSparseRetrieval::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="251" column="12" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_neural_sparse_retrieval_1aeca9362fe6b755f110d78bd84302672c" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kindref="member">SparseEncoderBackend</ref></type>
+        <definition>SparseEncoderBackend themis::NeuralSparseRetrieval::encoder_</definition>
+        <argsstring></argsstring>
+        <name>encoder_</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::encoder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="252" column="26" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_neural_sparse_retrieval_1a57b20672130ae6179a930b0ccd1e8b05" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::pair&lt; std::string, float &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt; themis::NeuralSparseRetrieval::inverted_index_</definition>
+        <argsstring></argsstring>
+        <name>inverted_index_</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::inverted_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="255" column="24" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_neural_sparse_retrieval_1ab8b5a1913c3cdaaf7be5adb3fe542a51" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SparseVector&gt; themis::NeuralSparseRetrieval::forward_index_</definition>
+        <argsstring></argsstring>
+        <name>forward_index_</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::forward_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="258" column="24" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a6eda5978f37e98acc4aae2d0ba0837e8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::NeuralSparseRetrieval::NeuralSparseRetrieval</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>NeuralSparseRetrieval</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::NeuralSparseRetrieval</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a82f7f50921e45d77ae33805ba98d00a3" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config (k == 0 or max_terms_per_doc == 0 or score_threshold &lt; 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="134" column="14" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="26" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1ab2dad1afd643704ff0d012da7c8a2f47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::setEncoder</definition>
+        <argsstring>(SparseEncoderBackend encoder)</argsstring>
+        <name>setEncoder</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::setEncoder</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kindref="member">SparseEncoderBackend</ref></type>
+          <declname>encoder</declname>
+        </param>
+        <briefdescription>
+<para>Attach a sparse encoder backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Encoder.</para>
+<para>The backend is called by <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" kindref="member">addDocumentText()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" kindref="member">searchText()</ref></computeroutput> to produce <computeroutput><ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref></computeroutput> representations from raw text. Passing nullptr removes any previously attached backend; subsequent calls to <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" kindref="member">addDocumentText()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" kindref="member">searchText()</ref></computeroutput> will return empty without throwing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable conforming to <computeroutput><ref refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kindref="member">SparseEncoderBackend</ref></computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encoder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="150" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a6f7033d1c7697c74f908db0aea50341d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::addDocument</definition>
+        <argsstring>(const std::string &amp;doc_id, const SparseVector &amp;sparse_vec)</argsstring>
+        <name>addDocument</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::addDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &amp;</type>
+          <declname>sparse_vec</declname>
+        </param>
+        <briefdescription>
+<para>Index a document with a pre-computed sparse vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Document.</para>
+<para>If a document with the same <computeroutput>doc_id</computeroutput> already exists it is removed first, then re-indexed with the new vector. Negative term weights in <computeroutput>sparse_vec</computeroutput> are clamped to zero. If the number of non-zero terms exceeds <computeroutput><ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a7f9999fc9f3e1f3d96dd9294b5a63c87" kindref="member">Config::max_terms_per_doc</ref></computeroutput>, only the top-weighted terms are kept.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique document identifier (primary key). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sparse_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed sparse representation of the document.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sparse_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), THEMIS_WARN(), find(), end(), eraseFromIndex(), erase(), sanitize(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="167" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="147" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::addDocumentText</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::string &amp;text)</argsstring>
+        <name>addDocumentText</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::addDocumentText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Encode <computeroutput>text</computeroutput> and index the resulting sparse vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Document Text.</para>
+<para>Calls the attached encoder backend. If no encoder is set, the call is a no-op (the document is not indexed).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique document identifier (primary key). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text passed to the encoder. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Any</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>exception propagated from the encoder backend.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_WARN(), encoder_(), <ref refid="classthemis_1_1_neural_sparse_retrieval_1a6f7033d1c7697c74f908db0aea50341d" kindref="member">addDocument()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="179" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="183" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a2c5dc69fc750589873ef2c789458bf18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::removeDocument</definition>
+        <argsstring>(const std::string &amp;doc_id)</argsstring>
+        <name>removeDocument</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::removeDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a document from the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Document.</para>
+<para>If the document is not found this is a no-op.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document identifier to remove.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), eraseFromIndex(), erase(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="188" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="203" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a1d3be2cddb5855dc14e005811e2481d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all documents from the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="193" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="221" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a8842c5246ecaf97494124e10d38aefb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; NeuralSparseRetrieval::Result &gt; themis::NeuralSparseRetrieval::search</definition>
+        <argsstring>(const SparseVector &amp;query_vec, size_t k=0) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::search</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &amp;</type>
+          <declname>query_vec</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Search using a pre-computed query sparse vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes <computeroutput>score(q, d) = Σ_t( q[t] * d[t] )</computeroutput> via inverted-index accumulation and returns the top-k results above <computeroutput>score_threshold</computeroutput>. Optionally normalizes scores to [0, 1] when <computeroutput><ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a5b8502c5c19b8ec6015e4071f09aa9dd" kindref="member">Config::normalize_scores</ref></computeroutput> is true. Never throws.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed sparse query representation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override for <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1aeec5bba3aead4194d7c4bd59e498f684" kindref="member">Config::k</ref> (0 means use <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1aeec5bba3aead4194d7c4bd59e498f684" kindref="member">Config::k</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results sorted by score descending, limited to k. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="211" column="17" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="274" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; NeuralSparseRetrieval::Result &gt; themis::NeuralSparseRetrieval::searchText</definition>
+        <argsstring>(const std::string &amp;query_text, size_t k=0) const</argsstring>
+        <name>searchText</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::searchText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Encode <computeroutput>query_text</computeroutput> and search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls the attached encoder backend to produce a sparse query vector, then delegates to <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput>. Returns empty when no encoder is set or when the encoder throws (exception is caught and logged). Never throws.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override for <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1aeec5bba3aead4194d7c4bd59e498f684" kindref="member">Config::k</ref> (0 means use <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1aeec5bba3aead4194d7c4bd59e498f684" kindref="member">Config::k</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results sorted by score descending, limited to k. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="224" column="17" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="341" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1abb33d70b38b88870c210044aafd36aee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::NeuralSparseRetrieval::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::size</qualifiedname>
+        <briefdescription>
+<para>Number of documents currently indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="233" column="12" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a61c8d8b02ceb69f55db8849aa24f9866" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::NeuralSparseRetrieval::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="235" column="18" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1ab4d6e46d1c3f1e82a1375ca0b5880d08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="236" column="10" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a1f6d3901c585a80050926a2dc8500d1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::normalizeScores</definition>
+        <argsstring>(std::vector&lt; Result &gt; &amp;results)</argsstring>
+        <name>normalizeScores</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::normalizeScores</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_result" kindref="compound">Result</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Normalize result scores to [0, 1] in place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Scores.</para>
+<para>When all scores are equal (range == 0):<itemizedlist>
+<listitem><para>score &gt; 0 → all normalized to 1.0</para>
+</listitem><listitem><para>score == 0 → all normalized to 0.0</para>
+</listitem></itemizedlist>
+</para>
+<para>Promoted to public static for direct unit testing (same pattern as <computeroutput><ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">HybridSearch::normalizeScores</ref></computeroutput>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), max(), lowest(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="248" column="17" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="244" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a61ef6cd32565261d73ee0164c0867093" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::insertVector</definition>
+        <argsstring>(const std::string &amp;doc_id, const SparseVector &amp;vec)</argsstring>
+        <name>insertVector</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::insertVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Insert Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="261" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a56ed9f28c3b6c249a230dda78d0e6210" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::NeuralSparseRetrieval::eraseFromIndex</definition>
+        <argsstring>(const std::string &amp;doc_id, const SparseVector &amp;vec)</argsstring>
+        <name>eraseFromIndex</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::eraseFromIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Erase From Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), std::remove_if(), begin(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="264" column="10" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="120" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_neural_sparse_retrieval_1a49b96b129f1ddd3baba64c7f195a6f48" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref></type>
+        <definition>SparseVector themis::NeuralSparseRetrieval::sanitize</definition>
+        <argsstring>(const SparseVector &amp;raw, size_t max_terms)</argsstring>
+        <name>sanitize</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::sanitize</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref> &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_terms</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), <ref refid="classthemis_1_1_neural_sparse_retrieval_1abb33d70b38b88870c210044aafd36aee" kindref="member">size()</ref>, emplace_back(), std::partial_sort(), begin(), end(), resize(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="267" column="25" bodyfile="src/search/neural_sparse_retrieval.cpp" bodystart="69" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SPLADE / BERT-based neural sparse retrieval engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_neural_sparse_retrieval" kindref="compound">NeuralSparseRetrieval</ref> implements learned-sparse-representation search:</para>
+<para><orderedlist>
+<listitem><para><bold>Index</bold>: documents are encoded into <computeroutput><ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref></computeroutput> representations via an injected <computeroutput><ref refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kindref="member">SparseEncoderBackend</ref></computeroutput>. Each document&apos;s non-zero terms are inserted into an in-memory inverted index (term → [(doc_id, weight)]).</para>
+</listitem><listitem><para><bold>Search</bold>: the query is encoded into a <computeroutput><ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref></computeroutput> and matched against the inverted index using dot-product accumulation. Only documents sharing at least one non-zero term with the query are scored, keeping the operation efficient for typical sparse representations.</para>
+</listitem><listitem><para><bold>Score</bold>: <computeroutput>score(q, d) = Σ_t( q[t] * d[t] )</computeroutput> — standard inner product over shared terms, matching the scoring model used by SPLADE/uniCOIL.</para>
+</listitem><listitem><para><bold>Normalization</bold>: optional linear rescaling of scores to [0, 1] (same pattern as <computeroutput><ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">HybridSearch::normalizeScores</ref></computeroutput>).</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">NeuralSparseRetrieval::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.k<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_neural_sparse_retrieval_1a6eda5978f37e98acc4aae2d0ba0837e8" kindref="member">NeuralSparseRetrieval</ref><sp/>nsr(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attach<sp/>a<sp/>SPLADE-compatible<sp/>encoder<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">nsr.setEncoder([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>my_splade_model.encode(text);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Index<sp/>documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">nsr.addDocumentText(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fast<sp/>in-memory<sp/>database<sp/>engine&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">nsr.addDocumentText(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;neural<sp/>sparse<sp/>retrieval<sp/>with<sp/>SPLADE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Query</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>nsr.searchText(</highlight><highlight class="stringliteral">&quot;database<sp/>performance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>r.document_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting></para>
+<para>Pre-computed sparse vectors can also be provided directly via <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1a6f7033d1c7697c74f908db0aea50341d" kindref="member">addDocument()</ref></computeroutput> and <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput>, allowing callers to encode outside the engine (e.g. for batch processing or when reusing embeddings).</para>
+<para><simplesect kind="note"><para>Thread Safety: A single instance is NOT thread-safe. Callers sharing an instance across threads must provide external synchronization. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: The constructor throws <computeroutput>std::invalid_argument</computeroutput> on invalid config. <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" kindref="member">searchText()</ref></computeroutput> never throw; all exceptions from the encoder backend are caught and result in an empty result vector. <computeroutput><ref refid="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" kindref="member">addDocumentText()</ref></computeroutput> propagates exceptions from the encoder backend. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/neural_sparse_retrieval.h" line="98" column="1" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="98" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a6f7033d1c7697c74f908db0aea50341d" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>addDocument</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>addDocumentText</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a1d3be2cddb5855dc14e005811e2481d8" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a51940cf920302bf4086f8fefc3b29af9" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1aeca9362fe6b755f110d78bd84302672c" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>encoder_</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a56ed9f28c3b6c249a230dda78d0e6210" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>eraseFromIndex</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1ab8b5a1913c3cdaaf7be5adb3fe542a51" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>forward_index_</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a61c8d8b02ceb69f55db8849aa24f9866" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a61ef6cd32565261d73ee0164c0867093" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>insertVector</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a57b20672130ae6179a930b0ccd1e8b05" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>inverted_index_</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a6eda5978f37e98acc4aae2d0ba0837e8" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>NeuralSparseRetrieval</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a1f6d3901c585a80050926a2dc8500d1a" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>normalizeScores</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a2c5dc69fc750589873ef2c789458bf18" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>removeDocument</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a49b96b129f1ddd3baba64c7f195a6f48" prot="private" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>sanitize</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1a8842c5246ecaf97494124e10d38aefb9" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>search</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>searchText</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1ab4d6e46d1c3f1e82a1375ca0b5880d08" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1ab2dad1afd643704ff0d012da7c8a2f47" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>setEncoder</name></member>
+      <member refid="classthemis_1_1_neural_sparse_retrieval_1abb33d70b38b88870c210044aafd36aee" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

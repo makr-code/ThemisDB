@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_index_analysis_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IndexAnalysisReport</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a05443896139eea05cd59bc641af90125" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexAnalysisReport::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::IndexAnalysisReport::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="168" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a9b755a67b38f031e9dd22667dc2566fb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">storage::StorageTierLevel</ref></type>
+        <definition>storage::StorageTierLevel themis::IndexAnalysisReport::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::IndexAnalysisReport::tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eeac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">storage::StorageTierLevel::HOT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="169" column="31" bodyfile="include/storage/index_analyzer.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a0d2ead4096f553967c11b85a6511b881" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::IndexAnalysisReport::fragmentation_pct</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_pct</name>
+        <qualifiedname>themis::IndexAnalysisReport::fragmentation_pct</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="170" column="12" bodyfile="include/storage/index_analyzer.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a81ad913eb166ebae6d77986285720135" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::IndexAnalysisReport::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::IndexAnalysisReport::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="171" column="14" bodyfile="include/storage/index_analyzer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1ac10a540ab6f3112bfe3cf38a6028fd8c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::IndexAnalysisReport::orphan_entries</definition>
+        <argsstring></argsstring>
+        <name>orphan_entries</name>
+        <qualifiedname>themis::IndexAnalysisReport::orphan_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="172" column="14" bodyfile="include/storage/index_analyzer.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a9b16fad74a89c36656915cb00bbed03f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::IndexAnalysisReport::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::IndexAnalysisReport::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="173" column="14" bodyfile="include/storage/index_analyzer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a479c9ff0b70134e872d19d8dd012293f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::IndexAnalysisReport::stats_age_hours</definition>
+        <argsstring></argsstring>
+        <name>stats_age_hours</name>
+        <qualifiedname>themis::IndexAnalysisReport::stats_age_hours</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hours since last statistics update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="174" column="14" bodyfile="include/storage/index_analyzer.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a4456255a3327d53ddf2276706573f150" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::IndexAnalysisReport::stats_stale</definition>
+        <argsstring></argsstring>
+        <name>stats_stale</name>
+        <qualifiedname>themis::IndexAnalysisReport::stats_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="175" column="10" bodyfile="include/storage/index_analyzer.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a56f51331668249464643d06c9c61bce4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a542b33165945b485e60ef2095f726cda" kindref="member">IndexRecommendation</ref></type>
+        <definition>IndexRecommendation themis::IndexAnalysisReport::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::IndexAnalysisReport::recommendation</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a542b33165945b485e60ef2095f726cdaab50339a10e1de285ac99d4c3990b8693" kindref="member">IndexRecommendation::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="177" column="25" bodyfile="include/storage/index_analyzer.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a43bce0512e436dcc642d4eea0b037c95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexAnalysisReport::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::IndexAnalysisReport::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation of the recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="178" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a1861b0293bfab345359a893b2b367ffe" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1a542b33165945b485e60ef2095f726cda" kindref="member">IndexRecommendation</ref> &gt;</type>
+        <definition>std::optional&lt;IndexRecommendation&gt; themis::IndexAnalysisReport::ai_recommendation</definition>
+        <argsstring></argsstring>
+        <name>ai_recommendation</name>
+        <qualifiedname>themis::IndexAnalysisReport::ai_recommendation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional override produced by the AI/ML advisor. When set, callers SHOULD prefer this over <computeroutput><ref refid="structthemis_1_1_index_analysis_report_1a56f51331668249464643d06c9c61bce4" kindref="member">recommendation</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="182" column="19" bodyfile="include/storage/index_analyzer.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1ad272b8dec6a0adba610eb5ff7dd6f61a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexAnalysisReport::ai_reason</definition>
+        <argsstring></argsstring>
+        <name>ai_reason</name>
+        <qualifiedname>themis::IndexAnalysisReport::ai_reason</qualifiedname>
+        <briefdescription>
+<para>Explanation from the AI advisor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="183" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_analysis_report_1a8280fa0a22a7383cfc184c5d9d0d54fa" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::IndexAnalysisReport::analyzed_at</definition>
+        <argsstring></argsstring>
+        <name>analyzed_at</name>
+        <qualifiedname>themis::IndexAnalysisReport::analyzed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="185" column="43" bodyfile="include/storage/index_analyzer.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single-index analysis run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/index_analyzer.h" line="167" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="167" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_index_analysis_report_1ad272b8dec6a0adba610eb5ff7dd6f61a" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>ai_reason</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a1861b0293bfab345359a893b2b367ffe" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>ai_recommendation</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a8280fa0a22a7383cfc184c5d9d0d54fa" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>analyzed_at</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a0d2ead4096f553967c11b85a6511b881" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>fragmentation_pct</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a05443896139eea05cd59bc641af90125" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1ac10a540ab6f3112bfe3cf38a6028fd8c" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>orphan_entries</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a43bce0512e436dcc642d4eea0b037c95" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>reason</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a56f51331668249464643d06c9c61bce4" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a9b16fad74a89c36656915cb00bbed03f" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a479c9ff0b70134e872d19d8dd012293f" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>stats_age_hours</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a4456255a3327d53ddf2276706573f150" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>stats_stale</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a9b755a67b38f031e9dd22667dc2566fb" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>tier</name></member>
+      <member refid="structthemis_1_1_index_analysis_report_1a81ad913eb166ebae6d77986285720135" prot="public" virt="non-virtual"><scope>themis::IndexAnalysisReport</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

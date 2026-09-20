@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingService::Config</compoundname>
+    <includes refid="lora__training__service_8h" local="no">lora_training_service.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a9d3ad74914556eec94091ad3e5b36844" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;model_id)&gt;</type>
+        <definition>using themis::llm::lora::LoRATrainingService::Config::ModelPathProviderFn = std::function&lt;std::string(const std::string&amp; model_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModelPathProviderFn</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::ModelPathProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="189" column="9" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a30fdb41496dc141ee144a7434a826497" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref></type>
+        <definition>LoRAHyperparameters themis::llm::lora::LoRATrainingService::Config::default_hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>default_hyperparameters</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::default_hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="178" column="29" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a61544ba090780fa6ddadd6b1ed3ccc7a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingService::Config::base_model_path</definition>
+        <argsstring></argsstring>
+        <name>base_model_path</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::base_model_path</qualifiedname>
+        <initializer>= &quot;models/default.gguf&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="179" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a21eb5df7c5f4eafee1aa74253bc9fb80" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRATrainingService::Config::max_concurrent_training</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_training</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::max_concurrent_training</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="180" column="13" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1aa2d20462e2837ac073adae846d291110" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingService::Config::enable_checkpointing</definition>
+        <argsstring></argsstring>
+        <name>enable_checkpointing</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::enable_checkpointing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="181" column="14" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ae9b017b2fdc06af6e97d5f93d7137d11" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRATrainingService::Config::checkpoint_interval_steps</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval_steps</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::checkpoint_interval_steps</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="182" column="13" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a1390ab7c04cbb228f16137f6695b7f09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingService::Config::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::checkpoint_dir</qualifiedname>
+        <initializer>= &quot;data/lora_checkpoints&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="183" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ac77a37d248ba2d89340f90d4e03b0f79" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::LoRATrainingService::Config::target_modules</definition>
+        <argsstring></argsstring>
+        <name>target_modules</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::target_modules</qualifiedname>
+        <initializer>= {&quot;attention.wq&quot;, &quot;attention.wv&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="186" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ae609cb84509a76c6c762b503f1fd4192" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingService::Config::use_base_model</definition>
+        <argsstring></argsstring>
+        <name>use_base_model</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::use_base_model</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="187" column="14" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a74f1fa214590f7435b6ac03529113e82" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a9d3ad74914556eec94091ad3e5b36844" kindref="member">ModelPathProviderFn</ref></type>
+        <definition>ModelPathProviderFn themis::llm::lora::LoRATrainingService::Config::model_path_provider</definition>
+        <argsstring></argsstring>
+        <name>model_path_provider</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::model_path_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="190" column="29" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a78703aacb9bdb88e0084d902a25c6e44" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" kindref="compound">QLoRAConfig</ref></type>
+        <definition>QLoRAConfig themis::llm::lora::LoRATrainingService::Config::qlora</definition>
+        <argsstring></argsstring>
+        <name>qlora</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::qlora</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="193" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a519e69776dcf9da6a558e38c8c8a9ba9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kindref="compound">MixedPrecisionConfig</ref></type>
+        <definition>MixedPrecisionConfig themis::llm::lora::LoRATrainingService::Config::mixed_precision</definition>
+        <argsstring></argsstring>
+        <name>mixed_precision</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::mixed_precision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="196" column="30" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a43d67d1023fbe517c44a80305c5efa17" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::LoRATrainingService::Config::lr_scheduler</definition>
+        <argsstring></argsstring>
+        <name>lr_scheduler</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::lr_scheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="197" column="27" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a790c1af5abcf7665b2a83cf3fd57a0c2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref></type>
+        <definition>GradientClippingConfig themis::llm::lora::LoRATrainingService::Config::gradient_clipping</definition>
+        <argsstring></argsstring>
+        <name>gradient_clipping</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::gradient_clipping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="198" column="32" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a0e499149f37127c97d46227606429a7e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref></type>
+        <definition>GradientAccumulationConfig themis::llm::lora::LoRATrainingService::Config::gradient_accumulation</definition>
+        <argsstring></argsstring>
+        <name>gradient_accumulation</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::gradient_accumulation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="199" column="36" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1acc200e21c2cc39831f7e16858623c2a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingService::Config::enable_distributed_training</definition>
+        <argsstring></argsstring>
+        <name>enable_distributed_training</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::enable_distributed_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="202" column="14" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ab147b1530fabb85f114ed1476549a044" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingService::Config::coordinator_shard</definition>
+        <argsstring></argsstring>
+        <name>coordinator_shard</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::coordinator_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="203" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1afe09a979178f0a8f1dda7b56bf45cce4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::LoRATrainingService::Config::participant_shards</definition>
+        <argsstring></argsstring>
+        <name>participant_shards</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::participant_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="204" column="21" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ac4f6b6d290f3c39875f02eafc4cbe755" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::sharding::ShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardRouter&gt; themis::llm::lora::LoRATrainingService::Config::shard_router</definition>
+        <argsstring></argsstring>
+        <name>shard_router</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::shard_router</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="207" column="25" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1aa63454111dfd8cfa375af898b5d0b808" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardTopology&gt; themis::llm::lora::LoRATrainingService::Config::shard_topology</definition>
+        <argsstring></argsstring>
+        <name>shard_topology</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::shard_topology</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="208" column="25" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a386341a6997dcd352d2859698905094d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingService::Config::auto_discover_shards</definition>
+        <argsstring></argsstring>
+        <name>auto_discover_shards</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingService::Config::auto_discover_shards</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_service.h" line="209" column="14" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="7">
+        <label>themis::llm::lora::GradientAccumulationConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::lora::GradientClippingConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::lora::LRSchedulerConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LoRATrainingService::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>default_hyperparameters</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>qlora</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mixed_precision</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>lr_scheduler</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>gradient_clipping</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>gradient_accumulation</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::lora::MixedPrecisionConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::QLoRAConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_training_service.h" line="177" column="5" bodyfile="include/llm/lora_framework/lora_training_service.h" bodystart="177" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a386341a6997dcd352d2859698905094d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>auto_discover_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a61544ba090780fa6ddadd6b1ed3ccc7a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>base_model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a1390ab7c04cbb228f16137f6695b7f09" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ae9b017b2fdc06af6e97d5f93d7137d11" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>checkpoint_interval_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ab147b1530fabb85f114ed1476549a044" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>coordinator_shard</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a30fdb41496dc141ee144a7434a826497" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>default_hyperparameters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1aa2d20462e2837ac073adae846d291110" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>enable_checkpointing</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1acc200e21c2cc39831f7e16858623c2a1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>enable_distributed_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a0e499149f37127c97d46227606429a7e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>gradient_accumulation</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a790c1af5abcf7665b2a83cf3fd57a0c2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>gradient_clipping</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a43d67d1023fbe517c44a80305c5efa17" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>lr_scheduler</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a21eb5df7c5f4eafee1aa74253bc9fb80" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>max_concurrent_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a519e69776dcf9da6a558e38c8c8a9ba9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>mixed_precision</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a74f1fa214590f7435b6ac03529113e82" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>model_path_provider</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a9d3ad74914556eec94091ad3e5b36844" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>ModelPathProviderFn</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1afe09a979178f0a8f1dda7b56bf45cce4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>participant_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1a78703aacb9bdb88e0084d902a25c6e44" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>qlora</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ac4f6b6d290f3c39875f02eafc4cbe755" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>shard_router</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1aa63454111dfd8cfa375af898b5d0b808" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>shard_topology</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ac77a37d248ba2d89340f90d4e03b0f79" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>target_modules</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config_1ae609cb84509a76c6c762b503f1fd4192" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingService::Config</scope><name>use_base_model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::RetrievedDocument</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a439443984e99cdc023f93c1413252570" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::knowledge_gap::RetrievedDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::knowledge_gap::RetrievedDocument::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="60" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a4f22c661b3d3ea2a30f8af1a54ac49c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::knowledge_gap::RetrievedDocument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::knowledge_gap::RetrievedDocument::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="61" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a2a2bf7db1b94ac93ea22a0b85ae6bce9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::RetrievedDocument::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::rag::knowledge_gap::RetrievedDocument::similarity_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="62" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a87dd71e8e5c8d29f5d96447d112b5038" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::knowledge_gap::RetrievedDocument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::knowledge_gap::RetrievedDocument::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="63" column="24" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retrieved document information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="59" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="59" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a4f22c661b3d3ea2a30f8af1a54ac49c6" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::RetrievedDocument</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a439443984e99cdc023f93c1413252570" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::RetrievedDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a87dd71e8e5c8d29f5d96447d112b5038" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::RetrievedDocument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_retrieved_document_1a2a2bf7db1b94ac93ea22a0b85ae6bce9" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::RetrievedDocument</scope><name>similarity_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

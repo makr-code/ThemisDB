@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1business__continuity__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::business_continuity_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1business__continuity__controls_1ae81bc5c77966a457f2fe91a22e0db557" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::business_continuity_controls::kBcmObjectivesAndPlanning</definition>
+        <argsstring></argsstring>
+        <name>kBcmObjectivesAndPlanning</name>
+        <qualifiedname>themis::governance::iso27001::business_continuity_controls::kBcmObjectivesAndPlanning</qualifiedname>
+        <initializer>= &quot;A.17.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="189" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1business__continuity__controls_1a51de80b9d70a8982b1c0d095a01aefc5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::business_continuity_controls::kImplementingBcm</definition>
+        <argsstring></argsstring>
+        <name>kImplementingBcm</name>
+        <qualifiedname>themis::governance::iso27001::business_continuity_controls::kImplementingBcm</qualifiedname>
+        <initializer>= &quot;A.17.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="190" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1business__continuity__controls_1a2753f488b1ea38fd3329afaded3f683b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::business_continuity_controls::kTestingEvaluationAndImprovingBcm</definition>
+        <argsstring></argsstring>
+        <name>kTestingEvaluationAndImprovingBcm</name>
+        <qualifiedname>themis::governance::iso27001::business_continuity_controls::kTestingEvaluationAndImprovingBcm</qualifiedname>
+        <initializer>= &quot;A.17.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="191" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="188" column="1"/>
+  </compounddef>
+</doxygen>

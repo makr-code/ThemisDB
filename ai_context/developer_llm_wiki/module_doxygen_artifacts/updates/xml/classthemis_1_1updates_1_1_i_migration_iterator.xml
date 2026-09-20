@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_i_migration_iterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::IMigrationIterator</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_iterator_1a411d9331afb1163ad993f482a584cbee" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::IMigrationIterator::~IMigrationIterator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMigrationIterator</name>
+        <qualifiedname>themis::updates::IMigrationIterator::~IMigrationIterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="182" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_iterator_1ae4c6e3684b5a5f42c2d89f19f7bba39e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::updates::IMigrationIterator::valid</definition>
+        <argsstring>() const =0</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::updates::IMigrationIterator::valid</qualifiedname>
+        <briefdescription>
+<para>true while the iterator points at a record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="184" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_iterator_1aca46717b1c58018c8e8ded5a390d5783" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IMigrationIterator::key</definition>
+        <argsstring>() const =0</argsstring>
+        <name>key</name>
+        <qualifiedname>themis::updates::IMigrationIterator::key</qualifiedname>
+        <briefdescription>
+<para>Current record key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="185" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_iterator_1a2b5f9bfe70f2418476cde7fcec657c9f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IMigrationIterator::value</definition>
+        <argsstring>() const =0</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::updates::IMigrationIterator::value</qualifiedname>
+        <briefdescription>
+<para>Current record value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="186" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_migration_iterator_1ac42f0fec116bc249375beeb3ce4df6df" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::updates::IMigrationIterator::next</definition>
+        <argsstring>()=0</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::updates::IMigrationIterator::next</qualifiedname>
+        <briefdescription>
+<para>Advance to the next record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="187" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Iterator over records in a table, used by custom migration callbacks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="180" column="1" bodyfile="include/updates/schema_migration.h" bodystart="180" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_i_migration_iterator_1aca46717b1c58018c8e8ded5a390d5783" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationIterator</scope><name>key</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_iterator_1ac42f0fec116bc249375beeb3ce4df6df" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationIterator</scope><name>next</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_iterator_1ae4c6e3684b5a5f42c2d89f19f7bba39e" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationIterator</scope><name>valid</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_iterator_1a2b5f9bfe70f2418476cde7fcec657c9f" prot="public" virt="pure-virtual"><scope>themis::updates::IMigrationIterator</scope><name>value</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_migration_iterator_1a411d9331afb1163ad993f482a584cbee" prot="public" virt="virtual"><scope>themis::updates::IMigrationIterator</scope><name>~IMigrationIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

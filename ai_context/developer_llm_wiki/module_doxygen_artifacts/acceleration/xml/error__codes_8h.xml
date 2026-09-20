@@ -1,0 +1,758 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="error__codes_8h" kind="file" language="C++">
+    <compoundname>error_codes.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="batch__validator_8h" local="yes">include/acceleration/batch_validator.h</includedby>
+    <includedby refid="error__context_8h" local="yes">include/acceleration/error_context.h</includedby>
+    <includedby refid="kernel__fallback__dispatcher_8h" local="yes">include/acceleration/kernel_fallback_dispatcher.h</includedby>
+    <includedby refid="cuda__backend_8cpp" local="yes">src/acceleration/cuda_backend.cpp</includedby>
+    <includedby refid="hip__backend_8cpp" local="yes">src/acceleration/hip_backend.cpp</includedby>
+    <includedby refid="opencl__backend_8cpp" local="yes">src/acceleration/opencl_backend.cpp</includedby>
+    <includedby refid="test__acceleration__coverage_8cpp" local="yes">tests/acceleration/test_acceleration_coverage.cpp</includedby>
+    <includedby refid="test__acceleration__failure__handling_8cpp" local="yes">tests/acceleration/test_acceleration_failure_handling.cpp</includedby>
+    <includedby refid="test__acceleration__performance__gates_8cpp" local="yes">tests/acceleration/test_acceleration_performance_gates.cpp</includedby>
+    <includedby refid="test__acceleration__plugin__security__hardening_8cpp" local="yes">tests/acceleration/test_acceleration_plugin_security_hardening.cpp</includedby>
+    <includedby refid="test__acceleration__regression_8cpp" local="yes">tests/acceleration/test_acceleration_regression.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="19">
+        <label>benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</label>
+        <link refid="bench__acceleration__cuda__gates_8cpp"/>
+      </node>
+      <node id="20">
+        <label>benchmarks/acceleration/bench_acceleration_dispatch.cpp</label>
+        <link refid="bench__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="21">
+        <label>benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp</label>
+        <link refid="bench__category__b__gpu__cpu__parity_8cpp"/>
+      </node>
+      <node id="12">
+        <label>include/acceleration/ai_hardware_dispatcher.h</label>
+        <link refid="ai__hardware__dispatcher_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/acceleration/batch_validator.h</label>
+        <link refid="batch__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/acceleration/cuda_backend.h</label>
+        <link refid="cuda__backend_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/acceleration/device_manager.h</label>
+        <link refid="device__manager_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/acceleration/faiss_gpu_backend.h</label>
+        <link refid="faiss__gpu__backend_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/acceleration/geo_acceleration_bridge.h</label>
+        <link refid="geo__acceleration__bridge_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/acceleration/graphics_backends.h</label>
+        <link refid="graphics__backends_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/acceleration/hip_backend.h</label>
+        <link refid="hip__backend_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>include/acceleration/kernel_fallback_dispatcher.h</label>
+        <link refid="kernel__fallback__dispatcher_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/acceleration/kernel_registry.h</label>
+        <link refid="kernel__registry_8h"/>
+      </node>
+      <node id="40">
+        <label>include/acceleration/multi_gpu_backend.h</label>
+        <link refid="multi__gpu__backend_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/acceleration/nccl_vector_backend.h</label>
+        <link refid="nccl__vector__backend_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/acceleration/opencl_backend.h</label>
+        <link refid="opencl__backend_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>include/acceleration/plugin_loader.h</label>
+        <link refid="plugin__loader_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/acceleration/quantized_backend.h</label>
+        <link refid="quantized__backend_8h"/>
+      </node>
+      <node id="50">
+        <label>include/acceleration/rccl_vector_backend.h</label>
+        <link refid="rccl__vector__backend_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/acceleration/vulkan_backend.h</label>
+        <link refid="vulkan__backend_8h"/>
+      </node>
+      <node id="52">
+        <label>include/acceleration/zluda_backend.h</label>
+        <link refid="zluda__backend_8h"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/acceleration/ai_hardware_dispatcher.cpp</label>
+        <link refid="ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/acceleration/backend_registry.cpp</label>
+        <link refid="backend__registry_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/acceleration/compute_backend.cpp</label>
+        <link refid="compute__backend_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/acceleration/cpu_backend.cpp</label>
+        <link refid="cpu__backend_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/acceleration/cpu_backend_mt.cpp</label>
+        <link refid="cpu__backend__mt_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/acceleration/cpu_backend_tbb.cpp</label>
+        <link refid="cpu__backend__tbb_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/acceleration/cuda_backend.cpp</label>
+        <link refid="cuda__backend_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/acceleration/device_manager.cpp</label>
+        <link refid="device__manager_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/acceleration/directx_backend_full.cpp</label>
+        <link refid="directx__backend__full_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/acceleration/faiss_gpu_backend.cpp</label>
+        <link refid="faiss__gpu__backend_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/acceleration/geo_acceleration_bridge.cpp</label>
+        <link refid="geo__acceleration__bridge_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/acceleration/graphics_backends.cpp</label>
+        <link refid="graphics__backends_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/acceleration/hip_backend.cpp</label>
+        <link refid="hip__backend_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/acceleration/kernel_registry.cpp</label>
+        <link refid="kernel__registry_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/acceleration/multi_gpu_backend.cpp</label>
+        <link refid="multi__gpu__backend_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/acceleration/nccl_vector_backend.cpp</label>
+        <link refid="nccl__vector__backend_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/acceleration/oneapi_backend.cpp</label>
+        <link refid="oneapi__backend_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/acceleration/opencl_backend.cpp</label>
+        <link refid="opencl__backend_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/acceleration/plugin_loader.cpp</label>
+        <link refid="plugin__loader_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/acceleration/rccl_vector_backend.cpp</label>
+        <link refid="rccl__vector__backend_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/acceleration/vllm_resource_manager.cpp</label>
+        <link refid="vllm__resource__manager_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/acceleration/vulkan_backend_full.cpp</label>
+        <link refid="vulkan__backend__full_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/acceleration/zluda_backend.cpp</label>
+        <link refid="zluda__backend_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/acceleration/test_acceleration.cpp</label>
+        <link refid="test__acceleration_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/acceleration/test_acceleration_coverage.cpp</label>
+        <link refid="test__acceleration__coverage_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/acceleration/test_acceleration_dispatch.cpp</label>
+        <link refid="test__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/acceleration/test_acceleration_failure_handling.cpp</label>
+        <link refid="test__acceleration__failure__handling_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/acceleration/test_acceleration_performance_gates.cpp</label>
+        <link refid="test__acceleration__performance__gates_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/acceleration/test_acceleration_plugin_security_hardening.cpp</label>
+        <link refid="test__acceleration__plugin__security__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/acceleration/test_acceleration_regression.cpp</label>
+        <link refid="test__acceleration__regression_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/acceleration/test_ai_hardware_dispatcher.cpp</label>
+        <link refid="test__ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/acceleration/test_backend_registry_thread_safety.cpp</label>
+        <link refid="test__backend__registry__thread__safety_8cpp"/>
+      </node>
+      <node id="43">
+        <label>tests/acceleration/test_nccl_merge_topk.cpp</label>
+        <link refid="test__nccl__merge__topk_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" kindref="member">Success</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialization<sp/>Errors<sp/>(100-199)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3a50e5a864f1c1da3d4f53ca965fcec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3a50e5a864f1c1da3d4f53ca965fcec6" kindref="member">NoDevicesFound</ref><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a98bd79dd14f8304f34d6203cd6605456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a98bd79dd14f8304f34d6203cd6605456" kindref="member">DriverNotInstalled</ref><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aaa6c5cee4bac5f31521b5436239f053a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aaa6c5cee4bac5f31521b5436239f053a" kindref="member">DeviceNotSupported</ref><sp/>=<sp/>103,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4cf35b3d8fa0e0c15153d8e55211d9c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4cf35b3d8fa0e0c15153d8e55211d9c9" kindref="member">ContextCreationFailed</ref><sp/>=<sp/>104,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af17911945da6dd920f1f7a00c7c20594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af17911945da6dd920f1f7a00c7c20594" kindref="member">QueueCreationFailed</ref><sp/>=<sp/>105,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab5681d1f3f43efe16036dc132bcf439e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab5681d1f3f43efe16036dc132bcf439e" kindref="member">DeviceSetFailed</ref><sp/>=<sp/>106,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3c498ef010703a7e89a2ea80abb331fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3c498ef010703a7e89a2ea80abb331fa" kindref="member">DevicePropertiesQueryFailed</ref><sp/>=<sp/>107,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a5816c46d15f2178f8c7456ebbfc0bf61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a5816c46d15f2178f8c7456ebbfc0bf61" kindref="member">RuntimeVersionIncompatible</ref><sp/>=<sp/>108,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8e66ecdd6c627a8f7022890392fd5e2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8e66ecdd6c627a8f7022890392fd5e2b" kindref="member">PlatformNotAvailable</ref><sp/>=<sp/>109,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>Management<sp/>Errors<sp/>(200-299)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1122e4bd5951f4a7d9d4ff51d9901bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1122e4bd5951f4a7d9d4ff51d9901bf2" kindref="member">OutOfDeviceMemory</ref><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1a974d190fc90edd0babc2a5a021e3f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1a974d190fc90edd0babc2a5a021e3f0" kindref="member">OutOfHostMemory</ref><sp/>=<sp/>202,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab1a1f934a076c47f947fd8766ca6d2df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab1a1f934a076c47f947fd8766ca6d2df" kindref="member">AllocationFailed</ref><sp/>=<sp/>203,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac6a0a5ec8417134bff0637432e332ed5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac6a0a5ec8417134bff0637432e332ed5" kindref="member">MemoryCopyFailed</ref><sp/>=<sp/>204,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a557c0e420180164c8b77b8cce23ebf00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a557c0e420180164c8b77b8cce23ebf00" kindref="member">BufferCreationFailed</ref><sp/>=<sp/>205,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a28aed17f28d78be02c061b4450156bed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a28aed17f28d78be02c061b4450156bed" kindref="member">InvalidMemoryAccess</ref><sp/>=<sp/>206,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime/Execution<sp/>Errors<sp/>(300-399)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1d7c3d3649dac3949dbcdd1fe36b17d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1d7c3d3649dac3949dbcdd1fe36b17d6" kindref="member">KernelLaunchFailed</ref><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a79162bb452fad69612bf7f3fbc7e2e00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a79162bb452fad69612bf7f3fbc7e2e00" kindref="member">KernelExecutionFailed</ref><sp/>=<sp/>302,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac84762e32ce4ad68154455c0c9c12ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac84762e32ce4ad68154455c0c9c12ca3" kindref="member">SynchronizationFailed</ref><sp/>=<sp/>303,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a9dd9eb2e644ab86243fa4dc1af89a53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a9dd9eb2e644ab86243fa4dc1af89a53a" kindref="member">OperationTimeout</ref><sp/>=<sp/>304,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ae21f64304b84d5a977e1a00f2137428c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ae21f64304b84d5a977e1a00f2137428c" kindref="member">DeviceLost</ref><sp/>=<sp/>305,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kernel/Shader<sp/>Compilation<sp/>Errors<sp/>(500-599)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a43f6834912fb3e5d5705fa80ff394352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a43f6834912fb3e5d5705fa80ff394352" kindref="member">KernelCompilationFailed</ref><sp/>=<sp/>501,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4c4df9efb242aeb08fb1f72bf7999a82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4c4df9efb242aeb08fb1f72bf7999a82" kindref="member">KernelNotFound</ref><sp/>=<sp/>502,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a752d8e54ebee80d2c59518760c25c4c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a752d8e54ebee80d2c59518760c25c4c3" kindref="member">InvalidKernelArguments</ref><sp/>=<sp/>503,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aff13f8e76bbbe53388fc163536efbdc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aff13f8e76bbbe53388fc163536efbdc0" kindref="member">ProgramLinkingFailed</ref><sp/>=<sp/>504,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>Errors<sp/>(600-699)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a449aa631dc0529db204cea7eaad9ad2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a449aa631dc0529db204cea7eaad9ad2b" kindref="member">InputValidationFailed</ref><sp/>=<sp/>601,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1c5af5207a45aa564cfe74de48e31ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1c5af5207a45aa564cfe74de48e31ca3" kindref="member">InvalidInputShape</ref><sp/>=<sp/>602,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af72b2e7a40b82057fa8cbee4e69d6c6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af72b2e7a40b82057fa8cbee4e69d6c6c" kindref="member">InvalidInputDtype</ref><sp/>=<sp/>603,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0adb4d73944936bc5d8cff50ce71450d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0adb4d73944936bc5d8cff50ce71450d3f" kindref="member">BatchSizeExceeded</ref><sp/>=<sp/>604,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a93eb2d09405bd5b92db1e7ec1db61949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a93eb2d09405bd5b92db1e7ec1db61949" kindref="member">InputRangeViolation</ref><sp/>=<sp/>605,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>Errors<sp/>(400-499)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af237deac1e85c65673a7bba9093bca7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af237deac1e85c65673a7bba9093bca7e" kindref="member">InvalidConfiguration</ref><sp/>=<sp/>401,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af76af8155079d26c9b004f53f7463923" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af76af8155079d26c9b004f53f7463923" kindref="member">FeatureNotSupported</ref><sp/>=<sp/>402,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a627251310d3384b591e4138be21145d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a627251310d3384b591e4138be21145d5" kindref="member">InvalidParameter</ref><sp/>=<sp/>403,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a465ccabaac534fdde0dfc79d0ac1098c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a465ccabaac534fdde0dfc79d0ac1098c" kindref="member">BackendNotInitialized</ref><sp/>=<sp/>404,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a0ba49c5f061bddec4fe6fb8f9ff51a22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a0ba49c5f061bddec4fe6fb8f9ff51a22" kindref="member">BackendAlreadyInitialized</ref><sp/>=<sp/>405,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic/Unknown<sp/>Errors<sp/>(900-999)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0abfaef30f1c8011c5cefa38ae470fb7aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0abfaef30f1c8011c5cefa38ae470fb7aa" kindref="member">UnknownError</ref><sp/>=<sp/>900,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/>=<sp/>901,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a997ca4ce119685f40f03a9a8a6c5346e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a997ca4ce119685f40f03a9a8a6c5346e" kindref="member">NotImplemented</ref><sp/>=<sp/>902</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1acceleration_1a463991195232ca9bdbca188887e004b7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1acceleration_1a463991195232ca9bdbca188887e004b7" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" kindref="member">AccelerationErrorCode::Success</ref>:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Success&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialization<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3a50e5a864f1c1da3d4f53ca965fcec6" kindref="member">AccelerationErrorCode::NoDevicesFound</ref>:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NoDevicesFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a98bd79dd14f8304f34d6203cd6605456" kindref="member">AccelerationErrorCode::DriverNotInstalled</ref>:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DriverNotInstalled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aaa6c5cee4bac5f31521b5436239f053a" kindref="member">AccelerationErrorCode::DeviceNotSupported</ref>:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DeviceNotSupported&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4cf35b3d8fa0e0c15153d8e55211d9c9" kindref="member">AccelerationErrorCode::ContextCreationFailed</ref>:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ContextCreationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af17911945da6dd920f1f7a00c7c20594" kindref="member">AccelerationErrorCode::QueueCreationFailed</ref>:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;QueueCreationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab5681d1f3f43efe16036dc132bcf439e" kindref="member">AccelerationErrorCode::DeviceSetFailed</ref>:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DeviceSetFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a3c498ef010703a7e89a2ea80abb331fa" kindref="member">AccelerationErrorCode::DevicePropertiesQueryFailed</ref>:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DevicePropertiesQueryFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a5816c46d15f2178f8c7456ebbfc0bf61" kindref="member">AccelerationErrorCode::RuntimeVersionIncompatible</ref>:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RuntimeVersionIncompatible&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8e66ecdd6c627a8f7022890392fd5e2b" kindref="member">AccelerationErrorCode::PlatformNotAvailable</ref>:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PlatformNotAvailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1122e4bd5951f4a7d9d4ff51d9901bf2" kindref="member">AccelerationErrorCode::OutOfDeviceMemory</ref>:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OutOfDeviceMemory&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1a974d190fc90edd0babc2a5a021e3f0" kindref="member">AccelerationErrorCode::OutOfHostMemory</ref>:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OutOfHostMemory&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ab1a1f934a076c47f947fd8766ca6d2df" kindref="member">AccelerationErrorCode::AllocationFailed</ref>:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AllocationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac6a0a5ec8417134bff0637432e332ed5" kindref="member">AccelerationErrorCode::MemoryCopyFailed</ref>:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MemoryCopyFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a557c0e420180164c8b77b8cce23ebf00" kindref="member">AccelerationErrorCode::BufferCreationFailed</ref>:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BufferCreationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a28aed17f28d78be02c061b4450156bed" kindref="member">AccelerationErrorCode::InvalidMemoryAccess</ref>:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidMemoryAccess&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1d7c3d3649dac3949dbcdd1fe36b17d6" kindref="member">AccelerationErrorCode::KernelLaunchFailed</ref>:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KernelLaunchFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a79162bb452fad69612bf7f3fbc7e2e00" kindref="member">AccelerationErrorCode::KernelExecutionFailed</ref>:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KernelExecutionFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ac84762e32ce4ad68154455c0c9c12ca3" kindref="member">AccelerationErrorCode::SynchronizationFailed</ref>:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SynchronizationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a9dd9eb2e644ab86243fa4dc1af89a53a" kindref="member">AccelerationErrorCode::OperationTimeout</ref>:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OperationTimeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0ae21f64304b84d5a977e1a00f2137428c" kindref="member">AccelerationErrorCode::DeviceLost</ref>:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DeviceLost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kernel<sp/>compilation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a43f6834912fb3e5d5705fa80ff394352" kindref="member">AccelerationErrorCode::KernelCompilationFailed</ref>:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KernelCompilationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a4c4df9efb242aeb08fb1f72bf7999a82" kindref="member">AccelerationErrorCode::KernelNotFound</ref>:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KernelNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a752d8e54ebee80d2c59518760c25c4c3" kindref="member">AccelerationErrorCode::InvalidKernelArguments</ref>:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidKernelArguments&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0aff13f8e76bbbe53388fc163536efbdc0" kindref="member">AccelerationErrorCode::ProgramLinkingFailed</ref>:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ProgramLinkingFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a449aa631dc0529db204cea7eaad9ad2b" kindref="member">AccelerationErrorCode::InputValidationFailed</ref>:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InputValidationFailed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a1c5af5207a45aa564cfe74de48e31ca3" kindref="member">AccelerationErrorCode::InvalidInputShape</ref>:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidInputShape&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af72b2e7a40b82057fa8cbee4e69d6c6c" kindref="member">AccelerationErrorCode::InvalidInputDtype</ref>:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidInputDtype&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0adb4d73944936bc5d8cff50ce71450d3f" kindref="member">AccelerationErrorCode::BatchSizeExceeded</ref>:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BatchSizeExceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a93eb2d09405bd5b92db1e7ec1db61949" kindref="member">AccelerationErrorCode::InputRangeViolation</ref>:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InputRangeViolation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af237deac1e85c65673a7bba9093bca7e" kindref="member">AccelerationErrorCode::InvalidConfiguration</ref>:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidConfiguration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0af76af8155079d26c9b004f53f7463923" kindref="member">AccelerationErrorCode::FeatureNotSupported</ref>:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FeatureNotSupported&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a627251310d3384b591e4138be21145d5" kindref="member">AccelerationErrorCode::InvalidParameter</ref>:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InvalidParameter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a465ccabaac534fdde0dfc79d0ac1098c" kindref="member">AccelerationErrorCode::BackendNotInitialized</ref>:</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BackendNotInitialized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a0ba49c5f061bddec4fe6fb8f9ff51a22" kindref="member">AccelerationErrorCode::BackendAlreadyInitialized</ref>:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BackendAlreadyInitialized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0abfaef30f1c8011c5cefa38ae470fb7aa" kindref="member">AccelerationErrorCode::UnknownError</ref>:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UnknownError&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a8462b58246e70e5c83e5b939a9332cb5" kindref="member">AccelerationErrorCode::InternalError</ref>:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;InternalError&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a997ca4ce119685f40f03a9a8a6c5346e" kindref="member">AccelerationErrorCode::NotImplemented</ref>:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NotImplemented&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UnknownErrorCode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="namespacethemis_1_1acceleration_1a473b8654c528fcecd80a3f1d672a0ceb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a473b8654c528fcecd80a3f1d672a0ceb" kindref="member">isSuccess</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" kindref="member">AccelerationErrorCode::Success</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="namespacethemis_1_1acceleration_1ac00a33f3eaad50ea7e1a396bed8cd346" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ac00a33f3eaad50ea7e1a396bed8cd346" kindref="member">isInitializationError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>100<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>200;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="namespacethemis_1_1acceleration_1a3a856f28a9f36b13159903a3d4975e4f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a3a856f28a9f36b13159903a3d4975e4f" kindref="member">isResourceError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>200<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>300;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="namespacethemis_1_1acceleration_1a4c62ab03ed977777a9ad0753896e5bad" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a4c62ab03ed977777a9ad0753896e5bad" kindref="member">isRuntimeError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>300<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>400;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="namespacethemis_1_1acceleration_1a72392d1bc3c229c33cc63ec63db58a36" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a72392d1bc3c229c33cc63ec63db58a36" kindref="member">isConfigurationError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>400<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>500;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="namespacethemis_1_1acceleration_1ac94ba5549eba18352d3b4c5b9f74e9dc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ac94ba5549eba18352d3b4c5b9f74e9dc" kindref="member">isKernelError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>500<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>600;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="namespacethemis_1_1acceleration_1a24486c1f5a92ff943759cdd92ce64b02" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a24486c1f5a92ff943759cdd92ce64b02" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c<sp/>&gt;=<sp/>600<sp/>&amp;&amp;<sp/>c<sp/>&lt;<sp/>700;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/error_codes.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,976 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_time_series_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::TimeSeriesApiHandler</compoundname>
+    <includes refid="timeseries__api__handler_8h" local="no">timeseries_api_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_time_series_api_handler_1a565842a517bcea25ad1274f95b75e710" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; nlohmann::json &gt;()&gt;</type>
+        <definition>using themis::server::TimeSeriesApiHandler::RetentionPoliciesProviderFn = std::function&lt;std::vector&lt;nlohmann::json&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetentionPoliciesProviderFn</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::RetentionPoliciesProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="40" column="5" bodyfile="include/server/timeseries_api_handler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_time_series_api_handler_1a40d8210d98a83f840e9f839f454c2776" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json()&gt;</type>
+        <definition>using themis::server::TimeSeriesApiHandler::AggregateTypesProviderFn = std::function&lt;nlohmann::json()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggregateTypesProviderFn</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::AggregateTypesProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="104" column="5" bodyfile="include/server/timeseries_api_handler.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_time_series_api_handler_1a467b258746baa08c7828a3b5903f4cab" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;()&gt;</type>
+        <definition>using themis::server::TimeSeriesApiHandler::AggregatesFn = std::function&lt;std::vector&lt;std::string&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggregatesFn</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::AggregatesFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="130" column="5" bodyfile="include/server/timeseries_api_handler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_time_series_api_handler_1ac64fd05cf98f93d6b46ff3a8075124b2" prot="public" static="no">
+        <type>std::function&lt; std::map&lt; std::string, int64_t &gt;()&gt;</type>
+        <definition>using themis::server::TimeSeriesApiHandler::RetentionsFn = std::function&lt;std::map&lt;std::string, int64_t&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetentionsFn</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::RetentionsFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="132" column="5" bodyfile="include/server/timeseries_api_handler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1ad075cd019d6f5fa3936651c3526f259a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::TimeSeriesApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="149" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1ade314bf343d15db4890fb7d8a7a28ac1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TSStore &gt;</type>
+        <definition>std::shared_ptr&lt;TSStore&gt; themis::server::TimeSeriesApiHandler::ts_store_</definition>
+        <argsstring></argsstring>
+        <name>ts_store_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::ts_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="150" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a8704f283222c18ce48c016df0b07a3d2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ContinuousAggregateManager &gt;</type>
+        <definition>std::shared_ptr&lt;ContinuousAggregateManager&gt; themis::server::TimeSeriesApiHandler::agg_manager_</definition>
+        <argsstring></argsstring>
+        <name>agg_manager_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::agg_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="151" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a4263658c70f874b68ec6a8fcd3ace6bc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::TimeSeriesApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="152" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a3a6ae0572d3b4be279e8efac99c5a075" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a40d8210d98a83f840e9f839f454c2776" kindref="member">AggregateTypesProviderFn</ref></type>
+        <definition>AggregateTypesProviderFn themis::server::TimeSeriesApiHandler::aggregate_types_provider_</definition>
+        <argsstring></argsstring>
+        <name>aggregate_types_provider_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::aggregate_types_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="153" column="30" bodyfile="include/server/timeseries_api_handler.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a815eeea814bad2925c21ad4e99694708" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a565842a517bcea25ad1274f95b75e710" kindref="member">RetentionPoliciesProviderFn</ref></type>
+        <definition>RetentionPoliciesProviderFn themis::server::TimeSeriesApiHandler::retention_policies_provider_</definition>
+        <argsstring></argsstring>
+        <name>retention_policies_provider_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::retention_policies_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="154" column="33" bodyfile="include/server/timeseries_api_handler.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1ab0dbe6c11832d2e8fbd8b0941ecaa5aa" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ContinuousAggMaterializationEngine &gt;</type>
+        <definition>std::shared_ptr&lt;ContinuousAggMaterializationEngine&gt; themis::server::TimeSeriesApiHandler::agg_engine_</definition>
+        <argsstring></argsstring>
+        <name>agg_engine_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::agg_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="156" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a214d44fa0406d6b458c368f21341a83f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RetentionManager &gt;</type>
+        <definition>std::shared_ptr&lt;RetentionManager&gt; themis::server::TimeSeriesApiHandler::retention_manager_</definition>
+        <argsstring></argsstring>
+        <name>retention_manager_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::retention_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="157" column="21" bodyfile="include/server/timeseries_api_handler.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a871dfc04429a896d9a1d69583a083705" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a565842a517bcea25ad1274f95b75e710" kindref="member">RetentionPoliciesProviderFn</ref></type>
+        <definition>RetentionPoliciesProviderFn themis::server::TimeSeriesApiHandler::retentionPoliciesFn_</definition>
+        <argsstring></argsstring>
+        <name>retentionPoliciesFn_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::retentionPoliciesFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="160" column="33" bodyfile="include/server/timeseries_api_handler.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a907449f2511651ee9e7888fedc7cf1d4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::TimeSeriesApiHandler::retentionPoliciesMutex_</definition>
+        <argsstring></argsstring>
+        <name>retentionPoliciesMutex_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::retentionPoliciesMutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="161" column="24" bodyfile="include/server/timeseries_api_handler.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1a87de847dd5abab7c80577ccba38b094f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a467b258746baa08c7828a3b5903f4cab" kindref="member">AggregatesFn</ref></type>
+        <definition>AggregatesFn themis::server::TimeSeriesApiHandler::aggregates_fn_</definition>
+        <argsstring></argsstring>
+        <name>aggregates_fn_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::aggregates_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional live aggregates provider (stub #301). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="163" column="18" bodyfile="include/server/timeseries_api_handler.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_time_series_api_handler_1abe948b72490efc1f37f06b0ecacd6dd3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1ac64fd05cf98f93d6b46ff3a8075124b2" kindref="member">RetentionsFn</ref></type>
+        <definition>RetentionsFn themis::server::TimeSeriesApiHandler::retentions_fn_</definition>
+        <argsstring></argsstring>
+        <name>retentions_fn_</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::retentions_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional live retention-policy provider (stub #301). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="164" column="18" bodyfile="include/server/timeseries_api_handler.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1aa7c94b7a681234bccf4075a0047f14ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::TimeSeriesApiHandler::TimeSeriesApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; TSStore &gt; ts_store, std::shared_ptr&lt; ContinuousAggregateManager &gt; agg_manager, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>TimeSeriesApiHandler</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::TimeSeriesApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TSStore &gt;</type>
+          <declname>ts_store</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ContinuousAggregateManager &gt;</type>
+          <declname>agg_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="42" column="5" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="28" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a0c8e95d1b5311ceca803822b72c1807e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TimeSeriesApiHandler::setRetentionPoliciesProviderFn</definition>
+        <argsstring>(RetentionPoliciesProviderFn fn)</argsstring>
+        <name>setRetentionPoliciesProviderFn</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::setRetentionPoliciesProviderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a565842a517bcea25ad1274f95b75e710" kindref="member">RetentionPoliciesProviderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Retention Policies Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="53" column="10" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a06dadb06ad5e1818ea1d20e4da00fdb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handlePut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePut</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handlePut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="60" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="64" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1abf6a91f0e312946c8a2d01405fa1b32b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleQuery</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQuery</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleQuery</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_null(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="67" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="132" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a8f1631c20732be1e5b5d5d5fad246593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleAggregate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAggregate</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleAggregate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_null(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="74" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="213" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a2e1efdab39a2019cfa6dc47da0748e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleConfigGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigGet</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleConfigGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), get(), s(), begin(), end(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="81" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="290" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a544fb37e056f1aaaf9e63498e4367ac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleConfigPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigPut</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleConfigPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), get(), s(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="88" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="332" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1ad6c26a07f672c125f25e98d094610c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleAggregatesGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAggregatesGet</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleAggregatesGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Aggregates Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), aggregates_fn_(), insert(), begin(), end(), setAttribute(), listAggregates(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="95" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="448" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a7074cffe80da46f91976f56893ecc162" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleRetentionGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRetentionGet</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleRetentionGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Retention Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::array(), retentions_fn_(), push_back(), setAttribute(), retentionPoliciesFn_(), nlohmann::json(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="102" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="540" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a4ce55a2d3f5f637580ce46b9deb17eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TimeSeriesApiHandler::setAggregateTypesProvider</definition>
+        <argsstring>(AggregateTypesProviderFn fn)</argsstring>
+        <name>setAggregateTypesProvider</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::setAggregateTypesProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a40d8210d98a83f840e9f839f454c2776" kindref="member">AggregateTypesProviderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Aggregate Types Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="109" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1afed79026e7f5aa693dc1b6d9885f1e66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handleMetricsGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMetricsGet</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handleMetricsGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), std::string(), target(), find(), substr(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="117" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="624" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1a55e47b64722c748638d4bb22c87870b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::handlePrometheusRemoteWrite</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePrometheusRemoteWrite</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::handlePrometheusRemoteWrite</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Prometheus Remote Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), body(), empty(), count(), std::string(), themis::timeseries::PromWriteRequest::decode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="124" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="695" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1aea4f418b8c959310ca50fb1d768a5917" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TimeSeriesApiHandler::setAggregatesProvider</definition>
+        <argsstring>(AggregatesFn fn)</argsstring>
+        <name>setAggregatesProvider</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::setAggregatesProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1a467b258746baa08c7828a3b5903f4cab" kindref="member">AggregatesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Aggregates Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="139" column="10" bodyfile="include/server/timeseries_api_handler.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1ab5ef32afd10511ba9e6d7c38971b5ed9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TimeSeriesApiHandler::setRetentionPoliciesProvider</definition>
+        <argsstring>(RetentionsFn fn)</argsstring>
+        <name>setRetentionPoliciesProvider</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::setRetentionPoliciesProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_time_series_api_handler_1ac64fd05cf98f93d6b46ff3a8075124b2" kindref="member">RetentionsFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Retention Policies Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="146" column="10" bodyfile="include/server/timeseries_api_handler.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1aecc001296035b0ae9b690075e22c621e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="173" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="825" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_time_series_api_handler_1aa0125a76d025c3bf7810037461ed1ada" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TimeSeriesApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::TimeSeriesApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/timeseries_api_handler.h" line="182" column="20" bodyfile="src/server/timeseries_api_handler.cpp" bodystart="844" bodyend="854"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/timeseries_api_handler.h" line="38" column="1" bodyfile="include/server/timeseries_api_handler.h" bodystart="38" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ab0dbe6c11832d2e8fbd8b0941ecaa5aa" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>agg_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a8704f283222c18ce48c016df0b07a3d2" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>agg_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a3a6ae0572d3b4be279e8efac99c5a075" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>aggregate_types_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a87de847dd5abab7c80577ccba38b094f" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>aggregates_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a467b258746baa08c7828a3b5903f4cab" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>AggregatesFn</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a40d8210d98a83f840e9f839f454c2776" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>AggregateTypesProviderFn</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a4263658c70f874b68ec6a8fcd3ace6bc" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a8f1631c20732be1e5b5d5d5fad246593" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleAggregate</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ad6c26a07f672c125f25e98d094610c81" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleAggregatesGet</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a2e1efdab39a2019cfa6dc47da0748e47" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleConfigGet</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a544fb37e056f1aaaf9e63498e4367ac3" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleConfigPut</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1afed79026e7f5aa693dc1b6d9885f1e66" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleMetricsGet</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a55e47b64722c748638d4bb22c87870b1" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handlePrometheusRemoteWrite</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a06dadb06ad5e1818ea1d20e4da00fdb1" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handlePut</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1abf6a91f0e312946c8a2d01405fa1b32b" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a7074cffe80da46f91976f56893ecc162" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>handleRetentionGet</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1aecc001296035b0ae9b690075e22c621e" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1aa0125a76d025c3bf7810037461ed1ada" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a214d44fa0406d6b458c368f21341a83f" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>retention_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a815eeea814bad2925c21ad4e99694708" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>retention_policies_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a871dfc04429a896d9a1d69583a083705" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>retentionPoliciesFn_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a907449f2511651ee9e7888fedc7cf1d4" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>retentionPoliciesMutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a565842a517bcea25ad1274f95b75e710" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>RetentionPoliciesProviderFn</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1abe948b72490efc1f37f06b0ecacd6dd3" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>retentions_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ac64fd05cf98f93d6b46ff3a8075124b2" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>RetentionsFn</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1aea4f418b8c959310ca50fb1d768a5917" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>setAggregatesProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a4ce55a2d3f5f637580ce46b9deb17eb8" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>setAggregateTypesProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ab5ef32afd10511ba9e6d7c38971b5ed9" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>setRetentionPoliciesProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1a0c8e95d1b5311ceca803822b72c1807e" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>setRetentionPoliciesProviderFn</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ad075cd019d6f5fa3936651c3526f259a" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1aa7c94b7a681234bccf4075a0047f14ab" prot="public" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>TimeSeriesApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_time_series_api_handler_1ade314bf343d15db4890fb7d8a7a28ac1" prot="private" virt="non-virtual"><scope>themis::server::TimeSeriesApiHandler</scope><name>ts_store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

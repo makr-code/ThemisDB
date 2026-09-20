@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_model_serving_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ModelServingEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_entry_1a660bab068a351a891b6875fb6301aa0f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref></type>
+        <definition>AutoMLModel themisdb::analytics::ModelServingEntry::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themisdb::analytics::ModelServingEntry::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="70" column="17" bodyfile="src/analytics/model_serving.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_entry_1afc00a6ca3783253f0d25d0b04d7bc468" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_model_info" kindref="compound">ModelInfo</ref></type>
+        <definition>ModelInfo themisdb::analytics::ModelServingEntry::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themisdb::analytics::ModelServingEntry::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="71" column="15" bodyfile="src/analytics/model_serving.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_entry_1a2117fad42e67e80f21940d7835c40605" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_model_health_metrics" kindref="compound">ModelHealthMetrics</ref></type>
+        <definition>ModelHealthMetrics themisdb::analytics::ModelServingEntry::health</definition>
+        <argsstring></argsstring>
+        <name>health</name>
+        <qualifiedname>themisdb::analytics::ModelServingEntry::health</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="72" column="24" bodyfile="src/analytics/model_serving.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_entry_1afd43f723815a7825070feb2f3a312691" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::ModelServingEntry::health_mu</definition>
+        <argsstring></argsstring>
+        <name>health_mu</name>
+        <qualifiedname>themisdb::analytics::ModelServingEntry::health_mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="76" column="24" bodyfile="src/analytics/model_serving.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_entry_1a6f7e902899e34e61486599cc64352e5b" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themisdb::analytics::ModelServingEntry::latency_buf</definition>
+        <argsstring></argsstring>
+        <name>latency_buf</name>
+        <qualifiedname>themisdb::analytics::ModelServingEntry::latency_buf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="77" column="16" bodyfile="src/analytics/model_serving.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::AutoMLModel</label>
+        <link refid="classthemisdb_1_1analytics_1_1_auto_m_l_model"/>
+      </node>
+      <node id="4">
+        <label>themisdb::analytics::EvalMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_eval_metrics"/>
+      </node>
+      <node id="5">
+        <label>themisdb::analytics::ModelHealthMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_health_metrics"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::ModelInfo</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_info"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ModelServingEntry</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_serving_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>info</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>health</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/model_serving.cpp" line="69" column="1" bodyfile="src/analytics/model_serving.cpp" bodystart="69" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_entry_1a2117fad42e67e80f21940d7835c40605" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEntry</scope><name>health</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_entry_1afd43f723815a7825070feb2f3a312691" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEntry</scope><name>health_mu</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_entry_1afc00a6ca3783253f0d25d0b04d7bc468" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEntry</scope><name>info</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_entry_1a6f7e902899e34e61486599cc64352e5b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEntry</scope><name>latency_buf</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_entry_1a660bab068a351a891b6875fb6301aa0f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEntry</scope><name>model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

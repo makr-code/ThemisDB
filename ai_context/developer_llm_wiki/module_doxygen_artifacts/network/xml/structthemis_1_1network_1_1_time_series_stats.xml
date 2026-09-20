@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_time_series_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::TimeSeriesStats</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_stats_1ab23389e46afe832347b35eb9b7e6270c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesStats::total_data_points</definition>
+        <argsstring></argsstring>
+        <name>total_data_points</name>
+        <qualifiedname>themis::network::TimeSeriesStats::total_data_points</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="152" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_stats_1ae08eb0394c2119aa209fa2f7bbeab29d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesStats::buckets_returned</definition>
+        <argsstring></argsstring>
+        <name>buckets_returned</name>
+        <qualifiedname>themis::network::TimeSeriesStats::buckets_returned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="153" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_stats_1a8e9c5c58030a4ee994f11e638401829f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::TimeSeriesStats::data_density</definition>
+        <argsstring></argsstring>
+        <name>data_density</name>
+        <qualifiedname>themis::network::TimeSeriesStats::data_density</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="154" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_time_series_stats_1a565b270dd411b2d05fd121a376bb1cbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::TimeSeriesStats::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::network::TimeSeriesStats::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="157" column="17" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="378" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_helpers.h" line="151" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="151" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_time_series_stats_1ae08eb0394c2119aa209fa2f7bbeab29d" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesStats</scope><name>buckets_returned</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_stats_1a8e9c5c58030a4ee994f11e638401829f" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesStats</scope><name>data_density</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_stats_1a565b270dd411b2d05fd121a376bb1cbe" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesStats</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_stats_1ab23389e46afe832347b35eb9b7e6270c" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesStats</scope><name>total_data_points</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

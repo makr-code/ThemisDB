@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_lineage_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LineageGraph</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_graph_1acb2c822040a96678991e993ebdc92fd8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_lineage_node" kindref="compound">LineageNode</ref></type>
+        <definition>LineageNode themis::training::LineageGraph::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <qualifiedname>themis::training::LineageGraph::root</qualifiedname>
+        <briefdescription>
+<para>Starting node (the training-ready sample); reuses <ref refid="structthemis_1_1training_1_1_lineage_node" kindref="compound">LineageNode</ref> from <ref refid="provenance__tracker_8h" kindref="compound">provenance_tracker.h</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="78" column="17" bodyfile="include/training/training_interfaces.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lineage_graph_1a82d73d0ffcabe3ae7b3fd18e383f7355" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LineageGraph::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::training::LineageGraph::depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="79" column="17" bodyfile="include/training/training_interfaces.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_lineage_graph_1a92cebfae06156e176766138e61760fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LineageGraph::LineageGraph</definition>
+        <argsstring>()=default</argsstring>
+        <name>LineageGraph</name>
+        <qualifiedname>themis::training::LineageGraph::LineageGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="81" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Directed acyclic graph of sample transformations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::LineageGraph</label>
+        <link refid="structthemis_1_1training_1_1_lineage_graph"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>root</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::LineageNode</label>
+        <link refid="structthemis_1_1training_1_1_lineage_node"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/training_interfaces.h" line="77" column="1" bodyfile="include/training/training_interfaces.h" bodystart="77" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_lineage_graph_1a82d73d0ffcabe3ae7b3fd18e383f7355" prot="public" virt="non-virtual"><scope>themis::training::LineageGraph</scope><name>depth</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_graph_1a92cebfae06156e176766138e61760fb4" prot="public" virt="non-virtual"><scope>themis::training::LineageGraph</scope><name>LineageGraph</name></member>
+      <member refid="structthemis_1_1training_1_1_lineage_graph_1acb2c822040a96678991e993ebdc92fd8" prot="public" virt="non-virtual"><scope>themis::training::LineageGraph</scope><name>root</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1system__acquisition__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::system_acquisition_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1system__acquisition__controls_1ad1a36ccee97313a491acbfd1157caaf3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::system_acquisition_controls::kInfoSecurityRequirements</definition>
+        <argsstring></argsstring>
+        <name>kInfoSecurityRequirements</name>
+        <qualifiedname>themis::governance::iso27001::system_acquisition_controls::kInfoSecurityRequirements</qualifiedname>
+        <initializer>= &quot;A.14.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="175" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1system__acquisition__controls_1a9e52c9e40d7a48e9c24b5ebae2b91e92" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::system_acquisition_controls::kSecureInstallation</definition>
+        <argsstring></argsstring>
+        <name>kSecureInstallation</name>
+        <qualifiedname>themis::governance::iso27001::system_acquisition_controls::kSecureInstallation</qualifiedname>
+        <initializer>= &quot;A.14.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="176" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="174" column="1"/>
+  </compounddef>
+</doxygen>

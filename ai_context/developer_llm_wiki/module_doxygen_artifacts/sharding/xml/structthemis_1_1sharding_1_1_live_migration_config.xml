@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_live_migration_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LiveMigrationConfig</compoundname>
+    <includes refid="data__migrator_8h" local="no">data_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_config_1a70315f192511e01ec7bae02b7d6b2122" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LiveMigrationConfig::enable_dual_write</definition>
+        <argsstring></argsstring>
+        <name>enable_dual_write</name>
+        <qualifiedname>themis::sharding::LiveMigrationConfig::enable_dual_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Allow dual writes during migration (old shard always accepts writes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="77" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_config_1a705dd7cb16ab6e13178554f00ca39ef7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LiveMigrationConfig::catchup_poll_interval</definition>
+        <argsstring></argsstring>
+        <name>catchup_poll_interval</name>
+        <qualifiedname>themis::sharding::LiveMigrationConfig::catchup_poll_interval</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+<para>How often to poll the WAL shipper for lag convergence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="80" column="31" bodyfile="include/sharding/data_migrator.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_config_1afe769ac357364aaefcd56cbd2c8b29ee" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LiveMigrationConfig::catchup_timeout</definition>
+        <argsstring></argsstring>
+        <name>catchup_timeout</name>
+        <qualifiedname>themis::sharding::LiveMigrationConfig::catchup_timeout</qualifiedname>
+        <initializer>{std::chrono::minutes(10)}</initializer>
+        <briefdescription>
+<para>Maximum total time to wait for WAL catchup before failing the migration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="83" column="31" bodyfile="include/sharding/data_migrator.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_config_1a4ad4aaa2b7e0484ad96011db9a9b2213" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LiveMigrationConfig::max_wal_lag_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_wal_lag_bytes</name>
+        <qualifiedname>themis::sharding::LiveMigrationConfig::max_wal_lag_bytes</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+<para>Target WAL lag (bytes) that must be reached before atomic cutover. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="86" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_config_1a9a5eab700ca465ff6eb7c160197b77a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LiveMigrationConfig::verify_after_bulk_copy</definition>
+        <argsstring></argsstring>
+        <name>verify_after_bulk_copy</name>
+        <qualifiedname>themis::sharding::LiveMigrationConfig::verify_after_bulk_copy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform a final integrity verification after the bulk copy but before committing to WAL catchup. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="90" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for live (dual-write) shard migration.</para>
+<para>During a live migration the old shard continues to accept writes. The new shard receives a bulk copy of existing data (via migrate()), then catches up with writes that arrived during the copy by replaying WAL entries shipped from the source via <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref>. Once the WAL lag falls below max_wal_lag_bytes an atomic topology cutover is performed via <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>, making the new shard the authoritative owner of the token range while the old shard is downgraded to read-only and eventually decommissioned.</para>
+<para>This protocol guarantees 0 ms read-unavailability: reads are served from the source shard until the moment of cutover, and from the target shard immediately afterwards. </para>
+    </detaileddescription>
+    <location file="include/sharding/data_migrator.h" line="75" column="1" bodyfile="include/sharding/data_migrator.h" bodystart="75" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_config_1a705dd7cb16ab6e13178554f00ca39ef7" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationConfig</scope><name>catchup_poll_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_config_1afe769ac357364aaefcd56cbd2c8b29ee" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationConfig</scope><name>catchup_timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_config_1a70315f192511e01ec7bae02b7d6b2122" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationConfig</scope><name>enable_dual_write</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_config_1a4ad4aaa2b7e0484ad96011db9a9b2213" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationConfig</scope><name>max_wal_lag_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_config_1a9a5eab700ca465ff6eb7c160197b77a7" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationConfig</scope><name>verify_after_bulk_copy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

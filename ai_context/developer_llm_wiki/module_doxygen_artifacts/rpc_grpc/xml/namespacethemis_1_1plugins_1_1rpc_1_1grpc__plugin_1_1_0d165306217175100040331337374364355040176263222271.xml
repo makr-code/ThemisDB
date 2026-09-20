@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_0d165306217175100040331337374364355040176263222271" kind="namespace" language="C++">
+    <compoundname>themis::plugins::rpc::grpc_plugin::@165306217175100040331337374364355040176263222271</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rpc_grpc/grpc_plugin.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

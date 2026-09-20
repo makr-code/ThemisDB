@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::BackendAwareLlamaModelHandle</compoundname>
+    <includes refid="llama__resource__manager_8h" local="no">llama_resource_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_backend_aware_llama_model_handle_1_1_model_deleter" prot="private">themis::llm::BackendAwareLlamaModelHandle::ModelDeleter</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a48e8020b9fa0971cebd1921066903850" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; llama_model, ModelDeleter &gt;</type>
+        <definition>std::unique_ptr&lt;llama_model, ModelDeleter&gt; themis::llm::BackendAwareLlamaModelHandle::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="238" column="21" bodyfile="include/llm/llama_resource_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a9a90e414bc81aa9a230ef35f8724bcca" prot="private" static="no" mutable="no">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::BackendAwareLlamaModelHandle::active_backend_</definition>
+        <argsstring></argsstring>
+        <name>active_backend_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::active_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="241" column="31" bodyfile="include/llm/llama_resource_manager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1abc356f35451dea0fa4110396e28022f2" prot="private" static="no" mutable="no">
+        <type>acceleration::IComputeBackend *</type>
+        <definition>acceleration::IComputeBackend* themis::llm::BackendAwareLlamaModelHandle::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::backend_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="242" column="35" bodyfile="include/llm/llama_resource_manager.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a73253896f3a26ab802af2d54bdb3015f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GPUMemoryManager&gt; themis::llm::BackendAwareLlamaModelHandle::gpu_memory_manager_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_manager_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::gpu_memory_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="245" column="21" bodyfile="include/llm/llama_resource_manager.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a32749a9c2a45433b23ce25cb5f833827" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::BackendAwareLlamaModelHandle::gpu_devices_</definition>
+        <argsstring></argsstring>
+        <name>gpu_devices_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::gpu_devices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="246" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ac9b87b9cebb8c3b0de08cc775ce5b6cd" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BackendAwareLlamaModelHandle::vram_allocated_</definition>
+        <argsstring></argsstring>
+        <name>vram_allocated_</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::vram_allocated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="247" column="12" bodyfile="include/llm/llama_resource_manager.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</definition>
+        <argsstring>(const std::string &amp;model_path, const llama_model_params &amp;params, const GPUBackendConfig &amp;gpu_config)</argsstring>
+        <name>BackendAwareLlamaModelHandle</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const llama_model_params &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref> &amp;</type>
+          <declname>gpu_config</declname>
+        </param>
+        <briefdescription>
+<para>Backend Aware Llama Model Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Model file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="193" column="14" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="160" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ae8d5cfb8718107db0f832d599ba874f7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BackendAwareLlamaModelHandle::~BackendAwareLlamaModelHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~BackendAwareLlamaModelHandle</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::~BackendAwareLlamaModelHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="198" column="5" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="259" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aaae6be75fafd8888034ff39171953003" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</definition>
+        <argsstring>(const BackendAwareLlamaModelHandle &amp;)=delete</argsstring>
+        <name>BackendAwareLlamaModelHandle</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</qualifiedname>
+        <param>
+          <type>const BackendAwareLlamaModelHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="201" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ad2c23ffacef33d47a4df9bc831eefec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref> &amp;</type>
+        <definition>BackendAwareLlamaModelHandle &amp; themis::llm::BackendAwareLlamaModelHandle::operator=</definition>
+        <argsstring>(const BackendAwareLlamaModelHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="202" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a68d1b599471aa8445797db0f4a91f73d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</definition>
+        <argsstring>(BackendAwareLlamaModelHandle &amp;&amp;other) noexcept</argsstring>
+        <name>BackendAwareLlamaModelHandle</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle</qualifiedname>
+        <param>
+          <type>BackendAwareLlamaModelHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="203" column="5" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="267" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a42f56c9c120793135079c4354252a0a6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref> &amp;</type>
+        <definition>BackendAwareLlamaModelHandle &amp; themis::llm::BackendAwareLlamaModelHandle::operator=</definition>
+        <argsstring>(BackendAwareLlamaModelHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" kindref="member">BackendAwareLlamaModelHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="204" column="34" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="277" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2e9a23352b336f5cbaa95a0109663eca" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>llama_model *</type>
+        <definition>llama_model * themis::llm::BackendAwareLlamaModelHandle::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="206" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a6b1c1b53000ec514eb7c518df53bbf46" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BackendAwareLlamaModelHandle::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="207" column="14" bodyfile="include/llm/llama_resource_manager.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a60a4fd077a680389cc511ca583bded7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::BackendAwareLlamaModelHandle::active_backend</definition>
+        <argsstring>() const</argsstring>
+        <name>active_backend</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::active_backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="210" column="31" bodyfile="include/llm/llama_resource_manager.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aace83793b0142b336607972a2fd61e89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::BackendAwareLlamaModelHandle::backend_name</definition>
+        <argsstring>() const</argsstring>
+        <name>backend_name</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::backend_name</qualifiedname>
+        <briefdescription>
+<para>Backend name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="215" column="17" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="477" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a8a4acb4779d3f23939581eb9257e6452" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BackendAwareLlamaModelHandle::vram_usage</definition>
+        <argsstring>() const</argsstring>
+        <name>vram_usage</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::vram_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="218" column="12" bodyfile="include/llm/llama_resource_manager.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a836cffaa6c879c9dd552678db6a4c939" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::BackendAwareLlamaModelHandle::gpu_devices</definition>
+        <argsstring>() const</argsstring>
+        <name>gpu_devices</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::gpu_devices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="219" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a7cbeb3ef88c46c004b850451870cab04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::BackendAwareLlamaModelHandle::transferToGPU</definition>
+        <argsstring>(int target_gpu_id)</argsstring>
+        <name>transferToGPU</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::transferToGPU</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>target_gpu_id</declname>
+        </param>
+        <briefdescription>
+<para>Memory Transfer (for Multi-GPU). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer To GPU.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target gpu. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target gpu. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), isGPUAvailable(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="226" column="10" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="489" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1abc900818d34baa4d364dfe93323d676e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::BackendAwareLlamaModelHandle::prefetchToGPU</definition>
+        <argsstring>()</argsstring>
+        <name>prefetchToGPU</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::prefetchToGPU</qualifiedname>
+        <briefdescription>
+<para>Prefetch To GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="231" column="10" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="519" bodyend="529"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2344c97cf0f103323e8934b580430599" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::BackendAwareLlamaModelHandle::selectBestBackend</definition>
+        <argsstring>(const GPUBackendConfig &amp;config)</argsstring>
+        <name>selectBestBackend</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::selectBestBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Select Best Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: acceleration::BackendRegistry::instance(), getBackend(), isAvailable(), spdlog::info(), name(), spdlog::warn(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="255" column="31" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="303" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a5bcab500aeb9e001e7fa4ac2519b0385" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::BackendAwareLlamaModelHandle::determineOptimalGPULayers</definition>
+        <argsstring>(const GPUBackendConfig &amp;config, size_t model_size)</argsstring>
+        <name>determineOptimalGPULayers</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::determineOptimalGPULayers</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>model_size</declname>
+        </param>
+        <briefdescription>
+<para>Determine Optimal GPULayers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::warn(), getFreeVRAM(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="262" column="9" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="362" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a332499f788fa03dd34f86e3ed001450b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BackendAwareLlamaModelHandle::allocateGPUMemory</definition>
+        <argsstring>(const GPUBackendConfig &amp;config)</argsstring>
+        <name>allocateGPUMemory</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::allocateGPUMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config" kindref="compound">GPUBackendConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Allocate GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), spdlog::info(), enablePeerAccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="267" column="10" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="435" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a53e1ef7caebf01146671672478dee587" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BackendAwareLlamaModelHandle::configureBackendSpecificFeatures</definition>
+        <argsstring>()</argsstring>
+        <name>configureBackendSpecificFeatures</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::configureBackendSpecificFeatures</qualifiedname>
+        <briefdescription>
+<para>Configure Backend Specific Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="271" column="10" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_resource_manager.h" line="184" column="1" bodyfile="include/llm/llama_resource_manager.h" bodystart="184" bodyend="272"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a60a4fd077a680389cc511ca583bded7d" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>active_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a9a90e414bc81aa9a230ef35f8724bcca" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>active_backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a332499f788fa03dd34f86e3ed001450b" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>allocateGPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1abc356f35451dea0fa4110396e28022f2" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aace83793b0142b336607972a2fd61e89" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>backend_name</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aa03e8ae4d785af41cd602b0c3ac5716c" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>BackendAwareLlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1aaae6be75fafd8888034ff39171953003" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>BackendAwareLlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a68d1b599471aa8445797db0f4a91f73d" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>BackendAwareLlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a53e1ef7caebf01146671672478dee587" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>configureBackendSpecificFeatures</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a5bcab500aeb9e001e7fa4ac2519b0385" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>determineOptimalGPULayers</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2e9a23352b336f5cbaa95a0109663eca" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a836cffaa6c879c9dd552678db6a4c939" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>gpu_devices</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a32749a9c2a45433b23ce25cb5f833827" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>gpu_devices_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a73253896f3a26ab802af2d54bdb3015f" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>gpu_memory_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a48e8020b9fa0971cebd1921066903850" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>model_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a6b1c1b53000ec514eb7c518df53bbf46" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ad2c23ffacef33d47a4df9bc831eefec0" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a42f56c9c120793135079c4354252a0a6" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1abc900818d34baa4d364dfe93323d676e" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>prefetchToGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a2344c97cf0f103323e8934b580430599" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>selectBestBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a7cbeb3ef88c46c004b850451870cab04" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>transferToGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ac9b87b9cebb8c3b0de08cc775ce5b6cd" prot="private" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>vram_allocated_</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1a8a4acb4779d3f23939581eb9257e6452" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>vram_usage</name></member>
+      <member refid="classthemis_1_1llm_1_1_backend_aware_llama_model_handle_1ae8d5cfb8718107db0f832d599ba874f7" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle</scope><name>~BackendAwareLlamaModelHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

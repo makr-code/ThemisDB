@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_analytics_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphAnalyticsIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_analytics_integration_test_1a1a469e9b23c33c99f777c4dd77e8c896" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphAnalyticsIntegrationTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3343" column="17" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_integration_test_1a3bbff79a627d399805c2bf2c1dcabaa6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GraphAnalyticsIntegrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3344" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_integration_test_1a4a386c6e5e8c36c8dad2c069fbd39c05" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GraphAnalyticsIntegrationTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3345" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_integration_test_1aa8573a333fabc26161f633832b94c53e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">themis::graph::GraphQueryOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt; GraphAnalyticsIntegrationTest::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3346" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_analytics_integration_test_1a2adf92212661ce9adb5f73b2490e7c85" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphAnalytics &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphAnalytics&gt; GraphAnalyticsIntegrationTest::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::analytics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3347" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_analytics_integration_test_1a1483c2f7504815e28c0dfafc7de7fc82" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3294" column="10" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3294" bodyend="3332"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_analytics_integration_test_1ad788b4964c96ccebdd42ee10c303f38e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphAnalyticsIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphAnalyticsIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="3334" column="10" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3334" bodyend="3341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphAnalyticsIntegrationTest</label>
+        <link refid="class_graph_analytics_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphAnalyticsIntegrationTest</label>
+        <link refid="class_graph_analytics_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_query_optimizer.cpp" line="3292" column="1" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="3292" bodyend="3348"/>
+    <listofallmembers>
+      <member refid="class_graph_analytics_integration_test_1a2adf92212661ce9adb5f73b2490e7c85" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>analytics_</name></member>
+      <member refid="class_graph_analytics_integration_test_1a3bbff79a627d399805c2bf2c1dcabaa6" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>db_</name></member>
+      <member refid="class_graph_analytics_integration_test_1a4a386c6e5e8c36c8dad2c069fbd39c05" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_analytics_integration_test_1aa8573a333fabc26161f633832b94c53e" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>optimizer_</name></member>
+      <member refid="class_graph_analytics_integration_test_1a1483c2f7504815e28c0dfafc7de7fc82" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_analytics_integration_test_1ad788b4964c96ccebdd42ee10c303f38e" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_analytics_integration_test_1a1a469e9b23c33c99f777c4dd77e8c896" prot="protected" virt="non-virtual"><scope>GraphAnalyticsIntegrationTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

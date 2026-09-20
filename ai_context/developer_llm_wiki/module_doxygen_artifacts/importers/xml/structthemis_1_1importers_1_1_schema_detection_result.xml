@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaDetectionResult</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1a94d74f128d0c5fd05a4d0a7b2bd5fac4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaDetectionResult::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="65" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1a7135494884f3f19f1e7d62787d3b1e8d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::SchemaDetectionResult::column_types</definition>
+        <argsstring></argsstring>
+        <name>column_types</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::column_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="67" column="14" bodyfile="include/importers/importer_interfaces.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1af29eaf60e87bf35be266cb8f7695c4de" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ace207564307d55ccd60a69a970a63b7f" kindref="member">SchemaConfidence</ref></type>
+        <definition>SchemaConfidence themis::importers::SchemaDetectionResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::confidence</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1ace207564307d55ccd60a69a970a63b7fa41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">SchemaConfidence::LOW</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="69" column="22" bodyfile="include/importers/importer_interfaces.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1ae7e06f39a30679ca963b7afffbcc910c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaDetectionResult::encoding</definition>
+        <argsstring></argsstring>
+        <name>encoding</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::encoding</qualifiedname>
+        <initializer>= &quot;utf-8&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="71" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1aed211b1cb77b3a0c5d1af459050e6451" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::SchemaDetectionResult::rows_sampled</definition>
+        <argsstring></argsstring>
+        <name>rows_sampled</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::rows_sampled</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="73" column="12" bodyfile="include/importers/importer_interfaces.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_detection_result_1af01d8376de874bebcf7ecce4a60e899c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaDetectionResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::importers::SchemaDetectionResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="75" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="64" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="64" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1a7135494884f3f19f1e7d62787d3b1e8d" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>column_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1a94d74f128d0c5fd05a4d0a7b2bd5fac4" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1af29eaf60e87bf35be266cb8f7695c4de" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1ae7e06f39a30679ca963b7afffbcc910c" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>encoding</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1aed211b1cb77b3a0c5d1af459050e6451" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>rows_sampled</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_detection_result_1af01d8376de874bebcf7ecce4a60e899c" prot="public" virt="non-virtual"><scope>themis::importers::SchemaDetectionResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

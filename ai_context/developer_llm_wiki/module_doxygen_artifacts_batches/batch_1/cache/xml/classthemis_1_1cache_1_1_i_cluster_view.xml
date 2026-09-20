@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_i_cluster_view" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IClusterView</compoundname>
+    <derivedcompoundref refid="class_fixed_cluster_view" prot="public" virt="non-virtual">FixedClusterView</derivedcompoundref>
+    <derivedcompoundref refid="class_static_cluster_view" prot="public" virt="non-virtual">StaticClusterView</derivedcompoundref>
+    <derivedcompoundref refid="class_static_cluster_view2" prot="public" virt="non-virtual">StaticClusterView2</derivedcompoundref>
+    <includes refid="cache__replication__coordinator_8h" local="no">cache_replication_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cluster_view_1a797353976f1f925c1aca850b9c9990ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IClusterView::~IClusterView</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IClusterView</name>
+        <qualifiedname>themis::cache::IClusterView::~IClusterView</qualifiedname>
+        <briefdescription>
+<para>ICluster View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="223" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cluster_view_1ae5bff4cd876580ae2df39c7a19c67987" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::cache::IClusterView::getPeerAddresses</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getPeerAddresses</name>
+        <qualifiedname>themis::cache::IClusterView::getPeerAddresses</qualifiedname>
+        <reimplementedby refid="class_fixed_cluster_view_1ad05742c71eea0df8e3ca00da5b558745">getPeerAddresses</reimplementedby>
+        <reimplementedby refid="class_static_cluster_view2_1a6e1835d486b22650f20904d7785a9042">getPeerAddresses</reimplementedby>
+        <reimplementedby refid="class_static_cluster_view_1a4af4604837171a01c4ac06d8b548d438">getPeerAddresses</reimplementedby>
+        <briefdescription>
+<para>Get Peer Addresses. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="229" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FixedClusterView</label>
+        <link refid="class_fixed_cluster_view"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>StaticClusterView</label>
+        <link refid="class_static_cluster_view"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>StaticClusterView2</label>
+        <link refid="class_static_cluster_view2"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IClusterView</label>
+        <link refid="classthemis_1_1cache_1_1_i_cluster_view"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_replication_coordinator.h" line="217" column="1" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="217" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_i_cluster_view_1ae5bff4cd876580ae2df39c7a19c67987" prot="public" virt="pure-virtual"><scope>themis::cache::IClusterView</scope><name>getPeerAddresses</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cluster_view_1a797353976f1f925c1aca850b9c9990ed" prot="public" virt="virtual"><scope>themis::cache::IClusterView</scope><name>~IClusterView</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

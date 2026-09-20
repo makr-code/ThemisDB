@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_event_trigger_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EventTrigger::Stats</compoundname>
+    <includes refid="event__trigger_8h" local="no">event_trigger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1a64b232dc4f05f0808ece32b3e9357cb3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::Stats::events_received</definition>
+        <argsstring></argsstring>
+        <name>events_received</name>
+        <qualifiedname>themis::EventTrigger::Stats::events_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="89" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1aa0a1b815743c431cb0f1f4fc6b5b3580" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::Stats::events_matched</definition>
+        <argsstring></argsstring>
+        <name>events_matched</name>
+        <qualifiedname>themis::EventTrigger::Stats::events_matched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="90" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1aefda25cd35a286c2ec965c14bfc50394" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::Stats::events_debounced</definition>
+        <argsstring></argsstring>
+        <name>events_debounced</name>
+        <qualifiedname>themis::EventTrigger::Stats::events_debounced</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="91" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1a9a50547d7510d09839851bf1953d91a2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::Stats::triggers_fired</definition>
+        <argsstring></argsstring>
+        <name>triggers_fired</name>
+        <qualifiedname>themis::EventTrigger::Stats::triggers_fired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="92" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1a9f5d2f2274dfeef94a9567a8c1fce1f2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::Stats::callback_failures</definition>
+        <argsstring></argsstring>
+        <name>callback_failures</name>
+        <qualifiedname>themis::EventTrigger::Stats::callback_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="93" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1a95bbc2f29a20fbf685239e02870c6372" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::Stats::circuit_open</definition>
+        <argsstring></argsstring>
+        <name>circuit_open</name>
+        <qualifiedname>themis::EventTrigger::Stats::circuit_open</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="94" column="14" bodyfile="include/scheduler/event_trigger.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_stats_1a3e94387c573e93d42a166af0dea92cb1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::EventTrigger::Stats::last_trigger_time</definition>
+        <argsstring></argsstring>
+        <name>last_trigger_time</name>
+        <qualifiedname>themis::EventTrigger::Stats::last_trigger_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="95" column="47" bodyfile="include/scheduler/event_trigger.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/event_trigger.h" line="88" column="5" bodyfile="include/scheduler/event_trigger.h" bodystart="88" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1a9f5d2f2274dfeef94a9567a8c1fce1f2" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>callback_failures</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1a95bbc2f29a20fbf685239e02870c6372" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>circuit_open</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1aefda25cd35a286c2ec965c14bfc50394" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>events_debounced</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1aa0a1b815743c431cb0f1f4fc6b5b3580" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>events_matched</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1a64b232dc4f05f0808ece32b3e9357cb3" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>events_received</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1a3e94387c573e93d42a166af0dea92cb1" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>last_trigger_time</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_stats_1a9a50547d7510d09839851bf1953d91a2" prot="public" virt="non-virtual"><scope>themis::EventTrigger::Stats</scope><name>triggers_fired</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

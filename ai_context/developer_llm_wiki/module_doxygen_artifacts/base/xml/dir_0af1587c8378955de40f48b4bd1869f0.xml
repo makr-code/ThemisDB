@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0af1587c8378955de40f48b4bd1869f0" kind="dir">
+    <compoundname>src/base</compoundname>
+    <innerfile refid="ab__test__manager_8cpp">ab_test_manager.cpp</innerfile>
+    <innerfile refid="buffer__pool_8cpp">buffer_pool.cpp</innerfile>
+    <innerfile refid="hot__reload__manager_8cpp">hot_reload_manager.cpp</innerfile>
+    <innerfile refid="module__loader_8cpp">module_loader.cpp</innerfile>
+    <innerfile refid="module__sandbox_8cpp">module_sandbox.cpp</innerfile>
+    <innerfile refid="plugin__dependency__graph_8cpp">plugin_dependency_graph.cpp</innerfile>
+    <innerfile refid="remote__registry__client_8cpp">remote_registry_client.cpp</innerfile>
+    <innerfile refid="resource__pool__manager_8cpp">resource_pool_manager.cpp</innerfile>
+    <innerfile refid="wasm__plugin__sandbox_8cpp">wasm_plugin_sandbox.cpp</innerfile>
+    <innerfile refid="wasm__runtime__injector_8cpp">wasm_runtime_injector.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/base/"/>
+  </compounddef>
+</doxygen>

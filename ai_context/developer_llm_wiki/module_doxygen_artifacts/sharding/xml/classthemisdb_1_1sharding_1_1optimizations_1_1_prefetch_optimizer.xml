@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_prefetch_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::PrefetchOptimizer</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_prefetch_optimizer_1ad697cd6f6e90baceea0de74f1f0d5995" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::future&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &gt;</type>
+        <definition>static std::vector&lt; std::future&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; &gt; themisdb::sharding::optimizations::PrefetchOptimizer::prefetchBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;doc_ids, const std::string &amp;collection, ConsistentHashRing &amp;ring, RedundancyStrategy::ReadHandler handler)</argsstring>
+        <name>prefetchBatch</name>
+        <qualifiedname>themisdb::sharding::optimizations::PrefetchOptimizer::prefetchBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>doc_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">RedundancyStrategy::ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefetch data from multiple shards in parallel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="204" column="5" bodyfile="include/sharding/raid_optimizations.h" bodystart="204" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prefetching Optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="198" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="198" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_prefetch_optimizer_1ad697cd6f6e90baceea0de74f1f0d5995" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PrefetchOptimizer</scope><name>prefetchBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

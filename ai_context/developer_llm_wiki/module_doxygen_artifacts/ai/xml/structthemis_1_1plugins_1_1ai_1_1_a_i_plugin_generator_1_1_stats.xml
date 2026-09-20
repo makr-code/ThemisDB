@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ai::AIPluginGenerator::Stats</compoundname>
+    <includes refid="ai__plugin__generator_8h" local="no">ai_plugin_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a01fc63244decd712f943fe7fbc0f033a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::validation_errors</definition>
+        <argsstring></argsstring>
+        <name>validation_errors</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::validation_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Prompt validation failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="102" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a794d0af5e26009463ba5b5610417ef7c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::transport_errors</definition>
+        <argsstring></argsstring>
+        <name>transport_errors</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::transport_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CURL transport failures (all retry attempts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="103" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ac44751115f5346547d7a43775c81248b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::http_errors</definition>
+        <argsstring></argsstring>
+        <name>http_errors</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::http_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Non-2xx HTTP responses (not retried). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="104" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ace79422934722ef4ed1ef89d4dda66c7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::parse_errors</definition>
+        <argsstring></argsstring>
+        <name>parse_errors</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::parse_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>JSON parse or schema type errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="105" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1af7bcf1b49da84bf4f9d4f86e838c7bef" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::safety_rejections</definition>
+        <argsstring></argsstring>
+        <name>safety_rejections</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::safety_rejections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>C1 safety gate rejections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="106" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a8ec35e33b8e59094e808883985292030" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::sandbox_rejections</definition>
+        <argsstring></argsstring>
+        <name>sandbox_rejections</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::sandbox_rejections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sandbox gate rejections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="107" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a49af1c28151aa668e12be5d4e937ae8a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Stats::successes</definition>
+        <argsstring></argsstring>
+        <name>successes</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Stats::successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful <ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ac27133d28d0b179ce622986bef8f8270" kindref="member">generatePlugin()</ref> completions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="108" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="101" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="101" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ac44751115f5346547d7a43775c81248b" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>http_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ace79422934722ef4ed1ef89d4dda66c7" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>parse_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1af7bcf1b49da84bf4f9d4f86e838c7bef" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>safety_rejections</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a8ec35e33b8e59094e808883985292030" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>sandbox_rejections</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a49af1c28151aa668e12be5d4e937ae8a" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>successes</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a794d0af5e26009463ba5b5610417ef7c" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>transport_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a01fc63244decd712f943fe7fbc0f033a" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Stats</scope><name>validation_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_collection_access_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::CollectionAccessStats</compoundname>
+    <includes refid="storage__layout__advisor_8h" local="no">storage_layout_advisor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1a24b8eea2ea66120e42256b3836a8090f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::CollectionAccessStats::point_lookup_ratio</definition>
+        <argsstring></argsstring>
+        <name>point_lookup_ratio</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::point_lookup_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of accesses that are single-key point lookups. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="37" column="12" bodyfile="include/storage/storage_layout_advisor.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1a7ad303edc098809fe007a1892a09ed5f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::CollectionAccessStats::range_scan_ratio</definition>
+        <argsstring></argsstring>
+        <name>range_scan_ratio</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::range_scan_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of accesses that are multi-key range scans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="40" column="12" bodyfile="include/storage/storage_layout_advisor.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1a05263a9eba1ea30d7662ddbcf9ea008d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::CollectionAccessStats::aggregation_ratio</definition>
+        <argsstring></argsstring>
+        <name>aggregation_ratio</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::aggregation_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of accesses that include GROUP-BY / aggregate functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="43" column="12" bodyfile="include/storage/storage_layout_advisor.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1ad744fc8a65343e97e3ef578c435eacee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::CollectionAccessStats::metadata_only_access_ratio</definition>
+        <argsstring></argsstring>
+        <name>metadata_only_access_ratio</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::metadata_only_access_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of accesses that touch metadata fields only (exclude BLOB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="46" column="12" bodyfile="include/storage/storage_layout_advisor.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1af8dddf733f233af44c5089f5551b3beb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::CollectionAccessStats::has_blob_field</definition>
+        <argsstring></argsstring>
+        <name>has_blob_field</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::has_blob_field</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when the collection contains at least one BLOB / large-payload field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="49" column="10" bodyfile="include/storage/storage_layout_advisor.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::CollectionAccessStats::has_monotonic_timestamp</definition>
+        <argsstring></argsstring>
+        <name>has_monotonic_timestamp</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::has_monotonic_timestamp</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when the primary timestamp column is monotonically increasing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="52" column="10" bodyfile="include/storage/storage_layout_advisor.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_collection_access_stats_1af507bdb2a0c7b3987c6d7c099511f26e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::storage::CollectionAccessStats::timestamp_series</definition>
+        <argsstring></argsstring>
+        <name>timestamp_series</name>
+        <qualifiedname>themis::storage::CollectionAccessStats::timestamp_series</qualifiedname>
+        <briefdescription>
+<para>Sample of normalised access timestamps (epoch seconds) used for Fourier-based time-series detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Elements should be in chronological order. Providing at least 16 samples enables the seasonality estimator. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="61" column="17" bodyfile="include/storage/storage_layout_advisor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Access pattern summary for a single collection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All ratio fields are in [0.0, 1.0] and should sum to ≤ 1.0; the remainder represents write-only or uncategorised accesses. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_layout_advisor.h" line="35" column="1" bodyfile="include/storage/storage_layout_advisor.h" bodystart="35" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1a05263a9eba1ea30d7662ddbcf9ea008d" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>aggregation_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1af8dddf733f233af44c5089f5551b3beb" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>has_blob_field</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1a65034ba2778d03fda2a4ccfc063a99e8" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>has_monotonic_timestamp</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1ad744fc8a65343e97e3ef578c435eacee" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>metadata_only_access_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1a24b8eea2ea66120e42256b3836a8090f" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>point_lookup_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1a7ad303edc098809fe007a1892a09ed5f" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>range_scan_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_collection_access_stats_1af507bdb2a0c7b3987c6d7c099511f26e" prot="public" virt="non-virtual"><scope>themis::storage::CollectionAccessStats</scope><name>timestamp_series</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

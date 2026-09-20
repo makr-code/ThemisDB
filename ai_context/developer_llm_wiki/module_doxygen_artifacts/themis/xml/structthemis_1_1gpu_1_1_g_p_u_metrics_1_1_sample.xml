@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMetrics::Sample</compoundname>
+    <includes refid="metrics_8h" local="no">metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1aca3c4404ebc2ef1580eb6809e1de1cee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMetrics::Sample::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUMetrics::Sample::name</qualifiedname>
+        <briefdescription>
+<para>Metric name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="50" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1adbcb975a35fe273493a8045af57178c0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::gpu::GPUMetrics::Sample::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::gpu::GPUMetrics::Sample::labels</qualifiedname>
+        <briefdescription>
+<para>Dimension labels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="51" column="28" bodyfile="include/themis/gpu/metrics.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1a47ac92c3dad8b7c449ab2e09e873e586" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUMetrics::Sample::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::gpu::GPUMetrics::Sample::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="52" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1a91f928b9d1f25e9480a009f15290d72c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMetrics::Sample::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::gpu::GPUMetrics::Sample::type</qualifiedname>
+        <briefdescription>
+<para>&quot;counter&quot; | &quot;gauge&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="53" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/metrics.h" line="49" column="5" bodyfile="include/themis/gpu/metrics.h" bodystart="49" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1adbcb975a35fe273493a8045af57178c0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::Sample</scope><name>labels</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1aca3c4404ebc2ef1580eb6809e1de1cee" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::Sample</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1a91f928b9d1f25e9480a009f15290d72c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::Sample</scope><name>type</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample_1a47ac92c3dad8b7c449ab2e09e873e586" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::Sample</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

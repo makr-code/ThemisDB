@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="flash__attention__config_8h" kind="file" language="C++">
+    <compoundname>flash_attention_config.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cmath</includes>
+    <includedby refid="flash__attention__cuda_8h" local="yes">include/llm/attention/cuda/flash_attention_cuda.h</includedby>
+    <includedby refid="flash__attention_8h" local="yes">include/llm/attention/flash_attention.h</includedby>
+    <includedby refid="flash__attention__hip_8h" local="yes">include/llm/attention/hip/flash_attention_hip.h</includedby>
+    <includedby refid="infini__attention__hip_8h" local="yes">include/llm/attention/hip/infini_attention_hip.h</includedby>
+    <includedby refid="kv__cache__manager_8h" local="yes">include/llm/attention/kv_cache_manager.h</includedby>
+    <includedby refid="flash__attention__vulkan_8h" local="yes">include/llm/attention/vulkan/flash_attention_vulkan.h</includedby>
+    <includedby refid="infini__attention__vulkan_8h" local="yes">include/llm/attention/vulkan/infini_attention_vulkan.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/attention/flash_attention_config.h</label>
+        <link refid="flash__attention__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/llm/bench_flash_attention.cpp</label>
+        <link refid="bench__flash__attention_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/llm/attention/cuda/flash_attention_cuda.h</label>
+        <link refid="flash__attention__cuda_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/attention/cuda/infini_attention_cuda.h</label>
+        <link refid="infini__attention__cuda_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/attention/flash_attention.h</label>
+        <link refid="flash__attention_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/attention/flash_attention_config.h</label>
+        <link refid="flash__attention__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/llm/attention/hip/flash_attention_hip.h</label>
+        <link refid="flash__attention__hip_8h"/>
+      </node>
+      <node id="11">
+        <label>include/llm/attention/hip/infini_attention_hip.h</label>
+        <link refid="infini__attention__hip_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/llm/attention/kv_cache_manager.h</label>
+        <link refid="kv__cache__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/llm/attention/vulkan/flash_attention_vulkan.h</label>
+        <link refid="flash__attention__vulkan_8h"/>
+      </node>
+      <node id="14">
+        <label>include/llm/attention/vulkan/infini_attention_vulkan.h</label>
+        <link refid="infini__attention__vulkan_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/llm/attention/cuda/infini_attention_cpu.cpp</label>
+        <link refid="attention_2cuda_2infini__attention__cpu_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/attention/flash_attention.cpp</label>
+        <link refid="flash__attention_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/attention/hip/infini_attention_hip.cpp</label>
+        <link refid="infini__attention__hip_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/llm/attention/kv_cache_manager.cpp</label>
+        <link refid="kv__cache__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/llm/attention/vulkan/infini_attention_vulkan.cpp</label>
+        <link refid="infini__attention__vulkan_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/llm/infini_attention_cuda_fallback.cpp</label>
+        <link refid="infini__attention__cuda__fallback_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/llm/test_infini_attention.cpp</label>
+        <link refid="test__infini__attention_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" prot="public">themis::llm::attention::FlashAttentionConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" prot="public">themis::llm::attention::AttentionMemoryStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention">themis::llm::attention</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1attention" kindref="compound">attention</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0c14a33fc45d85dc4c3d00c7b38370d" kindref="member">FlashAttentionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tensor<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ade04f906dfd494359dd681aa82835882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ade04f906dfd494359dd681aa82835882" kindref="member">batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a06e3818dcf997e3ccd968e32d54c633b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a06e3818dcf997e3ccd968e32d54c633b" kindref="member">seq_len</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a9a19308789cdc592b62667c537c64181" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a9a19308789cdc592b62667c537c64181" kindref="member">num_heads</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a2a64534c9458bed0567b0d81a136b4ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a2a64534c9458bed0567b0d81a136b4ec" kindref="member">head_dim</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Grouped<sp/>Query<sp/>Attention<sp/>(GQA)<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>num_kv_heads<sp/>should<sp/>divide<sp/>num_heads<sp/>evenly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Standard<sp/>MHA:<sp/>num_kv_heads<sp/>=<sp/>num_heads<sp/>(e.g.,<sp/>32<sp/>=<sp/>32)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>GQA:<sp/>num_kv_heads<sp/>&lt;<sp/>num_heads<sp/>(e.g.,<sp/>8<sp/>&lt;<sp/>32,<sp/>ratio<sp/>4:1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>MQA:<sp/>num_kv_heads<sp/>=<sp/>1<sp/>(single<sp/>KV<sp/>head<sp/>for<sp/>all<sp/>query<sp/>heads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Llama<sp/>2/3<sp/>uses<sp/>GQA<sp/>with<sp/>ratio<sp/>4:1<sp/>(32<sp/>query<sp/>heads,<sp/>8<sp/>KV<sp/>heads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0d564a7ae974896e47da6e03348400e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0d564a7ae974896e47da6e03348400e" kindref="member">num_kv_heads</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attention<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a836f60cd76a377d50ee0bbc6ab3735ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a836f60cd76a377d50ee0bbc6ab3735ac" kindref="member">dropout_p</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a136d8982204734c0f9d79ded4e278e31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a136d8982204734c0f9d79ded4e278e31" kindref="member">use_causal_mask</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" kindref="member">scale</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>1/sqrt(head_dim),<sp/>auto-computed<sp/>if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flash<sp/>Attention<sp/>versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a0571c09c4dc4621bbfd17f9c62700eba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a0571c09c4dc4621bbfd17f9c62700eba" kindref="member">enable_flash_v2</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a789bc44a28de6b0073a142f3e4524111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a789bc44a28de6b0073a142f3e4524111" kindref="member">enable_flash_v3</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>SM90<sp/>only<sp/>(H100,<sp/>RTX<sp/>6000<sp/>Ada)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a274d866d30a7b2c55edc422c88b3b90e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a274d866d30a7b2c55edc422c88b3b90e" kindref="member">enable_kernel_fusion</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a3fa11c63ef53c2c6db171850a27cbed9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a3fa11c63ef53c2c6db171850a27cbed9" kindref="member">enable_async_copy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a33bd9359d68c9a0a4419dd247a93165c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a33bd9359d68c9a0a4419dd247a93165c" kindref="member">enable_tensor_cores</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ae06a1ba5be14d21ead518d70bdbe05a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ae06a1ba5be14d21ead518d70bdbe05a5" kindref="member">enable_warp_specialization</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transformer<sp/>depth<sp/>—<sp/>used<sp/>by<sp/>KVCacheManager<sp/>to<sp/>compute<sp/>block<sp/>byte<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ad21ff57b5bbb999969505205f686c4d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ad21ff57b5bbb999969505205f686c4d3" kindref="member">num_layers</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KV-Cache<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a7d485ff2e32f83ca771128ef200d4dea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a7d485ff2e32f83ca771128ef200d4dea" kindref="member">use_paged_kv_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a730995a632baa19186b96bd712a4a3da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a730995a632baa19186b96bd712a4a3da" kindref="member">kv_block_size</ref><sp/>=<sp/>16;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>per<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a666de68a1a9c330d5a7a6d9004f8329e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a666de68a1a9c330d5a7a6d9004f8329e" kindref="member">num_kv_blocks</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8040a6a3c4171f8f05e53a68100f6c86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8040a6a3c4171f8f05e53a68100f6c86" kindref="member">enable_prefix_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>tuning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1abd24636a6a916819b9e8ecab0e7061da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1abd24636a6a916819b9e8ecab0e7061da" kindref="member">tile_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8e3e2598aa6dbad8f242fa2f9cceecb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8e3e2598aa6dbad8f242fa2f9cceecb7" kindref="member">block_size</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ac54d48593836e5b02f146ef6abc70397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ac54d48593836e5b02f146ef6abc70397" kindref="member">num_warps</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" kindref="member">QuantType</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa693aa0bef84c25fe81c7e62e72f9313d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa693aa0bef84c25fe81c7e62e72f9313d" kindref="member">FP32</ref>,</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaa4bf99d6945c25077fd6660d536af8a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaa4bf99d6945c25077fd6660d536af8a0" kindref="member">FP16</ref>,</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaf656bbf613964dcf710b771b0918ab30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaf656bbf613964dcf710b771b0918ab30" kindref="member">BF16</ref>,</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaee9d73311ff0658494edfff14c3ec1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaee9d73311ff0658494edfff14c3ec1e3" kindref="member">INT8</ref>,</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa966242192147c8f490bf262b04a7970e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa966242192147c8f490bf262b04a7970e" kindref="member">Q4</ref></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6647b4ce536b3d832408504987276594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" kindref="member">QuantType</ref><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6647b4ce536b3d832408504987276594" kindref="member">quant_type</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaa4bf99d6945c25077fd6660d536af8a0" kindref="member">QuantType::FP16</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0c14a33fc45d85dc4c3d00c7b38370d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0c14a33fc45d85dc4c3d00c7b38370d" kindref="member">FlashAttentionConfig</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-compute<sp/>scale<sp/>if<sp/>not<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" kindref="member">scale</ref><sp/>==<sp/>0.0f)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" kindref="member">scale</ref><sp/>=<sp/>1.0f<sp/>/<sp/>std::sqrt(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a2a64534c9458bed0567b0d81a136b4ec" kindref="member">head_dim</ref>));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1aaa8fc4bcb361838e6c4623accd2dab5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1aaa8fc4bcb361838e6c4623accd2dab5c" kindref="member">~AttentionMemoryStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>VRAM<sp/>bytes<sp/>used<sp/>by<sp/>attention<sp/>(including<sp/>buffers,<sp/>KV<sp/>cache,<sp/>temps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a751f176527045d0d1ee4d509c3e6d689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a751f176527045d0d1ee4d509c3e6d689" kindref="member">vram_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1aa12bd646a3b792cf2e09407a4f3c51e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1aa12bd646a3b792cf2e09407a4f3c51e3" kindref="member">total_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a927b46217daf63b5d0e5bc3f81dff2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a927b46217daf63b5d0e5bc3f81dff2dc" kindref="member">kv_cache_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1ab30f78a2126a84b083b7fd4b4f983c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1ab30f78a2126a84b083b7fd4b4f983c52" kindref="member">activation_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1acfdde4b98bf8c15b22b38c152988fa05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1acfdde4b98bf8c15b22b38c152988fa05" kindref="member">workspace_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a814896cd6db89dbf2cbfd8e3455470f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1a814896cd6db89dbf2cbfd8e3455470f4" kindref="member">blocks_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1afad4c16baef73eb8d25431838dd28e7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1afad4c16baef73eb8d25431838dd28e7f" kindref="member">blocks_free</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1ab10073f2774ae9aaeb7177dfe882892f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1ab10073f2774ae9aaeb7177dfe882892f" kindref="member">fragmentation_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1abe50fae7086fbc7a69ed9b259571926e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats_1abe50fae7086fbc7a69ed9b259571926e" kindref="member">prefix_sharing_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>attention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/attention/flash_attention_config.h"/>
+  </compounddef>
+</doxygen>

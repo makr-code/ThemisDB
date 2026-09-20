@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_cpu_pinner" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::CpuPinner</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1a8e68c9671db77312a98903d60e08fda7" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::CpuPinner::pinCallerToCore</definition>
+        <argsstring>(int core_id) noexcept</argsstring>
+        <name>pinCallerToCore</name>
+        <qualifiedname>themis::network::CpuPinner::pinCallerToCore</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>core_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin the calling thread to a single logical CPU core. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>core_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based logical CPU index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the core is out-of-range or the syscall fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="53" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1a36ddbe8e58136f0100ca3ba5da70ac7f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::CpuPinner::pinThreadToCore</definition>
+        <argsstring>(std::thread &amp;thread, int core_id) noexcept</argsstring>
+        <name>pinThreadToCore</name>
+        <qualifiedname>themis::network::CpuPinner::pinThreadToCore</qualifiedname>
+        <param>
+          <type>std::thread &amp;</type>
+          <declname>thread</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>core_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin an arbitrary thread to a single logical CPU core. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thread</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target thread. If the thread has not been joined or detached the behaviour is undefined. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>core_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based logical CPU index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="63" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="140" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1a70d37ad40866833de1fe5ab7de60a652" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::CpuPinner::numaNodeForCore</definition>
+        <argsstring>(int core_id) noexcept</argsstring>
+        <name>numaNodeForCore</name>
+        <qualifiedname>themis::network::CpuPinner::numaNodeForCore</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>core_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the NUMA node that owns <computeroutput>core_id</computeroutput>, or -1 on error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads <computeroutput>/sys/devices/system/cpu/cpu&lt;N&gt;/node&lt;M&gt;</computeroutput> symlinks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="71" column="16" bodyfile="src/network/kernel_bypass.cpp" bodystart="157" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1a4eaa5876603407858981045cef635df3" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::CpuPinner::logicalCpuCount</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>logicalCpuCount</name>
+        <qualifiedname>themis::network::CpuPinner::logicalCpuCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of logical CPUs visible to the process. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="76" column="16" bodyfile="src/network/kernel_bypass.cpp" bodystart="184" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1acd3e10cef3fc9fa6f7e748fcbd70902c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::CpuPinner::currentCpu</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>currentCpu</name>
+        <qualifiedname>themis::network::CpuPinner::currentCpu</qualifiedname>
+        <briefdescription>
+<para>Return the index of the CPU on which the caller is currently executing, or -1 on error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="82" column="16" bodyfile="src/network/kernel_bypass.cpp" bodystart="193" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_cpu_pinner_1ac4ab2d0d6d54be0f473bf4beee89bbf0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::network::CpuPinner::coresOnNuma</definition>
+        <argsstring>(int numa_node) noexcept</argsstring>
+        <name>coresOnNuma</name>
+        <qualifiedname>themis::network::CpuPinner::coresOnNuma</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>numa_node</declname>
+        </param>
+        <briefdescription>
+<para>Return all core IDs that belong to the specified NUMA node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="87" column="24" bodyfile="src/network/kernel_bypass.cpp" bodystart="201" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CPU core pinning and NUMA topology helper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All methods are Linux-only (no-op on other platforms). Errors are reported via the return value; no exceptions are thrown. </para>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="44" column="1" bodyfile="include/network/kernel_bypass.h" bodystart="44" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1ac4ab2d0d6d54be0f473bf4beee89bbf0" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>coresOnNuma</name></member>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1acd3e10cef3fc9fa6f7e748fcbd70902c" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>currentCpu</name></member>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1a4eaa5876603407858981045cef635df3" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>logicalCpuCount</name></member>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1a70d37ad40866833de1fe5ab7de60a652" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>numaNodeForCore</name></member>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1a8e68c9671db77312a98903d60e08fda7" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>pinCallerToCore</name></member>
+      <member refid="classthemis_1_1network_1_1_cpu_pinner_1a36ddbe8e58136f0100ca3ba5da70ac7f" prot="public" virt="non-virtual"><scope>themis::network::CpuPinner</scope><name>pinThreadToCore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

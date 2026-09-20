@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__similarity_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_similarity.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_similarity.cpp</label>
+        <link refid="test__aql__similarity_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__similarity_8cpp_1af3297387f684215c24d5278e0291e220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLSimilarityTest, DISABLED_AQLSimilarityLegacy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLSimilarityTest</type>
+        </param>
+        <param>
+          <type>DISABLED_AQLSimilarityLegacy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity.cpp" line="127" column="1" bodyfile="tests/aql/test_aql_similarity.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>AQL<sp/>SIMILARITY<sp/>(Vector+Geo<sp/>Syntax<sp/>Sugar)<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disable<sp/>legacy<sp/>AQL<sp/>SIMILARITY<sp/>(vector+geo)<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_translator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AQLSimilarityTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;<sp/></highlight><highlight class="comment">//<sp/>stateless</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityBasicWithLimit)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>[0.1,<sp/>0.2,<sp/>0.3])<sp/>DESC</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>5</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success)<sp/>&lt;&lt;<sp/>parseResult.error.toString();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prüfe<sp/>spezialisierte<sp/>AST<sp/>Node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.query-&gt;sort);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(parseResult.query-&gt;sort-&gt;specifications.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>expr<sp/>=<sp/>parseResult.query-&gt;sort-&gt;specifications[0].expression;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(expr-&gt;getType(),<sp/>ASTNodeType::SimilarityCall)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>SimilarityCallExpr<sp/>AST<sp/>node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.success)<sp/>&lt;&lt;<sp/>tr.error_message;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.vector_geo.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>VectorGeo<sp/>translation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;vq<sp/>=<sp/>*tr.vector_geo;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.table,<sp/></highlight><highlight class="stringliteral">&quot;hotels&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.vector_field,<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.query_vector.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.k,<sp/>5u);<sp/></highlight><highlight class="comment">//<sp/>LIMIT<sp/>überschreibt<sp/>default<sp/>k</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vq.spatial_filter)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>spatial<sp/>filter<sp/>expected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityExplicitKIgnoresLimit)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>[1,2],<sp/>7)<sp/>DESC</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>3</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.success);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.vector_geo.has_value());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;vq<sp/>=<sp/>*tr.vector_geo;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.k,<sp/>7u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Explicit<sp/>k<sp/>must<sp/>not<sp/>be<sp/>overridden<sp/>by<sp/>LIMIT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityWithSpatialFilter)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>ST_Within(doc.location,<sp/>[13.4,52.5,13.5,52.6])</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>doc.city<sp/>==<sp/>&quot;Berlin&quot;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>[0.9,0.8,0.1])<sp/>DESC</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>10</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.query-&gt;sort);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>expr<sp/>=<sp/>parseResult.query-&gt;sort-&gt;specifications[0].expression;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(expr-&gt;getType(),<sp/>ASTNodeType::SimilarityCall);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.success)<sp/>&lt;&lt;<sp/>tr.error_message;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.vector_geo.has_value());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;vq<sp/>=<sp/>*tr.vector_geo;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vq.spatial_filter)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Spatial<sp/>filter<sp/>should<sp/>be<sp/>attached&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vq.extra_filters.size(),<sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;One<sp/>extra<sp/>predicate<sp/>expected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityRejectsExtraNonSpatialFilter)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>doc.city<sp/>==<sp/>&quot;Berlin&quot;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>[0.1,0.2])<sp/>DESC</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.query-&gt;sort);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>expr<sp/>=<sp/>parseResult.query-&gt;sort-&gt;specifications[0].expression;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(expr-&gt;getType(),<sp/>ASTNodeType::SimilarityCall);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.success)<sp/>&lt;&lt;<sp/>tr.error_message;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.vector_geo.has_value());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tr.vector_geo-&gt;extra_filters.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityErrorWrongArgCount)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding)<sp/>DESC</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tr.success);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tr.error_message.find(</highlight><highlight class="stringliteral">&quot;requires<sp/>2-3<sp/>arguments&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__aql__agent_8cpp_1ad5ac6da1dff2ed7de136558cd7faba95" kindref="member">TEST_F</ref>(AQLSimilarityTest,<sp/>TranslateSimilarityErrorNonArrayVector)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>42)<sp/>DESC</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parseResult<sp/>=<sp/>parser.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(parseResult.success);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(parseResult.query);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tr.success);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tr.error_message.find(</highlight><highlight class="stringliteral">&quot;array<sp/>literal&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>legacy<sp/>AQL<sp/>similarity<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__aql__similarity_8cpp_1af3297387f684215c24d5278e0291e220" kindref="member">TEST</ref>(AQLSimilarityTest,<sp/>DISABLED_AQLSimilarityLegacy)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>legacy<sp/>AQL<sp/>SIMILARITY<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_similarity.cpp"/>
+  </compounddef>
+</doxygen>

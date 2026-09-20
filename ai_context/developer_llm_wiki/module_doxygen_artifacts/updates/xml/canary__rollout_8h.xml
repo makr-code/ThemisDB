@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="canary__rollout_8h" kind="file" language="C++">
+    <compoundname>canary_rollout.h</compoundname>
+    <includes refid="hot__reload__engine_8h" local="yes">updates/hot_reload_engine.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__updates__canary__resilience_8cpp" local="yes">benchmarks/updates/bench_updates_canary_resilience.cpp</includedby>
+    <includedby refid="canary__rollout_8cpp" local="yes">src/updates/canary_rollout.cpp</includedby>
+    <includedby refid="updates__config_8cpp" local="yes">src/updates/updates_config.cpp</includedby>
+    <includedby refid="test__updates__performance__batch4_8cpp" local="yes">tests/updates/test_updates_performance_batch4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/canary_rollout.h</label>
+        <link refid="canary__rollout_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="18">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="19">
+        <label>deque</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>utils/update_checker.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_canary_resilience.cpp</label>
+        <link refid="bench__updates__canary__resilience_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/canary_rollout.h</label>
+        <link refid="canary__rollout_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/updates/canary_rollout.cpp</label>
+        <link refid="canary__rollout_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/updates/updates_config.cpp</label>
+        <link refid="updates__config_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/updates/test_updates_performance_batch4.cpp</label>
+        <link refid="test__updates__performance__batch4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_stage" prot="public">themis::updates::CanaryStage</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_config" prot="public">themis::updates::CanaryConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_status" prot="public">themis::updates::CanaryStatus</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_canary_rollout" prot="public">themis::updates::CanaryRollout</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_latency_stats" prot="public">themis::updates::LatencyStats</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" prot="public">themis::updates::CanaryMetricsSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_a_b_test_config" prot="public">themis::updates::ABTestConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_deployment_stage" prot="public">themis::updates::CanaryDeploymentStage</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_canary_deployment" prot="public">themis::updates::CanaryDeployment</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.18 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hot__reload__engine_8h" kindref="compound">updates/hot_reload_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1updates_1_1_canary_stage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_canary_stage" kindref="compound">CanaryStage</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1updates_1_1_canary_stage_1af3aa00205c1969da0ec3701a9495a5d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_stage_1af3aa00205c1969da0ec3701a9495a5d9" kindref="member">percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1updates_1_1_canary_stage_1a9ecd2430bfe377fb3c63e5e906e16917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1updates_1_1_canary_stage_1a9ecd2430bfe377fb3c63e5e906e16917" kindref="member">observation_duration</ref>{300};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1updates_1_1_canary_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_canary_config" kindref="compound">CanaryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1updates_1_1_canary_config_1a558633ec442b90a4c303bd8886f0db9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1a558633ec442b90a4c303bd8886f0db9a" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1updates_1_1_canary_config_1ac31965fd347993103bb0696c0b4c88c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1ac31965fd347993103bb0696c0b4c88c1" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1updates_1_1_canary_config_1a7d378cd2f6d1cef7a077d483ad066e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CanaryStage&gt;<sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1a7d378cd2f6d1cef7a077d483ad066e64" kindref="member">stages</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1updates_1_1_canary_config_1ae56404c3aeb2f3fbdfabb6b9e31d240e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1ae56404c3aeb2f3fbdfabb6b9e31d240e" kindref="member">error_rate_threshold</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1updates_1_1_canary_config_1af08fedcaa09f3859ce27a9d2c5591534" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1af08fedcaa09f3859ce27a9d2c5591534" kindref="member">min_sample_count</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_config" kindref="compound">CanaryConfig</ref><sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1a99c190ab2b492bbc366f837662a39808" kindref="member">withDefaultStages</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1a558633ec442b90a4c303bd8886f0db9a" kindref="member">version</ref>,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1updates_1_1_canary_config_1ac31965fd347993103bb0696c0b4c88c1" kindref="member">node_id</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1updates_1_1_canary_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_canary_status" kindref="compound">CanaryStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1updates_1_1_canary_status_1a2e79294f4ef5eed80187612c664ccd34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a2e79294f4ef5eed80187612c664ccd34" kindref="member">current_stage</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1updates_1_1_canary_status_1aebca8e27fd59aca2a2f3c4384d155fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1aebca8e27fd59aca2a2f3c4384d155fe5" kindref="member">total_stages</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1updates_1_1_canary_status_1ab172eed169b5f49f71f4123d2657f3b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1ab172eed169b5f49f71f4123d2657f3b6" kindref="member">current_percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1updates_1_1_canary_status_1a4ee9cf9c3a772397917b8594531e321f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a4ee9cf9c3a772397917b8594531e321f" kindref="member">this_node_included</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1updates_1_1_canary_status_1a825e1879da46049db398089680ffb7e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a825e1879da46049db398089680ffb7e1" kindref="member">is_complete</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1updates_1_1_canary_status_1a5dc602e5b2e237a7e6a960123915b010" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a5dc602e5b2e237a7e6a960123915b010" kindref="member">is_rolled_back</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1updates_1_1_canary_status_1a3d3f9702f5b2e417db533fa1ebb63409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a3d3f9702f5b2e417db533fa1ebb63409" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1updates_1_1_canary_status_1a4fc6915fe25fc2e2e6755ee81c5dbafb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a4fc6915fe25fc2e2e6755ee81c5dbafb" kindref="member">rollback_reason</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1updates_1_1_canary_status_1a00ce41dcb3e28f5969568508a420eb14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a00ce41dcb3e28f5969568508a420eb14" kindref="member">observed_error_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1updates_1_1_canary_status_1a5671bab311fe9349d68ce7668fd6b785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a5671bab311fe9349d68ce7668fd6b785" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1updates_1_1_canary_status_1a8888a1e3df528be6d93922a396a8a431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_canary_status_1a8888a1e3df528be6d93922a396a8a431" kindref="member">rollback_id</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1updates_1_1_canary_rollout" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a77ba5f4989fbf2fe28ee5066f930d528" kindref="member">CanaryRollout</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1updates_1_1_canary_rollout_1a9cb87d49a72ff3641f9db81b41418e4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a9cb87d49a72ff3641f9db81b41418e4a" kindref="member">StageCompleteCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*stage*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*percentage*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1updates_1_1_canary_rollout_1a4d6b2f155babc681ed435708f5751d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a4d6b2f155babc681ed435708f5751d7b" kindref="member">RollbackCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*reason*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a77ba5f4989fbf2fe28ee5066f930d528" kindref="member">CanaryRollout</ref>(std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_config" kindref="compound">CanaryConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1updates_1_1_canary_rollout_1ab7ca8b6fce476463d2cf22d332e230f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1ab7ca8b6fce476463d2cf22d332e230f9" kindref="member">~CanaryRollout</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1updates_1_1_canary_rollout_1a43dab72368739c2113822c53c63a0d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a43dab72368739c2113822c53c63a0d7b" kindref="member">CanaryRollout</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a77ba5f4989fbf2fe28ee5066f930d528" kindref="member">CanaryRollout</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1updates_1_1_canary_rollout_1aa9a00260d7f0ab02242f700fbc8bb47f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a77ba5f4989fbf2fe28ee5066f930d528" kindref="member">CanaryRollout</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1aa9a00260d7f0ab02242f700fbc8bb47f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a77ba5f4989fbf2fe28ee5066f930d528" kindref="member">CanaryRollout</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Node<sp/>membership<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a33eb53bb648a528fcfd3cc1137281fd9" kindref="member">isNodeInStage</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stage_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a59e16c2b1c14ad8e283d6b288facb5e7" kindref="member">isNodeInCurrentStage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Stage<sp/>management<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a10db84911516c46ef66df72f909acd11" kindref="member">currentStage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a395609441056db7bf7c09815b0c5c5dd" kindref="member">advanceStage</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Update<sp/>application<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1ae6fdde8c8f44a5ff86b157f10f7bf1b1" kindref="member">applyIfIncluded</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a1d437dd47ad7df4eeb433e85b0a995a0" kindref="member">rollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Health<sp/>tracking<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a1eeb9c4fcb1d8a4d387dfb22950b24e5" kindref="member">reportSuccess</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1aa38301e815b29298bc669c5ee13dd9cf" kindref="member">reportError</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a81bce84fddcb74072b5accb4db6c51a8" kindref="member">errorRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1ad8d126c0be6693f38d969c7b552f9fab" kindref="member">shouldRollback</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Status<sp/>&amp;<sp/>callbacks<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_canary_status" kindref="compound">CanaryStatus</ref><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a2ac0cf1ba4b5a12ddb1d7c7336465b46" kindref="member">status</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a108528fbe69ef5f2cd3f1a1998946376" kindref="member">setStageCompleteCallback</ref>(<ref refid="classthemis_1_1updates_1_1_canary_rollout_1a9cb87d49a72ff3641f9db81b41418e4a" kindref="member">StageCompleteCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a959c4a78fbcee22623f28478731a8a5e" kindref="member">setRollbackCallback</ref>(<ref refid="classthemis_1_1updates_1_1_canary_rollout_1a4d6b2f155babc681ed435708f5751d7b" kindref="member">RollbackCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeNodeHash()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine_;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_canary_config" kindref="compound">CanaryConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_stage_{0};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_complete_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_rolled_back_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_applied_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rollback_reason_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rollback_id_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-stage<sp/>event<sp/>counters<sp/>(reset<sp/>on<sp/>advanceStage())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>success_count_{0};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>error_count_{0};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a9cb87d49a72ff3641f9db81b41418e4a" kindref="member">StageCompleteCallback</ref><sp/>stage_complete_cb_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_rollout_1a4d6b2f155babc681ed435708f5751d7b" kindref="member">RollbackCallback</ref><sp/>rollback_cb_;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CanaryDeployment<sp/>–<sp/>higher-level<sp/>builder-pattern<sp/>API<sp/>(Issue<sp/>#4046)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1updates_1_1_latency_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_latency_stats" kindref="compound">LatencyStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1updates_1_1_latency_stats_1a3e470362ae9efaa1cc24a5d7fd29e415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1updates_1_1_latency_stats_1a3e470362ae9efaa1cc24a5d7fd29e415" kindref="member">p50</ref>{0};</highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1updates_1_1_latency_stats_1a67ab53ea4f66b70f4e9643329a9dabf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1updates_1_1_latency_stats_1a67ab53ea4f66b70f4e9643329a9dabf1" kindref="member">p95</ref>{0};</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1updates_1_1_latency_stats_1a210abeb91d7499cac23131c37c0e95a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1updates_1_1_latency_stats_1a210abeb91d7499cac23131c37c0e95a9" kindref="member">p99</ref>{0};</highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1updates_1_1_latency_stats_1a1413ad8381d0813fc6216031d2a74812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_latency_stats_1a1413ad8381d0813fc6216031d2a74812" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" kindref="compound">CanaryMetricsSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1ac6a26c9cff1c22d4991198e8221df801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_latency_stats" kindref="compound">LatencyStats</ref><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1ac6a26c9cff1c22d4991198e8221df801" kindref="member">latency</ref>;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a41364f4b973b418ee5447643e245a0b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a41364f4b973b418ee5447643e245a0b9" kindref="member">memory_bytes</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aacdf536001436aae096ded71ef97a1f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aacdf536001436aae096ded71ef97a1f6" kindref="member">cpu_fraction</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1af3ba5cfa82edf7c3c8a813d3c67c13ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1af3ba5cfa82edf7c3c8a813d3c67c13ee" kindref="member">disk_io_bytes_per_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1adc514e8819e45de27c6db0d2166533da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1adc514e8819e45de27c6db0d2166533da" kindref="member">custom_metrics</ref>;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa394614720fb42baba4cb9e3a3570682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa394614720fb42baba4cb9e3a3570682" kindref="member">error_count</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="335" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa61a93e36fb4be689af3c1c7bd627a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa61a93e36fb4be689af3c1c7bd627a95" kindref="member">success_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a5b74e5a5b163d9096438eeaaf5798eef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a5b74e5a5b163d9096438eeaaf5798eef" kindref="member">error_rate</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a71a53d71c7096ef2a9c4ab9e76dd0391" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a71a53d71c7096ef2a9c4ab9e76dd0391" kindref="member">latency_threshold_exceeded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="structthemis_1_1updates_1_1_a_b_test_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="354" refid="structthemis_1_1updates_1_1_a_b_test_config_1a2fc08ffb7a856756d80ed23669b6cfa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_a_b_test_config_1a2fc08ffb7a856756d80ed23669b6cfa6" kindref="member">canary_fraction</ref><sp/>=<sp/>0.10;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="structthemis_1_1updates_1_1_a_b_test_config_1af58804f95f6d796dee7dd05ef2a79c5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_a_b_test_config_1af58804f95f6d796dee7dd05ef2a79c5c" kindref="member">experiment_id</ref>;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367" refid="structthemis_1_1updates_1_1_canary_deployment_stage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref><sp/>{</highlight></codeline>
+<codeline lineno="369" refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a803645127d1801a0c7d2e154c4c00553" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a803645127d1801a0c7d2e154c4c00553" kindref="member">percentage</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372" refid="structthemis_1_1updates_1_1_canary_deployment_stage_1afd46df049e7f0aa738f49868262a1db7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1updates_1_1_canary_deployment_stage_1afd46df049e7f0aa738f49868262a1db7" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375" refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a0446e6d20f3867a9ae17f34833fde62e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a0446e6d20f3867a9ae17f34833fde62e" kindref="member">stage_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416" refid="classthemis_1_1updates_1_1_canary_deployment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref><sp/>{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="418" refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" kindref="member">StageCompleteCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref>&amp;<sp/></highlight><highlight class="comment">/*stage*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="420" refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" kindref="member">RollbackCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*reason*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423" refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>();</highlight></codeline>
+<codeline lineno="424" refid="classthemis_1_1updates_1_1_canary_deployment_1a666ef0c19ae78558a279837fd81db470" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a666ef0c19ae78558a279837fd81db470" kindref="member">~CanaryDeployment</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426" refid="classthemis_1_1updates_1_1_canary_deployment_1af48a1c56380e884e0b9fed779cb4e87e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1af48a1c56380e884e0b9fed779cb4e87e" kindref="member">CanaryDeployment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427" refid="classthemis_1_1updates_1_1_canary_deployment_1af1ad2a9f426d5fda216117b7a1199762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1af1ad2a9f426d5fda216117b7a1199762" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>(<ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1af1ad2a9f426d5fda216117b7a1199762" kindref="member">operator=</ref>(<ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Builder<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a9438bacb0acfd9bc0249a51eb69b6f8c" kindref="member">setVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a824575896eba2504e44d52f7b7a20968" kindref="member">setStages</ref>(std::vector&lt;CanaryDeploymentStage&gt;<sp/>stages);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a5c22e0534fca3dda85771bd4053479ec" kindref="member">setErrorRateThreshold</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a064ffcd28579f7077d8d2acf2efbdb49" kindref="member">setLatencyThreshold</ref>(std::chrono::milliseconds<sp/>p99_limit);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a3157213cc9a662878dcddd893dae0fa2" kindref="member">setEngine</ref>(std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a50f24de30f6aac94cc24b30a524dd770" kindref="member">setNodeId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deployment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8f900212ca7e571b50bfa4d11a2361e8" kindref="member">deploy</ref>();</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a0ac53413567c4bb4d5fbee32437d20bf" kindref="member">onStageComplete</ref>(<ref refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" kindref="member">StageCompleteCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a80e3e2d4c19eedf0027557a2cc2770c1" kindref="member">onRollback</ref>(<ref refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" kindref="member">RollbackCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>/<sp/>metric<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1adc2a103a74892d6c479668ac92288e66" kindref="member">reportSuccess</ref>();</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1acbdc599fc4575af1ee1ecabd90c412e6" kindref="member">reportError</ref>();</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8ee3b48dc8f2d6fcf94d46c08dae8f28" kindref="member">reportLatency</ref>(std::chrono::microseconds<sp/>latency);</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a9b9a36db16ff87917cfb38a957628145" kindref="member">reportMemoryUsage</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a5f935f2f064110c11551dc5c218e619a" kindref="member">reportCpuUsage</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>fraction);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afa50302ad6bc11550e4e80686b3d716e" kindref="member">reportDiskIO</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bytes_per_sec);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a67f4f7019a11753ede92f376b2970a23" kindref="member">recordCustomMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>testing<sp/>and<sp/>traffic<sp/>splitting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a358fa5174fd87231f68baed2dbe63f30" kindref="member">enableABTesting</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8b4112b2d8e8015fecb5a8262906e2dd" kindref="member">isCanaryRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a404381d316ebb8a027010b73f7894a2b" kindref="member">isControlRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a1fbd2d9e08426a94f9d5624f7553183f" kindref="member">isNodeInCanaryGroup</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status<sp/>and<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" kindref="compound">CanaryMetricsSnapshot</ref><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a2ed45cbd69b3bee13504a68fc74243f8" kindref="member">getMetricsSnapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_canary_status" kindref="compound">CanaryStatus</ref><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a1c14579be04f3f307d258c0e06bf51e0" kindref="member">status</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1a80b12b2a9208ea5cb90c01eb0958ebbe" kindref="member">advanceStage</ref>();</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1ae769c62a6226ec58aa189f2559594cf5" kindref="member">rollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>percentile<sp/>from<sp/>sorted<sp/>latency<sp/>reservoir<sp/>(caller<sp/>must<sp/>hold<sp/>mutex).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_latency_stats" kindref="compound">LatencyStats</ref><sp/>computeLatencyStats()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>latency<sp/>threshold<sp/>and<sp/>trigger<sp/>rollback<sp/>if<sp/>exceeded<sp/>(must<sp/>NOT<sp/>hold<sp/>mutex).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkLatencyThreshold();</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>version_;</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>node_id_;</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CanaryDeploymentStage&gt;<sp/>stages_;</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>error_rate_threshold_<sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>latency_threshold_us_{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine_;</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>rollout<sp/>controller<sp/>(created<sp/>by<sp/>deploy())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CanaryRollout&gt;<sp/>rollout_;</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" kindref="member">StageCompleteCallback</ref><sp/>stage_complete_cb_;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1aa2adf9885ab5b481c03be9fb6b435232" kindref="member">RollbackCallback</ref><sp/>rollback_cb_;</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"></highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;int64_t&gt;<sp/>latency_samples_us_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>memory_bytes_{0.0};</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu_fraction_{0.0};</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>disk_io_bytes_per_sec_{0.0};</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/>custom_metrics_;</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ab_testing_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/>ABTestConfig<sp/>ab_config_;</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"></highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxLatencySamples<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="628"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"></highlight></codeline>
+<codeline lineno="630"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/canary_rollout.h"/>
+  </compounddef>
+</doxygen>

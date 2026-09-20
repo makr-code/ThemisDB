@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_few_shot_fixture" kind="class" language="C++" prot="public">
+    <compoundname>FewShotFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_few_shot_fixture_1a783b3a6ac2b3ef9fc643ca8c8be27efb" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kindref="compound">AQLFewShotExampleLibrary</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AQLFewShotExampleLibrary&gt; FewShotFixture::lib_</definition>
+        <argsstring></argsstring>
+        <name>lib_</name>
+        <qualifiedname>FewShotFixture::lib_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="186" column="21" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_few_shot_fixture_1af264128d0ba5912c60e8533ad6dcabb5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FewShotFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FewShotFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="183" column="10" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FewShotFixture</label>
+        <link refid="class_few_shot_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FewShotFixture</label>
+        <link refid="class_few_shot_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/aql/bench_hybrid_aql_sugar.cpp" line="181" column="1" bodyfile="benchmarks/aql/bench_hybrid_aql_sugar.cpp" bodystart="181" bodyend="187"/>
+    <listofallmembers>
+      <member refid="class_few_shot_fixture_1a783b3a6ac2b3ef9fc643ca8c8be27efb" prot="public" virt="non-virtual"><scope>FewShotFixture</scope><name>lib_</name></member>
+      <member refid="class_few_shot_fixture_1af264128d0ba5912c60e8533ad6dcabb5" prot="public" virt="non-virtual"><scope>FewShotFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

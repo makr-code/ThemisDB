@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_quantized_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IQuantizedBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_compute_backend" prot="public" virt="non-virtual">themis::acceleration::IComputeBackend</basecompoundref>
+    <includes refid="quantized__backend_8h" local="no">quantized_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a6e8b6a0696a2a9eae8a99e00fda13b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::IQuantizedBackend::~IQuantizedBackend</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~IQuantizedBackend</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::~IQuantizedBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a4a53ddca18d05d362cb481f5736244e0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref></type>
+        <definition>virtual QuantizedTensor themis::acceleration::IQuantizedBackend::quantize</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;tensor, const std::vector&lt; size_t &gt; &amp;shape, const QuantizationConfig &amp;config)=0</argsstring>
+        <name>quantize</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::quantize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_quantization_config" kindref="compound">QuantizationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Quantise a float tensor to the configured low-bit scheme. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat float values in row-major order. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical shape of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantisation configuration (scheme, group_size, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> ready for quantised kernels. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="78" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1aca6711b5af152cb6b1c90f8eb79d3702" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::acceleration::IQuantizedBackend::dequantize</definition>
+        <argsstring>(const QuantizedTensor &amp;qtensor)=0</argsstring>
+        <name>dequantize</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::dequantize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>qtensor</declname>
+        </param>
+        <briefdescription>
+<para>Dequantise a <ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> back to float32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>qtensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously quantised tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flat float values approximating the original tensor. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="89" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a1d797dd1f603fa40dfee4a6f68b40ebb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::acceleration::IQuantizedBackend::quantizedMatmul</definition>
+        <argsstring>(const QuantizedTensor &amp;a, const QuantizedTensor &amp;b, size_t M, size_t K, size_t N)=0</argsstring>
+        <name>quantizedMatmul</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::quantizedMatmul</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>N</declname>
+        </param>
+        <briefdescription>
+<para>Quantised matrix multiply: A (M×K) × B (K×N) → C (M×N, float32). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both operands are expected to carry compatible schemes. The result is accumulated in float32 to preserve precision.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left operand, quantised. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right operand, quantised. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rows of A. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inner dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Columns of B. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flat float32 result of shape M×N. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="104" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a8de0f01d57130f136ff6853d7faf308e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_quantization_stats" kindref="compound">QuantizationStats</ref></type>
+        <definition>virtual QuantizationStats themis::acceleration::IQuantizedBackend::calibrate</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;samples, const QuantizationConfig &amp;config)=0</argsstring>
+        <name>calibrate</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::calibrate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_quantization_config" kindref="compound">QuantizationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Calibrate quantisation ranges from representative dataset samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs a forward-statistics pass over <computeroutput>samples</computeroutput> to determine optimal scale/zero-point values for the given configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Representative input tensors (flat float32 each). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantisation configuration governing the calibration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1acceleration_1_1_quantization_stats" kindref="compound">QuantizationStats</ref> with compression ratio, SNR, and error metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="120" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a7f8824ffded9caefa82ab676cb1bd67b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1acceleration_1a66f5d0ed75e175de9b7c66bde28c2b2e" kindref="member">QuantizationScheme</ref> &gt;</type>
+        <definition>virtual std::vector&lt; QuantizationScheme &gt; themis::acceleration::IQuantizedBackend::supportedSchemes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedSchemes</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::supportedSchemes</qualifiedname>
+        <briefdescription>
+<para>Returns the list of QuantizationSchemes supported by this backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="126" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_quantized_backend_1a136f00c3fe98b1625a29fb5f3ebb50e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IQuantizedBackend::hasNativeInt4Support</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasNativeInt4Support</name>
+        <qualifiedname>themis::acceleration::IQuantizedBackend::hasNativeInt4Support</qualifiedname>
+        <briefdescription>
+<para>Returns true if INT4 operations are natively accelerated (not emulated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="129" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for backends that support low-bit quantised inference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Inherits <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend" kindref="compound">IComputeBackend</ref> capabilities and adds quantise/dequantise primitives, a quantised matrix multiply, and a calibration pass for post-training quantisation (PTQ).</para>
+<para>Thread safety: implementations must document their own thread-safety guarantees. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IQuantizedBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_quantized_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IQuantizedBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_quantized_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/quantized_backend.h" line="67" column="1" bodyfile="include/acceleration/quantized_backend.h" bodystart="67" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a8de0f01d57130f136ff6853d7faf308e" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>calibrate</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1aca6711b5af152cb6b1c90f8eb79d3702" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>dequantize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a136f00c3fe98b1625a29fb5f3ebb50e4" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>hasNativeInt4Support</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a4a53ddca18d05d362cb481f5736244e0" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>quantize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a1d797dd1f603fa40dfee4a6f68b40ebb" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>quantizedMatmul</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a7f8824ffded9caefa82ab676cb1bd67b" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>supportedSchemes</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22" prot="public" virt="pure-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_quantized_backend_1a6e8b6a0696a2a9eae8a99e00fda13b07" prot="public" virt="non-virtual"><scope>themis::acceleration::IQuantizedBackend</scope><name>~IQuantizedBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

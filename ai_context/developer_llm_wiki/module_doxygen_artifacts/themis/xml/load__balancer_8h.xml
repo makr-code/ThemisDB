@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="load__balancer_8h" kind="file" language="C++">
+    <compoundname>load_balancer.h</compoundname>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="device__discovery_8h" local="yes">themis/gpu/device_discovery.h</includes>
+    <includes refid="cluster__topology_8h" local="yes">themis/gpu/cluster_topology.h</includes>
+    <includedby refid="admin__api_8h" local="yes">include/themis/gpu/admin_api.h</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis/gpu/cluster_topology.h</label>
+        <link refid="cluster__topology_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis/gpu/device_discovery.h</label>
+        <link refid="device__discovery_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/load_balancer.h</label>
+        <link refid="load__balancer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/gpu/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/load_balancer.h</label>
+        <link refid="load__balancer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" prot="public">themis::gpu::GPULoadBalancer</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load" prot="public">themis::gpu::GPULoadBalancer::DeviceLoad</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_entry" prot="private">themis::gpu::GPULoadBalancer::DeviceEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="device__discovery_8h" kindref="compound">themis/gpu/device_discovery.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cluster__topology_8h" kindref="compound">themis/gpu/cluster_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae814fc4b9bb227f179bc167b7ccc76ee" kindref="member">GPULoadBalancer</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a1ebd8dbf8c34e255f5cbf28f35860b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">ROUND_ROBIN</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a6e5249bcb29f2a8b79c3f1342577f5f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">LEAST_LOADED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905ae13a1cf991bb009f2a40b22617bef3bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905ae13a1cf991bb009f2a40b22617bef3bb" kindref="member">FIRST_HEALTHY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905afe78d2bea2bd8247566a292721a97570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905afe78d2bea2bd8247566a292721a97570" kindref="member">TOPOLOGY_AWARE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae814fc4b9bb227f179bc167b7ccc76ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae814fc4b9bb227f179bc167b7ccc76ee" kindref="member">GPULoadBalancer</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" kindref="member">strategy</ref><sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">Strategy::LEAST_LOADED</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a316e34d90376a2e3ff8d03c3015b7cf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a316e34d90376a2e3ff8d03c3015b7cf6" kindref="member">GPULoadBalancer</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" kindref="member">strategy</ref>,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aa19f8191ecdcea6b2ab89353456db830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aa19f8191ecdcea6b2ab89353456db830" kindref="member">updateDevices</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6c7b5a07d77b31d4722cf2416f3e4977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6c7b5a07d77b31d4722cf2416f3e4977" kindref="member">markDeviceFailed</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" kindref="member">resetDevice</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a187a2eb8c99377db6f7a863668a90954" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a187a2eb8c99377db6f7a863668a90954" kindref="member">setTopology</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kindref="compound">GPUClusterTopology</ref>&amp;<sp/>topology);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Work<sp/>placement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a401f294043eb716698613ffe92211be0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref>*<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a401f294043eb716698613ffe92211be0" kindref="member">selectDevice</ref>(uint64_t<sp/>required_vram_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0e2dd8d641d9030f633eb48d8d415a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0e2dd8d641d9030f633eb48d8d415a40" kindref="member">recordAllocation</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,<sp/>uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0f38cae2f25909c9483f79fa1ec40f1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0f38cae2f25909c9483f79fa1ec40f1d" kindref="member">recordDeallocation</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_index,<sp/>uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae703b512a80d75708de4925d3d9f6eae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae703b512a80d75708de4925d3d9f6eae" kindref="member">totalDevices</ref>()<sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ac9e98fc9f44e54596310f398f0a6fe94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ac9e98fc9f44e54596310f398f0a6fe94" kindref="member">healthyDevices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" kindref="member">strategy</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>strategy_;<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load" kindref="compound">DeviceLoad</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1adcd32b1723cd018169326e44097e173d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1adcd32b1723cd018169326e44097e173d" kindref="member">index</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a1092d3d3cd7b590a598d61b211039fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a1092d3d3cd7b590a598d61b211039fec" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0c4d4d39b036cfacf6a5ae118cc2bc09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0c4d4d39b036cfacf6a5ae118cc2bc09" kindref="member">backend</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a9170069cbdcb7aa52ce9d687a91d343b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a9170069cbdcb7aa52ce9d687a91d343b" kindref="member">free_vram_bytes</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0e506cdc6dc2c45d5901b8182edd9032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0e506cdc6dc2c45d5901b8182edd9032" kindref="member">tracked_alloc_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1ae879ccd51c7f8d30b1c7346148b166f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1ae879ccd51c7f8d30b1c7346148b166f1" kindref="member">is_healthy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0b1d63ed23ac1ff06e965471723a8567" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load_1a0b1d63ed23ac1ff06e965471723a8567" kindref="member">failure_reason</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ada6db2ca1c73087f6c1604d12fb8a351" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceLoad&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ada6db2ca1c73087f6c1604d12fb8a351" kindref="member">getDeviceLoads</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref><sp/>strategy_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DeviceEntry<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref><sp/>info;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>balancer_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>failure_reason;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/>tracked_alloc_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceEntry&gt;<sp/>devices_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>round_robin_cursor_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers<sp/>—<sp/>called<sp/>under<sp/>mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceEntry*<sp/>selectRoundRobin(uint64_t<sp/>required_vram);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceEntry*<sp/>selectLeastLoaded(uint64_t<sp/>required_vram);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceEntry*<sp/>selectFirstHealthy(uint64_t<sp/>required_vram);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceEntry*<sp/>selectTopologyAware(uint64_t<sp/>required_vram);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEligible(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DeviceEntry&amp;<sp/>e,<sp/>uint64_t<sp/>required_vram)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kindref="compound">GPUClusterTopology</ref><sp/>topology_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/load_balancer.h"/>
+  </compounddef>
+</doxygen>

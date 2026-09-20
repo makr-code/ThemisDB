@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_document_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IDocumentManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1document_1_1_in_memory_document_manager" prot="public" virt="non-virtual">themis::document::InMemoryDocumentManager</derivedcompoundref>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1a6c0c56e0f803a5090e1844a48a0d6a7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IDocumentManager::~IDocumentManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocumentManager</name>
+        <qualifiedname>themis::document::IDocumentManager::~IDocumentManager</qualifiedname>
+        <briefdescription>
+<para>IDocument Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1a128bcd0bf62b7b6e628b1cd1c1ef896f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt;</type>
+        <definition>virtual Result&lt; DocumentId &gt; themis::document::IDocumentManager::create</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id, const nlohmann::json &amp;body)=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::document::IDocumentManager::create</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2cb1c183a502060139b4252a29c0d883">create</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="88" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1acfb83cdd12dc948f7a3789518f3cf5f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::optional&lt; nlohmann::json &gt; &gt;</type>
+        <definition>virtual Result&lt; std::optional&lt; nlohmann::json &gt; &gt; themis::document::IDocumentManager::get</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id) const =0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::document::IDocumentManager::get</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1a4862a5ed30d5aac4023deea9a1943ec2">get</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="92" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1a351d1e6fb141dba40ffcbc8200926286" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IDocumentManager::update</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id, const nlohmann::json &amp;body)=0</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::document::IDocumentManager::update</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1afcb978345abb854d317bfbbc4296a577">update</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="96" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1abedbfd1d410a83b99345331024d7ac67" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IDocumentManager::remove</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::document::IDocumentManager::remove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1a7567013a74c0996e00c550a051adb971">remove</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="100" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1abb540cd60b388fea3bd98f6deef13865" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; DocumentId &gt; &gt; themis::document::IDocumentManager::list</definition>
+        <argsstring>(const CollectionId &amp;collection) const =0</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::document::IDocumentManager::list</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1ad36efba0c84d2bde85273aadeb668f0d">list</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="103" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1af0e19877715a1a3ca0119c7d4f60cf62" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity" kindref="compound">IEncryptedDocumentEntity</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::unique_ptr&lt; IEncryptedDocumentEntity &gt; &gt; themis::document::IDocumentManager::createEncrypted</definition>
+        <argsstring>(const CollectionId &amp;collection, const DocumentId &amp;id, const nlohmann::json &amp;body)=0</argsstring>
+        <name>createEncrypted</name>
+        <qualifiedname>themis::document::IDocumentManager::createEncrypted</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1a61c21e674e7592772711327cf2fed559">createEncrypted</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="108" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1a322c6369abf4d190e873bd226ff2da9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentManager::registerLifecycleHook</definition>
+        <argsstring>(IDocumentLifecycleHook &amp;hook)=0</argsstring>
+        <name>registerLifecycleHook</name>
+        <qualifiedname>themis::document::IDocumentManager::registerLifecycleHook</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2a3af5ad70f9b104fd1f910223198ff0">registerLifecycleHook</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref> &amp;</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>── Lifecycle hooks ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="118" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_manager_1a927af3921af9ece48da746cfbec3b85c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentManager::unregisterLifecycleHook</definition>
+        <argsstring>(IDocumentLifecycleHook &amp;hook)=0</argsstring>
+        <name>unregisterLifecycleHook</name>
+        <qualifiedname>themis::document::IDocumentManager::unregisterLifecycleHook</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_manager_1ada2826f5fb303ab569e37266e8f72188">unregisterLifecycleHook</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref> &amp;</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Lifecycle Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="124" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::document::IDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_i_document_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::document::InMemoryDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/document_manager.h" line="78" column="1" bodyfile="include/document/document_manager.h" bodystart="78" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1a128bcd0bf62b7b6e628b1cd1c1ef896f" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>create</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1af0e19877715a1a3ca0119c7d4f60cf62" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>createEncrypted</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1acfb83cdd12dc948f7a3789518f3cf5f6" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>get</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1abb540cd60b388fea3bd98f6deef13865" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>list</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1a322c6369abf4d190e873bd226ff2da9a" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>registerLifecycleHook</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1abedbfd1d410a83b99345331024d7ac67" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>remove</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1a927af3921af9ece48da746cfbec3b85c" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>unregisterLifecycleHook</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1a351d1e6fb141dba40ffcbc8200926286" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentManager</scope><name>update</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_manager_1a6c0c56e0f803a5090e1844a48a0d6a7f" prot="public" virt="virtual"><scope>themis::document::IDocumentManager</scope><name>~IDocumentManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

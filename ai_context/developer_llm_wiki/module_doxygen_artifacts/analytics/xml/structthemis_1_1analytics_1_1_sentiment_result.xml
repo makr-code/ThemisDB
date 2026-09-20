@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_sentiment_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::SentimentResult</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Polarity</name>
+        <qualifiedname>themis::analytics::SentimentResult::Polarity</qualifiedname>
+        <enumvalue id="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98a50546bf973283065b6ccf09faf7a580a" prot="public">
+          <name>NEGATIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98a31ba17aa58cdb681423f07ca21a6efc7" prot="public">
+          <name>NEUTRAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98aab6c31432785221bae58327ef5f6ea58" prot="public">
+          <name>POSITIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="64" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="64" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sentiment_result_1a793f4174f92548899225f02ba84b6666" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98" kindref="member">Polarity</ref></type>
+        <definition>Polarity themis::analytics::SentimentResult::polarity</definition>
+        <argsstring></argsstring>
+        <name>polarity</name>
+        <qualifiedname>themis::analytics::SentimentResult::polarity</qualifiedname>
+        <briefdescription>
+<para>Overall sentiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="70" column="14" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sentiment_result_1a8040fe6acab3a7b2bb5d6447e292f261" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::SentimentResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::analytics::SentimentResult::score</qualifiedname>
+        <briefdescription>
+<para>Sentiment score [-1.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="71" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sentiment_result_1aea249ea5cea06ccc65a61d8bddfa9191" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::SentimentResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::analytics::SentimentResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence in analysis [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="72" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_sentiment_result_1af7cabf84d44530ede21ff7ba9892026f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::SentimentResult::SentimentResult</definition>
+        <argsstring>()</argsstring>
+        <name>SentimentResult</name>
+        <qualifiedname>themis::analytics::SentimentResult::SentimentResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="74" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="63" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="63" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_sentiment_result_1aea249ea5cea06ccc65a61d8bddfa9191" prot="public" virt="non-virtual"><scope>themis::analytics::SentimentResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sentiment_result_1a40d435c7be5df7a9c25a186ffd8b6b98" prot="public" virt="non-virtual"><scope>themis::analytics::SentimentResult</scope><name>Polarity</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sentiment_result_1a793f4174f92548899225f02ba84b6666" prot="public" virt="non-virtual"><scope>themis::analytics::SentimentResult</scope><name>polarity</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sentiment_result_1a8040fe6acab3a7b2bb5d6447e292f261" prot="public" virt="non-virtual"><scope>themis::analytics::SentimentResult</scope><name>score</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sentiment_result_1af7cabf84d44530ede21ff7ba9892026f" prot="public" virt="non-virtual"><scope>themis::analytics::SentimentResult</scope><name>SentimentResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

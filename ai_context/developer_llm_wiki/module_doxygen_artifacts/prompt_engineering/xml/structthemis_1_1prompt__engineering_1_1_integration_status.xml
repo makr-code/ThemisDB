@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_integration_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::IntegrationStatus</compoundname>
+    <includes refid="prompt__engineering__integration_8h" local="no">prompt_engineering_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1adb7e2ad5831ee495d74d33cf1881aa4f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::IntegrationStatus::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="97" column="10" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a557cdacf26614048916cce2193f100a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::IntegrationStatus::background_worker_active</definition>
+        <argsstring></argsstring>
+        <name>background_worker_active</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::background_worker_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="98" column="10" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a0b26e06278c64f3bcae30a8c7b8465b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::IntegrationStatus::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="99" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a3a1ef05948274ef7e6ad24be398cfcf0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::IntegrationStatus::total_optimizations</definition>
+        <argsstring></argsstring>
+        <name>total_optimizations</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::total_optimizations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="100" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1af87f4d3da4b953f17ebb67c3df822e4e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::IntegrationStatus::last_optimization</definition>
+        <argsstring></argsstring>
+        <name>last_optimization</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::last_optimization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="101" column="43" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a84a52f5908b7fcb1ecfc67b2ab9da6da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::IntegrationStatus::active_prompts</definition>
+        <argsstring></argsstring>
+        <name>active_prompts</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::active_prompts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="102" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a4b70737b723c5e784bb9cad903315781" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::prompt_engineering::IntegrationStatus::executions_by_prompt</definition>
+        <argsstring></argsstring>
+        <name>executions_by_prompt</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::executions_by_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="103" column="24" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_integration_status_1a200968389e83d88e7e192414e5c8328c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::IntegrationStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::IntegrationStatus::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="106" column="20" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="117" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Status of the integration system. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_integration.h" line="96" column="1" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="96" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a84a52f5908b7fcb1ecfc67b2ab9da6da" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>active_prompts</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a557cdacf26614048916cce2193f100a6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>background_worker_active</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a4b70737b723c5e784bb9cad903315781" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>executions_by_prompt</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1af87f4d3da4b953f17ebb67c3df822e4e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>last_optimization</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1adb7e2ad5831ee495d74d33cf1881aa4f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>running</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a200968389e83d88e7e192414e5c8328c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a0b26e06278c64f3bcae30a8c7b8465b5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>total_executions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_integration_status_1a3a1ef05948274ef7e6ad24be398cfcf0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::IntegrationStatus</scope><name>total_optimizations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

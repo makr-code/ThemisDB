@@ -1,0 +1,876 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyValidator</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" prot="public">themis::governance::PolicyValidator::ConflictResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics" prot="public">themis::governance::PolicyValidator::EffectivenessMetrics</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" prot="public">themis::governance::PolicyValidator::SecurityCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" prot="public">themis::governance::PolicyValidator::ValidationReport</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_validator_1ae5f3c8ae366d9d4d02ce3a07b0a356dc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; themis::governance::PolicyValidator::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::governance::PolicyValidator::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="148" column="21" bodyfile="include/governance/policy_validator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_validator_1a26411c63cecf249281449ee8482b5295" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::PolicyValidator::rule_hits_</definition>
+        <argsstring></argsstring>
+        <name>rule_hits_</name>
+        <qualifiedname>themis::governance::PolicyValidator::rule_hits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="151" column="32" bodyfile="include/governance/policy_validator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_validator_1a065de7901582b79613233a5ccf90a2d9" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::governance::PolicyValidator::rule_eval_times_</definition>
+        <argsstring></argsstring>
+        <name>rule_eval_times_</name>
+        <qualifiedname>themis::governance::PolicyValidator::rule_eval_times_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="152" column="32" bodyfile="include/governance/policy_validator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1ab82047d0ab988963bba6d9a2dfbf74a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectConflicts</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="99" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="97" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a4c877aa05a073313c9c397587f85c1ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectContradictoryRules</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectContradictoryRules</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectContradictoryRules</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Contradictory Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="106" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="128" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1aef23d4cd063906d2bdbfb83fadf39c7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectOverlappingPermissions</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectOverlappingPermissions</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectOverlappingPermissions</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Overlapping Permissions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="113" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="229" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a63c2cf929c301b5b4cfd1b86885c7a53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectCircularDependencies</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectCircularDependencies</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectCircularDependencies</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Circular Dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="120" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="277" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1ad5dc80cbd90c6af03e99a100d1923d37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectCcpaHipaaConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectCcpaHipaaConflicts</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectCcpaHipaaConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Ccpa Hipaa Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="127" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1403" bodyend="1435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1aae36e7d4ce17ce33fce9542326ed20fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_conflict_result" kindref="compound">ConflictResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::ConflictResult &gt; themis::governance::PolicyValidator::detectPciDssGdprConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectPciDssGdprConflicts</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectPciDssGdprConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Pci Dss Gdpr Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="134" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1440" bodyend="1472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1aba1e22c1d01637b1987cc6b94d94e784" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_effectiveness_metrics" kindref="compound">EffectivenessMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, PolicyValidator::EffectivenessMetrics &gt; themis::governance::PolicyValidator::calculateEffectiveness</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::unordered_map&lt; std::string, int &gt; &amp;hit_counts={}) const</argsstring>
+        <name>calculateEffectiveness</name>
+        <qualifiedname>themis::governance::PolicyValidator::calculateEffectiveness</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, int &gt; &amp;</type>
+          <declname>hit_counts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="136" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="401" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a3753cc9ab3c41869b020f33c91eaa4bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyValidator::identifyUnusedRules</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::unordered_map&lt; std::string, int &gt; &amp;hit_counts={}, int min_days_unused=30) const</argsstring>
+        <name>identifyUnusedRules</name>
+        <qualifiedname>themis::governance::PolicyValidator::identifyUnusedRules</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, int &gt; &amp;</type>
+          <declname>hit_counts</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_days_unused</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="141" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="460" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1adc3ad86cdba11c738a0af387bf0745b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::SecurityCheckResult &gt; themis::governance::PolicyValidator::performSecurityChecks</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>performSecurityChecks</name>
+        <qualifiedname>themis::governance::PolicyValidator::performSecurityChecks</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Perform Security Checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="152" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="480" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1ac223bf659a1c241311d36d41b71c2c3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::SecurityCheckResult &gt; themis::governance::PolicyValidator::checkOverlyPermissive</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>checkOverlyPermissive</name>
+        <qualifiedname>themis::governance::PolicyValidator::checkOverlyPermissive</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Check Overly Permissive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="159" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="507" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a9bf2c54b6baf0b5c807ce44a78bfe8f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::SecurityCheckResult &gt; themis::governance::PolicyValidator::checkEncryptionRequirements</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>checkEncryptionRequirements</name>
+        <qualifiedname>themis::governance::PolicyValidator::checkEncryptionRequirements</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Check Encryption Requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="166" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="577" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a97284fe3cc0971c6d44013a0317e00f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::SecurityCheckResult &gt; themis::governance::PolicyValidator::checkAuditLogging</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>checkAuditLogging</name>
+        <qualifiedname>themis::governance::PolicyValidator::checkAuditLogging</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Check Audit Logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="173" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="625" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1ac63dd557e407e20b5a0332e03d3efcd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyValidator::SecurityCheckResult &gt; themis::governance::PolicyValidator::checkRetentionCompliance</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, int min_retention_days=90) const</argsstring>
+        <name>checkRetentionCompliance</name>
+        <qualifiedname>themis::governance::PolicyValidator::checkRetentionCompliance</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_retention_days</declname>
+          <defval>90</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="175" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="673" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a81b9231fd5ecf87e2c9c28c633b42f38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" kindref="compound">ValidationReport</ref></type>
+        <definition>PolicyValidator::ValidationReport themis::governance::PolicyValidator::generateValidationReport</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::unordered_map&lt; std::string, int &gt; &amp;hit_counts={}) const</argsstring>
+        <name>generateValidationReport</name>
+        <qualifiedname>themis::governance::PolicyValidator::generateValidationReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, int &gt; &amp;</type>
+          <declname>hit_counts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="180" column="22" bodyfile="src/governance/policy_validation.cpp" bodystart="718" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a596856fb40fe2dc97e575d82f5f6912f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyValidator::validateSingleRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>validateSingleRule</name>
+        <qualifiedname>themis::governance::PolicyValidator::validateSingleRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Validate Single Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="190" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="763" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1ac720eef0ffb6f94040bd69823ba5401b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyValidator::PolicyValidator</definition>
+        <argsstring>(std::shared_ptr&lt; PolicyManager &gt; policy_manager)</argsstring>
+        <name>PolicyValidator</name>
+        <qualifiedname>themis::governance::PolicyValidator::PolicyValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="88" column="5" bodyfile="src/governance/policy_validator.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a5380424684a0f496c53e213ff99b700a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyValidator::detectConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>detectConflicts</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectConflicts</qualifiedname>
+        <briefdescription>
+<para>Detect Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="94" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="102" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1abd14c7630063c8f45bcfe44a5d50e62d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyValidator::detectOverlappingPermissions</definition>
+        <argsstring>() const</argsstring>
+        <name>detectOverlappingPermissions</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectOverlappingPermissions</qualifiedname>
+        <briefdescription>
+<para>Detect Overlapping Permissions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="100" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="143" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1abd80562790644bd16bbafcf6579d3739" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyValidator::detectCircularDependencies</definition>
+        <argsstring>() const</argsstring>
+        <name>detectCircularDependencies</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectCircularDependencies</qualifiedname>
+        <briefdescription>
+<para>Detect Circular Dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="106" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="212" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a282f60b8b782d40948354fcd361e38f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_rule_effectiveness" kindref="compound">RuleEffectiveness</ref> &gt;</type>
+        <definition>std::vector&lt; RuleEffectiveness &gt; themis::governance::PolicyValidator::calculateEffectiveness</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateEffectiveness</name>
+        <qualifiedname>themis::governance::PolicyValidator::calculateEffectiveness</qualifiedname>
+        <briefdescription>
+<para>Calculate Effectiveness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="112" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="331" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a651d46cdd9671d38e3e5ff9bcf3294dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyValidator::detectUnusedRules</definition>
+        <argsstring>() const</argsstring>
+        <name>detectUnusedRules</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectUnusedRules</qualifiedname>
+        <briefdescription>
+<para>Detect Unused Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="118" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="370" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a75cd727bd94ba90fca91cfa37e848157" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_security_violation" kindref="compound">SecurityViolation</ref> &gt;</type>
+        <definition>std::vector&lt; SecurityViolation &gt; themis::governance::PolicyValidator::checkSecurityBestPractices</definition>
+        <argsstring>() const</argsstring>
+        <name>checkSecurityBestPractices</name>
+        <qualifiedname>themis::governance::PolicyValidator::checkSecurityBestPractices</qualifiedname>
+        <briefdescription>
+<para>Check Security Best Practices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="124" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="385" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a5e6e370fefc993adf65c8509ef8c2f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_security_violation" kindref="compound">SecurityViolation</ref> &gt;</type>
+        <definition>std::vector&lt; SecurityViolation &gt; themis::governance::PolicyValidator::detectCcpaConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>detectCcpaConflicts</name>
+        <qualifiedname>themis::governance::PolicyValidator::detectCcpaConflicts</qualifiedname>
+        <briefdescription>
+<para>Detect Ccpa Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="130" column="17" bodyfile="src/governance/policy_validator.cpp" bodystart="457" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a2789797941114829a79a6edf14ef3eb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" kindref="compound">ValidationReport</ref></type>
+        <definition>ValidationReport themis::governance::PolicyValidator::validateRuleset</definition>
+        <argsstring>() const</argsstring>
+        <name>validateRuleset</name>
+        <qualifiedname>themis::governance::PolicyValidator::validateRuleset</qualifiedname>
+        <briefdescription>
+<para>Validate Ruleset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="136" column="22" bodyfile="src/governance/policy_validator.cpp" bodystart="521" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a596856fb40fe2dc97e575d82f5f6912f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyValidator::validateSingleRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>validateSingleRule</name>
+        <qualifiedname>themis::governance::PolicyValidator::validateSingleRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Validate Single Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="143" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1acf58a5411e7178a88f9650d1ff887e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyValidator::recordRuleHit</definition>
+        <argsstring>(const std::string &amp;rule_id, double evaluation_time_ms=0.0)</argsstring>
+        <name>recordRuleHit</name>
+        <qualifiedname>themis::governance::PolicyValidator::recordRuleHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>evaluation_time_ms</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record Rule Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluation_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordRuleHit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="145" column="10" bodyfile="src/governance/policy_validator.cpp" bodystart="597" bodyend="600"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a38de0b84655b80ec45f04edeb5e398da" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyValidator::areContradictory</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2) const</argsstring>
+        <name>areContradictory</name>
+        <qualifiedname>themis::governance::PolicyValidator::areContradictory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Are Contradictory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="160" column="10" bodyfile="src/governance/policy_validator.cpp" bodystart="602" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1a4695641b602823d4fcbf934493717b19" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyValidator::followsSecurityBestPractices</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>followsSecurityBestPractices</name>
+        <qualifiedname>themis::governance::PolicyValidator::followsSecurityBestPractices</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Follows Security Best Practices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="167" column="10" bodyfile="src/governance/policy_validator.cpp" bodystart="644" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_validator_1aa8f72ca8067461edac3529b53048451e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::governance::PolicyValidator::calculateValidationScore</definition>
+        <argsstring>(const ValidationReport &amp;report) const</argsstring>
+        <name>calculateValidationScore</name>
+        <qualifiedname>themis::governance::PolicyValidator::calculateValidationScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" kindref="compound">ValidationReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Validation Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="174" column="12" bodyfile="src/governance/policy_validator.cpp" bodystart="659" bodyend="689"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="28" column="1" bodyfile="include/governance/policy_validation.h" bodystart="28" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a38de0b84655b80ec45f04edeb5e398da" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>areContradictory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1aba1e22c1d01637b1987cc6b94d94e784" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>calculateEffectiveness</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a282f60b8b782d40948354fcd361e38f6" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>calculateEffectiveness</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1aa8f72ca8067461edac3529b53048451e" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>calculateValidationScore</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a97284fe3cc0971c6d44013a0317e00f0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>checkAuditLogging</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a9bf2c54b6baf0b5c807ce44a78bfe8f0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>checkEncryptionRequirements</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ac223bf659a1c241311d36d41b71c2c3a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>checkOverlyPermissive</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ac63dd557e407e20b5a0332e03d3efcd2" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>checkRetentionCompliance</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a75cd727bd94ba90fca91cfa37e848157" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>checkSecurityBestPractices</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a5e6e370fefc993adf65c8509ef8c2f82" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectCcpaConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ad5dc80cbd90c6af03e99a100d1923d37" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectCcpaHipaaConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a63c2cf929c301b5b4cfd1b86885c7a53" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectCircularDependencies</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1abd80562790644bd16bbafcf6579d3739" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectCircularDependencies</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ab82047d0ab988963bba6d9a2dfbf74a3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a5380424684a0f496c53e213ff99b700a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a4c877aa05a073313c9c397587f85c1ef" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectContradictoryRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1aef23d4cd063906d2bdbfb83fadf39c7a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectOverlappingPermissions</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1abd14c7630063c8f45bcfe44a5d50e62d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectOverlappingPermissions</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1aae36e7d4ce17ce33fce9542326ed20fb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectPciDssGdprConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a651d46cdd9671d38e3e5ff9bcf3294dc" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>detectUnusedRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a4695641b602823d4fcbf934493717b19" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>followsSecurityBestPractices</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a81b9231fd5ecf87e2c9c28c633b42f38" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>generateValidationReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a3753cc9ab3c41869b020f33c91eaa4bd" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>identifyUnusedRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1adc3ad86cdba11c738a0af387bf0745b8" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>performSecurityChecks</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ae5f3c8ae366d9d4d02ce3a07b0a356dc" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1ac720eef0ffb6f94040bd69823ba5401b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>PolicyValidator</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1acf58a5411e7178a88f9650d1ff887e1d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>recordRuleHit</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a065de7901582b79613233a5ccf90a2d9" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>rule_eval_times_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a26411c63cecf249281449ee8482b5295" prot="private" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>rule_hits_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a2789797941114829a79a6edf14ef3eb1" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>validateRuleset</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a596856fb40fe2dc97e575d82f5f6912f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>validateSingleRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_validator_1a596856fb40fe2dc97e575d82f5f6912f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyValidator</scope><name>validateSingleRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

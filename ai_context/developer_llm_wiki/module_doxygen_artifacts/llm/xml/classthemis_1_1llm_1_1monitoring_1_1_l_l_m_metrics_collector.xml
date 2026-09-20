@@ -1,0 +1,2775 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::monitoring::LLMMetricsCollector</compoundname>
+    <includes refid="grafana__metrics_8h" local="no">grafana_metrics.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" prot="public">themis::llm::monitoring::LLMMetricsCollector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ab0f7f9156401c0643b584b41aa1e34e5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> *</type>
+        <definition>PrometheusExporter* themis::llm::monitoring::LLMMetricsCollector::exporter_</definition>
+        <argsstring></argsstring>
+        <name>exporter_</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="447" column="24" bodyfile="include/llm/grafana_metrics.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a5a22e47ee7a20c776c2ee9c83ba9cb23" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::monitoring::LLMMetricsCollector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="448" column="12" bodyfile="include/llm/grafana_metrics.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a61cd6a94f055d64553f6bb186547822a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::monitoring::LLMMetricsCollector::last_pool_tasks_completed_</definition>
+        <argsstring></argsstring>
+        <name>last_pool_tasks_completed_</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::last_pool_tasks_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="452" column="17" bodyfile="include/llm/grafana_metrics.h" bodystart="452" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1c68690a815c95265fc0bc8782b87f0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::LLMMetricsCollector::LLMMetricsCollector</definition>
+        <argsstring>(PrometheusExporter *exporter)</argsstring>
+        <name>LLMMetricsCollector</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::LLMMetricsCollector</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> *</type>
+          <declname>exporter</declname>
+        </param>
+        <briefdescription>
+<para>LLMMetrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">exporter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="125" column="14" bodyfile="src/llm/grafana_metrics.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a810e3b1a6e5bf9c5931b07eafbed489b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::LLMMetricsCollector::LLMMetricsCollector</definition>
+        <argsstring>(PrometheusExporter *exporter, const Config &amp;config)</argsstring>
+        <name>LLMMetricsCollector</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::LLMMetricsCollector</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> *</type>
+          <declname>exporter</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="126" column="5" bodyfile="src/llm/grafana_metrics.cpp" bodystart="296" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af052d839173d6a3bb623e07ce54b2304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordInferenceRequest</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>recordInferenceRequest</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordInferenceRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="133" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="579" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aa7faa1eb7260746706c707e2053d66d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordInferenceSuccess</definition>
+        <argsstring>(const std::string &amp;model_id, double duration_ms)</argsstring>
+        <name>recordInferenceSuccess</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordInferenceSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="139" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="589" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acbac750c7d4ee90f3166a2ed9ed5f73e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordInferenceFailure</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;error)</argsstring>
+        <name>recordInferenceFailure</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordInferenceFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="145" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="600" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9d27f5237df3acd236b199489aac27d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordFirstTokenLatency</definition>
+        <argsstring>(const std::string &amp;model_id, double latency_ms)</argsstring>
+        <name>recordFirstTokenLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordFirstTokenLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record First Token Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="153" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="610" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae0401f732cea75da0722421634d598f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordPerTokenLatency</definition>
+        <argsstring>(const std::string &amp;model_id, double latency_ms)</argsstring>
+        <name>recordPerTokenLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordPerTokenLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Per Token Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="159" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="620" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a5853beaabd26a30a04088d28a24d160f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEndToEndLatency</definition>
+        <argsstring>(const std::string &amp;model_id, double latency_ms)</argsstring>
+        <name>recordEndToEndLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEndToEndLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record End To End Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="165" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="630" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a76b615ab5d113b2660dd743d28dc9764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordTokensGenerated</definition>
+        <argsstring>(const std::string &amp;model_id, size_t count)</argsstring>
+        <name>recordTokensGenerated</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordTokensGenerated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Tokens Generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="173" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="640" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a629b86cde137c3bc3535028c3594b077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordBatchSize</definition>
+        <argsstring>(size_t batch_size)</argsstring>
+        <name>recordBatchSize</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordBatchSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Record Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="178" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="649" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad8e74b9619e8c14605533b3022a4edd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordConcurrentRequests</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>recordConcurrentRequests</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordConcurrentRequests</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Concurrent Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="183" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="658" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a907a17c8d71231424413e0cfa35f4467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordGPUMemoryUsage</definition>
+        <argsstring>(size_t vram_mb, size_t total_vram_mb)</argsstring>
+        <name>recordGPUMemoryUsage</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordGPUMemoryUsage</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>vram_mb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_vram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record GPUMemory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="191" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="668" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68767a370684e228f8b2bdd4a93602e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordGPUUtilization</definition>
+        <argsstring>(double utilization_pct)</argsstring>
+        <name>recordGPUUtilization</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordGPUUtilization</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>utilization_pct</declname>
+        </param>
+        <briefdescription>
+<para>Record GPUUtilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">utilization_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">utilization_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="196" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="678" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aab0f3b45c31583c75399ec6e0680e6f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordGPUTemperature</definition>
+        <argsstring>(double temp_celsius)</argsstring>
+        <name>recordGPUTemperature</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordGPUTemperature</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>temp_celsius</declname>
+        </param>
+        <briefdescription>
+<para>Record GPUTemperature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_celsius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_celsius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="201" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="687" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a271468a784adf7a5c82009b3e14ac7c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordModelLoaded</definition>
+        <argsstring>(const std::string &amp;model_id, size_t vram_mb)</argsstring>
+        <name>recordModelLoaded</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordModelLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record Model Loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementGauge(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="209" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="697" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acea8ef9b942f2ffb91a387fd2fa0efba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordModelUnloaded</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>recordModelUnloaded</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordModelUnloaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Model Unloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementGauge(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="214" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="707" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2c9fe4d8d0ce2371d65e3a9ab396c209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordModelSwitchLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordModelSwitchLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordModelSwitchLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Model Switch Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="219" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="717" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a707fde21292cff8b3a940aa23a4f0827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordCacheHit</definition>
+        <argsstring>(const std::string &amp;cache_type)</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordCacheHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="226" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="726" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2477356df4350f50ae38ea6bc44a5317" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordCacheMiss</definition>
+        <argsstring>(const std::string &amp;cache_type)</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordCacheMiss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="231" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="735" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac665c3013c3c24c5e0e340ae8e865c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordCacheSize</definition>
+        <argsstring>(const std::string &amp;cache_type, size_t size_mb)</argsstring>
+        <name>recordCacheSize</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordCacheSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="237" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="745" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac7b4457a0d514668e04642d6f922fc33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordQueueLength</definition>
+        <argsstring>(size_t length)</argsstring>
+        <name>recordQueueLength</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordQueueLength</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Record Queue Length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="244" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="754" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae15d1028bad1501d77fa4bbad69efd44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordPreemptions</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>recordPreemptions</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordPreemptions</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Preemptions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="249" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="763" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a1c122dec6800de63f43fb31d04b8b26c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordSchedulingLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordSchedulingLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordSchedulingLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Scheduling Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="254" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="772" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a574eae26f03533aabfeb295b383c0f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordBackpressureDrop</definition>
+        <argsstring>()</argsstring>
+        <name>recordBackpressureDrop</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordBackpressureDrop</qualifiedname>
+        <briefdescription>
+<para>Increments llm_backpressure_drops_total when the scheduler rejects a request because max_queue_depth has been reached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Backpressure Drop.</para>
+<para>Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="258" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="780" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a6a745bf96443c50d8a49517a217063cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordQuantizationFormat</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;format)</argsstring>
+        <name>recordQuantizationFormat</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordQuantizationFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Record Quantization Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="266" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="790" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1332173b67c05391a3fde7176faaed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordDequantizationLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordDequantizationLatency</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordDequantizationLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Dequantization Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="271" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="799" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a24d51a9b74881713ec03afc02e2ace6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordError</definition>
+        <argsstring>(const std::string &amp;error_type, const std::string &amp;component)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="279" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="809" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9b058c15632a99838a02d66c097dda5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordContextLength</definition>
+        <argsstring>(const std::string &amp;model_id, size_t context_length)</argsstring>
+        <name>recordContextLength</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordContextLength</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>context_length</declname>
+        </param>
+        <briefdescription>
+<para>Extended Context Window metrics (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+) Calls: setGauge(), observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="287" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="819" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a96333c416cd1d6ad08f48e1af40be7ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordContextCacheSize</definition>
+        <argsstring>(const std::string &amp;model_id, size_t cache_size_mb)</argsstring>
+        <name>recordContextCacheSize</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordContextCacheSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>cache_size_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record Context Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_size_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_size_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="293" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="830" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9607241f0a0c8a7e24d28a918e67a760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordExtendedContextEnabled</definition>
+        <argsstring>(const std::string &amp;model_id, bool enabled)</argsstring>
+        <name>recordExtendedContextEnabled</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordExtendedContextEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Record Extended Context Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="299" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="840" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a4349b360b949df471918ca4960ac4000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordContextScalingFactor</definition>
+        <argsstring>(const std::string &amp;model_id, double scaling_factor)</argsstring>
+        <name>recordContextScalingFactor</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordContextScalingFactor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scaling_factor</declname>
+        </param>
+        <briefdescription>
+<para>Record Context Scaling Factor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="305" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="850" bodyend="852"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ab494496f619381ca328adc66b417db66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordRoPEScalingMethod</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;method)</argsstring>
+        <name>recordRoPEScalingMethod</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordRoPEScalingMethod</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>RoPE/YARN Scaling metrics (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+) Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="313" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="860" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2839afcdbf44ae740cc292f333d0acc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordRoPEScalingError</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;error)</argsstring>
+        <name>recordRoPEScalingError</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordRoPEScalingError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Ro PEScaling Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="319" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="870" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ef99e47a7740c971f1b2b30b3c5a37b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordYARNParameters</definition>
+        <argsstring>(const std::string &amp;model_id, double ext_factor, double attn_factor, double beta_fast, double beta_slow)</argsstring>
+        <name>recordYARNParameters</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordYARNParameters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ext_factor</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>attn_factor</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta_fast</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta_slow</declname>
+        </param>
+        <briefdescription>
+<para>Record YARNParameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ext_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attn_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">beta_fast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">beta_slow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ext_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attn_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">beta_fast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">beta_slow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="328" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="883" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a0aedf9cd9b2eef34f0125e0fa5859675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordRAMUsage</definition>
+        <argsstring>(const std::string &amp;model_id, size_t ram_mb, size_t total_ram_mb)</argsstring>
+        <name>recordRAMUsage</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordRAMUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ram_mb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_ram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Memory Profiling metrics (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_ram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_ram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+) Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="339" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="899" bodyend="908"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac58e89f11147d6622b8a525dc9f7e8da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordVRAMUsage</definition>
+        <argsstring>(const std::string &amp;model_id, size_t vram_mb, size_t total_vram_mb)</argsstring>
+        <name>recordVRAMUsage</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordVRAMUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_mb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_vram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record VRAMUsage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="346" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="917" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a7480acc4cd47de3b6cea158553796765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordMemoryPressure</definition>
+        <argsstring>(const std::string &amp;model_id, double pressure_pct)</argsstring>
+        <name>recordMemoryPressure</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordMemoryPressure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>pressure_pct</declname>
+        </param>
+        <briefdescription>
+<para>Record Memory Pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pressure_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pressure_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="352" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="934" bodyend="936"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a379ff411412c1760ca886600a5181b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordOOMEvent</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;reason)</argsstring>
+        <name>recordOOMEvent</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordOOMEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record OOMEvent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="358" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="944" bodyend="946"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a00343d57962b5f69a1f7aa2dab21280b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordMemoryEstimate</definition>
+        <argsstring>(const std::string &amp;model_id, size_t estimated_mb, size_t actual_mb)</argsstring>
+        <name>recordMemoryEstimate</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordMemoryEstimate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_mb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>actual_mb</declname>
+        </param>
+        <briefdescription>
+<para>Record Memory Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="365" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="955" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad1e7cecef0c5ad7e184014215f90e535" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordLoRAAdapterSwitch</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;from_adapter, const std::string &amp;to_adapter, double duration_ms)</argsstring>
+        <name>recordLoRAAdapterSwitch</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordLoRAAdapterSwitch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_adapter</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Thread Safety metrics (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+4.0+) Calls: incrementCounter(), observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="376" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="980" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2b790b90fecacc730eac24adb11c6e25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordContextLockWait</definition>
+        <argsstring>(const std::string &amp;model_id, double wait_time_ms)</argsstring>
+        <name>recordContextLockWait</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordContextLockWait</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>wait_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Context Lock Wait. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wait_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wait_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: observeHistogram(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="385" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="995" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a095bf8577ad75054a8f5c2ced36f2a84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordConcurrentLoRAOperation</definition>
+        <argsstring>(const std::string &amp;model_id, bool sequential_mode)</argsstring>
+        <name>recordConcurrentLoRAOperation</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordConcurrentLoRAOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sequential_mode</declname>
+        </param>
+        <briefdescription>
+<para>Record Concurrent Lo RAOperation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequential_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequential_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="391" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1009" bodyend="1016"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1adb616a72c893eb9676c2c286bf7d5b16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordWorkerPoolQueueDepth</definition>
+        <argsstring>(size_t depth)</argsstring>
+        <name>recordWorkerPoolQueueDepth</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordWorkerPoolQueueDepth</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Shared Worker Pool metrics (Phase 2 — Q2 2026) llm_worker_pool_queue_depth : gauge — current pending-task depth llm_worker_pool_tasks_completed_total : counter — tasks finished since start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="397" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1024" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a81d8d841fef40378e6b776d5d4539907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordWorkerPoolTasksCompleted</definition>
+        <argsstring>(uint64_t total_completed)</argsstring>
+        <name>recordWorkerPoolTasksCompleted</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordWorkerPoolTasksCompleted</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>total_completed</declname>
+        </param>
+        <briefdescription>
+<para>Record Worker Pool Tasks Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_completed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_completed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), spdlog::debug(), compare_exchange_weak(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="402" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1034" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a35af6507cef331f8f6e3b4a7ca82f632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceRequest</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;engine_type)</argsstring>
+        <name>recordEngineInferenceRequest</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <briefdescription>
+<para>── Unified dashboard metrics (Phase 2 — Q3 2026) ──────────────────────── Engine-typed variants for the unified metrics dashboard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── Unified dashboard / engine-typed metrics (Phase 2 — Q3 2026) ────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+engine_type: &quot;async&quot; → <ref refid="classthemis_1_1llm_1_1_async_inference_engine" kindref="compound">AsyncInferenceEngine</ref> &quot;enhanced&quot; → <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> Prometheus metric names used: llm_engine_inference_requests_total{model_id, engine_type} llm_engine_inference_success_total{model_id, engine_type} llm_engine_inference_failures_total{model_id, engine_type, error} llm_engine_inference_duration_ms{model_id, engine_type} llm_engine_tokens_generated_total{model_id, engine_type} llm_engine_queue_depth{engine_type}</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="410" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1078" bodyend="1082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aef6abe3daa7cff20cd7fc6a6f1b74349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceSuccess</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;engine_type, double duration_ms)</argsstring>
+        <name>recordEngineInferenceSuccess</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Engine Inference Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), observeHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="418" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1091" bodyend="1098"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ddf159c48d9dbe75af7c053bab0b93e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceFailure</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;engine_type, const std::string &amp;error)</argsstring>
+        <name>recordEngineInferenceFailure</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEngineInferenceFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Engine Inference Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="427" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1107" bodyend="1113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad6939c18a4b5af77d51cd77f503adb9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEngineTokensGenerated</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;engine_type, size_t count)</argsstring>
+        <name>recordEngineTokensGenerated</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEngineTokensGenerated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Engine Tokens Generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="436" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1122" bodyend="1128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68efc43bef7b0576450f639366aba396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::recordEngineQueueDepth</definition>
+        <argsstring>(const std::string &amp;engine_type, size_t depth)</argsstring>
+        <name>recordEngineQueueDepth</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::recordEngineQueueDepth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Record Engine Queue Depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="444" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1136" bodyend="1140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a808c2e97beefd507ae69441a01ff4d20" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::initializeMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>initializeMetrics</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::initializeMetrics</qualifiedname>
+        <briefdescription>
+<para>Initialize Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: registerMetric(), initializeExtendedContextMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="457" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="307" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a279620a4fcb5cd442bf012923fd63b3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::LLMMetricsCollector::initializeExtendedContextMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>initializeExtendedContextMetrics</name>
+        <qualifiedname>themis::llm::monitoring::LLMMetricsCollector::initializeExtendedContextMetrics</qualifiedname>
+        <briefdescription>
+<para>Initialize Extended Context Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize extended context metrics (v1.</para>
+<para>4.0+) Calls: registerMetric(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="461" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1146" bodyend="1346"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grafana_metrics.h" line="114" column="1" bodyfile="include/llm/grafana_metrics.h" bodystart="114" bodyend="462"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a5a22e47ee7a20c776c2ee9c83ba9cb23" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ab0f7f9156401c0643b584b41aa1e34e5" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>exporter_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a279620a4fcb5cd442bf012923fd63b3d" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>initializeExtendedContextMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a808c2e97beefd507ae69441a01ff4d20" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>initializeMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a61cd6a94f055d64553f6bb186547822a" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>last_pool_tasks_completed_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1c68690a815c95265fc0bc8782b87f0" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>LLMMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a810e3b1a6e5bf9c5931b07eafbed489b" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>LLMMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a574eae26f03533aabfeb295b383c0f63" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordBackpressureDrop</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a629b86cde137c3bc3535028c3594b077" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordBatchSize</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a707fde21292cff8b3a940aa23a4f0827" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2477356df4350f50ae38ea6bc44a5317" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac665c3013c3c24c5e0e340ae8e865c29" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordCacheSize</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a095bf8577ad75054a8f5c2ced36f2a84" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordConcurrentLoRAOperation</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad8e74b9619e8c14605533b3022a4edd8" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordConcurrentRequests</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a96333c416cd1d6ad08f48e1af40be7ee" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordContextCacheSize</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9b058c15632a99838a02d66c097dda5a" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordContextLength</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2b790b90fecacc730eac24adb11c6e25" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordContextLockWait</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a4349b360b949df471918ca4960ac4000" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordContextScalingFactor</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af1332173b67c05391a3fde7176faaed0" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordDequantizationLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a5853beaabd26a30a04088d28a24d160f" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEndToEndLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ddf159c48d9dbe75af7c053bab0b93e" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEngineInferenceFailure</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a35af6507cef331f8f6e3b4a7ca82f632" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEngineInferenceRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aef6abe3daa7cff20cd7fc6a6f1b74349" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEngineInferenceSuccess</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68efc43bef7b0576450f639366aba396" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEngineQueueDepth</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad6939c18a4b5af77d51cd77f503adb9d" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordEngineTokensGenerated</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a24d51a9b74881713ec03afc02e2ace6d" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9607241f0a0c8a7e24d28a918e67a760" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordExtendedContextEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a9d27f5237df3acd236b199489aac27d4" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordFirstTokenLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a907a17c8d71231424413e0cfa35f4467" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordGPUMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aab0f3b45c31583c75399ec6e0680e6f6" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordGPUTemperature</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a68767a370684e228f8b2bdd4a93602e6" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordGPUUtilization</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acbac750c7d4ee90f3166a2ed9ed5f73e" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordInferenceFailure</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1af052d839173d6a3bb623e07ce54b2304" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordInferenceRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1aa7faa1eb7260746706c707e2053d66d7" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordInferenceSuccess</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ad1e7cecef0c5ad7e184014215f90e535" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordLoRAAdapterSwitch</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a00343d57962b5f69a1f7aa2dab21280b" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordMemoryEstimate</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a7480acc4cd47de3b6cea158553796765" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordMemoryPressure</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a271468a784adf7a5c82009b3e14ac7c5" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2c9fe4d8d0ce2371d65e3a9ab396c209" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordModelSwitchLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1acea8ef9b942f2ffb91a387fd2fa0efba" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordModelUnloaded</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a379ff411412c1760ca886600a5181b49" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordOOMEvent</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae0401f732cea75da0722421634d598f3" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordPerTokenLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ae15d1028bad1501d77fa4bbad69efd44" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordPreemptions</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a6a745bf96443c50d8a49517a217063cf" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordQuantizationFormat</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac7b4457a0d514668e04642d6f922fc33" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordQueueLength</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a0aedf9cd9b2eef34f0125e0fa5859675" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordRAMUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a2839afcdbf44ae740cc292f333d0acc4" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordRoPEScalingError</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ab494496f619381ca328adc66b417db66" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordRoPEScalingMethod</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a1c122dec6800de63f43fb31d04b8b26c" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordSchedulingLatency</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a76b615ab5d113b2660dd743d28dc9764" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordTokensGenerated</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1ac58e89f11147d6622b8a525dc9f7e8da" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordVRAMUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1adb616a72c893eb9676c2c286bf7d5b16" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordWorkerPoolQueueDepth</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a81d8d841fef40378e6b776d5d4539907" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordWorkerPoolTasksCompleted</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector_1a3ef99e47a7740c971f1b2b30b3c5a37b" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::LLMMetricsCollector</scope><name>recordYARNParameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

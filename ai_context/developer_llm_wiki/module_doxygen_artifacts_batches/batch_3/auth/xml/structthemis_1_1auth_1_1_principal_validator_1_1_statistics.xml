@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PrincipalValidator::Statistics</compoundname>
+    <includes refid="principal__validator_8h" local="no">principal_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a23331694da36be1b9453997e9375c676" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::total_validations</definition>
+        <argsstring></argsstring>
+        <name>total_validations</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::total_validations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="140" column="18" bodyfile="include/auth/principal_validator.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a91e9873dcb900e7a1eb33906a46cf724" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::allowed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="141" column="18" bodyfile="include/auth/principal_validator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a0ae367be0e76579ce307f7e662bcf558" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::denied</definition>
+        <argsstring></argsstring>
+        <name>denied</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::denied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="142" column="18" bodyfile="include/auth/principal_validator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1ac57d99f2afdb8d6669654a96d23b44a7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::blacklisted</definition>
+        <argsstring></argsstring>
+        <name>blacklisted</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::blacklisted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="143" column="18" bodyfile="include/auth/principal_validator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a213d354637742e7e6d7b8573ee27618e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::whitelisted</definition>
+        <argsstring></argsstring>
+        <name>whitelisted</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::whitelisted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="144" column="18" bodyfile="include/auth/principal_validator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a6df7af0df08428efee94673757f861f6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::default_allow</definition>
+        <argsstring></argsstring>
+        <name>default_allow</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::default_allow</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="145" column="18" bodyfile="include/auth/principal_validator.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1abe37a94ef54e898e50be5d1a3ab6020e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::PrincipalValidator::Statistics::default_deny</definition>
+        <argsstring></argsstring>
+        <name>default_deny</name>
+        <qualifiedname>themis::auth::PrincipalValidator::Statistics::default_deny</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="146" column="18" bodyfile="include/auth/principal_validator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/principal_validator.h" line="139" column="5" bodyfile="include/auth/principal_validator.h" bodystart="139" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a91e9873dcb900e7a1eb33906a46cf724" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1ac57d99f2afdb8d6669654a96d23b44a7" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>blacklisted</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a6df7af0df08428efee94673757f861f6" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>default_allow</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1abe37a94ef54e898e50be5d1a3ab6020e" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>default_deny</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a0ae367be0e76579ce307f7e662bcf558" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>denied</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a23331694da36be1b9453997e9375c676" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>total_validations</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_statistics_1a213d354637742e7e6d7b8573ee27618e" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::Statistics</scope><name>whitelisted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

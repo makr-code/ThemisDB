@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5c878092e0fc84e9ec68d194cabc16d2" kind="dir">
+    <compoundname>include/storage</compoundname>
+    <innerdir refid="dir_3d7f6ae10a41e5a35797c47c81fce09d">include/storage/examples</innerdir>
+    <innerfile refid="adaptive__compaction_8h">adaptive_compaction.h</innerfile>
+    <innerfile refid="backup__manager_8h">backup_manager.h</innerfile>
+    <innerfile refid="base__entity_8h">base_entity.h</innerfile>
+    <innerfile refid="batch__write__optimizer_8h">batch_write_optimizer.h</innerfile>
+    <innerfile refid="blob__backend__azure_8h">blob_backend_azure.h</innerfile>
+    <innerfile refid="blob__backend__filesystem_8h">blob_backend_filesystem.h</innerfile>
+    <innerfile refid="blob__backend__gcs_8h">blob_backend_gcs.h</innerfile>
+    <innerfile refid="blob__backend__s3_8h">blob_backend_s3.h</innerfile>
+    <innerfile refid="blob__redundancy__manager_8h">blob_redundancy_manager.h</innerfile>
+    <innerfile refid="blob__storage__backend_8h">blob_storage_backend.h</innerfile>
+    <innerfile refid="blob__storage__manager_8h">blob_storage_manager.h</innerfile>
+    <innerfile refid="codec__tags_8h">codec_tags.h</innerfile>
+    <innerfile refid="columnar__cache_8h">columnar_cache.h</innerfile>
+    <innerfile refid="columnar__format_8h">columnar_format.h</innerfile>
+    <innerfile refid="compaction__manager_8h">compaction_manager.h</innerfile>
+    <innerfile refid="compressed__storage_8h">compressed_storage.h</innerfile>
+    <innerfile refid="compression__strategy_8h">compression_strategy.h</innerfile>
+    <innerfile refid="concurrent__write__controller_8h">concurrent_write_controller.h</innerfile>
+    <innerfile refid="database__connection__manager_8h">database_connection_manager.h</innerfile>
+    <innerfile refid="disk__space__monitor_8h">disk_space_monitor.h</innerfile>
+    <innerfile refid="distributed__transaction__manager_8h">distributed_transaction_manager.h</innerfile>
+    <innerfile refid="encrypted__blob__backend_8h">encrypted_blob_backend.h</innerfile>
+    <innerfile refid="erasure__coding__backend_8h">erasure_coding_backend.h</innerfile>
+    <innerfile refid="federated__blob__router_8h">federated_blob_router.h</innerfile>
+    <innerfile refid="ggml__tensor__bridge_8h">ggml_tensor_bridge.h</innerfile>
+    <innerfile refid="gguf__metadata_8h">gguf_metadata.h</innerfile>
+    <innerfile refid="gpu__compression_8h">gpu_compression.h</innerfile>
+    <innerfile refid="hierarchical__tucker__decomposer_8h">hierarchical_tucker_decomposer.h</innerfile>
+    <innerfile refid="history__manager_8h">history_manager.h</innerfile>
+    <innerfile refid="hlc_8h">hlc.h</innerfile>
+    <innerfile refid="index__analyzer_8h">index_analyzer.h</innerfile>
+    <innerfile refid="index__maintenance_8h">index_maintenance.h</innerfile>
+    <innerfile refid="key__schema_8h">key_schema.h</innerfile>
+    <innerfile refid="merge__operators_8h">merge_operators.h</innerfile>
+    <innerfile refid="mvcc__chain__pruner_8h">mvcc_chain_pruner.h</innerfile>
+    <innerfile refid="mvcc__store_8h">mvcc_store.h</innerfile>
+    <innerfile refid="nlp__metadata__extractor_8h">nlp_metadata_extractor.h</innerfile>
+    <innerfile refid="nvme__manager_8h">nvme_manager.h</innerfile>
+    <innerfile refid="online__schema__migration_8h">online_schema_migration.h</innerfile>
+    <innerfile refid="pitr__manager_8h">pitr_manager.h</innerfile>
+    <innerfile refid="raft__mvcc__bridge_8h">raft_mvcc_bridge.h</innerfile>
+    <innerfile refid="rocksdb__wrapper_8h">rocksdb_wrapper.h</innerfile>
+    <innerfile refid="schema__dead__weight__detector_8h">schema_dead_weight_detector.h</innerfile>
+    <innerfile refid="security__signature_8h">security_signature.h</innerfile>
+    <innerfile refid="security__signature__manager_8h">security_signature_manager.h</innerfile>
+    <innerfile refid="simd__filter_8h">simd_filter.h</innerfile>
+    <innerfile refid="storage__api__contract_8h">storage_api_contract.h</innerfile>
+    <innerfile refid="storage__audit__logger_8h">storage_audit_logger.h</innerfile>
+    <innerfile refid="storage__engine_8h">storage_engine.h</innerfile>
+    <innerfile refid="storage__error__diagnostics_8h">storage_error_diagnostics.h</innerfile>
+    <innerfile refid="storage__layout__advisor_8h">storage_layout_advisor.h</innerfile>
+    <innerfile refid="storage__module_8h">storage_module.h</innerfile>
+    <innerfile refid="storage__parquet__exporter_8h">storage_parquet_exporter.h</innerfile>
+    <innerfile refid="storage__pressure__manager_8h">storage_pressure_manager.h</innerfile>
+    <innerfile refid="storage__recovery__fault__handler_8h">storage_recovery_fault_handler.h</innerfile>
+    <innerfile refid="streaming__ingest__manager_8h">streaming_ingest_manager.h</innerfile>
+    <innerfile refid="tensor__compaction__filter_8h">tensor_compaction_filter.h</innerfile>
+    <innerfile refid="tensor__network__storage__engine_8h">tensor_network_storage_engine.h</innerfile>
+    <innerfile refid="tensor__router_8h">tensor_router.h</innerfile>
+    <innerfile refid="tensor__train__decomposer_8h">tensor_train_decomposer.h</innerfile>
+    <innerfile refid="tiered__storage_8h">tiered_storage.h</innerfile>
+    <innerfile refid="transaction__retry__manager_8h">transaction_retry_manager.h</innerfile>
+    <innerfile refid="tt__quantizer_8h">tt_quantizer.h</innerfile>
+    <innerfile refid="vector__index__backend_8h">vector_index_backend.h</innerfile>
+    <innerfile refid="wal__storage_8h">wal_storage.h</innerfile>
+    <innerfile refid="wom__tree_8h">wom_tree.h</innerfile>
+    <innerfile refid="zero__copy__blob__transfer_8h">zero_copy_blob_transfer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/"/>
+  </compounddef>
+</doxygen>

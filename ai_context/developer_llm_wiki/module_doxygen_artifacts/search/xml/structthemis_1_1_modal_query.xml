@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_modal_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ModalQuery</compoundname>
+    <includes refid="multi__modal__search_8h" local="no">multi_modal_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_modal_query_1a093768fc2d7d3d5e44587e0685a77b71" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517" kindref="member">Modality</ref></type>
+        <definition>Modality themis::ModalQuery::modality</definition>
+        <argsstring></argsstring>
+        <name>modality</name>
+        <qualifiedname>themis::ModalQuery::modality</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">Modality::TEXT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="35" column="14" bodyfile="include/search/multi_modal_search.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_modal_query_1affbfe1abbf633773be645067bc37be97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ModalQuery::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::ModalQuery::text</qualifiedname>
+        <briefdescription>
+<para>Used when modality == TEXT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="36" column="17" bodyfile="include/search/multi_modal_search.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_modal_query_1a392a8bc8ff773cd6eade4a08b468fb73" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::ModalQuery::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::ModalQuery::embedding</qualifiedname>
+        <briefdescription>
+<para>Used for IMAGE / AUDIO / CUSTOM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="37" column="17" bodyfile="include/search/multi_modal_search.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_modal_query_1a492817386a371dc0ca22952718c00870" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ModalQuery::embedding_namespace</definition>
+        <argsstring></argsstring>
+        <name>embedding_namespace</name>
+        <qualifiedname>themis::ModalQuery::embedding_namespace</qualifiedname>
+        <briefdescription>
+<para>VectorIndexManager object name for this modality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="38" column="17" bodyfile="include/search/multi_modal_search.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_modal_query_1a5f9a41cb7c50788a5fa5a955921fc0a8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ModalQuery::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::ModalQuery::weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Contribution weight for score fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="39" column="12" bodyfile="include/search/multi_modal_search.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single component of a multi-modal query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/multi_modal_search.h" line="34" column="1" bodyfile="include/search/multi_modal_search.h" bodystart="34" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_modal_query_1a392a8bc8ff773cd6eade4a08b468fb73" prot="public" virt="non-virtual"><scope>themis::ModalQuery</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1_modal_query_1a492817386a371dc0ca22952718c00870" prot="public" virt="non-virtual"><scope>themis::ModalQuery</scope><name>embedding_namespace</name></member>
+      <member refid="structthemis_1_1_modal_query_1a093768fc2d7d3d5e44587e0685a77b71" prot="public" virt="non-virtual"><scope>themis::ModalQuery</scope><name>modality</name></member>
+      <member refid="structthemis_1_1_modal_query_1affbfe1abbf633773be645067bc37be97" prot="public" virt="non-virtual"><scope>themis::ModalQuery</scope><name>text</name></member>
+      <member refid="structthemis_1_1_modal_query_1a5f9a41cb7c50788a5fa5a955921fc0a8" prot="public" virt="non-virtual"><scope>themis::ModalQuery</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

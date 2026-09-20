@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__metadata__writer_8h" kind="file" language="C++">
+    <compoundname>scraper_metadata_writer.h</compoundname>
+    <includes refid="scraper__llm__evaluator_8h" local="yes">scraper/scraper_llm_evaluator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="scraper__plugin_8h" local="yes">include/scraper/scraper_plugin.h</includedby>
+    <includedby refid="scraper__metadata__writer_8cpp" local="yes">src/scraper/scraper_metadata_writer.cpp</includedby>
+    <includedby refid="test__scraper__plugin_8cpp" local="yes">tests/scraper/test_scraper_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>scraper/scraper_config.h</label>
+        <link refid="scraper__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scraper/scraper_llm_evaluator.h</label>
+        <link refid="scraper__llm__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/scraper/scraper_metadata_writer.h</label>
+        <link refid="scraper__metadata__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_metadata_writer.h</label>
+        <link refid="scraper__metadata__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/scraper/scraper_metadata_writer.cpp</label>
+        <link refid="scraper__metadata__writer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scraper/scraper_plugin.cpp</label>
+        <link refid="scraper__plugin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/scraper/test_scraper_plugin.cpp</label>
+        <link refid="test__scraper__plugin_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_relational_record" prot="public">themis::scraper::ScraperRelationalRecord</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_graph_node" prot="public">themis::scraper::ScraperGraphNode</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_graph_edge" prot="public">themis::scraper::ScraperGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_vector_record" prot="public">themis::scraper::ScraperVectorRecord</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_write_result" prot="public">themis::scraper::WriteResult</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" prot="public">themis::scraper::IScraperMetadataWriter</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer" prot="public">themis::scraper::InMemoryScraperMetadataWriter</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_record_builder" prot="public">themis::scraper::ScraperRecordBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__llm__evaluator_8h" kindref="compound">scraper/scraper_llm_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1scraper_1_1_scraper_relational_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9f740e54a29ccc53ca65aa80ad0d3368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9f740e54a29ccc53ca65aa80ad0d3368" kindref="member">doc_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a86aee999fa8bcfd50c8889e976904421" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a86aee999fa8bcfd50c8889e976904421" kindref="member">url</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7e21a2ffefa184692e2c7934c28d88b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7e21a2ffefa184692e2c7934c28d88b4" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d4cd00469592389ab5392b43f34855f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d4cd00469592389ab5392b43f34855f" kindref="member">source_name</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1af9ab66156d2a5fa814388fcb7aec3c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1af9ab66156d2a5fa814388fcb7aec3c67" kindref="member">gov_source_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7aa0de99b06abd7165fe3e9ab9b2bf24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7aa0de99b06abd7165fe3e9ab9b2bf24" kindref="member">gap_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a8265c5946194496bfbc32e2c7ea14479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a8265c5946194496bfbc32e2c7ea14479" kindref="member">text_snippet</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a3b3550627cc7b6e79ba6d153f5f85895" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a3b3550627cc7b6e79ba6d153f5f85895" kindref="member">quality_score</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ae0fa0dabd11521b73dd20e2879177dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ae0fa0dabd11521b73dd20e2879177dcd" kindref="member">gap_relevance</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d9c09054da8fa5934b766ef5758d9c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d9c09054da8fa5934b766ef5758d9c7" kindref="member">scraped_at</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9db940881c59623d76c1465d09390358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9db940881c59623d76c1465d09390358" kindref="member">document_type</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ad5a38e8c1fa3f8bc3088b38f0e843776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ad5a38e8c1fa3f8bc3088b38f0e843776" kindref="member">date_issued</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Provenance<sp/>/<sp/>ingestion<sp/>traceability<sp/>(MANDATORY)<sp/>────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a84f3b1db22ec916815613d0420c9ae20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a84f3b1db22ec916815613d0420c9ae20" kindref="member">is_scraper_ingested</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a524ca69f775e64a872ba3c92ce6f9e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a524ca69f775e64a872ba3c92ce6f9e9d" kindref="member">ingestion_source_type</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SCRAPER&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ab7f3b6837ca569a10467f13b1a456fed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ab7f3b6837ca569a10467f13b1a456fed" kindref="member">ingestion_plugin_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1scraper_1_1_scraper_graph_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a12f594d8fbfdff2a363744926ecbc447" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a12f594d8fbfdff2a363744926ecbc447" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a7e57c677280c336e114d2869e9b6c560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a7e57c677280c336e114d2869e9b6c560" kindref="member">label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1scraper_1_1_scraper_graph_node_1ae9e19413afcb4443f7943b94e32ff768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node_1ae9e19413afcb4443f7943b94e32ff768" kindref="member">properties</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1scraper_1_1_scraper_graph_edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge" kindref="compound">ScraperGraphEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1a5f02c4b2cefc4b6f72377abeb3bcaf3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1a5f02c4b2cefc4b6f72377abeb3bcaf3f" kindref="member">from_id</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1a3e24f8e27f22b0aea92de93e5ddf1fc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1a3e24f8e27f22b0aea92de93e5ddf1fc6" kindref="member">to_id</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1acf5f470d45d74f1f788c34b88ce8739f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1acf5f470d45d74f1f788c34b88ce8739f" kindref="member">rel</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1aad18eb63235735b27e3a59ce1707117f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge_1aad18eb63235735b27e3a59ce1707117f" kindref="member">properties</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1scraper_1_1_scraper_vector_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1a8d4762b32212358c63562783905c43e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1a8d4762b32212358c63562783905c43e6" kindref="member">doc_id</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae8a9950a2a36f28f3eeeac4bcf402f0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae8a9950a2a36f28f3eeeac4bcf402f0f" kindref="member">gap_id</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae31c19667e2f02b55e0ef4c77a281f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae31c19667e2f02b55e0ef4c77a281f5f" kindref="member">source_url</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1aa0f3ac8675c6e3a5348b06aa38a3f9ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1aa0f3ac8675c6e3a5348b06aa38a3f9ae" kindref="member">quality_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1a82dc811f80d449748e6c7a9fc4b42bf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1a82dc811f80d449748e6c7a9fc4b42bf9" kindref="member">embedding</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Provenance<sp/>(MANDATORY)<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae8c1b695519131f03c1d5af5f5d0764a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae8c1b695519131f03c1d5af5f5d0764a" kindref="member">is_scraper_ingested</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1af084a4487021dcba40498ea0e9f42705" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1af084a4487021dcba40498ea0e9f42705" kindref="member">ingestion_source_type</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SCRAPER&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae5592edde5b61f3afd9cd68646f754df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record_1ae5592edde5b61f3afd9cd68646f754df" kindref="member">ingestion_plugin_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Write<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1scraper_1_1_write_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1scraper_1_1_write_result_1ac8d5419895cff81b10324e289e76d4f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1ac8d5419895cff81b10324e289e76d4f0" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1scraper_1_1_write_result_1ad14ad3faf39465f8985463dadd7ae85c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1ad14ad3faf39465f8985463dadd7ae85c" kindref="member">doc_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1scraper_1_1_write_result_1a4b7029034b357bf38f7c69b4806d9e5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1a4b7029034b357bf38f7c69b4806d9e5b" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1scraper_1_1_write_result_1a1780c762c2f2e99114e5deab4d407c4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1a1780c762c2f2e99114e5deab4d407c4e" kindref="member">relational_written</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1scraper_1_1_write_result_1a6b475485331817058400be93a3844b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1a6b475485331817058400be93a3844b02" kindref="member">graph_written</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1scraper_1_1_write_result_1a67c8055b94fd3b085efd6c161c0f8e72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_write_result_1a67c8055b94fd3b085efd6c161c0f8e72" kindref="member">vector_written</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a6ab4a901a2ef2851d5b2f18831fdd49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a6ab4a901a2ef2851d5b2f18831fdd49e" kindref="member">~IScraperMetadataWriter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" kindref="member">write</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>&amp;<sp/>rel,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperGraphEdge&gt;&amp;<sp/>edges,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref>&amp;<sp/><sp/><sp/><sp/><sp/>vec)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a0b8cf20782ed50b0acc492d9c7c98041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1a0b8cf20782ed50b0acc492d9c7c98041" kindref="member">flush</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>implementation<sp/>(tests<sp/>+<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1ae373cdbf5ac264e7df38f4cab6b2f25e" kindref="member">InMemoryScraperMetadataWriter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1ae373cdbf5ac264e7df38f4cab6b2f25e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1ae373cdbf5ac264e7df38f4cab6b2f25e" kindref="member">InMemoryScraperMetadataWriter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_write_result" kindref="compound">WriteResult</ref><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1af110af936779f71a8057e0c5207db63b" kindref="member">write</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>&amp;<sp/>rel,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperGraphEdge&gt;&amp;<sp/>edges,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref>&amp;<sp/><sp/><sp/><sp/><sp/>vec)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a648e7ec229cd2941d55144d78587f0a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a648e7ec229cd2941d55144d78587f0a0" kindref="member">flush</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>flush_called_++;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>inspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a3053557e254a4cf192152ac415bbea40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperRelationalRecord&gt;&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a3053557e254a4cf192152ac415bbea40" kindref="member">relationalRecords</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>relational_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1aa787acd806b3cc8d874177806cd3e2db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperGraphNode&gt;&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1aa787acd806b3cc8d874177806cd3e2db" kindref="member">graphNodes</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nodes_;<sp/>}</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1adb323e1f3e7d4bd34b13beed768c1512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperGraphEdge&gt;&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1adb323e1f3e7d4bd34b13beed768c1512" kindref="member">graphEdges</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>edges_;<sp/>}</highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1ae1126027b945ba4747632150d841e5bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperVectorRecord&gt;&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1ae1126027b945ba4747632150d841e5bc" kindref="member">vectorRecords</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vectors_;<sp/>}</highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a45b4e98018cd47090ec00c4ce5a7561e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a45b4e98018cd47090ec00c4ce5a7561e" kindref="member">flushCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>flush_called_;<sp/>}</highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a562fb826429e02f825f5db14abd1745f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer_1a562fb826429e02f825f5db14abd1745f" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relational_.clear();<sp/>nodes_.clear();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges_.clear();<sp/>vectors_.clear();<sp/>flush_called_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperRelationalRecord&gt;<sp/>relational_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperGraphNode&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nodes_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperGraphEdge&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScraperVectorRecord&gt;<sp/><sp/><sp/><sp/><sp/>vectors_;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>flush_called_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1scraper_1_1_scraper_record_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder" kindref="compound">ScraperRecordBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a918a6c214852c222dca49fceb2adfa42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a918a6c214852c222dca49fceb2adfa42" kindref="member">kPluginVersion</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a821de51ac87e48bc0ab095d584f6bd62" kindref="member">buildRelational</ref>(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>title,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_name,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>gov_source_id,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;<sp/>eval,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref>&amp;<sp/>gap,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a258885691641b540419e65683ab3dcd7" kindref="member">buildNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>&amp;<sp/>rel);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ScraperGraphEdge&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a9f9d97dc3897361917a217b528b7d83b" kindref="member">buildEdges</ref>(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>&amp;<sp/>rel,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;<sp/>eval);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_record_builder_1ac6392c1a94951b3af90289b3a62c0ca5" kindref="member">buildVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>&amp;<sp/>rel);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>computeDocId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>currentIso8601();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_metadata_writer.h"/>
+  </compounddef>
+</doxygen>

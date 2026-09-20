@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op" kind="struct" language="C++" prot="private">
+    <compoundname>themis::VectorAutoBuffer::BufferedOp</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1ac3f63ac561923203b2b2b1d6edf0de88" prot="public" static="no" mutable="no">
+        <type>OpType</type>
+        <definition>OpType themis::VectorAutoBuffer::BufferedOp::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="249" column="16" bodyfile="include/index/vector_auto_buffer.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a653f1e55f0aa2dd72742265f45137599" prot="public" static="no" mutable="no">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::VectorAutoBuffer::BufferedOp::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="250" column="20" bodyfile="include/index/vector_auto_buffer.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a877cd0ca95cee32582fc911568f65db2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorAutoBuffer::BufferedOp::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="251" column="21" bodyfile="include/index/vector_auto_buffer.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a4f0553e66474c45eec36a183ffc0bd53" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::VectorAutoBuffer::BufferedOp::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="252" column="47" bodyfile="include/index/vector_auto_buffer.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a6cdeec2398ca68b69ea7a642a9067fb8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::BufferedOp::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="253" column="16" bodyfile="include/index/vector_auto_buffer.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a2c9f4c322d61c0b871a0a5323653b41a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::BufferedOp::BufferedOp</definition>
+        <argsstring>(OpType t, const BaseEntity &amp;e)</argsstring>
+        <name>BufferedOp</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::BufferedOp</qualifiedname>
+        <param>
+          <type>OpType</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="255" column="9" bodyfile="include/index/vector_auto_buffer.h" bodystart="255" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a25573c6ec81b360017fd340c48d452cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::BufferedOp::BufferedOp</definition>
+        <argsstring>(OpType t, const BaseEntity &amp;e, size_t fallback_dim)</argsstring>
+        <name>BufferedOp</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::BufferedOp</qualifiedname>
+        <param>
+          <type>OpType</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>fallback_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="262" column="9" bodyfile="include/index/vector_auto_buffer.h" bodystart="262" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a84ad44c16babd183d94aff953bace2f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::BufferedOp::BufferedOp</definition>
+        <argsstring>(OpType t, const std::string &amp;p)</argsstring>
+        <name>BufferedOp</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::BufferedOp</qualifiedname>
+        <param>
+          <type>OpType</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="268" column="9" bodyfile="include/index/vector_auto_buffer.h" bodystart="268" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1af47f06cac506fa6e562621ec1aebb3fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::BufferedOp::estimateVectorSize</definition>
+        <argsstring>(const BaseEntity &amp;entity, size_t fallback_dim=768)</argsstring>
+        <name>estimateVectorSize</name>
+        <qualifiedname>themis::VectorAutoBuffer::BufferedOp::estimateVectorSize</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>fallback_dim</declname>
+          <defval>768</defval>
+        </param>
+        <briefdescription>
+<para>===== BufferedOp Helper ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fallback_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractVector(), has_value(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="273" column="23" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="33" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_auto_buffer.h" line="248" column="5" bodyfile="include/index/vector_auto_buffer.h" bodystart="248" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a2c9f4c322d61c0b871a0a5323653b41a" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>BufferedOp</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a25573c6ec81b360017fd340c48d452cc" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>BufferedOp</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a84ad44c16babd183d94aff953bace2f9" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>BufferedOp</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a653f1e55f0aa2dd72742265f45137599" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>entity</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1af47f06cac506fa6e562621ec1aebb3fe" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>estimateVectorSize</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a6cdeec2398ca68b69ea7a642a9067fb8" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a877cd0ca95cee32582fc911568f65db2" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>pk</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1a4f0553e66474c45eec36a183ffc0bd53" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op_1ac3f63ac561923203b2b2b1d6edf0de88" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::BufferedOp</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

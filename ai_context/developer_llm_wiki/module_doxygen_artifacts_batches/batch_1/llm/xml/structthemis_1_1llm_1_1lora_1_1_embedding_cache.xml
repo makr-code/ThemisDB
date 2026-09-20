@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_embedding_cache" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::EmbeddingCache</compoundname>
+    <includes refid="embedding__provider_8h" local="no">embedding_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a58cba65db2924711a705b7cfb2e5e90a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::EmbeddingCache::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="36" column="17" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ab531d82e1b1b4bef58181275885ebdcd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::lora::EmbeddingCache::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="37" column="17" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ad91ebc82e34be1e360da8aab03a64a90" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::EmbeddingCache::cached_at</definition>
+        <argsstring></argsstring>
+        <name>cached_at</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::cached_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="38" column="43" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a28e34956fecf170d2d8cda911a732358" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCache::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="39" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a6ba0b40e90a4fbfe4db204d2c111e23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::EmbeddingCache::~EmbeddingCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EmbeddingCache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::~EmbeddingCache</qualifiedname>
+        <briefdescription>
+<para>Embedding Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="35" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a7c5bc404aad963080d44e3190376d346" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingCache::isExpired</definition>
+        <argsstring>(std::chrono::seconds ttl) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCache::isExpired</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="42" column="10" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="42" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/embedding_provider.h" line="30" column="1" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="30" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a28e34956fecf170d2d8cda911a732358" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ad91ebc82e34be1e360da8aab03a64a90" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>cached_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ab531d82e1b1b4bef58181275885ebdcd" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a7c5bc404aad963080d44e3190376d346" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a58cba65db2924711a705b7cfb2e5e90a" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>text</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a6ba0b40e90a4fbfe4db204d2c111e23c" prot="public" virt="virtual"><scope>themis::llm::lora::EmbeddingCache</scope><name>~EmbeddingCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

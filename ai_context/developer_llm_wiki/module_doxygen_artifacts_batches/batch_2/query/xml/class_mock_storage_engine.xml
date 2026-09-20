@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_storage_engine" kind="class" language="C++" prot="public">
+    <compoundname>MockStorageEngine</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IStorageEngine</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_storage_engine_1a8b8135040df0d4d5cb1a6d3898bb8975" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockStorageEngine::open</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>open</name>
+        <qualifiedname>MockStorageEngine::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="28" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_storage_engine_1a7c5a21a290a56361591818858e684311" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockStorageEngine::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>MockStorageEngine::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="29" column="10" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_storage_engine_1aeaf1232f385a869e3fcbb24656c7278a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockStorageEngine::put</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>put</name>
+        <qualifiedname>MockStorageEngine::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="30" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_storage_engine_1abb16ae7300858914ef6b4f7a5ce69ea8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; MockStorageEngine::get</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>MockStorageEngine::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="31" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_storage_engine_1a9d4b77b0df1cf2c33d76790975607509" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockStorageEngine::del</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>del</name>
+        <qualifiedname>MockStorageEngine::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="34" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+      <node id="1">
+        <label>MockStorageEngine</label>
+        <link refid="class_mock_storage_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+      <node id="1">
+        <label>MockStorageEngine</label>
+        <link refid="class_mock_storage_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_engine_di.cpp" line="26" column="1" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_mock_storage_engine_1a7c5a21a290a56361591818858e684311" prot="public" virt="non-virtual"><scope>MockStorageEngine</scope><name>close</name></member>
+      <member refid="class_mock_storage_engine_1a9d4b77b0df1cf2c33d76790975607509" prot="public" virt="non-virtual"><scope>MockStorageEngine</scope><name>del</name></member>
+      <member refid="class_mock_storage_engine_1abb16ae7300858914ef6b4f7a5ce69ea8" prot="public" virt="non-virtual"><scope>MockStorageEngine</scope><name>get</name></member>
+      <member refid="class_mock_storage_engine_1a8b8135040df0d4d5cb1a6d3898bb8975" prot="public" virt="non-virtual"><scope>MockStorageEngine</scope><name>open</name></member>
+      <member refid="class_mock_storage_engine_1aeaf1232f385a869e3fcbb24656c7278a" prot="public" virt="non-virtual"><scope>MockStorageEngine</scope><name>put</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

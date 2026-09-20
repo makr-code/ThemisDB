@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb" kind="namespace" language="C++">
+    <compoundname>themisdb</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Advanced Conflict Resolution API</para>
+<para>Extensible conflict resolution framework for multi-master replication. Provides three concrete resolvers on top of the existing IConflictResolver interface:</para>
+<para>ThreeWayMergeResolver — Git-style three-way merge using the vector-clock common ancestor as the base document. FieldLevelMergeResolver — Merges individual JSON fields according to a configurable strategy (UNION, INTERSECT, bias). AdvancedConflictResolver — Abstract base with richer ResolutionContext.</para>
+<para>All resolvers are stateless; resolve() receives every context value by value and returns the winning WALEntry in O(1)–O(N·F) time where N is the number of conflicting writes and F is the average field count.</para>
+<para>Target: v1.7.0</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Event Stream API</para>
+<para>Captures replication lifecycle events and delivers them to registered callbacks. Supports:<itemizedlist>
+<listitem><para>Selective subscription by EventType</para>
+</listitem><listitem><para>Wildcard (subscribeAll) for audit / analytics pipelines</para>
+</listitem><listitem><para>RAII subscription handles that auto-unsubscribe on destruction</para>
+</listitem><listitem><para>Historical event query over an in-memory ring buffer (default: 10 000 events)</para>
+</listitem></itemizedlist>
+</para>
+<para>ReplicationEventStream implements IReplicationListener, so it can be registered directly with ReplicationManager::addListener().</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>Event callbacks are invoked on the replication background thread; they must not block for more than 1 ms or spawn synchronous I/O.</para>
+</listitem><listitem><para>Subscription handles auto-unsubscribe when destroyed (RAII).</para>
+</listitem><listitem><para>getEvents() is O(N) in buffer size; use appropriate time ranges.</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: v1.7.0</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Multi-Master Replication</para>
+<para>Multi-Master replication architecture enabling writes on any node with automatic conflict detection and resolution.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Write anywhere: Any node can accept writes</para>
+</listitem><listitem><para>Conflict detection: Vector clocks + hybrid logical clocks</para>
+</listitem><listitem><para>Conflict resolution: Pluggable strategies (LWW, CRDT, custom)</para>
+</listitem><listitem><para>Causality tracking: Ensures causal consistency</para>
+</listitem><listitem><para>Anti-entropy: Background synchronization</para>
+</listitem><listitem><para>Cross-datacenter: Geo-distributed deployment support</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Multi-Tier Replication Manager (v1.8.0)</para>
+<para>Hierarchical replication with different consistency and durability tiers:</para>
+<para>TIER_1_CRITICAL – Strong consistency, high durability (3+ replicas, sync, &lt;10ms) TIER_2_STANDARD – Eventual consistency, moderate durability (2 replicas, semi-sync, &lt;50ms) TIER_3_ARCHIVAL – Best-effort, low durability (1 replica, async, no latency guarantee)</para>
+<para>Per-collection tier assignment is supported. When auto-tiering is enabled, the manager monitors per-collection access rates and automatically promotes hot collections to TIER_1_CRITICAL or demotes cold collections to TIER_3_ARCHIVAL.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Observability API</para>
+<para>Provides high-level monitoring, diagnostics, and health-scoring for the replication subsystem. ReplicationObserver wraps a ReplicationManager instance and the embedded ReplicationAnalytics data to surface actionable insight without exposing internal implementation details.</para>
+<para>Target: v1.7.0</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Policy API</para>
+<para>Provides a flexible mechanism for expressing per-collection replication requirements and validating whether the current cluster topology can satisfy them.</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>definePolicy() / assignPolicy() are atomic; partial updates do not leave the policy store in an inconsistent state.</para>
+</listitem><listitem><para>validatePolicy() performs a read-only feasibility check; it never modifies the cluster topology.</para>
+</listitem><listitem><para>Policy names and collection names are case-sensitive strings; no whitespace normalisation is applied.</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: v1.7.0</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Manager</para>
+<para>Leader-Follower Replication Architecture</para>
+<para>Features:<itemizedlist>
+<listitem><para>Asynchronous Replication with configurable lag</para>
+</listitem><listitem><para>Write-Ahead Log (WAL) based replication</para>
+</listitem><listitem><para>Automatic failover with leader election</para>
+</listitem><listitem><para>Read replicas for horizontal read scaling</para>
+</listitem><listitem><para>Conflict resolution for eventual consistency</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Slot Management API</para>
+<para>Implements the Phase 3 ROADMAP item (Issue #2249): &quot;Replication slot management API (pause/resume individual slots)&quot;</para>
+<para>A replication slot tracks the progress of a single downstream consumer (follower or logical subscriber) in the WAL stream. Pausing a slot causes the WAL manager to retain segments beyond the slot&apos;s current LSN so that the consumer can resume without data loss. Resuming re-enables shipping.</para>
+<para>Slot state is persisted to a JSON file beside the WAL directory so that it survives process restarts. The state file path is: &lt;wal_directory&gt;/slots/&lt;slot_name&gt;.json</para>
+<para>Design constraints:<itemizedlist>
+<listitem><para>pause() / resume() are atomic with respect to the WAL manager.</para>
+</listitem><listitem><para>A paused slot does NOT block WAL writes on the leader.</para>
+</listitem><listitem><para>Slot state (confirmed_lsn, status) is persisted synchronously on every advance() call.</para>
+</listitem><listitem><para>No two slots may share the same name within a ReplicationSlotManager.</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: v1.x (Phase 3 – Short-term)</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Advanced Conflict Resolution Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Event Stream Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Multi-Tier Replication Manager Implementation (v1.8.0)</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Replication Slot Management Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/replication/async_wal_shipper.h" line="37" column="1"/>
+  </compounddef>
+</doxygen>

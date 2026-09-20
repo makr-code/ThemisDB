@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="phase3_2feature__flags_8h" kind="file" language="C++">
+    <compoundname>feature_flags.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="phase3_2feature__flags_8cpp" local="yes">src/performance/phase3/feature_flags.cpp</includedby>
+    <includedby refid="test__adaptive__batch__tuner_8cpp" local="yes">tests/performance/phase3/test_adaptive_batch_tuner.cpp</includedby>
+    <includedby refid="test__memory__pressure_8cpp" local="yes">tests/performance/phase3/test_memory_pressure.cpp</includedby>
+    <includedby refid="test__simd__distance_8cpp" local="yes">tests/performance/phase3/test_simd_distance.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/feature_flags.h</label>
+        <link refid="phase3_2feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/feature_flags.h</label>
+        <link refid="phase3_2feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase3/feature_flags.cpp</label>
+        <link refid="phase3_2feature__flags_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase3/test_adaptive_batch_tuner.cpp</label>
+        <link refid="test__adaptive__batch__tuner_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/performance/phase3/test_memory_pressure.cpp</label>
+        <link refid="test__memory__pressure_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/performance/phase3/test_simd_distance.cpp</label>
+        <link refid="test__simd__distance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" prot="public">themis::performance::phase3::Phase3FeatureFlags</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1aefda8aa4ace387dd93de74013f5c6dc0" prot="public" static="no">
+        <name>THEMIS_PHASE3_DISKANN_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="119" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a1a6a7a43f482228cbbd50b19b6b1fd03" prot="public" static="no">
+        <name>THEMIS_PHASE3_BWTREE_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="125" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1ac84688a5133a8db9d6ffe6ec10c4ed35" prot="public" static="no">
+        <name>THEMIS_PHASE3_SPLINTERDB_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="131" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1aa123879197f1dfb7e9d83e3b193187e5" prot="public" static="no">
+        <name>THEMIS_PHASE3_GUNROCK_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="137" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a3e98d3deb98b705b1c6a54fa049b0590" prot="public" static="no">
+        <name>THEMIS_PHASE3_BAO_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="143" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a944dc4ccc735c0dedd4624e22b82181d" prot="public" static="no">
+        <name>THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="149" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a4ca03f0902706ad5b6bc1af12e3dd9d0" prot="public" static="no">
+        <name>THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="155" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a87ffec742e1fac4617a9e870f4c3e473" prot="public" static="no">
+        <name>THEMIS_PHASE3_AVX512_DISTANCE_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="163" column="14" bodyfile="include/performance/phase3/feature_flags.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase3_2feature__flags_8h_1a8e76ef97cd3af661f34069232f606ee9" prot="public" static="no">
+        <name>THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED</name>
+        <param></param>
+        <initializer>(<ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">::themis::performance::phase3::Phase3FeatureFlags::instance</ref>().adaptive_batch_tuner_enabled())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="168" column="9" bodyfile="include/performance/phase3/feature_flags.h" bodystart="168" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>3<sp/>Performance<sp/>Optimizations<sp/>Feature<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>scientific<sp/>research<sp/>from<sp/>PR<sp/>#156<sp/>(45+<sp/>peer-reviewed<sp/>papers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implementation<sp/>framework<sp/>from<sp/>PR<sp/>#157<sp/>(Phase<sp/>1)<sp/>and<sp/>current<sp/>PR<sp/>(Phase<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gains<sp/>(Phase<sp/>3):<sp/>+200-500%<sp/>for<sp/>specialized<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeframe:<sp/>6-12<sp/>months<sp/>implementation<sp/>effort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">phase3</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Phase3FeatureFlags<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase3FeatureFlags&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase3FeatureFlags<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DiskANN:<sp/>Billion-scale<sp/>Vector<sp/>Search<sp/>(NeurIPS&apos;19)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+300-400%<sp/>vector<sp/>search<sp/>throughput<sp/>for<sp/>&gt;100M<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0385e012ebb64ad5382851ff7ef64d28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0385e012ebb64ad5382851ff7ef64d28" kindref="member">diskann_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>diskann_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a9b072a35efdcc062acda39f0008fffe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a9b072a35efdcc062acda39f0008fffe2" kindref="member">set_diskann_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>diskann_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bw-Tree:<sp/>Lock-Free<sp/>Index<sp/>(ICDE&apos;13)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+100-200%<sp/>index<sp/>update<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a36c01ea42fd6dbb1af395456c640c8b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a36c01ea42fd6dbb1af395456c640c8b9" kindref="member">bwtree_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bwtree_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8129c1aff642f8ca709dbf50d9274cf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8129c1aff642f8ca709dbf50d9274cf1" kindref="member">set_bwtree_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>bwtree_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SplinterDB:<sp/>Concurrent<sp/>Compaction<sp/>(OSDI&apos;20)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>-70%<sp/>P99<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7d9950214af56725e2df6ec8efd70e9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7d9950214af56725e2df6ec8efd70e9e" kindref="member">splinterdb_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>splinterdb_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3b58a5864f9038ace1746fdd5f50ec7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3b58a5864f9038ace1746fdd5f50ec7c" kindref="member">set_splinterdb_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>splinterdb_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gunrock:<sp/>GPU<sp/>Graph<sp/>Analytics<sp/>(PPoPP&apos;16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+1000-3000%<sp/>graph<sp/>analytics<sp/>on<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af10abba4cf5ee86bcf943abb99d7ed72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af10abba4cf5ee86bcf943abb99d7ed72" kindref="member">gunrock_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gunrock_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac99f896c0b92486572f4fe923768cf5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac99f896c0b92486572f4fe923768cf5e" kindref="member">set_gunrock_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>gunrock_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bao:<sp/>ML-based<sp/>Query<sp/>Optimizer<sp/>(SIGMOD&apos;21)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+30-70%<sp/>query<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af7c2d7563c6c48a4c700dae729ae1ca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af7c2d7563c6c48a4c700dae729ae1ca9" kindref="member">bao_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bao_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a79f474dd127a2011ab83523961707df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a79f474dd127a2011ab83523961707df3" kindref="member">set_bao_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>bao_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-query<sp/>cost<sp/>model<sp/>integration<sp/>with<sp/>query<sp/>optimizer<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#2419)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calibrates<sp/>OptimizerCostModel<sp/>constants<sp/>from<sp/>actual<sp/>hardware<sp/>cycle<sp/>measurements.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>~10-30%<sp/>better<sp/>plan<sp/>selection<sp/>accuracy<sp/>on<sp/>repeat<sp/>queries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7c70f08425316437411290a7e116868d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7c70f08425316437411290a7e116868d" kindref="member">per_query_cost_model_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>per_query_cost_model_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f2ddaabb02e03b8836806335ad1a8b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f2ddaabb02e03b8836806335ad1a8b6" kindref="member">set_per_query_cost_model_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>per_query_cost_model_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>Pressure<sp/>Monitoring<sp/>with<sp/>Automatic<sp/>Cache<sp/>Eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitors<sp/>system<sp/>RAM<sp/>usage<sp/>and<sp/>triggers<sp/>registered<sp/>eviction<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>configurable<sp/>thresholds<sp/>are<sp/>exceeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a837bac0e450481a62afc772f9848f410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a837bac0e450481a62afc772f9848f410" kindref="member">memory_pressure_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>memory_pressure_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7e9576a9403493a54bfe8817c61e5e33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7e9576a9403493a54bfe8817c61e5e33" kindref="member">set_memory_pressure_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>memory_pressure_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AVX-512<sp/>SIMD<sp/>path<sp/>for<sp/>vector<sp/>distance<sp/>computations<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#1964)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enables<sp/>4-wide<sp/>unrolled<sp/>AVX-512<sp/>kernels<sp/>for<sp/>L2,<sp/>inner-product,<sp/>and<sp/>cosine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>distance<sp/>calculations.<sp/>Falls<sp/>back<sp/>to<sp/>AVX2/NEON/scalar<sp/>at<sp/>compile<sp/>time<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>target<sp/>CPU<sp/>does<sp/>not<sp/>support<sp/>AVX-512.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+200-400%<sp/>throughput<sp/>for<sp/>high-dimensional<sp/>(&gt;=256D)<sp/>vector<sp/>search.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7f59079f4f25f22ecb41905910a246c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7f59079f4f25f22ecb41905910a246c2" kindref="member">avx512_distance_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>avx512_distance_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1377cb1f433ac10c58936deeaefd5bd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1377cb1f433ac10c58936deeaefd5bd0" kindref="member">set_avx512_distance_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>avx512_distance_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>batch<sp/>size<sp/>tuning<sp/>for<sp/>LLM<sp/>inference<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#1996)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dynamically<sp/>adjusts<sp/>the<sp/>LLM<sp/>inference<sp/>batch<sp/>size<sp/>based<sp/>on<sp/>measured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>throughput<sp/>and<sp/>latency<sp/>using<sp/>hardware<sp/>cycle<sp/>counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+15-40%<sp/>throughput<sp/>for<sp/>variable-length<sp/>LLM<sp/>inference<sp/>workloads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0b4cfefccab111aa6fe6efa56ab28af1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0b4cfefccab111aa6fe6efa56ab28af1" kindref="member">adaptive_batch_tuner_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>adaptive_batch_tuner_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" kindref="member">set_adaptive_batch_tuner_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>adaptive_batch_tuner_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>configuration<sp/>from<sp/>JSON<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af6e464815a696eda9c88aeb5bbd55838" kindref="member">load_from_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">Phase3FeatureFlags</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">~Phase3FeatureFlags</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">Phase3FeatureFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">Phase3FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">Phase3FeatureFlags</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kindref="compound">Phase3FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>diskann_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>bwtree_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>splinterdb_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>gunrock_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>bao_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>per_query_cost_model_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>memory_pressure_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>avx512_distance_enabled_{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__AVX512F__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>adaptive_batch_tuner_enabled_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Macro<sp/>helpers<sp/>for<sp/>compile-time<sp/>+<sp/>runtime<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_DISKANN_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().diskann_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="phase3_2feature__flags_8h_1aefda8aa4ace387dd93de74013f5c6dc0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_DISKANN_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_BWTREE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_BWTREE_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().bwtree_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="phase3_2feature__flags_8h_1a1a6a7a43f482228cbbd50b19b6b1fd03" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_BWTREE_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_SPLINTERDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_SPLINTERDB_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().splinterdb_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="phase3_2feature__flags_8h_1ac84688a5133a8db9d6ffe6ec10c4ed35" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_SPLINTERDB_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GUNROCK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_GUNROCK_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().gunrock_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="phase3_2feature__flags_8h_1aa123879197f1dfb7e9d83e3b193187e5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_GUNROCK_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_BAO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_BAO_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().bao_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="phase3_2feature__flags_8h_1a3e98d3deb98b705b1c6a54fa049b0590" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_BAO_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PER_QUERY_COST_MODEL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().per_query_cost_model_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="phase3_2feature__flags_8h_1a944dc4ccc735c0dedd4624e22b82181d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_MEMORY_PRESSURE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="phase3_2feature__flags_8h_1a4ca03f0902706ad5b6bc1af12e3dd9d0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AVX-512<sp/>SIMD<sp/>distance<sp/>flag:<sp/>enabled<sp/>at<sp/>compile<sp/>time<sp/>when<sp/>__AVX512F__<sp/>is<sp/>set,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>can<sp/>be<sp/>toggled<sp/>at<sp/>runtime<sp/>for<sp/>testing/diagnostics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__AVX512F__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_AVX512_DISTANCE_ENABLED()<sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().avx512_distance_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="phase3_2feature__flags_8h_1a87ffec742e1fac4617a9e870f4c3e473" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE3_AVX512_DISTANCE_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Adaptive<sp/>batch<sp/>size<sp/>tuning<sp/>for<sp/>LLM<sp/>inference<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#1996).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enabled<sp/>by<sp/>default;<sp/>disable<sp/>at<sp/>runtime<sp/>for<sp/>A/B<sp/>testing<sp/>or<sp/>fixed-batch<sp/>mode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="phase3_2feature__flags_8h_1a8e76ef97cd3af661f34069232f606ee9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED()<sp/>\</highlight></codeline>
+<codeline lineno="169"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>(::themis::performance::phase3::Phase3FeatureFlags::instance().adaptive_batch_tuner_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase3/feature_flags.h"/>
+  </compounddef>
+</doxygen>

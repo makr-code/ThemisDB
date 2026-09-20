@@ -1,0 +1,565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginMetrics</compoundname>
+    <includes refid="plugin__metrics_8h" local="no">plugin_metrics.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" prot="public">themis::plugins::PluginMetrics::PluginStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_metrics_1a363dbdd99c49201bf0c9c921975a9cc4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginStats&gt; themis::plugins::PluginMetrics::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::plugins::PluginMetrics::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="138" column="24" bodyfile="include/plugins/plugin_metrics.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_metrics_1a6aa174909d44c92a9c9ecbb3db6f03b5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::PluginMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::PluginMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="139" column="24" bodyfile="include/plugins/plugin_metrics.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginMetrics::PluginMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginMetrics</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a9a4c6769c12440fa0873016fccb4c456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginMetrics::~PluginMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PluginMetrics</name>
+        <qualifiedname>themis::plugins::PluginMetrics::~PluginMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a3d1395387173fbc543b3485ad5c31549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginMetrics::PluginMetrics</definition>
+        <argsstring>(const PluginMetrics &amp;)=delete</argsstring>
+        <name>PluginMetrics</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginMetrics</qualifiedname>
+        <param>
+          <type>const PluginMetrics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a5a2178c82722303c0ddb2a5f1fad0ccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref> &amp;</type>
+        <definition>PluginMetrics &amp; themis::plugins::PluginMetrics::operator=</definition>
+        <argsstring>(const PluginMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::PluginMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="77" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a108985b6db4f41171ba552003ffd5caa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::recordLoad</definition>
+        <argsstring>(const std::string &amp;plugin, std::chrono::milliseconds duration)</argsstring>
+        <name>recordLoad</name>
+        <qualifiedname>themis::plugins::PluginMetrics::recordLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record plugin load time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Load.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Load duration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getOrCreateStats(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="84" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1ad1cd2c829d8349a18d5666f9ce6d6f5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::recordReload</definition>
+        <argsstring>(const std::string &amp;plugin, std::chrono::milliseconds duration)</argsstring>
+        <name>recordReload</name>
+        <qualifiedname>themis::plugins::PluginMetrics::recordReload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record plugin reload time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Reload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reload duration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getOrCreateStats(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="91" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="82" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a9ad5c0fb258eda8ec8725a4325577899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::recordCall</definition>
+        <argsstring>(const std::string &amp;plugin, std::chrono::microseconds latency)</argsstring>
+        <name>recordCall</name>
+        <qualifiedname>themis::plugins::PluginMetrics::recordCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>latency</declname>
+        </param>
+        <briefdescription>
+<para>Record function call latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Call latency</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getOrCreateStats(), count(), size(), pop_front(), push_back(), updatePercentiles(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="98" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="97" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a1b361288a794a786d79ca22f815df9df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;plugin)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::plugins::PluginMetrics::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Record plugin error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getOrCreateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="104" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a6e56fe29844a4d4ee397a157916c6a7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::updateMemoryUsage</definition>
+        <argsstring>(const std::string &amp;plugin, size_t bytes)</argsstring>
+        <name>updateMemoryUsage</name>
+        <qualifiedname>themis::plugins::PluginMetrics::updateMemoryUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update memory usage for plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Memory Usage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Memory usage in bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getOrCreateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="111" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1addd705283353ad6ab360522665d6b520" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref> &amp;</type>
+        <definition>const PluginMetrics::PluginStats &amp; themis::plugins::PluginMetrics::getStats</definition>
+        <argsstring>(const std::string &amp;plugin) const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::plugins::PluginMetrics::getStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Get statistics for a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plugin statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="118" column="23" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="144" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a9efdcd80ed9a76b4cb302d54d7a41254" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, PluginMetrics::PluginStats &gt; themis::plugins::PluginMetrics::getAllStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStats</name>
+        <qualifiedname>themis::plugins::PluginMetrics::getAllStats</qualifiedname>
+        <briefdescription>
+<para>Get all plugin statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of plugin name to statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="124" column="24" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="162" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a52bf787ef74dabf599d79b8dccd2bf4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::resetStats</definition>
+        <argsstring>(const std::string &amp;plugin)</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::plugins::PluginMetrics::resetStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Reset statistics for a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="130" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a84edb164f5e49544c6c9b511588c22d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::resetAll</definition>
+        <argsstring>()</argsstring>
+        <name>resetAll</name>
+        <qualifiedname>themis::plugins::PluginMetrics::resetAll</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset All.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="135" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="191" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_1a7b2e0118c816da22ff39a318a3cc668d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref> &amp;</type>
+        <definition>PluginMetrics::PluginStats &amp; themis::plugins::PluginMetrics::getOrCreateStats</definition>
+        <argsstring>(const std::string &amp;plugin)</argsstring>
+        <name>getOrCreateStats</name>
+        <qualifiedname>themis::plugins::PluginMetrics::getOrCreateStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: emplace(), PluginStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="142" column="17" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="203" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Metrics Collector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks comprehensive metrics for each plugin:<itemizedlist>
+<listitem><para>Timing: load time, reload time, call latency</para>
+</listitem><listitem><para>Counts: reload count, function calls, errors</para>
+</listitem><listitem><para>Resource: memory usage</para>
+</listitem><listitem><para>Performance: latency percentiles (P95, P99)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent access from multiple threads. </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_metrics.h" line="39" column="1" bodyfile="include/plugins/plugin_metrics.h" bodystart="39" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9efdcd80ed9a76b4cb302d54d7a41254" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>getAllStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a7b2e0118c816da22ff39a318a3cc668d" prot="private" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>getOrCreateStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1addd705283353ad6ab360522665d6b520" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a6aa174909d44c92a9c9ecbb3db6f03b5" prot="private" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5a2178c82722303c0ddb2a5f1fad0ccc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>PluginMetrics</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a3d1395387173fbc543b3485ad5c31549" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>PluginMetrics</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9ad5c0fb258eda8ec8725a4325577899" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>recordCall</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a1b361288a794a786d79ca22f815df9df" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a108985b6db4f41171ba552003ffd5caa" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>recordLoad</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1ad1cd2c829d8349a18d5666f9ce6d6f5e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>recordReload</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a84edb164f5e49544c6c9b511588c22d7" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>resetAll</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a52bf787ef74dabf599d79b8dccd2bf4d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a363dbdd99c49201bf0c9c921975a9cc4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a6e56fe29844a4d4ee397a157916c6a7b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>updateMemoryUsage</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9a4c6769c12440fa0873016fccb4c456" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics</scope><name>~PluginMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

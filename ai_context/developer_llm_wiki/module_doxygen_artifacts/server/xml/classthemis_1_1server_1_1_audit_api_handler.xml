@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_audit_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::AuditApiHandler</compoundname>
+    <includes refid="audit__api__handler_8h" local="no">audit_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_audit_api_handler_1a0f81fb3536ec946d93cd7062a66a0806" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;themis::FieldEncryption&gt; themis::server::AuditApiHandler::enc_</definition>
+        <argsstring></argsstring>
+        <name>enc_</name>
+        <qualifiedname>themis::server::AuditApiHandler::enc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="81" column="21" bodyfile="include/server/audit_api_handler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_audit_api_handler_1a6f70c5107cbf13d801680f4feb50310a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::VCCPKIClient &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::VCCPKIClient&gt; themis::server::AuditApiHandler::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::server::AuditApiHandler::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="82" column="21" bodyfile="include/server/audit_api_handler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_audit_api_handler_1a936e9d0ba3e78c21dea9062e1011ee2b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditApiHandler::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>themis::server::AuditApiHandler::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="83" column="17" bodyfile="include/server/audit_api_handler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1a14a63a1ad3b8f70ed6c189bd04f57d94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AuditApiHandler::AuditApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::FieldEncryption &gt; enc, std::shared_ptr&lt; themis::utils::VCCPKIClient &gt; pki, const std::string &amp;log_path)</argsstring>
+        <name>AuditApiHandler</name>
+        <qualifiedname>themis::server::AuditApiHandler::AuditApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::FieldEncryption &gt;</type>
+          <declname>enc</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::utils::VCCPKIClient &gt;</type>
+          <declname>pki</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="62" column="5" bodyfile="src/server/audit_api_handler.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1af0e71253ac14b23ad27977d41e4da9a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::AuditApiHandler::queryAuditLogs</definition>
+        <argsstring>(const AuditQueryFilter &amp;filter)</argsstring>
+        <name>queryAuditLogs</name>
+        <qualifiedname>themis::server::AuditApiHandler::queryAuditLogs</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Query Audit Logs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: readAuditLogs(), size(), std::min(), nlohmann::json::array(), Tracer::startSpan(), push_back(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="71" column="20" bodyfile="src/server/audit_api_handler.cpp" bodystart="238" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1ae730fc92fabe9ce762be51da9e91ba6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditApiHandler::exportAuditLogsCsv</definition>
+        <argsstring>(const AuditQueryFilter &amp;filter)</argsstring>
+        <name>exportAuditLogsCsv</name>
+        <qualifiedname>themis::server::AuditApiHandler::exportAuditLogsCsv</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Export Audit Logs Csv. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: readAuditLogs(), Tracer::startSpan(), find(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(), std::chrono::system_clock::to_time_t(), std::gmtime(), std::strftime(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="78" column="17" bodyfile="src/server/audit_api_handler.cpp" bodystart="269" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1abbda010675761804006c71a195d08be6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; AuditLogEntry &gt; themis::server::AuditApiHandler::readAuditLogs</definition>
+        <argsstring>(const AuditQueryFilter &amp;filter)</argsstring>
+        <name>readAuditLogs</name>
+        <qualifiedname>themis::server::AuditApiHandler::readAuditLogs</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Read Audit Logs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), parseLogLine(), containsCaseInsensitive(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="90" column="17" bodyfile="src/server/audit_api_handler.cpp" bodystart="167" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1a9be438a58471d61b0f4dc895bb40ef75" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref></type>
+        <definition>AuditLogEntry themis::server::AuditApiHandler::parseLogLine</definition>
+        <argsstring>(const nlohmann::json &amp;j, int64_t line_id)</argsstring>
+        <name>parseLogLine</name>
+        <qualifiedname>themis::server::AuditApiHandler::parseLogLine</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>line_id</declname>
+        </param>
+        <briefdescription>
+<para>Parse Log Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the line. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the line. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), decryptPayload(), is_string(), empty(), nlohmann::json::parse(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="98" column="19" bodyfile="src/server/audit_api_handler.cpp" bodystart="122" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_audit_api_handler_1a90f8ebbaacb726421954966e534844b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuditApiHandler::decryptPayload</definition>
+        <argsstring>(const nlohmann::json &amp;payload)</argsstring>
+        <name>decryptPayload</name>
+        <qualifiedname>themis::server::AuditApiHandler::decryptPayload</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt Payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), value(), std::string(), themis::EncryptedBlob::fromJson(), decrypt(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/audit_api_handler.h" line="105" column="17" bodyfile="src/server/audit_api_handler.cpp" bodystart="81" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/audit_api_handler.h" line="60" column="1" bodyfile="include/server/audit_api_handler.h" bodystart="60" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a14a63a1ad3b8f70ed6c189bd04f57d94" prot="public" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>AuditApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a90f8ebbaacb726421954966e534844b3" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>decryptPayload</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a0f81fb3536ec946d93cd7062a66a0806" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>enc_</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1ae730fc92fabe9ce762be51da9e91ba6c" prot="public" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>exportAuditLogsCsv</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a936e9d0ba3e78c21dea9062e1011ee2b" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>log_path_</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a9be438a58471d61b0f4dc895bb40ef75" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>parseLogLine</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1a6f70c5107cbf13d801680f4feb50310a" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1af0e71253ac14b23ad27977d41e4da9a7" prot="public" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>queryAuditLogs</name></member>
+      <member refid="classthemis_1_1server_1_1_audit_api_handler_1abbda010675761804006c71a195d08be6" prot="private" virt="non-virtual"><scope>themis::server::AuditApiHandler</scope><name>readAuditLogs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

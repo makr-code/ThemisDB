@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_aggregate_scheduler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AggregateScheduler::Config</compoundname>
+    <includes refid="aggregate__scheduler_8h" local="no">aggregate_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_config_1aff51b8fb451241642eb1665a0f9ed07c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Config::max_parallel_refreshes</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_refreshes</name>
+        <qualifiedname>themis::AggregateScheduler::Config::max_parallel_refreshes</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="79" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_config_1a64e9ebd609fc9e3c9176fa5cf00f5df9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::AggregateScheduler::Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::AggregateScheduler::Config::check_interval</qualifiedname>
+        <initializer>{std::chrono::seconds(30)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="80" column="35" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_config_1a6eadf6d2fb7375eb98a456cdaa59f676" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AggregateScheduler::Config::catch_up_missed_windows</definition>
+        <argsstring></argsstring>
+        <name>catch_up_missed_windows</name>
+        <qualifiedname>themis::AggregateScheduler::Config::catch_up_missed_windows</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="81" column="14" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_aggregate_scheduler_1_1_config_1a5dac64c5a07d38246bfbc01080f802d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AggregateScheduler::Config::max_catch_up_windows</definition>
+        <argsstring></argsstring>
+        <name>max_catch_up_windows</name>
+        <qualifiedname>themis::AggregateScheduler::Config::max_catch_up_windows</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="82" column="16" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/aggregate_scheduler.h" line="78" column="5" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="78" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a6eadf6d2fb7375eb98a456cdaa59f676" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Config</scope><name>catch_up_missed_windows</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a64e9ebd609fc9e3c9176fa5cf00f5df9" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a5dac64c5a07d38246bfbc01080f802d6" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Config</scope><name>max_catch_up_windows</name></member>
+      <member refid="structthemis_1_1_aggregate_scheduler_1_1_config_1aff51b8fb451241642eb1665a0f9ed07c" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler::Config</scope><name>max_parallel_refreshes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

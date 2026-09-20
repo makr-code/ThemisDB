@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1chaos_1_1_active_fault" kind="struct" language="C++" prot="public">
+    <compoundname>themis::chaos::ActiveFault</compoundname>
+    <includes refid="chaos__framework_8h" local="no">chaos_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_active_fault_1acb3eeba477159124c85d2f4b0edae229" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref></type>
+        <definition>FaultSpec themis::chaos::ActiveFault::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>themis::chaos::ActiveFault::spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="57" column="42" bodyfile="include/chaos/chaos_framework.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_active_fault_1a54d46c01dae4887856c12191ee05fc31" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::chaos::ActiveFault::injected_at</definition>
+        <argsstring></argsstring>
+        <name>injected_at</name>
+        <qualifiedname>themis::chaos::ActiveFault::injected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="58" column="43" bodyfile="include/chaos/chaos_framework.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::chaos::ActiveFault::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::chaos::ActiveFault::expires_at</qualifiedname>
+        <briefdescription>
+<para>steady_clock::time_point::max() if permanent </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="59" column="43" bodyfile="include/chaos/chaos_framework.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1chaos_1_1_active_fault_1acd7209eafad3142f5e7580d4d2944459" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::chaos::ActiveFault::isExpired</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::chaos::ActiveFault::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="61" column="10" bodyfile="include/chaos/chaos_framework.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::chaos::ActiveFault</label>
+        <link refid="structthemis_1_1chaos_1_1_active_fault"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::chaos::FaultSpec</label>
+        <link refid="structthemis_1_1chaos_1_1_fault_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/chaos/chaos_framework.h" line="56" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="56" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1chaos_1_1_active_fault_1acbb4774befef6d91a35f906a8feaf3ef" prot="public" virt="non-virtual"><scope>themis::chaos::ActiveFault</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1chaos_1_1_active_fault_1a54d46c01dae4887856c12191ee05fc31" prot="public" virt="non-virtual"><scope>themis::chaos::ActiveFault</scope><name>injected_at</name></member>
+      <member refid="structthemis_1_1chaos_1_1_active_fault_1acd7209eafad3142f5e7580d4d2944459" prot="public" virt="non-virtual"><scope>themis::chaos::ActiveFault</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1chaos_1_1_active_fault_1acb3eeba477159124c85d2f4b0edae229" prot="public" virt="non-virtual"><scope>themis::chaos::ActiveFault</scope><name>spec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

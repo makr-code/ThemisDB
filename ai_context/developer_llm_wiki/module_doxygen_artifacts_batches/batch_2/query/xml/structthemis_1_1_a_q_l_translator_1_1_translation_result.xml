@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_a_q_l_translator_1_1_translation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator::TranslationResult</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <innerclass refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query" prot="public">themis::AQLTranslator::TranslationResult::TraversalQuery</innerclass>
+    <innerclass refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query" prot="public">themis::AQLTranslator::TranslationResult::JoinQuery</innerclass>
+    <innerclass refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query" prot="public">themis::AQLTranslator::TranslationResult::SpatialJoinQuery</innerclass>
+    <innerclass refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution" prot="public">themis::AQLTranslator::TranslationResult::CTEExecution</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ac8fa701d644fe9fe72335ce96354ceeb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AQLTranslator::TranslationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="63" column="14" bodyfile="include/query/aql_translator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a172c2a00af20f01de86ef7d14e637d1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="64" column="21" bodyfile="include/query/aql_translator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a98d94862ea18808d88777223312ff518" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref></type>
+        <definition>ConjunctiveQuery themis::AQLTranslator::TranslationResult::conjunctive_query</definition>
+        <argsstring></argsstring>
+        <name>conjunctive_query</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::conjunctive_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="65" column="26" bodyfile="include/query/aql_translator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a2784a5f34ed36b4a6844271651c63053" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query" kindref="compound">TraversalQuery</ref> &gt;</type>
+        <definition>std::optional&lt;TraversalQuery&gt; themis::AQLTranslator::TranslationResult::traversal</definition>
+        <argsstring></argsstring>
+        <name>traversal</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::traversal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="79" column="23" bodyfile="include/query/aql_translator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a449c0b3b1bf3e13afbad090b3d03931a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query" kindref="compound">JoinQuery</ref> &gt;</type>
+        <definition>std::optional&lt;JoinQuery&gt; themis::AQLTranslator::TranslationResult::join</definition>
+        <argsstring></argsstring>
+        <name>join</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::join</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="91" column="23" bodyfile="include/query/aql_translator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a58bc5280050c0bd2692b85a830d4499a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query" kindref="compound">SpatialJoinQuery</ref> &gt;</type>
+        <definition>std::optional&lt;SpatialJoinQuery&gt; themis::AQLTranslator::TranslationResult::spatial_join</definition>
+        <argsstring></argsstring>
+        <name>spatial_join</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::spatial_join</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="104" column="23" bodyfile="include/query/aql_translator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a43190fa3e20f23366dfb45a0d38a80b8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_disjunctive_query" kindref="compound">DisjunctiveQuery</ref> &gt;</type>
+        <definition>std::optional&lt;DisjunctiveQuery&gt; themis::AQLTranslator::TranslationResult::disjunctive</definition>
+        <argsstring></argsstring>
+        <name>disjunctive</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::disjunctive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="107" column="23" bodyfile="include/query/aql_translator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1af1a36dbf2ee2e76ae24748d4fbe84561" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_vector_geo_query" kindref="compound">VectorGeoQuery</ref> &gt;</type>
+        <definition>std::optional&lt;VectorGeoQuery&gt; themis::AQLTranslator::TranslationResult::vector_geo</definition>
+        <argsstring></argsstring>
+        <name>vector_geo</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::vector_geo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="110" column="23" bodyfile="include/query/aql_translator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a7f03decd65d807282127afdb46f5cda9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_content_geo_query" kindref="compound">ContentGeoQuery</ref> &gt;</type>
+        <definition>std::optional&lt;ContentGeoQuery&gt; themis::AQLTranslator::TranslationResult::content_geo</definition>
+        <argsstring></argsstring>
+        <name>content_geo</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::content_geo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="112" column="23" bodyfile="include/query/aql_translator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a37b0c66c39013ea3d4b66dd18829cb3a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution" kindref="compound">CTEExecution</ref> &gt;</type>
+        <definition>std::vector&lt;CTEExecution&gt; themis::AQLTranslator::TranslationResult::ctes</definition>
+        <argsstring></argsstring>
+        <name>ctes</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::ctes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="120" column="21" bodyfile="include/query/aql_translator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ab7e5ff6fb01db100a3fe4f69872fd9f7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::Success</definition>
+        <argsstring>(ConjunctiveQuery q)</argsstring>
+        <name>Success</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::Success</qualifiedname>
+        <param>
+          <type><ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref></type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="128" column="34" bodyfile="include/query/aql_translator.h" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ac8832ff604734586865a3d94645f8d37" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessDisjunctive</definition>
+        <argsstring>(DisjunctiveQuery d)</argsstring>
+        <name>SuccessDisjunctive</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessDisjunctive</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_disjunctive_query" kindref="compound">DisjunctiveQuery</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>Success Disjunctive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="141" column="34" bodyfile="include/query/aql_translator.h" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a3a0bf6255554a705540f1070b4ff31ed" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessJoin</definition>
+        <argsstring>(JoinQuery j)</argsstring>
+        <name>SuccessJoin</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessJoin</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_join_query" kindref="compound">JoinQuery</ref></type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Success Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="154" column="34" bodyfile="include/query/aql_translator.h" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a4b12b9412ebf0fa0300569712bf1c3a1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessSpatialJoin</definition>
+        <argsstring>(SpatialJoinQuery sj)</argsstring>
+        <name>SuccessSpatialJoin</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessSpatialJoin</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query" kindref="compound">SpatialJoinQuery</ref></type>
+          <declname>sj</declname>
+        </param>
+        <briefdescription>
+<para>Success Spatial Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="167" column="34" bodyfile="include/query/aql_translator.h" bodystart="167" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a822a56f969befb47ae4910de5c5b30ef" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessTraversal</definition>
+        <argsstring>(TraversalQuery t)</argsstring>
+        <name>SuccessTraversal</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessTraversal</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query" kindref="compound">TraversalQuery</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Success Traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="180" column="34" bodyfile="include/query/aql_translator.h" bodystart="180" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ad22d83f11a221d1e0965f9754925cc10" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessVectorGeo</definition>
+        <argsstring>(VectorGeoQuery v)</argsstring>
+        <name>SuccessVectorGeo</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessVectorGeo</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_vector_geo_query" kindref="compound">VectorGeoQuery</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Success Vector Geo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="193" column="34" bodyfile="include/query/aql_translator.h" bodystart="193" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a2f497651c04cc33f9c55ff44fe8dd22c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::SuccessContentGeo</definition>
+        <argsstring>(ContentGeoQuery c)</argsstring>
+        <name>SuccessContentGeo</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SuccessContentGeo</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_content_geo_query" kindref="compound">ContentGeoQuery</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Success Content Geo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="205" column="34" bodyfile="include/query/aql_translator.h" bodystart="205" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a99e6ec75d38e51eb34f4b7eed506ae0a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>static TranslationResult themis::AQLTranslator::TranslationResult::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="214" column="34" bodyfile="include/query/aql_translator.h" bodystart="214" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::AQLTranslator::TranslationResult</label>
+        <link refid="structthemis_1_1_a_q_l_translator_1_1_translation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>conjunctive_query</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ConjunctiveQuery</label>
+        <link refid="structthemis_1_1query_1_1_conjunctive_query"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_translator.h" line="62" column="5" bodyfile="include/query/aql_translator.h" bodystart="62" bodyend="220"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a98d94862ea18808d88777223312ff518" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>conjunctive_query</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a7f03decd65d807282127afdb46f5cda9" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>content_geo</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a37b0c66c39013ea3d4b66dd18829cb3a" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>ctes</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a43190fa3e20f23366dfb45a0d38a80b8" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>disjunctive</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a99e6ec75d38e51eb34f4b7eed506ae0a" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a172c2a00af20f01de86ef7d14e637d1b" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a449c0b3b1bf3e13afbad090b3d03931a" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>join</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a58bc5280050c0bd2692b85a830d4499a" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>spatial_join</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ab7e5ff6fb01db100a3fe4f69872fd9f7" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>Success</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ac8fa701d644fe9fe72335ce96354ceeb" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a2f497651c04cc33f9c55ff44fe8dd22c" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessContentGeo</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ac8832ff604734586865a3d94645f8d37" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessDisjunctive</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a3a0bf6255554a705540f1070b4ff31ed" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessJoin</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a4b12b9412ebf0fa0300569712bf1c3a1" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessSpatialJoin</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a822a56f969befb47ae4910de5c5b30ef" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessTraversal</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1ad22d83f11a221d1e0965f9754925cc10" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>SuccessVectorGeo</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a2784a5f34ed36b4a6844271651c63053" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>traversal</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1af1a36dbf2ee2e76ae24748d4fbe84561" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult</scope><name>vector_geo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

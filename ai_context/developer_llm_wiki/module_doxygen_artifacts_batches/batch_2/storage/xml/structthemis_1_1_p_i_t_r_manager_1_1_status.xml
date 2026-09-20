@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_p_i_t_r_manager_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PITRManager::Status</compoundname>
+    <includes refid="pitr__manager_8h" local="no">pitr_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1a50a5601c74090dab96c045f30a46da38" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PITRManager::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::PITRManager::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="134" column="14" bodyfile="include/storage/pitr_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1ad0cbfbf1ba6340d70b55630f91188360" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PITRManager::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::PITRManager::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="135" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1af05eab883b4e226aa11fb03b8cd75b63" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref> &gt;</type>
+        <definition>std::optional&lt;RestoreProgress&gt; themis::PITRManager::Status::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::PITRManager::Status::progress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="136" column="23" bodyfile="include/storage/pitr_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::PITRManager::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::PITRManager::Status::OK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="138" column="23" bodyfile="include/storage/pitr_manager.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::PITRManager::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::PITRManager::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="139" column="23" bodyfile="include/storage/pitr_manager.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0811b6982b205c47c4e64e1abf7d1f6d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::PITRManager::Status::WithProgress</definition>
+        <argsstring>(RestoreProgress prog)</argsstring>
+        <name>WithProgress</name>
+        <qualifiedname>themis::PITRManager::Status::WithProgress</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref></type>
+          <declname>prog</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="140" column="23" bodyfile="include/storage/pitr_manager.h" bodystart="140" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref> result for operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/pitr_manager.h" line="133" column="5" bodyfile="include/storage/pitr_manager.h" bodystart="133" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1ad0cbfbf1ba6340d70b55630f91188360" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a50a5601c74090dab96c045f30a46da38" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>ok</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1af05eab883b4e226aa11fb03b8cd75b63" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>progress</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0811b6982b205c47c4e64e1abf7d1f6d" prot="public" virt="non-virtual"><scope>themis::PITRManager::Status</scope><name>WithProgress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

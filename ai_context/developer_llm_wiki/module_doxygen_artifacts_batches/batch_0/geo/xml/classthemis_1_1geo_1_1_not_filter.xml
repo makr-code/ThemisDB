@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_not_filter" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::NotFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" prot="public" virt="non-virtual">themis::geo::ISpatialJoinFilter</basecompoundref>
+    <includes refid="spatial__join__filter_8h" local="no">spatial_join_filter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_not_filter_1a8ea30a741bc9ef0a209a099785f54453" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ISpatialJoinFilter&gt; themis::geo::NotFilter::inner_</definition>
+        <argsstring></argsstring>
+        <name>inner_</name>
+        <qualifiedname>themis::geo::NotFilter::inner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="134" column="21" bodyfile="include/geo/spatial_join_filter.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_not_filter_1a74d6f1bb8d01e4e5f680c0b6afde9bed" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::NotFilter::NotFilter</definition>
+        <argsstring>(std::shared_ptr&lt; ISpatialJoinFilter &gt; inner)</argsstring>
+        <name>NotFilter</name>
+        <qualifiedname>themis::geo::NotFilter::NotFilter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>inner</declname>
+        </param>
+        <briefdescription>
+<para>Not Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="125" column="14" bodyfile="include/geo/spatial_join_filter.h" bodystart="125" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_not_filter_1ade902e7cdaabb4effeb8c0dd6fb49004" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::NotFilter::matches</definition>
+        <argsstring>(const IGeoJSONGeometry &amp;a, const IGeoJSONGeometry &amp;b) const override</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::geo::NotFilter::matches</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1a5bf70906dfdc5934ea6377aa01e9758c">matches</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="128" column="11" bodyfile="include/geo/spatial_join_filter.h" bodystart="128" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::NotFilter</label>
+        <link refid="classthemis_1_1geo_1_1_not_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::NotFilter</label>
+        <link refid="classthemis_1_1geo_1_1_not_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/spatial_join_filter.h" line="118" column="1" bodyfile="include/geo/spatial_join_filter.h" bodystart="118" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_not_filter_1a8ea30a741bc9ef0a209a099785f54453" prot="private" virt="non-virtual"><scope>themis::geo::NotFilter</scope><name>inner_</name></member>
+      <member refid="classthemis_1_1geo_1_1_not_filter_1ade902e7cdaabb4effeb8c0dd6fb49004" prot="public" virt="virtual"><scope>themis::geo::NotFilter</scope><name>matches</name></member>
+      <member refid="classthemis_1_1geo_1_1_not_filter_1a74d6f1bb8d01e4e5f680c0b6afde9bed" prot="public" virt="non-virtual"><scope>themis::geo::NotFilter</scope><name>NotFilter</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1ada2b261151f8bd9dc7d82edb21f9c41b" prot="public" virt="virtual"><scope>themis::geo::NotFilter</scope><name>~ISpatialJoinFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm__wiki_1_1_process_policy_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::ProcessPolicyManager</compoundname>
+    <includes refid="process__policy__manager_8h" local="no">process_policy_manager.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_process_policy_manager_1ac0f0f3dcd20e2a6ace8a2d390dd067b7" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>ProcessPolicyStatus themis::llm_wiki::ProcessPolicyManager::loadFromYaml</definition>
+        <argsstring>(const std::filesystem::path &amp;yaml_path, LLMWikiProcessPolicy &amp;out_policy) noexcept</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyManager::loadFromYaml</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kindref="compound">LLMWikiProcessPolicy</ref> &amp;</type>
+          <declname>out_policy</declname>
+        </param>
+        <briefdescription>
+<para>Load policy from YAML file and validate invariants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to YAML policy file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Materialized policy on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status code and error message if failed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="123" column="33" bodyfile="src/llm_wiki/process_policy_manager.cpp" bodystart="198" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_process_policy_manager_1aff81c49b0e6d52d098ea072649c08b04" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kindref="compound">ProcessPolicyStatus</ref></type>
+        <definition>ProcessPolicyStatus themis::llm_wiki::ProcessPolicyManager::validate</definition>
+        <argsstring>(const LLMWikiProcessPolicy &amp;policy) noexcept</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm_wiki::ProcessPolicyManager::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kindref="compound">LLMWikiProcessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Validate a materialized policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Materialized policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status code and validation message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="133" column="33" bodyfile="src/llm_wiki/process_policy_manager.cpp" bodystart="315" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Loads and validates LLM Wiki YAML process policies. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/process_policy_manager.h" line="114" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="114" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1ac0f0f3dcd20e2a6ace8a2d390dd067b7" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyManager</scope><name>loadFromYaml</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1aff81c49b0e6d52d098ea072649c08b04" prot="public" virt="non-virtual"><scope>themis::llm_wiki::ProcessPolicyManager</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

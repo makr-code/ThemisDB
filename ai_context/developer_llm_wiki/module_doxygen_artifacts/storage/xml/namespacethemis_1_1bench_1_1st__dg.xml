@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1st__dg" kind="namespace" language="C++">
+    <compoundname>themis::bench::st_dg</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l" prot="public">themis::bench::st_dg::BenchWAL</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1st__dg_1_1_bench_k_v_index" prot="public">themis::bench::st_dg::BenchKVIndex</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1st__dg_1_1_bench_compaction_checker" prot="public">themis::bench::st_dg::BenchCompactionChecker</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1st__dg_1_1_index_seeder" prot="public">themis::bench::st_dg::IndexSeeder</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a50f8ac256a1db03278881f6978db6fba" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::st_dg::kStDgSeed</definition>
+        <argsstring></argsstring>
+        <name>kStDgSeed</name>
+        <qualifiedname>themis::bench::st_dg::kStDgSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="46" column="32" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a42ac431763cb5accb84cbfe2ca056969" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::st_dg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::st_dg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="47" column="32" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1aa7929d5e15e177b6ae32a4e7bb487f98" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::st_dg::kKeySpace</definition>
+        <argsstring></argsstring>
+        <name>kKeySpace</name>
+        <qualifiedname>themis::bench::st_dg::kKeySpace</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="48" column="32" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a3a847bd608bbe2bc82d6286de55d4d93" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l" kindref="compound">BenchWAL</ref></type>
+        <definition>BenchWAL themis::bench::st_dg::g_wal</definition>
+        <argsstring></argsstring>
+        <name>g_wal</name>
+        <qualifiedname>themis::bench::st_dg::g_wal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="119" column="29" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1aec1e890b7c79558bbeaf285dc612e5da" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1bench_1_1st__dg_1_1_bench_k_v_index" kindref="compound">BenchKVIndex</ref></type>
+        <definition>BenchKVIndex themis::bench::st_dg::g_index</definition>
+        <argsstring></argsstring>
+        <name>g_index</name>
+        <qualifiedname>themis::bench::st_dg::g_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="120" column="29" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a85f652fe5a226d194418c35e3e31ae71" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1st__dg_1_1_bench_compaction_checker" kindref="compound">BenchCompactionChecker</ref></type>
+        <definition>BenchCompactionChecker themis::bench::st_dg::g_compaction_checker(32)</definition>
+        <argsstring>(32)</argsstring>
+        <name>g_compaction_checker</name>
+        <qualifiedname>themis::bench::st_dg::g_compaction_checker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="121" column="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a91bf5f1853d8aafdce58c7b041c465ae" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; themis::bench::st_dg::g_keys</definition>
+        <argsstring></argsstring>
+        <name>g_keys</name>
+        <qualifiedname>themis::bench::st_dg::g_keys</qualifiedname>
+        <initializer>= make_keys()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="130" column="26" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1a49bda2bfeab3a68f4d4ad28154ce1299" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; themis::bench::st_dg::g_values</definition>
+        <argsstring></argsstring>
+        <name>g_values</name>
+        <qualifiedname>themis::bench::st_dg::g_values</qualifiedname>
+        <initializer>= make_values()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="138" column="26" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1st__dg_1ac6bc055a9bb65abb6a156963655d449d" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="structthemis_1_1bench_1_1st__dg_1_1_index_seeder" kindref="compound">IndexSeeder</ref></type>
+        <definition>const IndexSeeder themis::bench::st_dg::g_index_seeder</definition>
+        <argsstring></argsstring>
+        <name>g_index_seeder</name>
+        <qualifiedname>themis::bench::st_dg::g_index_seeder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="147" column="26" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a26602c28d03d5345f78209fee2045d19" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::st_dg::make_keys</definition>
+        <argsstring>()</argsstring>
+        <name>make_keys</name>
+        <qualifiedname>themis::bench::st_dg::make_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="123" column="20" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="123" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a9b1788120b73e825efaa184299de223d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::st_dg::make_values</definition>
+        <argsstring>()</argsstring>
+        <name>make_values</name>
+        <qualifiedname>themis::bench::st_dg::make_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="132" column="20" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="132" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a5ec9c9f746b63e2740fc0e23167ce9ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::st_dg::BM_ST_BM_01_KVWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ST_BM_01_KVWrite</name>
+        <qualifiedname>themis::bench::st_dg::BM_ST_BM_01_KVWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="153" column="13" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a801578dc02006e742659ddf2ed3f3e14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::st_dg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;Threads(1)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::st_dg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="164" column="5" declfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" declline="164" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a1698fc9421956ecfbdc0b6b72b429683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::st_dg::BM_ST_BM_02_KVRead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ST_BM_02_KVRead</name>
+        <qualifiedname>themis::bench::st_dg::BM_ST_BM_02_KVRead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="172" column="13" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="172" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a8def11287335366cc10863a9cc82a2a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::st_dg::BM_ST_BM_03_WALReplayThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ST_BM_03_WALReplayThroughput</name>
+        <qualifiedname>themis::bench::st_dg::BM_ST_BM_03_WALReplayThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="192" column="13" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="192" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1st__dg_1a0a550c650cad6ce06297929fcf27b5eb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::st_dg::BM_ST_BM_04_CompactionTriggerCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ST_BM_04_CompactionTriggerCheck</name>
+        <qualifiedname>themis::bench::st_dg::BM_ST_BM_04_CompactionTriggerCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="217" column="13" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="217" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

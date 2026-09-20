@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_adaptive_retrieval" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::AdaptiveRetrieval</compoundname>
+    <includes refid="adaptive__retrieval_8h" local="no">adaptive_retrieval.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_adaptive_retrieval_1aa7cd5cfcfe8adfd518bc13f6a9bab352" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref></type>
+        <definition>AdaptiveRetrievalConfig themis::rag::AdaptiveRetrieval::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="227" column="29" bodyfile="include/rag/adaptive_retrieval.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a6af005898df5054d0892a1b792aa63bd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer" kindref="compound">IComplexityScorer</ref> *</type>
+        <definition>IComplexityScorer* themis::rag::AdaptiveRetrieval::scorer_</definition>
+        <argsstring></argsstring>
+        <name>scorer_</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::scorer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="228" column="23" bodyfile="include/rag/adaptive_retrieval.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::AdaptiveRetrieval::AdaptiveRetrieval</definition>
+        <argsstring>()=default</argsstring>
+        <name>AdaptiveRetrieval</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::AdaptiveRetrieval</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="162" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a42069767e7f8b833ffa568a000f98ffe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::AdaptiveRetrieval::AdaptiveRetrieval</definition>
+        <argsstring>(const AdaptiveRetrievalConfig &amp;config)</argsstring>
+        <name>AdaptiveRetrieval</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::AdaptiveRetrieval</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="167" column="14" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1aea80d0bf00aae5831b2dd783e586d3c7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref></type>
+        <definition>ComplexityAnalysis themis::rag::AdaptiveRetrieval::analyzeComplexity</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>analyzeComplexity</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::analyzeComplexity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Analyse the complexity of <computeroutput>query</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When a custom scorer is registered via <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1ac29d44d8f4215bf69ad1cf7aa9eb9b26" kindref="member">setScorer()</ref> it is called first; the heuristic is used as a fallback when the scorer returns a score of 0 (or when no scorer is set).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detailed complexity analysis. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="179" column="24" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="237" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a1898637f5f2da541c63775623f095606" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_params" kindref="compound">AdaptiveRetrievalParams</ref></type>
+        <definition>AdaptiveRetrievalParams themis::rag::AdaptiveRetrieval::computeParams</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>computeParams</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::computeParams</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Compute retrieval parameters for <computeroutput>query</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aea80d0bf00aae5831b2dd783e586d3c7" kindref="member">analyzeComplexity()</ref> and maps the resulting complexity tier to concrete top_k and similarity_threshold values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended retrieval parameters plus complexity analysis. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="190" column="29" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="344" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1ac29d44d8f4215bf69ad1cf7aa9eb9b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::AdaptiveRetrieval::setScorer</definition>
+        <argsstring>(IComplexityScorer *scorer)</argsstring>
+        <name>setScorer</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::setScorer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_i_complexity_scorer" kindref="compound">IComplexityScorer</ref> *</type>
+          <declname>scorer</declname>
+        </param>
+        <briefdescription>
+<para>Register an optional LLM-based scorer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Scorer.</para>
+<para>Passing nullptr removes the custom scorer (heuristic is used instead).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scorer implementation (lifetime managed by caller).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="218" column="10" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1acf0c903a3590ef8e59e271a4dbe75128" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref> &amp;</type>
+        <definition>const AdaptiveRetrievalConfig &amp; themis::rag::AdaptiveRetrieval::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="221" column="35" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a0932f1402a30895f926f9ef69ceb2d9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::AdaptiveRetrieval::setConfig</definition>
+        <argsstring>(const AdaptiveRetrievalConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_adaptive_retrieval_config" kindref="compound">AdaptiveRetrievalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="224" column="10" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a78def0798039e53a55a2d1cada6832af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref></type>
+        <definition>QueryComplexity themis::rag::AdaptiveRetrieval::scoreToComplexity</definition>
+        <argsstring>(double raw_score)</argsstring>
+        <name>scoreToComplexity</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::scoreToComplexity</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>raw_score</declname>
+        </param>
+        <briefdescription>
+<para>Convert a raw complexity score to a <ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref> tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Score To Complexity.</para>
+<para>Thresholds (inclusive): [0.00, 0.30) → SIMPLE [0.30, 0.55) → MODERATE [0.55, 0.75) → COMPLEX [0.75, 1.00] → VERY_COMPLEX</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raw_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score in [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corresponding complexity tier.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="204" column="28" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="263" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a07d88b69b31d6a079963721c9cf8ebd4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::rag::AdaptiveRetrieval::complexityToString</definition>
+        <argsstring>(QueryComplexity complexity)</argsstring>
+        <name>complexityToString</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::complexityToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref></type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Convert a <ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref> tier to a human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Complexity To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="209" column="23" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="282" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a008ddb301b46c33557fa8f585904790d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_complexity_analysis" kindref="compound">ComplexityAnalysis</ref></type>
+        <definition>ComplexityAnalysis themis::rag::AdaptiveRetrieval::heuristicAnalyze</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>heuristicAnalyze</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::heuristicAnalyze</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic complexity scoring (no LLM required). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="231" column="24" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="165" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a0c1bf42fc4e6b5a8276f30a35a7dcbcf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrieval::complexityToTopK</definition>
+        <argsstring>(QueryComplexity complexity) const</argsstring>
+        <name>complexityToTopK</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::complexityToTopK</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref></type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Map complexity tier to top_k. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="234" column="12" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="297" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_adaptive_retrieval_1a2e4abe665b9961d83624c44d0c16206a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::AdaptiveRetrieval::complexityToThreshold</definition>
+        <argsstring>(QueryComplexity complexity) const</argsstring>
+        <name>complexityToThreshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrieval::complexityToThreshold</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1ad13733e97cd29cce127a585def6e45f3" kindref="member">QueryComplexity</ref></type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Map complexity tier to similarity threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="237" column="12" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="325" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Computes adaptive retrieval parameters based on query complexity. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal">AdaptiveRetrievalConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.base_top_k<sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_top_k<sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" kindref="member">AdaptiveRetrieval</ref><sp/>ar(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>params<sp/>=<sp/>ar.computeParams(</highlight><highlight class="stringliteral">&quot;Who<sp/>invented<sp/>the<sp/>transistor<sp/>and<sp/>when?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>params.top_k<sp/>≈<sp/>10<sp/>(MODERATE<sp/>query)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>params.similarity_threshold<sp/>≈<sp/>0.60</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>vector_index.search(query_vec,<sp/>params.top_k,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>params.similarity_threshold);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/adaptive_retrieval.h" line="157" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="157" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aabe810602e9a5871f47d51587d1da11c" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>AdaptiveRetrieval</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a42069767e7f8b833ffa568a000f98ffe" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>AdaptiveRetrieval</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aea80d0bf00aae5831b2dd783e586d3c7" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>analyzeComplexity</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a07d88b69b31d6a079963721c9cf8ebd4" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>complexityToString</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a2e4abe665b9961d83624c44d0c16206a" prot="private" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>complexityToThreshold</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a0c1bf42fc4e6b5a8276f30a35a7dcbcf" prot="private" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>complexityToTopK</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a1898637f5f2da541c63775623f095606" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>computeParams</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1aa7cd5cfcfe8adfd518bc13f6a9bab352" prot="private" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1acf0c903a3590ef8e59e271a4dbe75128" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a008ddb301b46c33557fa8f585904790d" prot="private" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>heuristicAnalyze</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a6af005898df5054d0892a1b792aa63bd" prot="private" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>scorer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a78def0798039e53a55a2d1cada6832af" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>scoreToComplexity</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1a0932f1402a30895f926f9ef69ceb2d9a" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_adaptive_retrieval_1ac29d44d8f4215bf69ad1cf7aa9eb9b26" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrieval</scope><name>setScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

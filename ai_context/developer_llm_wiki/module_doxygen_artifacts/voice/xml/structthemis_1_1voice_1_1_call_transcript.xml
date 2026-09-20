@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_call_transcript" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::CallTranscript</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_transcript_1abdc64396ebd73b508a0e04252de14847" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::CallTranscript::call_id</definition>
+        <argsstring></argsstring>
+        <name>call_id</name>
+        <qualifiedname>themis::voice::CallTranscript::call_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="75" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_transcript_1abe7254c5233dd36210bbb20f928cd75e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::CallTranscript::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::CallTranscript::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="76" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_transcript_1af3f4b812cd5dc1f502dc7d350844c760" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::CallTranscript::is_final</definition>
+        <argsstring></argsstring>
+        <name>is_final</name>
+        <qualifiedname>themis::voice::CallTranscript::is_final</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="77" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_transcript_1a40f9415d4887262f10ec95ca129680a1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::CallTranscript::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::CallTranscript::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="78" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_transcript_1a77594fcf92b5136d75c494dfefe81dd1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::CallTranscript::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::CallTranscript::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="79" column="17" bodyfile="include/voice/voice_telephony.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Incremental STT result forwarded from the voice pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors the fields used by <ref refid="classthemis_1_1voice_1_1_voice_streaming_session" kindref="compound">VoiceStreamingSession</ref> to keep APIs consistent. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="74" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="74" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_call_transcript_1abdc64396ebd73b508a0e04252de14847" prot="public" virt="non-virtual"><scope>themis::voice::CallTranscript</scope><name>call_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_transcript_1a40f9415d4887262f10ec95ca129680a1" prot="public" virt="non-virtual"><scope>themis::voice::CallTranscript</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_transcript_1af3f4b812cd5dc1f502dc7d350844c760" prot="public" virt="non-virtual"><scope>themis::voice::CallTranscript</scope><name>is_final</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_transcript_1abe7254c5233dd36210bbb20f928cd75e" prot="public" virt="non-virtual"><scope>themis::voice::CallTranscript</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_transcript_1a77594fcf92b5136d75c494dfefe81dd1" prot="public" virt="non-virtual"><scope>themis::voice::CallTranscript</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

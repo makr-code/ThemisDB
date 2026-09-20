@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1compression_1_1_compression_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::compression::CompressionResult</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_result_1a26229a84617cbfb215174f1eb12c5ca0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::compression::CompressionResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::compression::CompressionResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="85" column="17" bodyfile="include/storage/compression_strategy.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_result_1ad82fc423a7420a865dca6aed4bced478" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+        <definition>CompressionMethod themis::compression::CompressionResult::method_used</definition>
+        <argsstring></argsstring>
+        <name>method_used</name>
+        <qualifiedname>themis::compression::CompressionResult::method_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="86" column="23" bodyfile="include/storage/compression_strategy.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_result_1ad20c6fddcd86e8d40583d4006f83d011" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::compression::CompressionResult::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themis::compression::CompressionResult::original_size</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="87" column="12" bodyfile="include/storage/compression_strategy.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_result_1af2e74057e75ccae0174b3a9e115d7264" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::compression::CompressionResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::compression::CompressionResult::compression_ratio</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="88" column="11" bodyfile="include/storage/compression_strategy.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_result_1a915904b6b3f03519620d018da107c2fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::compression::CompressionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::compression::CompressionResult::success</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="89" column="10" bodyfile="include/storage/compression_strategy.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1compression_1_1_compression_result_1a4e414456e3f44109e23d47f28250e1cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::compression::CompressionResult::CompressionResult</definition>
+        <argsstring>()</argsstring>
+        <name>CompressionResult</name>
+        <qualifiedname>themis::compression::CompressionResult::CompressionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="91" column="5" bodyfile="include/storage/compression_strategy.h" bodystart="91" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/compression_strategy.h" line="84" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="84" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1af2e74057e75ccae0174b3a9e115d7264" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1a4e414456e3f44109e23d47f28250e1cb" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>CompressionResult</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1a26229a84617cbfb215174f1eb12c5ca0" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>data</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1ad82fc423a7420a865dca6aed4bced478" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>method_used</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1ad20c6fddcd86e8d40583d4006f83d011" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>original_size</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_result_1a915904b6b3f03519620d018da107c2fb" prot="public" virt="non-virtual"><scope>themis::compression::CompressionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

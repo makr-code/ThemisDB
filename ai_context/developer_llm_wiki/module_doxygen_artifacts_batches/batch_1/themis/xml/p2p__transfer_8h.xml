@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="p2p__transfer_8h" kind="file" language="C++">
+    <compoundname>p2p_transfer.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="device__discovery_8h" local="yes">themis/gpu/device_discovery.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>themis/edition.h</label>
+        <link refid="edition_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis/gpu/device_discovery.h</label>
+        <link refid="device__discovery_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/p2p_transfer.h</label>
+        <link refid="p2p__transfer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager" prot="public">themis::gpu::GPUP2PTransferManager</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" prot="public">themis::gpu::GPUP2PTransferManager::TransferRequest</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" prot="public">themis::gpu::GPUP2PTransferManager::TransferResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" prot="public">themis::gpu::GPUP2PTransferManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_pair_info" prot="private">themis::gpu::GPUP2PTransferManager::PairInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="device__discovery_8h" kindref="compound">themis/gpu/device_discovery.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae012afe4765f50531b90f8db218bf1cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae012afe4765f50531b90f8db218bf1cc" kindref="member">FEATURE_DISABLED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba1392ec0f4cd63fc7281cbb1e1ef79a62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba1392ec0f4cd63fc7281cbb1e1ef79a62" kindref="member">PEER_ACCESS_NOT_SUPPORTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba3b3317363372e1a291f34c96dfcbd3b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba3b3317363372e1a291f34c96dfcbd3b1" kindref="member">PEER_ACCESS_ALREADY_ENABLED</ref>,</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae6b72f0ced6ab8b67020fa5055688a30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebae6b72f0ced6ab8b67020fa5055688a30" kindref="member">PEER_ACCESS_NOT_ENABLED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba148e069c03dea724f9401060aee30ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba148e069c03dea724f9401060aee30ca3" kindref="member">INVALID_DEVICE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba25c5b26be4eebc0ac7ce0fa56dd199ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eba25c5b26be4eebc0ac7ce0fa56dd199ce" kindref="member">TRANSFER_FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebac56ddb8056b120c9d5fee05981f219c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15ebac56ddb8056b120c9d5fee05981f219c6" kindref="member">OUT_OF_MEMORY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transfer<sp/>request<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" kindref="compound">TransferRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1ae66576dbac4a8b1419db54035eb7c943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1ae66576dbac4a8b1419db54035eb7c943" kindref="member">src_device</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1aef51b451f0a61f75861696767f4e0691" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1aef51b451f0a61f75861696767f4e0691" kindref="member">dst_device</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a2afe902bb4b69a4ab9850bee60c20cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a2afe902bb4b69a4ab9850bee60c20cb2" kindref="member">src_ptr</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a8b723bede3c98289e7e4f7f814f80988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a8b723bede3c98289e7e4f7f814f80988" kindref="member">dst_ptr</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a3a4d1eb4ff670225fe00ab94b22760c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a3a4d1eb4ff670225fe00ab94b22760c5" kindref="member">size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transfer<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" kindref="compound">TransferResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1ad05c2f2d24d6e301b0a4eec019f4f57f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1ad05c2f2d24d6e301b0a4eec019f4f57f" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1a11adac9b0db5e221af1ad719c933a07f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1a11adac9b0db5e221af1ad719c933a07f" kindref="member">bytes_transferred</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1a9223eaa9eeadb5bc03c616bffd45d98e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result_1a9223eaa9eeadb5bc03c616bffd45d98e" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5fff1687556726091c114b90b3425583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5fff1687556726091c114b90b3425583" kindref="member">total_transfers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a274b6aee2762ca11b4f3be291e703378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a274b6aee2762ca11b4f3be291e703378" kindref="member">bytes_transferred</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5066ce62a8f3cbfb550246fd7115a3c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5066ce62a8f3cbfb550246fd7115a3c1" kindref="member">nvlink_transfers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1ae624e9037afb0fb2fefcafb73f66ff8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1ae624e9037afb0fb2fefcafb73f66ff8e" kindref="member">pcie_transfers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a4c7286fc39f40e3ca38bd81f302fcc03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a4c7286fc39f40e3ca38bd81f302fcc03" kindref="member">cpu_fallback_transfers</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a2c285608d7b2f1ebb7ba8441cd396740" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a2c285608d7b2f1ebb7ba8441cd396740" kindref="member">failed_transfers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a472d80734700078d6ce57c7151aa860c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a472d80734700078d6ce57c7151aa860c" kindref="member">peer_access_enabled_count</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a83d3f94e4306ac4a939afdeeb8658022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a83d3f94e4306ac4a939afdeeb8658022" kindref="member">peer_access_disabled_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a004c6ebce8ffef907d2c242471c6fafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a004c6ebce8ffef907d2c242471c6fafa" kindref="member">GetInstance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a91576ac9b6c7aa96aafa8eb5b6a02f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a91576ac9b6c7aa96aafa8eb5b6a02f5f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad3ea4b803ca2304103c4c8ea9fbdd0cd" kindref="member">GPUP2PTransferManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2ea9985dcedf9ca548bdc0a2459ccdea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a2ea9985dcedf9ca548bdc0a2459ccdea" kindref="member">GPUP2PTransferManager</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1abadbc7297a0e8267d8ffcc4476decb33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1abadbc7297a0e8267d8ffcc4476decb33" kindref="member">~GPUP2PTransferManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Peer<sp/>access<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a741fd3cfd47db6ba922c8037590973a7" kindref="member">canAccessPeer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_device,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_device,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" kindref="member">enablePeerAccess</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_device,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_device,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">Status</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" kindref="member">disablePeerAccess</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_device,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_device);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a26ff5fa7c27f3b0a7584d3d48e08b3da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a26ff5fa7c27f3b0a7584d3d48e08b3da" kindref="member">isPeerAccessEnabled</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_device,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_device)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_result" kindref="compound">TransferResult</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" kindref="compound">TransferRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;&amp;<sp/>devices<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>/<sp/>reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae3e85254a74f1e737e518b8211eb36a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ae3e85254a74f1e737e518b8211eb36a3" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a7ecccb1890f677ffad52898458c23716" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a7ecccb1890f677ffad52898458c23716" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enabled<sp/>peer-access<sp/>pairs:<sp/>key<sp/>=<sp/>pairKey(src,<sp/>dst),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>value<sp/>=<sp/>{src_device_index,<sp/>dst_device_index}<sp/>(hardware<sp/>ordinals,<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>array<sp/>indices)<sp/>stored<sp/>at<sp/>enablePeerAccess<sp/>time<sp/>so<sp/>that<sp/>disablePeerAccess</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>can<sp/>issue<sp/>the<sp/>correct<sp/>cudaSetDevice<sp/>/<sp/>hipSetDevice<sp/>call<sp/>without<sp/>needing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>device<sp/>list<sp/>again.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PairInfo<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src_device_index<sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst_device_index<sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint32_t,<sp/>PairInfo&gt;<sp/>enabled_pairs_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>pairKey(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(src)<sp/>&lt;&lt;<sp/>16)<sp/>|</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dst<sp/>&amp;<sp/>0xFFFF);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="namespacethemis_1_1gpu_1a89a20c783cdd398568211bc41bd29f0d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1gpu_1a89a20c783cdd398568211bc41bd29f0d" kindref="member">p2pStatusName</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad544262a673b856567e519157cac15eb" kindref="member">GPUP2PTransferManager::Status</ref><sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/p2p_transfer.h"/>
+  </compounddef>
+</doxygen>

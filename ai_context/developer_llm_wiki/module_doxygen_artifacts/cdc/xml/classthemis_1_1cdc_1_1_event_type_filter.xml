@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_event_type_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::EventTypeFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_event_filter" prot="public" virt="non-virtual">themis::cdc::IEventFilter</basecompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_event_type_filter_1a35a7c363e978f50f853cade07f2d5096" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::EventTypeFilter::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::cdc::EventTypeFilter::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="145" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_event_type_filter_1a74074ab064a7731733c0eac42e5b9cf7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref> &gt;</type>
+        <definition>std::vector&lt;Changefeed::ChangeEventType&gt; themis::cdc::EventTypeFilter::types_</definition>
+        <argsstring></argsstring>
+        <name>types_</name>
+        <qualifiedname>themis::cdc::EventTypeFilter::types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="146" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_event_type_filter_1a5c514e002c47892a72d3981e9f21ec90" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::EventTypeFilter::EventTypeFilter</definition>
+        <argsstring>(std::string name, std::vector&lt; Changefeed::ChangeEventType &gt; types)</argsstring>
+        <name>EventTypeFilter</name>
+        <qualifiedname>themis::cdc::EventTypeFilter::EventTypeFilter</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref> &gt;</type>
+          <declname>types</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="124" column="5" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_event_type_filter_1ad9ba639734bd91981a129cc17db3ada7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>FilterResult themis::cdc::EventTypeFilter::evaluate</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const noexcept override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::cdc::EventTypeFilter::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a58670484e3fe0e056674a898e78c86d6">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="128" column="18" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="128" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_event_type_filter_1a658407d4ee8c89054011aa6c21be99cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::EventTypeFilter::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cdc::EventTypeFilter::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a385a5c1a468ddc4f75ffab8c2149582f">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="142" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::EventTypeFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_event_type_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cdc::EventTypeFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_event_type_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="122" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="122" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_event_type_filter_1ad9ba639734bd91981a129cc17db3ada7" prot="public" virt="virtual"><scope>themis::cdc::EventTypeFilter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_event_type_filter_1a5c514e002c47892a72d3981e9f21ec90" prot="public" virt="non-virtual"><scope>themis::cdc::EventTypeFilter</scope><name>EventTypeFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_event_type_filter_1a658407d4ee8c89054011aa6c21be99cd" prot="public" virt="virtual"><scope>themis::cdc::EventTypeFilter</scope><name>name</name></member>
+      <member refid="classthemis_1_1cdc_1_1_event_type_filter_1a35a7c363e978f50f853cade07f2d5096" prot="private" virt="non-virtual"><scope>themis::cdc::EventTypeFilter</scope><name>name_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_event_type_filter_1a74074ab064a7731733c0eac42e5b9cf7" prot="private" virt="non-virtual"><scope>themis::cdc::EventTypeFilter</scope><name>types_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1ad47cd016fe06b408ca021af83d61ecce" prot="public" virt="virtual"><scope>themis::cdc::EventTypeFilter</scope><name>~IEventFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

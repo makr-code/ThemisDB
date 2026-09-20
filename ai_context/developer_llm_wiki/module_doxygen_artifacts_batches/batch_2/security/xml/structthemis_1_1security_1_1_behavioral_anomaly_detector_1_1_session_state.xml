@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::BehavioralAnomalyDetector::SessionState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state_1a6e872b02b044d4653564df0f145ae223" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1security_1_1_access_event" kindref="compound">AccessEvent</ref> &gt;</type>
+        <definition>std::deque&lt;AccessEvent&gt; themis::security::BehavioralAnomalyDetector::SessionState::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::SessionState::events</qualifiedname>
+        <briefdescription>
+<para>Ring buffer (oldest at front). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="117" column="20" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state_1a3461d81f250103d0aa19c53f2c5209c6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+        <definition>ThreatLevel themis::security::BehavioralAnomalyDetector::SessionState::peak_level</definition>
+        <argsstring></argsstring>
+        <name>peak_level</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::SessionState::peak_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ThreatLevel::LOW</ref></initializer>
+        <briefdescription>
+<para>Highest level seen so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="118" column="21" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/behavioral_anomaly_detector.h" line="116" column="5" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="116" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state_1a6e872b02b044d4653564df0f145ae223" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::SessionState</scope><name>events</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_session_state_1a3461d81f250103d0aa19c53f2c5209c6" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::SessionState</scope><name>peak_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

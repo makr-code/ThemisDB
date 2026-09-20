@@ -1,0 +1,653 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::InfiniAttentionCUDA</compoundname>
+    <includes refid="infini__attention__cuda_8h" local="no">infini_attention_cuda.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1afb76b11c38227789f544d8388d0253e1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref></type>
+        <definition>InfiniAttentionConfig themis::llm::attention::InfiniAttentionCUDA::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="126" column="27" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a0700ef853420817d67c48e7d965907b6" prot="private" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::llm::attention::InfiniAttentionCUDA::gpu_memory_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::gpu_memory_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="128" column="11" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6f53d2f58b8e5198cddda854b642056a" prot="private" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::llm::attention::InfiniAttentionCUDA::gpu_memory_update_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_update_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::gpu_memory_update_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="130" column="11" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a567919bd747fa9a90379604afdcf0b7a" prot="private" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::llm::attention::InfiniAttentionCUDA::gpu_temp_buffer_</definition>
+        <argsstring></argsstring>
+        <name>gpu_temp_buffer_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::gpu_temp_buffer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="132" column="11" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a27d2a48b2b831225d34857e4de491f5f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::InfiniAttentionCUDA::gpu_memory_size_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_size_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::gpu_memory_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="134" column="12" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8c6da86df34d2aaba8345ca3107c7eb3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCUDA::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="136" column="10" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1aa9bc7c05044adefccd6fa81a1e028081" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::InfiniAttentionCUDA::InfiniAttentionCUDA</definition>
+        <argsstring>(const InfiniAttentionConfig &amp;config)</argsstring>
+        <name>InfiniAttentionCUDA</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::InfiniAttentionCUDA</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Infini Attention CUDA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="63" column="14" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="10" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6903058265ca51ed8f5f068b52ae08de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::InfiniAttentionCUDA::~InfiniAttentionCUDA</definition>
+        <argsstring>()</argsstring>
+        <name>~InfiniAttentionCUDA</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::~InfiniAttentionCUDA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a4480c7d1b378ebb4e0062882ee3fd0eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="71" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1aa7a566d48ee2768ab20bc9e65f50882b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O, const KVCacheManager *kv_cache=nullptr)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kindref="compound">KVCacheManager</ref> *</type>
+          <declname>kv_cache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="73" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="23" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a7475d0a6799152f9fd72ffd075c4d793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="88" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ac6b55010e7c53233a3e0d180df7bff7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::attention::InfiniAttentionCUDA::getBackendName</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::getBackendName</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="98" column="17" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ad0cfd031386445147ee80116d63ff35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::resetMemory</definition>
+        <argsstring>()</argsstring>
+        <name>resetMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::resetMemory</qualifiedname>
+        <briefdescription>
+<para>Reset Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="104" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8d3471db8236e7299ef06b7ce5a89a84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::InfiniAttentionCUDA::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="110" column="26" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ad207a9ce191e7353054b3e6e3265e9b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::attention::InfiniAttentionCUDA::getCompressiveMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::getCompressiveMemory</qualifiedname>
+        <briefdescription>
+<para>Get Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="116" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ae219e85e2b4ecfca46da766aa3f9fd04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::restoreCompressiveMemory</definition>
+        <argsstring>(const Tensor &amp;checkpoint)</argsstring>
+        <name>restoreCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::restoreCompressiveMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Restore Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="123" column="12" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="66" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a808f80a54af860d2f880a7500401cde9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::computeLocalAttention</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O_local)</argsstring>
+        <name>computeLocalAttention</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::computeLocalAttention</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_local</declname>
+        </param>
+        <briefdescription>
+<para>Compute Local Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O_local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="146" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a9e05ee722e2fd0018788b3048a0caa20" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::computeCompressiveAttention</definition>
+        <argsstring>(const Tensor &amp;Q, Tensor &amp;O_comp)</argsstring>
+        <name>computeCompressiveAttention</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::computeCompressiveAttention</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_comp</declname>
+        </param>
+        <briefdescription>
+<para>Compute Compressive Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O_comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="158" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6aa03d51f20f26f3c21a7beb8039814b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::blendOutputs</definition>
+        <argsstring>(const Tensor &amp;O_local, const Tensor &amp;O_comp, Tensor &amp;O_final)</argsstring>
+        <name>blendOutputs</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::blendOutputs</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_comp</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O_final</declname>
+        </param>
+        <briefdescription>
+<para>Blend Outputs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">O_local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">O_comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O_final</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="169" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a5ce0da9e9b8f25e01369a1241c9566a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::InfiniAttentionCUDA::updateCompressiveMemory</definition>
+        <argsstring>(const Tensor &amp;K, const Tensor &amp;V)</argsstring>
+        <name>updateCompressiveMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::updateCompressiveMemory</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+<para>Update Compressive Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="180" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6f486b7bf6913f9d2311369642e74d61" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float *</type>
+        <definition>float * themis::llm::attention::InfiniAttentionCUDA::allocateGPUMemory</definition>
+        <argsstring>(size_t size_bytes)</argsstring>
+        <name>allocateGPUMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::allocateGPUMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Allocate GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="189" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8c3dd90bc7096b3d62b8b19b6d85b982" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::InfiniAttentionCUDA::releaseGPUMemory</definition>
+        <argsstring>()</argsstring>
+        <name>releaseGPUMemory</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCUDA::releaseGPUMemory</qualifiedname>
+        <briefdescription>
+<para>Release GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="194" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="56" column="1" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="56" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6f486b7bf6913f9d2311369642e74d61" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>allocateGPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a7475d0a6799152f9fd72ffd075c4d793" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6aa03d51f20f26f3c21a7beb8039814b" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>blendOutputs</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a9e05ee722e2fd0018788b3048a0caa20" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>computeCompressiveAttention</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a808f80a54af860d2f880a7500401cde9" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>computeLocalAttention</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1afb76b11c38227789f544d8388d0253e1" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1aa7a566d48ee2768ab20bc9e65f50882b" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ac6b55010e7c53233a3e0d180df7bff7f" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ad207a9ce191e7353054b3e6e3265e9b6" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>getCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8d3471db8236e7299ef06b7ce5a89a84" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a0700ef853420817d67c48e7d965907b6" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>gpu_memory_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a27d2a48b2b831225d34857e4de491f5f" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>gpu_memory_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6f53d2f58b8e5198cddda854b642056a" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>gpu_memory_update_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a567919bd747fa9a90379604afdcf0b7a" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>gpu_temp_buffer_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1aa9bc7c05044adefccd6fa81a1e028081" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>InfiniAttentionCUDA</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a4480c7d1b378ebb4e0062882ee3fd0eb" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8c6da86df34d2aaba8345ca3107c7eb3" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a8c3dd90bc7096b3d62b8b19b6d85b982" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>releaseGPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ad0cfd031386445147ee80116d63ff35e" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>resetMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1ae219e85e2b4ecfca46da766aa3f9fd04" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>restoreCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a5ce0da9e9b8f25e01369a1241c9566a1" prot="private" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>updateCompressiveMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a_1a6903058265ca51ed8f5f068b52ae08de" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCUDA</scope><name>~InfiniAttentionCUDA</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

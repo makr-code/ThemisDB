@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_framework_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceFrameworkLoader</compoundname>
+    <includes refid="compliance__mapping_8h" local="no">compliance_mapping.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a9f6c833d751d3cb8f57d4bd926630cc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadAllFrameworks</definition>
+        <argsstring>()</argsstring>
+        <name>loadAllFrameworks</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadAllFrameworks</qualifiedname>
+        <briefdescription>
+<para>Load All Frameworks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="40" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="23" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1ad265f8ff84276320e8302598d193c3dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadFramework</definition>
+        <argsstring>(ComplianceFramework fw)</argsstring>
+        <name>loadFramework</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadFramework</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw</declname>
+        </param>
+        <briefdescription>
+<para>Load Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="47" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="40" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a69dee270eb797eb30f3fa4d54461d743" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadFromFile</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="55" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="63" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a47f9456eb26e21112dd957c72bd52e9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceFrameworkLoader::validateFramework</definition>
+        <argsstring>(const ComplianceFrameworkRegistry &amp;registry)</argsstring>
+        <name>validateFramework</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::validateFramework</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Validate Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements validateFramework without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="63" column="17" bodyfile="src/governance/compliance_mapping.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a94bb2bd0bdcec353a54d688eb909fa60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceFrameworkLoader::getFrameworkVersion</definition>
+        <argsstring>(ComplianceFramework fw)</argsstring>
+        <name>getFrameworkVersion</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::getFrameworkVersion</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw</declname>
+        </param>
+        <briefdescription>
+<para>Get Framework Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getFrameworkVersion without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="70" column="24" bodyfile="src/governance/compliance_mapping.cpp" bodystart="111" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a88cf7117af662e68e5fd6db4b1472ee7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadIso27001</definition>
+        <argsstring>()</argsstring>
+        <name>loadIso27001</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadIso27001</qualifiedname>
+        <briefdescription>
+<para>Load Iso27001. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="77" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="135" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a0880fad8d39eb1f30fbcb701f6083202" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadSoc2</definition>
+        <argsstring>()</argsstring>
+        <name>loadSoc2</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadSoc2</qualifiedname>
+        <briefdescription>
+<para>Load Soc2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="82" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="287" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a4512eb8b19eddbec0932970ac79c6e75" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadGdpr</definition>
+        <argsstring>()</argsstring>
+        <name>loadGdpr</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadGdpr</qualifiedname>
+        <briefdescription>
+<para>Load Gdpr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="87" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="345" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a16a659c8871efc1d13410c33cd58ba2e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadCcpa</definition>
+        <argsstring>()</argsstring>
+        <name>loadCcpa</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadCcpa</qualifiedname>
+        <briefdescription>
+<para>Load Ccpa. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="92" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="403" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a0bd13d4a5e26927582b765f22e34ed33" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadHipaa</definition>
+        <argsstring>()</argsstring>
+        <name>loadHipaa</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadHipaa</qualifiedname>
+        <briefdescription>
+<para>Load Hipaa. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="97" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="429" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a6ec93f1734b09d02bc0f762898c3039b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadPciDss</definition>
+        <argsstring>()</argsstring>
+        <name>loadPciDss</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadPciDss</qualifiedname>
+        <briefdescription>
+<para>Load Pci Dss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="102" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="455" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_framework_loader_1a799ace03230c72fad4b4b5a932d1db84" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_framework_registry" kindref="compound">ComplianceFrameworkRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ComplianceFrameworkRegistry &gt; themis::governance::ComplianceFrameworkLoader::loadEuAiAct</definition>
+        <argsstring>()</argsstring>
+        <name>loadEuAiAct</name>
+        <qualifiedname>themis::governance::ComplianceFrameworkLoader::loadEuAiAct</qualifiedname>
+        <briefdescription>
+<para>Load Eu Ai Act. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="107" column="28" bodyfile="src/governance/compliance_mapping.cpp" bodystart="481" bodyend="503"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="34" column="1" bodyfile="include/governance/compliance_mapping.h" bodystart="34" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a94bb2bd0bdcec353a54d688eb909fa60" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>getFrameworkVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a9f6c833d751d3cb8f57d4bd926630cc3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadAllFrameworks</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a16a659c8871efc1d13410c33cd58ba2e" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadCcpa</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a799ace03230c72fad4b4b5a932d1db84" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadEuAiAct</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1ad265f8ff84276320e8302598d193c3dd" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a69dee270eb797eb30f3fa4d54461d743" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a4512eb8b19eddbec0932970ac79c6e75" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadGdpr</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a0bd13d4a5e26927582b765f22e34ed33" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadHipaa</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a88cf7117af662e68e5fd6db4b1472ee7" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadIso27001</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a6ec93f1734b09d02bc0f762898c3039b" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadPciDss</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a0880fad8d39eb1f30fbcb701f6083202" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>loadSoc2</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_framework_loader_1a47f9456eb26e21112dd957c72bd52e9e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceFrameworkLoader</scope><name>validateFramework</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

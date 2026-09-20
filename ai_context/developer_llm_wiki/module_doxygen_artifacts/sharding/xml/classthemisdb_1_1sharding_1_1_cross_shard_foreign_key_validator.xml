@@ -1,0 +1,776 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardForeignKeyValidator</compoundname>
+    <includes refid="cross__shard__fk__validator_8h" local="no">cross_shard_fk_validator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;shard_id, const std::string &amp;table, const std::string &amp;column, const std::string &amp;key_value)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardForeignKeyValidator::KeyExistsCallback = std::function&lt;bool(
+       const std::string&amp; shard_id,
+       const std::string&amp; table,
+       const std::string&amp; column,
+       const std::string&amp; key_value
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyExistsCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::KeyExistsCallback</qualifiedname>
+        <briefdescription>
+<para>Callback to test whether a specific key exists in a shard table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true → the row exists (parent present / child not cascadable); false → the key is absent.</para>
+</simplesect>
+The callback must not throw. If the shard is unreachable the callback should return false; the validator treats an absent parent as a constraint violation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="171" column="5" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;shard_id, const std::string &amp;child_table, const std::string &amp;child_column, const std::string &amp;parent_value)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardForeignKeyValidator::ChildExistsCallback = std::function&lt;bool(
+       const std::string&amp; shard_id,
+       const std::string&amp; child_table,
+       const std::string&amp; child_column,
+       const std::string&amp; parent_value
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>ChildExistsCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::ChildExistsCallback</qualifiedname>
+        <briefdescription>
+<para>Callback to test whether any child row references a parent key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used during parent-table DELETE checks (RESTRICT semantics).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>child_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table with the FK column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>child_column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FK column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent key value being deleted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true → at least one child row references <computeroutput>parent_value</computeroutput>; false → no referencing child rows found.</para>
+</simplesect>
+Must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="192" column="5" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ada944d70dc0b822ebda0b5de02bd64fd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardForeignKeyValidator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects all mutable state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="330" column="24" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a066b01054b75d2048d6e5f2a53466dd8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref> &gt;</type>
+        <definition>std::vector&lt;CrossShardFKConstraint&gt; themisdb::sharding::CrossShardForeignKeyValidator::constraints_</definition>
+        <argsstring></argsstring>
+        <name>constraints_</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::constraints_</qualifiedname>
+        <briefdescription>
+<para>Registered FK constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="331" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aa64503c7fd89d12f8803e3a1ea2cf602" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" kindref="member">KeyExistsCallback</ref></type>
+        <definition>KeyExistsCallback themisdb::sharding::CrossShardForeignKeyValidator::key_exists_cb_</definition>
+        <argsstring></argsstring>
+        <name>key_exists_cb_</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::key_exists_cb_</qualifiedname>
+        <briefdescription>
+<para>Parent-key lookup callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="332" column="23" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a12e559654b5cfb94a8924ac383b8ff16" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" kindref="member">ChildExistsCallback</ref></type>
+        <definition>ChildExistsCallback themisdb::sharding::CrossShardForeignKeyValidator::child_exists_cb_</definition>
+        <argsstring></argsstring>
+        <name>child_exists_cb_</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::child_exists_cb_</qualifiedname>
+        <briefdescription>
+<para>Child-row lookup callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="333" column="25" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a05674f08ecbf54fb6d42334711bfb1cb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::CrossShardForeignKeyValidator::all_shard_ids_</definition>
+        <argsstring></argsstring>
+        <name>all_shard_ids_</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::all_shard_ids_</qualifiedname>
+        <briefdescription>
+<para>All shard IDs for fan-out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="334" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>CrossShardForeignKeyValidator</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="199" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a52421d00f8292918ab7f4cc18cfbccae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</definition>
+        <argsstring>(const CrossShardForeignKeyValidator &amp;)=delete</argsstring>
+        <name>CrossShardForeignKeyValidator</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</qualifiedname>
+        <param>
+          <type>const CrossShardForeignKeyValidator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="202" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ae737b3da1c42e04d6bae23c1b133a163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref> &amp;</type>
+        <definition>CrossShardForeignKeyValidator &amp; themisdb::sharding::CrossShardForeignKeyValidator::operator=</definition>
+        <argsstring>(const CrossShardForeignKeyValidator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="203" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a53f85588b56042b154610932f6532056" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</definition>
+        <argsstring>(CrossShardForeignKeyValidator &amp;&amp;) noexcept=default</argsstring>
+        <name>CrossShardForeignKeyValidator</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::CrossShardForeignKeyValidator</qualifiedname>
+        <param>
+          <type>CrossShardForeignKeyValidator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="204" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a09886cc788d4139c51e230383acbb59a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref> &amp;</type>
+        <definition>CrossShardForeignKeyValidator &amp; themisdb::sharding::CrossShardForeignKeyValidator::operator=</definition>
+        <argsstring>(CrossShardForeignKeyValidator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" kindref="member">CrossShardForeignKeyValidator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="205" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4bae34d465c37776bfe9e660f1c285c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardForeignKeyValidator::registerConstraint</definition>
+        <argsstring>(const CrossShardFKConstraint &amp;constraint)</argsstring>
+        <name>registerConstraint</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::registerConstraint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref> &amp;</type>
+          <declname>constraint</declname>
+        </param>
+        <briefdescription>
+<para>Register a cross-shard FK constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Constraint.</para>
+<para>Constraints are matched against every transaction operation by (table, column) during <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">validate()</ref>. Registering the same constraint name twice replaces the earlier definition.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully populated constraint definition.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="216" column="10" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="67" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ac5f01cbd406aebc85dbdccbf833a4644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardForeignKeyValidator::removeConstraint</definition>
+        <argsstring>(const std::string &amp;constraint_name)</argsstring>
+        <name>removeConstraint</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::removeConstraint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>constraint_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously registered constraint by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Constraint.</para>
+<para>No-op when the name is unknown.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint to remove.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the constraint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="225" column="10" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="93" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a003e37377cd3ba246b59ca4469f2f07c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardForeignKeyValidator::setKeyExistsCallback</definition>
+        <argsstring>(KeyExistsCallback cb)</argsstring>
+        <name>setKeyExistsCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::setKeyExistsCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" kindref="member">KeyExistsCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Inject the key-existence lookup callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Key Exists Callback.</para>
+<para>Must be set before calling <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">validate()</ref> for INSERT/UPDATE checks. Passing nullptr disables parent-existence checks (violations are reported without performing actual lookups).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback implementing cross-shard key lookup.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="236" column="10" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aee31a7ba2234f88a26b4fd1041e91d28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardForeignKeyValidator::setChildExistsCallback</definition>
+        <argsstring>(ChildExistsCallback cb)</argsstring>
+        <name>setChildExistsCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::setChildExistsCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" kindref="member">ChildExistsCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Inject the child-row existence lookup callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Child Exists Callback.</para>
+<para>Must be set before calling <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">validate()</ref> for DELETE-on-parent checks. Passing nullptr disables child-existence checks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback implementing cross-shard child-row lookup.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="246" column="10" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a6c97e6ce0da0d7a8864e6e5bfff6fe67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardForeignKeyValidator::setAllShardIds</definition>
+        <argsstring>(std::vector&lt; std::string &gt; shard_ids)</argsstring>
+        <name>setAllShardIds</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::setAllShardIds</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Provide the full list of shard IDs in the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set All Shard Ids.</para>
+<para>Used when <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1aaeb3943d861379f91bb1e8117dfdae1b" kindref="member">CrossShardFKConstraint::parent_shard_id</ref> is empty so the validator can fan out the existence check to every shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All shard IDs that can own parent rows.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="256" column="10" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref> &gt;</type>
+        <definition>std::vector&lt; FKViolation &gt; themisdb::sharding::CrossShardForeignKeyValidator::validate</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;shard_operations) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>shard_operations</declname>
+        </param>
+        <briefdescription>
+<para>Validate FK constraints for a pending transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parses the per-shard operation lists, extracts INSERT/UPDATE/DELETE ops, and evaluates every registered FK constraint. Non-deferrable violations must be treated as prepare failures by the caller.</para>
+<para><heading level="3">Operation JSON format</heading>
+</para>
+<para>Each string in <computeroutput>shard_operations</computeroutput> must be a JSON object with at least: <programlisting><codeline><highlight class="normal">{<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">|</highlight><highlight class="stringliteral">&quot;UPDATE&quot;</highlight><highlight class="normal">|</highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;table&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>INSERT/UPDATE<sp/>on<sp/>a<sp/>child<sp/>table:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">:<sp/>{<sp/></highlight><highlight class="stringliteral">&quot;&lt;fk_column&gt;&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;value&gt;&quot;</highlight><highlight class="normal">,<sp/>...<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>DELETE<sp/>on<sp/>a<sp/>parent<sp/>table:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;pk_value&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Operations in unknown tables or with unrelated columns are silently skipped.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global transaction ID (used in log messages). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of shard_id → list of serialised operations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of FK violations; empty on full compliance.</para>
+</simplesect>
+<simplesect kind="note"><para>Deferrable-constraint violations are included in the returned list but flagged with <ref refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a1c1b5cb716756a219e17501cef8754a3" kindref="member">FKViolation::deferrable</ref> = true so the coordinator can decide whether to abort or proceed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="288" column="18" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="156" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4f56a5f9ef2075e96b91cf9978b64ad7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::sharding::CrossShardForeignKeyValidator::constraintCount</definition>
+        <argsstring>() const</argsstring>
+        <name>constraintCount</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::constraintCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of currently registered constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="296" column="18" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="142" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a5dc2f5baaf715a1119694c6b17be222e" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref> &gt;</type>
+        <definition>std::optional&lt; FKViolation &gt; themisdb::sharding::CrossShardForeignKeyValidator::checkParentExists</definition>
+        <argsstring>(const CrossShardFKConstraint &amp;constraint, const std::string &amp;fk_value, const std::string &amp;txn_id) const</argsstring>
+        <name>checkParentExists</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::checkParentExists</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref> &amp;</type>
+          <declname>constraint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fk_value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Check parent-key existence for an INSERT/UPDATE FK column value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The FK constraint being checked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fk_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The FK column value extracted from the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID for log context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional violation; empty means constraint satisfied. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="307" column="20" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="288" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a95dfc497ac5f7bf8a0cf46603854b7b5" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_f_k_violation" kindref="compound">FKViolation</ref> &gt;</type>
+        <definition>std::optional&lt; FKViolation &gt; themisdb::sharding::CrossShardForeignKeyValidator::checkNoChildExists</definition>
+        <argsstring>(const CrossShardFKConstraint &amp;constraint, const std::string &amp;parent_value, const std::string &amp;txn_id) const</argsstring>
+        <name>checkNoChildExists</name>
+        <qualifiedname>themisdb::sharding::CrossShardForeignKeyValidator::checkNoChildExists</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" kindref="compound">CrossShardFKConstraint</ref> &amp;</type>
+          <declname>constraint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Check that no child row references a parent key being deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements RESTRICT semantics: if any child shard has a referencing row the delete must be blocked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The FK constraint being checked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The PK value being deleted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID for log context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional violation; empty means no children found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="324" column="20" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="370" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validates cross-shard foreign-key constraints during 2PC prepare. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Lifecycle</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Register FK constraints with <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4bae34d465c37776bfe9e660f1c285c9" kindref="member">registerConstraint()</ref>.</para>
+</listitem><listitem><para>Inject lookup callbacks via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a003e37377cd3ba246b59ca4469f2f07c" kindref="member">setKeyExistsCallback()</ref> and <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aee31a7ba2234f88a26b4fd1041e91d28" kindref="member">setChildExistsCallback()</ref>.</para>
+</listitem><listitem><para>Register all shard IDs via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a6c97e6ce0da0d7a8864e6e5bfff6fe67" kindref="member">setAllShardIds()</ref> (used when no parent-shard hint is given on a constraint).</para>
+</listitem><listitem><para>The <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">CrossShardTransactionCoordinator</ref> calls <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">validate()</ref> from inside prepare() before dispatching prepare RPCs to participants.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe. The validator is safe to share across concurrent transaction threads. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_fk_validator.h" line="155" column="1" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="155" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a05674f08ecbf54fb6d42334711bfb1cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>all_shard_ids_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a95dfc497ac5f7bf8a0cf46603854b7b5" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>checkNoChildExists</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a5dc2f5baaf715a1119694c6b17be222e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>checkParentExists</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a12e559654b5cfb94a8924ac383b8ff16" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>child_exists_cb_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a600f8674f053423e8963bbb769a7d20c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>ChildExistsCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4f56a5f9ef2075e96b91cf9978b64ad7" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>constraintCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a066b01054b75d2048d6e5f2a53466dd8" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>constraints_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4ecae745c1d289bc59e764573fa33e2a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>CrossShardForeignKeyValidator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a52421d00f8292918ab7f4cc18cfbccae" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>CrossShardForeignKeyValidator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a53f85588b56042b154610932f6532056" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>CrossShardForeignKeyValidator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aa64503c7fd89d12f8803e3a1ea2cf602" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>key_exists_cb_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a993d23b11d7427a00e8de03351563663" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>KeyExistsCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ada944d70dc0b822ebda0b5de02bd64fd" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ae737b3da1c42e04d6bae23c1b133a163" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a09886cc788d4139c51e230383acbb59a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a4bae34d465c37776bfe9e660f1c285c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>registerConstraint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1ac5f01cbd406aebc85dbdccbf833a4644" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>removeConstraint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a6c97e6ce0da0d7a8864e6e5bfff6fe67" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>setAllShardIds</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1aee31a7ba2234f88a26b4fd1041e91d28" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>setChildExistsCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a003e37377cd3ba246b59ca4469f2f07c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>setKeyExistsCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardForeignKeyValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

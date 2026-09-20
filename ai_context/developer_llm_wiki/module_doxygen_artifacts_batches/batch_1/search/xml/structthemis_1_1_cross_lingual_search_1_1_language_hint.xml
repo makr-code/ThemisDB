@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cross_lingual_search_1_1_language_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CrossLingualSearch::LanguageHint</compoundname>
+    <includes refid="cross__lingual__search_8h" local="no">cross_lingual_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_language_hint_1aa5d433b21d60face12fe6bc5f1dc47cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CrossLingualSearch::LanguageHint::language_code</definition>
+        <argsstring></argsstring>
+        <name>language_code</name>
+        <qualifiedname>themis::CrossLingualSearch::LanguageHint::language_code</qualifiedname>
+        <briefdescription>
+<para>ISO 639-1 code (e.g. &quot;en&quot;, &quot;de&quot;, &quot;fr&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="104" column="21" bodyfile="include/search/cross_lingual_search.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_language_hint_1a529e37fe777f9f8a8c34246821436374" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::CrossLingualSearch::LanguageHint::boost</definition>
+        <argsstring></argsstring>
+        <name>boost</name>
+        <qualifiedname>themis::CrossLingualSearch::LanguageHint::boost</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Score multiplier (&gt; 1.0 promotes, &lt; 1.0 demotes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="105" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A per-language boost hint. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Results whose document language matches <computeroutput><ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1aa5d433b21d60face12fe6bc5f1dc47cd" kindref="member">language_code</ref></computeroutput> (from the language map) have their final score multiplied by <computeroutput><ref refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1a529e37fe777f9f8a8c34246821436374" kindref="member">boost</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/search/cross_lingual_search.h" line="103" column="5" bodyfile="include/search/cross_lingual_search.h" bodystart="103" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1a529e37fe777f9f8a8c34246821436374" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::LanguageHint</scope><name>boost</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1aa5d433b21d60face12fe6bc5f1dc47cd" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::LanguageHint</scope><name>language_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

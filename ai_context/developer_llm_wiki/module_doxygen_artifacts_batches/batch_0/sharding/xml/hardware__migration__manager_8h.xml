@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hardware__migration__manager_8h" kind="file" language="C++">
+    <compoundname>hardware_migration_manager.h</compoundname>
+    <includes refid="consistent__hash_8h" local="yes">sharding/consistent_hash.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="admin__api_8cpp" local="yes">src/sharding/admin_api.cpp</includedby>
+    <includedby refid="hardware__migration__manager_8cpp" local="yes">src/sharding/hardware_migration_manager.cpp</includedby>
+    <includedby refid="test__sharding__phase5_8cpp" local="yes">tests/sharding/test_sharding_phase5.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/hardware_migration_manager.h</label>
+        <link refid="hardware__migration__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sharding/urn.h</label>
+        <link refid="urn_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>regex</label>
+      </node>
+      <node id="16">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/hardware_migration_manager.h</label>
+        <link refid="hardware__migration__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/hardware_migration_manager.cpp</label>
+        <link refid="hardware__migration__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_node_identity" prot="public">themis::sharding::NodeIdentity</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hardware_migration_config" prot="public">themis::sharding::HardwareMigrationConfig</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hardware_migration_result" prot="public">themis::sharding::HardwareMigrationResult</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_hardware_migration_manager" prot="public">themis::sharding::HardwareMigrationManager</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" prot="public">themis::sharding::HardwareMigrationManager::DrainGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.14 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consistent__hash_8h" kindref="compound">sharding/consistent_hash.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NodeIdentity<sp/>—<sp/>stable<sp/>logical<sp/>identity<sp/>of<sp/>a<sp/>shard<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>persisted<sp/>to<sp/>disk<sp/>and<sp/>transferred<sp/>to<sp/>new<sp/>hardware<sp/>before<sp/>migration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_node_identity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_node_identity" kindref="compound">NodeIdentity</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_node_identity_1a94191b5bc88cc46d3779d6570620ec49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a94191b5bc88cc46d3779d6570620ec49" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stable<sp/>logical<sp/>shard<sp/>ID<sp/>(never<sp/>changes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_node_identity_1a09250de4a65455cf741c6138f6b986d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a09250de4a65455cf741c6138f6b986d0" kindref="member">cluster_name</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cluster<sp/>this<sp/>shard<sp/>belongs<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_node_identity_1a98e82ebfd82e587190b6724885494332" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a98e82ebfd82e587190b6724885494332" kindref="member">token_start</ref>{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>of<sp/>the<sp/>assigned<sp/>token<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_node_identity_1ade68300d9ecd4dcd6ed612bb863acc32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1ade68300d9ecd4dcd6ed612bb863acc32" kindref="member">token_end</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>End<sp/>of<sp/>the<sp/>assigned<sp/>token<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_node_identity_1a68d4e924ef5ea19bcc1a633ac79eb61e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a68d4e924ef5ea19bcc1a633ac79eb61e" kindref="member">created_at</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO-8601<sp/>timestamp<sp/>of<sp/>original<sp/>provisioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_node_identity_1ae853169dcc6381b1f4f7361742a7373e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1ae853169dcc6381b1f4f7361742a7373e" kindref="member">identity_version</ref>;<sp/></highlight><highlight class="comment">//<sp/>Monotonically<sp/>increasing<sp/>version<sp/>tag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1ac53b40c465431944f0c65ccdc6f39da9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;NodeIdentity&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a4861c2d83106fc2f26e037b788f9e077" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="paxos__state__persistence_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a5fe15fe1998bc9c21fd611169842b1c5" kindref="member">saveTo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;NodeIdentity&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_node_identity_1a79119cae8f224e8f106e8a52613d0d66" kindref="member">loadFrom</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HardwareMigrationConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_hardware_migration_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config" kindref="compound">HardwareMigrationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a3e4556450a27456698653d5594f1efa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a3e4556450a27456698653d5594f1efa2" kindref="member">identity_file_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/lib/themisdb/node_identity.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a96f8ca92b3bf0e4969800b2fa07b5945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a96f8ca92b3bf0e4969800b2fa07b5945" kindref="member">drain_period</ref>{60};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a2c5e52da74a5fcb703673c9b4106b7e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a2c5e52da74a5fcb703673c9b4106b7e4" kindref="member">verify_ring_stability</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HardwareMigrationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1sharding_1_1_hardware_migration_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result" kindref="compound">HardwareMigrationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a9b436172acb45dc93e64bdec11904cae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a9b436172acb45dc93e64bdec11904cae" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1ab19ce5114fcbb4a3de11b9d4ad9cc330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1ab19ce5114fcbb4a3de11b9d4ad9cc330" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a35f25c860c21d1fa4e56fbc6d03ecca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a35f25c860c21d1fa4e56fbc6d03ecca2" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1aa12912dc657567a60c55e2d801c760c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1aa12912dc657567a60c55e2d801c760c0" kindref="member">old_endpoint</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a65baabe4a963221721d9f1ffd57f373b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a65baabe4a963221721d9f1ffd57f373b" kindref="member">new_endpoint</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1sharding_1_1_hardware_migration_result_1afd442bdc442aab2e99db0978a9a1d629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result_1afd442bdc442aab2e99db0978a9a1d629" kindref="member">ring_stability_verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HardwareMigrationManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1sharding_1_1_hardware_migration_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ace691477e38580772f77eddcf206d3da" kindref="member">HardwareMigrationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ace691477e38580772f77eddcf206d3da" kindref="member">HardwareMigrationManager</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config" kindref="compound">HardwareMigrationConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/>topology,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConsistentHashRing&gt;<sp/>ring</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Identity<sp/>management<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;NodeIdentity&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a5d06102c797c6d737783998e1389fc20" kindref="member">loadIdentity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;NodeIdentity&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab9b94ab09acbb569b6fe6271345b1af1" kindref="member">createAndSaveIdentity</ref>(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cluster_name,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>token_start,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>token_end</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Endpoint<sp/>replacement<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result" kindref="compound">HardwareMigrationResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a9bb7b937c49264f68affa395c804cc38" kindref="member">replaceEndpoint</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_endpoint</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Ring-stability<sp/>validation<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e224292b013d0f80ca525ccd9601e68" kindref="member">validateRingStability</ref>(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>shard_ids,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>size_t&gt;&amp;<sp/>before_vnode_counts</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1af7d6dd77ddec7540f7a5e314475e2298" kindref="member">captureRingSnapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Drain-period<sp/>enforcement<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1aab2d7f020139a14be7dbc591122bc28e" kindref="member">~DrainGuard</ref>();</highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a08c32773a3bb2f6a48ae38c4c540cfca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a08c32773a3bb2f6a48ae38c4c540cfca" kindref="member">DrainGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1abb02123811ce4ecf72bbe0ccad4b228a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1abb02123811ce4ecf72bbe0ccad4b228a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>(<ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" kindref="member">HardwareMigrationManager</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref>(<ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" kindref="member">HardwareMigrationManager</ref>*<sp/>mgr,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>shard_id);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" kindref="member">HardwareMigrationManager</ref>*<sp/>mgr_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard_id_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>active_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a8c03b813ba5b0228941ac92a6f3511ba" kindref="member">addInFlightRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7117f22714e08ce95dc2381c574d1aaa" kindref="member">releaseInFlightRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e8fbfbd54e1443caca7f2e1db2e8903" kindref="member">inFlightCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>DrainGuard<sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1acbe23e34471b65449175afef073c1a71" kindref="member">makeRequestGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7097824082c82f356b022b1d5520cd61" kindref="member">waitForDrain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>timeout)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>HardwareMigrationConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/><sp/>topology_;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConsistentHashRing&gt;<sp/>ring_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Drain-tracking<sp/>state<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>drain_mutex_;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::condition_variable<sp/>drain_cv_;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><sp/><sp/>in_flight_counts_;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/>captureRingSnapshotLocked()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/hardware_migration_manager.h"/>
+  </compounddef>
+</doxygen>

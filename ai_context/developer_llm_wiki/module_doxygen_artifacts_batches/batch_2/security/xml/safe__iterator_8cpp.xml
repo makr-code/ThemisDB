@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="safe__iterator_8cpp" kind="file" language="C++">
+    <compoundname>safe_iterator.cpp</compoundname>
+    <includes refid="safe__iterator_8h" local="yes">security/safe_iterator.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>security/safe_iterator.h</label>
+        <link refid="safe__iterator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/security/safe_iterator.cpp</label>
+        <link refid="safe__iterator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>iterator</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security_1_1_safe_iterator">themis::security::SafeIterator</innernamespace>
+    <briefdescription>
+<para>Bounds-safe iterator implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Out-of-line definitions for SafeIterator diagnostics and bounds-check error reporting. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="safe__iterator_8h" kindref="compound">security/safe_iterator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>include<sp/>spdlog<sp/>if<sp/>available<sp/>for<sp/>better<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_SPDLOG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security_1_1_safe_iterator" kindref="compound">SafeIterator</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>Most<sp/>SafeIterator<sp/>functionality<sp/>is<sp/>header-only<sp/>(template-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>file<sp/>provides<sp/>explicit<sp/>instantiations<sp/>and<sp/>any<sp/>runtime<sp/>initialization<sp/>if<sp/>needed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InvalidationDetector<sp/>is<sp/>primarily<sp/>managed<sp/>through<sp/>its<sp/>constructor/destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>which<sp/>are<sp/>defined<sp/>inline<sp/>in<sp/>the<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdvanceSafe::advance<sp/>and<sp/>related<sp/>functions<sp/>are<sp/>template-based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>are<sp/>implicitly<sp/>instantiated<sp/>when<sp/>used<sp/>with<sp/>specific<sp/>iterator<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RangeValidator<sp/>is<sp/>a<sp/>class<sp/>template<sp/>and<sp/>follows<sp/>the<sp/>same<sp/>pattern.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BoundsChecker<sp/>functions<sp/>are<sp/>all<sp/>static<sp/>template<sp/>methods,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>implicitly<sp/>instantiated<sp/>when<sp/>called.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>safety<sp/>checks<sp/>and<sp/>logging<sp/>are<sp/>performed<sp/>within<sp/>the<sp/>template<sp/>methods.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>provides<sp/>zero-overhead<sp/>abstraction<sp/>for<sp/>the<sp/>common<sp/>case<sp/>where</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>iterator<sp/>operations<sp/>are<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>SafeIterator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::security</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/security/safe_iterator.cpp"/>
+  </compounddef>
+</doxygen>

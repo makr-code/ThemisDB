@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoTEvaluator::Config</compoundname>
+    <includes refid="cot__evaluator_8h" local="no">cot_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1aa8a62469b3588f188879d0ce2cc0c3b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::CoTEvaluator::Config::num_reasoning_steps</definition>
+        <argsstring></argsstring>
+        <name>num_reasoning_steps</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Config::num_reasoning_steps</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of reasoning steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="54" column="13" bodyfile="include/rag/cot_evaluator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1acf67a10235f1a05a56eb03676382db29" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CoTEvaluator::Config::enable_self_questioning</definition>
+        <argsstring></argsstring>
+        <name>enable_self_questioning</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Config::enable_self_questioning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="55" column="14" bodyfile="include/rag/cot_evaluator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1a6eb159dddb9a1db2aa720b3ba01bd4b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CoTEvaluator::Config::enable_logic_validation</definition>
+        <argsstring></argsstring>
+        <name>enable_logic_validation</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Config::enable_logic_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="56" column="14" bodyfile="include/rag/cot_evaluator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1a57240d09d78050360deb0498f0e7e309" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CoTEvaluator::Config::enable_evidence_gathering</definition>
+        <argsstring></argsstring>
+        <name>enable_evidence_gathering</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::Config::enable_evidence_gathering</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="57" column="14" bodyfile="include/rag/cot_evaluator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for CoT evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/cot_evaluator.h" line="53" column="5" bodyfile="include/rag/cot_evaluator.h" bodystart="53" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1a57240d09d78050360deb0498f0e7e309" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Config</scope><name>enable_evidence_gathering</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1a6eb159dddb9a1db2aa720b3ba01bd4b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Config</scope><name>enable_logic_validation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1acf67a10235f1a05a56eb03676382db29" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Config</scope><name>enable_self_questioning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1aa8a62469b3588f188879d0ce2cc0c3b2" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator::Config</scope><name>num_reasoning_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_passkey_challenge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PasskeyChallenge</compoundname>
+    <includes refid="passkey__authenticator_8h" local="no">passkey_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_challenge_1ae0dfdc247e7cb32b7872235132be78c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyChallenge::challenge_id</definition>
+        <argsstring></argsstring>
+        <name>challenge_id</name>
+        <qualifiedname>themis::auth::PasskeyChallenge::challenge_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="47" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_challenge_1a472f15b7c0975352acc899945adba1ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyChallenge::challenge_bytes_b64</definition>
+        <argsstring></argsstring>
+        <name>challenge_bytes_b64</name>
+        <qualifiedname>themis::auth::PasskeyChallenge::challenge_bytes_b64</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded random challenge (≥ 16 bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="48" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_challenge_1a988982008507aa119409cb011b002bfd" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::PasskeyChallenge::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::auth::PasskeyChallenge::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="49" column="43" bodyfile="include/auth/passkey_authenticator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_passkey_challenge_1a7dad078c701d0699acc9a124466bbd69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PasskeyChallenge::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::PasskeyChallenge::user_id</qualifiedname>
+        <briefdescription>
+<para>Empty for discoverable (usernameless) flow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="50" column="17" bodyfile="include/auth/passkey_authenticator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/passkey_authenticator.h" line="46" column="1" bodyfile="include/auth/passkey_authenticator.h" bodystart="46" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_passkey_challenge_1a472f15b7c0975352acc899945adba1ea" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyChallenge</scope><name>challenge_bytes_b64</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_challenge_1ae0dfdc247e7cb32b7872235132be78c3" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyChallenge</scope><name>challenge_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_challenge_1a988982008507aa119409cb011b002bfd" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyChallenge</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_passkey_challenge_1a7dad078c701d0699acc9a124466bbd69" prot="public" virt="non-virtual"><scope>themis::auth::PasskeyChallenge</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

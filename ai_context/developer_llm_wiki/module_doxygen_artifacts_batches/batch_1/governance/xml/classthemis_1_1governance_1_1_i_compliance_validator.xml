@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_i_compliance_validator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::governance::IComplianceValidator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_ccpa_validator" prot="public" virt="non-virtual">themis::governance::CcpaValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_eu_ai_act_validator" prot="public" virt="non-virtual">themis::governance::EuAiActValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_gdpr_validator" prot="public" virt="non-virtual">themis::governance::GdprValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_hipaa_validator" prot="public" virt="non-virtual">themis::governance::HipaaValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_iso27001_validator" prot="public" virt="non-virtual">themis::governance::Iso27001Validator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_pci_dss_validator" prot="public" virt="non-virtual">themis::governance::PciDssValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_soc2_validator" prot="public" virt="non-virtual">themis::governance::Soc2Validator</derivedcompoundref>
+    <includes refid="compliance__validator_8h" local="no">compliance_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1a6acacf1b60b005c458e2ff3a7ff3979e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::governance::IComplianceValidator::~IComplianceValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IComplianceValidator</name>
+        <qualifiedname>themis::governance::IComplianceValidator::~IComplianceValidator</qualifiedname>
+        <briefdescription>
+<para>ICompliance Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="43" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1ad12bce1c3ec4734f4e2e2b370e5d66ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>virtual ComplianceFramework themis::governance::IComplianceValidator::getFramework</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getFramework</name>
+        <qualifiedname>themis::governance::IComplianceValidator::getFramework</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_ccpa_validator_1ad5101bff2ded0b7df5a65d71d495b988">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_eu_ai_act_validator_1a31dbb87b51a290b237ee9ebd82b22b6a">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_gdpr_validator_1af4f67298e5d00210d985295ed0a0154f">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_hipaa_validator_1a6a90c4c8d2a9863d486ce0b76e670537">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_validator_1ac4efb2d8dd0764e453bd892203f1af9f">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_pci_dss_validator_1a1fe411aed147a69f06e8608104e42e81">getFramework</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_validator_1a37ac5f7a79d6a668f7b97e044318d298">getFramework</reimplementedby>
+        <briefdescription>
+<para>Get Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="49" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1a95688465cbfa96b03f64fe4f8f06bc2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>virtual ComplianceStatus themis::governance::IComplianceValidator::validateRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx)=0</argsstring>
+        <name>validateRequirement</name>
+        <qualifiedname>themis::governance::IComplianceValidator::validateRequirement</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_ccpa_validator_1aa529bf821e0a0a89231a03e7418f6ca4">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_eu_ai_act_validator_1a0d5a4fbb8401de67915e32a97703d81b">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_gdpr_validator_1aa2178af610709e5b0111a205489c12e2">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_hipaa_validator_1ae2535ed8fedb59a35566679de5119db2">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_validator_1a3a4ff036b9aace90c8863c1045cabcd1">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_pci_dss_validator_1a05184716da69ef129df036e3962ea253">validateRequirement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_validator_1a85edb1e38212e3fecac5bc4c12e379c2">validateRequirement</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="57" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1a689f41c7561c0c5efb9188943c897840" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>virtual ComplianceStatus themis::governance::IComplianceValidator::validateControl</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx)=0</argsstring>
+        <name>validateControl</name>
+        <qualifiedname>themis::governance::IComplianceValidator::validateControl</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_ccpa_validator_1a1c6afc2fb73e7c9fabee844536f4bee9">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_eu_ai_act_validator_1a19e6d73a83c70f94e1b677d9692de264">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_gdpr_validator_1a5140770bc0e879d7f364cf7b3cbf585c">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_hipaa_validator_1a22a81ddd3d9f20d9880ac16458e22b8b">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_validator_1aadbbbc42b7e5e23a5478c97ee9b51e62">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_pci_dss_validator_1acdd688ea7b6f61b2b4b36a6923b84d0e">validateControl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_validator_1a1fcb84b6f1671328a36a0fc611a04fab">validateControl</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="67" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1ab512a65887aa840db5881d02379acab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ComplianceEvidence &gt; themis::governance::IComplianceValidator::collectEvidence</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx)=0</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::IComplianceValidator::collectEvidence</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_ccpa_validator_1a489917a0d8f7e368aca9cdd5c44e3842">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_eu_ai_act_validator_1a758770c2851c027f2d8a5f6d35600e03">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_gdpr_validator_1a11ed11460f9ff2d3cc0da87869ef4a37">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_hipaa_validator_1a52a1897be9bac9175afab40dcec5e374">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_validator_1abc20547aabf37a3baa0c504974e39be4">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_pci_dss_validator_1a11c3b18fdd819d1b9a67a8a1719d41ed">collectEvidence</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_validator_1af925e3ed2343cebdeb74abf4626e5853">collectEvidence</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="77" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_compliance_validator_1a048d627bf3a7dcefc85fc34e204611a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::governance::IComplianceValidator::checkPolicySatisfaction</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx)=0</argsstring>
+        <name>checkPolicySatisfaction</name>
+        <qualifiedname>themis::governance::IComplianceValidator::checkPolicySatisfaction</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_ccpa_validator_1a7e9cd43eceba067cc24b200b9cbdcdf4">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_eu_ai_act_validator_1a4f0f0db504d555824d75b02eb6f55cb1">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_gdpr_validator_1a990dde64bd650576ae194e97f0540260">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_hipaa_validator_1a464fe9e1fbc5e07a84d8863565a637d5">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_iso27001_validator_1ae7b728b76f08c8e810e16ad9f4550dbb">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_pci_dss_validator_1ad24e79f473161430fbedc4351b970a15">checkPolicySatisfaction</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_validator_1a6ca81d51423ee1c8e59cff424c5d949d">checkPolicySatisfaction</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Check Policy Satisfaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="87" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::CcpaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_ccpa_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::governance::EuAiActValidator</label>
+        <link refid="classthemis_1_1governance_1_1_eu_ai_act_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::governance::GdprValidator</label>
+        <link refid="classthemis_1_1governance_1_1_gdpr_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::governance::HipaaValidator</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+      <node id="6">
+        <label>themis::governance::Iso27001Validator</label>
+        <link refid="classthemis_1_1governance_1_1_iso27001_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::governance::PciDssValidator</label>
+        <link refid="classthemis_1_1governance_1_1_pci_dss_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::governance::Soc2Validator</label>
+        <link refid="classthemis_1_1governance_1_1_soc2_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/governance/compliance_validator.h" line="37" column="1" bodyfile="include/governance/compliance_validator.h" bodystart="37" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a048d627bf3a7dcefc85fc34e204611a2" prot="public" virt="pure-virtual"><scope>themis::governance::IComplianceValidator</scope><name>checkPolicySatisfaction</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1ab512a65887aa840db5881d02379acab4" prot="public" virt="pure-virtual"><scope>themis::governance::IComplianceValidator</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1ad12bce1c3ec4734f4e2e2b370e5d66ba" prot="public" virt="pure-virtual"><scope>themis::governance::IComplianceValidator</scope><name>getFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a689f41c7561c0c5efb9188943c897840" prot="public" virt="pure-virtual"><scope>themis::governance::IComplianceValidator</scope><name>validateControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a95688465cbfa96b03f64fe4f8f06bc2f" prot="public" virt="pure-virtual"><scope>themis::governance::IComplianceValidator</scope><name>validateRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a6acacf1b60b005c458e2ff3a7ff3979e" prot="public" virt="virtual"><scope>themis::governance::IComplianceValidator</scope><name>~IComplianceValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

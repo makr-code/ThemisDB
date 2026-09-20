@@ -1,0 +1,1424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_base_entity" kind="class" language="C++" prot="public">
+    <compoundname>themis::BaseEntity</compoundname>
+    <includes refid="base__entity_8h" local="no">base_entity.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Format</name>
+        <qualifiedname>themis::BaseEntity::Format</qualifiedname>
+        <enumvalue id="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214a98ad0e8750ae10ad556ed7a62affb452" prot="public">
+          <name>BINARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Storage format type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="72" column="5" bodyfile="include/storage/base_entity.h" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" prot="public" static="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>using themis::BaseEntity::Blob = std::vector&lt;uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Blob</name>
+        <qualifiedname>themis::BaseEntity::Blob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="67" column="5" bodyfile="include/storage/base_entity.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_base_entity_1a244709f47367dafe2455ac71dcb2398a" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::BaseEntity::Attributes = std::map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Attributes</name>
+        <qualifiedname>themis::BaseEntity::Attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="68" column="5" bodyfile="include/storage/base_entity.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" prot="public" static="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> &gt;</type>
+        <definition>using themis::BaseEntity::FieldMap = std::map&lt;std::string, Value&gt;</definition>
+        <argsstring></argsstring>
+        <name>FieldMap</name>
+        <qualifiedname>themis::BaseEntity::FieldMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="69" column="5" bodyfile="include/storage/base_entity.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a19600276770046149aa4f0657fa1defc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BaseEntity::primary_key_</definition>
+        <argsstring></argsstring>
+        <name>primary_key_</name>
+        <qualifiedname>themis::BaseEntity::primary_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="259" column="17" bodyfile="include/storage/base_entity.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a22c6947a7f6ff3249c9cf56e318ac557" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref></type>
+        <definition>Blob themis::BaseEntity::blob_</definition>
+        <argsstring></argsstring>
+        <name>blob_</name>
+        <qualifiedname>themis::BaseEntity::blob_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="260" column="10" bodyfile="include/storage/base_entity.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1aff1b9cfb04774bf31daf2c5437f8b68c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" kindref="member">Format</ref></type>
+        <definition>Format themis::BaseEntity::format_</definition>
+        <argsstring></argsstring>
+        <name>format_</name>
+        <qualifiedname>themis::BaseEntity::format_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214a98ad0e8750ae10ad556ed7a62affb452" kindref="member">Format::BINARY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="261" column="12" bodyfile="include/storage/base_entity.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a94674b8a282869c5e81a548f82dd73c2" prot="private" static="no" mutable="yes">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FieldMap&gt; themis::BaseEntity::field_cache_</definition>
+        <argsstring></argsstring>
+        <name>field_cache_</name>
+        <qualifiedname>themis::BaseEntity::field_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="264" column="29" bodyfile="include/storage/base_entity.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a211c3a97e4ab49775461cb57e4e3df46" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::cache_valid_</definition>
+        <argsstring></argsstring>
+        <name>cache_valid_</name>
+        <qualifiedname>themis::BaseEntity::cache_valid_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="265" column="18" bodyfile="include/storage/base_entity.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a7753fd199ec1bba79e68525dad0fbf0d" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::parse_failed_</definition>
+        <argsstring></argsstring>
+        <name>parse_failed_</name>
+        <qualifiedname>themis::BaseEntity::parse_failed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="266" column="18" bodyfile="include/storage/base_entity.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1a6cf530767d36fb7a5741991b576fb50a" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> &gt;</type>
+        <definition>std::optional&lt;Blob&gt; themis::BaseEntity::geometry_</definition>
+        <argsstring></argsstring>
+        <name>geometry_</name>
+        <qualifiedname>themis::BaseEntity::geometry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="269" column="19" bodyfile="include/storage/base_entity.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_base_entity_1af978f802b13bd98c2cec8203a4aa0769" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; geo::GeoSidecar &gt;</type>
+        <definition>std::optional&lt;geo::GeoSidecar&gt; themis::BaseEntity::geo_sidecar_</definition>
+        <argsstring></argsstring>
+        <name>geo_sidecar_</name>
+        <qualifiedname>themis::BaseEntity::geo_sidecar_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="270" column="19" bodyfile="include/storage/base_entity.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BaseEntity::BaseEntity</definition>
+        <argsstring>()=default</argsstring>
+        <name>BaseEntity</name>
+        <qualifiedname>themis::BaseEntity::BaseEntity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a1e79fcbe2afcddd1261c0d745ac64340" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BaseEntity::BaseEntity</definition>
+        <argsstring>(std::string_view pk)</argsstring>
+        <name>BaseEntity</name>
+        <qualifiedname>themis::BaseEntity::BaseEntity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct an entity with the given primary key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary key used to identify the entity in storage. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="83" column="14" bodyfile="src/storage/base_entity.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a73ae39810ead5a4d37dabf86cf9d3893" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BaseEntity::BaseEntity</definition>
+        <argsstring>(std::string_view pk, const FieldMap &amp;fields)</argsstring>
+        <name>BaseEntity</name>
+        <qualifiedname>themis::BaseEntity::BaseEntity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref> &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="84" column="5" bodyfile="src/storage/base_entity.cpp" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a2930975f8ea346b15eadc1c2c7502f2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BaseEntity::BaseEntity</definition>
+        <argsstring>(std::string_view pk, Blob blob, Format format=Format::BINARY)</argsstring>
+        <name>BaseEntity</name>
+        <qualifiedname>themis::BaseEntity::BaseEntity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref></type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" kindref="member">Format</ref></type>
+          <declname>format</declname>
+          <defval><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214a98ad0e8750ae10ad556ed7a62affb452" kindref="member">Format::BINARY</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="85" column="5" bodyfile="src/storage/base_entity.cpp" bodystart="46" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a01601a3393032ef63344bba642f876f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::BaseEntity::getPrimaryKey</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrimaryKey</name>
+        <qualifiedname>themis::BaseEntity::getPrimaryKey</qualifiedname>
+        <briefdescription>
+<para>Get primary key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="88" column="23" bodyfile="include/storage/base_entity.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1aa91fea188e6413b0e3fde324d63f1dc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::setPrimaryKey</definition>
+        <argsstring>(std::string_view pk)</argsstring>
+        <name>setPrimaryKey</name>
+        <qualifiedname>themis::BaseEntity::setPrimaryKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Set primary key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="91" column="10" bodyfile="include/storage/base_entity.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ae555bc8825c23f934397860c7e3cb2c1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> &amp;</type>
+        <definition>const Blob &amp; themis::BaseEntity::getBlob</definition>
+        <argsstring>() const</argsstring>
+        <name>getBlob</name>
+        <qualifiedname>themis::BaseEntity::getBlob</qualifiedname>
+        <briefdescription>
+<para>Get binary blob. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="94" column="16" bodyfile="include/storage/base_entity.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1aa4267ac0c52914d28c80a73ccef0583f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::setBlob</definition>
+        <argsstring>(Blob blob, Format format=Format::BINARY)</argsstring>
+        <name>setBlob</name>
+        <qualifiedname>themis::BaseEntity::setBlob</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref></type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" kindref="member">Format</ref></type>
+          <declname>format</declname>
+          <defval><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214a98ad0e8750ae10ad556ed7a62affb452" kindref="member">Format::BINARY</ref></defval>
+        </param>
+        <briefdescription>
+<para>Set binary blob (invalidates cache). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> Management =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), invalidateCache(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="97" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ac403ba29de41b66ef608e23f2795af36" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" kindref="member">Format</ref></type>
+        <definition>Format themis::BaseEntity::getFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>getFormat</name>
+        <qualifiedname>themis::BaseEntity::getFormat</qualifiedname>
+        <briefdescription>
+<para>Get storage format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="100" column="12" bodyfile="include/storage/base_entity.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a1d6c7bf32a147d95cce90393c34fa230" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::hasField</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>hasField</name>
+        <qualifiedname>themis::BaseEntity::hasField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if field exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="105" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a8799310e4df4eb9024b0e96172a97e97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> &gt;</type>
+        <definition>std::optional&lt; Value &gt; themis::BaseEntity::getField</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getField</name>
+        <qualifiedname>themis::BaseEntity::getField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field value (returns nullopt if not found). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="108" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ab7e697a9e9fb403805a210715003faee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::BaseEntity::getFieldString</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldString</name>
+        <qualifiedname>themis::BaseEntity::getFieldString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Convenience helpers returning defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="111" column="17" bodyfile="src/storage/base_entity.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a8abac257d122679704e881702a606bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::BaseEntity::getFieldInt</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldInt</name>
+        <qualifiedname>themis::BaseEntity::getFieldInt</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the named field as a signed 64-bit integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Field value converted to int64_t, or 0 when the field is absent or cannot be converted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="119" column="13" bodyfile="src/storage/base_entity.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a8fd4b87f060f28695f63ee45c885341d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::BaseEntity::getFieldAsString</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsString</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as string (with type conversion). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="122" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="147" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a49573dfdf6d86a1e32706676bb3bf0cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt; int64_t &gt; themis::BaseEntity::getFieldAsInt</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsInt</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsInt</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as int64. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="125" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="168" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a7855cae0bc1d2d194f01a84c1f6d754e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::BaseEntity::getFieldAsDouble</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsDouble</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsDouble</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as double. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="128" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="199" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ae0742c46c326734b303ba916e7c08860" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt; bool &gt; themis::BaseEntity::getFieldAsBool</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsBool</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsBool</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="131" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="216" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a322932f100261c6a94f3b37ca9390cd0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::BaseEntity::getFieldAsVector</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsVector</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsVector</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as float vector (for embeddings). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="134" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="233" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a34bfb109cc7428fc10a78553ccb041bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; std::string &gt; &gt; themis::BaseEntity::getFieldAsStringArray</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getFieldAsStringArray</name>
+        <qualifiedname>themis::BaseEntity::getFieldAsStringArray</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Get field as a string array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decoded string array, or std::nullopt when the field is absent or cannot be interpreted as a string list.</para>
+</simplesect>
+Attempts to decode the named field as an ordered list of strings. The following encodings are recognised, in priority order: 1. A JSON array stored as a plain string value, e.g. <computeroutput>["a","b","c"]</computeroutput>. 2. A comma-separated plain string (legacy format, backward-compatible read). Returns <computeroutput>std::nullopt</computeroutput> when the field is absent or cannot be decoded as any string-like type. Returns an empty vector for an empty array or an empty string. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="143" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="248" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::setField</definition>
+        <argsstring>(std::string_view field_name, const Value &amp;value)</argsstring>
+        <name>setField</name>
+        <qualifiedname>themis::BaseEntity::setField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set field value (modifies blob) Sets a field in the entity&apos;s field map, triggering a blob rebuild for serialization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Field.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements fail-closed validation: rejects empty field_name to prevent silent field map corruption.<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field identifier (non-empty std::string_view required)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> to set for this field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para><bold>Fail-Closed Behavior:</bold> If field_name is empty, this method logs an error and returns without modifying the field cache. This prevents creating corrupt field map entries with empty keys that would propagate through <ref refid="classthemis_1_1_base_entity_1a615e77fd0805788eedf6a0d62ec14146" kindref="member">getAllFields()</ref> and <ref refid="classthemis_1_1_base_entity_1a8a518cef4af69da174e9e3e6fde7da22" kindref="member">toJson()</ref> calls. </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1_base_entity_1a615e77fd0805788eedf6a0d62ec14146" kindref="member">getAllFields()</ref>, <ref refid="classthemis_1_1_base_entity_1a8a518cef4af69da174e9e3e6fde7da22" kindref="member">toJson()</ref> — downstream methods that depend on valid field keys</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), ensureCache(), use_count(), std::string(), rebuildBlob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="151" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="313" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a615e77fd0805788eedf6a0d62ec14146" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref></type>
+        <definition>BaseEntity::FieldMap themis::BaseEntity::getAllFields</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllFields</name>
+        <qualifiedname>themis::BaseEntity::getAllFields</qualifiedname>
+        <briefdescription>
+<para>Get all fields (full parse). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="154" column="14" bodyfile="src/storage/base_entity.cpp" bodystart="327" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1af69c8e67a9bebbd89542bf55e5f2f245" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref></type>
+        <definition>BaseEntity::Blob themis::BaseEntity::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::BaseEntity::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize current fields to binary blob. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="159" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="628" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a8a518cef4af69da174e9e3e6fde7da22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::BaseEntity::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::BaseEntity::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="162" column="17" bodyfile="src/storage/base_entity.cpp" bodystart="638" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1abd7ff71f2f4626de061622de30792f31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::BaseEntity::extractField</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>extractField</name>
+        <qualifiedname>themis::BaseEntity::extractField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Extract a single field without fully deserializing the entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to extract. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String value for the field, or std::nullopt when the field is absent or not representable as a string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="182" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="735" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a1aaef9b2764535a6148644e22f602664" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::BaseEntity::extractVector</definition>
+        <argsstring>(std::string_view field_name=&quot;embedding&quot;) const</argsstring>
+        <name>extractVector</name>
+        <qualifiedname>themis::BaseEntity::extractVector</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+          <defval>&quot;embedding&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract vector embedding field (for ANN index). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="185" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="741" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a115c5aed5e4778a7232cf8ac0f17d51e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::hasGeometry</definition>
+        <argsstring>() const</argsstring>
+        <name>hasGeometry</name>
+        <qualifiedname>themis::BaseEntity::hasGeometry</qualifiedname>
+        <briefdescription>
+<para>Check if entity has geometry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="190" column="10" bodyfile="include/storage/base_entity.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a70bf6dbeda224eb31ceea25b19759ef6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::optional&lt; <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> &gt; &amp;</type>
+        <definition>const std::optional&lt; Blob &gt; &amp; themis::BaseEntity::getGeometry</definition>
+        <argsstring>() const</argsstring>
+        <name>getGeometry</name>
+        <qualifiedname>themis::BaseEntity::getGeometry</qualifiedname>
+        <briefdescription>
+<para>Get geometry blob (EWKB format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="193" column="25" bodyfile="include/storage/base_entity.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1af0cf41562ddea0767167ad6f516f2f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::setGeometry</definition>
+        <argsstring>(const Blob &amp;ewkb)</argsstring>
+        <name>setGeometry</name>
+        <qualifiedname>themis::BaseEntity::setGeometry</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> &amp;</type>
+          <declname>ewkb</declname>
+        </param>
+        <briefdescription>
+<para>Set geometry blob (EWKB format). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Geo Support (Cross-Cutting Capability) =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ewkb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: geo::EWKBParser::parse(), geo::EWKBParser::computeSidecar(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="196" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="796" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a30b921b3ab5107fba1d1c41ffda9324f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::optional&lt; geo::GeoSidecar &gt; &amp;</type>
+        <definition>const std::optional&lt; geo::GeoSidecar &gt; &amp; themis::BaseEntity::getGeoSidecar</definition>
+        <argsstring>() const</argsstring>
+        <name>getGeoSidecar</name>
+        <qualifiedname>themis::BaseEntity::getGeoSidecar</qualifiedname>
+        <briefdescription>
+<para>Get geo sidecar (MBR, centroid, z-range). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="199" column="25" bodyfile="include/storage/base_entity.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a87d643d532a5ef6d677ea439dcc5e5d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::setGeoSidecar</definition>
+        <argsstring>(const geo::GeoSidecar &amp;sidecar)</argsstring>
+        <name>setGeoSidecar</name>
+        <qualifiedname>themis::BaseEntity::setGeoSidecar</qualifiedname>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Set geo sidecar (computed from geometry). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Geo Sidecar.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGeoSidecar without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="202" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="814" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a7d38b30457fcc3c786000b9e5694141b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::clearGeometry</definition>
+        <argsstring>()</argsstring>
+        <name>clearGeometry</name>
+        <qualifiedname>themis::BaseEntity::clearGeometry</qualifiedname>
+        <briefdescription>
+<para>Clear geometry (remove geo capability). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Geometry.</para>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="205" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="822" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a65590f8e7adc471fcfe3bd57291b75be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a244709f47367dafe2455ac71dcb2398a" kindref="member">Attributes</ref></type>
+        <definition>BaseEntity::Attributes themis::BaseEntity::extractAllFields</definition>
+        <argsstring>() const</argsstring>
+        <name>extractAllFields</name>
+        <qualifiedname>themis::BaseEntity::extractAllFields</qualifiedname>
+        <briefdescription>
+<para>Return all indexable fields as name/value string pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by secondary index maintenance paths that need a string-only view of the entity state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="215" column="16" bodyfile="src/storage/base_entity.cpp" bodystart="745" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1abd9c1cd8f8ad00bcc3b1a85414317f17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a244709f47367dafe2455ac71dcb2398a" kindref="member">Attributes</ref></type>
+        <definition>BaseEntity::Attributes themis::BaseEntity::extractFieldsWithPrefix</definition>
+        <argsstring>(std::string_view prefix) const</argsstring>
+        <name>extractFieldsWithPrefix</name>
+        <qualifiedname>themis::BaseEntity::extractFieldsWithPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract fields matching a prefix (e.g., &quot;metadata.*&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="218" column="16" bodyfile="src/storage/base_entity.cpp" bodystart="768" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a5ab8caab91585acfda710f94bafb8564" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::hasRotatedEmbedding</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>hasRotatedEmbedding</name>
+        <qualifiedname>themis::BaseEntity::hasRotatedEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether the named field has rotation metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when a rotated embedding is present. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="228" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="829" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a185898838229e4960999b50182c23679" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt; size_t &gt; themis::BaseEntity::getRotationPosition</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getRotationPosition</name>
+        <qualifiedname>themis::BaseEntity::getRotationPosition</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the rotation position for a rotated embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Rotation position, or std::nullopt when the field is not rotated. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="236" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="834" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a55dc2c3f63234cefbbff19d623992bb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::BaseEntity::getRotationType</definition>
+        <argsstring>(std::string_view field_name) const</argsstring>
+        <name>getRotationType</name>
+        <qualifiedname>themis::BaseEntity::getRotationType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the rotation type for a relationally rotated embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Rotation type string, or std::nullopt when the field is not relationally rotated. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="245" column="19" bodyfile="src/storage/base_entity.cpp" bodystart="844" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ae4a19426e810bbceaf20771b3b820d98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::BaseEntity::getBlobSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getBlobSize</name>
+        <qualifiedname>themis::BaseEntity::getBlobSize</qualifiedname>
+        <briefdescription>
+<para>Get blob size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="250" column="12" bodyfile="include/storage/base_entity.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1addc0b6696ece68c1873b89b2eacdfbe9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BaseEntity::isEmpty</definition>
+        <argsstring>() const</argsstring>
+        <name>isEmpty</name>
+        <qualifiedname>themis::BaseEntity::isEmpty</qualifiedname>
+        <briefdescription>
+<para>Check if entity is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="253" column="10" bodyfile="include/storage/base_entity.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a35bee9902946e685cc094f7d4e48fbde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::BaseEntity::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: invalidateCache(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="256" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ac606195f560595ff4068b03e1ea7b434" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" kindref="member">BaseEntity</ref></type>
+        <definition>BaseEntity themis::BaseEntity::fromJson</definition>
+        <argsstring>(std::string_view pk, std::string_view json_str)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::BaseEntity::fromJson</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Create from JSON string (using simdjson for speed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Factory Methods =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: entity(), <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob()</ref>, begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="165" column="23" bodyfile="src/storage/base_entity.cpp" bodystart="691" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1af7f9faed7f6998fddfa9608bc6fb2c6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" kindref="member">BaseEntity</ref></type>
+        <definition>BaseEntity themis::BaseEntity::fromFields</definition>
+        <argsstring>(std::string_view pk, const FieldMap &amp;fields)</argsstring>
+        <name>fromFields</name>
+        <qualifiedname>themis::BaseEntity::fromFields</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref> &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Create from field map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Fields.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" kindref="member">BaseEntity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="168" column="23" bodyfile="src/storage/base_entity.cpp" bodystart="705" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1afec6ff6c18343b680a62e5942686db9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" kindref="member">BaseEntity</ref></type>
+        <definition>BaseEntity themis::BaseEntity::deserialize</definition>
+        <argsstring>(std::string_view pk, const Blob &amp;blob)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::BaseEntity::deserialize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" kindref="member">Blob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize from binary blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" kindref="member">BaseEntity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="171" column="23" bodyfile="src/storage/base_entity.cpp" bodystart="716" bodyend="731"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a59d712b94308244f2dd1c7f5f87329a6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::ensureCache</definition>
+        <argsstring>() const</argsstring>
+        <name>ensureCache</name>
+        <qualifiedname>themis::BaseEntity::ensureCache</qualifiedname>
+        <briefdescription>
+<para>Parse blob into field cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="275" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="74" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a431dd407864ed482d556f5357cb42c77" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::invalidateCache</definition>
+        <argsstring>()</argsstring>
+        <name>invalidateCache</name>
+        <qualifiedname>themis::BaseEntity::invalidateCache</qualifiedname>
+        <briefdescription>
+<para>Invalidate cache (after blob modification). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invalidate Cache.</para>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="280" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1a5582a085e2620b7eab90540426b97538" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref></type>
+        <definition>BaseEntity::FieldMap themis::BaseEntity::parseJson</definition>
+        <argsstring>() const</argsstring>
+        <name>parseJson</name>
+        <qualifiedname>themis::BaseEntity::parseJson</qualifiedname>
+        <briefdescription>
+<para>Parse the blob as JSON and populate the field cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="285" column="14" bodyfile="src/storage/base_entity.cpp" bodystart="334" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1af35720bf12ae2c7a783254a2d48ef712" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" kindref="member">FieldMap</ref></type>
+        <definition>BaseEntity::FieldMap themis::BaseEntity::parseBinary</definition>
+        <argsstring>() const</argsstring>
+        <name>parseBinary</name>
+        <qualifiedname>themis::BaseEntity::parseBinary</qualifiedname>
+        <briefdescription>
+<para>Parse the blob as the native binary entity format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Decoder. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="290" column="14" bodyfile="src/storage/base_entity.cpp" bodystart="486" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_base_entity_1ae4c167e1251932dd7c5e3a3a9cd2326f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BaseEntity::rebuildBlob</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildBlob</name>
+        <qualifiedname>themis::BaseEntity::rebuildBlob</qualifiedname>
+        <briefdescription>
+<para>Rebuild the serialized blob from the cached field map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Serialization =====</para>
+<para>Calls: empty(), <ref refid="classthemis_1_1_base_entity_1a35bee9902946e685cc094f7d4e48fbde" kindref="member">clear()</ref>, beginObject(), size(), encodeString(), std::visit(), constexpr(), encodeNull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="295" column="10" bodyfile="src/storage/base_entity.cpp" bodystart="589" bodyend="626"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Base Entity: The canonical storage unit for all data models</para>
+<para>Each logical entity (row, document, node, edge, vector object) is stored as one blob</para>
+<para>Architecture:<itemizedlist>
+<listitem><para>Storage format: Custom binary serialization (similar to VelocyPack/MessagePack)</para>
+</listitem><listitem><para>Fast field extraction: simdjson on-demand parsing for index updates</para>
+</listitem><listitem><para>Multi-model support: Flexible schema-less document model</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Concept: Unified Multi-Model Storage with Canonical Entity Pattern</para>
+</listitem><listitem><para>Origin: ThemisDB Original Design</para>
+</listitem><listitem><para>Design Philosophy: &quot;One canonical storage, multiple projection layers&quot;</para>
+</listitem><listitem><para>Inspiration:<itemizedlist>
+<listitem><para>ArangoDB: Multi-model architecture with unified storage</para>
+</listitem><listitem><para>CozoDB: Hybrid relational-graph-vector design</para>
+</listitem><listitem><para>Azure Cosmos DB: Multi-model APIs over single storage engine</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Innovation: ThemisDB extends the multi-model concept with:<itemizedlist>
+<listitem><para>True unified storage (not multiple engines)</para>
+</listitem><listitem><para>ACID transactions across all models simultaneously</para>
+</listitem><listitem><para>Atomic multi-index updates (secondary, graph, vector, fulltext)</para>
+</listitem><listitem><para>Zero-overhead model projection (no data duplication)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Implementation: ThemisDB Core Team</para>
+</listitem><listitem><para>First Introduced: ThemisDB v1.0.0</para>
+</listitem><listitem><para>Key Differentiators:<itemizedlist>
+<listitem><para>Transactional vector indexes (unique to ThemisDB)</para>
+</listitem><listitem><para>Integrated LLM engine with zero-copy data access</para>
+</listitem><listitem><para>Field-level encryption within base entity</para>
+</listitem><listitem><para>Temporal versioning via MVCC snapshots </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/base_entity.h" line="65" column="1" bodyfile="include/storage/base_entity.h" bodystart="65" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_base_entity_1a244709f47367dafe2455ac71dcb2398a" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>Attributes</name></member>
+      <member refid="classthemis_1_1_base_entity_1a97a7640588b6fbb4be02cf7bc960789b" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>BaseEntity</name></member>
+      <member refid="classthemis_1_1_base_entity_1a1e79fcbe2afcddd1261c0d745ac64340" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>BaseEntity</name></member>
+      <member refid="classthemis_1_1_base_entity_1a73ae39810ead5a4d37dabf86cf9d3893" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>BaseEntity</name></member>
+      <member refid="classthemis_1_1_base_entity_1a2930975f8ea346b15eadc1c2c7502f2a" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>BaseEntity</name></member>
+      <member refid="classthemis_1_1_base_entity_1a5aa864b65e27dde8937cf481e77fd04f" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>Blob</name></member>
+      <member refid="classthemis_1_1_base_entity_1a22c6947a7f6ff3249c9cf56e318ac557" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>blob_</name></member>
+      <member refid="classthemis_1_1_base_entity_1a211c3a97e4ab49775461cb57e4e3df46" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>cache_valid_</name></member>
+      <member refid="classthemis_1_1_base_entity_1a35bee9902946e685cc094f7d4e48fbde" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_base_entity_1a7d38b30457fcc3c786000b9e5694141b" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>clearGeometry</name></member>
+      <member refid="classthemis_1_1_base_entity_1afec6ff6c18343b680a62e5942686db9e" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1_base_entity_1a59d712b94308244f2dd1c7f5f87329a6" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>ensureCache</name></member>
+      <member refid="classthemis_1_1_base_entity_1a65590f8e7adc471fcfe3bd57291b75be" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>extractAllFields</name></member>
+      <member refid="classthemis_1_1_base_entity_1abd7ff71f2f4626de061622de30792f31" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>extractField</name></member>
+      <member refid="classthemis_1_1_base_entity_1abd9c1cd8f8ad00bcc3b1a85414317f17" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>extractFieldsWithPrefix</name></member>
+      <member refid="classthemis_1_1_base_entity_1a1aaef9b2764535a6148644e22f602664" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>extractVector</name></member>
+      <member refid="classthemis_1_1_base_entity_1a94674b8a282869c5e81a548f82dd73c2" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>field_cache_</name></member>
+      <member refid="classthemis_1_1_base_entity_1a10e18f7c94601d8bffc1fb6788fdf74b" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>FieldMap</name></member>
+      <member refid="classthemis_1_1_base_entity_1a6d69a112e26e9b318396c2a05547c214" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>Format</name></member>
+      <member refid="classthemis_1_1_base_entity_1aff1b9cfb04774bf31daf2c5437f8b68c" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>format_</name></member>
+      <member refid="classthemis_1_1_base_entity_1af7f9faed7f6998fddfa9608bc6fb2c6f" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>fromFields</name></member>
+      <member refid="classthemis_1_1_base_entity_1ac606195f560595ff4068b03e1ea7b434" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>fromJson</name></member>
+      <member refid="classthemis_1_1_base_entity_1af978f802b13bd98c2cec8203a4aa0769" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>geo_sidecar_</name></member>
+      <member refid="classthemis_1_1_base_entity_1a6cf530767d36fb7a5741991b576fb50a" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>geometry_</name></member>
+      <member refid="classthemis_1_1_base_entity_1a615e77fd0805788eedf6a0d62ec14146" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getAllFields</name></member>
+      <member refid="classthemis_1_1_base_entity_1ae555bc8825c23f934397860c7e3cb2c1" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getBlob</name></member>
+      <member refid="classthemis_1_1_base_entity_1ae4a19426e810bbceaf20771b3b820d98" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getBlobSize</name></member>
+      <member refid="classthemis_1_1_base_entity_1a8799310e4df4eb9024b0e96172a97e97" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getField</name></member>
+      <member refid="classthemis_1_1_base_entity_1ae0742c46c326734b303ba916e7c08860" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsBool</name></member>
+      <member refid="classthemis_1_1_base_entity_1a7855cae0bc1d2d194f01a84c1f6d754e" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsDouble</name></member>
+      <member refid="classthemis_1_1_base_entity_1a49573dfdf6d86a1e32706676bb3bf0cb" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsInt</name></member>
+      <member refid="classthemis_1_1_base_entity_1a8fd4b87f060f28695f63ee45c885341d" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsString</name></member>
+      <member refid="classthemis_1_1_base_entity_1a34bfb109cc7428fc10a78553ccb041bf" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsStringArray</name></member>
+      <member refid="classthemis_1_1_base_entity_1a322932f100261c6a94f3b37ca9390cd0" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldAsVector</name></member>
+      <member refid="classthemis_1_1_base_entity_1a8abac257d122679704e881702a606bcd" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldInt</name></member>
+      <member refid="classthemis_1_1_base_entity_1ab7e697a9e9fb403805a210715003faee" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFieldString</name></member>
+      <member refid="classthemis_1_1_base_entity_1ac403ba29de41b66ef608e23f2795af36" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getFormat</name></member>
+      <member refid="classthemis_1_1_base_entity_1a70bf6dbeda224eb31ceea25b19759ef6" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getGeometry</name></member>
+      <member refid="classthemis_1_1_base_entity_1a30b921b3ab5107fba1d1c41ffda9324f" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getGeoSidecar</name></member>
+      <member refid="classthemis_1_1_base_entity_1a01601a3393032ef63344bba642f876f6" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getPrimaryKey</name></member>
+      <member refid="classthemis_1_1_base_entity_1a185898838229e4960999b50182c23679" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getRotationPosition</name></member>
+      <member refid="classthemis_1_1_base_entity_1a55dc2c3f63234cefbbff19d623992bb1" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>getRotationType</name></member>
+      <member refid="classthemis_1_1_base_entity_1a1d6c7bf32a147d95cce90393c34fa230" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>hasField</name></member>
+      <member refid="classthemis_1_1_base_entity_1a115c5aed5e4778a7232cf8ac0f17d51e" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>hasGeometry</name></member>
+      <member refid="classthemis_1_1_base_entity_1a5ab8caab91585acfda710f94bafb8564" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>hasRotatedEmbedding</name></member>
+      <member refid="classthemis_1_1_base_entity_1a431dd407864ed482d556f5357cb42c77" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>invalidateCache</name></member>
+      <member refid="classthemis_1_1_base_entity_1addc0b6696ece68c1873b89b2eacdfbe9" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>isEmpty</name></member>
+      <member refid="classthemis_1_1_base_entity_1a7753fd199ec1bba79e68525dad0fbf0d" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>parse_failed_</name></member>
+      <member refid="classthemis_1_1_base_entity_1af35720bf12ae2c7a783254a2d48ef712" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>parseBinary</name></member>
+      <member refid="classthemis_1_1_base_entity_1a5582a085e2620b7eab90540426b97538" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>parseJson</name></member>
+      <member refid="classthemis_1_1_base_entity_1a19600276770046149aa4f0657fa1defc" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>primary_key_</name></member>
+      <member refid="classthemis_1_1_base_entity_1ae4c167e1251932dd7c5e3a3a9cd2326f" prot="private" virt="non-virtual"><scope>themis::BaseEntity</scope><name>rebuildBlob</name></member>
+      <member refid="classthemis_1_1_base_entity_1af69c8e67a9bebbd89542bf55e5f2f245" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1_base_entity_1aa4267ac0c52914d28c80a73ccef0583f" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>setBlob</name></member>
+      <member refid="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>setField</name></member>
+      <member refid="classthemis_1_1_base_entity_1af0cf41562ddea0767167ad6f516f2f78" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>setGeometry</name></member>
+      <member refid="classthemis_1_1_base_entity_1a87d643d532a5ef6d677ea439dcc5e5d3" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>setGeoSidecar</name></member>
+      <member refid="classthemis_1_1_base_entity_1aa91fea188e6413b0e3fde324d63f1dc9" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>setPrimaryKey</name></member>
+      <member refid="classthemis_1_1_base_entity_1a8a518cef4af69da174e9e3e6fde7da22" prot="public" virt="non-virtual"><scope>themis::BaseEntity</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

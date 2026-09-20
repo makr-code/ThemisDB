@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_audio_validator" kind="class" language="C++" prot="public">
+    <compoundname>MockAudioValidator</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_audio_validator_1a78262ada8ba56e49eceeff6bacc0746a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockAudioValidator::validate</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>validate</name>
+        <qualifiedname>MockAudioValidator::validate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="30" column="10" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="27" column="1" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="27" bodyend="36"/>
+    <listofallmembers>
+      <member refid="class_mock_audio_validator_1a78262ada8ba56e49eceeff6bacc0746a" prot="public" virt="non-virtual"><scope>MockAudioValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

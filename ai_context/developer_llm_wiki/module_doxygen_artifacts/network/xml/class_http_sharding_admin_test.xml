@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_sharding_admin_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpShardingAdminTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_http_sharding_admin_test_1_1_response" prot="protected">HttpShardingAdminTest::Response</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1afb67919e8c98707d66b7f65991d5e44a" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpShardingAdminTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>HttpShardingAdminTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="161" column="41" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1af00a596fdffa729d32b426d1c96d7122" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; HttpShardingAdminTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpShardingAdminTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="162" column="25" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1afb5ac0f2dd339da6f583b0813b21ae0c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; HttpShardingAdminTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpShardingAdminTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="163" column="21" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1aeba6377e0481e292849d317f77b64308" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; HttpShardingAdminTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpShardingAdminTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="164" column="22" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1a5c47db4a009e8566779e75fcfde87e51" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; HttpShardingAdminTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpShardingAdminTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="165" column="21" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1abc3c7c5ba923dcc1ac5535c28079e92b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; HttpShardingAdminTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpShardingAdminTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="166" column="21" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1aa479ffde6d88df137277956095fbbab4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;HttpServer&gt; HttpShardingAdminTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpShardingAdminTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="167" column="29" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_sharding_admin_test_1a947ed368a656f52805d65fe32fc70349" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpShardingAdminTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpShardingAdminTest::port_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="168" column="41" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="168" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_sharding_admin_test_1a389e7f91fd392a1664ec298924823e0b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpShardingAdminTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpShardingAdminTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="44" column="10" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="44" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_sharding_admin_test_1ac9e33f1a08d05cef306752d6e8b27061" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpShardingAdminTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpShardingAdminTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="87" column="10" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="87" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_sharding_admin_test_1a8056c82a88f14fb9a7f6170e1c9fdc8a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_http_sharding_admin_test_1_1_response" kindref="compound">Response</ref></type>
+        <definition>Response HttpShardingAdminTest::httpGet</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpShardingAdminTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="108" column="14" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_sharding_admin_test_1ae012c1f0acca67581708283f71ad7030" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_http_sharding_admin_test_1_1_response" kindref="compound">Response</ref></type>
+        <definition>Response HttpShardingAdminTest::httpPost</definition>
+        <argsstring>(const std::string &amp;path, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpShardingAdminTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="132" column="14" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="132" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpShardingAdminTest</label>
+        <link refid="class_http_sharding_admin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpShardingAdminTest</label>
+        <link refid="class_http_sharding_admin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_sharding_admin.cpp" line="42" column="1" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="42" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_http_sharding_admin_test_1aeba6377e0481e292849d317f77b64308" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_sharding_admin_test_1a8056c82a88f14fb9a7f6170e1c9fdc8a" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>httpGet</name></member>
+      <member refid="class_http_sharding_admin_test_1ae012c1f0acca67581708283f71ad7030" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>httpPost</name></member>
+      <member refid="class_http_sharding_admin_test_1a947ed368a656f52805d65fe32fc70349" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>port_</name></member>
+      <member refid="class_http_sharding_admin_test_1afb5ac0f2dd339da6f583b0813b21ae0c" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_sharding_admin_test_1aa479ffde6d88df137277956095fbbab4" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>server_</name></member>
+      <member refid="class_http_sharding_admin_test_1a389e7f91fd392a1664ec298924823e0b" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>SetUp</name></member>
+      <member refid="class_http_sharding_admin_test_1af00a596fdffa729d32b426d1c96d7122" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>storage_</name></member>
+      <member refid="class_http_sharding_admin_test_1ac9e33f1a08d05cef306752d6e8b27061" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>TearDown</name></member>
+      <member refid="class_http_sharding_admin_test_1afb67919e8c98707d66b7f65991d5e44a" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>test_db_path_</name></member>
+      <member refid="class_http_sharding_admin_test_1abc3c7c5ba923dcc1ac5535c28079e92b" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_sharding_admin_test_1a5c47db4a009e8566779e75fcfde87e51" prot="protected" virt="non-virtual"><scope>HttpShardingAdminTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

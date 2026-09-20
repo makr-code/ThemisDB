@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_search_highlighter" kind="class" language="C++" prot="public">
+    <compoundname>themis::SearchHighlighter</compoundname>
+    <includes refid="search__highlighter_8h" local="no">search_highlighter.h</includes>
+    <innerclass refid="structthemis_1_1_search_highlighter_1_1_config" prot="public">themis::SearchHighlighter::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_search_highlighter_1ac9755002c0d1e9b4d94475a6c60117ba" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_search_highlighter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::SearchHighlighter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::SearchHighlighter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="129" column="12" bodyfile="include/search/search_highlighter.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1abad608317d2c62dc85a3884a73acb01e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SearchHighlighter::SearchHighlighter</definition>
+        <argsstring>()</argsstring>
+        <name>SearchHighlighter</name>
+        <qualifiedname>themis::SearchHighlighter::SearchHighlighter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="41" column="5" bodyfile="src/search/search_highlighter.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1a6888e9bfcae62a3bf49c2da76ff19fdd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SearchHighlighter::SearchHighlighter</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>SearchHighlighter</name>
+        <qualifiedname>themis::SearchHighlighter::SearchHighlighter</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_search_highlighter_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="42" column="14" bodyfile="src/search/search_highlighter.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SearchHighlighter::highlight</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;terms) const noexcept</argsstring>
+        <name>highlight</name>
+        <qualifiedname>themis::SearchHighlighter::highlight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms</declname>
+        </param>
+        <briefdescription>
+<para>Highlight all occurrences of <computeroutput>terms</computeroutput> inside <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each token in <computeroutput>terms</computeroutput> that appears in <computeroutput>text</computeroutput> is wrapped with the configured highlight_open / highlight_close tags. Overlapping matches are merged so that a single term never receives nested tags.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source document text (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search terms to highlight. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>text</computeroutput> with matched terms wrapped in highlight tags, or an empty string when <computeroutput>text</computeroutput> is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="58" column="17" bodyfile="src/search/search_highlighter.cpp" bodystart="254" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1ab15fb4473d40ed6ba2fe384670c478eb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SearchHighlighter::snippet</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;terms, size_t window_size=0) const noexcept</argsstring>
+        <name>snippet</name>
+        <qualifiedname>themis::SearchHighlighter::snippet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Extract the best-matching passage from <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A sliding window of <computeroutput>window_size</computeroutput> characters is scored by the number of distinct search terms it contains. The highest-scoring window is returned with matched terms highlighted and boundary ellipses appended.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source document text (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search terms to locate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Passage width in characters (default: <ref refid="structthemis_1_1_search_highlighter_1_1_config_1ab498074b6136cf50b0711b78546c226d" kindref="member">Config::max_snippet_len</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Best matching snippet, or the first <computeroutput>window_size</computeroutput> characters of <computeroutput>text</computeroutput> when no terms are found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="74" column="17" bodyfile="src/search/search_highlighter.cpp" bodystart="273" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::SearchHighlighter::tokenize</definition>
+        <argsstring>(const std::string &amp;text, bool case_insensitive=true)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::SearchHighlighter::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_insensitive</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Tokenise <computeroutput>text</computeroutput> into a vector of lowercase tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokenize.</para>
+<para>Splits on whitespace and standard ASCII punctuation. Non-ASCII bytes are preserved inside tokens (multi-byte UTF-8 sequences are not split).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>case_insensitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, tokens are lowercased (ASCII only). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of tokens in order of appearance.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">case_insensitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isspace(), std::ispunct(), empty(), push_back(), std::move(), std::isupper(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="90" column="24" bodyfile="src/search/search_highlighter.cpp" bodystart="43" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SearchHighlighter::applyHighlight</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::pair&lt; size_t, size_t &gt; &gt; &amp;offsets, const std::string &amp;open_tag, const std::string &amp;close_tag)</argsstring>
+        <name>applyHighlight</name>
+        <qualifiedname>themis::SearchHighlighter::applyHighlight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; size_t, size_t &gt; &gt; &amp;</type>
+          <declname>offsets</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>open_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>close_tag</declname>
+        </param>
+        <briefdescription>
+<para>Apply highlight tags at the given byte <computeroutput>offsets</computeroutput> inside <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>offsets</computeroutput> is a list of [start, end) byte pairs describing the byte ranges to wrap. Ranges must be non-overlapping and sorted by start.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offsets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sorted, non-overlapping [start,end) byte ranges. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>open_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opening highlight tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>close_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Closing highlight tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>text</computeroutput> with tags inserted at the specified ranges. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="105" column="24" bodyfile="src/search/search_highlighter.cpp" bodystart="68" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::SearchHighlighter::bestWindowOffset</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;terms, size_t window_size)</argsstring>
+        <name>bestWindowOffset</name>
+        <qualifiedname>themis::SearchHighlighter::bestWindowOffset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+<para>Find the byte offset that maximises term coverage in a window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Best Window Offset.</para>
+<para>Scans <computeroutput>text</computeroutput> with a sliding window of <computeroutput>window_size</computeroutput> bytes and returns the start offset that covers the greatest number of distinct term occurrences. Ties are broken by preferring the earliest window.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lowercase search terms. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Window width in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Start byte offset of the best window, or 0 if <computeroutput>text</computeroutput> is shorter than <computeroutput>window_size</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), reserve(), std::tolower(), find(), push_back(), std::sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="124" column="19" bodyfile="src/search/search_highlighter.cpp" bodystart="108" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_search_highlighter_1a608e98340b8bdbed3fa8c932595b8892" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; size_t, size_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; size_t, size_t &gt; &gt; themis::SearchHighlighter::findMatchRanges</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;terms) const</argsstring>
+        <name>findMatchRanges</name>
+        <qualifiedname>themis::SearchHighlighter::findMatchRanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms</declname>
+        </param>
+        <briefdescription>
+<para>Return sorted, merged [start,end) match ranges for <computeroutput>terms</computeroutput> in <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_highlighter.h" line="133" column="5" bodyfile="src/search/search_highlighter.cpp" bodystart="191" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Search result highlighter and snippet extractor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All methods are stateless; the <ref refid="structthemis_1_1_search_highlighter_1_1_config" kindref="compound">Config</ref> merely controls presentation details. </para>
+    </detaileddescription>
+    <location file="include/search/search_highlighter.h" line="21" column="1" bodyfile="include/search/search_highlighter.h" bodystart="21" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>applyHighlight</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>bestWindowOffset</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1ac9755002c0d1e9b4d94475a6c60117ba" prot="private" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1a608e98340b8bdbed3fa8c932595b8892" prot="private" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>findMatchRanges</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>highlight</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1abad608317d2c62dc85a3884a73acb01e" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>SearchHighlighter</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1a6888e9bfcae62a3bf49c2da76ff19fdd" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>SearchHighlighter</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1ab15fb4473d40ed6ba2fe384670c478eb" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>snippet</name></member>
+      <member refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" prot="public" virt="non-virtual"><scope>themis::SearchHighlighter</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

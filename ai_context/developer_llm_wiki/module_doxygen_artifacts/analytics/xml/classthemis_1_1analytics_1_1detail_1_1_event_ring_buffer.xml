@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::detail::EventRingBuffer</compoundname>
+    <includes refid="include_2analytics_2detail_2ring__buffer_8h" local="no">ring_buffer.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1_1_slot" prot="private">themis::analytics::detail::EventRingBuffer::Slot</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a67a5506f1d7753f83835ec5d817884ca" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::EventRingBuffer&lt; T &gt;::kCacheLineSize</definition>
+        <argsstring></argsstring>
+        <name>kCacheLineSize</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::kCacheLineSize</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="71" column="29" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1aaa3daaf426720102f3c500edeec4bde2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::analytics::detail::EventRingBuffer&lt; T &gt;::head_</definition>
+        <argsstring></argsstring>
+        <name>head_</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::head_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="172" column="25" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a8000c6d2db3a57d31d31f46aa3299683" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::analytics::detail::EventRingBuffer&lt; T &gt;::tail_</definition>
+        <argsstring></argsstring>
+        <name>tail_</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::tail_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="173" column="25" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1aa1b4fd25dc7535b9ad90737253561181" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Slot[]&gt;</type>
+        <definition>std::unique_ptr&lt;Slot[]&gt; themis::analytics::detail::EventRingBuffer&lt; T &gt;::slots_</definition>
+        <argsstring></argsstring>
+        <name>slots_</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="175" column="21" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a171937666f1808ec0e7533b371a62df9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::EventRingBuffer&lt; T &gt;::mask_</definition>
+        <argsstring></argsstring>
+        <name>mask_</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::mask_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="176" column="29" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::EventRingBuffer&lt; T &gt;::EventRingBuffer</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>EventRingBuffer</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::EventRingBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Event Ring Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="79" column="14" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ae6a713780cdd8c36fa64c58b760a1a79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::EventRingBuffer&lt; T &gt;::~EventRingBuffer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EventRingBuffer</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::~EventRingBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1abdae71f95b74d8391838e70daf15686e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::EventRingBuffer&lt; T &gt;::EventRingBuffer</definition>
+        <argsstring>(const EventRingBuffer &amp;)=delete</argsstring>
+        <name>EventRingBuffer</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::EventRingBuffer</qualifiedname>
+        <param>
+          <type>const EventRingBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a74c5347f22bd1bd2d5e48c7d185899f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" kindref="member">EventRingBuffer</ref> &amp;</type>
+        <definition>EventRingBuffer &amp; themis::analytics::detail::EventRingBuffer&lt; T &gt;::operator=</definition>
+        <argsstring>(const EventRingBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" kindref="member">EventRingBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="99" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ac034a17b8a69822117f6e20ede41a976" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::detail::EventRingBuffer&lt; T &gt;::EventRingBuffer</definition>
+        <argsstring>(EventRingBuffer &amp;&amp;)=delete</argsstring>
+        <name>EventRingBuffer</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::EventRingBuffer</qualifiedname>
+        <param>
+          <type>EventRingBuffer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a1b63dccb09e9a4f053745d72a61556a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" kindref="member">EventRingBuffer</ref> &amp;</type>
+        <definition>EventRingBuffer &amp; themis::analytics::detail::EventRingBuffer&lt; T &gt;::operator=</definition>
+        <argsstring>(EventRingBuffer &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" kindref="member">EventRingBuffer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="101" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ab4a7951413f48b3446b09b0e50042865" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" noexceptexpression="std::is_nothrow_move_assignable_v&lt; T &gt;" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::detail::EventRingBuffer&lt; T &gt;::push</definition>
+        <argsstring>(T item)</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::push</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="103" column="10" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="103" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a15f5ad374b54ec861aba5e717c248c8c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" noexceptexpression="std::is_nothrow_move_assignable_v&lt; T &gt;" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::detail::EventRingBuffer&lt; T &gt;::pop</definition>
+        <argsstring>(T &amp;item)</argsstring>
+        <name>pop</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::pop</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="129" column="10" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="129" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1af47f0e5c43602385f118e5162c92da21" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::EventRingBuffer&lt; T &gt;::size_approx</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size_approx</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::size_approx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="155" column="12" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="155" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a4dea01f438bb0d795b57a87e4c75a856" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::detail::EventRingBuffer&lt; T &gt;::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="161" column="10" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a386318f11d1517f35af43ba852f5c8c8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::EventRingBuffer&lt; T &gt;::capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::analytics::detail::EventRingBuffer::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/ring_buffer.h" line="163" column="12" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/ring_buffer.h" line="59" column="1" bodyfile="include/analytics/detail/ring_buffer.h" bodystart="59" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a386318f11d1517f35af43ba852f5c8c8" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a4dea01f438bb0d795b57a87e4c75a856" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>empty</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ad4cf23b85f532a3f2a243b5748a84cf8" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>EventRingBuffer</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1abdae71f95b74d8391838e70daf15686e" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>EventRingBuffer</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ac034a17b8a69822117f6e20ede41a976" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>EventRingBuffer</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1aaa3daaf426720102f3c500edeec4bde2" prot="private" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>head_</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a67a5506f1d7753f83835ec5d817884ca" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>kCacheLineSize</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a171937666f1808ec0e7533b371a62df9" prot="private" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>mask_</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a74c5347f22bd1bd2d5e48c7d185899f0" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a1b63dccb09e9a4f053745d72a61556a3" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a15f5ad374b54ec861aba5e717c248c8c" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>pop</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ab4a7951413f48b3446b09b0e50042865" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>push</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1af47f0e5c43602385f118e5162c92da21" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>size_approx</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1aa1b4fd25dc7535b9ad90737253561181" prot="private" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>slots_</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1a8000c6d2db3a57d31d31f46aa3299683" prot="private" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>tail_</name></member>
+      <member refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer_1ae6a713780cdd8c36fa64c58b760a1a79" prot="public" virt="non-virtual"><scope>themis::analytics::detail::EventRingBuffer</scope><name>~EventRingBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

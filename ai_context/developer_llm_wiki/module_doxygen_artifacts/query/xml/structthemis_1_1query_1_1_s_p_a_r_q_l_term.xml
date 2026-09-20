@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLTerm</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab755fefe658a1b125f335fa618c1202a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714" kindref="member">SPARQLTermType</ref></type>
+        <definition>SPARQLTermType themis::query::SPARQLTerm::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SPARQLTerm::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="45" column="22" bodyfile="include/query/sparql_parser.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a7c4093f718086172579020c1cb65e2b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SPARQLTerm::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::SPARQLTerm::value</qualifiedname>
+        <briefdescription>
+<para>variable name (without ?/$), URI, prefix:local, or raw literal text </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="46" column="22" bodyfile="include/query/sparql_parser.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a44f1882bc13b1486afcf426891a2b6b8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1aa0117c743d433b62e54cf5a5fdd2da8f" kindref="member">SPARQLLiteralValue</ref></type>
+        <definition>SPARQLLiteralValue themis::query::SPARQLTerm::literal_value</definition>
+        <argsstring></argsstring>
+        <name>literal_value</name>
+        <qualifiedname>themis::query::SPARQLTerm::literal_value</qualifiedname>
+        <briefdescription>
+<para>populated when type == Literal </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="47" column="24" bodyfile="include/query/sparql_parser.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab7fff281c685108fdc7eb50c4a1deb99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SPARQLTerm::is_literal_value</definition>
+        <argsstring></argsstring>
+        <name>is_literal_value</name>
+        <qualifiedname>themis::query::SPARQLTerm::is_literal_value</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="48" column="22" bodyfile="include/query/sparql_parser.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="44" column="1" bodyfile="include/query/sparql_parser.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab7fff281c685108fdc7eb50c4a1deb99" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTerm</scope><name>is_literal_value</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a44f1882bc13b1486afcf426891a2b6b8" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTerm</scope><name>literal_value</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab755fefe658a1b125f335fa618c1202a" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTerm</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a7c4093f718086172579020c1cb65e2b6" prot="public" virt="non-virtual"><scope>themis::query::SPARQLTerm</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

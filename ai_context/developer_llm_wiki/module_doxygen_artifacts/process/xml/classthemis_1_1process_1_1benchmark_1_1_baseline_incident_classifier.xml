@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::BaselineIncidentClassifier</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier_1ae64c96b9835655eea315af49eb5678ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::BaselineIncidentClassifier::BaselineIncidentClassifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>BaselineIncidentClassifier</name>
+        <qualifiedname>themis::process::benchmark::BaselineIncidentClassifier::BaselineIncidentClassifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier_1ada1a998d3d52cc69616f1e4fbbd0f798" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bd" kindref="member">IncidentType</ref></type>
+        <definition>IncidentType themis::process::benchmark::BaselineIncidentClassifier::classifyBaseline</definition>
+        <argsstring>(const ProcessIncident &amp;incident)</argsstring>
+        <name>classifyBaseline</name>
+        <qualifiedname>themis::process::benchmark::BaselineIncidentClassifier::classifyBaseline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_incident" kindref="compound">ProcessIncident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Classify incident without detailed diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="71" column="18" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="71" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Baseline incident classifier (no diagnostics overhead). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="64" column="1" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="64" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier_1ae64c96b9835655eea315af49eb5678ba" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BaselineIncidentClassifier</scope><name>BaselineIncidentClassifier</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_baseline_incident_classifier_1ada1a998d3d52cc69616f1e4fbbd0f798" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BaselineIncidentClassifier</scope><name>classifyBaseline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

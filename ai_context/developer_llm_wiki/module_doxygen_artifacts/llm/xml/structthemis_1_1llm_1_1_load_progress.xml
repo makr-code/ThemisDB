@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_load_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoadProgress</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_load_progress_1a68285632736446f366786909068f2795" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a59ecca5216133be079b60ff74ef855f8" kindref="member">LoadPhase</ref></type>
+        <definition>LoadPhase themis::llm::LoadProgress::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::llm::LoadProgress::phase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="37" column="15" bodyfile="include/llm/model_loader.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_load_progress_1a27c4d80d7d3ef27624dcb1cbb9de5b6e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LoadProgress::phase_progress</definition>
+        <argsstring></argsstring>
+        <name>phase_progress</name>
+        <qualifiedname>themis::llm::LoadProgress::phase_progress</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="38" column="12" bodyfile="include/llm/model_loader.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_load_progress_1a999925ccdc39dbac9a70a2a09ff0d0f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LoadProgress::overall_percent</definition>
+        <argsstring></argsstring>
+        <name>overall_percent</name>
+        <qualifiedname>themis::llm::LoadProgress::overall_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="39" column="12" bodyfile="include/llm/model_loader.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_load_progress_1ab2d141f0270b146a3edec654742bced7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoadProgress::status_msg</definition>
+        <argsstring></argsstring>
+        <name>status_msg</name>
+        <qualifiedname>themis::llm::LoadProgress::status_msg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="40" column="17" bodyfile="include/llm/model_loader.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_load_progress_1a319bbde4e34dcd2a518f68ca60b4cd69" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::LoadProgress::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::LoadProgress::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="41" column="43" bodyfile="include/llm/model_loader.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_load_progress_1a6fc0c1acd652f0c622f5fe01a19ab462" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoadProgress::LoadProgress</definition>
+        <argsstring>()</argsstring>
+        <name>LoadProgress</name>
+        <qualifiedname>themis::llm::LoadProgress::LoadProgress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="43" column="5" bodyfile="include/llm/model_loader.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_loader.h" line="36" column="1" bodyfile="include/llm/model_loader.h" bodystart="36" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1a6fc0c1acd652f0c622f5fe01a19ab462" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>LoadProgress</name></member>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1a999925ccdc39dbac9a70a2a09ff0d0f1" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>overall_percent</name></member>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1a68285632736446f366786909068f2795" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>phase</name></member>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1a27c4d80d7d3ef27624dcb1cbb9de5b6e" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>phase_progress</name></member>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1a319bbde4e34dcd2a518f68ca60b4cd69" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_load_progress_1ab2d141f0270b146a3edec654742bced7" prot="public" virt="non-virtual"><scope>themis::llm::LoadProgress</scope><name>status_msg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

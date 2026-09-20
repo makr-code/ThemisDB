@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::test::Phase3QuorumLossFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a62fba346b9b66467b5168de125b8a514" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::sharding::test::Phase3QuorumLossFixture::kShardPhase3Seed</definition>
+        <argsstring></argsstring>
+        <name>kShardPhase3Seed</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::kShardPhase3Seed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="51" column="30" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a268069d62ad042e89a2b537a0e075f81" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::test::Phase3QuorumLossFixture::kDefaultClusterSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultClusterSize</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::kDefaultClusterSize</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="52" column="26" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a94bd1a2407a769d9d7b9c856f21f4bef" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::test::Phase3QuorumLossFixture::kDefaultQuorumSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultQuorumSize</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::kDefaultQuorumSize</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="53" column="26" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a509145d8d7a55e6856ba4ea389bc3bdb" prot="protected" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::test::Phase3QuorumLossFixture::rng_state_</definition>
+        <argsstring></argsstring>
+        <name>rng_state_</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::rng_state_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="56" column="14" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ab28c7f96565919832c9cd0ae27a72120" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::Phase3QuorumLossFixture::Phase3QuorumLossFixture</definition>
+        <argsstring>()</argsstring>
+        <name>Phase3QuorumLossFixture</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::Phase3QuorumLossFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="58" column="5" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="58" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a315ea9d0457d170776a7c182d953f217" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::sharding::test::Phase3QuorumLossFixture::deterministicRand</definition>
+        <argsstring>(int max)</argsstring>
+        <name>deterministicRand</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::deterministicRand</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Deterministic pseudo-random next value [0, max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="62" column="9" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ab453a108fc11c8fb2d0e8e17edc2676f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::test::Phase3QuorumLossFixture::simulateNodeFailure</definition>
+        <argsstring>(int node_index)</argsstring>
+        <name>simulateNodeFailure</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::simulateNodeFailure</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>node_index</declname>
+        </param>
+        <briefdescription>
+<para>Simulate random node failure (return true if node fails). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="68" column="10" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ad2b4368119459e798533719f15074322" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::test::Phase3QuorumLossFixture::resetRng</definition>
+        <argsstring>()</argsstring>
+        <name>resetRng</name>
+        <qualifiedname>themis::sharding::test::Phase3QuorumLossFixture::resetRng</qualifiedname>
+        <briefdescription>
+<para>Reset RNG to seed for reproducibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="74" column="10" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deterministic test fixture using seed-42 for reproducibility. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All random operations use a fixed seed to enable:<itemizedlist>
+<listitem><para>Reproducible quorum loss scenarios</para>
+</listitem><listitem><para>Deterministic recovery path testing</para>
+</listitem><listitem><para>Bit-for-bit reproducible chaos injection</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: Any test in this suite with kShardPhase3Seed=42 can be replayed by running with the same seed and input. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::Phase3QuorumLossFixture</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::Phase3QuorumLossFixture</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="49" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="49" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a315ea9d0457d170776a7c182d953f217" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>deterministicRand</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a268069d62ad042e89a2b537a0e075f81" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>kDefaultClusterSize</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a94bd1a2407a769d9d7b9c856f21f4bef" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>kDefaultQuorumSize</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a62fba346b9b66467b5168de125b8a514" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>kShardPhase3Seed</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ab28c7f96565919832c9cd0ae27a72120" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>Phase3QuorumLossFixture</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ad2b4368119459e798533719f15074322" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>resetRng</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1a509145d8d7a55e6856ba4ea389bc3bdb" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>rng_state_</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase3_quorum_loss_fixture_1ab453a108fc11c8fb2d0e8e17edc2676f" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase3QuorumLossFixture</scope><name>simulateNodeFailure</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

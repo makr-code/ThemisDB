@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_ingestion_worker_node" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IIngestionWorkerNode</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_process_worker_node" prot="public" virt="non-virtual">themis::ingestion::InProcessWorkerNode</derivedcompoundref>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a9ab2d365197c21785be9ea1b717dc945" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IIngestionWorkerNode::~IIngestionWorkerNode</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIngestionWorkerNode</name>
+        <qualifiedname>themis::ingestion::IIngestionWorkerNode::~IIngestionWorkerNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="156" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a6420a323544a6a240813e0390d9c62b0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; themis::ingestion::IIngestionWorkerNode::nodeId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>nodeId</name>
+        <qualifiedname>themis::ingestion::IIngestionWorkerNode::nodeId</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_worker_node_1a3620dbe741576fc57be371aa4a92caa4">nodeId</reimplementedby>
+        <briefdescription>
+<para>Return this node&apos;s unique identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="159" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1af5936adaa92ad0cb06459bdf591ede6c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_report" kindref="compound">IngestionReport</ref></type>
+        <definition>virtual IngestionReport themis::ingestion::IIngestionWorkerNode::ingest</definition>
+        <argsstring>(const std::vector&lt; SourceConfig &gt; &amp;sources, const std::string &amp;target_collection, ProgressCallback progress_callback)=0</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::IIngestionWorkerNode::ingest</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_worker_node_1afb52de0dc17acdf9149c525ba3bafd41">ingest</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest the assigned set of sources and return a partial report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sources assigned to this node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection to write ingested documents into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback forwarded to the underlying <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Partial <ref refid="structthemis_1_1ingestion_1_1_ingestion_report" kindref="compound">IngestionReport</ref> that will be aggregated by the coordinator </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="170" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a6e976be53ee7f727929282603c922390" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::IIngestionWorkerNode::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::IIngestionWorkerNode::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_process_worker_node_1affb61e6edb7f4cf33582981be5d1cfdc">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Returns true when the node is idle and ready to accept work. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="176" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract worker node that can execute an ingestion sub-run. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each node is responsible for ingesting a subset of sources assigned by the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator" kindref="compound">IngestionCoordinator</ref></computeroutput> via consistent hashing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::IIngestionWorkerNode</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_worker_node"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::InProcessWorkerNode</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_process_worker_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_coordinator.h" line="154" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="154" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1af5936adaa92ad0cb06459bdf591ede6c" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionWorkerNode</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a6e976be53ee7f727929282603c922390" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionWorkerNode</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a6420a323544a6a240813e0390d9c62b0" prot="public" virt="pure-virtual"><scope>themis::ingestion::IIngestionWorkerNode</scope><name>nodeId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_worker_node_1a9ab2d365197c21785be9ea1b717dc945" prot="public" virt="virtual"><scope>themis::ingestion::IIngestionWorkerNode</scope><name>~IIngestionWorkerNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

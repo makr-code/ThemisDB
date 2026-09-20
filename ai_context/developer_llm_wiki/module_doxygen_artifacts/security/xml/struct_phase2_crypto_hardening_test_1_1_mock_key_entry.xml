@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry" kind="struct" language="C++" prot="protected">
+    <compoundname>Phase2CryptoHardeningTest::MockKeyEntry</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654" prot="public" static="no" strong="no">
+        <type></type>
+        <name>@000030260022332075042143101360025063177260243152</name>
+        <qualifiedname>Phase2CryptoHardeningTest::MockKeyEntry::@000030260022332075042143101360025063177260243152</qualifiedname>
+        <enumvalue id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654ac611ee315cc56e2dcdab746cf76f16e1" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654a71747cac1f7c4721407cfc55d8b771e7" prot="public">
+          <name>ROTATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654a08fb74e49bc54d1d5c10c3810555adb1" prot="public">
+          <name>REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="72" column="9" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a19a92a1da3e8d75d7b94e771de830d1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; Phase2CryptoHardeningTest::MockKeyEntry::material</definition>
+        <argsstring></argsstring>
+        <name>material</name>
+        <qualifiedname>Phase2CryptoHardeningTest::MockKeyEntry::material</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="71" column="21" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a99a8d11f0249a19107fe5fb5dc99ee17" prot="public" static="no" mutable="no">
+        <type>enum Phase2CryptoHardeningTest::MockKeyEntry::@000030260022332075042143101360025063177260243152</type>
+        <definition>enum Phase2CryptoHardeningTest::MockKeyEntry::@000030260022332075042143101360025063177260243152 Phase2CryptoHardeningTest::MockKeyEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>Phase2CryptoHardeningTest::MockKeyEntry::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="72" column="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a59664d2d16d1635bd6d3a1ea623fb00e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t Phase2CryptoHardeningTest::MockKeyEntry::rotation_epoch</definition>
+        <argsstring></argsstring>
+        <name>rotation_epoch</name>
+        <qualifiedname>Phase2CryptoHardeningTest::MockKeyEntry::rotation_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="73" column="18" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock in-memory key storage: key_id → (material, status). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="70" column="5" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="70" bodyend="74"/>
+    <listofallmembers>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654ac611ee315cc56e2dcdab746cf76f16e1" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>ACTIVE</name></member>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a19a92a1da3e8d75d7b94e771de830d1c" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>material</name></member>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654a08fb74e49bc54d1d5c10c3810555adb1" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>REVOKED</name></member>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1ad50e82ea9c9728fe56dbadb097a24654a71747cac1f7c4721407cfc55d8b771e7" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>ROTATING</name></member>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a59664d2d16d1635bd6d3a1ea623fb00e" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>rotation_epoch</name></member>
+      <member refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry_1a99a8d11f0249a19107fe5fb5dc99ee17" prot="public" virt="non-virtual"><scope>Phase2CryptoHardeningTest::MockKeyEntry</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

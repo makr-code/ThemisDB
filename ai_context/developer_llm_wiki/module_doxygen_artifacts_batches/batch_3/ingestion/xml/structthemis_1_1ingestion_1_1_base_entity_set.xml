@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_base_entity_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::BaseEntitySet</compoundname>
+    <includes refid="base__entity_8h" local="no">base_entity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_set_1ac96f1decf796f8cf73c4b1443376d5f0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref> &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; themis::ingestion::BaseEntitySet::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::ingestion::BaseEntitySet::nodes</qualifiedname>
+        <briefdescription>
+<para>Graph nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="216" column="19" bodyfile="include/ingestion/base_entity.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_set_1aafd88e88bc356f85ca049b30bfe1b8c7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt;</type>
+        <definition>std::vector&lt;EntityRelation&gt; themis::ingestion::BaseEntitySet::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::ingestion::BaseEntitySet::edges</qualifiedname>
+        <briefdescription>
+<para>Graph edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="217" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_set_1a95aa6f94f101ba6265f4867ba20a3f48" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt;</type>
+        <definition>std::vector&lt;VectorRecord&gt; themis::ingestion::BaseEntitySet::chunks</definition>
+        <argsstring></argsstring>
+        <name>chunks</name>
+        <qualifiedname>themis::ingestion::BaseEntitySet::chunks</qualifiedname>
+        <briefdescription>
+<para>Vector index entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="218" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_set_1a8ac07ad9105812d8f44e00ee7b5bee1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BaseEntitySet::source_file_id</definition>
+        <argsstring></argsstring>
+        <name>source_file_id</name>
+        <qualifiedname>themis::ingestion::BaseEntitySet::source_file_id</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the originating file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="219" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_set_1a430ea7040292160f3ac3fc5e97a3ccfa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::BaseEntitySet::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::ingestion::BaseEntitySet::quality_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Aggregated quality metric [0.0–1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="220" column="12" bodyfile="include/ingestion/base_entity.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Assembled, de-duplicated output ready for sink (graph + vector + doc). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput>builtin.base_entity_assembler</computeroutput> from a finalised <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput>. The three sinks (GraphWriter, VectorWriter, DocWriter) operate on this structure. </para>
+    </detaileddescription>
+    <location file="include/ingestion/base_entity.h" line="215" column="1" bodyfile="include/ingestion/base_entity.h" bodystart="215" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_set_1a95aa6f94f101ba6265f4867ba20a3f48" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntitySet</scope><name>chunks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_set_1aafd88e88bc356f85ca049b30bfe1b8c7" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntitySet</scope><name>edges</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_set_1ac96f1decf796f8cf73c4b1443376d5f0" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntitySet</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_set_1a430ea7040292160f3ac3fc5e97a3ccfa" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntitySet</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_set_1a8ac07ad9105812d8f44e00ee7b5bee1e" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntitySet</scope><name>source_file_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

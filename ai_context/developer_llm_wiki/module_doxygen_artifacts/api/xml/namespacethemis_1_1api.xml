@@ -1,0 +1,716 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1api" kind="namespace" language="C++">
+    <compoundname>themis::api</compoundname>
+    <innerclass refid="classthemis_1_1api_1_1_api_error_taxonomy" prot="public">themis::api::ApiErrorTaxonomy</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_correlation_id" prot="public">themis::api::CorrelationId</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_federation_admin_handler" prot="public">themis::api::FederationAdminHandler</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_gateway_hook_context" prot="public">themis::api::GatewayHookContext</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_gateway_hook_result" prot="public">themis::api::GatewayHookResult</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_geo_index_hooks" prot="public">themis::api::GeoIndexHooks</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor" prot="public">themis::api::GraphQLFieldDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor" prot="public">themis::api::GraphQLTypeDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_g_r_p_c_metadata" prot="public">themis::api::GRPCMetadata</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_g_r_p_c_request" prot="public">themis::api::GRPCRequest</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_http_error" prot="public">themis::api::HttpError</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_http_request" prot="public">themis::api::HttpRequest</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_http_response" prot="public">themis::api::HttpResponse</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" prot="public">themis::api::IAPIGatewayHook</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_a_p_i_version_router" prot="public">themis::api::IAPIVersionRouter</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_correlation_i_d_provider" prot="public">themis::api::ICorrelationIDProvider</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_gateway_hook_registry" prot="public">themis::api::IGatewayHookRegistry</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" prot="public">themis::api::IGraphQLSchemaBuilder</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge" prot="public">themis::api::IGRPCBridge</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_http_handler" prot="public">themis::api::IHttpHandler</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_subscription_multiplexer" prot="public">themis::api::ISubscriptionMultiplexer</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_transport_contract" prot="public">themis::api::ITransportContract</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" prot="public">themis::api::IWebSocketFrameCallback</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_web_socket_handler" prot="public">themis::api::IWebSocketHandler</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_middleware_chain" prot="public">themis::api::MiddlewareChain</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_otlp_exporter" prot="public">themis::api::OtlpExporter</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_otlp_exporter_config" prot="public">themis::api::OtlpExporterConfig</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_route_entry" prot="public">themis::api::RouteEntry</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_schema_validation_error" prot="public">themis::api::SchemaValidationError</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_schema_validation_result" prot="public">themis::api::SchemaValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_service_descriptor" prot="public">themis::api::ServiceDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_span_data" prot="public">themis::api::SpanData</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_subscription_event" prot="public">themis::api::SubscriptionEvent</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_subscription_filter" prot="public">themis::api::SubscriptionFilter</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_themis_d_b_grpc_service" prot="public">themis::api::ThemisDBGrpcService</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_factory" prot="public">themis::api::ThemisDBGrpcServiceFactory</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_tracing_middleware" prot="public">themis::api::TracingMiddleware</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_transport_contract_validator" prot="public">themis::api::TransportContractValidator</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_transport_policy_config" prot="public">themis::api::TransportPolicyConfig</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_transport_policy_middleware" prot="public">themis::api::TransportPolicyMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_version_descriptor" prot="public">themis::api::VersionDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_web_socket_frame" prot="public">themis::api::WebSocketFrame</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_web_socket_session" prot="public">themis::api::WebSocketSession</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GatewayHookPhase</name>
+        <qualifiedname>themis::api::GatewayHookPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aac051d6347bb8c9a858ff7b2463fd9698" prot="public">
+          <name>PRE_AUTH</name>
+          <briefdescription>
+<para>Before authentication (e.g., IP allow-list, rate limiting). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa6481afd9ed5b00854e6e543dffc18323" prot="public">
+          <name>POST_AUTH</name>
+          <briefdescription>
+<para>After authentication; before routing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaa510f5e56aa043a0c2d08a480c8696a2" prot="public">
+          <name>PRE_HANDLER</name>
+          <briefdescription>
+<para>Before the request handler executes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaec8e96fd5da2a38a1f698f64deb24c5f" prot="public">
+          <name>POST_HANDLER</name>
+          <briefdescription>
+<para>After the handler; before the response is written. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa2fff466d401e302c7dfff289fc66ee39" prot="public">
+          <name>ON_ERROR</name>
+          <briefdescription>
+<para>Invoked on the error path (handler or upstream failure). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="29" column="1" bodyfile="include/api/api_gateway_hook.h" bodystart="29" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>TransportCapability</name>
+        <qualifiedname>themis::api::TransportCapability</qualifiedname>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937afffb60d88e63f0a08ce31713b1eb594b" prot="public">
+          <name>TlsSupport</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Adapter supports TLS/mTLS connections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a8e80f520d87b406853e56dd67fb50530" prot="public">
+          <name>CompressionSupport</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+<para>Adapter supports gzip/brotli response compression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a650dbe1b42a95d4fc1e2b35047daf52e" prot="public">
+          <name>StreamingSupport</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+<para>Adapter supports streaming responses (SSE / gRPC streams). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a8fa50161f6e724647e44d56232ab21c4" prot="public">
+          <name>ReflectionSupport</name>
+          <initializer>= 0x08</initializer>
+          <briefdescription>
+<para>Adapter exposes schema reflection (debug builds only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a1af2b2cc5da7fc23ff7f1e74cafcb2d9" prot="public">
+          <name>RateLimitSupport</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+<para>Adapter enforces per-key rate limiting. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a61dbd92f5d04630b04a92f3c2b20c71a" prot="public">
+          <name>SubscriptionSupport</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+<para>Adapter supports long-lived subscription connections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="50" column="1" bodyfile="include/api/api_transport_contracts.h" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TransportFailureClass</name>
+        <qualifiedname>themis::api::TransportFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No failure; request is valid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5aa069c5410264cc9d679bd8806391041b" prot="public">
+          <name>MalformedRequest</name>
+          <briefdescription>
+<para>Request is syntactically invalid (bad method, empty path, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a0234a767e9c5c06cdaf290cc9b690b34" prot="public">
+          <name>PayloadTooLarge</name>
+          <briefdescription>
+<para>Request body exceeds kMaxPayloadBytes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a0f89bc98e9b12bdeda0604e57bdc0518" prot="public">
+          <name>UnsupportedVersion</name>
+          <briefdescription>
+<para>X-API-Version header names an unknown version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a2f1218ea7a673274d25667cfb221befc" prot="public">
+          <name>ContentTypeMissing</name>
+          <briefdescription>
+<para>POST/PUT/PATCH body is present but Content-Type is absent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a77c4380e5cf5c0deb710c546b4289cb3" prot="public">
+          <name>ContentTypeMismatch</name>
+          <briefdescription>
+<para>Content-Type header value is not acceptable for the endpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5ae06d1ba70f1331e9f9a113cc2f887d3f" prot="public">
+          <name>Unauthorized</name>
+          <briefdescription>
+<para>Request lacks required authentication credentials. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5ac7433990fc11e0ae16d6974bbf8b2f44" prot="public">
+          <name>RateLimitExceeded</name>
+          <briefdescription>
+<para>Request rate from this key/IP exceeds configured limits. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a31185f98fd6ab437092e213cd22aec68" prot="public">
+          <name>CapabilityUnavailable</name>
+          <briefdescription>
+<para>Requested transport feature is not available in this deployment. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <briefdescription>
+<para>Unexpected adapter-internal error (maps to 500). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="81" column="1" bodyfile="include/api/api_transport_contracts.h" bodystart="81" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>WebSocketCloseCode</name>
+        <qualifiedname>themis::api::WebSocketCloseCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453acb398181d3e3294eaaabe45596512747" prot="public">
+          <name>NormalClosure</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+<para>Normal, intentional closure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453ab16f53879e8cacc9f1040facec98b2b8" prot="public">
+          <name>GoingAway</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+<para>Endpoint going away (server shutdown, browser navigate). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aca3da8f495e4e628912a7798655da6c2" prot="public">
+          <name>ProtocolError</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+<para>Protocol error; message is not well-formed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aa63d4c1207867216c93e257bfa05e818" prot="public">
+          <name>UnsupportedData</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+<para>Received unsupported data type (e.g. binary when text expected). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5bf8ff15f1501074bed95401c41ae356" prot="public">
+          <name>NoStatusReceived</name>
+          <initializer>= 1005</initializer>
+          <briefdescription>
+<para>Reserved; indicates no close code was received (internal use only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2b30f3b5089eda6904c45a3a56b897cb" prot="public">
+          <name>AbnormalClosure</name>
+          <initializer>= 1006</initializer>
+          <briefdescription>
+<para>Reserved; abnormal closure without close frame (internal use only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a2d730f4aa6a660e8825d5294008a4ef7" prot="public">
+          <name>InvalidPayload</name>
+          <initializer>= 1007</initializer>
+          <briefdescription>
+<para>Message payload is not consistent with the message type. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aaee43f65108573ca863298db0692a4f1" prot="public">
+          <name>PolicyViolation</name>
+          <initializer>= 1008</initializer>
+          <briefdescription>
+<para>Message violates the endpoint&apos;s policy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a27b656394c5563311cf8421c85a3d39b" prot="public">
+          <name>MessageTooBig</name>
+          <initializer>= 1009</initializer>
+          <briefdescription>
+<para>Message too large to process. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453aea01a47c39d4e19f699528308a4930a5" prot="public">
+          <name>MissingExtension</name>
+          <initializer>= 1010</initializer>
+          <briefdescription>
+<para>Client expected extension negotiation that did not happen. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 1011</initializer>
+          <briefdescription>
+<para>Server encountered an unexpected condition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a5ea32b9182206cbe3cb62dd52882b358" prot="public">
+          <name>ServiceRestart</name>
+          <initializer>= 1012</initializer>
+          <briefdescription>
+<para>Service is restarting; client may reconnect. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453adec7a474edaa7a2f9b22f6adfdec3882" prot="public">
+          <name>TryAgainLater</name>
+          <initializer>= 1013</initializer>
+          <briefdescription>
+<para>Temporary service condition; client should try later. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a0e7c9ad08be0653518bf456c9994ace5" prot="public">
+          <name>BadGateway</name>
+          <initializer>= 1014</initializer>
+          <briefdescription>
+<para>Server received an invalid response from an upstream. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1api_1adedbb9c1f02dbfc6cdfaeaf8079d6453a01ba6a034abdc6cd416818d1c6f21d48" prot="public">
+          <name>TlsHandshakeFailed</name>
+          <initializer>= 1015</initializer>
+          <briefdescription>
+<para>Reserved; TLS handshake failed (internal use only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="63" column="1" bodyfile="include/api/websocket_handler.h" bodystart="63" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1api_1_1_route_entry" kindref="compound">RouteEntry</ref> &gt;</type>
+        <definition>using themis::api::HandlerSet = std::vector&lt;RouteEntry&gt;</definition>
+        <argsstring></argsstring>
+        <name>HandlerSet</name>
+        <qualifiedname>themis::api::HandlerSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="78" column="1" bodyfile="include/api/api_version_router.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::api::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::api::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/api/geo_index_hooks.cpp" line="24" column="1" bodyfile="src/api/geo_index_hooks.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1api_1ad960941897310e2744b3a5dbb6c871e2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::kApiMajorVersion</definition>
+        <argsstring></argsstring>
+        <name>kApiMajorVersion</name>
+        <qualifiedname>themis::api::kApiMajorVersion</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="36" column="22" bodyfile="include/api/api_transport_contracts.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1api_1a5578854b7f77c19e9a7541b2261f21d0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::api::kSupportedApiVersions[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kSupportedApiVersions</name>
+        <qualifiedname>themis::api::kSupportedApiVersions</qualifiedname>
+        <initializer>= {&quot;v1&quot;, &quot;v2&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="38" column="35" bodyfile="include/api/api_transport_contracts.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::kMaxPayloadBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPayloadBytes</name>
+        <qualifiedname>themis::api::kMaxPayloadBytes</qualifiedname>
+        <initializer>= 10UL * 1024UL * 1024UL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="40" column="30" bodyfile="include/api/api_transport_contracts.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::kMaxPathBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPathBytes</name>
+        <qualifiedname>themis::api::kMaxPathBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="42" column="30" bodyfile="include/api/api_transport_contracts.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1api_1a3bfb4a93bf50e412ece637e39fe855ad" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::kMaxHeaderValueBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxHeaderValueBytes</name>
+        <qualifiedname>themis::api::kMaxHeaderValueBytes</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="44" column="30" bodyfile="include/api/api_transport_contracts.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1api_1a8255fea67a45aa9e0470c322fe452caf" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+        <definition>TransportCapability themis::api::operator|</definition>
+        <argsstring>(TransportCapability a, TransportCapability b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::api::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="60" column="38" bodyfile="include/api/api_transport_contracts.h" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1ac4c71dc1ed42003e677b7ab11aaad166" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+        <definition>TransportCapability themis::api::operator&amp;</definition>
+        <argsstring>(TransportCapability a, TransportCapability b) noexcept</argsstring>
+        <name>operator&amp;</name>
+        <qualifiedname>themis::api::operator&amp;</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="66" column="38" bodyfile="include/api/api_transport_contracts.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::hasCapability</definition>
+        <argsstring>(TransportCapability set, TransportCapability flag) noexcept</argsstring>
+        <name>hasCapability</name>
+        <qualifiedname>themis::api::hasCapability</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="72" column="23" bodyfile="include/api/api_transport_contracts.h" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1a0b3f452f7822c3276e672189986d17a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::api::aqlEscapeLiteral</definition>
+        <argsstring>(const std::string &amp;raw)</argsstring>
+        <name>aqlEscapeLiteral</name>
+        <qualifiedname>themis::api::aqlEscapeLiteral</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+<para>Aql Escape Literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/aql_utils.h" line="34" column="20" bodyfile="include/api/aql_utils.h" bodystart="34" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1af44acea52b5298daa7f9c0513d3800fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::isValidAqlIdentifier</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>isValidAqlIdentifier</name>
+        <qualifiedname>themis::api::isValidAqlIdentifier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Aql Identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::isalpha(), std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/aql_utils.h" line="51" column="13" bodyfile="include/api/aql_utils.h" bodystart="51" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1a0668632f6ed15e7aae2c2325aae765d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::api::validateGeoJSONBasic</definition>
+        <argsstring>(const json &amp;geojson)</argsstring>
+        <name>validateGeoJSONBasic</name>
+        <qualifiedname>themis::api::validateGeoJSONBasic</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref> &amp;</type>
+          <declname>geojson</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to validate GeoJSON before parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geojson</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_object(), contains(), is_string(), is_array(), size(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/api/geo_index_hooks.cpp" line="32" column="13" bodyfile="src/api/geo_index_hooks.cpp" bodystart="32" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1api_1aada2e107017031e53b8b39b00699992d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::api::validateCoordinatePair</definition>
+        <argsstring>(const json &amp;coord, double &amp;lon, double &amp;lat)</argsstring>
+        <name>validateCoordinatePair</name>
+        <qualifiedname>themis::api::validateCoordinatePair</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1api_1a5427044a10d0bbba55f0cdfe68b8565c" kindref="member">json</ref> &amp;</type>
+          <declname>coord</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/api/geo_index_hooks.cpp" line="75" column="14" bodyfile="src/api/geo_index_hooks.cpp" bodystart="75" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_error_taxonomy.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

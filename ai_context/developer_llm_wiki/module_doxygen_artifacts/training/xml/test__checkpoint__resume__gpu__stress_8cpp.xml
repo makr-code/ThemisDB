@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__checkpoint__resume__gpu__stress_8cpp" kind="file" language="C++">
+    <compoundname>test_checkpoint_resume_gpu_stress.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lora__checkpoint__manager_8h" local="yes">training/lora_checkpoint_manager.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/training/test_checkpoint_resume_gpu_stress.cpp</label>
+        <link refid="test__checkpoint__resume__gpu__stress_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>ctime</label>
+      </node>
+      <node id="15">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>random</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_checkpoint_resume_gpu_stress_test" prot="public">CheckpointResumeGpuStressTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__checkpoint__resume__gpu__stress_8cpp_1a86d8bd242db92d40510b56dab28d46af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeGpuStressTest, ResumeDeterministicAcrossRepeatedCalls)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_gpu_stress_test" kindref="compound">CheckpointResumeGpuStressTest</ref></type>
+        </param>
+        <param>
+          <type>ResumeDeterministicAcrossRepeatedCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="76" column="1" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="76" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__gpu__stress_8cpp_1a50585a6bc7b02f35b30ec2915c1f8c34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeGpuStressTest, CorruptedLatestRollsBackUnderStress)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_gpu_stress_test" kindref="compound">CheckpointResumeGpuStressTest</ref></type>
+        </param>
+        <param>
+          <type>CorruptedLatestRollsBackUnderStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp" line="103" column="1" bodyfile="tests/training/test_checkpoint_resume_gpu_stress.cpp" bodystart="103" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__checkpoint__manager_8h" kindref="compound">training/lora_checkpoint_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">themis::training</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>makeDeterministicPayload(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/>uint32_t<sp/>seed)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>payload(size);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>255);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>payload)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dist(rng));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>payload;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeBinaryFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>out(path,<sp/>std::ios::binary<sp/>|<sp/>std::ios::trunc);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out.is_open());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>out.write(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(data.data()),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::streamsize</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(data.size()));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(out.good());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="class_checkpoint_resume_gpu_stress_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_checkpoint_resume_gpu_stress_test" kindref="compound">CheckpointResumeGpuStressTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a0e46e4e15dc603212d6472cfff9a9720" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unique<sp/>=<sp/>std::to_string(std::random_device{}());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themis_training_gpu_cp_&quot;</highlight><highlight class="normal"><sp/>+<sp/>unique);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" kindref="member">source_dir_</ref><sp/>=<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" kindref="member">checkpoint_dir_</ref><sp/>=<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;checkpoints&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" kindref="member">source_dir_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" kindref="member">checkpoint_dir_</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a22efea9eaef4dd4103d3f4a7040570b1" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref><sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1aac1fd899dca8e8f5a48e09d4631f64ef" kindref="member">makeConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" kindref="member">checkpoint_dir</ref><sp/>=<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" kindref="member">checkpoint_dir_</ref>.string();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" kindref="member">max_checkpoints</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" kindref="member">validate_on_load</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" kindref="member">auto_rollback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>fs::path<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1af3d2bf3a0eb1ac1e33dc8a7df5b7135f" kindref="member">writeSourceCheckpoint</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>source<sp/>=<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" kindref="member">source_dir_</ref><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;gpu_payload_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(index)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>writeBinaryFile(source,<sp/>makeDeterministicPayload(bytes,<sp/>1000u<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(index)));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>source;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1ada36e460059cdb1e54f1a5feb541b179" kindref="member">root_dir_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a055c7d7884e7e2add39e53e5bb04f670" kindref="member">source_dir_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_checkpoint_resume_gpu_stress_test_1a677d8bcbf4d1099ee147d7fc6876b73f" kindref="member">checkpoint_dir_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__checkpoint__resume__gpu__stress_8cpp_1a86d8bd242db92d40510b56dab28d46af" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_gpu_stress_test" kindref="compound">CheckpointResumeGpuStressTest</ref>,<sp/>ResumeDeterministicAcrossRepeatedCalls)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(makeConfig());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>source<sp/>=<sp/>writeSourceCheckpoint(1,<sp/>512<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref><sp/>=<sp/>0.2;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gpu_stress_v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>saved<sp/>=<sp/>mgr.save(source.string(),<sp/>meta);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(first.has_value());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>25;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resumed<sp/>=<sp/>mgr.resume();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(resumed.has_value());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;checkpoint_path,<sp/>first-&gt;checkpoint_path);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;sha256,<sp/>first-&gt;sha256);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;epoch,<sp/>first-&gt;epoch);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;step,<sp/>first-&gt;step);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(saved.checkpoint_path));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__checkpoint__resume__gpu__stress_8cpp_1a86d8bd242db92d40510b56dab28d46af" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_gpu_stress_test" kindref="compound">CheckpointResumeGpuStressTest</ref>,<sp/>CorruptedLatestRollsBackUnderStress)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref><sp/>mgr(makeConfig());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CheckpointManifestEntry&gt;<sp/>saved_entries;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>saved_entries.reserve(10);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>epoch<sp/>=<sp/>1;<sp/>epoch<sp/>&lt;=<sp/>10;<sp/>++epoch)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>source<sp/>=<sp/>writeSourceCheckpoint(epoch,<sp/>256<sp/>*<sp/>1024<sp/>+<sp/>epoch<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/>=<sp/>epoch;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/>=<sp/>epoch<sp/>*<sp/>128;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/>=<sp/>1.0<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(epoch);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref><sp/>=<sp/>0.5<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(epoch)<sp/>*<sp/>0.01;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gpu_stress&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>saved_entries.push_back(mgr.save(source.string(),<sp/>meta));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(saved_entries.empty());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>newest<sp/>=<sp/>saved_entries.back();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>corrupt(newest.checkpoint_path,<sp/>std::ios::binary<sp/>|<sp/>std::ios::trunc);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(corrupt.is_open());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>corrupt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CORRUPTED_CHECKPOINT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(corrupt.good());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>diagnostics<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resumed<sp/>=<sp/>mgr.resumeWithDiagnostics(&amp;diagnostics);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resumed.has_value());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;epoch,<sp/>9u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed-&gt;step,<sp/>9u<sp/>*<sp/>128u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(diagnostics.find(</highlight><highlight class="stringliteral">&quot;CORRUPT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/training/test_checkpoint_resume_gpu_stress.cpp"/>
+  </compounddef>
+</doxygen>

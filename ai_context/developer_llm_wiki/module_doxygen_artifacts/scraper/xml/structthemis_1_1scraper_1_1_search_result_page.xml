@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_search_result_page" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::SearchResultPage</compoundname>
+    <includes refid="scraper__search__engine_8h" local="no">scraper_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1ab2c8131f14f8488fabbefd7566fbd195" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_search_result_item" kindref="compound">SearchResultItem</ref> &gt;</type>
+        <definition>std::vector&lt;SearchResultItem&gt; themis::scraper::SearchResultPage::items</definition>
+        <argsstring></argsstring>
+        <name>items</name>
+        <qualifiedname>themis::scraper::SearchResultPage::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="60" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1a9ab8f84cdafca568a492f4c4ae3ad7c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultPage::next_page_url</definition>
+        <argsstring></argsstring>
+        <name>next_page_url</name>
+        <qualifiedname>themis::scraper::SearchResultPage::next_page_url</qualifiedname>
+        <briefdescription>
+<para>Empty when there is no next page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="61" column="18" bodyfile="include/scraper/scraper_search_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1ac8cf1c0c8e615bc9e578a40385cbb82f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultPage::prev_page_url</definition>
+        <argsstring></argsstring>
+        <name>prev_page_url</name>
+        <qualifiedname>themis::scraper::SearchResultPage::prev_page_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="62" column="18" bodyfile="include/scraper/scraper_search_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1ad84a53eda99fb90005a7a480c7a6e6fe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::SearchResultPage::current_page</definition>
+        <argsstring></argsstring>
+        <name>current_page</name>
+        <qualifiedname>themis::scraper::SearchResultPage::current_page</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="63" column="18" bodyfile="include/scraper/scraper_search_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1a0f0d6c46602cbe69c8a4983e48e1c600" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::SearchResultPage::total_results</definition>
+        <argsstring></argsstring>
+        <name>total_results</name>
+        <qualifiedname>themis::scraper::SearchResultPage::total_results</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 when not reported by the site </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="64" column="18" bodyfile="include/scraper/scraper_search_engine.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_page_1a01c4933e7d80c6777215ac31ccd82b55" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::SearchResultPage::has_more</definition>
+        <argsstring></argsstring>
+        <name>has_more</name>
+        <qualifiedname>themis::scraper::SearchResultPage::has_more</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="65" column="18" bodyfile="include/scraper/scraper_search_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One page of search results with pagination info. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_search_engine.h" line="59" column="1" bodyfile="include/scraper/scraper_search_engine.h" bodystart="59" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1ad84a53eda99fb90005a7a480c7a6e6fe" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>current_page</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1a01c4933e7d80c6777215ac31ccd82b55" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>has_more</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1ab2c8131f14f8488fabbefd7566fbd195" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>items</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1a9ab8f84cdafca568a492f4c4ae3ad7c6" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>next_page_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1ac8cf1c0c8e615bc9e578a40385cbb82f" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>prev_page_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_page_1a0f0d6c46602cbe69c8a4983e48e1c600" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultPage</scope><name>total_results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

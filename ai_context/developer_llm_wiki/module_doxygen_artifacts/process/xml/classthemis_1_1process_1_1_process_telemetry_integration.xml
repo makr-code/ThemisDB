@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_telemetry_integration" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessTelemetryIntegration</compoundname>
+    <includes refid="process__telemetry__integration_8h" local="no">process_telemetry_integration.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_telemetry_integration_1aa84a649ed5b3f0231dc339fe04b77e85" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_telemetry_integration_impl" kindref="compound">ProcessTelemetryIntegrationImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessTelemetryIntegrationImpl&gt; themis::process::ProcessTelemetryIntegration::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="120" column="19" bodyfile="include/process/process_telemetry_integration.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1a5d209c718364c16bf606714a6a652478" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1aafcd80c8d99302a4d3d66d5fd8a43951" kindref="member">ProcessTelemetryIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ProcessTelemetryIntegration &gt; themis::process::ProcessTelemetryIntegration::Create</definition>
+        <argsstring>(const TelemetryConfig &amp;config, const std::string &amp;node_id)</argsstring>
+        <name>Create</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::Create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Factory method to create telemetry integration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="67" column="26" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="556" bodyend="560"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1aafcd80c8d99302a4d3d66d5fd8a43951" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessTelemetryIntegration::ProcessTelemetryIntegration</definition>
+        <argsstring>(std::unique_ptr&lt; ProcessTelemetryIntegrationImpl &gt; impl)</argsstring>
+        <name>ProcessTelemetryIntegration</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::ProcessTelemetryIntegration</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_telemetry_integration_impl" kindref="compound">ProcessTelemetryIntegrationImpl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="74" column="12" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="562" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1a923dacce530be7ca1a7b6e0ec1c56b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessTelemetryIntegration::~ProcessTelemetryIntegration</definition>
+        <argsstring>()</argsstring>
+        <name>~ProcessTelemetryIntegration</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::~ProcessTelemetryIntegration</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="80" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1a279d88ec7e9653bf08c5ea39ec671edf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_distributed_span" kindref="compound">DistributedSpan</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedSpan &gt; themis::process::ProcessTelemetryIntegration::CreateSpan</definition>
+        <argsstring>(const std::string &amp;operation_name)</argsstring>
+        <name>CreateSpan</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::CreateSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a new distributed trace span. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="85" column="19" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="569" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1a560e39f3f09d98fa8ab18d31bac8cb0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessTelemetryIntegration::SetCurrentTraceContext</definition>
+        <argsstring>(const TraceContext &amp;context)</argsstring>
+        <name>SetCurrentTraceContext</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::SetCurrentTraceContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Set current trace context (for parent span linking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Current Trace Context.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements SetCurrentTraceContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="90" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="578" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1ad63c71bd5d7a46450f9ee4b15a1f8164" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::process::ProcessTelemetryIntegration::GetCurrentTraceContext</definition>
+        <argsstring>() const</argsstring>
+        <name>GetCurrentTraceContext</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::GetCurrentTraceContext</qualifiedname>
+        <briefdescription>
+<para>Get current trace context (for header propagation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="95" column="16" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="583" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1ad51b9d36d283f89798851bbcdc663f9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessTelemetryIntegration::RecordSpan</definition>
+        <argsstring>(const std::shared_ptr&lt; DistributedSpan &gt; &amp;span)</argsstring>
+        <name>RecordSpan</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::RecordSpan</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_distributed_span" kindref="compound">DistributedSpan</ref> &gt; &amp;</type>
+          <declname>span</declname>
+        </param>
+        <briefdescription>
+<para>Record span in history and export to OTel collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Span.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements RecordSpan without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="100" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="592" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1ab8a57861e033d1b5534f1c3cdd2deb78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessTelemetryIntegration::ValidateOverheadBudget</definition>
+        <argsstring>(const std::string &amp;operation_name, uint64_t operation_latency_ms, uint64_t tracing_overhead_ms)</argsstring>
+        <name>ValidateOverheadBudget</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::ValidateOverheadBudget</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>operation_latency_ms</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>tracing_overhead_ms</declname>
+        </param>
+        <briefdescription>
+<para>Validate tracing overhead budget (&lt; 5% of operation latency). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Overhead Budget.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tracing_overhead_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements ValidateOverheadBudget without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="105" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="605" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1ae58da2f8689a86fcbaab0221ae690d74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_telemetry_stats" kindref="compound">TelemetryStats</ref></type>
+        <definition>TelemetryStats themis::process::ProcessTelemetryIntegration::GetStats</definition>
+        <argsstring>() const</argsstring>
+        <name>GetStats</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::GetStats</qualifiedname>
+        <briefdescription>
+<para>Get telemetry statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="112" column="18" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="612" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_telemetry_integration_1a6be70ae6a4a62d883bbc5ca36b3eb728" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessTelemetryIntegration::ExportSpans</definition>
+        <argsstring>()</argsstring>
+        <name>ExportSpans</name>
+        <qualifiedname>themis::process::ProcessTelemetryIntegration::ExportSpans</qualifiedname>
+        <briefdescription>
+<para>Export all recorded spans to OpenTelemetry collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export Spans.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements ExportSpans without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="117" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="621" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed tracing and telemetry coordination engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides distributed tracing via OpenTelemetry spans, correlation ID propagation across federation boundaries, W3C Trace Context compliance, and overhead budget enforcement (&lt;5%). </para>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_integration.h" line="62" column="1" bodyfile="include/process/process_telemetry_integration.h" bodystart="62" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1a5d209c718364c16bf606714a6a652478" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>Create</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1a279d88ec7e9653bf08c5ea39ec671edf" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>CreateSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1a6be70ae6a4a62d883bbc5ca36b3eb728" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>ExportSpans</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1ad63c71bd5d7a46450f9ee4b15a1f8164" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>GetCurrentTraceContext</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1ae58da2f8689a86fcbaab0221ae690d74" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>GetStats</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1aa84a649ed5b3f0231dc339fe04b77e85" prot="private" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1aafcd80c8d99302a4d3d66d5fd8a43951" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>ProcessTelemetryIntegration</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1ad51b9d36d283f89798851bbcdc663f9a" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>RecordSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1a560e39f3f09d98fa8ab18d31bac8cb0e" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>SetCurrentTraceContext</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1ab8a57861e033d1b5534f1c3cdd2deb78" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>ValidateOverheadBudget</name></member>
+      <member refid="classthemis_1_1process_1_1_process_telemetry_integration_1a923dacce530be7ca1a7b6e0ec1c56b66" prot="public" virt="non-virtual"><scope>themis::process::ProcessTelemetryIntegration</scope><name>~ProcessTelemetryIntegration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

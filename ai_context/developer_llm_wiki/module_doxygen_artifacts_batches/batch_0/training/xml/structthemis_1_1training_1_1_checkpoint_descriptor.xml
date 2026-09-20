@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_checkpoint_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointDescriptor</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_descriptor_1ab8bc7cc3cdc56057967b53dc5ec97bf7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" kindref="member">CheckpointId</ref></type>
+        <definition>CheckpointId themis::training::CheckpointDescriptor::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::id</qualifiedname>
+        <briefdescription>
+<para>Content-addressed identifier (SHA-256 hex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="47" column="18" bodyfile="include/training/training_interfaces.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_descriptor_1a2f5c04ad2541e43d16cf98af225b637f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointDescriptor::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::model_id</qualifiedname>
+        <briefdescription>
+<para>Base model the weights belong to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="48" column="18" bodyfile="include/training/training_interfaces.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_descriptor_1aaa55226f7f5b0710c0aac689976eb67a" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::training::CheckpointDescriptor::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="49" column="18" bodyfile="include/training/training_interfaces.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_descriptor_1a462aefaa038a02fe39df28a0335397ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CheckpointDescriptor::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="50" column="18" bodyfile="include/training/training_interfaces.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_descriptor_1abc3b88705d28093d16e02b90ca14f678" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointDescriptor::signature_valid</definition>
+        <argsstring></argsstring>
+        <name>signature_valid</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::signature_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Ed25519 signature verified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="51" column="18" bodyfile="include/training/training_interfaces.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_checkpoint_descriptor_1a4eb0826bfe9029f0812fae8eab557e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CheckpointDescriptor::CheckpointDescriptor</definition>
+        <argsstring>()=default</argsstring>
+        <name>CheckpointDescriptor</name>
+        <qualifiedname>themis::training::CheckpointDescriptor::CheckpointDescriptor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="53" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor for a single stored checkpoint. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="46" column="1" bodyfile="include/training/training_interfaces.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1a4eb0826bfe9029f0812fae8eab557e5c" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>CheckpointDescriptor</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1aaa55226f7f5b0710c0aac689976eb67a" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1ab8bc7cc3cdc56057967b53dc5ec97bf7" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>id</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1a2f5c04ad2541e43d16cf98af225b637f" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1abc3b88705d28093d16e02b90ca14f678" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>signature_valid</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_descriptor_1a462aefaa038a02fe39df28a0335397ae" prot="public" virt="non-virtual"><scope>themis::training::CheckpointDescriptor</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

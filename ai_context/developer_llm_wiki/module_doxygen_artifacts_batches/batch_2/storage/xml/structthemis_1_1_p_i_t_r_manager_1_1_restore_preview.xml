@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PITRManager::RestorePreview</compoundname>
+    <includes refid="pitr__manager_8h" local="no">pitr_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a8040978862bdd90b1537f3ca245de4b9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestorePreview::target_sequence</definition>
+        <argsstring></argsstring>
+        <name>target_sequence</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::target_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="80" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a22ecbccbb6b14d8a5fcd997a66831ef4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestorePreview::current_sequence</definition>
+        <argsstring></argsstring>
+        <name>current_sequence</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::current_sequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="81" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ae813fcb0a1b02bfd4d323409429f2c8e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestorePreview::events_to_replay</definition>
+        <argsstring></argsstring>
+        <name>events_to_replay</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::events_to_replay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="82" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1acd8d0abe020a0f5b923da5552a0abee9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PITRManager::RestorePreview::affected_tables</definition>
+        <argsstring></argsstring>
+        <name>affected_tables</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::affected_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="83" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ab3579b54ab4d3429be7efba52e37a54b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PITRManager::RestorePreview::affected_keys</definition>
+        <argsstring></argsstring>
+        <name>affected_keys</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::affected_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="84" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ad0363f1b7bc98ba357a1fefdb0e92f79" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::PITRManager::RestorePreview::estimated_duration_sec</definition>
+        <argsstring></argsstring>
+        <name>estimated_duration_sec</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::estimated_duration_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="85" column="17" bodyfile="include/storage/pitr_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a2c34e13279b67db0e261d2c6f9a62865" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::PITRManager::RestorePreview::estimated_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_size_bytes</name>
+        <qualifiedname>themis::PITRManager::RestorePreview::estimated_size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="86" column="16" bodyfile="include/storage/pitr_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Restore preview (dry-run result). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/pitr_manager.h" line="79" column="5" bodyfile="include/storage/pitr_manager.h" bodystart="79" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ab3579b54ab4d3429be7efba52e37a54b" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>affected_keys</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1acd8d0abe020a0f5b923da5552a0abee9" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>affected_tables</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a22ecbccbb6b14d8a5fcd997a66831ef4" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>current_sequence</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ad0363f1b7bc98ba357a1fefdb0e92f79" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>estimated_duration_sec</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a2c34e13279b67db0e261d2c6f9a62865" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>estimated_size_bytes</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1ae813fcb0a1b02bfd4d323409429f2c8e" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>events_to_replay</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview_1a8040978862bdd90b1537f3ca245de4b9" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestorePreview</scope><name>target_sequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::MigrationResult</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1a019d5a8560f21519158755b7f27d7052" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::MigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::MigrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if all steps completed without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="102" column="17" bodyfile="include/updates/schema_migration.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1a1735d92b6263a9b96a1e349910a41fd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::MigrationResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="103" column="17" bodyfile="include/updates/schema_migration.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1a3ebacb68cd9de1213eb16f9e062fdedb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::MigrationResult::version</qualifiedname>
+        <briefdescription>
+<para>Target migration version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="104" column="17" bodyfile="include/updates/schema_migration.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1a79310637f0489d0d46f0928812695d8b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfc" kindref="member">OnlineDDLPhase</ref></type>
+        <definition>OnlineDDLPhase themis::updates::MigrationResult::phase_reached</definition>
+        <argsstring></argsstring>
+        <name>phase_reached</name>
+        <qualifiedname>themis::updates::MigrationResult::phase_reached</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">OnlineDDLPhase::IDLE</ref></initializer>
+        <briefdescription>
+<para>Last successfully completed phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="105" column="20" bodyfile="include/updates/schema_migration.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1a6396cbb8ecc11843f67740fb2ec63cf2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::MigrationResult::backfilled_columns</definition>
+        <argsstring></argsstring>
+        <name>backfilled_columns</name>
+        <qualifiedname>themis::updates::MigrationResult::backfilled_columns</qualifiedname>
+        <briefdescription>
+<para>Names of columns added during backfill (subset of migration operations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="108" column="17" bodyfile="include/updates/schema_migration.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_result_1aeedc9d6480556b9f1735a6c6c2826a19" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::MigrationResult::indexes_built_online</definition>
+        <argsstring></argsstring>
+        <name>indexes_built_online</name>
+        <qualifiedname>themis::updates::MigrationResult::indexes_built_online</qualifiedname>
+        <briefdescription>
+<para>Names of indexes built online during the migration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="110" column="17" bodyfile="include/updates/schema_migration.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">SchemaMigration::apply()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="101" column="1" bodyfile="include/updates/schema_migration.h" bodystart="101" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1a6396cbb8ecc11843f67740fb2ec63cf2" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>backfilled_columns</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1a1735d92b6263a9b96a1e349910a41fd2" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1aeedc9d6480556b9f1735a6c6c2826a19" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>indexes_built_online</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1a79310637f0489d0d46f0928812695d8b" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>phase_reached</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1a019d5a8560f21519158755b7f27d7052" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_result_1a3ebacb68cd9de1213eb16f9e062fdedb" prot="public" virt="non-virtual"><scope>themis::updates::MigrationResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

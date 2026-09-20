@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_chaos_shard" prot="public">themis::test::ChaosShard</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_mock_shard" prot="public">themis::test::MockShard</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_mock_shard_cluster" prot="public">themis::test::MockShardCluster</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_sharding_chaos_test" prot="public">themis::test::ShardingChaosTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1a74d01bea9c7d80b70c0dbb379298d807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, NetworkPartitionScenario)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>NetworkPartitionScenario</type>
+        </param>
+        <briefdescription>
+<para>Test network partition between shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="122" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="122" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4b365867d491aa61a46710217e2646c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, CascadingFailureHandling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CascadingFailureHandling</type>
+        </param>
+        <briefdescription>
+<para>Test cascading failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="173" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="173" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9434604fb322af3772ac530b6f99c328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, RandomFailureInjection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RandomFailureInjection</type>
+        </param>
+        <briefdescription>
+<para>Test random failure injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="220" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="220" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3b8dd86bbfa36d2ce67908ec35fe3dc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, SplitBrainScenario)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>SplitBrainScenario</type>
+        </param>
+        <briefdescription>
+<para>Test split-brain scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="272" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="272" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aa1a52ef845d9313eeb7536b17e502f95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, MultipleSimultaneousFailures)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleSimultaneousFailures</type>
+        </param>
+        <briefdescription>
+<para>Test recovery from multiple simultaneous failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="315" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="315" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a56324d9fa6955762bc5471f43e6d8e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, SlowShardPerformanceDegradation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>SlowShardPerformanceDegradation</type>
+        </param>
+        <briefdescription>
+<para>Test slow shard performance degradation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="361" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="361" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab466ed6ac2ed4d10da729c0130637676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, ByzantineFaultTolerance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ByzantineFaultTolerance</type>
+        </param>
+        <briefdescription>
+<para>Test Byzantine fault tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="393" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="393" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1e9a2c5b36f25f9e23d29fead4366187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(ShardingChaosTest, PartialNetworkConnectivity)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>PartialNetworkConnectivity</type>
+        </param>
+        <briefdescription>
+<para>Test partial network connectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="448" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="448" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab425e0d8d844f8b8009ea3489a58bc61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, MultiShardRebalanceUnderNetworkPartition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>MultiShardRebalanceUnderNetworkPartition</type>
+        </param>
+        <briefdescription>
+<para>Test: Multi-shard rebalance under network partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Partitions one shard from the rest and attempts rebalance. Verifies rebalance is deferred and partition recovery succeeds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="200" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="200" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a44c2ac38a81731543d411216ae65d32c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, ConsensusTimeoutUnderLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConsensusTimeoutUnderLoad</type>
+        </param>
+        <briefdescription>
+<para>Test: Consensus timeout under load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>High load with network delays triggering consensus timeout. Verifies leader election succeeds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="250" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="250" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7eb178476888a3eb79a9ee25fe05d81a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, CascadingShardFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CascadingShardFailure</type>
+        </param>
+        <briefdescription>
+<para>Test: Cascading shard failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail multiple shards in succession. Verifies remaining shards maintain quorum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="300" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="300" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ad0e1f829bbf53652b144e24b74417cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, LeaderElectionUnderPartition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>LeaderElectionUnderPartition</type>
+        </param>
+        <briefdescription>
+<para>Test: Leader election under partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Leader becomes unreachable, verify new leader is elected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="333" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="333" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a405f54dc664aa868525fab78fcebf6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, ShardDataConsistencyAfterRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ShardDataConsistencyAfterRecovery</type>
+        </param>
+        <briefdescription>
+<para>Test: Shard data consistency after recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail shard, recover it, verify data consistency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="363" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="363" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a89aaaa29611bc9a232b39c41e7e4fd0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ShardingChaosTest, CrossShardTransactionFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_sharding_chaos_test" kindref="compound">ShardingChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CrossShardTransactionFailure</type>
+        </param>
+        <briefdescription>
+<para>Test: Cross-shard transaction failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction across multiple shards fails on one shard. Verifies proper rollback/abort. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos_batch_a9.cpp" line="395" column="1" bodyfile="tests/sharding/test_sharding_chaos_batch_a9.cpp" bodystart="395" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_chaos.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

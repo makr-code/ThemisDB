@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_admin_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AdminContext</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_context_1ab8a89343b69eead18338d78502f163f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdminContext::capability_token</definition>
+        <argsstring></argsstring>
+        <name>capability_token</name>
+        <qualifiedname>themis::sharding::AdminContext::capability_token</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Base64-encoded admin capability token signed by the cluster CA. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="71" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_admin_context_1ae25b9830e1e016e829de09fb0f8ff184" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminContext::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::sharding::AdminContext::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="73" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the cluster-admin capability token required by privileged operations such as applyPlan() and compactLog(). The token is opaque to the interface; each concrete implementation validates it against the cluster CA. </para>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="69" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_admin_context_1ab8a89343b69eead18338d78502f163f6" prot="public" virt="non-virtual"><scope>themis::sharding::AdminContext</scope><name>capability_token</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_context_1ae25b9830e1e016e829de09fb0f8ff184" prot="public" virt="non-virtual"><scope>themis::sharding::AdminContext</scope><name>isValid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

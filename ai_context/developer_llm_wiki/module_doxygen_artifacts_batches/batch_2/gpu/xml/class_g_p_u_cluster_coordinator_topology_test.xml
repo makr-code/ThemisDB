@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_cluster_coordinator_topology_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUClusterCoordinatorTopologyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_cluster_coordinator_topology_test_1a8d1153a89dfd6d5257ffd13b00efccb4" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; DeviceInfo &gt;</type>
+        <definition>std::vector&lt;DeviceInfo&gt; GPUClusterCoordinatorTopologyTest::devices_</definition>
+        <argsstring></argsstring>
+        <name>devices_</name>
+        <qualifiedname>GPUClusterCoordinatorTopologyTest::devices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_topology.cpp" line="307" column="17" bodyfile="tests/gpu/test_gpu_cluster_topology.cpp" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_cluster_coordinator_topology_test_1af9e8fb33a20ae24a3c17d9d239843dbd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUClusterCoordinatorTopologyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUClusterCoordinatorTopologyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_cluster_topology.cpp" line="301" column="10" bodyfile="tests/gpu/test_gpu_cluster_topology.cpp" bodystart="301" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUClusterCoordinatorTopologyTest</label>
+        <link refid="class_g_p_u_cluster_coordinator_topology_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUClusterCoordinatorTopologyTest</label>
+        <link refid="class_g_p_u_cluster_coordinator_topology_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_cluster_topology.cpp" line="299" column="1" bodyfile="tests/gpu/test_gpu_cluster_topology.cpp" bodystart="299" bodyend="308"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_cluster_coordinator_topology_test_1a8d1153a89dfd6d5257ffd13b00efccb4" prot="protected" virt="non-virtual"><scope>GPUClusterCoordinatorTopologyTest</scope><name>devices_</name></member>
+      <member refid="class_g_p_u_cluster_coordinator_topology_test_1af9e8fb33a20ae24a3c17d9d239843dbd" prot="protected" virt="non-virtual"><scope>GPUClusterCoordinatorTopologyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_device_info" kind="struct" language="C++" prot="public">
+    <compoundname>sim::DeviceInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a518cd78234e5f1c397d50d6d132c8d14" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::DeviceInfo::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>sim::DeviceInfo::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="39" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a0e441ebf5a700f56488d4d1409038cb0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::DeviceInfo::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>sim::DeviceInfo::device_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="40" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a2cec7e0cb0ffb43882fe0341d9c36d7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sim::DeviceInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sim::DeviceInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="41" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1acc95cd8e294c3d74c3a75924afeae667" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sim::DeviceInfo::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>sim::DeviceInfo::backend</qualifiedname>
+        <initializer>= &quot;CUDA&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="42" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a99a3884461ae86e913d1d94f11407a5a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::DeviceInfo::compute_major</definition>
+        <argsstring></argsstring>
+        <name>compute_major</name>
+        <qualifiedname>sim::DeviceInfo::compute_major</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="43" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a36d4bdc930195660343f1ea21aa4a873" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sim::DeviceInfo::total_vram</definition>
+        <argsstring></argsstring>
+        <name>total_vram</name>
+        <qualifiedname>sim::DeviceInfo::total_vram</qualifiedname>
+        <initializer>= 16ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="44" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1ad45304eae10d9b97f2f35c642c3b60ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sim::DeviceInfo::free_vram</definition>
+        <argsstring></argsstring>
+        <name>free_vram</name>
+        <qualifiedname>sim::DeviceInfo::free_vram</qualifiedname>
+        <initializer>= 16ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="45" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_device_info_1a2adc0b6392bb57f82474952c1c3d12ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::DeviceInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>sim::DeviceInfo::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="46" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="38" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="38" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_device_info_1acc95cd8e294c3d74c3a75924afeae667" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>backend</name></member>
+      <member refid="structsim_1_1_device_info_1a99a3884461ae86e913d1d94f11407a5a" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>compute_major</name></member>
+      <member refid="structsim_1_1_device_info_1a0e441ebf5a700f56488d4d1409038cb0" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>device_index</name></member>
+      <member refid="structsim_1_1_device_info_1ad45304eae10d9b97f2f35c642c3b60ab" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>free_vram</name></member>
+      <member refid="structsim_1_1_device_info_1a518cd78234e5f1c397d50d6d132c8d14" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>index</name></member>
+      <member refid="structsim_1_1_device_info_1a2adc0b6392bb57f82474952c1c3d12ed" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>is_healthy</name></member>
+      <member refid="structsim_1_1_device_info_1a2cec7e0cb0ffb43882fe0341d9c36d7f" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>name</name></member>
+      <member refid="structsim_1_1_device_info_1a36d4bdc930195660343f1ea21aa4a873" prot="public" virt="non-virtual"><scope>sim::DeviceInfo</scope><name>total_vram</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

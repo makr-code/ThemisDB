@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_device_set" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::DeviceSet</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_device_set_1a56a4b39c3cccb44053a6fae4b0a5af8f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::DeviceSet::kMaxDevices</definition>
+        <argsstring></argsstring>
+        <name>kMaxDevices</name>
+        <qualifiedname>themis::acceleration::DeviceSet::kMaxDevices</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="945" column="29" bodyfile="include/acceleration/compute_backend.h" bodystart="945" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_device_set_1ae15c808355edcb352efae8af34af11ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::DeviceSet::devices[kMaxDevices]</definition>
+        <argsstring>[kMaxDevices]</argsstring>
+        <name>devices</name>
+        <qualifiedname>themis::acceleration::DeviceSet::devices</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Device indices (in priority order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="947" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="947" bodyend="947"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_device_set_1a84e6e640321dfe8a2106bc9fd7067354" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::DeviceSet::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::acceleration::DeviceSet::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of valid entries in <computeroutput>devices</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="948" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="948" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1ad08cc9a717f8f1db7c7b13fc9f630abb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::DeviceSet::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::acceleration::DeviceSet::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="952" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="952" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1a5f56a1e79049dd684450aee6cd3b5474" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::DeviceSet::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::acceleration::DeviceSet::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="953" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="953" bodyend="953"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1abffc573abdd6d6123a87183b0bcf8b71" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::DeviceSet::operator[]</definition>
+        <argsstring>(size_t i) const noexcept</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::acceleration::DeviceSet::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="954" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="954" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1a0a69739c1c8f8d9f375fbfcadb1a2f6c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::DeviceSet::front</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>front</name>
+        <qualifiedname>themis::acceleration::DeviceSet::front</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="955" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="955" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1a99c3191ffe86ac900abbbe77d9b148ff" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::DeviceSet::back</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>back</name>
+        <qualifiedname>themis::acceleration::DeviceSet::back</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="956" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="956" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1aad22a0ac2019683e59962064f9e7a2e7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const uint32_t *</type>
+        <definition>const uint32_t * themis::acceleration::DeviceSet::begin</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::acceleration::DeviceSet::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="958" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="958" bodyend="958"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1a4ab59ed8081be4b9c7bef0308c6d3ef4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const uint32_t *</type>
+        <definition>const uint32_t * themis::acceleration::DeviceSet::end</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::acceleration::DeviceSet::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="959" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="959" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_device_set_1a0bbcd0cd745097b58afd2c3af19fcc9c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::DeviceSet::push</definition>
+        <argsstring>(uint32_t device) noexcept</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::acceleration::DeviceSet::push</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="963" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="963" bodyend="969"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="944" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="944" bodyend="970"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a99c3191ffe86ac900abbbe77d9b148ff" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>back</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1aad22a0ac2019683e59962064f9e7a2e7" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>begin</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a84e6e640321dfe8a2106bc9fd7067354" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>count</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1ae15c808355edcb352efae8af34af11ee" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>devices</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1ad08cc9a717f8f1db7c7b13fc9f630abb" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>empty</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a4ab59ed8081be4b9c7bef0308c6d3ef4" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>end</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a0a69739c1c8f8d9f375fbfcadb1a2f6c" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>front</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a56a4b39c3cccb44053a6fae4b0a5af8f" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>kMaxDevices</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1abffc573abdd6d6123a87183b0bcf8b71" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>operator[]</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a0bbcd0cd745097b58afd2c3af19fcc9c" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>push</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_device_set_1a5f56a1e79049dd684450aee6cd3b5474" prot="public" virt="non-virtual"><scope>themis::acceleration::DeviceSet</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

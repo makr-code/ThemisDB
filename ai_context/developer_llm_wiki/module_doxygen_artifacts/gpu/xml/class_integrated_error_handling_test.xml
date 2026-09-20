@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_integrated_error_handling_test" kind="class" language="C++" prot="public">
+    <compoundname>IntegratedErrorHandlingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_integrated_error_handling_test_1abb81a8a0e2bff67f9dcaf943a5777f54" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; IntegratedErrorHandlingTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>IntegratedErrorHandlingTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="429" column="19" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="429" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_integrated_error_handling_test_1a3b509f01b8fb5a5deac3f24091f81ce8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IntegratedErrorHandlingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IntegratedErrorHandlingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="431" column="8" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="431" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IntegratedErrorHandlingTest</label>
+        <link refid="class_integrated_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IntegratedErrorHandlingTest</label>
+        <link refid="class_integrated_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="427" column="1" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="427" bodyend="434"/>
+    <listofallmembers>
+      <member refid="class_integrated_error_handling_test_1abb81a8a0e2bff67f9dcaf943a5777f54" prot="protected" virt="non-virtual"><scope>IntegratedErrorHandlingTest</scope><name>handler</name></member>
+      <member refid="class_integrated_error_handling_test_1a3b509f01b8fb5a5deac3f24091f81ce8" prot="protected" virt="non-virtual"><scope>IntegratedErrorHandlingTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

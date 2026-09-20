@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::toolbox::ToolboxBuilder::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a3202acd727e2c207a491e33e432c87a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::toolbox::ToolboxBuilder::Impl::profile_paths</definition>
+        <argsstring></argsstring>
+        <name>profile_paths</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::profile_paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="30" column="55" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a57bc28d2428dd7338743955e7add1121" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::WorkflowEngine &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::WorkflowEngine&gt; themis::toolbox::ToolboxBuilder::Impl::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="31" column="41" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a8eeee5a77cad9fb7e9044993e796f116" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt; themis::toolbox::ToolboxBuilder::Impl::text_backend</definition>
+        <argsstring></argsstring>
+        <name>text_backend</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::text_backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="32" column="33" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a6224c7304e87c4956dba6905a9e246c3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::IGraphWriter&gt; themis::toolbox::ToolboxBuilder::Impl::graph_writer</definition>
+        <argsstring></argsstring>
+        <name>graph_writer</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::graph_writer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="33" column="43" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1ab49381cea9ed9b150b67be7a83c358d7" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::IVectorWriter&gt; themis::toolbox::ToolboxBuilder::Impl::vector_writer</definition>
+        <argsstring></argsstring>
+        <name>vector_writer</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::vector_writer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="34" column="42" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a9392683966ce1086475644474fb4cd40" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; ingestion::IFormatExtractor &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ingestion::IFormatExtractor&gt; &gt; themis::toolbox::ToolboxBuilder::Impl::format_extractors</definition>
+        <argsstring></argsstring>
+        <name>format_extractors</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::format_extractors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="35" column="22" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a88b275495ced0a775537304486200a7c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::ITensorDecompositionBackend &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::ITensorDecompositionBackend&gt; themis::toolbox::ToolboxBuilder::Impl::tensor_decomp_backend</definition>
+        <argsstring></argsstring>
+        <name>tensor_decomp_backend</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::tensor_decomp_backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="36" column="28" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1aa9d03775ee118a699214536f41615ad9" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::ITensorCoreBridge &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::ITensorCoreBridge&gt; themis::toolbox::ToolboxBuilder::Impl::tensor_core_bridge</definition>
+        <argsstring></argsstring>
+        <name>tensor_core_bridge</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::tensor_core_bridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="37" column="38" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a954c0d6ea8c4a4a16071c9109361fb15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::toolbox::ToolboxBuilder::Impl::built</definition>
+        <argsstring></argsstring>
+        <name>built</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::Impl::built</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_builder.cpp" line="38" column="68" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/toolbox/toolbox_builder.cpp" line="29" column="1" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="29" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a954c0d6ea8c4a4a16071c9109361fb15" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>built</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a57bc28d2428dd7338743955e7add1121" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>engine</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a9392683966ce1086475644474fb4cd40" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>format_extractors</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a6224c7304e87c4956dba6905a9e246c3" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>graph_writer</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a3202acd727e2c207a491e33e432c87a3" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>profile_paths</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1aa9d03775ee118a699214536f41615ad9" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>tensor_core_bridge</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a88b275495ced0a775537304486200a7c" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>tensor_decomp_backend</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a8eeee5a77cad9fb7e9044993e796f116" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>text_backend</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1ab49381cea9ed9b150b67be7a83c358d7" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder::Impl</scope><name>vector_writer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

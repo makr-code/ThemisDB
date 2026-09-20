@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1backpressure_1_1_system_load_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::SystemLoadMonitor</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ae5fb9e2e8feccfd6d310a01bbc3c2306" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &amp;, <ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref>)&gt;</type>
+        <definition>using themisdb::backpressure::SystemLoadMonitor::LoadThresholdCallback = std::function&lt;void(const SystemLoadMetrics&amp;, SyncStrategy)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LoadThresholdCallback</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::LoadThresholdCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Register callback for load threshold crossings </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="430" column="5" bodyfile="include/sharding/backpressure_protocol.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0eadc63de387fbc5d17cfe77f28b8030" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::SystemLoadMonitor::check_interval_ms_</definition>
+        <argsstring></argsstring>
+        <name>check_interval_ms_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::check_interval_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="448" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a6b805ea4bfecd1a59ccae3057ee74e5d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::backpressure::SystemLoadMonitor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="449" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0ba5a73c1a1377491310ae6b8ca1ef71" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::backpressure::SystemLoadMonitor::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="450" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1adf692cec116a8bc4eb78af394f5dbf12" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::backpressure::SystemLoadMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="451" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a1dd182419d51233bbc07f90db6b9445b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::SystemLoadMonitor::current_load_</definition>
+        <argsstring></argsstring>
+        <name>current_load_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::current_load_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="453" column="23" bodyfile="include/sharding/backpressure_protocol.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ab6cbb640441d46dc5858ff5e3bbf3a95" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &gt;</type>
+        <definition>std::deque&lt;SystemLoadMetrics&gt; themisdb::backpressure::SystemLoadMonitor::load_history_</definition>
+        <argsstring></argsstring>
+        <name>load_history_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::load_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="454" column="16" bodyfile="include/sharding/backpressure_protocol.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0985d733a844dfc54430fc9088a49c45" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ae5fb9e2e8feccfd6d310a01bbc3c2306" kindref="member">LoadThresholdCallback</ref></type>
+        <definition>LoadThresholdCallback themisdb::backpressure::SystemLoadMonitor::threshold_callback_</definition>
+        <argsstring></argsstring>
+        <name>threshold_callback_</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::threshold_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="455" column="27" bodyfile="include/sharding/backpressure_protocol.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1aada38f81acb0488ca308f3ea559ff9a2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::SystemLoadMonitor::SystemLoadMonitor</definition>
+        <argsstring>(uint32_t check_interval_ms=DEFAULT_LOAD_CHECK_INTERVAL_MS)</argsstring>
+        <name>SystemLoadMonitor</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::SystemLoadMonitor</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>check_interval_ms</declname>
+          <defval><ref refid="namespacethemisdb_1_1backpressure_1a44911a4625fae5b1a31a2a7ab21de9c7" kindref="member">DEFAULT_LOAD_CHECK_INTERVAL_MS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="403" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a87e0f3054d415d8b5205a9a2042ebfec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::SystemLoadMonitor::~SystemLoadMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~SystemLoadMonitor</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::~SystemLoadMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="404" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1add783b81bf974df99b53f65114742511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::SystemLoadMonitor::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Start monitoring </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="409" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a3c5cbccb3d6f8ef21c1a43d61ef41e7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::SystemLoadMonitor::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop monitoring </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="414" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a6d8a27e7dcf16974c381bbebb3c3c9bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::SystemLoadMonitor::getCurrentLoad</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLoad</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::getCurrentLoad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current load metrics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="419" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a83e09948f97e07e1c1bd9f1cbac908b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &gt;</type>
+        <definition>std::vector&lt; SystemLoadMetrics &gt; themisdb::backpressure::SystemLoadMonitor::getLoadHistory</definition>
+        <argsstring>(std::chrono::seconds duration=std::chrono::seconds(60)) const</argsstring>
+        <name>getLoadHistory</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::getLoadHistory</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>duration</declname>
+          <defval>std::chrono::seconds(60)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get load history (for trending) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="424" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ad438341ec32f19f6d3485c99ca2bceb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::SystemLoadMonitor::setThresholdCallback</definition>
+        <argsstring>(LoadThresholdCallback callback)</argsstring>
+        <name>setThresholdCallback</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::setThresholdCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ae5fb9e2e8feccfd6d310a01bbc3c2306" kindref="member">LoadThresholdCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="431" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a173eda86dc75f2e31a0b9541dc98d7f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::SystemLoadMonitor::isUnderPressure</definition>
+        <argsstring>() const</argsstring>
+        <name>isUnderPressure</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::isUnderPressure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if system is under pressure </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="436" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1aabf07164ad73df68878106bf7f470c43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::SystemLoadMonitor::isIdle</definition>
+        <argsstring>(float threshold=30.0f) const</argsstring>
+        <name>isIdle</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::isIdle</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>30.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if system is idle (suitable for replay) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="443" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="443" bodyend="445"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ab5bd9faa61a0a042753200cde29b5dc8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::SystemLoadMonitor::monitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitorLoop</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::monitorLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="457" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a51f8bc34d2f0eef8bcb2a57be5f6ff1c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::SystemLoadMonitor::measureLoad</definition>
+        <argsstring>() const</argsstring>
+        <name>measureLoad</name>
+        <qualifiedname>themisdb::backpressure::SystemLoadMonitor::measureLoad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="458" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors system resources for backpressure decisions </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="401" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="401" bodyend="459"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0eadc63de387fbc5d17cfe77f28b8030" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>check_interval_ms_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a1dd182419d51233bbc07f90db6b9445b" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>current_load_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a6d8a27e7dcf16974c381bbebb3c3c9bf" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>getCurrentLoad</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a83e09948f97e07e1c1bd9f1cbac908b8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>getLoadHistory</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1aabf07164ad73df68878106bf7f470c43" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>isIdle</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a173eda86dc75f2e31a0b9541dc98d7f6" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>isUnderPressure</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ab6cbb640441d46dc5858ff5e3bbf3a95" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>load_history_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ae5fb9e2e8feccfd6d310a01bbc3c2306" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>LoadThresholdCallback</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a51f8bc34d2f0eef8bcb2a57be5f6ff1c" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>measureLoad</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0ba5a73c1a1377491310ae6b8ca1ef71" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>monitor_thread_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ab5bd9faa61a0a042753200cde29b5dc8" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>monitorLoop</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1adf692cec116a8bc4eb78af394f5dbf12" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a6b805ea4bfecd1a59ccae3057ee74e5d" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1ad438341ec32f19f6d3485c99ca2bceb3" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>setThresholdCallback</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1add783b81bf974df99b53f65114742511" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a3c5cbccb3d6f8ef21c1a43d61ef41e7c" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1aada38f81acb0488ca308f3ea559ff9a2" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>SystemLoadMonitor</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a0985d733a844dfc54430fc9088a49c45" prot="private" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>threshold_callback_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_system_load_monitor_1a87e0f3054d415d8b5205a9a2042ebfec" prot="public" virt="non-virtual"><scope>themisdb::backpressure::SystemLoadMonitor</scope><name>~SystemLoadMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

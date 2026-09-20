@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_compressed_storage_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::CompressedStorageWrapper</compoundname>
+    <includes refid="compressed__storage_8h" local="no">compressed_storage.h</includes>
+    <innerclass refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" prot="public">themis::storage::CompressedStorageWrapper::IStorageBackend</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a51e6e6b2983cc25ac30a7867e1a79827" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" kindref="compound">IStorageBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IStorageBackend&gt; themis::storage::CompressedStorageWrapper::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="165" column="21" bodyfile="include/storage/compressed_storage.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1aef5fa9e8df95e5e99bd578622d92e123" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1compression_1_1_compression_strategy_manager" kindref="compound">compression::CompressionStrategyManager</ref></type>
+        <definition>compression::CompressionStrategyManager themis::storage::CompressedStorageWrapper::compressor_</definition>
+        <argsstring></argsstring>
+        <name>compressor_</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::compressor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="166" column="45" bodyfile="include/storage/compressed_storage.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ab74ee329cdceb240fd3bd896623c07c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::CompressedStorageWrapper::CompressedStorageWrapper</definition>
+        <argsstring>(std::shared_ptr&lt; IStorageBackend &gt; backend, const compression::CompressionConfig &amp;config=compression::CompressionConfig{})</argsstring>
+        <name>CompressedStorageWrapper</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::CompressedStorageWrapper</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" kindref="compound">IStorageBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage backend implementation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="72" column="5" bodyfile="src/storage/compressed_storage.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a3752fba66466b1703078e503165f98a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::CompressedStorageWrapper::put</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value, std::optional&lt; compression::DataType &gt; hint=std::nullopt)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">compression::DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Store value with automatic compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw value to compress and store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional data type hint for adaptive compression </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: compress(), std::move(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="85" column="10" bodyfile="src/storage/compressed_storage.cpp" bodystart="154" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a07ed2b084911ca5c37abb0e84ea22e3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::CompressedStorageWrapper::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value, std::optional&lt; compression::DataType &gt; hint=std::nullopt)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">compression::DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Store string value with automatic compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="94" column="10" bodyfile="include/storage/compressed_storage.h" bodystart="94" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a018a14ed4b5489619ed4f88639439487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::CompressedStorageWrapper::get</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve and decompress value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decompressed value, or nullopt if not found or decompression fails</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1storage_1_1_compressed_value_1a4494c7d62618e7718372ae70bcdcbcc1" kindref="member">CompressedValue::deserialize()</ref>, decompress(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="109" column="19" bodyfile="src/storage/compressed_storage.cpp" bodystart="183" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ad12de92ad0a38e60061746083be2df59" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::storage::CompressedStorageWrapper::get_string</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get_string</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::get_string</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve and decompress as string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="114" column="19" bodyfile="include/storage/compressed_storage.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a41371194a078d140ce5f25ff2fa336f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::CompressedStorageWrapper::del</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="125" column="10" bodyfile="include/storage/compressed_storage.h" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ac19316f4865fdb762461bc3bd46d212d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::CompressedStorageWrapper::exists</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check if key exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="132" column="10" bodyfile="include/storage/compressed_storage.h" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a9d09dd0675eaf5a7b785fb3c06353daa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::CompressedStorageWrapper::get_compression_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_compression_stats</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::get_compression_stats</qualifiedname>
+        <briefdescription>
+<para>Get compression statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="139" column="17" bodyfile="include/storage/compressed_storage.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a5181f4d93d70c880d702852c77f6e49e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::CompressedStorageWrapper::reset_compression_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_compression_stats</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::reset_compression_stats</qualifiedname>
+        <briefdescription>
+<para>Reset compression statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="146" column="10" bodyfile="include/storage/compressed_storage.h" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a1431a7e1a116051d27a00011f8c58c89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::CompressedStorageWrapper::set_compression_config</definition>
+        <argsstring>(const compression::CompressionConfig &amp;config)</argsstring>
+        <name>set_compression_config</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::set_compression_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update compression configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="153" column="10" bodyfile="include/storage/compressed_storage.h" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a0789fd85755f28b20b0c96ff83e009a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">compression::CompressionConfig</ref> &amp;</type>
+        <definition>const compression::CompressionConfig &amp; themis::storage::CompressedStorageWrapper::get_compression_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_compression_config</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::get_compression_config</qualifiedname>
+        <briefdescription>
+<para>Get current compression configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="160" column="42" bodyfile="include/storage/compressed_storage.h" bodystart="160" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression-aware storage interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps any key-value storage backend with transparent compression/decompression. Automatically compresses values on write and decompresses on read. </para>
+    </detaileddescription>
+    <location file="include/storage/compressed_storage.h" line="49" column="1" bodyfile="include/storage/compressed_storage.h" bodystart="49" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a51e6e6b2983cc25ac30a7867e1a79827" prot="private" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ab74ee329cdceb240fd3bd896623c07c3" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>CompressedStorageWrapper</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1aef5fa9e8df95e5e99bd578622d92e123" prot="private" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>compressor_</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a41371194a078d140ce5f25ff2fa336f3" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>del</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ac19316f4865fdb762461bc3bd46d212d" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a018a14ed4b5489619ed4f88639439487" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a0789fd85755f28b20b0c96ff83e009a7" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>get_compression_config</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a9d09dd0675eaf5a7b785fb3c06353daa" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>get_compression_stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1ad12de92ad0a38e60061746083be2df59" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>get_string</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a3752fba66466b1703078e503165f98a1" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a07ed2b084911ca5c37abb0e84ea22e3f" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a5181f4d93d70c880d702852c77f6e49e" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>reset_compression_stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1a1431a7e1a116051d27a00011f8c58c89" prot="public" virt="non-virtual"><scope>themis::storage::CompressedStorageWrapper</scope><name>set_compression_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

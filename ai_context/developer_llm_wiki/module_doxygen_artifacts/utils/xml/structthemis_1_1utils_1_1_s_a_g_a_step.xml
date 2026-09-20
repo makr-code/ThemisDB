@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_s_a_g_a_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SAGAStep</compoundname>
+    <includes refid="saga__logger_8h" local="no">saga_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1ab57a1b9c329b2ba07c41daa41b6f60c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGAStep::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::utils::SAGAStep::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="47" column="17" bodyfile="include/utils/saga_logger.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1a33089fe7dfaa9e3af4782b15dc14c46d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGAStep::step_name</definition>
+        <argsstring></argsstring>
+        <name>step_name</name>
+        <qualifiedname>themis::utils::SAGAStep::step_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="48" column="17" bodyfile="include/utils/saga_logger.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1a4acb7a27ea7a58879b2899c49bd23b5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGAStep::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::utils::SAGAStep::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="49" column="17" bodyfile="include/utils/saga_logger.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1a5d1869952b15086cb5263dbf56319d12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGAStep::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::utils::SAGAStep::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="50" column="17" bodyfile="include/utils/saga_logger.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1a29d92949212d0030abebd273a52a9630" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::SAGAStep::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::utils::SAGAStep::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="51" column="20" bodyfile="include/utils/saga_logger.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1ad025097d5a60f0b195daff815c634ec7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SAGAStep::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::utils::SAGAStep::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="52" column="17" bodyfile="include/utils/saga_logger.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_s_a_g_a_step_1a9cafd8de6e82a7fd7d65e3ae160a5724" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SAGAStep::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::utils::SAGAStep::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="53" column="43" bodyfile="include/utils/saga_logger.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single SAGA step entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/saga_logger.h" line="46" column="1" bodyfile="include/utils/saga_logger.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a4acb7a27ea7a58879b2899c49bd23b5e" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>action</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a5d1869952b15086cb5263dbf56319d12" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a29d92949212d0030abebd273a52a9630" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>payload</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ab57a1b9c329b2ba07c41daa41b6f60c0" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1ad025097d5a60f0b195daff815c634ec7" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>status</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a33089fe7dfaa9e3af4782b15dc14c46d" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>step_name</name></member>
+      <member refid="structthemis_1_1utils_1_1_s_a_g_a_step_1a9cafd8de6e82a7fd7d65e3ae160a5724" prot="public" virt="non-virtual"><scope>themis::utils::SAGAStep</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

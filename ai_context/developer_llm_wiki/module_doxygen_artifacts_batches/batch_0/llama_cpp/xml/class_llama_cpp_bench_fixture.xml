@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llama_cpp_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>LlamaCppBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1a1e6962dddb089d2295b86479d6d48061" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LlamaCppPlugin&gt; LlamaCppBenchFixture::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>LlamaCppBenchFixture::plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="352" column="21" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1ad6c0ebb926c0346b40fdf5876c4381de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LlamaCppBenchFixture::modelPath</definition>
+        <argsstring></argsstring>
+        <name>modelPath</name>
+        <qualifiedname>LlamaCppBenchFixture::modelPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="353" column="17" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1a0ce79219a19300e3bbf4553345f98735" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int LlamaCppBenchFixture::requestedGpuLayers</definition>
+        <argsstring></argsstring>
+        <name>requestedGpuLayers</name>
+        <qualifiedname>LlamaCppBenchFixture::requestedGpuLayers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="354" column="9" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1abb10069b5911969c80ecfbb667ca6902" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool LlamaCppBenchFixture::warmupSucceeded</definition>
+        <argsstring></argsstring>
+        <name>warmupSucceeded</name>
+        <qualifiedname>LlamaCppBenchFixture::warmupSucceeded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="355" column="10" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1a11489f4fff722d04b56f142d1ceb9758" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool LlamaCppBenchFixture::ready</definition>
+        <argsstring></argsstring>
+        <name>ready</name>
+        <qualifiedname>LlamaCppBenchFixture::ready</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="356" column="10" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1ac94346ae3fe596ab6779c1727e56ce04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LlamaCppBenchFixture::setupError</definition>
+        <argsstring></argsstring>
+        <name>setupError</name>
+        <qualifiedname>LlamaCppBenchFixture::setupError</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="357" column="17" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_bench_fixture_1aad994b224fa09b3e65312baa1dbab5cf" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json LlamaCppBenchFixture::memoryStats</definition>
+        <argsstring></argsstring>
+        <name>memoryStats</name>
+        <qualifiedname>LlamaCppBenchFixture::memoryStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="358" column="20" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="358" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_llama_cpp_bench_fixture_1a3a030ced5a1a15cd7fa6eae351063360" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LlamaCppBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="291" column="10" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="291" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="class_llama_cpp_bench_fixture_1a9aa09fac86bca472d02314d00f06abcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LlamaCppBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="332" column="10" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="332" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="class_llama_cpp_bench_fixture_1a0fa661ec470df04f22b0295ee0cbd1d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LlamaCppBenchFixture::ensureReady</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>ensureReady</name>
+        <qualifiedname>LlamaCppBenchFixture::ensureReady</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="337" column="10" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="337" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlamaCppBenchFixture</label>
+        <link refid="class_llama_cpp_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlamaCppBenchFixture</label>
+        <link refid="class_llama_cpp_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" line="289" column="1" bodyfile="benchmarks/llama_cpp/bench_llama_cpp_inference.cpp" bodystart="289" bodyend="359"/>
+    <listofallmembers>
+      <member refid="class_llama_cpp_bench_fixture_1a0fa661ec470df04f22b0295ee0cbd1d7" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>ensureReady</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1aad994b224fa09b3e65312baa1dbab5cf" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>memoryStats</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1ad6c0ebb926c0346b40fdf5876c4381de" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>modelPath</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1a1e6962dddb089d2295b86479d6d48061" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>plugin</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1a11489f4fff722d04b56f142d1ceb9758" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>ready</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1a0ce79219a19300e3bbf4553345f98735" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>requestedGpuLayers</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1a3a030ced5a1a15cd7fa6eae351063360" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1ac94346ae3fe596ab6779c1727e56ce04" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>setupError</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1a9aa09fac86bca472d02314d00f06abcf" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>TearDown</name></member>
+      <member refid="class_llama_cpp_bench_fixture_1abb10069b5911969c80ecfbb667ca6902" prot="public" virt="non-virtual"><scope>LlamaCppBenchFixture</scope><name>warmupSucceeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

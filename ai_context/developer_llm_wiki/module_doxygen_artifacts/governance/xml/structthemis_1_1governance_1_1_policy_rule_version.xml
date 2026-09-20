@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_rule_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyRuleVersion</compoundname>
+    <includes refid="policy__version__history_8h" local="no">policy_version_history.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1ac3c0c85688c5c6ad6b42ad1b77c291bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRuleVersion::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="29" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1a96936798e2fcca432cef945fca94803b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRuleVersion::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="30" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1ac942bc8b0a480ddccdb1676abad3decf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRuleVersion::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="31" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1aaa80ad3e762613b32c1f9047e8ef1634" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::governance::PolicyRuleVersion::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="32" column="18" bodyfile="include/governance/policy_version_history.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1a827bd1454efc43d686f281a47aff9ecf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRuleVersion::change_description</definition>
+        <argsstring></argsstring>
+        <name>change_description</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::change_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="33" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_version_1a14fe4b99e8b09d8c102f325d966545ef" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyRuleVersion::rule_snapshot</definition>
+        <argsstring></argsstring>
+        <name>rule_snapshot</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::rule_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="34" column="20" bodyfile="include/governance/policy_version_history.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_rule_version_1a46605b2ee9fe99d5f7d8563883c4ea3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyRuleVersion::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="40" column="20" bodyfile="src/governance/policy_version_history.cpp" bodystart="28" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_rule_version_1afc198a7026731d54ebb3da9b1c69c672" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref></type>
+        <definition>PolicyRuleVersion themis::governance::PolicyRuleVersion::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::PolicyRuleVersion::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="46" column="30" bodyfile="src/governance/policy_version_history.cpp" bodystart="47" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_version_history.h" line="28" column="1" bodyfile="include/governance/policy_version_history.h" bodystart="28" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1ac942bc8b0a480ddccdb1676abad3decf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>author</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1a827bd1454efc43d686f281a47aff9ecf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>change_description</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1afc198a7026731d54ebb3da9b1c69c672" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1a96936798e2fcca432cef945fca94803b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1a14fe4b99e8b09d8c102f325d966545ef" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>rule_snapshot</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1aaa80ad3e762613b32c1f9047e8ef1634" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1a46605b2ee9fe99d5f7d8563883c4ea3b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_version_1ac3c0c85688c5c6ad6b42ad1b77c291bb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRuleVersion</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

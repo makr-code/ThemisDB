@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_canary_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryStage</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_stage_1af3aa00205c1969da0ec3701a9495a5d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryStage::percentage</definition>
+        <argsstring></argsstring>
+        <name>percentage</name>
+        <qualifiedname>themis::updates::CanaryStage::percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of the node population that receives the update (0.0 – 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="38" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_stage_1a9ecd2430bfe377fb3c63e5e906e16917" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::updates::CanaryStage::observation_duration</definition>
+        <argsstring></argsstring>
+        <name>observation_duration</name>
+        <qualifiedname>themis::updates::CanaryStage::observation_duration</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum observation window before the rollout controller considers advancing to the next stage automatically. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="42" column="26" bodyfile="include/updates/canary_rollout.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single stage in a canary rollout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Nodes are selected deterministically by hashing the node_id with the version string. The <computeroutput>percentage</computeroutput> is cumulative: a node in stage 1 (10 %) is also in stage 2 (25 %), etc. </para>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="36" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_canary_stage_1a9ecd2430bfe377fb3c63e5e906e16917" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStage</scope><name>observation_duration</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_stage_1af3aa00205c1969da0ec3701a9495a5d9" prot="public" virt="non-virtual"><scope>themis::updates::CanaryStage</scope><name>percentage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

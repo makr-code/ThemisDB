@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::TensorFingerprintGraph::NodeEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1ab515cee922410c9b6085876c7a67f6e0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_tensor_fingerprint" kindref="compound">TensorFingerprint</ref></type>
+        <definition>TensorFingerprint themis::graph::TensorFingerprintGraph::NodeEntry::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::NodeEntry::fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="249" column="28" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a21c087aba60d617336a2e28da4e3ac18" prot="public" static="no" mutable="no">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::graph::TensorFingerprintGraph::NodeEntry::train</definition>
+        <argsstring></argsstring>
+        <name>train</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::NodeEntry::train</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="250" column="28" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1ad0a6cca774f2d10290d9c0e689a7063e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::TensorFingerprintGraph::NodeEntry::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::NodeEntry::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="251" column="28" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a96357a89e5e4c0e7ecbb4de59d9ca435" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::TensorFingerprintGraph::NodeEntry::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::NodeEntry::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="252" column="28" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a1fafde855ea1f0132df2272de13a53e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::TensorFingerprintGraph::NodeEntry::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::NodeEntry::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="253" column="28" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graph::TensorFingerprint</label>
+        <link refid="structthemis_1_1graph_1_1_tensor_fingerprint"/>
+      </node>
+      <node id="1">
+        <label>themis::graph::TensorFingerprintGraph::NodeEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fingerprint</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="248" column="5" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="248" bodyend="254"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a96357a89e5e4c0e7ecbb4de59d9ca435" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::NodeEntry</scope><name>collection</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a1fafde855ea1f0132df2272de13a53e0" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::NodeEntry</scope><name>field</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1ab515cee922410c9b6085876c7a67f6e0" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::NodeEntry</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1ad0a6cca774f2d10290d9c0e689a7063e" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::NodeEntry</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_node_entry_1a21c087aba60d617336a2e28da4e3ac18" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::NodeEntry</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

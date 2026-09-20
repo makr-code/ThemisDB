@@ -1,0 +1,815 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_bi_temporal_table" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalTable</compoundname>
+    <includes refid="bi__temporal_8h" local="no">bi_temporal.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result" prot="public">themisdb::temporal::BiTemporalTable::MergeResult</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a32c0e64f68b5fd4b5c57b5548663178f" prot="private" static="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>using themisdb::temporal::BiTemporalTable::VersionList = std::vector&lt;VersionedDocument&gt;</definition>
+        <argsstring></argsstring>
+        <name>VersionList</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::VersionList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="258" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a020039f718878fc489b9c5cc726e9f85" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::BiTemporalTable::table_name_</definition>
+        <argsstring></argsstring>
+        <name>table_name_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::table_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="255" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a1a0bff3694aedf42d61c0a5b06c24ce8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::BiTemporalTable::source_node_</definition>
+        <argsstring></argsstring>
+        <name>source_node_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::source_node_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="256" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9177a225c5ad9edab55d87453ec567fc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, VersionList &gt;</type>
+        <definition>std::map&lt;std::string, VersionList&gt; themisdb::temporal::BiTemporalTable::rows_</definition>
+        <argsstring></argsstring>
+        <name>rows_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::rows_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="259" column="14" bodyfile="include/temporal/bi_temporal.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a0cfdbd3bc8c83f182fffad8e208ba234" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::BiTemporalTable::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="261" column="24" bodyfile="include/temporal/bi_temporal.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::BiTemporalTable::BiTemporalTable</definition>
+        <argsstring>(std::string table_name, std::string source_node=&quot;local&quot;)</argsstring>
+        <name>BiTemporalTable</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::BiTemporalTable</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>source_node</declname>
+          <defval>&quot;local&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="96" column="14" bodyfile="src/temporal/bi_temporal.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a46c8304d3bead48806b70a4e7194dd16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::BiTemporalTable::BiTemporalTable</definition>
+        <argsstring>(const BiTemporalTable &amp;)=delete</argsstring>
+        <name>BiTemporalTable</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::BiTemporalTable</qualifiedname>
+        <param>
+          <type>const BiTemporalTable &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Move semantics: <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> is intentionally non-movable. The internal std::mutex cannot be moved, and moving a live table under concurrent access would create data-race hazards (CWE-362). Wrap in std::shared_ptr&lt;BiTemporalTable&gt; when shared/transferred ownership is required. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a2540db0f67ce8352ed489abf86fb90de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" kindref="member">BiTemporalTable</ref> &amp;</type>
+        <definition>BiTemporalTable &amp; themisdb::temporal::BiTemporalTable::operator=</definition>
+        <argsstring>(const BiTemporalTable &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" kindref="member">BiTemporalTable</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="108" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a6cf8342ba2439707d73e1cd9af0b9e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::BiTemporalTable::BiTemporalTable</definition>
+        <argsstring>(BiTemporalTable &amp;&amp;)=delete</argsstring>
+        <name>BiTemporalTable</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::BiTemporalTable</qualifiedname>
+        <param>
+          <type>BiTemporalTable &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a5ccd7f592bfc941a2b721a4b2fd23c36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" kindref="member">BiTemporalTable</ref> &amp;</type>
+        <definition>BiTemporalTable &amp; themisdb::temporal::BiTemporalTable::operator=</definition>
+        <argsstring>(BiTemporalTable &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" kindref="member">BiTemporalTable</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="110" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1afa41665c891d42f7739a28cc890fd772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalTable::insertWithValidTime</definition>
+        <argsstring>(const std::string &amp;key, const Document &amp;doc, const TimeRange &amp;valid_time)</argsstring>
+        <name>insertWithValidTime</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::insertWithValidTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>valid_time</declname>
+        </param>
+        <briefdescription>
+<para>Insert With Valid Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert a row with an explicit valid-time period. Returns false and leaves the table unchanged when the valid-time period would overlap with an existing current row for the same key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), isCurrent(), overlaps(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="119" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="75" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a3ccdbf4eca5bb959745109462f632443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalTable::updateForValidTime</definition>
+        <argsstring>(const std::string &amp;key, const Document &amp;updates, Timestamp valid_at)</argsstring>
+        <name>updateForValidTime</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::updateForValidTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <briefdescription>
+<para>Update For Valid Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the payload of the current row whose valid-time period contains the given timestamp. The old row&apos;s sys_time is closed; a new row is created with the merged data and the same valid-time period. Returns false if no matching current row is found.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), isCurrent(), contains(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, items(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="130" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="108" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac365940fd294b90d4f8ba27c7c09b825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::deleteForValidTime</definition>
+        <argsstring>(const std::string &amp;key, Timestamp valid_at)</argsstring>
+        <name>deleteForValidTime</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::deleteForValidTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <briefdescription>
+<para>Delete For Valid Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Logically delete all current rows for a key whose valid-time period contains the given timestamp. Returns the number of rows closed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, closeCurrentRows(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="139" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="164" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a21bb712b950d855d9eaaa0a431783af1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::BiTemporalTable::queryBiTemporal</definition>
+        <argsstring>(const std::string &amp;key, Timestamp sys_as_of, Timestamp valid_at) const</argsstring>
+        <name>queryBiTemporal</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::queryBiTemporal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>sys_as_of</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bi-temporal AS-OF query. Returns rows that were current at sys_as_of and whose valid-time period contains valid_at. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="148" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="185" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1af5fd02d845b5fe735babd5ddc4430efd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::BiTemporalTable::queryCurrentByValidTime</definition>
+        <argsstring>(const std::string &amp;key, Timestamp valid_at) const</argsstring>
+        <name>queryCurrentByValidTime</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::queryCurrentByValidTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all current rows for a key whose valid-time period contains valid_at. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="156" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="212" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1abb0c52302bb9b4105534303f3d25085d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>, <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; VersionedDocument, VersionedDocument &gt; &gt; themisdb::temporal::BiTemporalTable::findOverlaps</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>findOverlaps</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::findOverlaps</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect overlaps among current rows for a key. Returns pairs of overlapping VersionedDocuments. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="163" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="237" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1adf2230c73f0f6e5c7fa46fe58489c77a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &gt;</type>
+        <definition>std::vector&lt; TimeRange &gt; themisdb::temporal::BiTemporalTable::findGaps</definition>
+        <argsstring>(const std::string &amp;key, Timestamp from, Timestamp to) const</argsstring>
+        <name>findGaps</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::findGaps</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect gaps in the valid-time coverage of current rows for a key within the half-open interval [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>).</para>
+<para>A gap is a sub-interval within [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>) not covered by any current row&apos;s valid-time period.</para>
+<para>Returns an empty vector when the period [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>) is fully covered. Returns <computeroutput>{{from, to}}</computeroutput> when the key has no current rows or none of them overlap the query range (the entire interval is a gap). Returns an empty vector when <computeroutput>from</computeroutput> &gt;= <computeroutput>to</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="178" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="272" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a173fd76c84ab20da467ee2389ff345dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalTable::hasUniquenessConflict</definition>
+        <argsstring>(const std::string &amp;key, const TimeRange &amp;period) const</argsstring>
+        <name>hasUniquenessConflict</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::hasUniquenessConflict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>period</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check whether inserting a row with the given valid-time <computeroutput>period</computeroutput> for <computeroutput>key</computeroutput> would violate the temporal uniqueness constraint (i.e., overlap with an existing current row).</para>
+<para>Returns false immediately when <computeroutput>period</computeroutput> is empty or invalid (i.e., <computeroutput>period.start &gt;= period.end</computeroutput>). Returns true when a conflict exists; false when the insert would succeed. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="191" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="343" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9a20ecd05943bf956bc2dbefcac4ed3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::BiTemporalTable::getHistory</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::getHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all versions (history) for a key. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="197" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="370" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a02e2989f57c96a67ea0137d5beff6a4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::BiTemporalTable::scanBiTemporal</definition>
+        <argsstring>(Timestamp sys_as_of, Timestamp valid_at) const</argsstring>
+        <name>scanBiTemporal</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::scanBiTemporal</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>sys_as_of</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bi-temporal table scan. Returns all rows where sys_time contains sys_as_of AND valid_time contains valid_at. Equivalent to a full-table AS-OF bi-temporal query. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="205" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="386" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9ae57841af227bd0d883ef1b5d3e4500" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::temporal::BiTemporalTable::getAllKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllKeys</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::getAllKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all known keys (including keys whose rows have all been logically deleted). Useful for bi-temporal joins that must enumerate every key ever written to the table. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="213" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="408" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a5ffea044c884cc74bf04f85f64f5fbc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>BiTemporalTable::MergeResult themisdb::temporal::BiTemporalTable::merge</definition>
+        <argsstring>(const BiTemporalTable &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" kindref="member">BiTemporalTable</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a5ffea044c884cc74bf04f85f64f5fbc5" kindref="member">BiTemporalTable::merge</ref> — cross-node LWW reconciliation (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge all rows from another <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> into this table.</para>
+<para>The merge follows Last-Writer-Wins (LWW) semantics based on <computeroutput>sys_time.start</computeroutput>: for each key, a remote row is considered conflicting with the local table when it overlaps a current local row in valid-time. The row with the later <computeroutput>sys_time.start</computeroutput> wins.</para>
+<para>Rows whose key has no overlapping current local valid-time are inserted. If table names differ (<computeroutput><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac5b7e2c5e824bd1a6f440287c606fe0e" kindref="member">tableName()</ref> != other.tableName()</computeroutput>), the merge is treated as a no-op and returns zero counters.</para>
+<para>The operation is atomic on each key (keys are locked one at a time) and does not modify <computeroutput>other</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. Must not be the same object as <computeroutput>this</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_table_1_1_merge_result" kindref="compound">MergeResult</ref> with counters for inserted, skipped, and conflict-resolved rows.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+9.0) ============================================================================ Calls: lk_other(), lk_self(), max(), size(), isCurrent(), overlaps(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="245" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="510" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac5b7e2c5e824bd1a6f440287c606fe0e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::temporal::BiTemporalTable::tableName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>tableName</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::tableName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="249" column="23" bodyfile="include/temporal/bi_temporal.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1aea8d0195392cb8a0b59a06c53cd7bec3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::keyCount</definition>
+        <argsstring>() const</argsstring>
+        <name>keyCount</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::keyCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="250" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="433" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1af2d9968e734b5974f3ae4232aa0f0d3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::versionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>versionCount</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::versionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="251" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="443" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a046380bb4c1298e30aa34d478450d450" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::BiTemporalTable::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="252" column="20" bodyfile="src/temporal/bi_temporal.cpp" bodystart="457" bodyend="482"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9643687d41aed9107b684ef9bdc47efe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::BiTemporalTable::closeCurrentRows</definition>
+        <argsstring>(VersionList &amp;versions, Timestamp close_time, const std::function&lt; bool(const VersionedDocument &amp;)&gt; &amp;pred)</argsstring>
+        <name>closeCurrentRows</name>
+        <qualifiedname>themisdb::temporal::BiTemporalTable::closeCurrentRows</qualifiedname>
+        <param>
+          <type>VersionList &amp;</type>
+          <declname>versions</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>close_time</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt; &amp;</type>
+          <declname>pred</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="265" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="488" bodyend="501"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref></para>
+<para>Rows are versioned along two independent time axes:</para>
+<para>sys_time – The system (transaction) time period tracked automatically. valid_time – The application-defined valid-time period supplied by the caller.</para>
+<para>Each INSERT creates a row with valid_time = [valid_from, valid_to) and sys_time = [now, ∞). Subsequent UPDATEs close the old row&apos;s sys_time and open a new row, preserving the complete bi-temporal history.</para>
+<para>Overlap detection ensures that no two <emphasis>current</emphasis> rows for the same key have overlapping valid-time periods.</para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/temporal/bi_temporal.h" line="94" column="1" bodyfile="include/temporal/bi_temporal.h" bodystart="94" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a131dae82ed6a488e7f08b5bc3948626e" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>BiTemporalTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a46c8304d3bead48806b70a4e7194dd16" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>BiTemporalTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a6cf8342ba2439707d73e1cd9af0b9e08" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>BiTemporalTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9643687d41aed9107b684ef9bdc47efe" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>closeCurrentRows</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac365940fd294b90d4f8ba27c7c09b825" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>deleteForValidTime</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1adf2230c73f0f6e5c7fa46fe58489c77a" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>findGaps</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1abb0c52302bb9b4105534303f3d25085d" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>findOverlaps</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9ae57841af227bd0d883ef1b5d3e4500" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>getAllKeys</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9a20ecd05943bf956bc2dbefcac4ed3c" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>getHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a046380bb4c1298e30aa34d478450d450" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a173fd76c84ab20da467ee2389ff345dc" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>hasUniquenessConflict</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1afa41665c891d42f7739a28cc890fd772" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>insertWithValidTime</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1aea8d0195392cb8a0b59a06c53cd7bec3" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>keyCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a5ffea044c884cc74bf04f85f64f5fbc5" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a0cfdbd3bc8c83f182fffad8e208ba234" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a2540db0f67ce8352ed489abf86fb90de" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a5ccd7f592bfc941a2b721a4b2fd23c36" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a21bb712b950d855d9eaaa0a431783af1" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>queryBiTemporal</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1af5fd02d845b5fe735babd5ddc4430efd" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>queryCurrentByValidTime</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a9177a225c5ad9edab55d87453ec567fc" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>rows_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a02e2989f57c96a67ea0137d5beff6a4b" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>scanBiTemporal</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a1a0bff3694aedf42d61c0a5b06c24ce8" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>source_node_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a020039f718878fc489b9c5cc726e9f85" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>table_name_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac5b7e2c5e824bd1a6f440287c606fe0e" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>tableName</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a3ccdbf4eca5bb959745109462f632443" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>updateForValidTime</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1af2d9968e734b5974f3ae4232aa0f0d3e" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>versionCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1a32c0e64f68b5fd4b5c57b5548663178f" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>VersionList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

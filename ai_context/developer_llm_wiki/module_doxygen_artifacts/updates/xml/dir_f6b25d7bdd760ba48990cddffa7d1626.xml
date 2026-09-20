@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f6b25d7bdd760ba48990cddffa7d1626" kind="dir">
+    <compoundname>tests/updates</compoundname>
+    <innerfile refid="test__idempotent__rollback__wave__a_8cpp">test_idempotent_rollback_wave_a.cpp</innerfile>
+    <innerfile refid="test__updates__batch5__finalization_8cpp">test_updates_batch5_finalization.cpp</innerfile>
+    <innerfile refid="test__updates__cluster__scheduling__stress__focused_8cpp">test_updates_cluster_scheduling_stress_focused.cpp</innerfile>
+    <innerfile refid="test__updates__contract__hardening__focused_8cpp">test_updates_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__updates__determinism__edge__cases__focused_8cpp">test_updates_determinism_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__updates__diagnostics__focused_8cpp">test_updates_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__updates__highcardinality__stress_8cpp">test_updates_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__updates__operator__diagnostics__focused_8cpp">test_updates_operator_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__updates__performance__batch4_8cpp">test_updates_performance_batch4.cpp</innerfile>
+    <innerfile refid="test__updates__phase2__phase3__hardening__focused_8cpp">test_updates_phase2_phase3_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__updates__production_8cpp">test_updates_production.cpp</innerfile>
+    <innerfile refid="test__updates__rollback__hardening__focused_8cpp">test_updates_rollback_hardening_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/"/>
+  </compounddef>
+</doxygen>

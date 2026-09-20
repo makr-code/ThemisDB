@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_bias_field_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::BiasFieldStats</compoundname>
+    <includes refid="compliance__reporter_8h" local="no">compliance_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_bias_field_stats_1a890a882c146febf8a996d14a2665091e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::BiasFieldStats::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::governance::BiasFieldStats::field_name</qualifiedname>
+        <briefdescription>
+<para>Name of the field (e.g., &quot;gender&quot;, &quot;age_group&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="28" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_bias_field_stats_1a8dded7578b3f96158595045ff55d7956" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::governance::BiasFieldStats::group_counts</definition>
+        <argsstring></argsstring>
+        <name>group_counts</name>
+        <qualifiedname>themis::governance::BiasFieldStats::group_counts</qualifiedname>
+        <briefdescription>
+<para>Group label → document count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="29" column="24" bodyfile="include/governance/compliance_reporter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_bias_field_stats_1a5e06778c6c4fc298f7fc10d96cb17c14" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::BiasFieldStats::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::governance::BiasFieldStats::total_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total documents with this field populated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="30" column="12" bodyfile="include/governance/compliance_reporter.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_bias_field_stats_1af77b9d5cc4e39ff5b21c9b3301c1cca8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::BiasFieldStats::representation_ratio</definition>
+        <argsstring></argsstring>
+        <name>representation_ratio</name>
+        <qualifiedname>themis::governance::BiasFieldStats::representation_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="32" column="12" bodyfile="include/governance/compliance_reporter.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_bias_field_stats_1a44eaa5649ecaa3db5a1cfad557bf64c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::BiasFieldStats::demographic_parity_score</definition>
+        <argsstring></argsstring>
+        <name>demographic_parity_score</name>
+        <qualifiedname>themis::governance::BiasFieldStats::demographic_parity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="34" column="12" bodyfile="include/governance/compliance_reporter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_bias_field_stats_1add0bf7bbde1e99596abe541a576c6cae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::BiasFieldStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::BiasFieldStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="40" column="20" bodyfile="src/governance/compliance_reporter.cpp" bodystart="303" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporter.h" line="27" column="1" bodyfile="include/governance/compliance_reporter.h" bodystart="27" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1a44eaa5649ecaa3db5a1cfad557bf64c2" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>demographic_parity_score</name></member>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1a890a882c146febf8a996d14a2665091e" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1a8dded7578b3f96158595045ff55d7956" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>group_counts</name></member>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1af77b9d5cc4e39ff5b21c9b3301c1cca8" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>representation_ratio</name></member>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1add0bf7bbde1e99596abe541a576c6cae" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_bias_field_stats_1a5e06778c6c4fc298f7fc10d96cb17c14" prot="public" virt="non-virtual"><scope>themis::governance::BiasFieldStats</scope><name>total_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

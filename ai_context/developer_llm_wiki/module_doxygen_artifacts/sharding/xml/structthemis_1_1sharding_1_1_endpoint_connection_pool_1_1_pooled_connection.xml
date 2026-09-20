@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::EndpointConnectionPool::PooledConnection</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a96ae3a87b598bfa8cb9add186a906476" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>, <ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SSL, SSLDeleter&gt; themis::sharding::EndpointConnectionPool::PooledConnection::ssl</definition>
+        <argsstring></argsstring>
+        <name>ssl</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::PooledConnection::ssl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="185" column="25" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a3ff92031c8fdb8df2f91cd2f2791c31a" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::EndpointConnectionPool::PooledConnection::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::PooledConnection::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="186" column="47" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a583e63a83db336857103cd1b988338ce" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::EndpointConnectionPool::PooledConnection::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::PooledConnection::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="187" column="47" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a3887726b0200df25926ec621d436ce6c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::EndpointConnectionPool::PooledConnection::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::sharding::EndpointConnectionPool::PooledConnection::is_valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="188" column="14" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pooled connection with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_pool.h" line="184" column="5" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="184" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a3ff92031c8fdb8df2f91cd2f2791c31a" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::PooledConnection</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a3887726b0200df25926ec621d436ce6c" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::PooledConnection</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a583e63a83db336857103cd1b988338ce" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::PooledConnection</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection_1a96ae3a87b598bfa8cb9add186a906476" prot="public" virt="non-virtual"><scope>themis::sharding::EndpointConnectionPool::PooledConnection</scope><name>ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

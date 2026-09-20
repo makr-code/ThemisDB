@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__timeout__patterns_8cpp" kind="file" language="C++">
+    <compoundname>test_http_timeout_patterns.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_timeout_patterns.cpp</label>
+        <link refid="test__http__timeout__patterns_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_config" prot="public">Config</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, DefaultRequestTimeoutIs30000Ms)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>DefaultRequestTimeoutIs30000Ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="63" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a4e885837e57b2c3b88d9dc17429404f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, DefaultGracefulShutdownTimeoutIs30000Ms)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>DefaultGracefulShutdownTimeoutIs30000Ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="68" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a8f61086e306c62a512a026c5111a9084" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, RequestTimeoutIsConfigurable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>RequestTimeoutIsConfigurable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="73" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a41f616e51b44d15d88ba2fffebebd5ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, GracefulShutdownTimeoutIsConfigurable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>GracefulShutdownTimeoutIsConfigurable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="79" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a265940197546610f076c2c2444cbb852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, ZeroRequestTimeoutDisablesTimer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>ZeroRequestTimeoutDisablesTimer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="85" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1aea3cfe34e3426bd3174df2a1fb69b684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutLogic, TimeoutTriggers408)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutLogic</type>
+        </param>
+        <param>
+          <type>TimeoutTriggers408</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="165" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="165" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a5ba9a07b53747a77790255cec9650afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutLogic, FastRequestNoTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutLogic</type>
+        </param>
+        <param>
+          <type>FastRequestNoTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="178" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a9ee5ca8d1a665775a165cb944460ecdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutLogic, SteadyClockUsedForComparison)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutLogic</type>
+        </param>
+        <param>
+          <type>SteadyClockUsedForComparison</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="191" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="191" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a6d89dd2600204812ba331c0233bac7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpDrainLoop, ExitsCleanlyWhenRequestsComplete)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpDrainLoop</type>
+        </param>
+        <param>
+          <type>ExitsCleanlyWhenRequestsComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="204" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="204" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a91f9963ad1b3add57cdbfeadb892b434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpDrainLoop, ForceClosesAfterDrainTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpDrainLoop</type>
+        </param>
+        <param>
+          <type>ForceClosesAfterDrainTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="226" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="226" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a430264a9a070cc67468471550d174bca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpInFlightCounter, GuardIncrementAndDecrement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpInFlightCounter</type>
+        </param>
+        <param>
+          <type>GuardIncrementAndDecrement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="243" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="243" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a26b66eebc70b4b7e307b5c7441c32543" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpDrainLoop, ZeroInFlightCompletesImmediately)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpDrainLoop</type>
+        </param>
+        <param>
+          <type>ZeroInFlightCompletesImmediately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="265" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="265" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a8db1c14befe647771a9a0406090a9924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutLogic, ConcurrentRequestsTimeoutIndependently)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutLogic</type>
+        </param>
+        <param>
+          <type>ConcurrentRequestsTimeoutIndependently</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="284" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="284" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a755b8268f10e25bbea6c43c7c5ac4217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, ReadAndWriteTimeoutShareSameConfigField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>ReadAndWriteTimeoutShareSameConfigField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="318" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="318" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a573d10734fdf7adf8295648b9288a67a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutConfig, CopyPreservesTimeoutFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutConfig</type>
+        </param>
+        <param>
+          <type>CopyPreservesTimeoutFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="335" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="335" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__timeout__patterns_8cpp_1a7e41efefa8149cfff510e623b3944914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpTimeoutLogic, SequentialRequestsGetFreshTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpTimeoutLogic</type>
+        </param>
+        <param>
+          <type>SequentialRequestsGetFreshTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_timeout_patterns.cpp" line="349" column="1" bodyfile="tests/network/test_http_timeout_patterns.cpp" bodystart="349" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for HTTP per-request timeout and graceful-shutdown patterns (P5-S02). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All tests operate on configuration structs and in-file logic mirrors; no live server instance is required.</para>
+<para>Coverage:<orderedlist>
+<listitem><para>Default request_timeout_ms is 30 000 ms</para>
+</listitem><listitem><para>Default graceful_shutdown_timeout_ms is 30 000 ms</para>
+</listitem><listitem><para>request_timeout_ms is configurable</para>
+</listitem><listitem><para>graceful_shutdown_timeout_ms is configurable</para>
+</listitem><listitem><para>Zero request_timeout_ms disables the per-request timeout</para>
+</listitem><listitem><para>Per-request timeout triggers 408 after deadline (logic mirror)</para>
+</listitem><listitem><para>Fast request completes before timeout — no 408 fired</para>
+</listitem><listitem><para>Timeout comparison uses steady_clock (not system_clock)</para>
+</listitem><listitem><para>Drain loop exits when all requests complete before deadline</para>
+</listitem></orderedlist>
+</para>
+<para>Drain loop force-closes when drain timeout expires<orderedlist>
+<listitem><para>In-flight counter increments and decrements correctly</para>
+</listitem><listitem><para>Graceful shutdown with zero in-flight requests completes immediately</para>
+</listitem><listitem><para>Concurrent requests: all complete or timeout independently</para>
+</listitem><listitem><para>Read-timeout configuration matches write-timeout configuration</para>
+</listitem><listitem><para><ref refid="struct_config" kindref="compound">Config</ref> copy preserves all timeout fields</para>
+</listitem><listitem><para>Multiple sequential requests each get fresh timeout </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>mirror<sp/>of<sp/>HttpServer::Config<sp/>timeout<sp/>fields.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>production<sp/>struct<sp/>is<sp/>declared<sp/>in<sp/>include/server/http_server.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Its<sp/>full<sp/>include<sp/>chain<sp/>pulls<sp/>in<sp/>60+<sp/>server<sp/>sub-headers<sp/>that<sp/>carry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pre-existing<sp/>compilation<sp/>dependencies<sp/>unsuitable<sp/>for<sp/>a<sp/>lean<sp/>unit<sp/>build.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>mirror<sp/>replicates<sp/>only<sp/>the<sp/>timeout-relevant<sp/>fields<sp/>with<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>names,<sp/>types,<sp/>and<sp/>default<sp/>values<sp/>so<sp/>the<sp/>tests<sp/>exercise<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>semantics<sp/>without<sp/>the<sp/>transitive<sp/>dependency<sp/>cost.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authoritative<sp/>defaults<sp/>(verified<sp/>in<sp/>http_server.h):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>request_timeout_ms<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>30<sp/>000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>graceful_shutdown_timeout_ms<sp/>=<sp/>30<sp/>000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="struct_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>30000u;<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref><sp/>=<sp/>30000u;<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1–5.<sp/>Configuration<sp/>defaults<sp/>and<sp/>overrides</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>DefaultRequestTimeoutIs30000Ms)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/>30000u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>DefaultGracefulShutdownTimeoutIs30000Ms)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref>,<sp/>30000u);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>RequestTimeoutIsConfigurable)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref><sp/>=<sp/>5000u;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/>5000u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>GracefulShutdownTimeoutIsConfigurable)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref><sp/>=<sp/>10000u;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref>,<sp/>10000u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>ZeroRequestTimeoutDisablesTimer)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>zero<sp/>value<sp/>is<sp/>the<sp/>sentinel<sp/>that<sp/>disables<sp/>the<sp/>timer<sp/>(armReadTimer<sp/>returns<sp/>early).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-file<sp/>mirrors<sp/>for<sp/>timeout<sp/>and<sp/>drain<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RequestTimeoutMirror<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>timeout_ms<sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>Outcome<sp/>{<sp/>COMPLETED,<sp/>TIMED_OUT_408<sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>Outcome<sp/>evaluate(uint32_t<sp/>elapsed_ms)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(timeout_ms<sp/>==<sp/>0)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Outcome::COMPLETED;<sp/></highlight><highlight class="comment">//<sp/>timer<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(elapsed_ms<sp/>&gt;=<sp/>timeout_ms)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Outcome::TIMED_OUT_408;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Outcome::COMPLETED;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DrainLoopMirror<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>drain_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>poll_interval_ms<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>active_requests{0};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>run()<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>std::chrono::milliseconds(drain_timeout_ms);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(active_requests.load(std::memory_order_acquire)<sp/>&gt;<sp/>0</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>std::chrono::steady_clock::now()<sp/>&lt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(poll_interval_ms));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>active_requests.load(std::memory_order_acquire)<sp/>==<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">InFlightGuard<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;&amp;<sp/>counter;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>InFlightGuard(std::atomic&lt;uint32_t&gt;&amp;<sp/>c)<sp/>:<sp/>counter(c)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter.fetch_add(1,<sp/>std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>~InFlightGuard()<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter.fetch_sub(1,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>Per-request<sp/>timeout<sp/>triggers<sp/>408<sp/>(logic<sp/>mirror)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutLogic,<sp/>TimeoutTriggers408)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>RequestTimeoutMirror<sp/>mirror;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>mirror.timeout_ms<sp/>=<sp/>1000;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>that<sp/>completes<sp/>after<sp/>the<sp/>deadline<sp/>→<sp/>timed<sp/>out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outcome<sp/>=<sp/>mirror.evaluate(1500);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(outcome,<sp/>RequestTimeoutMirror::Outcome::TIMED_OUT_408);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>Fast<sp/>request<sp/>completes<sp/>before<sp/>timeout<sp/>—<sp/>no<sp/>premature<sp/>408</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutLogic,<sp/>FastRequestNoTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>RequestTimeoutMirror<sp/>mirror;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>mirror.timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>that<sp/>completes<sp/>well<sp/>before<sp/>deadline<sp/>→<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outcome<sp/>=<sp/>mirror.evaluate(100);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(outcome,<sp/>RequestTimeoutMirror::Outcome::COMPLETED);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>Timeout<sp/>comparison<sp/>uses<sp/>steady_clock<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutLogic,<sp/>SteadyClockUsedForComparison)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>steady_clock::now()<sp/>returns<sp/>a<sp/>strictly-monotonic<sp/>time<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>—<sp/>a<sp/>property<sp/>the<sp/>timeout<sp/>logic<sp/>depends<sp/>on.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(1ms);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t2<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t2,<sp/>t1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;steady_clock<sp/>must<sp/>be<sp/>monotonically<sp/>increasing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>9.<sp/>Drain<sp/>loop<sp/>exits<sp/>when<sp/>all<sp/>requests<sp/>complete<sp/>before<sp/>deadline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpDrainLoop,<sp/>ExitsCleanlyWhenRequestsComplete)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>DrainLoopMirror<sp/>drain;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.drain_timeout_ms<sp/>=<sp/>2000;<sp/></highlight><highlight class="comment">//<sp/>2-second<sp/>drain<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.poll_interval_ms<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.active_requests.store(3);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>thread<sp/>completes<sp/>all<sp/>requests<sp/>quickly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>finisher([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(50ms);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>drain.active_requests.store(0,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>clean<sp/>=<sp/>drain.run();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>finisher.join();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(clean)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;drain<sp/>should<sp/>have<sp/>completed<sp/>cleanly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10.<sp/>Drain<sp/>loop<sp/>force-closes<sp/>when<sp/>drain<sp/>timeout<sp/>expires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpDrainLoop,<sp/>ForceClosesAfterDrainTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>DrainLoopMirror<sp/>drain;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.drain_timeout_ms<sp/>=<sp/>100;<sp/></highlight><highlight class="comment">//<sp/>very<sp/>short<sp/>drain<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.poll_interval_ms<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.active_requests.store(5);<sp/></highlight><highlight class="comment">//<sp/>requests<sp/>remain<sp/>in-flight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Don&apos;t<sp/>release<sp/>requests<sp/>—<sp/>simulate<sp/>stuck<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>clean<sp/>=<sp/>drain.run();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(clean)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;drain<sp/>should<sp/>have<sp/>timed<sp/>out<sp/>with<sp/>requests<sp/>still<sp/>in-flight&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(drain.active_requests.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>11.<sp/>In-flight<sp/>counter<sp/>increments<sp/>and<sp/>decrements<sp/>via<sp/>RAII<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpInFlightCounter,<sp/>GuardIncrementAndDecrement)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/>counter{0};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InFlightGuard<sp/>g1(counter);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InFlightGuard<sp/>g2(counter);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>2u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>12.<sp/>Graceful<sp/>shutdown<sp/>with<sp/>zero<sp/>in-flight<sp/>requests<sp/>completes<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpDrainLoop,<sp/>ZeroInFlightCompletesImmediately)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>DrainLoopMirror<sp/>drain;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.drain_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.poll_interval_ms<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>drain.active_requests.store(0);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>clean<sp/>=<sp/>drain.run();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(clean);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>have<sp/>waited<sp/>anywhere<sp/>near<sp/>the<sp/>full<sp/>drain<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>500ms)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;zero<sp/>in-flight<sp/>drain<sp/>should<sp/>be<sp/>instantaneous&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>13.<sp/>Concurrent<sp/>requests:<sp/>each<sp/>request<sp/>times<sp/>out<sp/>independently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutLogic,<sp/>ConcurrentRequestsTimeoutIndependently)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>RequestTimeoutMirror<sp/>mirror;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>mirror.timeout_ms<sp/>=<sp/>200;<sp/></highlight><highlight class="comment">//<sp/>200<sp/>ms<sp/>per<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRequests<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>timed_out{0};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>completed{0};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRequests;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>i]()<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even-indexed<sp/>requests<sp/>exceed<sp/>the<sp/>timeout;<sp/>odd<sp/>ones<sp/>do<sp/>not.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>elapsed<sp/>=<sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>?<sp/>300u<sp/>:<sp/>50u;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outcome<sp/>=<sp/>mirror.evaluate(elapsed);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(outcome<sp/>==<sp/>RequestTimeoutMirror::Outcome::TIMED_OUT_408)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++timed_out;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++completed;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(timed_out.load(),<sp/>kRequests<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(completed.load(),<sp/>kRequests<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>14.<sp/>Read-timeout<sp/>and<sp/>write-timeout<sp/>use<sp/>the<sp/>same<sp/>config<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>ReadAndWriteTimeoutShareSameConfigField)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>design<sp/>decision:<sp/>a<sp/>single<sp/>request_timeout_ms<sp/>covers<sp/>both<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>read<sp/>phase<sp/>(waiting<sp/>for<sp/>headers/body)<sp/>and<sp/>the<sp/>write<sp/>phase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(sending<sp/>the<sp/>response).<sp/><sp/>Test<sp/>that<sp/>the<sp/>field<sp/>exists<sp/>and<sp/>can<sp/>be<sp/>set<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>both<sp/>phases.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref><sp/>=<sp/>15000u;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>same<sp/>value<sp/>is<sp/>used<sp/>when<sp/>arming<sp/>the<sp/>timer<sp/>during<sp/>doRead()<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>doWrite();<sp/>verify<sp/>it<sp/>is<sp/>accessible<sp/>and<sp/>correct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/>15000u);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>15.<sp/>Config<sp/>copy<sp/>preserves<sp/>all<sp/>timeout<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutConfig,<sp/>CopyPreservesTimeoutFields)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>original;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8000u;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref><sp/>=<sp/>12000u;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>copy<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8000u);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref>,<sp/>12000u);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>16.<sp/>Multiple<sp/>sequential<sp/>requests<sp/>each<sp/>get<sp/>a<sp/>fresh<sp/>timeout<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__http__timeout__patterns_8cpp_1afd5847ab6a63fb9a07c16664bedf1f1f" kindref="member">TEST</ref>(HttpTimeoutLogic,<sp/>SequentialRequestsGetFreshTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>RequestTimeoutMirror<sp/>mirror;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>mirror.timeout_ms<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>request<sp/>completes<sp/>quickly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mirror.evaluate(100),<sp/>RequestTimeoutMirror::Outcome::COMPLETED);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>request<sp/>is<sp/>slow<sp/>—<sp/>should<sp/>still<sp/>get<sp/>its<sp/>own<sp/>full<sp/>timeout<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mirror.evaluate(1500),<sp/>RequestTimeoutMirror::Outcome::TIMED_OUT_408);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_timeout_patterns.cpp"/>
+  </compounddef>
+</doxygen>

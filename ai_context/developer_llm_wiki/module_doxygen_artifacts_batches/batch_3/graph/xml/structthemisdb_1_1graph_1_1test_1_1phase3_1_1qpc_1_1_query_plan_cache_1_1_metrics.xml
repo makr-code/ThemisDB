@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1ab504592a6ebd74e22c9bb052ae40caa3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="83" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a8e552b16e150d420f290d34689f0af15" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="84" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a5356cbb0c4391037f33cda9ada863589" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="85" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a9eff27b53dd509e90fb543daeb96d7fe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::expirations</definition>
+        <argsstring></argsstring>
+        <name>expirations</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics::expirations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="86" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="82" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="82" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a5356cbb0c4391037f33cda9ada863589" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics</scope><name>evictions</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a9eff27b53dd509e90fb543daeb96d7fe" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics</scope><name>expirations</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1ab504592a6ebd74e22c9bb052ae40caa3" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics</scope><name>hits</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_query_plan_cache_1_1_metrics_1a8e552b16e150d420f290d34689f0af15" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::QueryPlanCache::Metrics</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

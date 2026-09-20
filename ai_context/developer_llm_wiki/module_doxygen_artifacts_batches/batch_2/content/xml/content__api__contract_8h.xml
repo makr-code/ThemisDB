@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__api__contract_8h" kind="file" language="C++">
+    <compoundname>content_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__content__release__gates_8cpp" local="yes">benchmarks/content/bench_content_release_gates.cpp</includedby>
+    <includedby refid="test__content__contract__hardening__focused_8cpp" local="yes">tests/content/test_content_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/content_api_contract.h</label>
+        <link refid="content__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/content/bench_content_release_gates.cpp</label>
+        <link refid="bench__content__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/content/content_api_contract.h</label>
+        <link refid="content__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/content/test_content_contract_hardening_focused.cpp</label>
+        <link refid="test__content__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_scan_result" prot="public">themis::content::ScanResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB content module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="content__api__contract_8h_1purpose">
+<title>Purpose</title><para>The content module handles content ingestion, abuse detection, archival, and content-type normalisation for ThemisDB storage operations.</para>
+</sect1>
+<sect1 id="content__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">AbuseDetector</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>scan()</computeroutput> is deterministic for identical byte sequences + identical rule set.</para>
+</listitem><listitem><para>Returns a non-null verdict (ALLOW or BLOCK) for every input; never throws on malformed content — returns CONTENT_SCAN_ERROR instead.</para>
+</listitem><listitem><para>Verdict BLOCK includes a reason string; ALLOW reason string is empty.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">ArchiveProcessor</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>extract()</computeroutput> unpacks supported archive formats (ZIP, TAR, GZIP); unknown format → CONTENT_UNSUPPORTED_FORMAT.</para>
+</listitem><listitem><para>Extraction is size-bounded; zip-bomb detection → CONTENT_SIZE_LIMIT.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="content__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="5" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONTENT_SCAN_ERROR  </para>
+</entry><entry thead="no"><para>Abuse scan encountered internal error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONTENT_UNSUPPORTED_FORMAT  </para>
+</entry><entry thead="no"><para>Archive format not supported  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONTENT_SIZE_LIMIT  </para>
+</entry><entry thead="no"><para>Extracted content exceeds size limit  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONTENT_ENCODING_INVALID  </para>
+</entry><entry thead="no"><para>Content encoding cannot be decoded  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="content__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>AbuseDetector::scan()</computeroutput> is thread-safe; rule set is read-only after init.</para>
+</listitem><listitem><para><computeroutput>ArchiveProcessor</computeroutput> is stateless; fully thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="content__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" kindref="member">kScanError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8000,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" kindref="member">kUnsupportedFormat</ref><sp/><sp/><sp/>=<sp/>8001,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" kindref="member">kSizeLimit</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8002,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" kindref="member">kEncodingInvalid</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8003,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855" kindref="member">ScanVerdict</ref><sp/>:<sp/>int32_t<sp/>{<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">kAllow</ref><sp/>=<sp/>0,<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">kBlock</ref><sp/>=<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1content_1_1_scan_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_scan_result" kindref="compound">ScanResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855" kindref="member">ScanVerdict</ref><sp/><ref refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" kindref="member">verdict</ref>{<ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">ScanVerdict::kAllow</ref>};</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" kindref="member">reason</ref>;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::content</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_api_contract.h"/>
+  </compounddef>
+</doxygen>

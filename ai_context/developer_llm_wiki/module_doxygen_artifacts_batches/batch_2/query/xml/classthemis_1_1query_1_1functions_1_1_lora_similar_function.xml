@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_lora_similar_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::LoraSimilarFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="lora__functions_8h" local="no">lora_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a22021c8c732456ad0036bdab8862091b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::LoraSimilarFunction::~LoraSimilarFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~LoraSimilarFunction</name>
+        <qualifiedname>themis::query::functions::LoraSimilarFunction::~LoraSimilarFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/lora_functions.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a43d4dc20bad3d05f0f5e0419af0dd33b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::LoraSimilarFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::LoraSimilarFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/lora_functions.h" line="63" column="23" bodyfile="src/query/functions/lora_functions.cpp" bodystart="314" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1ad4ea4280a0b3c45c13be8a1fe7b99c5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::LoraSimilarFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;context) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::LoraSimilarFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/lora_functions.h" line="64" column="20" bodyfile="src/query/functions/lora_functions.cpp" bodystart="341" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::LoraSimilarFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::LoraSimilarFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/lora_functions.h" line="60" column="1" bodyfile="include/query/functions/lora_functions.h" bodystart="60" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1ad4ea4280a0b3c45c13be8a1fe7b99c5e" prot="public" virt="virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a43d4dc20bad3d05f0f5e0419af0dd33b" prot="public" virt="virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" prot="public" virt="virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a22021c8c732456ad0036bdab8862091b" prot="public" virt="non-virtual"><scope>themis::query::functions::LoraSimilarFunction</scope><name>~LoraSimilarFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

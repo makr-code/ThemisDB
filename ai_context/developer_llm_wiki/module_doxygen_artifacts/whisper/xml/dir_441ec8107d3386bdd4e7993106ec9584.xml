@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_441ec8107d3386bdd4e7993106ec9584" kind="dir">
+    <compoundname>tests/whisper</compoundname>
+    <innerfile refid="test__whisper__highcardinality__stress_8cpp">test_whisper_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__whisper__stub__transcribe__bridge_8cpp">test_whisper_stub_transcribe_bridge.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/whisper/"/>
+  </compounddef>
+</doxygen>

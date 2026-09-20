@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_write_concern_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WriteConcernConfig</compoundname>
+    <includes refid="write__concern_8h" local="no">write_concern.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_concern_config_1a1bb1bc538f2740162d757dbd94950392" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref></type>
+        <definition>WriteConcern themis::sharding::WriteConcernConfig::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::sharding::WriteConcernConfig::level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164abc21e6484530fc9d0313cb816b733396" kindref="member">WriteConcern::ONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/write_concern.h" line="35" column="18" bodyfile="include/sharding/write_concern.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_concern_config_1a3830791c0a62760dafaec9e74e1a8f58" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::WriteConcernConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::sharding::WriteConcernConfig::timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/write_concern.h" line="36" column="31" bodyfile="include/sharding/write_concern.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_concern_config_1a3c98b6da92688f6ce2be8e39fa066c20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WriteConcernConfig::wait_for_sync</definition>
+        <argsstring></argsstring>
+        <name>wait_for_sync</name>
+        <qualifiedname>themis::sharding::WriteConcernConfig::wait_for_sync</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/write_concern.h" line="37" column="10" bodyfile="include/sharding/write_concern.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Write Concern Configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/write_concern.h" line="34" column="1" bodyfile="include/sharding/write_concern.h" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_write_concern_config_1a1bb1bc538f2740162d757dbd94950392" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConcernConfig</scope><name>level</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_concern_config_1a3830791c0a62760dafaec9e74e1a8f58" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConcernConfig</scope><name>timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_concern_config_1a3c98b6da92688f6ce2be8e39fa066c20" prot="public" virt="non-virtual"><scope>themis::sharding::WriteConcernConfig</scope><name>wait_for_sync</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

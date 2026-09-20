@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_shard_aggregation_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ShardAggregationSnapshot</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a5f2818e913b64046b86a4f75a82da7cc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref> &gt;</type>
+        <definition>std::vector&lt;AggregatedMetric&gt; themis::observability::ShardAggregationSnapshot::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::observability::ShardAggregationSnapshot::metrics</qualifiedname>
+        <briefdescription>
+<para>Aggregated metric values, one per matching rule × group combination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="113" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a7efe0d32d3e76934e3b1b89a716d96ac" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::ShardAggregationSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::ShardAggregationSnapshot::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Wall-clock time at which the snapshot was produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="115" column="43" bodyfile="include/observability/metric_aggregator.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a cross-shard metric aggregation pass. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a021d305daaa752d19d6a613481d0cf71" kindref="member">MetricAggregator::aggregateShardMetrics()</ref></computeroutput>. Contains one <computeroutput><ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref></computeroutput> entry for each rule/group combination that matched the supplied shard data. </para>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="111" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="111" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a5f2818e913b64046b86a4f75a82da7cc" prot="public" virt="non-virtual"><scope>themis::observability::ShardAggregationSnapshot</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot_1a7efe0d32d3e76934e3b1b89a716d96ac" prot="public" virt="non-virtual"><scope>themis::observability::ShardAggregationSnapshot</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

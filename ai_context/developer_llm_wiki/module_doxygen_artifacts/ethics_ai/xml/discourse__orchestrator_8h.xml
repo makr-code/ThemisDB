@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="discourse__orchestrator_8h" kind="file" language="C++">
+    <compoundname>discourse_orchestrator.h</compoundname>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes refid="ethics__selection__router_8h" local="yes">ethics_ai/ethics_selection_router.h</includes>
+    <includes local="yes">ethics_ai/ethics_profile_registry.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__ldm_8cpp" local="yes">benchmarks/ethics_ai/bench_ldm.cpp</includedby>
+    <includedby refid="discourse__orchestrator_8cpp" local="yes">src/ethics_ai/discourse_orchestrator.cpp</includedby>
+    <includedby refid="test__ethics__ai__eu__compliance_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</includedby>
+    <includedby refid="test__ethics__ai__euai__compliance__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__ldm__contract__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ethics_ai/discourse_orchestrator.h</label>
+        <link refid="discourse__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ethics_ai/ethics_selection_router.h</label>
+        <link refid="ethics__selection__router_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>ethics_ai/ethics_profile_registry.h</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ethics_ai/bench_ldm.cpp</label>
+        <link refid="bench__ldm_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/discourse_orchestrator.h</label>
+        <link refid="discourse__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/ethics_ai/discourse_orchestrator.cpp</label>
+        <link refid="discourse__orchestrator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</label>
+        <link refid="test__ethics__ai__eu__compliance_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</label>
+        <link refid="test__ethics__ai__euai__compliance__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm__contract__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator" prot="public">themis::plugins::ethics::DiscourseOrchestrator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Layered Discourse Model (LDM) parallel execution engine — Ebene-1/2. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The DiscourseOrchestrator drives the three-layer discourse pipeline defined in <computeroutput>src/ethics_ai/FUTURE_ENHANCEMENTS.md</computeroutput>:</para>
+<para><itemizedlist>
+<listitem><para><bold>Ebene-1</bold> (O(N)): All N schools score the dilemma simultaneously with equal initial weight w₀ = 1/N. Implemented via <computeroutput>std::async</computeroutput> futures; per-school LLM timeout triggers a fail-closed ABSTAIN verdict.</para>
+</listitem><listitem><para><bold>Ebene-2</bold> (O(K²·R)): Cluster-based inter-school discourse. Produces one <computeroutput>ClusterPosition</computeroutput> per cluster and one <computeroutput>EpisodicMemoryEntry</computeroutput> per inter-cluster structural tension axis.</para>
+</listitem><listitem><para><bold>Mirror schools</bold>: Non-western schools run in parallel to Ebene-2 (1 LLM inference step each) and contribute to <computeroutput>MetaVerdict::minority_dissent</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="discourse__orchestrator_8h_1autotoc_md0_1s1"><sect2 id="discourse__orchestrator_8h_1autotoc_md0">
+<title>Thread safety</title><para><itemizedlist>
+<listitem><para><computeroutput>runEbene1()</computeroutput> and <computeroutput>runEbene2()</computeroutput> are <bold>reentrant-safe</bold> from a single caller thread; they spawn internal <computeroutput>std::async</computeroutput> tasks and collect results before returning. Concurrent calls from <bold>different</bold> threads are not supported.</para>
+</listitem><listitem><para><computeroutput>setLLMInferenceFn()</computeroutput> must be called before the first <computeroutput>runEbene1()</computeroutput> call.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Production delta: <computeroutput>setLLMInferenceFn({})</computeroutput> activates the deterministic stub path (see STUB/SIMULATION NOTE in <ref refid="discourse__orchestrator_8cpp" kindref="compound">discourse_orchestrator.cpp</ref>).</para>
+</simplesect>
+<simplesect kind="since"><para>LDM-2 (Target: Q1 2027) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__selection__router_8h" kindref="compound">ethics_ai/ethics_selection_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/ethics_profile_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kindref="member">LLMInferenceFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school_id,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_text)&gt;;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref>*<sp/>registry,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/>config);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af729c631eee7a895831c6b22a74b6fc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af729c631eee7a895831c6b22a74b6fc4" kindref="member">~DiscourseOrchestrator</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>move-constructible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acc37016bdb9a822799ae9c1ab19a6b3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acc37016bdb9a822799ae9c1ab19a6b3e" kindref="member">DiscourseOrchestrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6e9a35590ff553f81318c052dae852af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6e9a35590ff553f81318c052dae852af" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3377f47119aadec5337eb3ee3e7bfce8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3377f47119aadec5337eb3ee3e7bfce8" kindref="member">DiscourseOrchestrator</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6d19124a70182edcb886feae60fcc393" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af42cabe80641e7296282b12a0710b51b" kindref="member">setLLMInferenceFn</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kindref="member">LLMInferenceFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aea3bfef24996389fe0164b6657d1e018" kindref="member">setSchoolTimeoutMs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout_ms)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a46d7fd6d4992a31c5906997857e36df5" kindref="member">runEbene1</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref>&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dilemma_text,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" kindref="compound">MirrorSchoolPolicy</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mirror_policy);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::pair&lt;std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kindref="compound">ClusterPosition</ref>&gt;,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kindref="compound">EpisodicMemoryEntry</ref>&gt;&gt;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aac455c621c9234c14d034bdaffeff657" kindref="member">runEbene2</ref>(const<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>plan,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;&amp;<sp/>ebene1_results);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acaeed308ab6f67e69d6d66b0a0d0ea02" kindref="member">runMirrorSchools</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" kindref="compound">MirrorSchoolPolicy</ref>&amp;<sp/>mirror_policy,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dilemma_text,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>domain);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/discourse_orchestrator.h"/>
+  </compounddef>
+</doxygen>

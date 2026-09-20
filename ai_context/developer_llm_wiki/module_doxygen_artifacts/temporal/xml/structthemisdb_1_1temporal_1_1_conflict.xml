@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::Conflict</compoundname>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1a4d4e67b433e7c9a7fb781fb88ecc5d18" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6" kindref="member">ConflictType</ref></type>
+        <definition>ConflictType themisdb::temporal::Conflict::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::temporal::Conflict::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="322" column="18" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1af766742332249750a77346d6a7c01389" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::Conflict::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themisdb::temporal::Conflict::table_name</qualifiedname>
+        <briefdescription>
+<para>Table in which the conflict was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="323" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1a9c106b8de6559d6756cd0936d8c4d05a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::Conflict::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themisdb::temporal::Conflict::entity_id</qualifiedname>
+        <briefdescription>
+<para>snapshot_id of the local snapshot (version identity) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="324" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1a3d3039f00f376f9a9bb22f31e03bf126" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::Conflict::local_version</definition>
+        <argsstring></argsstring>
+        <name>local_version</name>
+        <qualifiedname>themisdb::temporal::Conflict::local_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="325" column="22" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1abd7bb237417a477e8d60c530e0e5ea58" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::Conflict::remote_version</definition>
+        <argsstring></argsstring>
+        <name>remote_version</name>
+        <qualifiedname>themisdb::temporal::Conflict::remote_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="326" column="22" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_conflict_1a3a8f5cef1776263d94ccea23e6e6be2c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::temporal::Conflict::affected_columns</definition>
+        <argsstring></argsstring>
+        <name>affected_columns</name>
+        <qualifiedname>themisdb::temporal::Conflict::affected_columns</qualifiedname>
+        <briefdescription>
+<para>Data fields involved in the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="327" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A detected temporal conflict between two snapshot versions.</para>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_conflict_1af766742332249750a77346d6a7c01389" kindref="member">table_name</ref></computeroutput> and <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_conflict_1a9c106b8de6559d6756cd0936d8c4d05a" kindref="member">entity_id</ref></computeroutput> together identify what conflicted:<itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_conflict_1af766742332249750a77346d6a7c01389" kindref="member">table_name</ref></computeroutput> is the table passed to detectConflicts().</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_conflict_1a9c106b8de6559d6756cd0936d8c4d05a" kindref="member">entity_id</ref></computeroutput> is the snapshot_id of the local snapshot (set by detectConflicts()).</para>
+</listitem></itemizedlist>
+</para>
+<para>Version identity is preserved in <computeroutput>local_version.snapshot_id</computeroutput> and <computeroutput>remote_version.snapshot_id</computeroutput>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::Conflict</label>
+        <link refid="structthemisdb_1_1temporal_1_1_conflict"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>local_version</edgelabel>
+          <edgelabel>remote_version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::TemporalSnapshot</label>
+        <link refid="structthemisdb_1_1temporal_1_1_temporal_snapshot"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="321" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="321" bodyend="328"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1a3a8f5cef1776263d94ccea23e6e6be2c" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>affected_columns</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1a9c106b8de6559d6756cd0936d8c4d05a" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>entity_id</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1a3d3039f00f376f9a9bb22f31e03bf126" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>local_version</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1abd7bb237417a477e8d60c530e0e5ea58" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>remote_version</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1af766742332249750a77346d6a7c01389" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_conflict_1a4d4e67b433e7c9a7fb781fb88ecc5d18" prot="public" virt="non-virtual"><scope>themisdb::temporal::Conflict</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

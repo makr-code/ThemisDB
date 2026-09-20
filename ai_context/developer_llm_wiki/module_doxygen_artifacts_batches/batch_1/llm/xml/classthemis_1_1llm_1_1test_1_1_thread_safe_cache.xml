@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_thread_safe_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::ThreadSafeCache</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry" prot="public">themis::llm::test::ThreadSafeCache::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1adde1311f5d30df1b260b99f5180b4706" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::test::ThreadSafeCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="235" column="14" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1a3931097a1fd7f8d3060b480d23b8df89" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry" kindref="compound">Entry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;Entry&gt; &gt; themis::llm::test::ThreadSafeCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="236" column="22" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1afbee1a9f45985701691b6db8091527bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1test_1_1_thread_safe_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Entry &gt; themis::llm::test::ThreadSafeCache::get</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="217" column="19" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="217" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1a8b6e1dc4be20cbe22e02d5a67f1ffd45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::test::ThreadSafeCache::put</definition>
+        <argsstring>(const std::string &amp;key, std::vector&lt; uint8_t &gt; data)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::llm::test::ThreadSafeCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="227" column="8" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="227" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="209" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="209" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1a3931097a1fd7f8d3060b480d23b8df89" prot="private" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1afbee1a9f45985701691b6db8091527bc" prot="public" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1adde1311f5d30df1b260b99f5180b4706" prot="private" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_thread_safe_cache_1a8b6e1dc4be20cbe22e02d5a67f1ffd45" prot="public" virt="non-virtual"><scope>themis::llm::test::ThreadSafeCache</scope><name>put</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

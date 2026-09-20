@@ -1,0 +1,731 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_recovery_fault_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::RecoveryFaultHandler</compoundname>
+    <includes refid="storage__recovery__fault__handler_8h" local="no">storage_recovery_fault_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a9b2bf7bb6ec967ac6fd9900b11ccd686" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::RecoveryFaultHandler::max_recovery_retries_</definition>
+        <argsstring></argsstring>
+        <name>max_recovery_retries_</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::max_recovery_retries_</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="342" column="9" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="342" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_recovery_fault_handler_1aa659b10d6dead1c090d5bdbda9da117e" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::RecoveryFaultHandler::recovery_timeout_</definition>
+        <argsstring></argsstring>
+        <name>recovery_timeout_</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::recovery_timeout_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1afe5c1d0395f6c985373d75302e5892cc" kindref="member">kRecoveryHardTimeout</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="343" column="31" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="343" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a661e85ff66f96e8145e4ec46d42e57c0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::RecoveryFaultHandler::continue_on_torn_wal_</definition>
+        <argsstring></argsstring>
+        <name>continue_on_torn_wal_</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::continue_on_torn_wal_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="344" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="344" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>RecoveryFaultHandler</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</qualifiedname>
+        <briefdescription>
+<para>Constructor: initializes handler with default policies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1adbf95d4ba2d5b42b7f5d26e3bc637b13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</definition>
+        <argsstring>(const RecoveryFaultHandler &amp;)=delete</argsstring>
+        <name>RecoveryFaultHandler</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</qualifiedname>
+        <param>
+          <type>const RecoveryFaultHandler &amp;</type>
+        </param>
+        <briefdescription>
+<para>Non-copyable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a17e607e724f977c01bfed59669d98244" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref> &amp;</type>
+        <definition>RecoveryFaultHandler &amp; themis::storage::RecoveryFaultHandler::operator=</definition>
+        <argsstring>(const RecoveryFaultHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="135" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a59e2cb34d76783451f9a02e5337d80c3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</definition>
+        <argsstring>(RecoveryFaultHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>RecoveryFaultHandler</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::RecoveryFaultHandler</qualifiedname>
+        <param>
+          <type>RecoveryFaultHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+<para>Move-enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a7809c5f58415234e202ae89b3bbf48ae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref> &amp;</type>
+        <definition>RecoveryFaultHandler &amp; themis::storage::RecoveryFaultHandler::operator=</definition>
+        <argsstring>(RecoveryFaultHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="139" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1ae67ba2b21a92ef52994c3da5b8668253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::RecoveryFaultHandler::~RecoveryFaultHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RecoveryFaultHandler</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::~RecoveryFaultHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a6e76c2402366e90d84c4f6841b112ddf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleTornWalEntry</definition>
+        <argsstring>(std::string_view wal_path, std::uint64_t checkpoint_seq, std::uint64_t fault_seq, std::uint64_t entries_replayed) noexcept</argsstring>
+        <name>handleTornWalEntry</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleTornWalEntry</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>wal_path</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>checkpoint_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>fault_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>entries_replayed</declname>
+        </param>
+        <briefdescription>
+<para>Handle a torn WAL entry (partial write at tail). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log diagnostic, skip entry, continue replay.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to WAL file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkpoint_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checkpoint position for context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fault_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number of torn entry </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entries_replayed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of entries replayed before this one </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with fault details and recovery guidance</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns RECOVERY_INCOMPLETE error code</para>
+</listitem><listitem><para>Emits diagnostic event for operator awareness</para>
+</listitem><listitem><para>Provides suggestion: &quot;Partial WAL tail discarded; verify backup...&quot;</para>
+</listitem><listitem><para>Should continue recovery (is_retryable=false, should_stop_recovery=false) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="162" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="64" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1aadd03a15f79f977515e8e641752f0338" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleInvalidCheckpoint</definition>
+        <argsstring>(std::uint64_t checkpoint_seq, std::uint64_t wal_tail_seq, std::uint64_t recovery_start_seq) noexcept</argsstring>
+        <name>handleInvalidCheckpoint</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleInvalidCheckpoint</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>checkpoint_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>wal_tail_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>recovery_start_seq</declname>
+        </param>
+        <briefdescription>
+<para>Handle an invalid checkpoint (sequence past WAL tail or corrupted). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log diagnostic, fall back to safe checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invalid checkpoint sequence number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wal_tail_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual last sequence in WAL </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovery_start_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Suggested safe checkpoint to start recovery from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with guidance for fallback checkpoint</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns CHECKPOINT_FAILED error code</para>
+</listitem><listitem><para>Suggests recovery_start_seq as safe fallback</para>
+</listitem><listitem><para>Should stop current recovery and restart from suggested point (should_stop_recovery=true)</para>
+</listitem><listitem><para>Provides operator suggestion for investigation </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="185" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="98" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1ab5059af9de648043b059c489bb7a2e9b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleRecoveryTimeout</definition>
+        <argsstring>(std::chrono::milliseconds elapsed_time, std::uint64_t entries_replayed, std::uint64_t checkpoint_seq) noexcept</argsstring>
+        <name>handleRecoveryTimeout</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleRecoveryTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>elapsed_time</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>entries_replayed</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>checkpoint_seq</declname>
+        </param>
+        <briefdescription>
+<para>Handle recovery timeout (exceeded kRecoveryHardTimeout). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log alert, stop recovery, preserve state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>elapsed_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time elapsed since recovery started </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entries_replayed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of entries successfully replayed before timeout </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkpoint_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checkpoint where recovery started </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with alert-level severity</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns RECOVERY_TIMEOUT error code</para>
+</listitem><listitem><para>should_stop_recovery=true (must abort)</para>
+</listitem><listitem><para>is_retryable=true (can retry with increased timeout)</para>
+</listitem><listitem><para>Emits HIGH/CRITICAL severity diagnostic</para>
+</listitem><listitem><para>Suggests infrastructure checks (disk speed, memory pressure, etc.) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="207" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="131" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a5dab28ab65915510726f3998fbe7d7bb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleWalFileCorruption</definition>
+        <argsstring>(std::string_view wal_path, std::string_view corruption_type, std::uint64_t bytes_verified) noexcept</argsstring>
+        <name>handleWalFileCorruption</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleWalFileCorruption</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>wal_path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>corruption_type</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>bytes_verified</declname>
+        </param>
+        <briefdescription>
+<para>Handle WAL file corruption (invalid magic, CRC mismatch, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log alert, consider alternate recovery strategies (backup restore, PITR, etc.).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to corrupted WAL file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>corruption_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of corruption (e.g., &quot;invalid_magic&quot;, &quot;crc_mismatch&quot;, &quot;truncated_file&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes successfully verified before corruption </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with recovery strategy recommendations</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns WAL_CORRUPTED error code</para>
+</listitem><listitem><para>should_stop_recovery=true (this WAL cannot be used)</para>
+</listitem><listitem><para>is_retryable=false (corruption is permanent)</para>
+</listitem><listitem><para>Emits CRITICAL severity diagnostic</para>
+</listitem><listitem><para>Suggests backup restore or PITR recovery </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="231" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="164" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a1bc3a699657d42f7cfd29ff00f697ccc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleWalReadError</definition>
+        <argsstring>(std::string_view wal_path, std::string_view io_error_msg, int retry_count) noexcept</argsstring>
+        <name>handleWalReadError</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleWalReadError</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>wal_path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>io_error_msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retry_count</declname>
+        </param>
+        <briefdescription>
+<para>Handle I/O error during WAL read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log diagnostic, decide whether to retry or fail over to backup recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to WAL file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>io_error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of I/O error (e.g., &quot;permission denied&quot;, &quot;disk offline&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of previous retry attempts </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with retry/failover guidance</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns WAL_WRITE_FAILED or INTERNAL_ERROR</para>
+</listitem><listitem><para>is_retryable based on error type and retry_count</para>
+</listitem><listitem><para>Suggests failover strategy if retries exhausted</para>
+</listitem><listitem><para>Emits HIGH/CRITICAL severity diagnostic </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="254" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="197" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1ac931576b25f7d65b6ad3392026a6bd98" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleReplayEntryFailure</definition>
+        <argsstring>(std::uint64_t fault_seq, std::string_view replay_error, bool is_critical=false) noexcept</argsstring>
+        <name>handleReplayEntryFailure</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleReplayEntryFailure</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>fault_seq</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>replay_error</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_critical</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Handle failure during entry replay (e.g., sequence number error, application-level replay failure). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: log diagnostic, decide whether to skip entry or stop recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fault_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number of entry that failed to replay </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replay_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of failure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_critical</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if error cannot be safely skipped </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with skip/stop guidance</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns appropriate error code based on failure type</para>
+</listitem><listitem><para>is_critical determines should_stop_recovery flag</para>
+</listitem><listitem><para>Emits MEDIUM/HIGH severity diagnostic</para>
+</listitem><listitem><para>Suggests manual investigation if critical </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="277" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="241" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1ae2e6c4cebe76949957eb0bc4da2ce7c8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>RecoveryFaultReport themis::storage::RecoveryFaultHandler::handleRecoveryRetryExhausted</definition>
+        <argsstring>(std::uint64_t checkpoint_seq, int attempts, std::string_view last_error) noexcept</argsstring>
+        <name>handleRecoveryRetryExhausted</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::handleRecoveryRetryExhausted</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>checkpoint_seq</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempts</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>last_error</declname>
+        </param>
+        <briefdescription>
+<para>Handle maximum retry attempts exceeded during recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fail-safe behavior: abort recovery, emit alert for manual intervention.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checkpoint where recovery started </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of failed attempts </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of last error encountered </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with CRITICAL severity</para>
+</simplesect>
+Guaranteed behavior:<itemizedlist>
+<listitem><para>Returns RECOVERY_TIMEOUT or INTERNAL_ERROR</para>
+</listitem><listitem><para>should_stop_recovery=true (must abort)</para>
+</listitem><listitem><para>is_retryable=false (retry limit reached)</para>
+</listitem><listitem><para>Emits CRITICAL severity diagnostic</para>
+</listitem><listitem><para>Suggests manual recovery intervention </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="300" column="26" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="283" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a277eb19a3b74bf79a3f333c818ec223a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::RecoveryFaultHandler::setMaxRecoveryRetries</definition>
+        <argsstring>(int max_retries) noexcept</argsstring>
+        <name>setMaxRecoveryRetries</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::setMaxRecoveryRetries</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_retries</declname>
+        </param>
+        <briefdescription>
+<para>Set maximum number of recovery retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 3 retries for transient faults.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of retries (0 = no retries) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="314" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="314" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a48e5547eb9a98e276e1eb6cd21d45cad" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::RecoveryFaultHandler::setRecoveryTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout) noexcept</argsstring>
+        <name>setRecoveryTimeout</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::setRecoveryTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Set timeout for entire recovery procedure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: kRecoveryHardTimeout from <ref refid="storage__api__contract_8h" kindref="compound">storage_api_contract.h</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum duration for recovery operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="325" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="325" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_recovery_fault_handler_1a88d6da6ad3ddb646f6a0c2149b0590d4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::RecoveryFaultHandler::setContinueOnTornWal</definition>
+        <argsstring>(bool continue_on_torn) noexcept</argsstring>
+        <name>setContinueOnTornWal</name>
+        <qualifiedname>themis::storage::RecoveryFaultHandler::setContinueOnTornWal</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>continue_on_torn</declname>
+        </param>
+        <briefdescription>
+<para>Set whether recovery should continue on torn WAL entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: true (continue; emit RECOVERY_INCOMPLETE diagnostic).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>continue_on_torn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to skip torn entries and continue, false to abort recovery </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="337" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="337" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Centralized handler for recovery-phase faults. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides standardized, fail-safe behavior for:<itemizedlist>
+<listitem><para>Torn WAL entries (skip and emit diagnostic, continue replay)</para>
+</listitem><listitem><para>Invalid checkpoints (emit diagnostic, attempt recovery from safe point)</para>
+</listitem><listitem><para>Recovery timeouts (stop and emit alert)</para>
+</listitem><listitem><para>WAL file corruption (try alternate recovery strategies)</para>
+</listitem><listitem><para>Replay errors (classify and decide whether to continue or stop)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe: Safe to call concurrently from recovery threads. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_recovery_fault_handler.h" line="128" column="1" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="128" bodyend="345"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a661e85ff66f96e8145e4ec46d42e57c0" prot="private" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>continue_on_torn_wal_</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1aadd03a15f79f977515e8e641752f0338" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleInvalidCheckpoint</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ae2e6c4cebe76949957eb0bc4da2ce7c8" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleRecoveryRetryExhausted</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab5059af9de648043b059c489bb7a2e9b" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleRecoveryTimeout</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ac931576b25f7d65b6ad3392026a6bd98" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleReplayEntryFailure</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a6e76c2402366e90d84c4f6841b112ddf" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleTornWalEntry</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a5dab28ab65915510726f3998fbe7d7bb" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleWalFileCorruption</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a1bc3a699657d42f7cfd29ff00f697ccc" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>handleWalReadError</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a9b2bf7bb6ec967ac6fd9900b11ccd686" prot="private" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>max_recovery_retries_</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a17e607e724f977c01bfed59669d98244" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a7809c5f58415234e202ae89b3bbf48ae" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1aa659b10d6dead1c090d5bdbda9da117e" prot="private" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>recovery_timeout_</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>RecoveryFaultHandler</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1adbf95d4ba2d5b42b7f5d26e3bc637b13" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>RecoveryFaultHandler</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a59e2cb34d76783451f9a02e5337d80c3" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>RecoveryFaultHandler</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a88d6da6ad3ddb646f6a0c2149b0590d4" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>setContinueOnTornWal</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a277eb19a3b74bf79a3f333c818ec223a" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>setMaxRecoveryRetries</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a48e5547eb9a98e276e1eb6cd21d45cad" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>setRecoveryTimeout</name></member>
+      <member refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ae67ba2b21a92ef52994c3da5b8668253" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultHandler</scope><name>~RecoveryFaultHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

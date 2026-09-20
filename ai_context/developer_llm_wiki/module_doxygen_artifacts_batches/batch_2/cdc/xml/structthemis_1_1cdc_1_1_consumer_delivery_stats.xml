@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_consumer_delivery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ConsumerDeliveryStats</compoundname>
+    <includes refid="delivery__tracker_8h" local="no">delivery_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a79422558708e41cc4fbea8703ac70848" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::ConsumerDeliveryStats::consumer_id</definition>
+        <argsstring></argsstring>
+        <name>consumer_id</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::consumer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="63" column="17" bodyfile="include/cdc/delivery_tracker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1ab699abcd4d8d94e2a6bfa8d16a361db9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::ConsumerDeliveryStats::pending_count</definition>
+        <argsstring></argsstring>
+        <name>pending_count</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::pending_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Events awaiting acknowledgement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="64" column="12" bodyfile="include/cdc/delivery_tracker.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1ad6d2cae3a1fdb824df8d44f5ec5d1f94" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerDeliveryStats::total_delivered</definition>
+        <argsstring></argsstring>
+        <name>total_delivered</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::total_delivered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative events delivered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="65" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a596eccedc2bc8fe9542f2ba25c08a61e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerDeliveryStats::total_acknowledged</definition>
+        <argsstring></argsstring>
+        <name>total_acknowledged</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::total_acknowledged</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative events acknowledged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="66" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a5696acdade086b0de001026a3e9cbc77" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerDeliveryStats::total_redeliveries</definition>
+        <argsstring></argsstring>
+        <name>total_redeliveries</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::total_redeliveries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative redelivery attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="67" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a84e8bb4e6c090390b1b76c51df0f91b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerDeliveryStats::total_expired</definition>
+        <argsstring></argsstring>
+        <name>total_expired</name>
+        <qualifiedname>themis::cdc::ConsumerDeliveryStats::total_expired</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Events dropped after max_redelivery_attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="68" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/delivery_tracker.h" line="62" column="1" bodyfile="include/cdc/delivery_tracker.h" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a79422558708e41cc4fbea8703ac70848" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>consumer_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1ab699abcd4d8d94e2a6bfa8d16a361db9" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>pending_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a596eccedc2bc8fe9542f2ba25c08a61e" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>total_acknowledged</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1ad6d2cae3a1fdb824df8d44f5ec5d1f94" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>total_delivered</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a84e8bb4e6c090390b1b76c51df0f91b3" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>total_expired</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_delivery_stats_1a5696acdade086b0de001026a3e9cbc77" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerDeliveryStats</scope><name>total_redeliveries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

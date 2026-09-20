@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1replication_1_1_kafka_producer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::replication::KafkaProducerConfig</compoundname>
+    <includes refid="kafka__change__stream_8h" local="no">kafka_change_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a3113d58a77c3f8264e0af1e81ef2d6b0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::replication::KafkaProducerConfig::bootstrap_servers</definition>
+        <argsstring></argsstring>
+        <name>bootstrap_servers</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::bootstrap_servers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="21" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a138095b609250a2bf516fe27e4a20ee2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::topic_prefix</definition>
+        <argsstring></argsstring>
+        <name>topic_prefix</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::topic_prefix</qualifiedname>
+        <initializer>= &quot;themisdb.changes.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="22" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a7a4897e55ad07a0f0f44fbc22b103a6b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::replication::KafkaProducerConfig::acks</definition>
+        <argsstring></argsstring>
+        <name>acks</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::acks</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="23" column="9" bodyfile="include/replication/kafka_change_stream.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1af7dcf7c68051a846c957b48a3eb0e4c4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::replication::KafkaProducerConfig::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="24" column="9" bodyfile="include/replication/kafka_change_stream.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a3965a857b6d8e2070723f8df992f3333" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::replication::KafkaProducerConfig::batch_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>batch_size_bytes</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::batch_size_bytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="25" column="9" bodyfile="include/replication/kafka_change_stream.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a76025a6b0d1bb492d4550ffc72464782" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::replication::KafkaProducerConfig::linger_ms</definition>
+        <argsstring></argsstring>
+        <name>linger_ms</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::linger_ms</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="26" column="9" bodyfile="include/replication/kafka_change_stream.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1aad4ec7d309096636e32274f0e34d22ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::KafkaProducerConfig::enable_idempotence</definition>
+        <argsstring></argsstring>
+        <name>enable_idempotence</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::enable_idempotence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="27" column="10" bodyfile="include/replication/kafka_change_stream.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a6c1250d974747d121cd28cb7c274b3cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::compression_type</qualifiedname>
+        <initializer>= &quot;lz4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="28" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a85999f2774fd048daa5ddf6eac6f7209" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::sasl_mechanism</definition>
+        <argsstring></argsstring>
+        <name>sasl_mechanism</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::sasl_mechanism</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="29" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a92eae680eadfd93e85a66cfcc80c7edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::sasl_username</definition>
+        <argsstring></argsstring>
+        <name>sasl_username</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::sasl_username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="30" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a322c06579b7de2826cec74932e7a6fc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::sasl_password</definition>
+        <argsstring></argsstring>
+        <name>sasl_password</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::sasl_password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="31" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1a38a00e8319a68a34e88acae81d3358ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::KafkaProducerConfig::ssl_enabled</definition>
+        <argsstring></argsstring>
+        <name>ssl_enabled</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::ssl_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="32" column="10" bodyfile="include/replication/kafka_change_stream.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_producer_config_1adae58321aa0f796ba82a9786d8698069" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaProducerConfig::ssl_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_cert_path</name>
+        <qualifiedname>themis::replication::KafkaProducerConfig::ssl_ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="33" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/kafka_change_stream.h" line="20" column="1" bodyfile="include/replication/kafka_change_stream.h" bodystart="20" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a7a4897e55ad07a0f0f44fbc22b103a6b" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>acks</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a3965a857b6d8e2070723f8df992f3333" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>batch_size_bytes</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a3113d58a77c3f8264e0af1e81ef2d6b0" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>bootstrap_servers</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a6c1250d974747d121cd28cb7c274b3cd" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1aad4ec7d309096636e32274f0e34d22ec" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>enable_idempotence</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a76025a6b0d1bb492d4550ffc72464782" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>linger_ms</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1af7dcf7c68051a846c957b48a3eb0e4c4" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>retries</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a85999f2774fd048daa5ddf6eac6f7209" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>sasl_mechanism</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a322c06579b7de2826cec74932e7a6fc9" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>sasl_password</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a92eae680eadfd93e85a66cfcc80c7edf" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>sasl_username</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1adae58321aa0f796ba82a9786d8698069" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>ssl_ca_cert_path</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a38a00e8319a68a34e88acae81d3358ff" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>ssl_enabled</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_producer_config_1a138095b609250a2bf516fe27e4a20ee2" prot="public" virt="non-virtual"><scope>themis::replication::KafkaProducerConfig</scope><name>topic_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_file_watcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyFileWatcher</compoundname>
+    <includes refid="policy__file__watcher_8h" local="no">policy_file_watcher.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config" prot="public">themis::governance::PolicyFileWatcher::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1a1e9955ac7a67059a25560d5744c10c66" prot="private" static="no" mutable="no">
+        <type><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref> &amp;</type>
+        <definition>PolicyEngine&amp; themis::governance::PolicyFileWatcher::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="81" column="18" bodyfile="include/governance/policy_file_watcher.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1a1f7ba8beb75d6b54ba4d19e6a5850441" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::governance::PolicyFileWatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="82" column="12" bodyfile="include/governance/policy_file_watcher.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1af8e44932b4b4ff01770e0d3de0fea6ac" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::governance::PolicyFileWatcher::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="83" column="17" bodyfile="include/governance/policy_file_watcher.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1a1c0cb9c4cc96558577c7121288982d5b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::governance::PolicyFileWatcher::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="84" column="17" bodyfile="include/governance/policy_file_watcher.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1a75d4d8bf1f93cd01df0b06b476cbadc4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::governance::PolicyFileWatcher::reload_success_count_</definition>
+        <argsstring></argsstring>
+        <name>reload_success_count_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::reload_success_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="85" column="17" bodyfile="include/governance/policy_file_watcher.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_file_watcher_1ade1186cd213f66684639e0269e92ac9d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::governance::PolicyFileWatcher::reload_failure_count_</definition>
+        <argsstring></argsstring>
+        <name>reload_failure_count_</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::reload_failure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="86" column="17" bodyfile="include/governance/policy_file_watcher.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1affa116d243cc5482553fba73981186e4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyFileWatcher::PolicyFileWatcher</definition>
+        <argsstring>(PolicyEngine &amp;engine)</argsstring>
+        <name>PolicyFileWatcher</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::PolicyFileWatcher</qualifiedname>
+        <param>
+          <type><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Policy File Watcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="39" column="14" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a1f0bd63fcf7c143fa61e834b237e9668" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyFileWatcher::PolicyFileWatcher</definition>
+        <argsstring>(PolicyEngine &amp;engine, Config config)</argsstring>
+        <name>PolicyFileWatcher</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::PolicyFileWatcher</qualifiedname>
+        <param>
+          <type><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1governance_1_1_policy_file_watcher_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Policy File Watcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="46" column="14" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a25d90ce95511981805f2e96559151a86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyFileWatcher::~PolicyFileWatcher</definition>
+        <argsstring>()</argsstring>
+        <name>~PolicyFileWatcher</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::~PolicyFileWatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="48" column="5" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1aaa26185670803f3c74a110099b394c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyFileWatcher::PolicyFileWatcher</definition>
+        <argsstring>(const PolicyFileWatcher &amp;)=delete</argsstring>
+        <name>PolicyFileWatcher</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::PolicyFileWatcher</qualifiedname>
+        <param>
+          <type>const PolicyFileWatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a951880dce9d43fc36bef7495c6beaa81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_policy_file_watcher_1affa116d243cc5482553fba73981186e4" kindref="member">PolicyFileWatcher</ref> &amp;</type>
+        <definition>PolicyFileWatcher &amp; themis::governance::PolicyFileWatcher::operator=</definition>
+        <argsstring>(const PolicyFileWatcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_file_watcher_1affa116d243cc5482553fba73981186e4" kindref="member">PolicyFileWatcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="52" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a480e4fee2ae73514a96772ba41ef9e8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyFileWatcher::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), store(), std::thread(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="58" column="10" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1aa8d5f04554c9df098ec0054f6a6e8003" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyFileWatcher::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), joinable(), join(), THEMIS_INFO(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="63" column="10" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="60" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a368cfe1c04cd3b148cff7280b125d694" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyFileWatcher::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="65" column="10" bodyfile="include/governance/policy_file_watcher.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1ab7fba8b6c2927cb4e8a4f08e0ed6d97c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::governance::PolicyFileWatcher::reloadSuccessCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reloadSuccessCount</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::reloadSuccessCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="67" column="14" bodyfile="include/governance/policy_file_watcher.h" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a318826d3c8eec5d2c1f51ca66799c7c7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::governance::PolicyFileWatcher::reloadFailureCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reloadFailureCount</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::reloadFailureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="71" column="14" bodyfile="include/governance/policy_file_watcher.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_file_watcher_1a6a92a416bc47af96218f243d07778f63" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyFileWatcher::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::governance::PolicyFileWatcher::run</qualifiedname>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getLoadedFilePath(), empty(), fs::last_write_time(), load(), std::this_thread::sleep_for(), std::chrono::steady_clock::now(), THEMIS_DEBUG(), reloadIfChanged(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_file_watcher.h" line="79" column="10" bodyfile="src/governance/policy_file_watcher.cpp" bodystart="75" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_file_watcher.h" line="26" column="1" bodyfile="include/governance/policy_file_watcher.h" bodystart="26" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a1f7ba8beb75d6b54ba4d19e6a5850441" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a1e9955ac7a67059a25560d5744c10c66" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a368cfe1c04cd3b148cff7280b125d694" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a951880dce9d43fc36bef7495c6beaa81" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1affa116d243cc5482553fba73981186e4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>PolicyFileWatcher</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a1f0bd63fcf7c143fa61e834b237e9668" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>PolicyFileWatcher</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1aaa26185670803f3c74a110099b394c00" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>PolicyFileWatcher</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1ade1186cd213f66684639e0269e92ac9d" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>reload_failure_count_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a75d4d8bf1f93cd01df0b06b476cbadc4" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>reload_success_count_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a318826d3c8eec5d2c1f51ca66799c7c7" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>reloadFailureCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1ab7fba8b6c2927cb4e8a4f08e0ed6d97c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>reloadSuccessCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a6a92a416bc47af96218f243d07778f63" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>run</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a1c0cb9c4cc96558577c7121288982d5b" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>running_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a480e4fee2ae73514a96772ba41ef9e8d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>start</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1aa8d5f04554c9df098ec0054f6a6e8003" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>stop</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1af8e44932b4b4ff01770e0d3de0fea6ac" prot="private" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>thread_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_file_watcher_1a25d90ce95511981805f2e96559151a86" prot="public" virt="non-virtual"><scope>themis::governance::PolicyFileWatcher</scope><name>~PolicyFileWatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

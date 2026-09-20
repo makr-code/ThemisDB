@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::IndexCompressionCodec::Stats</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a2cb6a3973778ce4e536d41a2f0edef22" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::keys_compressed</definition>
+        <argsstring></argsstring>
+        <name>keys_compressed</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::keys_compressed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total keys processed by compressKeys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="263" column="18" bodyfile="include/index/index_compression.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a42fafdbf4feef6f1a4f7c91589173c5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::keys_decompressed</definition>
+        <argsstring></argsstring>
+        <name>keys_decompressed</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::keys_decompressed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total keys restored by decompressKeys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="264" column="18" bodyfile="include/index/index_compression.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa53d6bc8c703184a4e697b6440671f2a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::bloom_inserts</definition>
+        <argsstring></argsstring>
+        <name>bloom_inserts</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::bloom_inserts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bloom-filter inserts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="265" column="18" bodyfile="include/index/index_compression.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a113a2433af05aa1cdb10efaf8ed137b2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::bloom_lookups</definition>
+        <argsstring></argsstring>
+        <name>bloom_lookups</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::bloom_lookups</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bloom mightContain queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="266" column="18" bodyfile="include/index/index_compression.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1ab28256763c805af2e2635a83ee6ddfb7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::bloom_hits</definition>
+        <argsstring></argsstring>
+        <name>bloom_hits</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::bloom_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Lookups that returned true (might be FP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="267" column="18" bodyfile="include/index/index_compression.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a000474d32c571ead82cf6bdc1fba8ae0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::bloom_rejections</definition>
+        <argsstring></argsstring>
+        <name>bloom_rejections</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::bloom_rejections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Lookups that returned false (definite miss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="268" column="18" bodyfile="include/index/index_compression.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a8ba47b0366538d0eaa789890cecc38c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::dict_encodes</definition>
+        <argsstring></argsstring>
+        <name>dict_encodes</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::dict_encodes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Dictionary encode calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="269" column="18" bodyfile="include/index/index_compression.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a1b369bcdd8584acdc8a7c2b64403ae3c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::dict_hits</definition>
+        <argsstring></argsstring>
+        <name>dict_hits</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::dict_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Successful dictionary encodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="270" column="18" bodyfile="include/index/index_compression.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a53f01b1adcafab5a0553b0c06fee8bbc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::rle_runs_saved</definition>
+        <argsstring></argsstring>
+        <name>rle_runs_saved</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::rle_runs_saved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Runs saved by RLE (total count - runs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="271" column="18" bodyfile="include/index/index_compression.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa09d811e781d14d0143d890f0f9bd5dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::IndexCompressionCodec::Stats::prefix_bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>prefix_bytes_saved</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::Stats::prefix_bytes_saved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes saved by prefix compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="272" column="18" bodyfile="include/index/index_compression.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression statistics for monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="262" column="5" bodyfile="include/index/index_compression.h" bodystart="262" bodyend="273"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1ab28256763c805af2e2635a83ee6ddfb7" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>bloom_hits</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa53d6bc8c703184a4e697b6440671f2a" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>bloom_inserts</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a113a2433af05aa1cdb10efaf8ed137b2" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>bloom_lookups</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a000474d32c571ead82cf6bdc1fba8ae0" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>bloom_rejections</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a8ba47b0366538d0eaa789890cecc38c9" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>dict_encodes</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a1b369bcdd8584acdc8a7c2b64403ae3c" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>dict_hits</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a2cb6a3973778ce4e536d41a2f0edef22" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>keys_compressed</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a42fafdbf4feef6f1a4f7c91589173c5e" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>keys_decompressed</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa09d811e781d14d0143d890f0f9bd5dd" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>prefix_bytes_saved</name></member>
+      <member refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a53f01b1adcafab5a0553b0c06fee8bbc" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec::Stats</scope><name>rle_runs_saved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

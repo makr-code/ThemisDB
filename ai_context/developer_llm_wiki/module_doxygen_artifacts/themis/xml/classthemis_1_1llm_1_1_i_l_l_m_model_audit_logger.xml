@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ILLMModelAuditLogger</compoundname>
+    <includes refid="llm__interfaces_8h" local="no">llm_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger_1af250085ab0f122f8a652290b682cf20e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ILLMModelAuditLogger::~ILLMModelAuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMModelAuditLogger</name>
+        <qualifiedname>themis::llm::ILLMModelAuditLogger::~ILLMModelAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="78" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger_1a88e40b3c7259ff929e7f9f76e47008b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::ILLMModelAuditLogger::logRequest</definition>
+        <argsstring>(const std::string &amp;req)=0</argsstring>
+        <name>logRequest</name>
+        <qualifiedname>themis::llm::ILLMModelAuditLogger::logRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="79" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/llm_interfaces.h" line="76" column="1" bodyfile="include/themis/llm/llm_interfaces.h" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger_1a88e40b3c7259ff929e7f9f76e47008b4" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMModelAuditLogger</scope><name>logRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger_1af250085ab0f122f8a652290b682cf20e" prot="public" virt="virtual"><scope>themis::llm::ILLMModelAuditLogger</scope><name>~ILLMModelAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

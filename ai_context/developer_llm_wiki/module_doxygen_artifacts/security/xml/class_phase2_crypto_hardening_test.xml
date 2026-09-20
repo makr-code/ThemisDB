@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase2_crypto_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>Phase2CryptoHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_phase2_crypto_hardening_test_1_1_mock_key_entry" prot="protected">Phase2CryptoHardeningTest::MockKeyEntry</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_phase2_crypto_hardening_test_1a00e89f62f9bc6ad2cc0e8f5833bf6441" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="struct_mock_key_entry" kindref="compound">MockKeyEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MockKeyEntry&gt; Phase2CryptoHardeningTest::mock_keys_</definition>
+        <argsstring></argsstring>
+        <name>mock_keys_</name>
+        <qualifiedname>Phase2CryptoHardeningTest::mock_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="76" column="24" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_phase2_crypto_hardening_test_1a9c770cac903305f9b8004e01debf75fc" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; Phase2CryptoHardeningTest::key_access_count_</definition>
+        <argsstring></argsstring>
+        <name>key_access_count_</name>
+        <qualifiedname>Phase2CryptoHardeningTest::key_access_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="77" column="17" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_phase2_crypto_hardening_test_1afd468b0d87c14777ba88c32e87db6d02" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase2CryptoHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Phase2CryptoHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="59" column="10" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="59" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_crypto_hardening_test_1acecfd910202d14d61ae3899e2cedb9e2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase2CryptoHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Phase2CryptoHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="65" column="10" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base fixture for key-provider testing with mock storage. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase2CryptoHardeningTest</label>
+        <link refid="class_phase2_crypto_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase2CryptoHardeningTest</label>
+        <link refid="class_phase2_crypto_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_phase2_crypto_hardening_focused.cpp" line="57" column="1" bodyfile="tests/security/test_security_phase2_crypto_hardening_focused.cpp" bodystart="57" bodyend="78"/>
+    <listofallmembers>
+      <member refid="class_phase2_crypto_hardening_test_1a9c770cac903305f9b8004e01debf75fc" prot="protected" virt="non-virtual"><scope>Phase2CryptoHardeningTest</scope><name>key_access_count_</name></member>
+      <member refid="class_phase2_crypto_hardening_test_1a00e89f62f9bc6ad2cc0e8f5833bf6441" prot="protected" virt="non-virtual"><scope>Phase2CryptoHardeningTest</scope><name>mock_keys_</name></member>
+      <member refid="class_phase2_crypto_hardening_test_1afd468b0d87c14777ba88c32e87db6d02" prot="protected" virt="non-virtual"><scope>Phase2CryptoHardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_phase2_crypto_hardening_test_1acecfd910202d14d61ae3899e2cedb9e2" prot="protected" virt="non-virtual"><scope>Phase2CryptoHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

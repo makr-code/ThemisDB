@@ -1,0 +1,536 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_butterfly_operator" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorButterflyOperator</compoundname>
+    <includes refid="tensor__butterfly__operator_8h" local="no">tensor_butterfly_operator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a8dab27d2ec12d9713ea87c9cb6b2a74a" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>using themis::tensor::TensorButterflyOperator::FourierTransformFn = std::function&lt;void(std::vector&lt;float&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FourierTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::FourierTransformFn</qualifiedname>
+        <briefdescription>
+<para>Injectable FOURIER transform backend (STUB #267 bridge). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>void fn(std::vector&lt;float&gt;&amp; fiber)</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="95" column="5" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a49c73b43828a744d56bb7b37e987b705" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>using themis::tensor::TensorButterflyOperator::RadonTransformFn = std::function&lt;void(std::vector&lt;float&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RadonTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::RadonTransformFn</qualifiedname>
+        <briefdescription>
+<para>Per-fiber transform for the RADON operator (STUB #268). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>void fn(std::vector&lt;float&gt;&amp; fiber)</computeroutput>. When set, <computeroutput>build(RADON, ...)</computeroutput> succeeds and <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" kindref="member">apply()</ref></computeroutput> calls this fn for every mode fiber of the TTTrain. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="175" column="5" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aa0727303dd5eec63e586f8c5ffcc63f9" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>using themis::tensor::TensorButterflyOperator::GreensTransformFn = std::function&lt;void(std::vector&lt;float&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GreensTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::GreensTransformFn</qualifiedname>
+        <briefdescription>
+<para>Per-fiber transform for the GREENS_FUNCTION operator (STUB #268). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same signature and semantics as <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a49c73b43828a744d56bb7b37e987b705" kindref="member">RadonTransformFn</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="182" column="5" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ac3bb5c842dd4be5d31336ec82cc29b6c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::tensor::TensorButterflyOperator::op_matrices_</definition>
+        <argsstring></argsstring>
+        <name>op_matrices_</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::op_matrices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-built per-mode Hadamard matrices, row-major (n_k × n_k each). op_matrices_[k] has n_k² elements. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="207" column="17" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a33bfc99ede3e023e46fe8cb0f8bbcdc1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_butterfly_config" kindref="compound">ButterflyConfig</ref></type>
+        <definition>ButterflyConfig themis::tensor::TensorButterflyOperator::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="209" column="21" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TensorButterflyOperator</type>
+        <definition>TensorButterflyOperator themis::tensor::TensorButterflyOperator::build</definition>
+        <argsstring>(OperatorType type, const std::vector&lt; std::size_t &gt; &amp;grid_shape, float precision=1e-6f)</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::build</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221" kindref="member">OperatorType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>grid_shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>precision</declname>
+          <defval>1e-6f</defval>
+        </param>
+        <briefdescription>
+<para>Build the butterfly operator for the requested type and grid shape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operator family (FOURIER, RADON, GREENS_FUNCTION). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grid_shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode sizes matching the target TTTrain (must be powers of 2 for FOURIER). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relative reconstruction error tolerance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If grid_shape is empty or any mode size is not a positive power of 2 (FOURIER). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If type is RADON or GREENS_FUNCTION (not yet implemented — STUB #171). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="112" column="9" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="329" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1af9d967130b2a29f512ddc88fddeee68c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::TensorButterflyOperator::contractOperator</definition>
+        <argsstring>(const storage::TTTrain &amp;data_tt, const TensorButterflyOperator &amp;op)</argsstring>
+        <name>contractOperator</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::contractOperator</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>data_tt</declname>
+        </param>
+        <param>
+          <type>const TensorButterflyOperator &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Apply this operator to <computeroutput>data_tt</computeroutput> (free-function style alias). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Identical to <computeroutput>apply(data_tt)</computeroutput>. Exists for symmetry with the paper&apos;s <computeroutput>contractOperator(data, op)</computeroutput> notation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data_tt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input TTTrain. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Butterfly operator to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformed TTTrain. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="150" column="9" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="604" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aee516884b319a1bbbc878d14f17aebf5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::setFourierTransformFn</definition>
+        <argsstring>(FourierTransformFn fn)</argsstring>
+        <name>setFourierTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::setFourierTransformFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a8dab27d2ec12d9713ea87c9cb6b2a74a" kindref="member">FourierTransformFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), fourierTransformFnMutex(), fourierTransformFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="163" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="254" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ae37debfe38c1f99cd12329717910e787" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::clearFourierTransformFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearFourierTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::clearFourierTransformFn</qualifiedname>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), fourierTransformFnMutex(), fourierTransformFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="164" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="263" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1adc90a108f47a5fd8afc9faf7f106c04a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::setRadonTransformFn</definition>
+        <argsstring>(RadonTransformFn fn)</argsstring>
+        <name>setRadonTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::setRadonTransformFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a49c73b43828a744d56bb7b37e987b705" kindref="member">RadonTransformFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a RADON per-fiber backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Once set, <computeroutput>build(RADON, ...)</computeroutput> no longer throws <computeroutput>std::logic_error</computeroutput>; <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" kindref="member">apply()</ref></computeroutput> delegates each mode-fiber transform to this function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), radonTransformFnMutex(), radonTransformFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="190" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="274" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aaff07920a4158d2f094f29199c618694" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::clearRadonTransformFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearRadonTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::clearRadonTransformFn</qualifiedname>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), radonTransformFnMutex(), radonTransformFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="191" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="283" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1afcaf5e82f7637bdb10d4b27df75fee80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::setGreensTransformFn</definition>
+        <argsstring>(GreensTransformFn fn)</argsstring>
+        <name>setGreensTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::setGreensTransformFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aa0727303dd5eec63e586f8c5ffcc63f9" kindref="member">GreensTransformFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a GREENS_FUNCTION per-fiber backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Once set, <computeroutput>build(GREENS_FUNCTION, ...)</computeroutput> no longer throws <computeroutput>std::logic_error</computeroutput>; <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" kindref="member">apply()</ref></computeroutput> delegates each mode-fiber transform to this function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), greensTransformFnMutex(), greensTransformFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="199" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="294" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ae5113dba9db1d2db94d3747e8e68b753" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorButterflyOperator::clearGreensTransformFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearGreensTransformFn</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::clearGreensTransformFn</qualifiedname>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), greensTransformFnMutex(), greensTransformFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="200" column="17" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="303" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::tensor::TensorButterflyOperator::apply</definition>
+        <argsstring>(const storage::TTTrain &amp;data) const</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::apply</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Apply the operator to a TT-format data tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a mode-wise butterfly transform: for each mode k the n_k-length fibers of core G_k are transformed by the corresponding butterfly matrix.</para>
+<para><heading level="3">Complexity</heading>
+</para>
+<para>O(n · d · log₂(n) · r²) where n = max mode size, d = order, r = max rank. Reported as O(n·d) when n and r are treated as fixed constants (typical for structured compression workloads where r ≤ 16 and n ≤ 256 per mode).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input TTTrain. <computeroutput>data.mode_sizes</computeroutput> must match <computeroutput>grid_shape</computeroutput> used in <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" kindref="member">build()</ref></computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transformed TTTrain with the same shape as <computeroutput>data</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If data shape is incompatible with the operator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If operator type is not yet implemented. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Fiber. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Fiber. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="137" column="23" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="404" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1afed13dea2801b2133267dc346f414d38" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221" kindref="member">OperatorType</ref></type>
+        <definition>OperatorType themis::tensor::TensorButterflyOperator::type</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="155" column="33" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="614" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a0171e6dc78ace37e7efaf19102d8102e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+        <definition>const std::vector&lt; std::size_t &gt; &amp; themis::tensor::TensorButterflyOperator::gridShape</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>gridShape</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::gridShape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="156" column="24" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="619" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a03cca0d69006caac31950706e13f10f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::tensor::TensorButterflyOperator::precision</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::precision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="157" column="33" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="623" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a3ed407bb4a262e9d74f03bc065718795" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorButterflyOperator::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::describe</qualifiedname>
+        <briefdescription>
+<para>Human-readable description (useful for AQL EXPLAIN output). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="160" column="33" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="627" bodyend="644"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ada13260d9f2fb037fa95fb8fc276db79" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorButterflyOperator::TensorButterflyOperator</definition>
+        <argsstring>(ButterflyConfig cfg)</argsstring>
+        <name>TensorButterflyOperator</name>
+        <qualifiedname>themis::tensor::TensorButterflyOperator::TensorButterflyOperator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1tensor_1_1_butterfly_config" kindref="compound">ButterflyConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="203" column="14" bodyfile="src/tensor/tensor_butterfly_operator.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable butterfly operator in TT-network format. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>op<sp/>=<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" kindref="member">TensorButterflyOperator::build</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221a667d9ad5dc062018cfdc1ec703400be5" kindref="member">OperatorType::FOURIER</ref>,<sp/>{8,<sp/>8},<sp/>1e-6f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">TTTrain<sp/>data<sp/>=<sp/>decompose(signal,<sp/>{8,<sp/>8});</highlight></codeline>
+<codeline><highlight class="normal">TTTrain<sp/>freq<sp/>=<sp/>op.<ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" kindref="member">apply</ref>(data);</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" kindref="member">apply()</ref></computeroutput> is const and safe for concurrent use after <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" kindref="member">build()</ref></computeroutput>. The returned <computeroutput>TTTrain</computeroutput> is independent of <computeroutput>*this</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_butterfly_operator.h" line="88" column="1" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="88" bodyend="210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a662fbea13cbd819f8847379eb179574b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>apply</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>build</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a33bfc99ede3e023e46fe8cb0f8bbcdc1" prot="private" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ae37debfe38c1f99cd12329717910e787" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>clearFourierTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ae5113dba9db1d2db94d3747e8e68b753" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>clearGreensTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aaff07920a4158d2f094f29199c618694" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>clearRadonTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1af9d967130b2a29f512ddc88fddeee68c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>contractOperator</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a3ed407bb4a262e9d74f03bc065718795" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>describe</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a8dab27d2ec12d9713ea87c9cb6b2a74a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>FourierTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aa0727303dd5eec63e586f8c5ffcc63f9" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>GreensTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a0171e6dc78ace37e7efaf19102d8102e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>gridShape</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ac3bb5c842dd4be5d31336ec82cc29b6c" prot="private" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>op_matrices_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a03cca0d69006caac31950706e13f10f6" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>precision</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a49c73b43828a744d56bb7b37e987b705" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>RadonTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1aee516884b319a1bbbc878d14f17aebf5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>setFourierTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1afcaf5e82f7637bdb10d4b27df75fee80" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>setGreensTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1adc90a108f47a5fd8afc9faf7f106c04a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>setRadonTransformFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1ada13260d9f2fb037fa95fb8fc276db79" prot="private" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>TensorButterflyOperator</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1afed13dea2801b2133267dc346f414d38" prot="public" virt="non-virtual"><scope>themis::tensor::TensorButterflyOperator</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

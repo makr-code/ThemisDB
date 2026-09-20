@@ -1,0 +1,1068 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_statistics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::StatisticsCollector</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <innerclass refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" prot="public">themis::StatisticsCollector::IMetricsHook</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1acc484b9ffb0466859ef54a4300e48ec3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::StatisticsCollector::kDefaultSampleSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultSampleSize</name>
+        <qualifiedname>themis::StatisticsCollector::kDefaultSampleSize</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Default sample size used when collecting column statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="192" column="29" bodyfile="include/metadata/statistics_collector.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::StatisticsCollector::kDefaultHistogramBuckets</definition>
+        <argsstring></argsstring>
+        <name>kDefaultHistogramBuckets</name>
+        <qualifiedname>themis::StatisticsCollector::kDefaultHistogramBuckets</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Default number of histogram buckets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="195" column="29" bodyfile="include/metadata/statistics_collector.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1acfe128632c6eb9b7894c216363952105" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::StatisticsCollector::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::StatisticsCollector::db_</qualifiedname>
+        <briefdescription>
+<para>Database reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="355" column="21" bodyfile="include/metadata/statistics_collector.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a5f81b43779f5aff1b3f4c017eac83da8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TableStats&gt; themis::StatisticsCollector::stats_cache_</definition>
+        <argsstring></argsstring>
+        <name>stats_cache_</name>
+        <qualifiedname>themis::StatisticsCollector::stats_cache_</qualifiedname>
+        <briefdescription>
+<para>In-memory cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="356" column="14" bodyfile="include/metadata/statistics_collector.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a339ae20bd6e95d15cc36eaaf88de6041" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;IndexStats&gt; &gt; themis::StatisticsCollector::index_stats_cache_</definition>
+        <argsstring></argsstring>
+        <name>index_stats_cache_</name>
+        <qualifiedname>themis::StatisticsCollector::index_stats_cache_</qualifiedname>
+        <briefdescription>
+<para>In-memory index stats cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="357" column="14" bodyfile="include/metadata/statistics_collector.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a54d54fc51238dcdeef370725981e1a72" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::StatisticsCollector::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::StatisticsCollector::cache_mutex_</qualifiedname>
+        <briefdescription>
+<para>Read-write lock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="358" column="31" bodyfile="include/metadata/statistics_collector.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1aaa244505ec661e0321c1ab2227bbb76f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kindref="compound">IMetricsHook</ref> *</type>
+        <definition>IMetricsHook* themis::StatisticsCollector::metrics_hook_</definition>
+        <argsstring></argsstring>
+        <name>metrics_hook_</name>
+        <qualifiedname>themis::StatisticsCollector::metrics_hook_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional metrics sink (non-owning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="359" column="18" bodyfile="include/metadata/statistics_collector.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1aad78b707df7939733ffb88c5f9109ad9" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::StatisticsCollector::refresh_interval_</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval_</name>
+        <qualifiedname>themis::StatisticsCollector::refresh_interval_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = disabled </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="364" column="28" bodyfile="include/metadata/statistics_collector.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a3bfb87642a1ad0b51eed9b40b8ce9509" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::StatisticsCollector::refresh_thread_</definition>
+        <argsstring></argsstring>
+        <name>refresh_thread_</name>
+        <qualifiedname>themis::StatisticsCollector::refresh_thread_</qualifiedname>
+        <briefdescription>
+<para>Background refresh thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="365" column="28" bodyfile="include/metadata/statistics_collector.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a9f84d4cc3a2acdbcf2126574518a64a1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::StatisticsCollector::stop_refresh_</definition>
+        <argsstring></argsstring>
+        <name>stop_refresh_</name>
+        <qualifiedname>themis::StatisticsCollector::stop_refresh_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Signal to terminate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="366" column="22" bodyfile="include/metadata/statistics_collector.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1ab089cfb7485fb09c80e07fdc60d9ada6" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::StatisticsCollector::refresh_cv_</definition>
+        <argsstring></argsstring>
+        <name>refresh_cv_</name>
+        <qualifiedname>themis::StatisticsCollector::refresh_cv_</qualifiedname>
+        <briefdescription>
+<para>Wakes thread on interval/stop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="367" column="29" bodyfile="include/metadata/statistics_collector.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_collector_1a4284a0ee3542e95e9d2dd7a8d3fc95be" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::StatisticsCollector::refresh_mutex_</definition>
+        <argsstring></argsstring>
+        <name>refresh_mutex_</name>
+        <qualifiedname>themis::StatisticsCollector::refresh_mutex_</qualifiedname>
+        <briefdescription>
+<para>Guards refresh_cv_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="368" column="28" bodyfile="include/metadata/statistics_collector.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a8ee11e360cf8eab119ff9f712968b564" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::setMetricsHook</definition>
+        <argsstring>(IMetricsHook *hook) noexcept</argsstring>
+        <name>setMetricsHook</name>
+        <qualifiedname>themis::StatisticsCollector::setMetricsHook</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kindref="compound">IMetricsHook</ref> *</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a metrics hook. The pointer is non-owning; caller manages lifetime. Pass nullptr to remove the hook. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="236" column="10" bodyfile="include/metadata/statistics_collector.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StatisticsCollector::StatisticsCollector</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>StatisticsCollector</name>
+        <qualifiedname>themis::StatisticsCollector::StatisticsCollector</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper for key scanning and persisting statistics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="240" column="14" bodyfile="src/metadata/statistics_collector.cpp" bodystart="134" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1abb1550bf0df776d05c0456af2d0a1e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StatisticsCollector::~StatisticsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>~StatisticsCollector</name>
+        <qualifiedname>themis::StatisticsCollector::~StatisticsCollector</qualifiedname>
+        <briefdescription>
+<para>Destructor – stops the background refresh thread if running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="243" column="5" bodyfile="src/metadata/statistics_collector.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a17f69854f5038aed4a3059f25dba73fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StatisticsCollector::StatisticsCollector</definition>
+        <argsstring>(const StatisticsCollector &amp;)=delete</argsstring>
+        <name>StatisticsCollector</name>
+        <qualifiedname>themis::StatisticsCollector::StatisticsCollector</qualifiedname>
+        <param>
+          <type>const StatisticsCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="246" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ad175e3101bc4f366331839959e64bfbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref> &amp;</type>
+        <definition>StatisticsCollector &amp; themis::StatisticsCollector::operator=</definition>
+        <argsstring>(const StatisticsCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StatisticsCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="247" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1acb87abafafda8a00ee8afc427d8f8089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StatisticsCollector::StatisticsCollector</definition>
+        <argsstring>(StatisticsCollector &amp;&amp;)=delete</argsstring>
+        <name>StatisticsCollector</name>
+        <qualifiedname>themis::StatisticsCollector::StatisticsCollector</qualifiedname>
+        <param>
+          <type>StatisticsCollector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="248" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1afcc6ea60eba4c8ac7d054c6aed57d134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref> &amp;</type>
+        <definition>StatisticsCollector &amp; themis::StatisticsCollector::operator=</definition>
+        <argsstring>(StatisticsCollector &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StatisticsCollector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="249" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a912a8d08d393e88b6d06a0239852d8bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::setRefreshInterval</definition>
+        <argsstring>(std::chrono::seconds interval)</argsstring>
+        <name>setRefreshInterval</name>
+        <qualifiedname>themis::StatisticsCollector::setRefreshInterval</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Set Refresh Interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure the background auto-refresh interval.</para>
+<para>When <computeroutput>interval</computeroutput> &gt; 0, a background thread wakes every <computeroutput>interval</computeroutput> seconds and calls <ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats()</ref> for every table that has already been sampled at least once. Calling this again updates the interval live. Passing std::chrono::seconds(0) (the default) stops the background thread.</para>
+<para>The background thread does NOT block the caller; it runs at low priority and skips a table if <ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats()</ref> is already running for it.</para>
+<para>Thread-safety: safe to call from any thread.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_statistics_collector_1ae8d56be7383d847606f47ab492863058" kindref="member">stopRefresh()</ref>, count(), spdlog::debug(), store(), std::thread(), refreshLoop_(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="266" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="149" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ae8d56be7383d847606f47ab492863058" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::stopRefresh</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stopRefresh</name>
+        <qualifiedname>themis::StatisticsCollector::stopRefresh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop the background refresh thread immediately (blocking until it exits). Called automatically by the destructor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="270" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &gt;</type>
+        <definition>StatsResult&lt; TableStats &gt; themis::StatisticsCollector::collectStats</definition>
+        <argsstring>(std::string_view table_name, size_t sample_size=0)</argsstring>
+        <name>collectStats</name>
+        <qualifiedname>themis::StatisticsCollector::collectStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Collect Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Collect full statistics for a table by sampling stored entities. Writes the result to in-memory cache and persists it to RocksDB. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows to sample (0 = use kDefaultSampleSize)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="280" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="224" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a4839a90bbb2153d39a8ef80813ad026e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &gt;</type>
+        <definition>StatsResult&lt; TableStats &gt; themis::StatisticsCollector::getStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::StatisticsCollector::getStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve cached statistics for a table (no re-scan). Loads from RocksDB persistence if not already in memory. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), onError(), failure(), lock(), find(), std::string(), end(), onCacheHit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="288" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="375" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a337d096d09549d2e19f55324b246ea0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; bool &gt;</type>
+        <definition>StatsResult&lt; bool &gt; themis::StatisticsCollector::updateStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themis::StatisticsCollector::updateStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Update Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force a fresh collection pass and update persisted statistics. Equivalent to <ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats()</ref> but returns only a success/failure bool. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats()</ref>, failure(), success(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="293" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="422" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1afdad4be67b25dd52913c93fb5bf59849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; bool &gt;</type>
+        <definition>StatsResult&lt; bool &gt; themis::StatisticsCollector::clearStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>clearStats</name>
+        <qualifiedname>themis::StatisticsCollector::clearStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Clear Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove cached and persisted statistics for a table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), failure(), lock(), erase(), std::string(), del(), spdlog::debug(), success(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="297" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="436" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a7a6e7e06361563a94cda0d3a35d9f2a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; bool &gt;</type>
+        <definition>StatsResult&lt; bool &gt; themis::StatisticsCollector::importIndexStats</definition>
+        <argsstring>(std::string_view table_name, const std::vector&lt; IndexStats &gt; &amp;stats)</argsstring>
+        <name>importIndexStats</name>
+        <qualifiedname>themis::StatisticsCollector::importIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref> &gt; &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Import Index Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import index statistics for a table exported from the index module. Stores the stats in-memory and persists them to RocksDB under &quot;idxstats:&lt;table_name&gt;&quot;. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index stats to import (replaces any previously cached stats)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="304" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="489" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1acd0133f7d178481570d6c587408a253f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref> &gt; &gt;</type>
+        <definition>StatsResult&lt; std::vector&lt; IndexStats &gt; &gt; themis::StatisticsCollector::getIndexStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>getIndexStats</name>
+        <qualifiedname>themis::StatisticsCollector::getIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Index Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve cached index statistics for a table. Loads from RocksDB persistence if not already in memory. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="312" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="526" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a0f0b4fe0290b55bd2dc147d7a9ee509e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt; bool &gt;</type>
+        <definition>StatsResult&lt; bool &gt; themis::StatisticsCollector::clearIndexStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>clearIndexStats</name>
+        <qualifiedname>themis::StatisticsCollector::clearIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Clear Index Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove cached and persisted index statistics for a table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), failure(), lock(), erase(), std::string(), del(), spdlog::debug(), success(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="316" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="574" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ac1e929961695d9b09ce41e5a10c50d82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::StatisticsCollector::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::StatisticsCollector::toJSON</qualifiedname>
+        <briefdescription>
+<para>Export all cached statistics as a JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="319" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="454" bodyend="477"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a687dfec409749edc079dae47bbd9ed94" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_column_stats" kindref="compound">ColumnStats</ref></type>
+        <definition>ColumnStats themis::StatisticsCollector::buildColumnStats</definition>
+        <argsstring>(std::string_view column_name, const std::vector&lt; std::string &gt; &amp;values, size_t num_histogram_buckets=kDefaultHistogramBuckets)</argsstring>
+        <name>buildColumnStats</name>
+        <qualifiedname>themis::StatisticsCollector::buildColumnStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_histogram_buckets</declname>
+          <defval><ref refid="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" kindref="member">kDefaultHistogramBuckets</ref></defval>
+        </param>
+        <briefdescription>
+<para>Build column statistics from a set of sampled raw values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Column Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_histogram_buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="327" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="603" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ac8eaed2c736b64acd2ab5e80f16342ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_histogram_bucket" kindref="compound">HistogramBucket</ref> &gt;</type>
+        <definition>std::vector&lt; HistogramBucket &gt; themis::StatisticsCollector::buildHistogram</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;sorted_values, size_t num_buckets)</argsstring>
+        <name>buildHistogram</name>
+        <qualifiedname>themis::StatisticsCollector::buildHistogram</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>sorted_values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_buckets</declname>
+        </param>
+        <briefdescription>
+<para>Build an equi-height histogram from a sorted list of double values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Histogram.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="334" column="17" bodyfile="src/metadata/statistics_collector.cpp" bodystart="674" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ae0f9e7fdf5eaf7b0a783cfe96d0715c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::persistStats</definition>
+        <argsstring>(const TableStats &amp;stats)</argsstring>
+        <name>persistStats</name>
+        <qualifiedname>themis::StatisticsCollector::persistStats</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Persist <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> to RocksDB under &quot;stats:&lt;table_name&gt;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_statistics_collector_1ac1e929961695d9b09ce41e5a10c50d82" kindref="member">toJSON()</ref>, dump(), data(), begin(), end(), put(), spdlog::warn(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="340" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="738" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1ace2906e3c1c7e5beafd45951000939a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &gt;</type>
+        <definition>std::optional&lt; TableStats &gt; themis::StatisticsCollector::loadStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>loadStats</name>
+        <qualifiedname>themis::StatisticsCollector::loadStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Load <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> from RocksDB; returns nullopt if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), get(), has_value(), empty(), json_str(), begin(), end(), json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="343" column="19" bodyfile="src/metadata/statistics_collector.cpp" bodystart="759" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1aa6b2e442948cb50456f88b0f47ab44b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::persistIndexStats</definition>
+        <argsstring>(std::string_view table_name, const std::vector&lt; IndexStats &gt; &amp;stats)</argsstring>
+        <name>persistIndexStats</name>
+        <qualifiedname>themis::StatisticsCollector::persistIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref> &gt; &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Persist index stats to RocksDB under &quot;idxstats:&lt;table_name&gt;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Index Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="346" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="828" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a7a38b0d97fa0a861c584dbda3816343b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; <ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; IndexStats &gt; &gt; themis::StatisticsCollector::loadIndexStats</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>loadIndexStats</name>
+        <qualifiedname>themis::StatisticsCollector::loadIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Load index stats from RocksDB; returns nullopt if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Index Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="349" column="19" bodyfile="src/metadata/statistics_collector.cpp" bodystart="855" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_collector_1a6ae436e854cab2efcfa53a1a3a522d7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsCollector::refreshLoop_</definition>
+        <argsstring>()</argsstring>
+        <name>refreshLoop_</name>
+        <qualifiedname>themis::StatisticsCollector::refreshLoop_</qualifiedname>
+        <briefdescription>
+<para>Background refresh loop (runs on refresh_thread_). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Loop.</para>
+<para>Calls: load(), lk(), wait_for(), sl(), reserve(), size(), push_back(), <ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="371" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="176" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> - Table and column statistics for query optimization</para>
+<para>Collects cardinality estimates, histograms, selectivity, and NULL ratios via sampled scans of RocksDB key-value pairs. Results are cached in-memory and can be persisted back to RocksDB under the &quot;stats:&quot; key prefix.</para>
+<para>Thread-safety: Uses std::shared_mutex; multiple concurrent reads are safe. Write operations (collectStats / updateStats) serialize via exclusive lock.</para>
+<para>Usage: <ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> stats_collector(db); auto result = stats_collector.collectStats(&quot;users&quot;); if (result.ok) { auto&amp; stats = result.value; std::cout &lt;&lt; stats.row_count &lt;&lt; &quot; rows\n&quot;; } </para>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="189" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="189" bodyend="372"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_statistics_collector_1a687dfec409749edc079dae47bbd9ed94" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>buildColumnStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ac8eaed2c736b64acd2ab5e80f16342ce" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>buildHistogram</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a54d54fc51238dcdeef370725981e1a72" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a0f0b4fe0290b55bd2dc147d7a9ee509e" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>clearIndexStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1afdad4be67b25dd52913c93fb5bf59849" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>clearStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>collectStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1acfe128632c6eb9b7894c216363952105" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1acd0133f7d178481570d6c587408a253f" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>getIndexStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a4839a90bbb2153d39a8ef80813ad026e" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a7a6e7e06361563a94cda0d3a35d9f2a3" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>importIndexStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a339ae20bd6e95d15cc36eaaf88de6041" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>index_stats_cache_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>kDefaultHistogramBuckets</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1acc484b9ffb0466859ef54a4300e48ec3" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>kDefaultSampleSize</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a7a38b0d97fa0a861c584dbda3816343b" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>loadIndexStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ace2906e3c1c7e5beafd45951000939a9" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>loadStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1aaa244505ec661e0321c1ab2227bbb76f" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>metrics_hook_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ad175e3101bc4f366331839959e64bfbd" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1afcc6ea60eba4c8ac7d054c6aed57d134" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1aa6b2e442948cb50456f88b0f47ab44b3" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>persistIndexStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ae0f9e7fdf5eaf7b0a783cfe96d0715c7" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>persistStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ab089cfb7485fb09c80e07fdc60d9ada6" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>refresh_cv_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1aad78b707df7939733ffb88c5f9109ad9" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>refresh_interval_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a4284a0ee3542e95e9d2dd7a8d3fc95be" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>refresh_mutex_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a3bfb87642a1ad0b51eed9b40b8ce9509" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>refresh_thread_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a6ae436e854cab2efcfa53a1a3a522d7e" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>refreshLoop_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a8ee11e360cf8eab119ff9f712968b564" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>setMetricsHook</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a912a8d08d393e88b6d06a0239852d8bd" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>setRefreshInterval</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>StatisticsCollector</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a17f69854f5038aed4a3059f25dba73fb" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>StatisticsCollector</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1acb87abafafda8a00ee8afc427d8f8089" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>StatisticsCollector</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a5f81b43779f5aff1b3f4c017eac83da8" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>stats_cache_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a9f84d4cc3a2acdbcf2126574518a64a1" prot="private" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>stop_refresh_</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ae8d56be7383d847606f47ab492863058" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>stopRefresh</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1ac1e929961695d9b09ce41e5a10c50d82" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1a337d096d09549d2e19f55324b246ea0e" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>updateStats</name></member>
+      <member refid="classthemis_1_1_statistics_collector_1abb1550bf0df776d05c0456af2d0a1e73" prot="public" virt="non-virtual"><scope>themis::StatisticsCollector</scope><name>~StatisticsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PiiUnicodeEdgeCasesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a1208db3ce52462aec5c5a5ce46f893d7" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref></type>
+        <definition>PIIDetector themis::utils::PiiUnicodeEdgeCasesTest::detector</definition>
+        <argsstring></argsstring>
+        <name>detector</name>
+        <qualifiedname>themis::utils::PiiUnicodeEdgeCasesTest::detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_pii_unicode_edge_cases.cpp" line="13" column="17" bodyfile="tests/utils/test_utils_pii_unicode_edge_cases.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a80abc53d4187594a341d1b31a299c825" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_regex_detection_engine" kindref="compound">RegexDetectionEngine</ref></type>
+        <definition>RegexDetectionEngine themis::utils::PiiUnicodeEdgeCasesTest::regex_engine</definition>
+        <argsstring></argsstring>
+        <name>regex_engine</name>
+        <qualifiedname>themis::utils::PiiUnicodeEdgeCasesTest::regex_engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_pii_unicode_edge_cases.cpp" line="14" column="26" bodyfile="tests/utils/test_utils_pii_unicode_edge_cases.cpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a57b40f24b4a7cfcc702aa8b20952d542" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PiiUnicodeEdgeCasesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::utils::PiiUnicodeEdgeCasesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_pii_unicode_edge_cases.cpp" line="16" column="10" bodyfile="tests/utils/test_utils_pii_unicode_edge_cases.cpp" bodystart="16" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::PiiUnicodeEdgeCasesTest</label>
+        <link refid="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="3">
+        <label>themis::utils::PIIDetector</label>
+        <link refid="classthemis_1_1utils_1_1_p_i_i_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::PiiUnicodeEdgeCasesTest</label>
+        <link refid="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>detector</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>regex_engine</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::utils::RegexDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_pii_unicode_edge_cases.cpp" line="11" column="1" bodyfile="tests/utils/test_utils_pii_unicode_edge_cases.cpp" bodystart="11" bodyend="21"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a1208db3ce52462aec5c5a5ce46f893d7" prot="protected" virt="non-virtual"><scope>themis::utils::PiiUnicodeEdgeCasesTest</scope><name>detector</name></member>
+      <member refid="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a80abc53d4187594a341d1b31a299c825" prot="protected" virt="non-virtual"><scope>themis::utils::PiiUnicodeEdgeCasesTest</scope><name>regex_engine</name></member>
+      <member refid="classthemis_1_1utils_1_1_pii_unicode_edge_cases_test_1a57b40f24b4a7cfcc702aa8b20952d542" prot="protected" virt="non-virtual"><scope>themis::utils::PiiUnicodeEdgeCasesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

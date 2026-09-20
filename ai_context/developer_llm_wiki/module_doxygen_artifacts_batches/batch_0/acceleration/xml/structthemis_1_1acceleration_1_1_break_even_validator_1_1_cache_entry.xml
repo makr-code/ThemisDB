@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::acceleration::BreakEvenValidator::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1a5935c7ed6f2dbd8f382722cc09d5c371" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref></type>
+        <definition>BreakEvenDecision themis::acceleration::BreakEvenValidator::CacheEntry::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::CacheEntry::decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="259" column="27" bodyfile="include/acceleration/break_even_validator.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1ae1b278b0e95b5a4bab25199344faab64" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::acceleration::BreakEvenValidator::CacheEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::CacheEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="260" column="47" bodyfile="include/acceleration/break_even_validator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1a878738176438beb8a6c6a149a17acb95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BreakEvenValidator::CacheEntry::IsExpired</definition>
+        <argsstring>(std::chrono::hours ttl) const</argsstring>
+        <name>IsExpired</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::CacheEntry::IsExpired</qualifiedname>
+        <param>
+          <type>std::chrono::hours</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="267" column="14" bodyfile="src/acceleration/break_even_validator.cc" bodystart="246" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::acceleration::BreakEvenDecision</label>
+        <link refid="structthemis_1_1acceleration_1_1_break_even_decision"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::BreakEvenValidator::CacheEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>decision</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/break_even_validator.h" line="258" column="5" bodyfile="include/acceleration/break_even_validator.h" bodystart="258" bodyend="268"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1a5935c7ed6f2dbd8f382722cc09d5c371" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator::CacheEntry</scope><name>decision</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1a878738176438beb8a6c6a149a17acb95" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator::CacheEntry</scope><name>IsExpired</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry_1ae1b278b0e95b5a4bab25199344faab64" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator::CacheEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

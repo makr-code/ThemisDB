@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_project_merge" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectMerge</compoundname>
+    <includes refid="project__diff_8h" local="no">project_diff.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_merge_1a8f1c3c3eb695ec095281e579f7f16b8e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::projects::ProjectMerge::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::projects::ProjectMerge::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="181" column="21" bodyfile="include/projects/project_diff.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_merge_1aca94ac7a09f9707572aa78b0cd423fa4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1projects_1_1_project_diff" kindref="compound">ProjectDiff</ref></type>
+        <definition>ProjectDiff themis::projects::ProjectMerge::diff_</definition>
+        <argsstring></argsstring>
+        <name>diff_</name>
+        <qualifiedname>themis::projects::ProjectMerge::diff_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="182" column="37" bodyfile="include/projects/project_diff.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_merge_1ae1f7cf87407f29b8b84d9f3d84df0845" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectMerge::ProjectMerge</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage)</argsstring>
+        <name>ProjectMerge</name>
+        <qualifiedname>themis::projects::ProjectMerge::ProjectMerge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="164" column="14" bodyfile="src/projects/project_diff.cpp" bodystart="211" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_merge_1a39032a566a10716da4a26f9c06c85f4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeResult themis::projects::ProjectMerge::merge</definition>
+        <argsstring>(const SnapshotId &amp;ancestor_snap, const SnapshotId &amp;ours_snap, const SnapshotId &amp;theirs_snap) const</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::projects::ProjectMerge::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>ancestor_snap</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>ours_snap</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>theirs_snap</declname>
+        </param>
+        <briefdescription>
+<para>Perform a three-way merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ancestor_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Common ancestor snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ours_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Our current state snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>theirs_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incoming state snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1projects_1_1_merge_result" kindref="compound">MergeResult</ref> with applied deltas and any unresolved conflicts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="174" column="17" bodyfile="src/projects/project_diff.cpp" bodystart="214" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Three-way project merge using a common ancestor snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The merge algorithm:<orderedlist>
+<listitem><para>Compute ours_delta = diff(ancestor, ours)</para>
+</listitem><listitem><para>Compute theirs_delta = diff(ancestor, theirs)</para>
+</listitem><listitem><para>Apply non-conflicting deltas from theirs onto ours.</para>
+</listitem><listitem><para>Report as conflicts any delta that modifies a field already changed by ours (same field_path, different value).</para>
+</listitem></orderedlist>
+</para>
+<para>The merge never writes directly to any snapshot; callers are responsible for committing the resulting state. </para>
+    </detaileddescription>
+    <location file="include/projects/project_diff.h" line="162" column="1" bodyfile="include/projects/project_diff.h" bodystart="162" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_project_merge_1aca94ac7a09f9707572aa78b0cd423fa4" prot="private" virt="non-virtual"><scope>themis::projects::ProjectMerge</scope><name>diff_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_merge_1a39032a566a10716da4a26f9c06c85f4e" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMerge</scope><name>merge</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_merge_1ae1f7cf87407f29b8b84d9f3d84df0845" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMerge</scope><name>ProjectMerge</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_merge_1a8f1c3c3eb695ec095281e579f7f16b8e" prot="private" virt="non-virtual"><scope>themis::projects::ProjectMerge</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

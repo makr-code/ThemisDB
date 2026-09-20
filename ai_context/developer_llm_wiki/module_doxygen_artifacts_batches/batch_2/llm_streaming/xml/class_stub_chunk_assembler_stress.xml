@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_chunk_assembler_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubChunkAssemblerStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_chunk_assembler_stress_1a160d25b8fdcb2239d07a8949a84c1e4f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubChunkAssemblerStress::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubChunkAssemblerStress::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="104" column="16" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_chunk_assembler_stress_1a9604962bc47c9961dd1fcf60c40660cd" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerStress::next_seq_</definition>
+        <argsstring></argsstring>
+        <name>next_seq_</name>
+        <qualifiedname>StubChunkAssemblerStress::next_seq_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="105" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_chunk_assembler_stress_1a4a7ac0cf25fe9084a5e2d7cc7fd71d3f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerStress::received_</definition>
+        <argsstring></argsstring>
+        <name>received_</name>
+        <qualifiedname>StubChunkAssemblerStress::received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="106" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_chunk_assembler_stress_1a84f5d3a6d515b25d4071b17626b6369e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerStress::order_errors_</definition>
+        <argsstring></argsstring>
+        <name>order_errors_</name>
+        <qualifiedname>StubChunkAssemblerStress::order_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="107" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_chunk_assembler_stress_1a24377c83cd744800db47b4b0d3d502c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubChunkAssemblerStress::receiveChunk</definition>
+        <argsstring>(uint64_t seq, const std::string &amp;chunk)</argsstring>
+        <name>receiveChunk</name>
+        <qualifiedname>StubChunkAssemblerStress::receiveChunk</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="90" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="90" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chunk_assembler_stress_1a2d4381ee3081d6e5ac2c980480c30145" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerStress::received</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>received</name>
+        <qualifiedname>StubChunkAssemblerStress::received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="100" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chunk_assembler_stress_1af1e696d5496e5da99d79b75babf2d8f5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChunkAssemblerStress::orderErrors</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>orderErrors</name>
+        <qualifiedname>StubChunkAssemblerStress::orderErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="101" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="88" column="1" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="88" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_stub_chunk_assembler_stress_1a160d25b8fdcb2239d07a8949a84c1e4f" prot="private" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>mu_</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1a9604962bc47c9961dd1fcf60c40660cd" prot="private" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>next_seq_</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1a84f5d3a6d515b25d4071b17626b6369e" prot="private" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>order_errors_</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1af1e696d5496e5da99d79b75babf2d8f5" prot="public" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>orderErrors</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1a24377c83cd744800db47b4b0d3d502c9" prot="public" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>receiveChunk</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1a2d4381ee3081d6e5ac2c980480c30145" prot="public" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>received</name></member>
+      <member refid="class_stub_chunk_assembler_stress_1a4a7ac0cf25fe9084a5e2d7cc7fd71d3f" prot="private" virt="non-virtual"><scope>StubChunkAssemblerStress</scope><name>received_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

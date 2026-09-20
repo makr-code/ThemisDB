@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler::Config</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1ababf2560c6206656ad80843efb889081" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::AdaptiveCompactionScheduler::Config::window_samples</definition>
+        <argsstring></argsstring>
+        <name>window_samples</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::window_samples</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of I/O samples retained in the sliding window. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="97" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1ae66bb15c4baf685f047c35ebbfe45861" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveCompactionScheduler::Config::sample_interval</definition>
+        <argsstring></argsstring>
+        <name>sample_interval</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::sample_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interval between background sampling ticks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="100" column="30" bodyfile="include/storage/adaptive_compaction.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a704db66a54490fa3071657022eb90d78" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Config::ema_alpha</definition>
+        <argsstring></argsstring>
+        <name>ema_alpha</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::ema_alpha</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EMA smoothing factor α ∈ (0, 1]. Larger = faster response, smaller = more smoothing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="106" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a11bdd610ac6b3c38000dc40c00bcb774" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Config::low_load_write_rate</definition>
+        <argsstring></argsstring>
+        <name>low_load_write_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::low_load_write_rate</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Writes/s EMA below which we consider the system &quot;low load&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="111" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a2d303dde0f672b6a524b3087785bf3e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Config::low_load_read_rate</definition>
+        <argsstring></argsstring>
+        <name>low_load_read_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::low_load_read_rate</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads/s EMA below which we consider the system &quot;low load&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="114" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a25a03550a8f3e9e88a0ac8ffa53600fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Config::urgent_write_amp_threshold</definition>
+        <argsstring></argsstring>
+        <name>urgent_write_amp_threshold</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::urgent_write_amp_threshold</qualifiedname>
+        <initializer>= 8.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write-amplification factor above which compaction is considered urgent regardless of current load. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="122" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a5a392ad1f6a3ebab36adc00630d75c20" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Config::desired_write_amp_threshold</definition>
+        <argsstring></argsstring>
+        <name>desired_write_amp_threshold</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::desired_write_amp_threshold</qualifiedname>
+        <initializer>= 3.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write-amplification factor above which compaction is desirable during low-load windows. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="128" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a27353e144f100dbdccf350df8a57bcd5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Config::min_tombstone_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_tombstone_threshold</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::min_tombstone_threshold</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum tombstone GC threshold (used during high-write periods). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="133" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a149a187e32408912f73f791d40a22516" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Config::max_tombstone_threshold</definition>
+        <argsstring></argsstring>
+        <name>max_tombstone_threshold</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::max_tombstone_threshold</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum tombstone GC threshold (used during low-write periods). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="136" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a463cd767649dc4649882acf07b2ed316" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveCompactionScheduler::Config::min_gc_interval</definition>
+        <argsstring></argsstring>
+        <name>min_gc_interval</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::min_gc_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shortest background GC interval (low load → compact aggressively). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="139" column="30" bodyfile="include/storage/adaptive_compaction.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1aed5a34b3e43b130c55f46778bc7141ca" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveCompactionScheduler::Config::max_gc_interval</definition>
+        <argsstring></argsstring>
+        <name>max_gc_interval</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Config::max_gc_interval</qualifiedname>
+        <initializer>{1800}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Longest background GC interval (high load → back off). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="142" column="30" bodyfile="include/storage/adaptive_compaction.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration options. </para>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="93" column="5" bodyfile="include/storage/adaptive_compaction.h" bodystart="93" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a5a392ad1f6a3ebab36adc00630d75c20" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>desired_write_amp_threshold</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a704db66a54490fa3071657022eb90d78" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>ema_alpha</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a2d303dde0f672b6a524b3087785bf3e7" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>low_load_read_rate</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a11bdd610ac6b3c38000dc40c00bcb774" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>low_load_write_rate</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1aed5a34b3e43b130c55f46778bc7141ca" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>max_gc_interval</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a149a187e32408912f73f791d40a22516" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>max_tombstone_threshold</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a463cd767649dc4649882acf07b2ed316" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>min_gc_interval</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a27353e144f100dbdccf350df8a57bcd5" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>min_tombstone_threshold</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1ae66bb15c4baf685f047c35ebbfe45861" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>sample_interval</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1a25a03550a8f3e9e88a0ac8ffa53600fe" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>urgent_write_amp_threshold</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config_1ababf2560c6206656ad80843efb889081" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Config</scope><name>window_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

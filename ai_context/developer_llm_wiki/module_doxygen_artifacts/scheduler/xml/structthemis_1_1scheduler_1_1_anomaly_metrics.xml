@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_anomaly_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::AnomalyMetrics</compoundname>
+    <includes refid="task__audit__event_8h" local="no">task_audit_event.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1a6272ac68da3e002bdf91286a9239fb98" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyMetrics::frequency_score</definition>
+        <argsstring></argsstring>
+        <name>frequency_score</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::frequency_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="90" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1ad884afd1071dbb90e17afb18c2f32542" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyMetrics::pattern_score</definition>
+        <argsstring></argsstring>
+        <name>pattern_score</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::pattern_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="91" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1aa5c24f9c6a2ec8fec965dc81d8ef51af" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyMetrics::resource_score</definition>
+        <argsstring></argsstring>
+        <name>resource_score</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::resource_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="92" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1a47e39199a61b7955129539285c244922" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyMetrics::failure_rate_score</definition>
+        <argsstring></argsstring>
+        <name>failure_rate_score</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::failure_rate_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="93" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1a52e31dd2dd45b1df165792f27cb9a9ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::AnomalyMetrics::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="94" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1a6f1bc2b510635d77c1992d5093a1146d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::AnomalyMetrics::is_anomalous</definition>
+        <argsstring></argsstring>
+        <name>is_anomalous</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::is_anomalous</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="95" column="10" bodyfile="include/scheduler/task_audit_event.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1ac6211f9a24f9dd5af1d7609e5e0a75d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::AnomalyMetrics::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="96" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_anomaly_metrics_1aebc2823cf723baa9613763fa0929b9c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::AnomalyMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::scheduler::AnomalyMetrics::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="98" column="20" bodyfile="include/scheduler/task_audit_event.h" bodystart="98" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Anomaly detection metrics for task execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_audit_event.h" line="89" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="89" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1ac6211f9a24f9dd5af1d7609e5e0a75d1" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>description</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1a47e39199a61b7955129539285c244922" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>failure_rate_score</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1a6272ac68da3e002bdf91286a9239fb98" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>frequency_score</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1a6f1bc2b510635d77c1992d5093a1146d" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>is_anomalous</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1a52e31dd2dd45b1df165792f27cb9a9ad" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1ad884afd1071dbb90e17afb18c2f32542" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>pattern_score</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1aa5c24f9c6a2ec8fec965dc81d8ef51af" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>resource_score</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_anomaly_metrics_1aebc2823cf723baa9613763fa0929b9c0" prot="public" virt="non-virtual"><scope>themis::scheduler::AnomalyMetrics</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_78b12f66cbd5eb239019e152fe2eccad" kind="dir">
+    <compoundname>tests/training</compoundname>
+    <innerfile refid="test__adalora__edge__regressions_8cpp">test_adalora_edge_regressions.cpp</innerfile>
+    <innerfile refid="test__checkpoint__recovery_8cpp">test_checkpoint_recovery.cpp</innerfile>
+    <innerfile refid="test__checkpoint__resume__gpu__stress_8cpp">test_checkpoint_resume_gpu_stress.cpp</innerfile>
+    <innerfile refid="test__checkpoint__resume__stress_8cpp">test_checkpoint_resume_stress.cpp</innerfile>
+    <innerfile refid="test__deterministic__training__lifecycle_8cpp">test_deterministic_training_lifecycle.cpp</innerfile>
+    <innerfile refid="test__enrichment__cache_8cpp">test_enrichment_cache.cpp</innerfile>
+    <innerfile refid="test__merge__conflicts_8cpp">test_merge_conflicts.cpp</innerfile>
+    <innerfile refid="test__multi__adapter__concurrent_8cpp">test_multi_adapter_concurrent.cpp</innerfile>
+    <innerfile refid="test__multitask__lora__acceptance__gates_8cpp">test_multitask_lora_acceptance_gates.cpp</innerfile>
+    <innerfile refid="test__stress__training__lifecycle_8cpp">test_stress_training_lifecycle.cpp</innerfile>
+    <innerfile refid="test__training__cancellation_8cpp">test_training_cancellation.cpp</innerfile>
+    <innerfile refid="test__training__convergence_8cpp">test_training_convergence.cpp</innerfile>
+    <innerfile refid="test__training__database__optimizer_8cpp">test_training_database_optimizer.cpp</innerfile>
+    <innerfile refid="test__training__diagnostics__consistency_8cpp">test_training_diagnostics_consistency.cpp</innerfile>
+    <innerfile refid="test__training__failsafe__edge__cases__focused_8cpp">test_training_failsafe_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__training__highcardinality__stress_8cpp">test_training_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__training__lora__adapter_8cpp">test_training_lora_adapter.cpp</innerfile>
+    <innerfile refid="test__training__phase2_8cpp">test_training_phase2.cpp</innerfile>
+    <innerfile refid="test__training__pipeline__e2e_8cpp">test_training_pipeline_e2e.cpp</innerfile>
+    <innerfile refid="test__training__pipeline__injection__qw40_8cpp">test_training_pipeline_injection_qw40.cpp</innerfile>
+    <innerfile refid="test__training__service__registry_8cpp">test_training_service_registry.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/"/>
+  </compounddef>
+</doxygen>

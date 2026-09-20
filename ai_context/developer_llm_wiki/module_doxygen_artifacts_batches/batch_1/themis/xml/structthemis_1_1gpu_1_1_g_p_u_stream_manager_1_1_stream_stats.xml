@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUStreamManager::StreamStats</compoundname>
+    <includes refid="stream__manager_8h" local="no">stream_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a326c3d8fbeed83787c0903409f2954f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUStreamManager::StreamStats::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="81" column="21" bodyfile="include/themis/gpu/stream_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a52d12375d29f0f56fd0c4daa3ecd1393" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUStreamManager::StreamStats::submitted</definition>
+        <argsstring></argsstring>
+        <name>submitted</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total work items submitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="82" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a84c1abc44d3a48985eb632671fde0bad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUStreamManager::StreamStats::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Completed successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="83" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a63381736fec139f8ff1e9712526ad5fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUStreamManager::StreamStats::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Completed with failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="84" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1afa97562aa2f7ebc61f718b6971bd22f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUStreamManager::StreamStats::budget_exceeded</definition>
+        <argsstring></argsstring>
+        <name>budget_exceeded</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::budget_exceeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Work items that exceeded the cpu_budget_ms threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated when <ref refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_config_1a83c4de85ee0cf52cc15b323a75f6d426" kindref="member">StreamConfig::cpu_budget_ms</ref> &gt; 0 and the elapsed time for a work item exceeds that budget. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="91" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a6b43e3805112bbd36e03eab7626a0d5b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUStreamManager::StreamStats::total_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_ms</name>
+        <qualifiedname>themis::gpu::GPUStreamManager::StreamStats::total_elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative elapsed ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/stream_manager.h" line="92" column="18" bodyfile="include/themis/gpu/stream_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/stream_manager.h" line="80" column="5" bodyfile="include/themis/gpu/stream_manager.h" bodystart="80" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1afa97562aa2f7ebc61f718b6971bd22f4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>budget_exceeded</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a63381736fec139f8ff1e9712526ad5fc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>failed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a326c3d8fbeed83787c0903409f2954f2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a52d12375d29f0f56fd0c4daa3ecd1393" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>submitted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a84c1abc44d3a48985eb632671fde0bad" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_stream_manager_1_1_stream_stats_1a6b43e3805112bbd36e03eab7626a0d5b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUStreamManager::StreamStats</scope><name>total_elapsed_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

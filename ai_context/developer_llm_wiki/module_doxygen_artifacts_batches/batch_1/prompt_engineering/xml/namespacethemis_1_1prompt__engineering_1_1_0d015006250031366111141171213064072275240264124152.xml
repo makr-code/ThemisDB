@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering_1_1_0d015006250031366111141171213064072275240264124152" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering::@015006250031366111141171213064072275240264124152</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/prompt_library_io.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

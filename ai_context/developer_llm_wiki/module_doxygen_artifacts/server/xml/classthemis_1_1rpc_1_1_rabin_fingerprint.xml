@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rpc_1_1_rabin_fingerprint" kind="class" language="C++" prot="public">
+    <compoundname>themis::rpc::RabinFingerprint</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_rabin_fingerprint_1a8586362912080fb8a0cf3d07266a4762" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rpc::RabinFingerprint::window_size_</definition>
+        <argsstring></argsstring>
+        <name>window_size_</name>
+        <qualifiedname>themis::rpc::RabinFingerprint::window_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/differential_update_engine.cpp" line="56" column="12" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_rabin_fingerprint_1a30d13a932e3d3730c5cea583d8c0443c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rpc::RabinFingerprint::avg_chunk_size_</definition>
+        <argsstring></argsstring>
+        <name>avg_chunk_size_</name>
+        <qualifiedname>themis::rpc::RabinFingerprint::avg_chunk_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/differential_update_engine.cpp" line="57" column="12" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_rabin_fingerprint_1a44626f312b31f4406e0055ce5aefe51a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::RabinFingerprint::RabinFingerprint</definition>
+        <argsstring>()</argsstring>
+        <name>RabinFingerprint</name>
+        <qualifiedname>themis::rpc::RabinFingerprint::RabinFingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/differential_update_engine.cpp" line="26" column="5" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_rabin_fingerprint_1a22c6e54fe601fde8defa23fd0ea143e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themis::rpc::RabinFingerprint::FindChunkBoundaries</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>FindChunkBoundaries</name>
+        <qualifiedname>themis::rpc::RabinFingerprint::FindChunkBoundaries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Find Chunk Boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/differential_update_engine.cpp" line="34" column="17" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="34" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/rpc/differential_update_engine.cpp" line="24" column="1" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="24" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rpc_1_1_rabin_fingerprint_1a30d13a932e3d3730c5cea583d8c0443c" prot="private" virt="non-virtual"><scope>themis::rpc::RabinFingerprint</scope><name>avg_chunk_size_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_rabin_fingerprint_1a22c6e54fe601fde8defa23fd0ea143e5" prot="public" virt="non-virtual"><scope>themis::rpc::RabinFingerprint</scope><name>FindChunkBoundaries</name></member>
+      <member refid="classthemis_1_1rpc_1_1_rabin_fingerprint_1a44626f312b31f4406e0055ce5aefe51a" prot="public" virt="non-virtual"><scope>themis::rpc::RabinFingerprint</scope><name>RabinFingerprint</name></member>
+      <member refid="classthemis_1_1rpc_1_1_rabin_fingerprint_1a8586362912080fb8a0cf3d07266a4762" prot="private" virt="non-virtual"><scope>themis::rpc::RabinFingerprint</scope><name>window_size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

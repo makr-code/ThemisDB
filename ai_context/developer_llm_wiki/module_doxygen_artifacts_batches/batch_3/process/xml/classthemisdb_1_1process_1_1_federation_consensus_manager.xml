@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1_federation_consensus_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::process::FederationConsensusManager</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a9b864c1e681c3d98983d394bdbe4b0fa" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1process_1_1_process_federation_config" kindref="compound">ProcessFederationConfig</ref></type>
+        <definition>ProcessFederationConfig themisdb::process::FederationConsensusManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="368" column="27" bodyfile="include/process/process_federation_contract.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a75f00b64104cf1bcc5917710669d8fd2" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" kindref="member">ConsensusState</ref></type>
+        <definition>ConsensusState themisdb::process::FederationConsensusManager::current_state_</definition>
+        <argsstring></argsstring>
+        <name>current_state_</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::current_state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca1c5babdbf4c1bea8e9e2069dafc26de2" kindref="member">ConsensusState::kFollower</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="369" column="18" bodyfile="include/process/process_federation_contract.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1aa6d95427f683f559c09eb178c8d63d55" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::process::FederationConsensusManager::FederationConsensusManager</definition>
+        <argsstring>(const ProcessFederationConfig &amp;config)</argsstring>
+        <name>FederationConsensusManager</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::FederationConsensusManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1process_1_1_process_federation_config" kindref="compound">ProcessFederationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create federation consensus manager (Phase 2 implementation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="341" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a3b15b42bf29d7a1f8671e552720146f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" kindref="member">ConsensusState</ref></type>
+        <definition>virtual ConsensusState themisdb::process::FederationConsensusManager::GetCurrentState</definition>
+        <argsstring>() const =0</argsstring>
+        <name>GetCurrentState</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::GetCurrentState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current consensus state <simplesect kind="return"><para>Current state (follower, candidate, leader, failed) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="345" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1af86f254a26c77ecfd5d7deafff324b63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemisdb_1_1process_1_1_partition_detection_result" kindref="compound">PartitionDetectionResult</ref></type>
+        <definition>virtual PartitionDetectionResult themisdb::process::FederationConsensusManager::DetectPartition</definition>
+        <argsstring>() const =0</argsstring>
+        <name>DetectPartition</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::DetectPartition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect network partition <simplesect kind="return"><para>Partition detection result with role and reachable nodes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="349" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a1b3a42fc3e6193f13eb3f5b6203ee6c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themisdb::process::FederationConsensusManager::AttemptWrite</definition>
+        <argsstring>(const std::string &amp;data, ConsistencyLevel consistency)=0</argsstring>
+        <name>AttemptWrite</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::AttemptWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490c" kindref="member">ConsistencyLevel</ref></type>
+          <declname>consistency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempt write with given consistency level <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation data (Phase 2 will specify format) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>consistency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consistency level (strong, eventual, local) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status (success, timeout, partition_detected, failed) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="355" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a61dc4dbb33eb78adbe4f25a0a4e84a92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemisdb_1_1process_1_1_replication_status" kindref="compound">ReplicationStatus</ref></type>
+        <definition>virtual ReplicationStatus themisdb::process::FederationConsensusManager::GetReplicationStatus</definition>
+        <argsstring>(const std::string &amp;operation_id) const =0</argsstring>
+        <name>GetReplicationStatus</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::GetReplicationStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get replication status for operation <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique operation ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Replication status (state, replicated_on, quorum_achieved) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="362" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_federation_consensus_manager_1a43cd14ba063005d27640fb07bc3b3b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::process::FederationConsensusManager::~FederationConsensusManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FederationConsensusManager</name>
+        <qualifiedname>themisdb::process::FederationConsensusManager::~FederationConsensusManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="365" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Federation consensus manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Actual implementation in <ref refid="federation__consensus__manager_8cpp" kindref="compound">src/process/federation_consensus_manager.cpp</ref></para>
+</simplesect>
+</para>
+<sect1 id="classthemisdb_1_1process_1_1_federation_consensus_manager_1usage_example">
+<title>Usage Example</title><para><programlisting><codeline><highlight class="normal">ProcessFederationConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.node_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.quorum_size<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">config.peer_addresses<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-2:5000&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3:5000&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>consensus_mgr<sp/>=<sp/>std::make_shared&lt;FederationConsensusManager&gt;(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>consensus_mgr-&gt;GetCurrentState();<sp/><sp/></highlight><highlight class="comment">//<sp/>kFollower<sp/>initially</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::process::FederationConsensusManager</label>
+        <link refid="classthemisdb_1_1process_1_1_federation_consensus_manager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::process::ProcessFederationConfig</label>
+        <link refid="structthemisdb_1_1process_1_1_process_federation_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/process_federation_contract.h" line="338" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="338" bodyend="370"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a1b3a42fc3e6193f13eb3f5b6203ee6c2" prot="public" virt="pure-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>AttemptWrite</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a9b864c1e681c3d98983d394bdbe4b0fa" prot="protected" virt="non-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a75f00b64104cf1bcc5917710669d8fd2" prot="protected" virt="non-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>current_state_</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1af86f254a26c77ecfd5d7deafff324b63" prot="public" virt="pure-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>DetectPartition</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1aa6d95427f683f559c09eb178c8d63d55" prot="public" virt="non-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>FederationConsensusManager</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a3b15b42bf29d7a1f8671e552720146f8" prot="public" virt="pure-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>GetCurrentState</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a61dc4dbb33eb78adbe4f25a0a4e84a92" prot="public" virt="pure-virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>GetReplicationStatus</name></member>
+      <member refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a43cd14ba063005d27640fb07bc3b3b33" prot="public" virt="virtual"><scope>themisdb::process::FederationConsensusManager</scope><name>~FederationConsensusManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

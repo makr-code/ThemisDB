@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::RopeFrameSerializationCache</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1abb919e5928d8b38de3ef67d8bea14d7d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::RopeFrameSerializationCache::MAX_CACHE_ENTRIES</definition>
+        <argsstring></argsstring>
+        <name>MAX_CACHE_ENTRIES</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::MAX_CACHE_ENTRIES</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="525" column="29" bodyfile="include/server/performance_helpers.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a4fdf035d3c6d0e637ee0ecb449875901" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;uint8_t&gt; &gt; themis::server::perf::RopeFrameSerializationCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="570" column="24" bodyfile="include/server/performance_helpers.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a01b0ec36fde273e37316faa13615596b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::perf::RopeFrameSerializationCache::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="571" column="31" bodyfile="include/server/performance_helpers.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a031836ff98c77afa18339e09e349ec9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::RopeFrameSerializationCache::RopeFrameSerializationCache</definition>
+        <argsstring>()</argsstring>
+        <name>RopeFrameSerializationCache</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::RopeFrameSerializationCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="527" column="5" bodyfile="include/server/performance_helpers.h" bodystart="527" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a4ef18626630acb38d162924950e7e0c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::server::perf::RopeFrameSerializationCache::get</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="529" column="19" bodyfile="include/server/performance_helpers.h" bodystart="529" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1abe11a50a1d2c6393166f5d1c5cb78f7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::RopeFrameSerializationCache::put</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;frame)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">frame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), <ref refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1aacaee352c99ad2ae6f7656bb8be16457" kindref="member">clear()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="549" column="10" bodyfile="include/server/performance_helpers.h" bodystart="549" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1aacaee352c99ad2ae6f7656bb8be16457" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::RopeFrameSerializationCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::server::perf::RopeFrameSerializationCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="564" column="10" bodyfile="include/server/performance_helpers.h" bodystart="564" bodyend="567"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="523" column="1" bodyfile="include/server/performance_helpers.h" bodystart="523" bodyend="572"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a4fdf035d3c6d0e637ee0ecb449875901" prot="private" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a01b0ec36fde273e37316faa13615596b" prot="private" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1aacaee352c99ad2ae6f7656bb8be16457" prot="public" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a4ef18626630acb38d162924950e7e0c9" prot="public" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1abb919e5928d8b38de3ef67d8bea14d7d" prot="public" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>MAX_CACHE_ENTRIES</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1abe11a50a1d2c6393166f5d1c5cb78f7c" prot="public" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_rope_frame_serialization_cache_1a031836ff98c77afa18339e09e349ec9f" prot="public" virt="non-virtual"><scope>themis::server::perf::RopeFrameSerializationCache</scope><name>RopeFrameSerializationCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

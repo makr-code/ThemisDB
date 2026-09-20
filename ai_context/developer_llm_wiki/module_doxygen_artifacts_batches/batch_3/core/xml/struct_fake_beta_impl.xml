@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_beta_impl" kind="struct" language="C++" prot="public">
+    <compoundname>FakeBetaImpl</compoundname>
+    <basecompoundref refid="struct_i_fake_beta" prot="public" virt="non-virtual">IFakeBeta</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_beta_impl_1a7a69ab912b6301b08a9a583dff41d5d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FakeBetaImpl::l_</definition>
+        <argsstring></argsstring>
+        <name>l_</name>
+        <qualifiedname>FakeBetaImpl::l_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="35" column="17" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_fake_beta_impl_1a597573fe9f25d7df348d73e1e5b72b5c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FakeBetaImpl::FakeBetaImpl</definition>
+        <argsstring>(std::string l)</argsstring>
+        <name>FakeBetaImpl</name>
+        <qualifiedname>FakeBetaImpl::FakeBetaImpl</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="33" column="14" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_beta_impl_1a54c10189df387d62b0f337ce8305b59e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string FakeBetaImpl::label</definition>
+        <argsstring>() const override</argsstring>
+        <name>label</name>
+        <qualifiedname>FakeBetaImpl::label</qualifiedname>
+        <reimplements refid="struct_i_fake_beta_1ab84448c5f2efccbc1f463067b8159b7b">label</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="34" column="17" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FakeBetaImpl</label>
+        <link refid="struct_fake_beta_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFakeBeta</label>
+        <link refid="struct_i_fake_beta"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FakeBetaImpl</label>
+        <link refid="struct_fake_beta_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IFakeBeta</label>
+        <link refid="struct_i_fake_beta"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/core/test_adapter_registry_focused.cpp" line="32" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="struct_fake_beta_impl_1a597573fe9f25d7df348d73e1e5b72b5c" prot="public" virt="non-virtual"><scope>FakeBetaImpl</scope><name>FakeBetaImpl</name></member>
+      <member refid="struct_fake_beta_impl_1a7a69ab912b6301b08a9a583dff41d5d5" prot="public" virt="non-virtual"><scope>FakeBetaImpl</scope><name>l_</name></member>
+      <member refid="struct_fake_beta_impl_1a54c10189df387d62b0f337ce8305b59e" prot="public" virt="virtual"><scope>FakeBetaImpl</scope><name>label</name></member>
+      <member refid="struct_i_fake_beta_1a5827e74615a3bbcc8fb695efcb1ff716" prot="public" virt="virtual"><scope>FakeBetaImpl</scope><name>~IFakeBeta</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

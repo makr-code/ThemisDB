@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1testing_1_1_mock_database_connection_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::testing::MockDatabaseConnectionManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">storage::DatabaseConnectionManager</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_database_connection_manager_1a792a4f3a8d8e2cc685e618634f92ccc7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::MockDatabaseConnectionManager::MockDatabaseConnectionManager</definition>
+        <argsstring>()</argsstring>
+        <name>MockDatabaseConnectionManager</name>
+        <qualifiedname>themis::testing::MockDatabaseConnectionManager::MockDatabaseConnectionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="79" column="5" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="79" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_database_connection_manager_1aefb02e470039e5741fc35338bad2d652" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; Connection &gt;</type>
+        <definition>std::shared_ptr&lt; Connection &gt; themis::testing::MockDatabaseConnectionManager::createConnection</definition>
+        <argsstring>() override</argsstring>
+        <name>createConnection</name>
+        <qualifiedname>themis::testing::MockDatabaseConnectionManager::createConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="82" column="21" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>storage::DatabaseConnectionManager</label>
+      </node>
+      <node id="1">
+        <label>themis::testing::MockDatabaseConnectionManager</label>
+        <link refid="classthemis_1_1testing_1_1_mock_database_connection_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>storage::DatabaseConnectionManager</label>
+      </node>
+      <node id="1">
+        <label>themis::testing::MockDatabaseConnectionManager</label>
+        <link refid="classthemis_1_1testing_1_1_mock_database_connection_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/connection_leak_tests.cpp" line="77" column="1" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="77" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1testing_1_1_mock_database_connection_manager_1aefb02e470039e5741fc35338bad2d652" prot="public" virt="non-virtual"><scope>themis::testing::MockDatabaseConnectionManager</scope><name>createConnection</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_database_connection_manager_1a792a4f3a8d8e2cc685e618634f92ccc7" prot="public" virt="non-virtual"><scope>themis::testing::MockDatabaseConnectionManager</scope><name>MockDatabaseConnectionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_rollup_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::RollupRow</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_rollup_row_1a58a7676c691cc12a7ff0d06e3963b91b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::optional&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::optional&lt;std::string&gt; &gt; themis::analytics::RollupRow::dimension_values</definition>
+        <argsstring></argsstring>
+        <name>dimension_values</name>
+        <qualifiedname>themis::analytics::RollupRow::dimension_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="117" column="17" bodyfile="include/analytics/olap.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_rollup_row_1a3baad9b94eff73da1ede5326e3e7bb2c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::analytics::RollupRow::measures</definition>
+        <argsstring></argsstring>
+        <name>measures</name>
+        <qualifiedname>themis::analytics::RollupRow::measures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="118" column="24" bodyfile="include/analytics/olap.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_rollup_row_1a87c94eb2fd65c07bd6c92e0637e54ec7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::RollupRow::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::analytics::RollupRow::level</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="119" column="9" bodyfile="include/analytics/olap.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="116" column="1" bodyfile="include/analytics/olap.h" bodystart="116" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_rollup_row_1a58a7676c691cc12a7ff0d06e3963b91b" prot="public" virt="non-virtual"><scope>themis::analytics::RollupRow</scope><name>dimension_values</name></member>
+      <member refid="structthemis_1_1analytics_1_1_rollup_row_1a87c94eb2fd65c07bd6c92e0637e54ec7" prot="public" virt="non-virtual"><scope>themis::analytics::RollupRow</scope><name>level</name></member>
+      <member refid="structthemis_1_1analytics_1_1_rollup_row_1a3baad9b94eff73da1ede5326e3e7bb2c" prot="public" virt="non-virtual"><scope>themis::analytics::RollupRow</scope><name>measures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

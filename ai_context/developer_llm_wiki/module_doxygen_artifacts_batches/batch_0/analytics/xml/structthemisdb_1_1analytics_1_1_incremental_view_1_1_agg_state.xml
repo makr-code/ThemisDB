@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::analytics::IncrementalView::AggState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a54a28d168d3c1d4a6812e0fd0635dec0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::IncrementalView::AggState::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="222" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a2bbd65a8c4a52dfb8e489fc421636e11" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::IncrementalView::AggState::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="223" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a60baede6a1e9c3dd9dd763381caef1be" prot="public" static="no" mutable="no">
+        <type>std::multiset&lt; double &gt;</type>
+        <definition>std::multiset&lt;double&gt; themisdb::analytics::IncrementalView::AggState::min_max_values</definition>
+        <argsstring></argsstring>
+        <name>min_max_values</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::min_max_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="226" column="23" bodyfile="include/analytics/incremental_view.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a065a66f016fb11e70c1fff448b7f467d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::IncrementalView::AggState::welford_mean</definition>
+        <argsstring></argsstring>
+        <name>welford_mean</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::welford_mean</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="229" column="16" bodyfile="include/analytics/incremental_view.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a956a57f2b9e480b051c8c639c36781c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::IncrementalView::AggState::welford_m2</definition>
+        <argsstring></argsstring>
+        <name>welford_m2</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::welford_m2</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="230" column="16" bodyfile="include/analytics/incremental_view.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1aca57cc4d24d214506a9c8e4d52628582" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themisdb::analytics::IncrementalView::AggState::distinct_ref_counts</definition>
+        <argsstring></argsstring>
+        <name>distinct_ref_counts</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::distinct_ref_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="233" column="18" bodyfile="include/analytics/incremental_view.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a98cb96e524569224ff9f444296539585" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref></type>
+        <definition>FieldValue themisdb::analytics::IncrementalView::AggState::first_val</definition>
+        <argsstring></argsstring>
+        <name>first_val</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::first_val</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="236" column="20" bodyfile="include/analytics/incremental_view.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1ab883f5623237583d4bab3ea1d6ff5946" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref></type>
+        <definition>FieldValue themisdb::analytics::IncrementalView::AggState::last_val</definition>
+        <argsstring></argsstring>
+        <name>last_val</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::last_val</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="237" column="20" bodyfile="include/analytics/incremental_view.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a97df7287d5de69c73c7683cfdd9b9ffb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::IncrementalView::AggState::has_first</definition>
+        <argsstring></argsstring>
+        <name>has_first</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::has_first</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="238" column="20" bodyfile="include/analytics/incremental_view.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1afcfe14c47dbd7e998955842f9d0167a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IncrementalView::AggState::add</definition>
+        <argsstring>(const FieldValue &amp;v, int sign)</argsstring>
+        <name>add</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::add</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sign</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fieldValueToDouble(), <ref refid="namespacethemisdb_1_1analytics_1a1c5033bb7c25a61ffe5f149201505795" kindref="member">fieldValueToStr()</ref>, insert(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="245" column="14" bodyfile="src/analytics/incremental_view.cpp" bodystart="155" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1aa414ae9b1cedb832b994d1eddc811fd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref></type>
+        <definition>FieldValue themisdb::analytics::IncrementalView::AggState::result</definition>
+        <argsstring>(ViewAggFunc func) const</argsstring>
+        <name>result</name>
+        <qualifiedname>themisdb::analytics::IncrementalView::AggState::result</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="252" column="20" bodyfile="src/analytics/incremental_view.cpp" bodystart="219" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="220" column="5" bodyfile="include/analytics/incremental_view.h" bodystart="220" bodyend="253"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1afcfe14c47dbd7e998955842f9d0167a2" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>add</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a54a28d168d3c1d4a6812e0fd0635dec0" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1aca57cc4d24d214506a9c8e4d52628582" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>distinct_ref_counts</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a98cb96e524569224ff9f444296539585" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>first_val</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a97df7287d5de69c73c7683cfdd9b9ffb" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>has_first</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1ab883f5623237583d4bab3ea1d6ff5946" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>last_val</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a60baede6a1e9c3dd9dd763381caef1be" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>min_max_values</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1aa414ae9b1cedb832b994d1eddc811fd6" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>result</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a2bbd65a8c4a52dfb8e489fc421636e11" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>sum</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a956a57f2b9e480b051c8c639c36781c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>welford_m2</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state_1a065a66f016fb11e70c1fff448b7f467d" prot="public" virt="non-virtual"><scope>themisdb::analytics::IncrementalView::AggState</scope><name>welford_mean</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

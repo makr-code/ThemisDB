@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d270144326262247311062060301347351213033241020037" kind="namespace" language="C++">
+    <compoundname>@270144326262247311062060301347351213033241020037</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d270144326262247311062060301347351213033241020037_1a6b087d228bbf4f24873b0e0a746bed76" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictStrategy</name>
+        <qualifiedname>@270144326262247311062060301347351213033241020037::ConflictStrategy</qualifiedname>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a6b087d228bbf4f24873b0e0a746bed76aea016c620359ec5132baa830254b01e4" prot="public">
+          <name>LastWriteWins</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a6b087d228bbf4f24873b0e0a746bed76a506713f01596a74f4aa2150b63b5a577" prot="public">
+          <name>ManualReview</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a6b087d228bbf4f24873b0e0a746bed76abeeef1e0994ee2f91c0c28aebe3a8981" prot="public">
+          <name>LenientSkip</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a6b087d228bbf4f24873b0e0a746bed76a36eeec7ffd464b1baa9cbedf42cc4cad" prot="public">
+          <name>StrictReject</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" line="74" column="1" bodyfile="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d270144326262247311062060301347351213033241020037_1a3fe906784ca3522faf6d10abcb12517f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchemaDegradationLevel</name>
+        <qualifiedname>@270144326262247311062060301347351213033241020037::SchemaDegradationLevel</qualifiedname>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a3fe906784ca3522faf6d10abcb12517fa2e979835dd62324f5bfe217449ba4974" prot="public">
+          <name>Strict</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a3fe906784ca3522faf6d10abcb12517faeec7931eeb6771fd5d189ba70656fb80" prot="public">
+          <name>Lenient</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a3fe906784ca3522faf6d10abcb12517fa20524f1b7d827addbf530f923b9ef57f" prot="public">
+          <name>AutoRepair</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" line="210" column="1" bodyfile="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d270144326262247311062060301347351213033241020037_1a9a43d164eb86c3552e90d6ac5a8ae2cd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConnectorCapability</name>
+        <qualifiedname>@270144326262247311062060301347351213033241020037::ConnectorCapability</qualifiedname>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a9a43d164eb86c3552e90d6ac5a8ae2cda28e12b1e563be9aacc5267f36a881c03" prot="public">
+          <name>FullSupport</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a9a43d164eb86c3552e90d6ac5a8ae2cda421c491302debcb7fb4ba48e0b5b90be" prot="public">
+          <name>PartialSupport</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a9a43d164eb86c3552e90d6ac5a8ae2cdaaa95669cd5732a57e8f6467705f06642" prot="public">
+          <name>Degraded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270144326262247311062060301347351213033241020037_1a9a43d164eb86c3552e90d6ac5a8ae2cda453e6aa38d87b28ccae545967c53004f" prot="public">
+          <name>Unavailable</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" line="279" column="1" bodyfile="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" bodystart="279" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importers_phase2_phase3_integration_focused.cpp" line="66" column="1"/>
+  </compounddef>
+</doxygen>

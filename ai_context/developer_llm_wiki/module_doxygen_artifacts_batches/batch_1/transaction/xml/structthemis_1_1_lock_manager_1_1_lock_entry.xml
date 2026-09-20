@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_lock_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::LockManager::LockEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_entry_1a4b6c89fe23fd7ee423ec30f2e4874645" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::LockManager::LockEntry::holder</definition>
+        <argsstring></argsstring>
+        <name>holder</name>
+        <qualifiedname>themis::LockManager::LockEntry::holder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="236" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_entry_1a81d01ecad85a03a310be91f52e10111e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29" kindref="member">LockType</ref></type>
+        <definition>LockType themis::LockManager::LockEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::LockManager::LockEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="237" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_entry_1a6b6c8a44774f02e0aa386eb8c6f914a8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::LockManager::LockEntry::acquired_at</definition>
+        <argsstring></argsstring>
+        <name>acquired_at</name>
+        <qualifiedname>themis::LockManager::LockEntry::acquired_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="238" column="47" bodyfile="include/transaction/lock_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="235" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="235" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_entry_1a6b6c8a44774f02e0aa386eb8c6f914a8" prot="public" virt="non-virtual"><scope>themis::LockManager::LockEntry</scope><name>acquired_at</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_entry_1a4b6c89fe23fd7ee423ec30f2e4874645" prot="public" virt="non-virtual"><scope>themis::LockManager::LockEntry</scope><name>holder</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_entry_1a81d01ecad85a03a310be91f52e10111e" prot="public" virt="non-virtual"><scope>themis::LockManager::LockEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

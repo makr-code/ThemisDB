@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_placement_constraints" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::PlacementConstraints</compoundname>
+    <includes refid="geo__placement_8h" local="no">geo_placement.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::PlacementConstraints::preferred_datacenters</definition>
+        <argsstring></argsstring>
+        <name>preferred_datacenters</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::preferred_datacenters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ordered preference list of datacenter IDs. Candidates in the first DC that has an eligible replica are ranked highest. An empty list means &quot;no DC preference&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="63" column="17" bodyfile="include/replication/geo_placement.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a24750e160cf84a23cee248108ee360a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::PlacementConstraints::forbidden_datacenters</definition>
+        <argsstring></argsstring>
+        <name>forbidden_datacenters</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::forbidden_datacenters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Datacenters that must never host the selected candidate. Any candidate whose <ref refid="structthemisdb_1_1replication_1_1_replica_info_1abd51b09233403c8eb501bfc821c42b15" kindref="member">ReplicaInfo::datacenter</ref> appears here is excluded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="69" column="17" bodyfile="include/replication/geo_placement.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::PlacementConstraints::required_datacenters</definition>
+        <argsstring></argsstring>
+        <name>required_datacenters</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::required_datacenters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Every datacenter listed here must have at least one healthy replica in the cluster. validatePlacement() returns a violation when this is not satisfied. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="76" column="17" bodyfile="include/replication/geo_placement.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1adc39c476050a4e1ce2083bb8df6ceee1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::PlacementConstraints::min_copies_per_dc</definition>
+        <argsstring></argsstring>
+        <name>min_copies_per_dc</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::min_copies_per_dc</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of healthy replicas required per datacenter. Zero means &quot;no minimum per DC&quot; (default). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="82" column="14" bodyfile="include/replication/geo_placement.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a215db07c16ed81ef40dc431aa4db580f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PlacementConstraints::zone_affinity_zone</definition>
+        <argsstring></argsstring>
+        <name>zone_affinity_zone</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::zone_affinity_zone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty, candidates in the same zone as this value are preferred (zone affinity). Cannot be set simultaneously with zone_anti_affinity_zone. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="88" column="17" bodyfile="include/replication/geo_placement.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a0147475807eb5930a04cb545b6bcacca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PlacementConstraints::zone_anti_affinity_zone</definition>
+        <argsstring></argsstring>
+        <name>zone_anti_affinity_zone</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::zone_anti_affinity_zone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When non-empty, candidates in the same zone as this value are excluded (zone anti-affinity). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="94" column="17" bodyfile="include/replication/geo_placement.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PlacementConstraints::require_voter</definition>
+        <argsstring></argsstring>
+        <name>require_voter</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::require_voter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, only voting members (<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" kindref="member">ReplicaInfo::is_voting_member</ref> == true) are eligible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="100" column="10" bodyfile="include/replication/geo_placement.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PlacementConstraints::healthy_only</definition>
+        <argsstring></argsstring>
+        <name>healthy_only</name>
+        <qualifiedname>themisdb::replication::PlacementConstraints::healthy_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, only candidates with <ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref> are eligible. Candidates with <ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref> are excluded. Defaults to true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="106" column="10" bodyfile="include/replication/geo_placement.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Placement constraints for geographic replica positioning. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consumed by <ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref> to filter and rank replica candidates during leader election and failover. </para>
+    </detaileddescription>
+    <location file="include/replication/geo_placement.h" line="57" column="1" bodyfile="include/replication/geo_placement.h" bodystart="57" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a24750e160cf84a23cee248108ee360a1" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>forbidden_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>healthy_only</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1adc39c476050a4e1ce2083bb8df6ceee1" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>min_copies_per_dc</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>preferred_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>require_voter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>required_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a215db07c16ed81ef40dc431aa4db580f" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>zone_affinity_zone</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0147475807eb5930a04cb545b6bcacca" prot="public" virt="non-virtual"><scope>themisdb::replication::PlacementConstraints</scope><name>zone_anti_affinity_zone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

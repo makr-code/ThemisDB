@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="toolbox__builder_8cpp" kind="file" language="C++">
+    <compoundname>toolbox_builder.cpp</compoundname>
+    <includes refid="toolbox__builder_8h" local="yes">toolbox/toolbox_builder.h</includes>
+    <includes local="yes">aql/aql_ingestion_bridge.h</includes>
+    <includes local="yes">rag/rag_ingestion_bridge.h</includes>
+    <includes local="yes">ingestion/builtin_step_factories.h</includes>
+    <includes local="yes">utils/logger.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">set</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>toolbox/toolbox_builder.h</label>
+        <link refid="toolbox__builder_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/toolbox/toolbox_builder.cpp</label>
+        <link refid="toolbox__builder_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="17">
+        <label>aql/aql_ingestion_bridge.h</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="8">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="9">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="16">
+        <label>ingestion/format_extractor.h</label>
+      </node>
+      <node id="6">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="15">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>rag/rag_ingestion_bridge.h</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" prot="public">themis::toolbox::ToolboxBuilder::Impl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="toolbox__builder_8h" kindref="compound">toolbox/toolbox_builder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/aql_ingestion_bridge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/rag_ingestion_bridge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/builtin_step_factories.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ToolboxBuilder::Impl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" kindref="compound">ToolboxBuilder::Impl</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a3202acd727e2c207a491e33e432c87a3" kindref="member">profile_paths</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::WorkflowEngine&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a57bc28d2428dd7338743955e7add1121" kindref="member">engine</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a8eeee5a77cad9fb7e9044993e796f116" kindref="member">text_backend</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a6224c7304e87c4956dba6905a9e246c3" kindref="member">graph_writer</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1ab49381cea9ed9b150b67be7a83c358d7" kindref="member">vector_writer</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;ingestion::IFormatExtractor&gt;&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a9392683966ce1086475644474fb4cd40" kindref="member">format_extractors</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITensorDecompositionBackend&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a88b275495ced0a775537304486200a7c" kindref="member">tensor_decomp_backend</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITensorCoreBridge&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1aa9d03775ee118a699214536f41615ad9" kindref="member">tensor_core_bridge</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl_1a954c0d6ea8c4a4a16071c9109361fb15" kindref="member">built</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ToolboxBuilder<sp/>public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder::ToolboxBuilder</ref>()<sp/><sp/>:<sp/>impl_(std::make_unique&lt;<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" kindref="compound">Impl</ref>&gt;())<sp/>{}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ae1ec02d660be94c9ab86cb3766ac55e2" kindref="member">ToolboxBuilder::~ToolboxBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder::ToolboxBuilder</ref>(<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>::operator=(<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref>::<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" kindref="member">withWorkflowProfile</ref>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>profile_path)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(profile_path.empty())<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::withWorkflowProfile:<sp/>path<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;profile_paths.push_back(std::move(profile_path));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" kindref="member">ToolboxBuilder::withGraphWriter</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/>writer)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;graph_writer<sp/>=<sp/>std::move(writer);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a92b73d731aeed09050db9655132596b8" kindref="member">ToolboxBuilder::withVectorWriter</ref>(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/>writer)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;vector_writer<sp/>=<sp/>std::move(writer);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0c158eaf4c0d80ba8288779bc803ce8f" kindref="member">ToolboxBuilder::withTextBackend</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt;<sp/>backend)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;text_backend<sp/>=<sp/>std::move(backend);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac11a62e03c86033383d921f3bf14b80f" kindref="member">ToolboxBuilder::withTensorDecompositionBackend</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITensorDecompositionBackend&gt;<sp/>backend)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;tensor_decomp_backend<sp/>=<sp/>std::move(backend);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ad164f814b2576bd77fe171f8c722201a" kindref="member">ToolboxBuilder::withTensorCoreSink</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::ITensorCoreBridge&gt;<sp/>sink)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;tensor_core_bridge<sp/>=<sp/>std::move(sink);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac3b086d0e7f9bc1efeafb0eef5170856" kindref="member">ToolboxBuilder::withWorkflowEngine</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::WorkflowEngine&gt;<sp/>engine)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!engine)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::withWorkflowEngine:<sp/>engine<sp/>must<sp/>not<sp/>be<sp/>null&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;engine<sp/>=<sp/>std::move(engine);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a299e548106c175ca05a6d046ca1cdb74" kindref="member">ToolboxBuilder::withFormatExtractor</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/>extractor)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!extractor)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::withFormatExtractor:<sp/>extractor<sp/>must<sp/>not<sp/>be<sp/>null&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;format_extractors.push_back(std::move(extractor));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9e781764bc012d8fc666a8b0c18949f6" kindref="member">ToolboxBuilder::withFormatExtractorFactory</ref>(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IFormatExtractorFactory&gt;<sp/>factory)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!factory)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::withFormatExtractorFactory:<sp/>factory<sp/>must<sp/>not<sp/>be<sp/>null&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collect<sp/>one<sp/>extractor<sp/>per<sp/>MIME<sp/>type,<sp/>de-duplicating<sp/>by<sp/>pointer<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;ingestion::IFormatExtractor*&gt;<sp/>seen<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mime<sp/>:<sp/>factory-&gt;registeredMimeTypes())<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ext<sp/>=<sp/>factory-&gt;extractorFor(mime);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ext<sp/>&amp;&amp;<sp/>seen.find(ext.get())<sp/>==<sp/>seen.end())<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seen.insert(ext.get());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;format_extractors.push_back(std::move(ext));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>build()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">std::shared_ptr&lt;IngestionToolbox&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">ToolboxBuilder::build</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;built)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::logic_error(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::build()<sp/>called<sp/>more<sp/>than<sp/>once&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;built<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>2.1:<sp/>Validate<sp/>profile<sp/>paths<sp/>early<sp/>(fail-fast<sp/>for<sp/>invalid<sp/>input)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>path<sp/>:<sp/>impl_-&gt;profile_paths)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(path.empty())<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::build():<sp/>empty<sp/>profile<sp/>path<sp/>found<sp/>in<sp/>paths<sp/>list&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>1.<sp/>Create<sp/>toolbox<sp/>(uses<sp/>createDefault()<sp/>which<sp/>registers<sp/>NER<sp/>+<sp/>LLM<sp/>steps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!toolbox)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::logic_error(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::build():<sp/>failed<sp/>to<sp/>create<sp/>default<sp/>IngestionToolbox&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>2.<sp/>Inject<sp/>custom<sp/>WorkflowEngine<sp/>if<sp/>provided</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;engine)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toolbox-&gt;setWorkflowEngine(impl_-&gt;engine);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>3.<sp/>Register<sp/>format-extractor<sp/>backed<sp/>builtin<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/>toolbox-&gt;stepRegistry();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>determine<sp/>which<sp/>category<sp/>an<sp/>extractor<sp/>belongs<sp/>to<sp/>based<sp/>on<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>supportedMimeTypes()<sp/>and<sp/>register<sp/>the<sp/>correct<sp/>builtin<sp/>step.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>registerFormatStep<sp/>=<sp/>[&amp;](std::shared_ptr&lt;ingestion::IFormatExtractor&gt;<sp/>ext)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mimes<sp/>=<sp/>ext-&gt;supportedMimeTypes();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mimes.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Select<sp/>step<sp/>type<sp/>based<sp/>on<sp/>the<sp/>first<sp/>supported<sp/>MIME<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>primary<sp/>=<sp/>mimes.front();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IIngestionStep&gt;<sp/>step;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParsePdfStep(ext);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.parse_pdf&quot;</highlight><highlight class="normal">,<sp/>step);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(primary.find(</highlight><highlight class="stringliteral">&quot;vnd.openxmlformats&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/msword&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/vnd.ms-excel&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/vnd.ms-powerpoint&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary.find(</highlight><highlight class="stringliteral">&quot;opendocument&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParseOfficeStep(ext);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.parse_office&quot;</highlight><highlight class="normal">,<sp/>step);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(primary.rfind(</highlight><highlight class="stringliteral">&quot;image/&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParseImageStep(ext);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.parse_image&quot;</highlight><highlight class="normal">,<sp/>step);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/zip&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/x-tar&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/gzip&quot;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>primary<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/x-7z-compressed&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParseArchiveStep(ext);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.parse_archive&quot;</highlight><highlight class="normal">,<sp/>step);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(primary.rfind(</highlight><highlight class="stringliteral">&quot;audio/&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParseAudioStep(ext);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.parse_audio&quot;</highlight><highlight class="normal">,<sp/>step);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic<sp/>text<sp/>extractor<sp/>→<sp/>registers<sp/>under<sp/>builtin.parse_format_&lt;name&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>step_name<sp/>=</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;builtin.parse_format.&quot;</highlight><highlight class="normal">)<sp/>+<sp/>ext-&gt;name();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>step<sp/>=<sp/>ingestion::builtin::createParsePdfStep(ext);<sp/></highlight><highlight class="comment">//<sp/>reuse<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(step_name,<sp/>step);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ext<sp/>:<sp/>impl_-&gt;format_extractors)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ext)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>registerFormatStep(ext);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>4.<sp/>Inject<sp/>text-generation<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;text_backend)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toolbox-&gt;setTextBackend(impl_-&gt;text_backend);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>4b.<sp/>Re-register<sp/>tensor<sp/>steps<sp/>with<sp/>real<sp/>backends<sp/>(if<sp/>provided)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;tensor_decomp_backend)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.chunk_tt_decompose&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ingestion::builtin::createChunkTtDecomposeStep(impl_-&gt;tensor_decomp_backend));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;tensor_core_bridge)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.registerStep(</highlight><highlight class="stringliteral">&quot;builtin.tensor_core_bridge&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ingestion::builtin::createTensorCoreBridgeStep(impl_-&gt;tensor_core_bridge));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>5.<sp/>Load<sp/>workflow<sp/>profiles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>toolbox-&gt;workflowEngine();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>path<sp/>:<sp/>impl_-&gt;profile_paths)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine-&gt;loadProfile(path);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!res)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-fatal:<sp/>log<sp/>and<sp/>continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder:<sp/>failed<sp/>to<sp/>load<sp/>profile<sp/>&apos;{}&apos;:<sp/>{}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path,<sp/>res.error().message());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>toolbox;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a403a81322ab115d0da891aef78129de6" kindref="member">ToolboxBuilder::graphWriter</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;graph_writer;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a8a16836a2a2a2d71bb129ae7513c1984" kindref="member">ToolboxBuilder::vectorWriter</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;vector_writer;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">std::size_t<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a6e59f67dce9b7ef2d3fba2b0c7d325a0" kindref="member">ToolboxBuilder::profileCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;profile_paths.size();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>BuiltToolbox<sp/>special<sp/>members<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">ToolboxBuilder::BuiltToolbox::BuiltToolbox</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1ae84232d3941fe040ca1cbdde67ff3efa" kindref="member">ToolboxBuilder::BuiltToolbox::~BuiltToolbox</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a3b21d5f82bcef125f1d509a2910957d9" kindref="member">ToolboxBuilder::BuiltToolbox::BuiltToolbox</ref>(<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref>&amp;&amp;)<sp/>noexcept<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>::<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>::<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref>::operator=(<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>::<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref>::<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" kindref="member">buildWithBridges</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard<sp/>runs<sp/>before<sp/>build()<sp/>—<sp/>build()<sp/>will<sp/>set<sp/>impl_-&gt;built<sp/>=<sp/>true,<sp/>so<sp/>any</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>subsequent<sp/>call<sp/>to<sp/>buildWithBridges()<sp/>or<sp/>build()<sp/>will<sp/>throw<sp/>here<sp/>or<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>build()<sp/>respectively,<sp/>preventing<sp/>double-initialisation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;built)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::logic_error(</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ToolboxBuilder::buildWithBridges()<sp/>called<sp/>after<sp/>build()<sp/>or<sp/>buildWithBridges()&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2.2:<sp/>Validate<sp/>bridge<sp/>requirements<sp/>before<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Soft-fail<sp/>behavior:<sp/>missing<sp/>optional<sp/>writers<sp/>are<sp/>acceptable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Required:<sp/>toolbox<sp/>must<sp/>be<sp/>created<sp/>by<sp/>build()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox<sp/>=<sp/>this-&gt;build();<sp/><sp/></highlight><highlight class="comment">//<sp/>delegates<sp/>to<sp/>the<sp/>existing<sp/>build()<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(!toolbox)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::logic_error(</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ToolboxBuilder::buildWithBridges():<sp/>build()<sp/>returned<sp/>null<sp/>toolbox&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref><sp/>out;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>out.<ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox_1a09ce11d26a30e8613f72285d8af6c150" kindref="member">toolbox</ref><sp/>=<sp/>toolbox;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2.3:<sp/>Wire<sp/>bridges<sp/>from<sp/>optional<sp/>sinks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>graph_writer<sp/>and<sp/>vector_writer<sp/>are<sp/>optional;<sp/>soft-fail<sp/>if<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;graph_writer)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>try<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.aql_bridge<sp/>=<sp/>std::make_shared&lt;aql::AQLIngestionBridge&gt;(</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toolbox,<sp/>impl_-&gt;graph_writer);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>catch<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::buildWithBridges():<sp/>AQLIngestionBridge<sp/>construction<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.what());</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Soft<sp/>fail:<sp/>continue<sp/>without<sp/>AQL<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;vector_writer<sp/>||<sp/>impl_-&gt;graph_writer)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>try<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.rag_bridge<sp/>=<sp/>std::make_shared&lt;rag::RAGIngestionBridge&gt;(</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toolbox,<sp/>impl_-&gt;vector_writer,<sp/>impl_-&gt;graph_writer);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>catch<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;ToolboxBuilder::buildWithBridges():<sp/>RAGIngestionBridge<sp/>construction<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.what());</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Soft<sp/>fail:<sp/>continue<sp/>without<sp/>RAG<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/toolbox/toolbox_builder.cpp"/>
+  </compounddef>
+</doxygen>

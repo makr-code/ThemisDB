@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1ad7092ddafadf4c753313cb4f2f3df350" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiRegionActiveActiveManager::ReadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2052" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2052" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1aa07b1cdb4a6fe76cd344e3552d026235" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiRegionActiveActiveManager::ReadResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2053" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2053" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1a0a9729090af587bf3add5f5421ab33e8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiRegionActiveActiveManager::ReadResult::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2054" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2054" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1acb93340f3f2b14bf1cc1a81c859744eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiRegionActiveActiveManager::ReadResult::region_id</definition>
+        <argsstring></argsstring>
+        <name>region_id</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::region_id</qualifiedname>
+        <briefdescription>
+<para>Region that served the read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2055" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2055" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1a952947bcbb8eac6c6cccb84f5cf96f2a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::MultiRegionActiveActiveManager::ReadResult::staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>staleness_ms</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::staleness_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Observed staleness at read time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2056" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2056" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1aa60656fad46b0a4d99027f5a8700acee" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+        <definition>ConsistencyLevel themisdb::replication::MultiRegionActiveActiveManager::ReadResult::served_at</definition>
+        <argsstring></argsstring>
+        <name>served_at</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveManager::ReadResult::served_at</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada1c24fbd27d8776c209d0d7d22584e46f" kindref="member">ConsistencyLevel::EVENTUAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2057" column="26" bodyfile="include/replication/replication_manager.h" bodystart="2057" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2051" column="5" bodyfile="include/replication/replication_manager.h" bodystart="2051" bodyend="2058"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1aa07b1cdb4a6fe76cd344e3552d026235" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1acb93340f3f2b14bf1cc1a81c859744eb" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>region_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1a0a9729090af587bf3add5f5421ab33e8" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1aa60656fad46b0a4d99027f5a8700acee" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>served_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1a952947bcbb8eac6c6cccb84f5cf96f2a" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>staleness_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_manager_1_1_read_result_1ad7092ddafadf4c753313cb4f2f3df350" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveManager::ReadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

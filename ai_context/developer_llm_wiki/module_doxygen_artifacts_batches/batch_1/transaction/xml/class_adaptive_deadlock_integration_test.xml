@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adaptive_deadlock_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>AdaptiveDeadlockIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1ad880ee994fede9a54f721160594ffcf1" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* AdaptiveDeadlockIntegrationTest::kDbPath</definition>
+        <argsstring></argsstring>
+        <name>kDbPath</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::kDbPath</qualifiedname>
+        <initializer>= &quot;/tmp/test_adaptive_deadlock_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="259" column="33" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1a99082884e87896ce8878b96df90bc764" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AdaptiveDeadlockIntegrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="289" column="30" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1acfaa8432176209eff50144f81cbd76e6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AdaptiveDeadlockIntegrationTest::sec_idx_</definition>
+        <argsstring></argsstring>
+        <name>sec_idx_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::sec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="290" column="23" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1af8fb19d081ced4aad932d8d63a3f4f86" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; AdaptiveDeadlockIntegrationTest::graph_idx_</definition>
+        <argsstring></argsstring>
+        <name>graph_idx_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::graph_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="291" column="27" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1a0ad91e05247bf654ddb98dd35f0b1b78" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; AdaptiveDeadlockIntegrationTest::vec_idx_</definition>
+        <argsstring></argsstring>
+        <name>vec_idx_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::vec_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="292" column="26" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1a76217dc642dbc5f408b751c9464a5f05" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; AdaptiveDeadlockIntegrationTest::txn_mgr_</definition>
+        <argsstring></argsstring>
+        <name>txn_mgr_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::txn_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="293" column="26" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_deadlock_integration_test_1af0ac04733629e9c104546f26c956cd61" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref></type>
+        <definition>DeadlockPredictor AdaptiveDeadlockIntegrationTest::predictor_</definition>
+        <argsstring></argsstring>
+        <name>predictor_</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::predictor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="294" column="46" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adaptive_deadlock_integration_test_1aa3c8fefecf4d8b3a7350aa4f48e7ccd2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdaptiveDeadlockIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="261" column="10" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="261" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_deadlock_integration_test_1ab34345d9650bf5ded8ea05a78499c5c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdaptiveDeadlockIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AdaptiveDeadlockIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="279" column="10" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="279" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaptiveDeadlockIntegrationTest</label>
+        <link refid="class_adaptive_deadlock_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaptiveDeadlockIntegrationTest</label>
+        <link refid="class_adaptive_deadlock_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>predictor_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::DeadlockPredictor</label>
+        <link refid="classthemis_1_1_deadlock_predictor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_adaptive_deadlock_prevention.cpp" line="257" column="1" bodyfile="tests/transaction/test_adaptive_deadlock_prevention.cpp" bodystart="257" bodyend="295"/>
+    <listofallmembers>
+      <member refid="class_adaptive_deadlock_integration_test_1a99082884e87896ce8878b96df90bc764" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>db_</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1af8fb19d081ced4aad932d8d63a3f4f86" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>graph_idx_</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1ad880ee994fede9a54f721160594ffcf1" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>kDbPath</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1af0ac04733629e9c104546f26c956cd61" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>predictor_</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1acfaa8432176209eff50144f81cbd76e6" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>sec_idx_</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1aa3c8fefecf4d8b3a7350aa4f48e7ccd2" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1ab34345d9650bf5ded8ea05a78499c5c1" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1a76217dc642dbc5f408b751c9464a5f05" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>txn_mgr_</name></member>
+      <member refid="class_adaptive_deadlock_integration_test_1a0ad91e05247bf654ddb98dd35f0b1b78" prot="protected" virt="non-virtual"><scope>AdaptiveDeadlockIntegrationTest</scope><name>vec_idx_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

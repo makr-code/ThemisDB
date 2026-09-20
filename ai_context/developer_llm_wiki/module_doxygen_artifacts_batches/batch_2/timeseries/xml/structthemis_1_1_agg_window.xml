@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_agg_window" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AggWindow</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_agg_window_1adb5e4435dc5c6ca41baf67f5a6500cbb" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::AggWindow::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::AggWindow::size</qualifiedname>
+        <initializer>{std::chrono::minutes(1)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="27" column="31" bodyfile="include/timeseries/continuous_agg.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="26" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="26" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_agg_window_1adb5e4435dc5c6ca41baf67f5a6500cbb" prot="public" virt="non-virtual"><scope>themis::AggWindow</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

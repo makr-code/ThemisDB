@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_base_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::BaseEntity</compoundname>
+    <includes refid="base__entity_8h" local="no">base_entity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BaseEntity::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::ingestion::BaseEntity::id</qualifiedname>
+        <briefdescription>
+<para>Canonical entity ID (see scheme above). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="131" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1ac7b655c43c54c3d16ec6174dd59bf88d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ff" kindref="member">EntityType</ref></type>
+        <definition>EntityType themis::ingestion::BaseEntity::entity_type</definition>
+        <argsstring></argsstring>
+        <name>entity_type</name>
+        <qualifiedname>themis::ingestion::BaseEntity::entity_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">EntityType::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="132" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1ae6428055f220c893c3f4c2afa0866dfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BaseEntity::source_file_id</definition>
+        <argsstring></argsstring>
+        <name>source_file_id</name>
+        <qualifiedname>themis::ingestion::BaseEntity::source_file_id</qualifiedname>
+        <briefdescription>
+<para>sha256 of the originating file </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="135" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1a9cfec924735dbff41d566c5fc69c52b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BaseEntity::source_text_ref</definition>
+        <argsstring></argsstring>
+        <name>source_text_ref</name>
+        <qualifiedname>themis::ingestion::BaseEntity::source_text_ref</qualifiedname>
+        <briefdescription>
+<para>Optional: character offset range &quot;start:end&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="136" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1a971efc678ed638446b4f6c2119cad41f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BaseEntity::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::ingestion::BaseEntity::text</qualifiedname>
+        <briefdescription>
+<para>Representative text for this entity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="139" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1ab15f26479f6f304a592481f32d463afe" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::BaseEntity::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::ingestion::BaseEntity::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional domain-specific fields, e.g.: &quot;section_ref&quot; → &quot;§ 4 Abs. 1&quot;, &quot;deontic_category&quot; → &quot;OBLIGATION&quot;, &quot;norm_id&quot; → &quot;BImSchG&quot;, &quot;aktenzeichen&quot; → &quot;12 A 345/24&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="142" column="24" bodyfile="include/ingestion/base_entity.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1a7a53f8cbf1518fc50f144a77c581f606" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::ingestion::BaseEntity::embeddings</definition>
+        <argsstring></argsstring>
+        <name>embeddings</name>
+        <qualifiedname>themis::ingestion::BaseEntity::embeddings</qualifiedname>
+        <briefdescription>
+<para>Dense embedding for semantic / vector-RAG search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="148" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_base_entity_1a6022739fcd8f1fc8d4872f536c8ed30b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_entity_provenance" kindref="compound">EntityProvenance</ref></type>
+        <definition>EntityProvenance themis::ingestion::BaseEntity::provenance</definition>
+        <argsstring></argsstring>
+        <name>provenance</name>
+        <qualifiedname>themis::ingestion::BaseEntity::provenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="151" column="22" bodyfile="include/ingestion/base_entity.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_base_entity_1a40f4aa1f5de4c1dba1eb527307ac0e71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::ingestion::BaseEntity::propertyOr</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;default_val) const</argsstring>
+        <name>propertyOr</name>
+        <qualifiedname>themis::ingestion::BaseEntity::propertyOr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_val</declname>
+        </param>
+        <briefdescription>
+<para>Returns <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1ab15f26479f6f304a592481f32d463afe" kindref="member">properties</ref>[key]</computeroutput> or <computeroutput>default_val</computeroutput> when absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="156" column="23" bodyfile="include/ingestion/base_entity.h" bodystart="156" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_base_entity_1ab9745f051a8dd816f58f5c77b933bb94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BaseEntity::hasEmbedding</definition>
+        <argsstring>() const</argsstring>
+        <name>hasEmbedding</name>
+        <qualifiedname>themis::ingestion::BaseEntity::hasEmbedding</qualifiedname>
+        <briefdescription>
+<para>Returns true when the entity carries a dense embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="163" column="10" bodyfile="include/ingestion/base_entity.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical, graph-ready representation of an extracted information unit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput> is the fundamental output type of the ingestion pipeline. Every step that identifies a piece of information (a legal provision, a named entity, a geo-feature, a chunk) produces one or more <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput> values that are stored in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a8c795796747c9375834273899c09e7a7" kindref="member">ExtractionContext::entities</ref></computeroutput>.</para>
+<para>The <computeroutput>BaseEntityAssembler</computeroutput> step post-processes the list:<orderedlist>
+<listitem><para>Deduplication via <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" kindref="member">id</ref></computeroutput> (canonical_id strategy).</para>
+</listitem><listitem><para>Normalisation of <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1ac7b655c43c54c3d16ec6174dd59bf88d" kindref="member">entity_type</ref></computeroutput>.</para>
+</listitem><listitem><para>Routing to Graph Store (nodes) and Vector Index (embeddings).</para>
+</listitem></orderedlist>
+</para>
+<para>Graph-RAG usage ─────────────── • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" kindref="member">id</ref></computeroutput> is the node identifier in the graph. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1ac7b655c43c54c3d16ec6174dd59bf88d" kindref="member">entity_type</ref></computeroutput> maps to a node label. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1ab15f26479f6f304a592481f32d463afe" kindref="member">properties</ref></computeroutput> provides additional node attributes. • Embeddings in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1a7a53f8cbf1518fc50f144a77c581f606" kindref="member">embeddings</ref></computeroutput> are stored in the companion vector index.</para>
+<para>Canonical ID scheme (legal domain) ─────────────────────────────────── • Law provisions: &quot;law:&lt;Kurzname&gt;:§&lt;n&gt;[:Abs&lt;m&gt;]&quot; e.g. &quot;law:BImSchG:§4:Abs1&quot; • Norm references: &quot;normref:&lt;target_law&gt;:§&lt;n&gt;&quot; • Decisions: &quot;bescheid:&lt;aktenzeichen&gt;&quot; • Generic chunks: &quot;chunk:&lt;file_id&gt;:&lt;seq&gt;&quot; </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::BaseEntity</label>
+        <link refid="structthemis_1_1ingestion_1_1_base_entity"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>provenance</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::EntityProvenance</label>
+        <link refid="structthemis_1_1ingestion_1_1_entity_provenance"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/base_entity.h" line="129" column="1" bodyfile="include/ingestion/base_entity.h" bodystart="129" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1a7a53f8cbf1518fc50f144a77c581f606" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>embeddings</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1ac7b655c43c54c3d16ec6174dd59bf88d" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>entity_type</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1ab9745f051a8dd816f58f5c77b933bb94" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>hasEmbedding</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1ab15f26479f6f304a592481f32d463afe" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>properties</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1a40f4aa1f5de4c1dba1eb527307ac0e71" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>propertyOr</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1a6022739fcd8f1fc8d4872f536c8ed30b" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>provenance</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1ae6428055f220c893c3f4c2afa0866dfc" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>source_file_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1a9cfec924735dbff41d566c5fc69c52b3" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>source_text_ref</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_base_entity_1a971efc678ed638446b4f6c2119cad41f" prot="public" virt="non-virtual"><scope>themis::ingestion::BaseEntity</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

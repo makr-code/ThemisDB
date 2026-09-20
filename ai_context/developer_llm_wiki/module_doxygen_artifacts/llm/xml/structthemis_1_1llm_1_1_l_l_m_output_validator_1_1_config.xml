@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMOutputValidator::Config</compoundname>
+    <includes refid="llamacpp__inference__engine_8h" local="no">llamacpp_inference_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a673b075f6d75116ba3d83adf9c023c57" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMOutputValidator::Config::min_length</definition>
+        <argsstring></argsstring>
+        <name>min_length</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::min_length</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="47" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1aaef5391702181f8a7703f5b134e1ef6a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMOutputValidator::Config::max_length</definition>
+        <argsstring></argsstring>
+        <name>max_length</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::max_length</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="48" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a5b63b2e565157850aec423f034de7622" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::Config::require_utf8</definition>
+        <argsstring></argsstring>
+        <name>require_utf8</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::require_utf8</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="49" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a72c418628e602aedef424ab69a651076" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::Config::check_truncation</definition>
+        <argsstring></argsstring>
+        <name>check_truncation</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::check_truncation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="50" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a1944efc58e0d8572cba1c197a62ef622" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::Config::check_coherence</definition>
+        <argsstring></argsstring>
+        <name>check_coherence</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::check_coherence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="51" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a8fa4c019223bdb12922cb76e4c2c5e34" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMOutputValidator::Config::min_coherence</definition>
+        <argsstring></argsstring>
+        <name>min_coherence</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::min_coherence</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="52" column="16" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a7d122e7661b8a52cfbff72918ea351a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::Config::allow_empty</definition>
+        <argsstring></argsstring>
+        <name>allow_empty</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::Config::allow_empty</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="53" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_inference_engine.h" line="46" column="5" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a7d122e7661b8a52cfbff72918ea351a1" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>allow_empty</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a1944efc58e0d8572cba1c197a62ef622" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>check_coherence</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a72c418628e602aedef424ab69a651076" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>check_truncation</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1aaef5391702181f8a7703f5b134e1ef6a" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>max_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a8fa4c019223bdb12922cb76e4c2c5e34" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>min_coherence</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a673b075f6d75116ba3d83adf9c023c57" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>min_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config_1a5b63b2e565157850aec423f034de7622" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator::Config</scope><name>require_utf8</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

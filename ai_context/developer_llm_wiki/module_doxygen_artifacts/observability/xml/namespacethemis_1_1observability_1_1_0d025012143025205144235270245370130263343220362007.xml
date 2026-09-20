@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1_0d025012143025205144235270245370130263343220362007" kind="namespace" language="C++">
+    <compoundname>themis::observability::@025012143025205144235270245370130263343220362007</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/distributed_flame_graph.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_schema_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::SchemaConflict</compoundname>
+    <includes refid="icdc__event__schema_8h" local="no">icdc_event_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_conflict_1a24cfff2146a4a8ee62fdc0a841be8eea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaConflict::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::cdc::SchemaConflict::field</qualifiedname>
+        <briefdescription>
+<para>Affected field name (empty = whole-schema conflict). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="72" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_conflict_1a5c06a0cde75db08872c2e7c31941cd72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaConflict::old_type</definition>
+        <argsstring></argsstring>
+        <name>old_type</name>
+        <qualifiedname>themis::cdc::SchemaConflict::old_type</qualifiedname>
+        <briefdescription>
+<para>Type in the old schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="73" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_conflict_1a864c5bb7120c6329647342a87ac20497" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaConflict::new_type</definition>
+        <argsstring></argsstring>
+        <name>new_type</name>
+        <qualifiedname>themis::cdc::SchemaConflict::new_type</qualifiedname>
+        <briefdescription>
+<para>Type in the new schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="74" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_conflict_1a5cad8458d666d69b6722947121ac5186" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaConflict::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::cdc::SchemaConflict::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable conflict description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="75" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_event_schema.h" line="71" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="71" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_schema_conflict_1a5cad8458d666d69b6722947121ac5186" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaConflict</scope><name>description</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_conflict_1a24cfff2146a4a8ee62fdc0a841be8eea" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaConflict</scope><name>field</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_conflict_1a864c5bb7120c6329647342a87ac20497" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaConflict</scope><name>new_type</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_conflict_1a5c06a0cde75db08872c2e7c31941cd72" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaConflict</scope><name>old_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

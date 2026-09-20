@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_cache_admin_ops" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::ICacheAdminOps</compoundname>
+    <derivedcompoundref refid="class_mock_cache_admin_ops" prot="public" virt="non-virtual">MockCacheAdminOps</derivedcompoundref>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_admin_ops_1a0a34ed6a522f9188c70181e467d3aeca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::ICacheAdminOps::~ICacheAdminOps</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICacheAdminOps</name>
+        <qualifiedname>themis::cache::ICacheAdminOps::~ICacheAdminOps</qualifiedname>
+        <briefdescription>
+<para>ICache Admin Ops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="94" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_admin_ops_1ace8ae021fda99a6e682cfa1836b28937" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICacheAdminOps::flush</definition>
+        <argsstring>()=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::cache::ICacheAdminOps::flush</qualifiedname>
+        <reimplementedby refid="class_mock_cache_admin_ops_1afa11dae125b4fc007bc839a25fd38671">flush</reimplementedby>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>virtual CacheStats themis::cache::ICacheAdminOps::stats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cache::ICacheAdminOps::stats</qualifiedname>
+        <reimplementedby refid="class_mock_cache_admin_ops_1a62eebd85a353c8063626422ef7697f79">stats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="101" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_admin_ops_1a8f41b3652fa1cfaf21a48a5418e254d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICacheAdminOps::resize</definition>
+        <argsstring>(size_t new_capacity)=0</argsstring>
+        <name>resize</name>
+        <qualifiedname>themis::cache::ICacheAdminOps::resize</qualifiedname>
+        <reimplementedby refid="class_mock_cache_admin_ops_1a9ab0b84af95820bd8e5a9969477bdf55">resize</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>new_capacity</declname>
+        </param>
+        <briefdescription>
+<para>Resize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="107" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_admin_ops_1a92c8f859d3fe8b9d888a8070e4e942e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::cache::ICacheAdminOps::listKeys</definition>
+        <argsstring>(const KeyFilter &amp;filter) const =0</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::cache::ICacheAdminOps::listKeys</qualifiedname>
+        <reimplementedby refid="class_mock_cache_admin_ops_1a4844d7a20a05f171a653dfc60ee81a71">listKeys</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_key_filter" kindref="compound">KeyFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="109" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockCacheAdminOps</label>
+        <link refid="class_mock_cache_admin_ops"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::ICacheAdminOps</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_admin_ops"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_interfaces.h" line="89" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="89" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1ace8ae021fda99a6e682cfa1836b28937" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheAdminOps</scope><name>flush</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a92c8f859d3fe8b9d888a8070e4e942e1" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheAdminOps</scope><name>listKeys</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a8f41b3652fa1cfaf21a48a5418e254d2" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheAdminOps</scope><name>resize</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheAdminOps</scope><name>stats</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a0a34ed6a522f9188c70181e467d3aeca" prot="public" virt="virtual"><scope>themis::cache::ICacheAdminOps</scope><name>~ICacheAdminOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

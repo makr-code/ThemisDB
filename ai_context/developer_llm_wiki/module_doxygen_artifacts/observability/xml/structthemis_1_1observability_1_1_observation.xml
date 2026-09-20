@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_observation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Observation</compoundname>
+    <includes refid="exporter__stress__framework_8h" local="no">exporter_stress_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1aef179948fd4d5e5a2931a704b5aa197d" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::Observation::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::observability::Observation::id</qualifiedname>
+        <briefdescription>
+<para>Unique observation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="108" column="19" bodyfile="include/observability/exporter_stress_framework.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1ac009d9f2e31e7c4c7b6d4e51f14ed907" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::Observation::created_ns</definition>
+        <argsstring></argsstring>
+        <name>created_ns</name>
+        <qualifiedname>themis::observability::Observation::created_ns</qualifiedname>
+        <briefdescription>
+<para>Timestamp when observation was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="111" column="18" bodyfile="include/observability/exporter_stress_framework.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1aeb7a92d529aa40e8331a3b8c105bdab9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Observation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::Observation::type</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Type: &quot;metric&quot; or &quot;span&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="114" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1a23714fbd50e64fe8881dae5938b18d6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Observation::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::Observation::name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name or span name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="117" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1a2c6c6cd9dd923dd50cba6221d5685107" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Observation::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::Observation::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> value (if type == &quot;metric&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="120" column="12" bodyfile="include/observability/exporter_stress_framework.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1af1f00e879058bcf3b07acf874f4ced87" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::Observation::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::Observation::labels</qualifiedname>
+        <briefdescription>
+<para>Labels/attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="123" column="14" bodyfile="include/observability/exporter_stress_framework.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1a788caf5459e83e969edeb1e5ce7e4e80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::Observation::exported</definition>
+        <argsstring></argsstring>
+        <name>exported</name>
+        <qualifiedname>themis::observability::Observation::exported</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether this observation was successfully exported. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="126" column="10" bodyfile="include/observability/exporter_stress_framework.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1a5da60af6a4950b506adaef431299c94c" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::Observation::exported_ns</definition>
+        <argsstring></argsstring>
+        <name>exported_ns</name>
+        <qualifiedname>themis::observability::Observation::exported_ns</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Timestamp when observation was exported (0 if not exported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="129" column="18" bodyfile="include/observability/exporter_stress_framework.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observation_1a4294dc638750a62d7289999f6a4f0eca" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::Observation::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::observability::Observation::latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Latency from creation to export in milliseconds (0 if not exported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="132" column="18" bodyfile="include/observability/exporter_stress_framework.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single metric or span observation during stress testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/exporter_stress_framework.h" line="106" column="1" bodyfile="include/observability/exporter_stress_framework.h" bodystart="106" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_observation_1ac009d9f2e31e7c4c7b6d4e51f14ed907" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>created_ns</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1a788caf5459e83e969edeb1e5ce7e4e80" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>exported</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1a5da60af6a4950b506adaef431299c94c" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>exported_ns</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1aef179948fd4d5e5a2931a704b5aa197d" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>id</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1af1f00e879058bcf3b07acf874f4ced87" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1a4294dc638750a62d7289999f6a4f0eca" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1a23714fbd50e64fe8881dae5938b18d6c" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1aeb7a92d529aa40e8331a3b8c105bdab9" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>type</name></member>
+      <member refid="structthemis_1_1observability_1_1_observation_1a2c6c6cd9dd923dd50cba6221d5685107" prot="public" virt="non-virtual"><scope>themis::observability::Observation</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

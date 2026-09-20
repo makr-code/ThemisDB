@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::test::wave7::ValidationResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1ace1c0e955c22dd86f8b0244b9c1ad991" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::test::wave7::ValidationResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::server::test::wave7::ValidationResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="74" column="10" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1a1a7dcfe0b8211cacf9b7a9de7f63881e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::test::wave7::ValidationResult::http_status</definition>
+        <argsstring></argsstring>
+        <name>http_status</name>
+        <qualifiedname>themis::server::test::wave7::ValidationResult::http_status</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="75" column="10" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1a08efa8bd8583dbd193206d4e9f9e0906" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::test::wave7::ValidationResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::server::test::wave7::ValidationResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="76" column="17" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="73" column="1" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="73" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1a1a7dcfe0b8211cacf9b7a9de7f63881e" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::ValidationResult</scope><name>http_status</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1ace1c0e955c22dd86f8b0244b9c1ad991" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::ValidationResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result_1a08efa8bd8583dbd193206d4e9f9e0906" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::ValidationResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

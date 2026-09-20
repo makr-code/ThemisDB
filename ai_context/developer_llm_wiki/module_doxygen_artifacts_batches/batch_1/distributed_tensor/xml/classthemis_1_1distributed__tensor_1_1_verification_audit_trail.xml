@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_verification_audit_trail" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::VerificationAuditTrail</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_verification_audit_trail_1aabd461b2086961f43339a1550ee1be19" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::VerificationAuditTrail::~VerificationAuditTrail</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VerificationAuditTrail</name>
+        <qualifiedname>themis::distributed_tensor::VerificationAuditTrail::~VerificationAuditTrail</qualifiedname>
+        <briefdescription>
+<para>Verification Audit Trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="227" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_verification_audit_trail_1ad4d1d4184ed2e2fc9838ce63e8c068f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::distributed_tensor::VerificationAuditTrail::recordVerificationEvent</definition>
+        <argsstring>(const std::string &amp;artifact_id, const VerificationResult &amp;result, const std::string &amp;timestamp)=0</argsstring>
+        <name>recordVerificationEvent</name>
+        <qualifiedname>themis::distributed_tensor::VerificationAuditTrail::recordVerificationEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Record Verification Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="235" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="221" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="221" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_verification_audit_trail_1ad4d1d4184ed2e2fc9838ce63e8c068f8" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::VerificationAuditTrail</scope><name>recordVerificationEvent</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_verification_audit_trail_1aabd461b2086961f43339a1550ee1be19" prot="public" virt="virtual"><scope>themis::distributed_tensor::VerificationAuditTrail</scope><name>~VerificationAuditTrail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

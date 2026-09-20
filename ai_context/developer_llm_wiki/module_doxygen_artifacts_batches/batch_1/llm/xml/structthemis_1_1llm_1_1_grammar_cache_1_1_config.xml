@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_grammar_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GrammarCache::Config</compoundname>
+    <includes refid="grammar__cache_8h" local="no">grammar_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1aab5251d2e5b9c37e22fb20a322d2f23c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GrammarCache::Config::max_cached_grammars</definition>
+        <argsstring></argsstring>
+        <name>max_cached_grammars</name>
+        <qualifiedname>themis::llm::GrammarCache::Config::max_cached_grammars</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grammar_cache.h" line="31" column="16" bodyfile="include/llm/grammar_cache.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1aa75010362344b9120d43a8d61d76a551" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GrammarCache::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::GrammarCache::Config::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grammar_cache.h" line="32" column="14" bodyfile="include/llm/grammar_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1a2fa276a7c9dfdd23c51c453943793b54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GrammarCache::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::llm::GrammarCache::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grammar_cache.h" line="34" column="9" bodyfile="include/llm/grammar_cache.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grammar_cache.h" line="30" column="5" bodyfile="include/llm/grammar_cache.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1a2fa276a7c9dfdd23c51c453943793b54" prot="public" virt="non-virtual"><scope>themis::llm::GrammarCache::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1aa75010362344b9120d43a8d61d76a551" prot="public" virt="non-virtual"><scope>themis::llm::GrammarCache::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_grammar_cache_1_1_config_1aab5251d2e5b9c37e22fb20a322d2f23c" prot="public" virt="non-virtual"><scope>themis::llm::GrammarCache::Config</scope><name>max_cached_grammars</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

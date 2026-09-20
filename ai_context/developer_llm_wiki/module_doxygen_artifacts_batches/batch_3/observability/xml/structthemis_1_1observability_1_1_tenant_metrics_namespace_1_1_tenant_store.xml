@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::TenantMetricsNamespace::TenantStore</compoundname>
+    <innerclass refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data" prot="public">themis::observability::TenantMetricsNamespace::TenantStore::HistogramData</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1abcf9c7813cda60838f83cd701d6105eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::TenantStore::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="193" column="21" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a092513b2630a3aea9b43ee81e8313017" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::observability::TenantMetricsNamespace::TenantStore::counters</definition>
+        <argsstring></argsstring>
+        <name>counters</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::counters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="196" column="18" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1ad164195eb2e6a1dc24e5e0532006a0ba" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::observability::TenantMetricsNamespace::TenantStore::gauges</definition>
+        <argsstring></argsstring>
+        <name>gauges</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::gauges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="199" column="18" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1aebbfb4ae179f9a68206df75420023a83" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data" kindref="compound">HistogramData</ref> &gt;</type>
+        <definition>std::map&lt;std::string, HistogramData&gt; themis::observability::TenantMetricsNamespace::TenantStore::histograms</definition>
+        <argsstring></argsstring>
+        <name>histograms</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::histograms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="206" column="18" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1af3ca2281528ce0b70e0f80b59c741bd0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::observability::TenantMetricsNamespace::TenantStore::series_count</definition>
+        <argsstring></argsstring>
+        <name>series_count</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::series_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="209" column="18" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a8519deee920557936e429fe3bf5ba2df" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::TenantMetricsNamespace::TenantStore::total_observations</definition>
+        <argsstring></argsstring>
+        <name>total_observations</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::total_observations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="212" column="21" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a2c99ed2add169a8fb8037478898d2517" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::TenantMetricsNamespace::TenantStore::dropped_observations</definition>
+        <argsstring></argsstring>
+        <name>dropped_observations</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::dropped_observations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="213" column="21" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a6595e852a6db202adb4809df66d6b6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::TenantMetricsNamespace::TenantStore::TenantStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>TenantStore</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::TenantStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="215" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a83297f17b21e425d59b853ed70cf71ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::TenantMetricsNamespace::TenantStore::TenantStore</definition>
+        <argsstring>(const TenantStore &amp;)=delete</argsstring>
+        <name>TenantStore</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::TenantStore</qualifiedname>
+        <param>
+          <type>const TenantStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="216" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1acd0f792a34a6ef2177ae1263f177925e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TenantStore &amp;</type>
+        <definition>TenantStore &amp; themis::observability::TenantMetricsNamespace::TenantStore::operator=</definition>
+        <argsstring>(const TenantStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::operator=</qualifiedname>
+        <param>
+          <type>const TenantStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="217" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tenant_metrics_namespace.h" line="192" column="5" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="192" bodyend="218"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a092513b2630a3aea9b43ee81e8313017" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>counters</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a2c99ed2add169a8fb8037478898d2517" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>dropped_observations</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1ad164195eb2e6a1dc24e5e0532006a0ba" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>gauges</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1aebbfb4ae179f9a68206df75420023a83" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>histograms</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1acd0f792a34a6ef2177ae1263f177925e" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1af3ca2281528ce0b70e0f80b59c741bd0" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>series_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1abcf9c7813cda60838f83cd701d6105eb" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a6595e852a6db202adb4809df66d6b6e0" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>TenantStore</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a83297f17b21e425d59b853ed70cf71ee" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>TenantStore</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1a8519deee920557936e429fe3bf5ba2df" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore</scope><name>total_observations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

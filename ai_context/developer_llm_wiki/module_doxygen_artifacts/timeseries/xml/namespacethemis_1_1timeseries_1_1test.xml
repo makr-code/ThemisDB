@@ -1,0 +1,962 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1timeseries_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::timeseries::test</compoundname>
+    <innerclass refid="structthemis_1_1timeseries_1_1test_1_1_time_point" prot="public">themis::timeseries::test::TimePoint</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1_1test_1a460e43e6b465aa3147ca9e00554841a9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::test::kTimeseriesContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kTimeseriesContractSeed</name>
+        <qualifiedname>themis::timeseries::test::kTimeseriesContractSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TSCH tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="60" column="27" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1timeseries_1_1test_1aa82a1f4d72c1fe1fc2d3279f5b17c128" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::test::kTehSeed</definition>
+        <argsstring></argsstring>
+        <name>kTehSeed</name>
+        <qualifiedname>themis::timeseries::test::kTehSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TEH tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="62" column="27" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1aedd6304ff3ada4f74ad4a15c9ae64bd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TimeseriesErrorCode &gt; themis::timeseries::test::mockWritePoint</definition>
+        <argsstring>(std::int64_t tail_ts, std::int64_t new_ts)</argsstring>
+        <name>mockWritePoint</name>
+        <qualifiedname>themis::timeseries::test::mockWritePoint</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>tail_ts</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>new_ts</declname>
+        </param>
+        <briefdescription>
+<para>Validates that the new point&apos;s timestamp is strictly greater than tail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="72" column="22" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a845871ebcbb5a2e1c933db51e4ba5e2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1test_1_1_time_point" kindref="compound">TimePoint</ref> &gt;</type>
+        <definition>static std::vector&lt; TimePoint &gt; themis::timeseries::test::mockRangeQuery</definition>
+        <argsstring>(const std::vector&lt; TimePoint &gt; &amp;series, std::int64_t start_ns, std::int64_t end_ns, bool series_exists=true)</argsstring>
+        <name>mockRangeQuery</name>
+        <qualifiedname>themis::timeseries::test::mockRangeQuery</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1test_1_1_time_point" kindref="compound">TimePoint</ref> &gt; &amp;</type>
+          <declname>series</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>start_ns</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>end_ns</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>series_exists</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Range query: returns all points in [start_ns, end_ns] inclusive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="84" column="20" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="84" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a01e5111fc8d2ac4eec55809f97974444" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TimeseriesErrorCode &gt; themis::timeseries::test::mockSeriesCheck</definition>
+        <argsstring>(bool exists)</argsstring>
+        <name>mockSeriesCheck</name>
+        <qualifiedname>themis::timeseries::test::mockSeriesCheck</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>exists</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="100" column="22" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a09ac636f56a784ee779b054fdf2bd683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>static std::uint64_t themis::timeseries::test::mockGorillaEncode</definition>
+        <argsstring>(double v)</argsstring>
+        <name>mockGorillaEncode</name>
+        <qualifiedname>themis::timeseries::test::mockGorillaEncode</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Gorilla encode: stores the raw IEEE 754 bits (lossless mock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="108" column="22" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1af786cb0221cb569124e5c365f988350e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::timeseries::test::mockGorillaDecode</definition>
+        <argsstring>(std::uint64_t bits)</argsstring>
+        <name>mockGorillaDecode</name>
+        <qualifiedname>themis::timeseries::test::mockGorillaDecode</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+<para>Gorilla decode: restores the raw IEEE 754 bits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="115" column="15" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1acacdbfa1848440efde96a92820a28a07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1timeseries_1a6d841c41a3509d1a1d2564cfcb3ff217" kindref="member">TimeseriesErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TimeseriesErrorCode &gt; themis::timeseries::test::mockDownsample</definition>
+        <argsstring>(const std::vector&lt; TimePoint &gt; &amp;input, std::int64_t resolution_ns, std::vector&lt; double &gt; &amp;out_buckets)</argsstring>
+        <name>mockDownsample</name>
+        <qualifiedname>themis::timeseries::test::mockDownsample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1test_1_1_time_point" kindref="compound">TimePoint</ref> &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>resolution_ns</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>out_buckets</declname>
+        </param>
+        <briefdescription>
+<para>Downsampling: groups points into buckets of resolution_ns width. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="122" column="22" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="122" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ada6dab2b2eebd7f5eecccff7fba5bc68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH01_MonotonicTimestampsAccepted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH01_MonotonicTimestampsAccepted</type>
+        </param>
+        <briefdescription>
+<para>TSCH-01: Monotonic timestamps are accepted without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="152" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ace64683c87398cc9b682cce0a039c8e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH02_OutOfOrderTimestampError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH02_OutOfOrderTimestampError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-02: Out-of-order timestamp raises TIMESTAMP_OUT_OF_ORDER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="162" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="162" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a86a6638b49797dd6c6ae3a7e0ad548d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH03_ZeroTimestampError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH03_ZeroTimestampError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-03: Zero (null) timestamp raises TIMESTAMP_OUT_OF_ORDER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="171" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="171" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ae6a0c675cc8d0937314b1670a82f371a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH04_DuplicateTimestampError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH04_DuplicateTimestampError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-04: Duplicate timestamp (== tail) raises TIMESTAMP_OUT_OF_ORDER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="178" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a7876e02447b9fc282826107991a9cbe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH05_InclusiveBoundsQuery)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH05_InclusiveBoundsQuery</type>
+        </param>
+        <briefdescription>
+<para>TSCH-05: Range query [start, end] returns all points with ts in range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="190" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="190" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1abe04bf5ca6bb8d0979610632330801b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH06_EmptyRangeIsNotError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH06_EmptyRangeIsNotError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-06: Empty range (no points in [start, end]) → empty result, no error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="202" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="202" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a9ab9536a62f4fc559a4b1e0a43d41175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH07_SeriesNotFoundError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH07_SeriesNotFoundError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-07: Non-existent series → SERIES_NOT_FOUND. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="209" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="209" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a241823532a3e17a902a751efee3f554b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH08_BoundaryPointsIncluded)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH08_BoundaryPointsIncluded</type>
+        </param>
+        <briefdescription>
+<para>TSCH-08: Points at exact start and end boundaries are included. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="217" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="217" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a5ed1992b413229ceff546ee1da289b8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH09_GorillaRoundTripArbitrary)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH09_GorillaRoundTripArbitrary</type>
+        </param>
+        <briefdescription>
+<para>TSCH-09: Gorilla round-trip preserves arbitrary IEEE 754 float64. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="232" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="232" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ac2e1790199a4e5ba3d547e58ee5e018a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH10_NanPreservedGorilla)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH10_NanPreservedGorilla</type>
+        </param>
+        <briefdescription>
+<para>TSCH-10: NaN is preserved through Gorilla encode/decode (bit-identical). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="250" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="250" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a0560ddf226048e4e829df69be0ee52fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH11_PosInfPreservedGorilla)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH11_PosInfPreservedGorilla</type>
+        </param>
+        <briefdescription>
+<para>TSCH-11: +Inf is preserved through Gorilla encode/decode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="263" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="263" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a8081dcf8955c6913cfe1f95d9c88792c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH12_NegInfPreservedGorilla)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH12_NegInfPreservedGorilla</type>
+        </param>
+        <briefdescription>
+<para>TSCH-12: -Inf is preserved through Gorilla encode/decode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="271" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="271" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a11094f1bf11654660c44531b2ab2cd35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH13_DownsamplingCountDeterministic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH13_DownsamplingCountDeterministic</type>
+        </param>
+        <briefdescription>
+<para>TSCH-13: Output bucket count is deterministic for given resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="283" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="283" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1af2f86f9518f6a0a2b4e4e9131df5db7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH14_EmptyInputEmptyOutput)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH14_EmptyInputEmptyOutput</type>
+        </param>
+        <briefdescription>
+<para>TSCH-14: Empty input → empty output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="298" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="298" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a82d32b672f6e8194f9a47885a53dd39d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH15_SinglePointPassthrough)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH15_SinglePointPassthrough</type>
+        </param>
+        <briefdescription>
+<para>TSCH-15: Single point passes through unchanged as single bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="307" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="307" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a2e644c69d90fd431ebf02db664812b22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesContractHardening, TSCH16_ZeroResolutionError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesContractHardening</type>
+        </param>
+        <param>
+          <type>TSCH16_ZeroResolutionError</type>
+        </param>
+        <briefdescription>
+<para>TSCH-16: Zero resolution → DOWNSAMPLING_RESOLUTION_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="317" column="1" bodyfile="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" bodystart="317" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a8ccd3ee014a37a32f328657782b3633d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH01_EmptyEndpointReturnsValidationError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH01_EmptyEndpointReturnsValidationError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-01: Empty endpoint URL returns REMOTE_WRITE_VALIDATION_ERROR. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="71" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a5ef50406e58b8ee9183cda1a55c0440e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH02_InvalidProtocolReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH02_InvalidProtocolReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-02: Non-http/https URL returns REMOTE_WRITE_VALIDATION_ERROR. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="82" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1af684dac32f62aa5dfcf455aa2c5a4aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH03_ValidHttpsEndpointReturnsSuccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH03_ValidHttpsEndpointReturnsSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-03: Valid https URL returns success (nullopt). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="92" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="92" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a22a0c5585d3c8d7898e8913c5c674359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH04_TooLongEndpointReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH04_TooLongEndpointReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-04: URL exceeding kMaxEndpointLength returns REMOTE_WRITE_VALIDATION_ERROR. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="103" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="103" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1afdbcdc3c202bafbaebdf27603a4f1d71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH05_TimeoutHandlerReturnsRetriesExhausted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH05_TimeoutHandlerReturnsRetriesExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-05: Timeout handler returns REMOTE_WRITE_RETRIES_EXHAUSTED. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="121" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a7e448bbc40c10fee8ddf141a3804f2de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH06_TimeoutCounterIncrementsPerCall)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH06_TimeoutCounterIncrementsPerCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-06: Each timeout call increments the timeout counter. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="131" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="131" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a5fcd46f09a327f51fe850de5c575c7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH07_IncidentCallbackInvokedOnTimeout)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH07_IncidentCallbackInvokedOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-07: <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> callback is invoked on remote-write timeout. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="142" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="142" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a6afa9785b72222b62b78090d0527fe8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH08_ControlCharInUrlReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH08_ControlCharInUrlReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-08: URL containing control characters returns REMOTE_WRITE_VALIDATION_ERROR. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="159" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="159" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a01ad3c86e1f1a29fa14d9a2ee7dcec5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH09_NullKeyReturnsEncryptionError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH09_NullKeyReturnsEncryptionError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-09: Null key pointer returns ENCRYPTION_STATE_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="174" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ae1d121d0a648f864961e3920ed7c8fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH10_ZeroLengthKeyReturnsEncryptionError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH10_ZeroLengthKeyReturnsEncryptionError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-10: Zero-length key returns ENCRYPTION_STATE_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="184" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a5153589a51110cbee3d4bb8a79ecd89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH11_InvalidKeyLengthReturnsEncryptionError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH11_InvalidKeyLengthReturnsEncryptionError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-11: Invalid key length (e.g. 20 bytes) returns ENCRYPTION_STATE_INVALID. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="195" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="195" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a250b280e15cc6567af928a7bcd5e0545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH12_ValidKeyLengthsReturnSuccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH12_ValidKeyLengthsReturnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-12: Valid AES key lengths (16/24/32) return success (nullopt). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="206" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="206" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a35d3ac9f928de6a3f5b413eac678a5f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH13_RotationWithInvalidKeyReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH13_RotationWithInvalidKeyReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-13: Rotation with invalid new key returns ENCRYPTION_KEY_NOT_FOUND. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="224" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a6a6363901c692a524210aed7e1fa5a97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH14_RotationWithValidKeySucceeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH14_RotationWithValidKeySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-14: Rotation with valid 32-byte key returns success and increments counter. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="236" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a1e4bc95f7475464b713e8bcf060e633e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH15_IncidentCallbackInvokedOnValidRotation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH15_IncidentCallbackInvokedOnValidRotation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-15: <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> callback is invoked on successful key rotation. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="247" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="247" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1ad1339fef5ebddc13d6dc895fa6faa84f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH16_MultipleRotationsIncrementCounter)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH16_MultipleRotationsIncrementCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-16: Multiple successful rotations increment counter correctly. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="265" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="265" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1af42a32cb19f1ef7e7443d2eb10019aa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH17_BufferBelowCapacityNoFlushRequired)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH17_BufferBelowCapacityNoFlushRequired</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-17: Buffer below kMaxOutOfOrderBuffer does not require flush. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="281" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="281" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a801d582cdb2bb6c71ab11cc63c95d8dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH18_BufferAtCapacityRequiresFlush)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH18_BufferAtCapacityRequiresFlush</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-18: Buffer at kMaxOutOfOrderBuffer triggers flush requirement. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="290" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a7467035b714133fbdf5fae996f59dcd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH19_OperatorDiagnosticsRecordsIncidentCorrectly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH19_OperatorDiagnosticsRecordsIncidentCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-19: <ref refid="classthemis_1_1timeseries_1_1_ts_operator_diagnostics" kindref="compound">TsOperatorDiagnostics</ref> records incident with correct severity. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="299" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="299" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1test_1a471e8b6df2ab5ad966fd36aefd324bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::test::TEST</definition>
+        <argsstring>(TimeseriesQ4Hardening, TEH20_FormatSummaryIncludesIncidentDetails)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::timeseries::test::TEST</qualifiedname>
+        <param>
+          <type>TimeseriesQ4Hardening</type>
+        </param>
+        <param>
+          <type>TEH20_FormatSummaryIncludesIncidentDetails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>TEH-20: formatSummary includes incident ID and severity. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" line="316" column="1" bodyfile="tests/timeseries/test_timeseries_q4_hardening_focused.cpp" bodystart="316" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_contract_hardening_focused.cpp" line="57" column="1"/>
+  </compounddef>
+</doxygen>

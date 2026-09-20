@@ -1,0 +1,439 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_a_p_i_version_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::APIVersionManager</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a81d03fa345eed15b7a3f0a1002003294" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::current_version_</definition>
+        <argsstring></argsstring>
+        <name>current_version_</name>
+        <qualifiedname>themis::server::APIVersionManager::current_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="154" column="16" bodyfile="include/server/api_version.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a4ee257b992d992a1ca502e7939aa25d5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::minimum_version_</definition>
+        <argsstring></argsstring>
+        <name>minimum_version_</name>
+        <qualifiedname>themis::server::APIVersionManager::minimum_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="155" column="16" bodyfile="include/server/api_version.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a53306da1131a80077af876eee970bc7a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &gt;</type>
+        <definition>std::vector&lt;APIVersion&gt; themis::server::APIVersionManager::supported_versions_</definition>
+        <argsstring></argsstring>
+        <name>supported_versions_</name>
+        <qualifiedname>themis::server::APIVersionManager::supported_versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="156" column="17" bodyfile="include/server/api_version.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a4951968ec9f91225ebe9132224531ce7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, APIDeprecationInfo&gt; themis::server::APIVersionManager::deprecations_</definition>
+        <argsstring></argsstring>
+        <name>deprecations_</name>
+        <qualifiedname>themis::server::APIVersionManager::deprecations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="159" column="24" bodyfile="include/server/api_version.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1aa1bdebb473f6105277902d6c006a772c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_breaking_change_info" kindref="compound">BreakingChangeInfo</ref> &gt;</type>
+        <definition>std::vector&lt;BreakingChangeInfo&gt; themis::server::APIVersionManager::breaking_changes_</definition>
+        <argsstring></argsstring>
+        <name>breaking_changes_</name>
+        <qualifiedname>themis::server::APIVersionManager::breaking_changes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="162" column="17" bodyfile="include/server/api_version.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_a_p_i_version_manager_1ac524c0a671814c5d0da6481a989b06f4" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::APIVersionManager::DEPRECATION_PERIOD_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>DEPRECATION_PERIOD_SECONDS</name>
+        <qualifiedname>themis::server::APIVersionManager::DEPRECATION_PERIOD_SECONDS</qualifiedname>
+        <initializer>= 730 * 24 * 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="166" column="30" bodyfile="include/server/api_version.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1aabd42801744b8f0a8128ba4595717ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::APIVersionManager::APIVersionManager</definition>
+        <argsstring>()</argsstring>
+        <name>APIVersionManager</name>
+        <qualifiedname>themis::server::APIVersionManager::APIVersionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="87" column="5" bodyfile="src/server/api_version.cpp" bodystart="104" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a2154edd90aef20cc2a636a1b90d407e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::getCurrentVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentVersion</name>
+        <qualifiedname>themis::server::APIVersionManager::getCurrentVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="89" column="16" bodyfile="include/server/api_version.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1af77dce2d4591bda450d0a56e7c62aac1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::getMinimumVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinimumVersion</name>
+        <qualifiedname>themis::server::APIVersionManager::getMinimumVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="91" column="16" bodyfile="include/server/api_version.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a7ddf9e7583fdbfbdb15b490384cf5468" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::APIVersionManager::isVersionSupported</definition>
+        <argsstring>(const APIVersion &amp;version) const</argsstring>
+        <name>isVersionSupported</name>
+        <qualifiedname>themis::server::APIVersionManager::isVersionSupported</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Is Version Supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="98" column="10" bodyfile="src/server/api_version.cpp" bodystart="131" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a18c6f3360d228f247b1c1eaccb63461f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::resolveVersion</definition>
+        <argsstring>(const std::string &amp;version_header) const</argsstring>
+        <name>resolveVersion</name>
+        <qualifiedname>themis::server::APIVersionManager::resolveVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_header</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="105" column="16" bodyfile="src/server/api_version.cpp" bodystart="142" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a50cd94ea50a3569267c5b816858a9479" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref> &gt;</type>
+        <definition>std::optional&lt; APIDeprecationInfo &gt; themis::server::APIVersionManager::getDeprecationInfo</definition>
+        <argsstring>(const std::string &amp;endpoint, const APIVersion &amp;version) const</argsstring>
+        <name>getDeprecationInfo</name>
+        <qualifiedname>themis::server::APIVersionManager::getDeprecationInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Deprecation Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="113" column="19" bodyfile="src/server/api_version.cpp" bodystart="218" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a4c96e0ffdb7ff49f4bb604b2cd435d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIVersionManager::registerDeprecation</definition>
+        <argsstring>(const std::string &amp;endpoint, const APIDeprecationInfo &amp;info)</argsstring>
+        <name>registerDeprecation</name>
+        <qualifiedname>themis::server::APIVersionManager::registerDeprecation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Deprecation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), <ref refid="namespacethemis_1_1server_1a81b53524f4242636d6907155603fc249" kindref="member">toString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="123" column="10" bodyfile="src/server/api_version.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1af3677756ea8a2d985d57d5ad7c47e3df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &gt;</type>
+        <definition>std::vector&lt; APIVersion &gt; themis::server::APIVersionManager::getSupportedVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>getSupportedVersions</name>
+        <qualifiedname>themis::server::APIVersionManager::getSupportedVersions</qualifiedname>
+        <briefdescription>
+<para>Get Supported Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="132" column="17" bodyfile="src/server/api_version.cpp" bodystart="252" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1aa268db57b40ac6c6291d849b4baebae5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref></type>
+        <definition>APIVersion themis::server::APIVersionManager::resolveVersionRange</definition>
+        <argsstring>(const APIVersionRange &amp;range) const</argsstring>
+        <name>resolveVersionRange</name>
+        <qualifiedname>themis::server::APIVersionManager::resolveVersionRange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version_range" kindref="compound">APIVersionRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Version Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="139" column="16" bodyfile="src/server/api_version.cpp" bodystart="307" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1ac0b47c06a77ddc33c57a1c403dc9dc82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_breaking_change_info" kindref="compound">BreakingChangeInfo</ref> &gt;</type>
+        <definition>std::optional&lt; BreakingChangeInfo &gt; themis::server::APIVersionManager::isBreakingChange</definition>
+        <argsstring>(const APIVersion &amp;from, const APIVersion &amp;to, const std::string &amp;endpoint=&quot;&quot;) const</argsstring>
+        <name>isBreakingChange</name>
+        <qualifiedname>themis::server::APIVersionManager::isBreakingChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref> &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="141" column="19" bodyfile="src/server/api_version.cpp" bodystart="343" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_a_p_i_version_manager_1a3fd53ce86eda16da80021e419792913f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::APIVersionManager::registerBreakingChange</definition>
+        <argsstring>(const BreakingChangeInfo &amp;info)</argsstring>
+        <name>registerBreakingChange</name>
+        <qualifiedname>themis::server::APIVersionManager::registerBreakingChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_breaking_change_info" kindref="compound">BreakingChangeInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Breaking Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), spdlog::info(), <ref refid="namespacethemis_1_1server_1a81b53524f4242636d6907155603fc249" kindref="member">toString()</ref>, empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="151" column="10" bodyfile="src/server/api_version.cpp" bodystart="336" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="85" column="1" bodyfile="include/server/api_version.h" bodystart="85" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aabd42801744b8f0a8128ba4595717ed5" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>APIVersionManager</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aa1bdebb473f6105277902d6c006a772c" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>breaking_changes_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a81d03fa345eed15b7a3f0a1002003294" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>current_version_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1ac524c0a671814c5d0da6481a989b06f4" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>DEPRECATION_PERIOD_SECONDS</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a4951968ec9f91225ebe9132224531ce7" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>deprecations_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a2154edd90aef20cc2a636a1b90d407e1" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a50cd94ea50a3569267c5b816858a9479" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>getDeprecationInfo</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1af77dce2d4591bda450d0a56e7c62aac1" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>getMinimumVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1af3677756ea8a2d985d57d5ad7c47e3df" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>getSupportedVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1ac0b47c06a77ddc33c57a1c403dc9dc82" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>isBreakingChange</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a7ddf9e7583fdbfbdb15b490384cf5468" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>isVersionSupported</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a4ee257b992d992a1ca502e7939aa25d5" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>minimum_version_</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a3fd53ce86eda16da80021e419792913f" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>registerBreakingChange</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a4c96e0ffdb7ff49f4bb604b2cd435d1b" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>registerDeprecation</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a18c6f3360d228f247b1c1eaccb63461f" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>resolveVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aa268db57b40ac6c6291d849b4baebae5" prot="public" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>resolveVersionRange</name></member>
+      <member refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a53306da1131a80077af876eee970bc7a" prot="private" virt="non-virtual"><scope>themis::server::APIVersionManager</scope><name>supported_versions_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

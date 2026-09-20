@@ -1,0 +1,1099 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1sharding_1_1fi__test" kind="namespace" language="C++">
+    <compoundname>themisdb::sharding::fi_test</compoundname>
+    <innerclass refid="structthemisdb_1_1sharding_1_1fi__test_1_1_wal_entry" prot="public">themisdb::sharding::fi_test::WalEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" prot="public">themisdb::sharding::fi_test::SimWAL</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_coordinator_w_a_l" prot="public">themisdb::sharding::fi_test::SimCoordinatorWAL</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" prot="public">themisdb::sharding::fi_test::SimParticipant</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_guard" prot="public">themisdb::sharding::fi_test::NetworkPartitionGuard</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c" prot="public">themisdb::sharding::fi_test::Coordinator2PC</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c" prot="public">themisdb::sharding::fi_test::Coordinator3PC</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine" prot="public">themisdb::sharding::fi_test::MultiTxnRecoveryEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step" prot="public">themisdb::sharding::fi_test::SAGAStep</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result" prot="public">themisdb::sharding::fi_test::SAGAResult</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_coordinator" prot="public">themisdb::sharding::fi_test::SAGACoordinator</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_calvin_coordinator" prot="public">themisdb::sharding::fi_test::CalvinCoordinator</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry" prot="public">themisdb::sharding::fi_test::PercolatorLockRegistry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base" prot="public">themisdb::sharding::fi_test::FIBase</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" prot="public">themisdb::sharding::fi_test::NetworkPartitionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" prot="public">themisdb::sharding::fi_test::CoordinatorFailureTest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" prot="public">themisdb::sharding::fi_test::CascadeMultiFailureTest</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SimParticipantState</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimParticipantState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2a6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2ade9bc61e8eb601346b91c684ca96d16f" prot="public">
+          <name>PRECOMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a2a0f0a8fcd1b8458ce0cc8ec1d3f8ff2a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="183" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Coord2PCState</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coord2PCState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5afaee4ca3c30ee18148ce3ada37466498" prot="public">
+          <name>INIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5abd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5a001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5a0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="419" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="419" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Coord3PCState</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coord3PCState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950bafaee4ca3c30ee18148ce3ada37466498" prot="public">
+          <name>INIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba437c88dea0209d4704537a9314eb8a86" prot="public">
+          <name>WAITING_PREPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba1a815d61dc539f219b2d8aa173341d36" prot="public">
+          <name>WAITING_PRECOMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950ba4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="580" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="580" bodyend="582"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1sharding_1_1fi__test_1a2f3d1b8d5a455544dacdd3225380d943" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::fi_test::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themisdb::sharding::fi_test::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed used for all deterministic randomness in P6-03 tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="46" column="20" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a9f5aea7dfe20444281844dec19893dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI01_SingleParticipantPartitionedPhase1Aborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI01_SingleParticipantPartitionedPhase1Aborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>FI-01 Single participant partitioned during Phase-1 → coordinator aborts.</para>
+</xrefdescription></xrefsect></para>
+<para>Partition is established before Phase-1 begins. The partitioned participant cannot vote, so the coordinator receives a prepare failure and issues ABORT. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1032" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1032" bodyend="1046"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1af35955a4648af009882088072bbe109a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI02_AllParticipantsPartitionedPhase1Aborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI02_AllParticipantsPartitionedPhase1Aborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>FI-02 All participants partitioned during Phase-1 → coordinator aborts (no votes). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1052" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1052" bodyend="1066"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ab0b72d20af980d6ca536cea224d155b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI03_PartitionAfterPreparedCommitRedriven)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI03_PartitionAfterPreparedCommitRedriven</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>FI-03 Single participant partitioned after PREPARED (Phase-2 delivery fails) → re-drive delivers COMMIT once partition heals. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1073" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1073" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1aa355a1c0bdf5e3d3c45870943a22b279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI04_MajorityPartitionedAbortDecision)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI04_MajorityPartitionedAbortDecision</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>FI-04 Majority partitioned → abort decision; minority-only txn does not commit. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1107" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1107" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ab08d6633b4a1548a21314ec7a4bc68c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI05_PartitionHealsCommitRedeliveredIdempotently)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI05_PartitionHealsCommitRedeliveredIdempotently</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>FI-05 Partition heals → pending COMMIT re-delivered idempotently. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1131" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1131" bodyend="1149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a3a810496558a96307b52e8517a362be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI06_PartitionDuring3PCPrecommitAbortsFailClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI06_PartitionDuring3PCPrecommitAbortsFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>FI-06 Network partition during 3PC PreCommit phase → fail-closed abort. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1155" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1155" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a49d32b41929f83be2209a0019d418040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI07_TransientPartitionHealsBeforeProtocol)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI07_TransientPartitionHealsBeforeProtocol</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>FI-07 Transient partition (appears + heals within same txn) → COMMIT succeeds.</para>
+</xrefdescription></xrefsect></para>
+<para>Partition is applied and healed before the coordinator sends any messages. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1179" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1179" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a382c3716b0a6ef901c5a91c27a276dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI08_CascadingPartitionMidPrepare)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI08_CascadingPartitionMidPrepare</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>FI-08 Cascading partition – participants fail one-by-one mid-prepare.</para>
+</xrefdescription></xrefsect></para>
+<para>Participants 0 and 1 succeed Phase-1; participant 2 is partitioned → abort. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1200" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1200" bodyend="1213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a2d959bcde8691079c5b4eec1b1927ecd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI09_SplitBrainOnlyOneDecision)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI09_SplitBrainOnlyOneDecision</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>FI-09 Split-brain: two coordinator instances process the same txn_id → only one unique decision is stored in the WAL.</para>
+</xrefdescription></xrefsect></para>
+<para>Both coordinators share the same WAL. The second coordinator detects an existing COMMIT and does not append a second COMMIT/ABORT. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1223" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1223" bodyend="1247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a4a0edbf751ebf4fc6a2ac241b9c8ad48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI10_PartitionDuringSAGACompensationRedelivered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI10_PartitionDuringSAGACompensationRedelivered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>FI-10 Partition during SAGA compensation step → compensate re-delivered. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1253" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1253" bodyend="1282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a3786ba1c2fe67f29d199492e12568d39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI11_CoordinatorIsolatedTimesOutAndAborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI11_CoordinatorIsolatedTimesOutAndAborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>FI-11 Coordinator isolated from all participants → times out + aborts. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1288" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1288" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a1070a1c630034327a08b53d03a32446b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI12_ParticipantIsolatedPostPreparedCoordinatorAbortsOnTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI12_ParticipantIsolatedPostPreparedCoordinatorAbortsOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>FI-12 Participant isolated post-PREPARED; coordinator waits, then aborts on timeout. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1310" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1310" bodyend="1334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a5ff3b35746133546fc0f6fea15cf2532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI13_PercolatorPrimaryLockWriteFailsPartition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI13_PercolatorPrimaryLockWriteFailsPartition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>FI-13 Percolator primary-lock write fails due to partition → txn aborts cleanly. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1340" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1340" bodyend="1358"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ae8528514de4c656d2261ae55dc744a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI14_ConcurrentPartitionedTxnsNoStateCrossContamination)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI14_ConcurrentPartitionedTxnsNoStateCrossContamination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>FI-14 Multiple concurrent partitioned txns – state isolation (no cross-contamination). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1364" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1364" bodyend="1388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ad7b49e43193e8c8ffcdb424c1c061606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(NetworkPartitionTest, FI15_RecoveryAfterPartitionHealsWALReplayDrivesInDoubt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref></type>
+        </param>
+        <param>
+          <type>FI15_RecoveryAfterPartitionHealsWALReplayDrivesInDoubt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>FI-15 Recovery after partition heals: WAL replay re-drives all in-doubt txns. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1394" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1394" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ad7d960bbcf20b8eb8b5af7eb3b1799f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI16_CrashAfterPrepareSentRecoveryDeliversCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI16_CrashAfterPrepareSentRecoveryDeliversCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>FI-16 Coordinator crash after PREPARE-sent, before COMMIT decision → participants in-doubt; recovery delivers COMMIT. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1434" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1434" bodyend="1453"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a36d74c59ac2473a0c550c74cf623b0fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI17_CrashAfterAbortLoggedRecoveryRedeliversAbort)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI17_CrashAfterAbortLoggedRecoveryRedeliversAbort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>FI-17 Coordinator crash after ABORT decision logged but before delivery → recovery re-delivers ABORT. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1460" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1460" bodyend="1480"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a0058f059d654ca6e190881aefebdc5fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI18_CoordinatorRestartCleanWALBeginsFresh)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI18_CoordinatorRestartCleanWALBeginsFresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>FI-18 Coordinator restart with clean WAL → begins fresh; prior in-doubt txns recovered.</para>
+</xrefdescription></xrefsect></para>
+<para>Demonstrates that the new coordinator correctly identifies zero in-doubt txns when the WAL contains only a fully completed transaction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1489" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1489" bodyend="1502"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ab477c047d366329749dc3e0c1e31ade2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI19_NewCoordinatorTakesOverDrivesInDoubtToCompletion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI19_NewCoordinatorTakesOverDrivesInDoubtToCompletion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>FI-19 New coordinator takes over → reads WAL, drives in-doubt txn to completion. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1508" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1508" bodyend="1527"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1aaf27598c53be14aa7053d15c71763d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI20_CoordinatorFailsEachTxnIndependentlyRecoverable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI20_CoordinatorFailsEachTxnIndependentlyRecoverable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>FI-20 Coordinator fails on every txn → each independently recoverable. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1533" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1533" bodyend="1554"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a695b31b5ab29388d7d15cb487d1cc245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI21_CrashMid3PCAfterPrecommitRecoveryCommits)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI21_CrashMid3PCAfterPrecommitRecoveryCommits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>FI-21 Coordinator crash mid-3PC (after PreCommit sent, before Commit) → recovery re-drives COMMIT. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1561" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1561" bodyend="1580"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a33d000d9871dde9541b200dbbeeaa47b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI22_WALPersistsDecisionBeforeCrashExactlyOnceDelivery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI22_WALPersistsDecisionBeforeCrashExactlyOnceDelivery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>FI-22 WAL persists decision before coordinator crash → exactly-once delivery after recovery. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1586" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1586" bodyend="1613"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1af590d4a130ce6a73146fd9f08a60363f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI23_CoordinatorCrashDuringSAGACompensatingActionsRedriven)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI23_CoordinatorCrashDuringSAGACompensatingActionsRedriven</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>FI-23 Coordinator crash during SAGA execution → compensating actions re-driven from WAL. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1619" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1619" bodyend="1637"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a0ee498e40b3704c7e48e60db4e07efc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI24_MultipleCoordinatorRestartsIdempotentRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI24_MultipleCoordinatorRestartsIdempotentRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>FI-24 Multiple coordinator restarts on same in-doubt txn → idempotent recovery (same result each time). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1643" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1643" bodyend="1677"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a11f083d11aee1fc091f8e545b7ae1e26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CoordinatorFailureTest, FI25_ConcurrentTxnsCoordinatorCrashOneOthersComplete)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI25_ConcurrentTxnsCoordinatorCrashOneOthersComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>FI-25 Concurrent txns; coordinator crashes during one; others complete normally. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1683" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1683" bodyend="1718"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a24d7c68cc453ddde1bf8aed06ba6254e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI26_TwoParticipantsFailSimultaneouslyCoordinatorAborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI26_TwoParticipantsFailSimultaneouslyCoordinatorAborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>FI-26 Two participants fail simultaneously during Phase-1 → coordinator aborts immediately. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1730" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1730" bodyend="1744"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a2ce6a6c7fcc71bd1fa580f9fa0dc357b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI27_CascadeParticipantAFailsAbortPropagatedViaWAL)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI27_CascadeParticipantAFailsAbortPropagatedViaWAL</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>FI-27 Cascade: Participant A fails → coordinator aborts → WAL records ABORT → Participant B receives ABORT via WAL replay. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1751" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1751" bodyend="1763"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a0aa2fb58a50d800e22fae404097797d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI28_ThreeWayCascadeAtomicAbort)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI28_ThreeWayCascadeAtomicAbort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>FI-28 Three-way cascade: P1 votes yes, P2 partitioned, P3 timeout → atomic abort across all. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1770" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1770" bodyend="1786"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ad9c0c1599d841121eaa380ce0e21c275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI29_OverlappingRecoveryTwoInDoubtConcurrent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI29_OverlappingRecoveryTwoInDoubtConcurrent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>FI-29 Overlapping recovery: two in-doubt txns recovered simultaneously (concurrently). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1792" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1792" bodyend="1808"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1aca575fd7555295f9fd6087ed4d58e7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI30_StaleLockCleanupOrphanLocksReleasedAfterTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI30_StaleLockCleanupOrphanLocksReleasedAfterTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>FI-30 Stale lock cleanup: orphan locks held by crashed coordinator released after timeout. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1814" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1814" bodyend="1830"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1abe51905fee1c30ee845c66df7a2ac176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI31_FiveShardTxnTwoFailuresDeterministicAbort)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI31_FiveShardTxnTwoFailuresDeterministicAbort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>FI-31 5-shard txn with 2 failures: deterministic abort regardless of failure order. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1836" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1836" bodyend="1856"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a3e21f50a68182309abb70a757941c04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI32_SAGAMultiStepStep3FailsCompensateReverseOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI32_SAGAMultiStepStep3FailsCompensateReverseOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>FI-32 SAGA multi-step: step 3 fails → compensate steps 2 and 1 in reverse order. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1862" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1862" bodyend="1889"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a78abfead0973979211934caa62812a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI33_WALGapTxnTreatedAsInDoubtRecoveredViaProbe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI33_WALGapTxnTreatedAsInDoubtRecoveredViaProbe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>FI-33 Cascade with WAL gap: one WAL write fails → txn treated as in-doubt, recovers via participant probe.</para>
+</xrefdescription></xrefsect></para>
+<para>Simulated by not writing PREPARE to the WAL for one txn; the recovery engine cannot find it in-doubt so the txn is treated as lost/never-started. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1899" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1899" bodyend="1923"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ac80522d2909e3a7459c32003c4739a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI34_LockOrderingDeadlockFreeViaTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI34_LockOrderingDeadlockFreeViaTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>FI-34 Lock ordering: concurrent txns contending on same resources; deadlock-free via timeout.</para>
+</xrefdescription></xrefsect></para>
+<para>Two transactions each try to acquire two locks in the same order (consistent global ordering prevents deadlock). With consistent ordering only one succeeds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1933" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1933" bodyend="1951"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a1c2d06765742fba4efc40935084b3372" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI35_CalvinDeterministicOrderingSecondAfterFirst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI35_CalvinDeterministicOrderingSecondAfterFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>FI-35 Calvin deterministic ordering: second txn runs only after first commits. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1957" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1957" bodyend="1985"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1af1bc81db760ad8c2f9f7b0a662ba352a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI36_PercolatorPrimaryLockHolderFailsNewTxnTakesOver)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI36_PercolatorPrimaryLockHolderFailsNewTxnTakesOver</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000036"><xreftitle>Test</xreftitle><xrefdescription><para>FI-36 Percolator: primary-lock holder fails → new txn takes over via cleanup + re-lock. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1991" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1991" bodyend="2003"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1ac138dc02297a283c01795b078c3ecb86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI37_ReplicationLagStaleReadUntilCatchUp)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI37_ReplicationLagStaleReadUntilCatchUp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000037"><xreftitle>Test</xreftitle><xrefdescription><para>FI-37 Replication lag simulation: participant commits but replica lags → read sees stale data until catch-up. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="2010" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="2010" bodyend="2033"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1aa328030072657ff94078df191ba69351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI38_ThunderingHerdRecovery10InDoubtConcurrent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI38_ThunderingHerdRecovery10InDoubtConcurrent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000038"><xreftitle>Test</xreftitle><xrefdescription><para>FI-38 Thundering herd recovery: 10 in-doubt txns all recovered concurrently. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="2039" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="2039" bodyend="2062"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1a449c09861d4d8593fbdd8a0351dfcc94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI39_DurabilityProofWALSnapshotSurvivesRestart)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI39_DurabilityProofWALSnapshotSurvivesRestart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000039"><xreftitle>Test</xreftitle><xrefdescription><para>FI-39 Durability proof: decision logged to WAL survives &quot;restart&quot; (WAL snapshot re-applied). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="2069" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="2069" bodyend="2090"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1fi__test_1aa28d6b2e942fdba4aff74e94db413e8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::TEST_F</definition>
+        <argsstring>(CascadeMultiFailureTest, FI40_EndToEndFaultStressNoTxnBothCommittedAndAborted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::fi_test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref></type>
+        </param>
+        <param>
+          <type>FI40_EndToEndFaultStressNoTxnBothCommittedAndAborted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000040"><xreftitle>Test</xreftitle><xrefdescription><para>FI-40 End-to-end fault stress: random fault injection over 20 txns; verify no txn is both committed and aborted (consistency invariant). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="2097" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="2097" bodyend="2140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="39" column="35"/>
+  </compounddef>
+</doxygen>

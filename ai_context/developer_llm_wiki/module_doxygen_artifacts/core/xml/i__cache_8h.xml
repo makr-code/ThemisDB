@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__cache_8h" kind="file" language="C++">
+    <compoundname>i_cache.h</compoundname>
+    <includes refid="lifecycle_8h" local="yes">core/concerns/lifecycle.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="concerns__context_8h" local="yes">include/core/concerns/concerns_context.h</includedby>
+    <includedby refid="i__async__cache_8h" local="yes">include/core/concerns/i_async_cache.h</includedby>
+    <includedby refid="inmemory__cache__impl_8h" local="yes">include/core/concerns/inmemory_cache_impl.h</includedby>
+    <includedby refid="noop__implementations_8h" local="yes">include/core/concerns/noop_implementations.h</includedby>
+    <includedby refid="redis__cache_8h" local="yes">include/core/concerns/redis_cache.h</includedby>
+    <includedby refid="strategic__cache__impl_8h" local="yes">include/core/concerns/strategic_cache_impl.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/i_cache.h</label>
+        <link refid="i__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/core/concerns/concerns_context.h</label>
+        <link refid="concerns__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/core/concerns/i_async_cache.h</label>
+        <link refid="i__async__cache_8h"/>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/i_cache.h</label>
+        <link refid="i__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/core/concerns/inmemory_cache_impl.h</label>
+        <link refid="inmemory__cache__impl_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/core/concerns/noop_implementations.h</label>
+        <link refid="noop__implementations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/core/concerns/redis_cache.h</label>
+        <link refid="redis__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/core/concerns/strategic_cache_impl.h</label>
+        <link refid="strategic__cache__impl_8h"/>
+      </node>
+      <node id="3">
+        <label>src/core/concerns/concerns_context.cpp</label>
+        <link refid="concerns__context_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/core/concerns/redis_cache.cpp</label>
+        <link refid="redis__cache_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/core/test_circuit_breaker_focused.cpp</label>
+        <link refid="test__circuit__breaker__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/core/test_concerns_context_focused.cpp</label>
+        <link refid="test__concerns__context__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/core/test_core_smoke.cpp</label>
+        <link refid="test__core__smoke_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" prot="public">themis::core::concerns::CacheEntry</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public">themis::core::concerns::ICache</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 89/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lifecycle_8h" kindref="compound">core/concerns/lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_metrics" kindref="compound">CacheMetrics</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ab7ac537c7924028b28c3b478f69a538f" kindref="member">CacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a188cab93e5158f444b57c715bd5c687d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a188cab93e5158f444b57c715bd5c687d" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialized<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ac2fd97298a63a707b369ccf4d48a8217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ac2fd97298a63a707b369ccf4d48a8217" kindref="member">version</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>number<sp/>for<sp/>cache<sp/>invalidation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1aee6dedd5ffc9c8e32b513127bc7ba3be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1aee6dedd5ffc9c8e32b513127bc7ba3be" kindref="member">timestamp_ms</ref>{0};<sp/></highlight><highlight class="comment">//<sp/>Creation/update<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ab7ac537c7924028b28c3b478f69a538f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ab7ac537c7924028b28c3b478f69a538f" kindref="member">CacheEntry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a54a45321ed4178bebd4c879e239b13dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a54a45321ed4178bebd4c879e239b13dc" kindref="member">CacheEntry</ref>(std::string<sp/>data,<sp/>uint64_t<sp/>ver<sp/>=<sp/>0,<sp/>uint64_t<sp/>ts<sp/>=<sp/>0)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a188cab93e5158f444b57c715bd5c687d" kindref="member">payload</ref>(std::move(data)),<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ac2fd97298a63a707b369ccf4d48a8217" kindref="member">version</ref>(ver),<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1aee6dedd5ffc9c8e32b513127bc7ba3be" kindref="member">timestamp_ms</ref>(ts)<sp/>{}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1core_1_1concerns_1_1_i_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache" kindref="compound">ICache</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" kindref="member">~ICache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>cache<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;CacheEntry&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3" kindref="member">get</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae" kindref="member">put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref>&amp;<sp/>entry,<sp/>uint64_t<sp/>ttl_ms<sp/>=<sp/>0)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d" kindref="member">invalidate</ref>(std::string_view<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810" kindref="member">clear</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda" kindref="member">invalidatePattern</ref>(std::string_view<sp/>pattern)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755" kindref="member">hitCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f" kindref="member">missCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7" kindref="member">hitRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63" kindref="member">setMaxSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>maxSize)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94" kindref="member">setDefaultTTL</ref>(uint64_t<sp/>ttl_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>extension<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref>*<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0" kindref="member">getEvictionStrategy</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref>*<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60" kindref="member">getEvictionStrategy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_metrics" kindref="compound">CacheMetrics</ref>*<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c" kindref="member">flush</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274" kindref="member">shutdown</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/i_cache.h"/>
+  </compounddef>
+</doxygen>

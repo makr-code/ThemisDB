@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1_0d114163345337004346325204361071112275316027133020" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::@114163345337004346325204361071112275316027133020</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/break_even_validator.cc" line="23" column="1"/>
+  </compounddef>
+</doxygen>

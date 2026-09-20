@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__chaos__callback__determinism_8cpp" kind="file" language="C++">
+    <compoundname>test_chaos_callback_determinism.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="chaos__framework_8h" local="yes">chaos/chaos_framework.h</includes>
+    <includes refid="chaos__contract_8h" local="yes">chaos/chaos_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>chaos/chaos_contract.h</label>
+        <link refid="chaos__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chaos/chaos_framework.h</label>
+        <link refid="chaos__framework_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/chaos/test_chaos_callback_determinism.cpp</label>
+        <link refid="test__chaos__callback__determinism_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD01_RecoverCallbackFires)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD01_RecoverCallbackFires</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-01 — The event callback is called with injected=false for every successful recoverFault() call. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="53" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="53" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1aab516baa8b4138dd07d6df58fbef2cce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD02_DuplicateInjectLWWSemanticsFiresCallbackAgain)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD02_DuplicateInjectLWWSemanticsFiresCallbackAgain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-02 — injectFault() on an already-active (node, type) pair uses last-writer-wins (LWW) semantics: it updates the existing entry, returns true, and fires the callback a second time.</para>
+</xrefdescription></xrefsect></para>
+<para>This matches the implementation contract: re-injection extends/refreshes the active fault rather than being silently rejected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="85" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="85" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a935db32af8c5c9f4b62a2e4e4162ea27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD03_EmptyNodeIdRejectedNoCallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD03_EmptyNodeIdRejectedNoCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-03 — injectFault() with an empty node_id returns false without touching the registry or firing any callback.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 1 — <ref refid="namespacethemis_1_1chaos_1a167e717f931a3129ff7fee077f61355d" kindref="member">kMinNodeIdBytes</ref> = 1 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="116" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a62818fbb19a1877f72bf7f215c0cea74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD04_InvalidProbabilityRejectedNoCallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD04_InvalidProbabilityRejectedNoCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-04 — injectFault() with probability outside [0.0, 1.0] returns false and does not fire any callback.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 1 — <ref refid="namespacethemis_1_1chaos_1a71932bd4a5ba29b5a7bca6356d1c1a8a" kindref="member">kMinProbability</ref> / <ref refid="namespacethemis_1_1chaos_1a394984f19b508835d9a725b660482530" kindref="member">kMaxProbability</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="140" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="140" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a2d1cf9a4e7b094e8629ae043e7b93d33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD05_ClearAllFaultsNoCallbacks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD05_ClearAllFaultsNoCallbacks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-05 — clearAllFaults() removes all faults from the registry without invoking any event callbacks.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 5 — callbacks are invoked only on inject/recover </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="171" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="171" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a5040bc4d99a55d8e8654029cf7173170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD06_ScheduleInZeroDelayFires)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD06_ScheduleInZeroDelayFires</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-06 — scheduleIn() with a zero-or-minimal delay fires the fault through the injector within one tick window after start().</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 6 — scheduler state contract </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="202" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="202" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1afba46755ad5dfceece3d5dc45f2d7b67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD07_ClearPendingThenLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD07_ClearPendingThenLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-07 — clearPending() reduces pendingCount() to zero, and the scheduler can be started and stopped cleanly afterwards.</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 6 — clearPending() is safe from any state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="234" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="234" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__callback__determinism_8cpp_1a1e7771c2d19d7ad299046f8ddbbcb924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosCallbackDeterminismTest, CCD08_MultipleSchedulesSameNodeFireSequentially)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosCallbackDeterminismTest</type>
+        </param>
+        <param>
+          <type>CCD08_MultipleSchedulesSameNodeFireSequentially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>CCD-08 — Scheduling multiple faults for the same node with staggered delays fires them sequentially; the injector ends with the last fault active (earlier ones are overwritten if same node+type, or co-exist if different types).</para>
+</xrefdescription></xrefsect></para>
+<para><simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">chaos_contract.h</ref> § 6 — pending entries fire in temporal order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_callback_determinism.cpp" line="267" column="1" bodyfile="tests/chaos/test_chaos_callback_determinism.cpp" bodystart="267" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 deterministic behavior tests for chaos callback and pending-queue edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers eight test cases mapped to chaos roadmap Phase 4 hardening:</para>
+<para><heading level="3">CCD — Callback and Contract Determinism</heading>
+</para>
+<para>CCD-01 Recover callback fires for every successful recoverFault() CCD-02 Inject on already-active (node, type) applies LWW update (returns true, callback fires again) CCD-03 Inject with empty node_id returns false; callback is NOT fired CCD-04 Inject with out-of-range probability returns false; callback is NOT fired CCD-05 clearAllFaults() does NOT fire any callbacks CCD-06 scheduleIn() with delay=0 fires the fault through the injector within tick window CCD-07 Pending queue drains to zero after clearPending(); subsequent start/stop is clean CCD-08 Multiple schedule() entries for the same node fire sequentially without racing</para>
+<para><simplesect kind="see"><para>src/chaos/ROADMAP.md — Phase 4 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="chaos__contract_8h" kindref="compound">include/chaos/chaos_contract.h</ref> — § 4 fail-closed, § 5 callback semantics, § 6 scheduler state </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="chaos__framework_8h" kindref="compound">chaos/chaos_framework.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="chaos__contract_8h" kindref="compound">chaos/chaos_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos" kindref="compound">themis::chaos</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>makeSpec(std::string_view<sp/>node,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bf" kindref="member">FaultType</ref><sp/>type<sp/>=<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>dur<sp/>=<sp/>0ms)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{type,<sp/>std::string(node),<sp/>dur};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-01:<sp/>Recover<sp/>callback<sp/>fires<sp/>for<sp/>every<sp/>successful<sp/>recoverFault()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD01_RecoverCallbackFires)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;ccd01&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>recover_calls{0};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;recover_calls](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!injected)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recover_calls.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeSpec(</highlight><highlight class="stringliteral">&quot;ccd01-n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeSpec(</highlight><highlight class="stringliteral">&quot;ccd01-n2&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;ccd01-n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;ccd01-n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>successful<sp/>recover<sp/>must<sp/>have<sp/>fired<sp/>the<sp/>callback<sp/>once.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recover_calls.load(),<sp/>2);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-02:<sp/>Duplicate<sp/>inject<sp/>uses<sp/>LWW<sp/>semantics<sp/>—<sp/>updates<sp/>entry,<sp/>fires<sp/>callback<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD02_DuplicateInjectLWWSemanticsFiresCallbackAgain)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;ccd02&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cb_count{0};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;cb_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(injected)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>spec<sp/>=<sp/>makeSpec(</highlight><highlight class="stringliteral">&quot;ccd02-n1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(spec));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>inject<sp/>—<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(spec));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate<sp/>—<sp/>LWW<sp/>update,<sp/>also<sp/>returns<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>2);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>callback<sp/>fires<sp/>again<sp/>for<sp/>the<sp/>re-injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Still<sp/>only<sp/>one<sp/>active<sp/>entry<sp/>for<sp/>this<sp/>(node,<sp/>type)<sp/>pair.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-03:<sp/>Empty<sp/>node_id<sp/>returns<sp/>false;<sp/>no<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD03_EmptyNodeIdRejectedNoCallback)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;ccd03&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cb_count{0};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;cb_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*injected*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>bad{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(bad));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-04:<sp/>Out-of-range<sp/>probability<sp/>returns<sp/>false;<sp/>no<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD04_InvalidProbabilityRejectedNoCallback)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;ccd04&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cb_count{0};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;cb_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*injected*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probability<sp/>&gt;<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>over{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" kindref="member">FaultType::RANDOM_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ccd04-n1&quot;</highlight><highlight class="normal">,<sp/>0ms,<sp/>1.5};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(over));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probability<sp/>&lt;<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>under{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" kindref="member">FaultType::RANDOM_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ccd04-n2&quot;</highlight><highlight class="normal">,<sp/>0ms,<sp/>-0.1};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(under));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-05:<sp/>clearAllFaults()<sp/>does<sp/>NOT<sp/>fire<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD05_ClearAllFaultsNoCallbacks)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;ccd05&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cb_count{0};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>a<sp/>few<sp/>faults<sp/>(each<sp/>fires<sp/>the<sp/>callback<sp/>once).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeSpec(</highlight><highlight class="stringliteral">&quot;ccd05-n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeSpec(</highlight><highlight class="stringliteral">&quot;ccd05-n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(makeSpec(</highlight><highlight class="stringliteral">&quot;ccd05-n3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>callback<sp/>AFTER<sp/>the<sp/>three<sp/>injects<sp/>so<sp/>baseline<sp/>is<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;cb_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*injected*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>clearAllFaults()<sp/>must<sp/>NOT<sp/>have<sp/>fired<sp/>the<sp/>callback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-06:<sp/>scheduleIn(delay=0)<sp/>fires<sp/>through<sp/>injector<sp/>within<sp/>tick<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD06_ScheduleInZeroDelayFires)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>injector<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;(</highlight><highlight class="stringliteral">&quot;ccd06-fi&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{injector,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref>{</highlight><highlight class="comment">/*.tick_interval=*/</highlight><highlight class="normal">5ms,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*.wake_strategy=*/</highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901dae228a20504c75ccc411fe4d69bbf6653" kindref="member">WakeStrategy::CONDVAR</ref>}};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(injector-&gt;isFaultActive(</highlight><highlight class="stringliteral">&quot;ccd06-n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(0ms,<sp/>makeSpec(</highlight><highlight class="stringliteral">&quot;ccd06-n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>up<sp/>to<sp/>several<sp/>ticks<sp/>for<sp/>the<sp/>fault<sp/>to<sp/>appear.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>200ms;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!injector-&gt;isFaultActive(</highlight><highlight class="stringliteral">&quot;ccd06-n1&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>&lt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(5ms);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(injector-&gt;isFaultActive(</highlight><highlight class="stringliteral">&quot;ccd06-n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-07:<sp/>clearPending()<sp/>drains<sp/>queue;<sp/>subsequent<sp/>start/stop<sp/>is<sp/>clean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD07_ClearPendingThenLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>injector<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;(</highlight><highlight class="stringliteral">&quot;ccd07-fi&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{injector,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref>{</highlight><highlight class="comment">/*.tick_interval=*/</highlight><highlight class="normal">10ms}};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schedule<sp/>entries<sp/>while<sp/>stopped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>16;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(10&apos;000ms,<sp/>makeSpec(</highlight><highlight class="stringliteral">&quot;ccd07-n&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a4950a82d3f47d589ac34ca710d98df8e" kindref="member">pendingCount</ref>(),<sp/>16u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a2d66db68e751966d4b9dc7476619da91" kindref="member">clearPending</ref>();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a4950a82d3f47d589ac34ca710d98df8e" kindref="member">pendingCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>and<sp/>stop<sp/>with<sp/>an<sp/>empty<sp/>queue<sp/>must<sp/>be<sp/>clean<sp/>(no<sp/>crash).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CCD-08:<sp/>Multiple<sp/>schedule<sp/>entries<sp/>for<sp/>same<sp/>node<sp/>fire<sp/>sequentially</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__chaos__callback__determinism_8cpp_1a18bb7de1ea32a0c466c47dfdecc07e49" kindref="member">TEST</ref>(ChaosCallbackDeterminismTest,<sp/>CCD08_MultipleSchedulesSameNodeFireSequentially)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>injector<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;(</highlight><highlight class="stringliteral">&quot;ccd08-fi&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>inject_cb_count{0};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>injector-&gt;registerEventCallback([&amp;inject_cb_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;<sp/></highlight><highlight class="comment">/*spec*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(injected)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inject_cb_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{injector,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_chaos_scheduler_config" kindref="compound">ChaosSchedulerConfig</ref>{</highlight><highlight class="comment">/*.tick_interval=*/</highlight><highlight class="normal">5ms,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*.wake_strategy=*/</highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901dae228a20504c75ccc411fe4d69bbf6653" kindref="member">WakeStrategy::CONDVAR</ref>}};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schedule<sp/>two<sp/>different<sp/>fault<sp/>types<sp/>on<sp/>the<sp/>same<sp/>node<sp/>with<sp/>staggered<sp/>delays.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(10ms,<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ccd08-n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(30ms,<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ccd08-n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>long<sp/>enough<sp/>for<sp/>both<sp/>to<sp/>fire.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>300ms;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(inject_cb_count.load()<sp/>&lt;<sp/>2<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>&lt;<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(5ms);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>faults<sp/>must<sp/>have<sp/>fired<sp/>(callback<sp/>invoked<sp/>twice).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(inject_cb_count.load(),<sp/>2);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>fault<sp/>types<sp/>must<sp/>be<sp/>active<sp/>(different<sp/>keys).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(injector-&gt;isFaultActive(</highlight><highlight class="stringliteral">&quot;ccd08-n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(injector-&gt;isFaultActive(</highlight><highlight class="stringliteral">&quot;ccd08-n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/chaos/test_chaos_callback_determinism.cpp"/>
+  </compounddef>
+</doxygen>

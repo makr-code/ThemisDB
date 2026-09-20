@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_l_d_a_p_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::LDAPConfig</compoundname>
+    <includes refid="ldap__authenticator_8h" local="no">ldap_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" prot="public">themis::auth::LDAPConfig::GroupMapping</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1ac70e85c1db42450556fb37f807514ec8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::server_url</definition>
+        <argsstring></argsstring>
+        <name>server_url</name>
+        <qualifiedname>themis::auth::LDAPConfig::server_url</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;ldap://dc.example.com:389&quot; or &quot;ldaps://...&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="41" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1aa067b836dee079c188f24001adb9a0fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::server_uri</definition>
+        <argsstring></argsstring>
+        <name>server_uri</name>
+        <qualifiedname>themis::auth::LDAPConfig::server_uri</qualifiedname>
+        <briefdescription>
+<para>Backward-compatible alias for older tests and configs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="42" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1af0d958074f5f28d732fe0a1646955abe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::auth::LDAPConfig::port</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a329110f05f80a9b53dac7a1d9d7361a5" kindref="member">DEFAULT_LDAP_PORT</ref>}</initializer>
+        <briefdescription>
+<para>Override port (0 = derive from URL scheme). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="43" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a276d9a7ad5f322e0c9c3546384546c1a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPConfig::use_tls</definition>
+        <argsstring></argsstring>
+        <name>use_tls</name>
+        <qualifiedname>themis::auth::LDAPConfig::use_tls</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Upgrade plain connection with StartTLS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="44" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a2b58804dd4f54925e3e308e42438d446" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::connection_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout_seconds</name>
+        <qualifiedname>themis::auth::LDAPConfig::connection_timeout_seconds</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" kindref="member">DEFAULT_LDAP_TIMEOUT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="45" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a6a14a0d55ac42b3124c40212d8c6632d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::search_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>search_timeout_seconds</name>
+        <qualifiedname>themis::auth::LDAPConfig::search_timeout_seconds</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" kindref="member">DEFAULT_LDAP_TIMEOUT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="46" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a5771f9b92751b79e4521ba75325bada8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::bind_dn_template</definition>
+        <argsstring></argsstring>
+        <name>bind_dn_template</name>
+        <qualifiedname>themis::auth::LDAPConfig::bind_dn_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="49" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a72cf5973b255f8323c8d0b7eb264b8f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::bind_dn</definition>
+        <argsstring></argsstring>
+        <name>bind_dn</name>
+        <qualifiedname>themis::auth::LDAPConfig::bind_dn</qualifiedname>
+        <briefdescription>
+<para>Backward-compatible alias for legacy tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="50" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a5bc4b3d7bdee07256fe0dba6bb7318c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::bind_password</definition>
+        <argsstring></argsstring>
+        <name>bind_password</name>
+        <qualifiedname>themis::auth::LDAPConfig::bind_password</qualifiedname>
+        <briefdescription>
+<para>Legacy compatibility field; not stored on the live config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="51" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1add81f92ba8db37b3ead36c58baa7bb0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPConfig::enable_group_search</definition>
+        <argsstring></argsstring>
+        <name>enable_group_search</name>
+        <qualifiedname>themis::auth::LDAPConfig::enable_group_search</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="54" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a39872cec61f19504500c32c5578e959a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::base_dn</definition>
+        <argsstring></argsstring>
+        <name>base_dn</name>
+        <qualifiedname>themis::auth::LDAPConfig::base_dn</qualifiedname>
+        <briefdescription>
+<para>Search base, e.g., &quot;DC=example,DC=com&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="55" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1ccf85e1e1f4f2a46591fcab559dc8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::user_search_filter</definition>
+        <argsstring></argsstring>
+        <name>user_search_filter</name>
+        <qualifiedname>themis::auth::LDAPConfig::user_search_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="56" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a3a064d252b0a89e53eabe918da021031" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::group_search_base</definition>
+        <argsstring></argsstring>
+        <name>group_search_base</name>
+        <qualifiedname>themis::auth::LDAPConfig::group_search_base</qualifiedname>
+        <briefdescription>
+<para>Optional separate base for group queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="57" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1ac344fc13084fcceff9189afc0aaf6a13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::group_search_filter</definition>
+        <argsstring></argsstring>
+        <name>group_search_filter</name>
+        <qualifiedname>themis::auth::LDAPConfig::group_search_filter</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;(&amp;(objectClass=group)(member={dn}))&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="58" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1ae9464d255841156fc52bb6d9483a8611" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::group_attribute</definition>
+        <argsstring></argsstring>
+        <name>group_attribute</name>
+        <qualifiedname>themis::auth::LDAPConfig::group_attribute</qualifiedname>
+        <initializer>{&quot;cn&quot;}</initializer>
+        <briefdescription>
+<para>Attribute name for group name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="59" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1aad2b48227b7df31eda2740545e5ec69c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" kindref="compound">GroupMapping</ref> &gt;</type>
+        <definition>std::vector&lt;GroupMapping&gt; themis::auth::LDAPConfig::group_mappings</definition>
+        <argsstring></argsstring>
+        <name>group_mappings</name>
+        <qualifiedname>themis::auth::LDAPConfig::group_mappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="66" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a8bae8bc7dd883b11d3b05d3d06aadea2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::default_role</definition>
+        <argsstring></argsstring>
+        <name>default_role</name>
+        <qualifiedname>themis::auth::LDAPConfig::default_role</qualifiedname>
+        <initializer>{&quot;readonly&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="69" column="17" bodyfile="include/auth/ldap_authenticator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1f8d332b15f1641c6f6b6b0254a614b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPConfig::pool_enabled</definition>
+        <argsstring></argsstring>
+        <name>pool_enabled</name>
+        <qualifiedname>themis::auth::LDAPConfig::pool_enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="75" column="10" bodyfile="include/auth/ldap_authenticator.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a5e2b27497e94a2138891d2ee73ce0a5c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::pool_min_idle</definition>
+        <argsstring></argsstring>
+        <name>pool_min_idle</name>
+        <qualifiedname>themis::auth::LDAPConfig::pool_min_idle</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="77" column="9" bodyfile="include/auth/ldap_authenticator.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1aca697e2103de23a6505608fdd1a4e273" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::pool_max_size</definition>
+        <argsstring></argsstring>
+        <name>pool_max_size</name>
+        <qualifiedname>themis::auth::LDAPConfig::pool_max_size</qualifiedname>
+        <initializer>{16}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="79" column="9" bodyfile="include/auth/ldap_authenticator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1a1fa8813e9e5bafe1168ee05eb396c186" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPConfig::pool_checkout_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>pool_checkout_timeout_ms</name>
+        <qualifiedname>themis::auth::LDAPConfig::pool_checkout_timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="81" column="9" bodyfile="include/auth/ldap_authenticator.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_authenticator.h" line="39" column="1" bodyfile="include/auth/ldap_authenticator.h" bodystart="39" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a39872cec61f19504500c32c5578e959a" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>base_dn</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a72cf5973b255f8323c8d0b7eb264b8f9" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>bind_dn</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5771f9b92751b79e4521ba75325bada8" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>bind_dn_template</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5bc4b3d7bdee07256fe0dba6bb7318c7" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>bind_password</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a2b58804dd4f54925e3e308e42438d446" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>connection_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a8bae8bc7dd883b11d3b05d3d06aadea2" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>default_role</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1add81f92ba8db37b3ead36c58baa7bb0d" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>enable_group_search</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ae9464d255841156fc52bb6d9483a8611" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>group_attribute</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aad2b48227b7df31eda2740545e5ec69c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>group_mappings</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a3a064d252b0a89e53eabe918da021031" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>group_search_base</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac344fc13084fcceff9189afc0aaf6a13" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>group_search_filter</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a1fa8813e9e5bafe1168ee05eb396c186" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>pool_checkout_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1f8d332b15f1641c6f6b6b0254a614b" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>pool_enabled</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aca697e2103de23a6505608fdd1a4e273" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>pool_max_size</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5e2b27497e94a2138891d2ee73ce0a5c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>pool_min_idle</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1af0d958074f5f28d732fe0a1646955abe" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a6a14a0d55ac42b3124c40212d8c6632d" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>search_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa067b836dee079c188f24001adb9a0fd" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>server_uri</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac70e85c1db42450556fb37f807514ec8" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>server_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a276d9a7ad5f322e0c9c3546384546c1a" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>use_tls</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1ccf85e1e1f4f2a46591fcab559dc8f" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig</scope><name>user_search_filter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

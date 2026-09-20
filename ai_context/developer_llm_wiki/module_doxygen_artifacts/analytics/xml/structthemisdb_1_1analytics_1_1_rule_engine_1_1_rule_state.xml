@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::analytics::RuleEngine::RuleState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a923b417f7cc0898491f8b2f6a2a40750" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref></type>
+        <definition>RuleConfig themisdb::analytics::RuleEngine::RuleState::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleState::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="930" column="20" bodyfile="include/analytics/cep_engine.h" bodystart="930" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a5bf38809890fc5c21d4fac761f9d7bfb" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_pattern_matcher" kindref="compound">PatternMatcher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PatternMatcher&gt; themisdb::analytics::RuleEngine::RuleState::pattern_matcher</definition>
+        <argsstring></argsstring>
+        <name>pattern_matcher</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleState::pattern_matcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="931" column="25" bodyfile="include/analytics/cep_engine.h" bodystart="931" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1ab4ec9c1f4fedd6c0a79ec835ec912630" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_window_manager" kindref="compound">WindowManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WindowManager&gt; themisdb::analytics::RuleEngine::RuleState::window_manager</definition>
+        <argsstring></argsstring>
+        <name>window_manager</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleState::window_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="932" column="25" bodyfile="include/analytics/cep_engine.h" bodystart="932" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1af3e75b80fead69bedb196879565678f3" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_aggregator" kindref="compound">Aggregator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Aggregator&gt; themisdb::analytics::RuleEngine::RuleState::aggregator</definition>
+        <argsstring></argsstring>
+        <name>aggregator</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleState::aggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="933" column="25" bodyfile="include/analytics/cep_engine.h" bodystart="933" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a2f3c180b3f85516c7bbdc7b64be5a165" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats" kindref="compound">RuleStats</ref></type>
+        <definition>RuleStats themisdb::analytics::RuleEngine::RuleState::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::analytics::RuleEngine::RuleState::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="934" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="934" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::RuleConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_rule_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::RuleEngine::RuleState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::RuleEngine::RuleStats</label>
+        <link refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/cep_engine.h" line="929" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="929" bodyend="935"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1af3e75b80fead69bedb196879565678f3" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleState</scope><name>aggregator</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a923b417f7cc0898491f8b2f6a2a40750" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleState</scope><name>config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a5bf38809890fc5c21d4fac761f9d7bfb" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleState</scope><name>pattern_matcher</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1a2f3c180b3f85516c7bbdc7b64be5a165" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleState</scope><name>stats</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_rule_engine_1_1_rule_state_1ab4ec9c1f4fedd6c0a79ec835ec912630" prot="public" virt="non-virtual"><scope>themisdb::analytics::RuleEngine::RuleState</scope><name>window_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

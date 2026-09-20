@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="oci__manifest__signing_8h" kind="file" language="C++">
+    <compoundname>oci_manifest_signing.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/oci_manifest_signing.h</label>
+        <link refid="oci__manifest__signing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1_oci_image_ref" prot="public">themis::plugins::OciImageRef</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_cosign_verify_config" prot="public">themis::plugins::CosignVerifyConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_cosign_verify_report" prot="public">themis::plugins::CosignVerifyReport</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier" prot="public">themis::plugins::IOciManifestVerifier</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Signed<sp/>OCI<sp/>manifests<sp/>with<sp/>Sigstore/Cosign<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1plugins_1_1_oci_image_ref" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_oci_image_ref" kindref="compound">OciImageRef</ref><sp/>{</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab65601593563303224cbf4e7c07ec89a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab65601593563303224cbf4e7c07ec89a" kindref="member">registry</ref>;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1plugins_1_1_oci_image_ref_1a799d05d2000e68d048926f4e11abb661" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref_1a799d05d2000e68d048926f4e11abb661" kindref="member">repository</ref>;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1plugins_1_1_oci_image_ref_1a677049ddb5e1a7047ff6efb42a3faa8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref_1a677049ddb5e1a7047ff6efb42a3faa8a" kindref="member">tag</ref>;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab8140b24db03a6f670a25490302eddd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab8140b24db03a6f670a25490302eddd1" kindref="member">digest</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1plugins_1_1_oci_image_ref_1a26a6c755f72537deb1d9bd1ddd5d1721" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref_1a26a6c755f72537deb1d9bd1ddd5d1721" kindref="member">fullRef</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1plugins_1_1_cosign_verify_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config" kindref="compound">CosignVerifyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1plugins_1_1_cosign_verify_config_1aa44138b5edced4be34ee09729fc708a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config_1aa44138b5edced4be34ee09729fc708a3" kindref="member">certificate_identity</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1plugins_1_1_cosign_verify_config_1ad28c9e59037e97033d0d4c15bbda27e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config_1ad28c9e59037e97033d0d4c15bbda27e2" kindref="member">certificate_oidc_issuer</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1plugins_1_1_cosign_verify_config_1a63b23c0755b9963212034f06c05f7ebc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config_1a63b23c0755b9963212034f06c05f7ebc" kindref="member">require_rekor_bundle</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1plugins_1_1_cosign_verify_config_1a9dc8ceffaa75504744b8a9d06645bf3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config_1a9dc8ceffaa75504744b8a9d06645bf3f" kindref="member">rekor_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://rekor.sigstore.dev&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1plugins_1_1_cosign_verify_config_1aa2092658b30dc92c8de26d39ecf54813" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config_1aa2092658b30dc92c8de26d39ecf54813" kindref="member">cosign_public_key_path</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0" kindref="member">SignatureVerifyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a888160e15a46b8dad2f046398139f7c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0ac9f1a6384b1c466d4612f513bd8e13ea" kindref="member">VALID</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0ad0eb6b378baae0b4b64c2933674e61fc" kindref="member">INVALID_SIGNATURE</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a3fd2a994bc75e60bb92f59b0d4c0c405" kindref="member">NO_SIGNATURE</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a888160e15a46b8dad2f046398139f7c4" kindref="member">CERT_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0aac2240ac9695d7d703c3e823391e4b5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a35a8a8287736d2bf785703ccb28f68f3" kindref="member">REKOR_NOT_FOUND</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0aac2240ac9695d7d703c3e823391e4b5a" kindref="member">IDENTITY_MISMATCH</ref>,<sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0a169cb04bda558347b02294770e4b9e0c" kindref="member">POLICY_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1plugins_1_1_cosign_verify_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report" kindref="compound">CosignVerifyReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a2acdfef64fd52723c2e6c48eb4226c15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a2d134ea28ffdadec6076d156bdd761d0" kindref="member">SignatureVerifyResult</ref><sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a2acdfef64fd52723c2e6c48eb4226c15" kindref="member">result</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1ae7307e05e71608ddf032b8793771fe20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1ae7307e05e71608ddf032b8793771fe20" kindref="member">signer_identity</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a52ba19bd1d10809f168892278906cc99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a52ba19bd1d10809f168892278906cc99" kindref="member">signing_time</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a4f27ae60443aa833c94299f60d25e71e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a4f27ae60443aa833c94299f60d25e71e" kindref="member">rekor_log_index</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a7147bcbcf1d700c58dfb10d2b46139f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1a7147bcbcf1d700c58dfb10d2b46139f0" kindref="member">transparency_log_entry</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1plugins_1_1_cosign_verify_report_1ad988c520d272e4374427528c6cb2c74f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report_1ad988c520d272e4374427528c6cb2c74f" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier" kindref="compound">IOciManifestVerifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a7bd851481d8738647c94d4b8b59f5e9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a7bd851481d8738647c94d4b8b59f5e9c" kindref="member">~IOciManifestVerifier</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ab20e65b74b746f38a8c673a9cc530674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_report" kindref="compound">CosignVerifyReport</ref><sp/><ref refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ab20e65b74b746f38a8c673a9cc530674" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_oci_image_ref" kindref="compound">OciImageRef</ref>&amp;<sp/>ref,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_cosign_verify_config" kindref="compound">CosignVerifyConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a0769e817269be534b1e563761a296a92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1a0769e817269be534b1e563761a296a92" kindref="member">requireSignedPlugins</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ad1b62a795deeabaff566ad639c8b909d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_oci_manifest_verifier_1ad1b62a795deeabaff566ad639c8b909d" kindref="member">setEnforceSignatures</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enforce)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::plugins</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/oci_manifest_signing.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_goal_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::GoalResult</compoundname>
+    <includes refid="expert__system__engine_8h" local="no">expert_system_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_goal_result_1a1f9a9731968b5f39373b092cc7f0996f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::GoalResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::analytics::GoalResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="60" column="29" bodyfile="include/analytics/expert_system_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_goal_result_1a311d57a245475e96b0b761b2b2a524df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_proof_step" kindref="compound">ProofStep</ref> &gt;</type>
+        <definition>std::vector&lt;ProofStep&gt; themisdb::analytics::GoalResult::proof_trace</definition>
+        <argsstring></argsstring>
+        <name>proof_trace</name>
+        <qualifiedname>themisdb::analytics::GoalResult::proof_trace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="61" column="18" bodyfile="include/analytics/expert_system_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_goal_result_1a1fed81d9fd99513c91779a3b7a9f3eb1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::GoalResult::depth_used</definition>
+        <argsstring></argsstring>
+        <name>depth_used</name>
+        <qualifiedname>themisdb::analytics::GoalResult::depth_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="62" column="29" bodyfile="include/analytics/expert_system_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/expert_system_engine.h" line="59" column="1" bodyfile="include/analytics/expert_system_engine.h" bodystart="59" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_goal_result_1a1fed81d9fd99513c91779a3b7a9f3eb1" prot="public" virt="non-virtual"><scope>themisdb::analytics::GoalResult</scope><name>depth_used</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_goal_result_1a311d57a245475e96b0b761b2b2a524df" prot="public" virt="non-virtual"><scope>themisdb::analytics::GoalResult</scope><name>proof_trace</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_goal_result_1a1f9a9731968b5f39373b092cc7f0996f" prot="public" virt="non-virtual"><scope>themisdb::analytics::GoalResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

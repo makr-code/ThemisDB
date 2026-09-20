@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMResponse::FraudAnalysis::Flags</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a1c49dc2c0fe3b32352ba940b72fd93ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FraudAnalysis::Flags::duplicate</definition>
+        <argsstring></argsstring>
+        <name>duplicate</name>
+        <qualifiedname>themis::LLMResponse::FraudAnalysis::Flags::duplicate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="149" column="18" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a1c603a30adbb00a85bf6abdd92028a96" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FraudAnalysis::Flags::unusual_amount</definition>
+        <argsstring></argsstring>
+        <name>unusual_amount</name>
+        <qualifiedname>themis::LLMResponse::FraudAnalysis::Flags::unusual_amount</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="150" column="18" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a34b91e3a5aeccffc82dc0646638ff0d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FraudAnalysis::Flags::vendor_not_verified</definition>
+        <argsstring></argsstring>
+        <name>vendor_not_verified</name>
+        <qualifiedname>themis::LLMResponse::FraudAnalysis::Flags::vendor_not_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="151" column="18" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1abdf85678a0ed61c0a27ec3c090ce50db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::FraudAnalysis::Flags::missing_documentation</definition>
+        <argsstring></argsstring>
+        <name>missing_documentation</name>
+        <qualifiedname>themis::LLMResponse::FraudAnalysis::Flags::missing_documentation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="152" column="18" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="148" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="148" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a1c49dc2c0fe3b32352ba940b72fd93ee" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FraudAnalysis::Flags</scope><name>duplicate</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1abdf85678a0ed61c0a27ec3c090ce50db" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FraudAnalysis::Flags</scope><name>missing_documentation</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a1c603a30adbb00a85bf6abdd92028a96" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FraudAnalysis::Flags</scope><name>unusual_amount</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis_1_1_flags_1a34b91e3a5aeccffc82dc0646638ff0d2" prot="public" virt="non-virtual"><scope>themis::LLMResponse::FraudAnalysis::Flags</scope><name>vendor_not_verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

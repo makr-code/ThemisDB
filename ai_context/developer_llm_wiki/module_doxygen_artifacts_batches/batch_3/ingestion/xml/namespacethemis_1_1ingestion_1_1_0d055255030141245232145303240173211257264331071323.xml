@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1ingestion_1_1_0d055255030141245232145303240173211257264331071323" kind="namespace" language="C++">
+    <compoundname>themis::ingestion::@055255030141245232145303240173211257264331071323</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/database_connector.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

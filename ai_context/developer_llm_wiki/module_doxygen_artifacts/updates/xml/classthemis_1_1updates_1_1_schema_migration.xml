@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_schema_migration" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::SchemaMigration</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_schema_migration_1_1_impl" prot="public">themis::updates::SchemaMigration::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_schema_migration_1a8cb2516200828b1730d94765da1f929e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1updates_1_1_schema_migration_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::updates::SchemaMigration::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::updates::SchemaMigration::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="461" column="21" bodyfile="include/updates/schema_migration.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigration::SchemaMigration</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>SchemaMigration</name>
+        <qualifiedname>themis::updates::SchemaMigration::SchemaMigration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Create a migration for a specific database version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semantic version string identifying this migration (e.g. &quot;1.5.0&quot;). Written to storage under the key <computeroutput>__schema__:<ref refid="classthemis_1_1updates_1_1_schema_migration_1a99665262c8e4e708e7ef3ba5065f08fe" kindref="member">version</ref></computeroutput> on successful <ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref>, making the last applied version durable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="311" column="14" bodyfile="src/updates/schema_migration.cpp" bodystart="875" bodyend="876"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a1d2cf55b086bdcdfaf37e0dce58a0cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigration::~SchemaMigration</definition>
+        <argsstring>()</argsstring>
+        <name>~SchemaMigration</name>
+        <qualifiedname>themis::updates::SchemaMigration::~SchemaMigration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="313" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a2e97e118c08e76a507a0041727fa8cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigration::SchemaMigration</definition>
+        <argsstring>(const SchemaMigration &amp;)=delete</argsstring>
+        <name>SchemaMigration</name>
+        <qualifiedname>themis::updates::SchemaMigration::SchemaMigration</qualifiedname>
+        <param>
+          <type>const SchemaMigration &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="316" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a385e6a7a0d11659b094d1eb7e48806d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::operator=</definition>
+        <argsstring>(const SchemaMigration &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::SchemaMigration::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="317" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a987506c8ebbc9f31bae54c3fdf262f4f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigration::SchemaMigration</definition>
+        <argsstring>(SchemaMigration &amp;&amp;) noexcept=default</argsstring>
+        <name>SchemaMigration</name>
+        <qualifiedname>themis::updates::SchemaMigration::SchemaMigration</qualifiedname>
+        <param>
+          <type>SchemaMigration &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="318" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1aa268dacefbe3866c8bcafb20bb86c710" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::operator=</definition>
+        <argsstring>(SchemaMigration &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::SchemaMigration::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="319" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a5d11dca08a1b90420ed31bc08e177c66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::setRollbackStrategy</definition>
+        <argsstring>(RollbackStrategy strategy)</argsstring>
+        <name>setRollbackStrategy</name>
+        <qualifiedname>themis::updates::SchemaMigration::setRollbackStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181" kindref="member">RollbackStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set the rollback strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rollback Strategy.</para>
+<para>Defaults to <computeroutput><ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181a008f6cdd0c190839e9885cf9f9e2a652" kindref="member">RollbackStrategy::AUTOMATIC</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The strategy to use on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="333" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="889" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1ae4784f25c294e3c67ed16c7f57559c4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::addColumn</definition>
+        <argsstring>(const std::string &amp;table, const ColumnDef &amp;column)</argsstring>
+        <name>addColumn</name>
+        <qualifiedname>themis::updates::SchemaMigration::addColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_column_def" kindref="compound">ColumnDef</ref> &amp;</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Schedule adding a column to <computeroutput>table</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Column.</para>
+<para>On <ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref>, the column is added to the shadow schema and existing rows are backfilled with <computeroutput>column.default_value</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column definition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="349" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="905" bodyend="910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1aabce4dcf223fcff6cfd754f1e31e152b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::renameColumn</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;old_name, const std::string &amp;new_name)</argsstring>
+        <name>renameColumn</name>
+        <qualifiedname>themis::updates::SchemaMigration::renameColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_name</declname>
+        </param>
+        <briefdescription>
+<para>Schedule renaming a column in <computeroutput>table</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rename Column.</para>
+<para>During the dual-write phase both the old and new column names are written. After the atomic swap the old name is no longer accessible.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired column name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the old. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the new. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="362" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="923" bodyend="929"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a986786ca86cef55947729e1499e1f87b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::addIndex</definition>
+        <argsstring>(const std::string &amp;table, const IndexDef &amp;index)</argsstring>
+        <name>addIndex</name>
+        <qualifiedname>themis::updates::SchemaMigration::addIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_index_def" kindref="compound">IndexDef</ref> &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Schedule adding an index to <computeroutput>table</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Index.</para>
+<para>When <computeroutput>index.build_online == true</computeroutput> the index is built in the background without blocking reads or writes on the table.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index definition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="376" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="941" bodyend="946"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a8868807e4204bca2f4198bcd2c12ad23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::dropColumn</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const DropColumnOptions &amp;opts={})</argsstring>
+        <name>dropColumn</name>
+        <qualifiedname>themis::updates::SchemaMigration::dropColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_drop_column_options" kindref="compound">DropColumnOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Schedule dropping a column from <computeroutput>table</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Column.</para>
+<para>The column is hidden immediately on <ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref> but the underlying data is not physically purged until <computeroutput>opts.grace_period</computeroutput> has elapsed, allowing rollback or dependent queries to complete safely.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column to remove. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Drop options (grace period). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="390" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="959" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1af011dcd4fd9f6072467406b3b6df63b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref> &amp;</type>
+        <definition>SchemaMigration &amp; themis::updates::SchemaMigration::addCustomMigration</definition>
+        <argsstring>(std::function&lt; bool(MigrationContext &amp;)&gt; migration)</argsstring>
+        <name>addCustomMigration</name>
+        <qualifiedname>themis::updates::SchemaMigration::addCustomMigration</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(<ref refid="structthemis_1_1updates_1_1_migration_context" kindref="compound">MigrationContext</ref> &amp;)&gt;</type>
+          <declname>migration</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom migration callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives a <computeroutput><ref refid="structthemis_1_1updates_1_1_migration_context" kindref="compound">MigrationContext</ref></computeroutput> and must return <computeroutput>true</computeroutput> on success or <computeroutput>false</computeroutput> to trigger rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>migration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>bool(<ref refid="structthemis_1_1updates_1_1_migration_context" kindref="compound">MigrationContext</ref>&amp;)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this object (fluent interface). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="403" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="971" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::updates::SchemaMigration::apply</definition>
+        <argsstring>(IMigrationStorage &amp;storage)</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::updates::SchemaMigration::apply</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_i_migration_storage" kindref="compound">IMigrationStorage</ref> &amp;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>Apply the migration against <computeroutput>storage</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply.</para>
+<para>Executes all queued operations using the online DDL algorithm. On failure with <computeroutput><ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181a008f6cdd0c190839e9885cf9f9e2a652" kindref="member">RollbackStrategy::AUTOMATIC</ref></computeroutput> the migration is automatically rolled back before returning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage backend (must outlive this call). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_migration_result" kindref="compound">MigrationResult</ref> describing the outcome.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="420" column="21" bodyfile="src/updates/schema_migration.cpp" bodystart="987" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_rollback_result" kindref="compound">RollbackResult</ref></type>
+        <definition>RollbackResult themis::updates::SchemaMigration::rollback</definition>
+        <argsstring>()</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::updates::SchemaMigration::rollback</qualifiedname>
+        <briefdescription>
+<para>Manually roll back a failed (or in-progress) migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para>Replays the undo log from the most recent <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref></computeroutput> call in reverse order, restoring any keys that were modified or removed.</para>
+<para><bold>Lifetime requirement:</bold> This method uses the <computeroutput><ref refid="classthemis_1_1updates_1_1_i_migration_storage" kindref="compound">IMigrationStorage</ref></computeroutput> reference that was passed to the most recent <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref></computeroutput> call. The storage object <bold>must still be alive</bold> when <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" kindref="member">rollback()</ref></computeroutput> is invoked. If the storage may have been destroyed by the time a manual rollback is needed, keep a reference to it and call <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref></computeroutput> only while it is guaranteed to outlive any subsequent <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" kindref="member">rollback()</ref></computeroutput> call.</para>
+<para><bold>No-op cases:</bold> Returns success immediately if:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref></computeroutput> has not yet been called (no undo log to replay), or</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" kindref="member">apply()</ref></computeroutput> completed successfully (migration was committed and the undo log was cleared).</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_rollback_result" kindref="compound">RollbackResult</ref> describing the rollback outcome.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="442" column="20" bodyfile="src/updates/schema_migration.cpp" bodystart="1000" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a99665262c8e4e708e7ef3ba5065f08fe" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::updates::SchemaMigration::version</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::SchemaMigration::version</qualifiedname>
+        <briefdescription>
+<para>Return the version string this migration targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="447" column="23" bodyfile="src/updates/schema_migration.cpp" bodystart="1009" bodyend="1012"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1a27bdd529e79f0bb7e7b2e9df5ed83942" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfc" kindref="member">OnlineDDLPhase</ref></type>
+        <definition>OnlineDDLPhase themis::updates::SchemaMigration::currentPhase</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentPhase</name>
+        <qualifiedname>themis::updates::SchemaMigration::currentPhase</qualifiedname>
+        <briefdescription>
+<para>Return the current online DDL phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="452" column="20" bodyfile="src/updates/schema_migration.cpp" bodystart="1014" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_1aa651698494f485c11d90f4720340613d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::updates::SchemaMigration::operationCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operationCount</name>
+        <qualifiedname>themis::updates::SchemaMigration::operationCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of DDL operations (column/index/custom) queued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="457" column="17" bodyfile="src/updates/schema_migration.cpp" bodystart="1019" bodyend="1022"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Automatic schema migration framework with online DDL. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Overview</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration" kindref="compound">SchemaMigration</ref></computeroutput> provides a fluent DSL for expressing zero-downtime schema changes. The implementation uses a six-phase online DDL algorithm:</para>
+<para><programlisting><codeline><highlight class="normal">1.<sp/>Create<sp/>shadow<sp/>table<sp/>with<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>schema</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Start<sp/>dual-write<sp/>(write<sp/>to<sp/>both<sp/>tables)</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Background<sp/>copy<sp/>old<sp/>table<sp/>to<sp/>shadow<sp/>table<sp/>(backfill)</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>Verify<sp/>data<sp/>consistency</highlight></codeline>
+<codeline><highlight class="normal">5.<sp/>Atomic<sp/>swap<sp/>(rename<sp/>shadow<sp/>→<sp/>main)</highlight></codeline>
+<codeline><highlight class="normal">6.<sp/>Drop<sp/>old<sp/>table</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Supported operations</heading>
+</para>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes"><para>Method  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemis_1_1updates_1_1_schema_migration_1ae4784f25c294e3c67ed16c7f57559c4d" kindref="member">addColumn()</ref>  </para>
+</entry><entry thead="no"><para>Add a column; existing rows are backfilled with the default value.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemis_1_1updates_1_1_schema_migration_1aabce4dcf223fcff6cfd754f1e31e152b" kindref="member">renameColumn()</ref>  </para>
+</entry><entry thead="no"><para>Rename a column; dual-write keeps both names live during cutover.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemis_1_1updates_1_1_schema_migration_1a986786ca86cef55947729e1499e1f87b" kindref="member">addIndex()</ref>  </para>
+</entry><entry thead="no"><para>Build an index; <computeroutput>build_online = true</computeroutput> runs the build in the background.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemis_1_1updates_1_1_schema_migration_1a8868807e4204bca2f4198bcd2c12ad23" kindref="member">dropColumn()</ref>  </para>
+</entry><entry thead="no"><para>Schedule column removal after an optional grace period.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemis_1_1updates_1_1_schema_migration_1af011dcd4fd9f6072467406b3b6df63b3" kindref="member">addCustomMigration()</ref>  </para>
+</entry><entry thead="no"><para>Inject arbitrary migration logic via a callback.  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Error handling</heading>
+</para>
+<para>If any step fails and <computeroutput><ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181a008f6cdd0c190839e9885cf9f9e2a652" kindref="member">RollbackStrategy::AUTOMATIC</ref></computeroutput> is set (default), all completed steps are unwound before returning the error result. With <computeroutput><ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">RollbackStrategy::MANUAL</ref></computeroutput> the database is left in its partially-migrated state and the caller must call <ref refid="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" kindref="member">rollback()</ref> explicitly.</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" kindref="member">SchemaMigration</ref><sp/>migration(</highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">migration.setRollbackStrategy(<ref refid="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181a008f6cdd0c190839e9885cf9f9e2a652" kindref="member">RollbackStrategy::AUTOMATIC</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">migration.addColumn(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;phone_number&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;VARCHAR(20)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.nullable<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.default_value<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NULL&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">migration.renameColumn(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email_address&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">migration.addIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_email&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.columns<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;email_address&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.unique<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build_online<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">migration.dropColumn(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old_column&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.grace_period<sp/>=<sp/>std::chrono::hours(24<sp/>*<sp/>7)});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>migration.apply(storage);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AUTOMATIC<sp/>strategy<sp/>already<sp/>rolled<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>A single <computeroutput><ref refid="classthemis_1_1updates_1_1_schema_migration" kindref="compound">SchemaMigration</ref></computeroutput> instance must not be used concurrently from multiple threads. Concurrent migrations against <bold>different</bold> tables on the same storage engine are safe provided the storage engine itself is thread-safe. </para>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="298" column="1" bodyfile="include/updates/schema_migration.h" bodystart="298" bodyend="462"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1ae4784f25c294e3c67ed16c7f57559c4d" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>addColumn</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1af011dcd4fd9f6072467406b3b6df63b3" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>addCustomMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a986786ca86cef55947729e1499e1f87b" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>addIndex</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a44fadfec91ca90136a46765c89b9989c" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>apply</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a27bdd529e79f0bb7e7b2e9df5ed83942" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>currentPhase</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a8868807e4204bca2f4198bcd2c12ad23" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>dropColumn</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a8cb2516200828b1730d94765da1f929e" prot="private" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1aa651698494f485c11d90f4720340613d" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>operationCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a385e6a7a0d11659b094d1eb7e48806d9" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1aa268dacefbe3866c8bcafb20bb86c710" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1aabce4dcf223fcff6cfd754f1e31e152b" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>renameColumn</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1aed11dd1a654bcdcbd5b5b88e26684bef" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>SchemaMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a2e97e118c08e76a507a0041727fa8cc6" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>SchemaMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a987506c8ebbc9f31bae54c3fdf262f4f" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>SchemaMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a5d11dca08a1b90420ed31bc08e177c66" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>setRollbackStrategy</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a99665262c8e4e708e7ef3ba5065f08fe" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>version</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_1a1d2cf55b086bdcdfaf37e0dce58a0cea" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigration</scope><name>~SchemaMigration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

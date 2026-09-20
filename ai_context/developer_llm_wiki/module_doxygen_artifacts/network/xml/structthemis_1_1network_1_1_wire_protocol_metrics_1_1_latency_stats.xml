@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics::LatencyStats</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a17c2c5b17a75f199b37ae8869dfffd07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::p50_ms</definition>
+        <argsstring></argsstring>
+        <name>p50_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::p50_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="69" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a24cb1e929ada1e6708ad89b975269fa2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::p75_ms</definition>
+        <argsstring></argsstring>
+        <name>p75_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::p75_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="70" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1add4c67eed8abb10c6319ba3ded2192fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::p95_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::p95_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="71" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a460d6e4a06bd1abb4022b4ef7b8ab4d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::p99_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::p99_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="72" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1aa8ca0cb82553383d80d5873b1a6ef974" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::p999_ms</definition>
+        <argsstring></argsstring>
+        <name>p999_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::p999_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="73" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a800824b6eb9a1061a3abdd208b3dcd62" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::max_ms</definition>
+        <argsstring></argsstring>
+        <name>max_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::max_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="74" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1af6168d88e789b2ac7c58318821d7a2b7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::LatencyStats::mean_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_ms</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::mean_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="75" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a38e74d428d9daa32bb0a7d4f3fd53928" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::LatencyStats::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::LatencyStats::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="76" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="68" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="68" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a800824b6eb9a1061a3abdd208b3dcd62" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>max_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1af6168d88e789b2ac7c58318821d7a2b7" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>mean_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a17c2c5b17a75f199b37ae8869dfffd07" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>p50_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a24cb1e929ada1e6708ad89b975269fa2" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>p75_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1add4c67eed8abb10c6319ba3ded2192fa" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>p95_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1aa8ca0cb82553383d80d5873b1a6ef974" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>p999_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a460d6e4a06bd1abb4022b4ef7b8ab4d1" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>p99_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats_1a38e74d428d9daa32bb0a7d4f3fd53928" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::LatencyStats</scope><name>sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::QueryResult</compoundname>
+    <includes refid="query__interface_8h" local="no">query_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_query_result_1a83610b357fbd8cba834acfc7a3fffff7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::QueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::QueryResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="30" column="10" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_query_result_1a768c00d92eb61c3ee312a7cb7772db52" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::QueryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::QueryResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="31" column="19" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_query_result_1a4bd247e2d78b76e33b9931f04c3a4332" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::QueryResult::hasError</definition>
+        <argsstring>() const</argsstring>
+        <name>hasError</name>
+        <qualifiedname>themis::QueryResult::hasError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="33" column="11" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a query execution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000007"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use Result&lt;std::string&gt; from utils/expected.h instead. Kept for backward compatibility during migration. All new code must use Result&lt;std::string&gt; from utils/expected.h. </para>
+</xrefdescription></xrefsect></para>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/query_interface.h" line="29" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_query_result_1a768c00d92eb61c3ee312a7cb7772db52" prot="public" virt="non-virtual"><scope>themis::QueryResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_query_result_1a4bd247e2d78b76e33b9931f04c3a4332" prot="public" virt="non-virtual"><scope>themis::QueryResult</scope><name>hasError</name></member>
+      <member refid="structthemis_1_1_query_result_1a83610b357fbd8cba834acfc7a3fffff7" prot="public" virt="non-virtual"><scope>themis::QueryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

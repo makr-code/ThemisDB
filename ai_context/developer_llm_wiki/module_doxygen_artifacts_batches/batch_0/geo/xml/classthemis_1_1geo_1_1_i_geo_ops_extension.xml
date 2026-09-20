@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_geo_ops_extension" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::IGeoOpsExtension</compoundname>
+    <includes refid="geo__ops__ext_8h" local="no">geo_ops_ext.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_ops_extension_1a2106904105ded25c289efb2b01d80918" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::IGeoOpsExtension::~IGeoOpsExtension</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGeoOpsExtension</name>
+        <qualifiedname>themis::geo::IGeoOpsExtension::~IGeoOpsExtension</qualifiedname>
+        <briefdescription>
+<para>IGeo Ops Extension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_ops_ext.h" line="27" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_ops_extension_1a31397929a881eeb88a73c9a223a3e9bb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::geo::IGeoOpsExtension::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::IGeoOpsExtension::name</qualifiedname>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_ops_ext.h" line="33" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_ops_extension_1a8003fb71a8c5ba186aec004d2c288d1f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::geo::IGeoOpsExtension::supports</definition>
+        <argsstring>(const std::string &amp;op_name) const noexcept=0</argsstring>
+        <name>supports</name>
+        <qualifiedname>themis::geo::IGeoOpsExtension::supports</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_name</declname>
+        </param>
+        <briefdescription>
+<para>Supports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the op. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_ops_ext.h" line="40" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_ops_ext.h" line="21" column="1" bodyfile="include/geo/geo_ops_ext.h" bodystart="21" bodyend="41"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_geo_ops_extension_1a31397929a881eeb88a73c9a223a3e9bb" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoOpsExtension</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_ops_extension_1a8003fb71a8c5ba186aec004d2c288d1f" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoOpsExtension</scope><name>supports</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_ops_extension_1a2106904105ded25c289efb2b01d80918" prot="public" virt="virtual"><scope>themis::geo::IGeoOpsExtension</scope><name>~IGeoOpsExtension</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

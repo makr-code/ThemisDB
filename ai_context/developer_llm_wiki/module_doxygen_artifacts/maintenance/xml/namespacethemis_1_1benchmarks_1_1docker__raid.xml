@@ -1,0 +1,792 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1benchmarks_1_1docker__raid" kind="namespace" language="C++">
+    <compoundname>themis::benchmarks::docker_raid</compoundname>
+    <innerclass refid="structthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container_config" prot="public">themis::benchmarks::docker_raid::DockerContainerConfig</innerclass>
+    <innerclass refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_container" prot="public">themis::benchmarks::docker_raid::DockerContainer</innerclass>
+    <innerclass refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_controller" prot="public">themis::benchmarks::docker_raid::DockerRAIDController</innerclass>
+    <innerclass refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_test_data_generator" prot="public">themis::benchmarks::docker_raid::TestDataGenerator</innerclass>
+    <innerclass refid="classthemis_1_1benchmarks_1_1docker__raid_1_1_docker_r_a_i_d_benchmark_base" prot="public">themis::benchmarks::docker_raid::DockerRAIDBenchmarkBase</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RAIDLevel</name>
+        <qualifiedname>themis::benchmarks::docker_raid::RAIDLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4af64edeba3236e43862427641fbc5876a" prot="public">
+          <name>RAID0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4aafd0c6e27d41e812892b94f43171ae3d" prot="public">
+          <name>RAID1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4a67dd612c2e96ae789ee22fffe6e751bd" prot="public">
+          <name>RAID5</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4a8c68f6195fb0884b2462b9fa9b70d6b6" prot="public">
+          <name>RAID6</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0eff3969a67b0cf94d479906125b4ef4aa7018f03b18f085514eba335923e334a" prot="public">
+          <name>RAID10</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="64" column="1" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1ae37098d6c2ce5f54fb1a1147bc65475b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::KB</definition>
+        <argsstring></argsstring>
+        <name>KB</name>
+        <qualifiedname>themis::benchmarks::docker_raid::KB</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="73" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a3001f8f1bb67a9dc3efc2351c8e12d7c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::MB</definition>
+        <argsstring></argsstring>
+        <name>MB</name>
+        <qualifiedname>themis::benchmarks::docker_raid::MB</qualifiedname>
+        <initializer>= 1024 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ae37098d6c2ce5f54fb1a1147bc65475b" kindref="member">KB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="74" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a50bf9473df6a9d55cb7889ad01987b98" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::GB</definition>
+        <argsstring></argsstring>
+        <name>GB</name>
+        <qualifiedname>themis::benchmarks::docker_raid::GB</qualifiedname>
+        <initializer>= 1024 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3001f8f1bb67a9dc3efc2351c8e12d7c" kindref="member">MB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="75" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a96489fa1edb53b7adad492286d080b82" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::SMALL_DOCUMENT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>SMALL_DOCUMENT_SIZE</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SMALL_DOCUMENT_SIZE</qualifiedname>
+        <initializer>= 10 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ae37098d6c2ce5f54fb1a1147bc65475b" kindref="member">KB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="77" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a7ff70c8249f739cb4cf96bca03b19805" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::MEDIUM_DOCUMENT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MEDIUM_DOCUMENT_SIZE</name>
+        <qualifiedname>themis::benchmarks::docker_raid::MEDIUM_DOCUMENT_SIZE</qualifiedname>
+        <initializer>= 100 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1ae37098d6c2ce5f54fb1a1147bc65475b" kindref="member">KB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="78" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1ae31b945cfc4ed229f69e3ea2c8f9496b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::LARGE_DOCUMENT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>LARGE_DOCUMENT_SIZE</name>
+        <qualifiedname>themis::benchmarks::docker_raid::LARGE_DOCUMENT_SIZE</qualifiedname>
+        <initializer>= 1 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3001f8f1bb67a9dc3efc2351c8e12d7c" kindref="member">MB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="79" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1af26452d66d01f6434b026bf8bb22c61b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::benchmarks::docker_raid::BLOB_SIZE</definition>
+        <argsstring></argsstring>
+        <name>BLOB_SIZE</name>
+        <qualifiedname>themis::benchmarks::docker_raid::BLOB_SIZE</qualifiedname>
+        <initializer>= 10 * <ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3001f8f1bb67a9dc3efc2351c8e12d7c" kindref="member">MB</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="80" column="18" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a734a49119762ff49ae94495cd5000f29" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::MIN_CONTAINERS</definition>
+        <argsstring></argsstring>
+        <name>MIN_CONTAINERS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::MIN_CONTAINERS</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="83" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1afe214320dcfd977ecb011fd4813f192e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::MAX_CONTAINERS</definition>
+        <argsstring></argsstring>
+        <name>MAX_CONTAINERS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::MAX_CONTAINERS</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="84" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a62e4d54c3584729a454754f1e2b05879" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::DEFAULT_REPLICAS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_REPLICAS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::DEFAULT_REPLICAS</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="85" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a0d46c9fc5d49d7eaf0eba3ccaee0ba3f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::LOCAL_NETWORK_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>LOCAL_NETWORK_LATENCY_US</name>
+        <qualifiedname>themis::benchmarks::docker_raid::LOCAL_NETWORK_LATENCY_US</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="88" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a370e1aaf36977c6b0fd1b539a3b2371c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::CROSS_DC_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>CROSS_DC_LATENCY_US</name>
+        <qualifiedname>themis::benchmarks::docker_raid::CROSS_DC_LATENCY_US</qualifiedname>
+        <initializer>= 50000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="89" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a00512a5891a15120bf31bda5a5b42e92" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::INTERNET_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>INTERNET_LATENCY_US</name>
+        <qualifiedname>themis::benchmarks::docker_raid::INTERNET_LATENCY_US</qualifiedname>
+        <initializer>= 200000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="90" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1ab0676da2ae1e58c55d6936fc7b166ec5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::QUICK_ITERATIONS</definition>
+        <argsstring></argsstring>
+        <name>QUICK_ITERATIONS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::QUICK_ITERATIONS</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="93" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1afaab4959d924bf71bc4bfa5248670d6b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::STANDARD_ITERATIONS</definition>
+        <argsstring></argsstring>
+        <name>STANDARD_ITERATIONS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::STANDARD_ITERATIONS</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="94" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a763f9f7f4353a756e5f5dd3eca703df9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::LONG_ITERATIONS</definition>
+        <argsstring></argsstring>
+        <name>LONG_ITERATIONS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::LONG_ITERATIONS</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="95" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a6471b116a02a93ce41b75321f0a1b612" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::EXTREME_ITERATIONS</definition>
+        <argsstring></argsstring>
+        <name>EXTREME_ITERATIONS</name>
+        <qualifiedname>themis::benchmarks::docker_raid::EXTREME_ITERATIONS</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="96" column="15" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" prot="public" static="no" mutable="no">
+        <type>::benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; themis::benchmarks::docker_raid::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::benchmarks::docker_raid::state</qualifiedname>
+        <initializer>{
+    int batch_size = state.range(2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="541" column="20" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1aaf30a8a775988d77de54ef1717492e77" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::counters</definition>
+        <argsstring>[&quot;containers&quot;]</argsstring>
+        <name>counters</name>
+        <qualifiedname>themis::benchmarks::docker_raid::counters</qualifiedname>
+        <initializer>= num_containers_</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="552" column="10" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1ad376c12bb06b3df36ae3b3081ac778f9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::reads_per_iteration</definition>
+        <argsstring></argsstring>
+        <name>reads_per_iteration</name>
+        <qualifiedname>themis::benchmarks::docker_raid::reads_per_iteration</qualifiedname>
+        <initializer>= state.range(2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="657" column="9" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a1a74fa01d28c0fba74548044b2b74bc9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::benchmarks::docker_raid::stripe_counter</definition>
+        <argsstring></argsstring>
+        <name>stripe_counter</name>
+        <qualifiedname>themis::benchmarks::docker_raid::stripe_counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="742" column="17" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="742" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a973b4146863ba4f51c179cf0e1b6880e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::benchmarks::docker_raid::read_ratio</definition>
+        <argsstring></argsstring>
+        <name>read_ratio</name>
+        <qualifiedname>themis::benchmarks::docker_raid::read_ratio</qualifiedname>
+        <initializer>= state.range(2) / 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="794" column="12" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a2e81151336c683bd9021d17913ac14f3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::operations_per_iteration</definition>
+        <argsstring></argsstring>
+        <name>operations_per_iteration</name>
+        <qualifiedname>themis::benchmarks::docker_raid::operations_per_iteration</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="795" column="9" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="795" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1benchmarks_1_1docker__raid_1aef7255b7a2638f2b048333b22165c508" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::benchmarks::docker_raid::queries_per_iteration</definition>
+        <argsstring></argsstring>
+        <name>queries_per_iteration</name>
+        <qualifiedname>themis::benchmarks::docker_raid::queries_per_iteration</qualifiedname>
+        <initializer>= state.range(2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="886" column="9" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="886" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a92b2ea33d5c33a8cc8f2bd7f6a46116b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::benchmarks::docker_raid::for</qualifiedname>
+        <param>
+          <type>auto _ :<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="544" column="5" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="544" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1acc23b502bb9d22984a9be9f0adab63e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetBytesProcessed</definition>
+        <argsstring>(state.iterations() *batch_size *SMALL_DOCUMENT_SIZE)</argsstring>
+        <name>SetBytesProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetBytesProcessed</qualifiedname>
+        <param>
+          <type>state.iterations() *batch_size *</type>
+          <declname>SMALL_DOCUMENT_SIZE</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="551" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="551" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a4a60ea2826114878f8ece966bf6199c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 100}) -&gt; Args({3, 0, 1000}) -&gt;Args({6, 0, 100}) -&gt;Args({6, 0, 1000}) -&gt;Args({3, 1, 100}) -&gt;Args({3, 1, 1000}) -&gt;Args({6, 1, 100}) -&gt;Args({4, 5, 100}) -&gt;Args({4, 5, 1000}) -&gt;Args({6, 5, 100}) -&gt;Args({4, 10, 100}) -&gt;Args({6, 10, 1000}) -&gt;MinTime(10.0) -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 100}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="559" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="559" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a2a49cd84b7c08852ed5d4e71ee7c689f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 50}) -&gt; Args({3, 0, 500}) -&gt;Args({4, 5, 50}) -&gt;Args({4, 5, 500}) -&gt;Args({6, 1, 50}) -&gt;Args({6, 10, 500}) -&gt;MinTime(15.0) -&gt;UseRealTime() -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 50}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="600" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="600" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a94272b9848a0bb78c43b8cc194da23ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetBytesProcessed</definition>
+        <argsstring>(state.iterations() *num_blobs *BLOB_SIZE)</argsstring>
+        <name>SetBytesProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetBytesProcessed</qualifiedname>
+        <param>
+          <type>state.iterations() *num_blobs *</type>
+          <declname>BLOB_SIZE</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="626" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="626" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a484f72254b0263ef5fd03b43fec05f7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 10}) -&gt; Args({4, 5, 10}) -&gt;Args({6, 1, 5}) -&gt;Args({6, 10, 20}) -&gt;MinTime(20.0) -&gt;UseRealTime() -&gt;Unit(::benchmark::kSecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 10}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="632" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="632" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a02f8ac94de594947dcc31508984ada68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::for</definition>
+        <argsstring>(int i=0;i&lt; num_documents;++i)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::benchmarks::docker_raid::for</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="649" column="5" bodyfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" bodystart="649" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a8d4e762a4f9c702482b6100fadd0ebe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::benchmarks::docker_raid::rng</definition>
+        <argsstring>(42)</argsstring>
+        <name>rng</name>
+        <qualifiedname>themis::benchmarks::docker_raid::rng</qualifiedname>
+        <param>
+          <type>42</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="654" column="18" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="654" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1aad02915b857e2d79ea512987da3a0b77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uniform_int_distribution&lt; int &gt;</type>
+        <definition>std::uniform_int_distribution&lt; int &gt; themis::benchmarks::docker_raid::dist</definition>
+        <argsstring>(0, num_documents - 1)</argsstring>
+        <name>dist</name>
+        <qualifiedname>themis::benchmarks::docker_raid::dist</qualifiedname>
+        <param>
+          <type>0</type>
+        </param>
+        <param>
+          <type>num_documents -</type>
+          <declname>1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="655" column="35" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="655" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a2a003530e8c395287bef297599b65963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *reads_per_iteration)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>state.iterations() *</type>
+          <declname>reads_per_iteration</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="667" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="667" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a58c9f362c353699cb204f34f443b9aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 1, 0}) -&gt; Args({4, 5, 0}) -&gt;Args({6, 6, 0}) -&gt;Args({6, 10, 0}) -&gt;Iterations(10) -&gt;UseRealTime() -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 1, 0}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="726" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="726" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a25e499c0e695cbed6f197be3a421dc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *threads *50)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>state.iterations() *threads *</type>
+          <declname>50</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="762" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="762" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1aafeb8b11166f4486292d01a3e75d217c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 4}) -&gt; Args({3, 0, 8}) -&gt;Args({4, 5, 4}) -&gt;Args({6, 1, 8}) -&gt;Args({6, 10, 16}) -&gt;MinTime(15.0) -&gt;UseRealTime() -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 4}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="767" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="767" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1af6cd06fb2db0ac03beb47773dbc94764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uniform_int_distribution&lt; int &gt;</type>
+        <definition>std::uniform_int_distribution&lt; int &gt; themis::benchmarks::docker_raid::doc_dist</definition>
+        <argsstring>(0, num_documents - 1)</argsstring>
+        <name>doc_dist</name>
+        <qualifiedname>themis::benchmarks::docker_raid::doc_dist</qualifiedname>
+        <param>
+          <type>0</type>
+        </param>
+        <param>
+          <type>num_documents -</type>
+          <declname>1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="791" column="35" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="791" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a7581b9df5500bdefafaddc1da85083d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uniform_real_distribution&lt; double &gt;</type>
+        <definition>std::uniform_real_distribution&lt; double &gt; themis::benchmarks::docker_raid::op_dist</definition>
+        <argsstring>(0.0, 1.0)</argsstring>
+        <name>op_dist</name>
+        <qualifiedname>themis::benchmarks::docker_raid::op_dist</qualifiedname>
+        <param>
+          <type>0.</type>
+          <declname>0</declname>
+        </param>
+        <param>
+          <type>1.</type>
+          <declname>0</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="792" column="36" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="792" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a1f726dfecf0d8e9f21ef5617fe3f5a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 90}) -&gt; Args({3, 0, 70}) -&gt;Args({3, 0, 50}) -&gt;Args({4, 5, 90}) -&gt;Args({6, 1, 70}) -&gt;Args({6, 10, 50}) -&gt;MinTime(18.0) -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 90}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="819" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="819" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1af02a28246559e1ce544cc1689b56d883" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 1, 100}) -&gt; Args({4, 5, 100}) -&gt;Args({6, 6, 100}) -&gt;MinTime(12.0) -&gt;Unit(::benchmark::kMicrosecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 1, 100}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="863" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="863" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1a4051621867f699597215645fdc5d1c16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *queries_per_iteration *num_containers_)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>state.iterations() *<ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1aef7255b7a2638f2b048333b22165c508" kindref="member">queries_per_iteration</ref> *</type>
+          <declname>num_containers_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="904" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="904" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1af0e90087060bfe2237116c7ac1f6b2bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1benchmarks_1_1docker__raid_1a3afa7d99f401184137cfffc3ebc058db" kindref="member">state</ref></type>
+        <definition>state themis::benchmarks::docker_raid::SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *(initial_documents/10))</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::benchmarks::docker_raid::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>state.</type>
+          <declname>iterations</declname>
+          <array>) *(initial_documents/10</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="955" column="10" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="955" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmarks_1_1docker__raid_1aad82500420f0478ede502bec96555c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmarks::docker_raid::Args</definition>
+        <argsstring>({3, 0, 0}) -&gt; Args({4, 5, 0}) -&gt;Args({6, 10, 0}) -&gt;Iterations(5) -&gt;UseRealTime() -&gt;Unit(::benchmark::kMillisecond)</argsstring>
+        <name>Args</name>
+        <qualifiedname>themis::benchmarks::docker_raid::Args</qualifiedname>
+        <param>
+          <type>{3, 0, 0}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="959" column="5" declfile="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" declline="959" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/maintenance/bench_docker_raid_comprehensive.cpp" line="61" column="1"/>
+  </compounddef>
+</doxygen>

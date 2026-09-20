@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_async_wal_shipper_test" kind="class" language="C++" prot="public">
+    <compoundname>AsyncWalShipperTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_async_wal_shipper_test_1ae43100972638ded318b49ed17e8a524f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref></type>
+        <definition>WalShippingConfig AsyncWalShipperTest::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>AsyncWalShipperTest::defaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp" line="273" column="23" bodyfile="tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp" bodystart="273" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AsyncWalShipperTest</label>
+        <link refid="class_async_wal_shipper_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AsyncWalShipperTest</label>
+        <link refid="class_async_wal_shipper_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp" line="271" column="1" bodyfile="tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp" bodystart="271" bodyend="282"/>
+    <listofallmembers>
+      <member refid="class_async_wal_shipper_test_1ae43100972638ded318b49ed17e8a524f" prot="protected" virt="non-virtual"><scope>AsyncWalShipperTest</scope><name>defaultConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

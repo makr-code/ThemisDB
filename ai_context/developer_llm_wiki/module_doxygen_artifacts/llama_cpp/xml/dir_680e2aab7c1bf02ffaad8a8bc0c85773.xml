@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_680e2aab7c1bf02ffaad8a8bc0c85773" kind="dir">
+    <compoundname>src/llama_cpp/tests</compoundname>
+    <innerfile refid="test__llama__cpp__inference__contract__focused_8cpp">test_llama_cpp_inference_contract_focused.cpp</innerfile>
+    <innerfile refid="test__llama__cpp__plugin_8cpp">test_llama_cpp_plugin.cpp</innerfile>
+    <innerfile refid="test__llama__cpp__plugin__lifecycle__focused_8cpp">test_llama_cpp_plugin_lifecycle_focused.cpp</innerfile>
+    <innerfile refid="test__llama__cpp__registrar__integration__focused_8cpp">test_llama_cpp_registrar_integration_focused.cpp</innerfile>
+    <innerfile refid="test__llama__cpp__validation__gates__focused_8cpp">test_llama_cpp_validation_gates_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llama_cpp/tests/"/>
+  </compounddef>
+</doxygen>

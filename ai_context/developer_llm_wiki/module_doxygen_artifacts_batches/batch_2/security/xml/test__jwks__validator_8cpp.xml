@@ -1,0 +1,756 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwks__validator_8cpp" kind="file" language="C++">
+    <compoundname>test_jwks_validator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/jwks_validator.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwks_validator.cpp</label>
+        <link refid="test__jwks__validator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/jwks_validator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ValidRSAKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ValidRSAKey</type>
+        </param>
+        <briefdescription>
+<para>Test valid JWKS with RSA key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="11" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="11" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ae886a62d19f85c1b84674a029fc7e9ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, MissingKeysField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>MissingKeysField</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS missing keys field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="36" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ad60d98a16d46371407ebd3583a1a7116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, KeysNotArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>KeysNotArray</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS with keys as non-array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="53" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="53" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a6db1eaffb42ba86e8df60ded7ac18857" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, EmptyKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>EmptyKeys</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS with empty keys array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="69" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="69" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1acd6b20e26d6ccbd59c23533d6ccd4597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, TooManyKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>TooManyKeys</type>
+        </param>
+        <briefdescription>
+<para>Test JWKS with too many keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="85" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="85" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a957022762fca0365fe59090bfcd786df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, MissingKeyType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>MissingKeyType</type>
+        </param>
+        <briefdescription>
+<para>Test key missing kty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="107" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="107" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1aedd5a913d532ac5288551a7381ed6b72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, UnsupportedKeyType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>UnsupportedKeyType</type>
+        </param>
+        <briefdescription>
+<para>Test unsupported key type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="125" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="125" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ad0745ed81470c707f946bd4c77ebb6fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, RSAMissingModulus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>RSAMissingModulus</type>
+        </param>
+        <briefdescription>
+<para>Test RSA key missing modulus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="142" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="142" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1acf2040bd5de85e2c1504bf0e100a5c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, RSAMissingExponent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>RSAMissingExponent</type>
+        </param>
+        <briefdescription>
+<para>Test RSA key missing exponent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="164" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="164" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a890676836bdc15c5148340e55139c2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, RSAPrivateKeyComponent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>RSAPrivateKeyComponent</type>
+        </param>
+        <briefdescription>
+<para>Test RSA key with private component (security violation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="185" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="185" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a035157a1b03e3bd6f79513b572c55c6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ECMissingCurve)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ECMissingCurve</type>
+        </param>
+        <briefdescription>
+<para>Test EC key missing curve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="212" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="212" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ae89855a51619403c716a366d0fbea50f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ECPrivateKeyComponent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ECPrivateKeyComponent</type>
+        </param>
+        <briefdescription>
+<para>Test EC key with private component. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="235" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="235" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ad39a124cc18457f3be3ab024223392e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, DuplicateKeyIDs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>DuplicateKeyIDs</type>
+        </param>
+        <briefdescription>
+<para>Test duplicate key IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="259" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="259" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a72ce9f04078c6588de4277b125e071cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, StrictModeWithWarnings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>StrictModeWithWarnings</type>
+        </param>
+        <briefdescription>
+<para>Test strict mode with warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="278" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="278" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1ab7983292bb3919d63badd1b31854ae5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, RequireKid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>RequireKid</type>
+        </param>
+        <briefdescription>
+<para>Test require_kid configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="303" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="303" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a1a21b37d7d26a809ea2018a36fe16487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ValidateOrThrowSuccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ValidateOrThrowSuccess</type>
+        </param>
+        <briefdescription>
+<para>Test validateOrThrow success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="327" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="327" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a15914391a0d5408c7ff7cf066110acfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ValidateOrThrowFailure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ValidateOrThrowFailure</type>
+        </param>
+        <briefdescription>
+<para>Test validateOrThrow failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="348" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="348" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a3a8392220730f158e2b6ff7418cbe8b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, SymmetricKeyWarning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>SymmetricKeyWarning</type>
+        </param>
+        <briefdescription>
+<para>Test symmetric key warning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="361" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="361" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwks__validator_8cpp_1a4492d03f59b22e7e4df4af49dad1d16c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWKSValidatorTest, ErrorSummary)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWKSValidatorTest</type>
+        </param>
+        <param>
+          <type>ErrorSummary</type>
+        </param>
+        <briefdescription>
+<para>Test validation result error summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_validator.cpp" line="383" column="1" bodyfile="tests/security/test_jwks_validator.cpp" bodystart="383" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwks_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ValidRSAKey)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key-1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;xGOr-H7A-PWZ8RpvCvKbKxFr9kHJVlRQSvXlCy0nHAsDMD9yl1n0AxJH&quot;</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>will<sp/>fail<sp/>key<sp/>size<sp/>check<sp/>because<sp/>n<sp/>is<sp/>too<sp/>small</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>a<sp/>real<sp/>test,<sp/>we&apos;d<sp/>need<sp/>a<sp/>proper<sp/>2048-bit<sp/>modulus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>MissingKeysField)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;foo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bar&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.errors[0].find(</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>KeysNotArray)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;not-an-array&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>EmptyKeys)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array()}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>a<sp/>warning<sp/>but<sp/>still<sp/>be<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.warnings.empty());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>TooManyKeys)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_keys<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key2&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;key3&quot;</highlight><highlight class="normal">}}<sp/><sp/></highlight><highlight class="comment">//<sp/>Exceeds<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>MissingKeyType)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">}}<sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>kty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>UnsupportedKeyType)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>RSAMissingModulus)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>n</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.errors.empty());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>RSAMissingExponent)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;xGOr-H7A&quot;</highlight><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>e</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>RSAPrivateKeyComponent)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;xGOr-H7A&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;private-exponent&quot;</highlight><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>key<sp/>material!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::any_of(result.errors.begin(),<sp/>result.errors.end(),</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>err)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>err.find(</highlight><highlight class="stringliteral">&quot;private<sp/>key&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ECMissingCurve)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EC&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coordinate-x&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coordinate-y&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>crv</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ECPrivateKeyComponent)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EC&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;crv&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;P-256&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coordinate-x&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coordinate-y&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;private-key&quot;</highlight><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>key<sp/>material!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>DuplicateKeyIDs)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;duplicate&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;xxx&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;duplicate&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;yyy&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>warning<sp/>about<sp/>duplicate<sp/>kids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.warnings.empty());</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>StrictModeWithWarnings)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>config.strict_mode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;short&quot;</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>small,<sp/>will<sp/>generate<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>strict<sp/>mode,<sp/>should<sp/>be<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>RequireKid)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>config.require_kid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;modulus&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ValidateOrThrowSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>config.require_kid<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(validator.validateOrThrow(jwks));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ValidateOrThrowFailure)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;not-an-array&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator.validateOrThrow(jwks),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>SymmetricKeyWarning)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator<sp/>validator;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>jwks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;oct&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GawgguFyGrWKav7AX4VKUg&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator.validate(jwks);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>warning<sp/>about<sp/>symmetric<sp/>key<sp/>in<sp/>JWKS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.warnings.empty());</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><ref refid="test__jwks__validator_8cpp_1acf65a41108c6aec08bce3d4dec0dcb88" kindref="member">TEST</ref>(JWKSValidatorTest,<sp/>ErrorSummary)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>JWKSValidator::ValidationResult<sp/>result;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>result.errors.push_back(</highlight><highlight class="stringliteral">&quot;Error<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>result.errors.push_back(</highlight><highlight class="stringliteral">&quot;Error<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>result.warnings.push_back(</highlight><highlight class="stringliteral">&quot;Warning<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>summary<sp/>=<sp/>result.getErrorSummary();</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(summary.find(</highlight><highlight class="stringliteral">&quot;Error<sp/>1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(summary.find(</highlight><highlight class="stringliteral">&quot;Error<sp/>2&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(summary.find(</highlight><highlight class="stringliteral">&quot;Warning<sp/>1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwks_validator.cpp"/>
+  </compounddef>
+</doxygen>

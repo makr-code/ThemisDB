@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_recovery_fault_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::RecoveryFaultReport</compoundname>
+    <includes refid="storage__recovery__fault__handler_8h" local="no">storage_recovery_fault_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a2a9fadbb111b9db5e530f0c339c96df4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" kindref="member">RecoveryFaultType</ref></type>
+        <definition>RecoveryFaultType themis::storage::RecoveryFaultReport::fault_type</definition>
+        <argsstring></argsstring>
+        <name>fault_type</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::fault_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" kindref="member">RecoveryFaultType::TORN_WAL_ENTRY</ref>}</initializer>
+        <briefdescription>
+<para>Classification of the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="78" column="23" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1aa3f5ae8e936d95d977886948ae63bbb2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+        <definition>StorageErrorCode themis::storage::RecoveryFaultReport::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::error_code</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>}</initializer>
+        <briefdescription>
+<para>The error code resulting from this fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="81" column="22" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a74bc965a961409dd59f42a65fcf9a68f" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::RecoveryFaultReport::checkpoint_seq</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_seq</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::checkpoint_seq</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Checkpoint sequence number at time of fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="84" column="19" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1af26b5d73f532e1ca022738b7f4774d38" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::RecoveryFaultReport::recovery_start_seq</definition>
+        <argsstring></argsstring>
+        <name>recovery_start_seq</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::recovery_start_seq</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>First WAL entry sequence number in current recovery pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="87" column="19" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a447625804e3043226927bce0937a5ea8" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::RecoveryFaultReport::fault_seq</definition>
+        <argsstring></argsstring>
+        <name>fault_seq</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::fault_seq</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Sequence number where fault was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="90" column="19" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a7b5f6e3ef80a4fb3e353c64b55bb4fa3" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::RecoveryFaultReport::entries_replayed</definition>
+        <argsstring></argsstring>
+        <name>entries_replayed</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::entries_replayed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of entries successfully replayed before fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="93" column="19" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a529ddc8d915bd59f9a316bdbbb52af13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::RecoveryFaultReport::fault_message</definition>
+        <argsstring></argsstring>
+        <name>fault_message</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::fault_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable fault description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="96" column="17" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a340ed899c1b22bcb7266fb692c563f02" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::RecoveryFaultReport::recovery_suggestion</definition>
+        <argsstring></argsstring>
+        <name>recovery_suggestion</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::recovery_suggestion</qualifiedname>
+        <briefdescription>
+<para>Optional suggestion for operator action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="99" column="17" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1ad5fb1e58237ed5d31fc88ab8f3d6aee8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::RecoveryFaultReport::detection_time</definition>
+        <argsstring></argsstring>
+        <name>detection_time</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::detection_time</qualifiedname>
+        <initializer>{
+        std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Time at which fault was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="102" column="43" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="102" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a24fdf01e2fc6900f85d85a93bb451bd7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::RecoveryFaultReport::is_retryable</definition>
+        <argsstring></argsstring>
+        <name>is_retryable</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::is_retryable</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Is this fault retryable (true) or permanent (false)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="106" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_recovery_fault_report_1a32f483446e250e5d4bbc43ad673923e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::RecoveryFaultReport::should_stop_recovery</definition>
+        <argsstring></argsstring>
+        <name>should_stop_recovery</name>
+        <qualifiedname>themis::storage::RecoveryFaultReport::should_stop_recovery</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Should recovery stop (fail) or continue (warn)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="109" column="10" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive information about a recovery fault. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used to communicate fault details to diagnostic systems and recovery decision makers. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_recovery_fault_handler.h" line="76" column="1" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="76" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a74bc965a961409dd59f42a65fcf9a68f" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>checkpoint_seq</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1ad5fb1e58237ed5d31fc88ab8f3d6aee8" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>detection_time</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a7b5f6e3ef80a4fb3e353c64b55bb4fa3" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>entries_replayed</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1aa3f5ae8e936d95d977886948ae63bbb2" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a529ddc8d915bd59f9a316bdbbb52af13" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>fault_message</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a447625804e3043226927bce0937a5ea8" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>fault_seq</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a2a9fadbb111b9db5e530f0c339c96df4" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>fault_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a24fdf01e2fc6900f85d85a93bb451bd7" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>is_retryable</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1af26b5d73f532e1ca022738b7f4774d38" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>recovery_start_seq</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a340ed899c1b22bcb7266fb692c563f02" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>recovery_suggestion</name></member>
+      <member refid="structthemis_1_1storage_1_1_recovery_fault_report_1a32f483446e250e5d4bbc43ad673923e3" prot="public" virt="non-virtual"><scope>themis::storage::RecoveryFaultReport</scope><name>should_stop_recovery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

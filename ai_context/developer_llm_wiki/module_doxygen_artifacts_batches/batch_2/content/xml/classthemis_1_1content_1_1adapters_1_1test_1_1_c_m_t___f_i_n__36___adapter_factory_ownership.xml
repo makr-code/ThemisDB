@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership_1a937c793d6beab84a407f2501009ef02d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractorFactory &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::IFormatExtractorFactory&gt; themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership::factory_</definition>
+        <argsstring></argsstring>
+        <name>factory_</name>
+        <qualifiedname>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership::factory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="37" column="21" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership_1a99329f5aedf9ce34c21fe9816ad212fb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_adapter_scope_validation.cpp" line="31" column="10" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</label>
+        <link refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</label>
+        <link refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_adapter_scope_validation.cpp" line="29" column="1" bodyfile="tests/content/test_adapter_scope_validation.cpp" bodystart="29" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership_1a937c793d6beab84a407f2501009ef02d" prot="protected" virt="non-virtual"><scope>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</scope><name>factory_</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1test_1_1_c_m_t___f_i_n__36___adapter_factory_ownership_1a99329f5aedf9ce34c21fe9816ad212fb" prot="protected" virt="non-virtual"><scope>themis::content::adapters::test::CMT_FIN_36_AdapterFactoryOwnership</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

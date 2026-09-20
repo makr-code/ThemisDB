@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability" kind="namespace" language="C++">
+    <compoundname>themis::observability</compoundname>
+    <innerclass refid="structthemis_1_1observability_1_1_diagnostic_event" prot="public">themis::observability::DiagnosticEvent</innerclass>
+    <innernamespace refid="namespacethemis_1_1observability_1_1detail">themis::observability::detail</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DiagnosticFailureCategory</name>
+        <qualifiedname>themis::observability::DiagnosticFailureCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a8842eef2fb460ac2c6c7a1cd320be72d" prot="public">
+          <name>NLI_INFERENCE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>NLI (Natural Language Inference) prediction failures or latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a970ee33d8cfd3b566908e30eafbcff6c" prot="public">
+          <name>MTLS_CONNECTION</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>mTLS connection acquisition or SSL errors </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a0e37b0e1d53bd8ff19b39d596c3c428f" prot="public">
+          <name>QUERY_TIMEOUT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Query execution timeout or slow query detection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a9edc5b475bd8f20ef7f1cda13e6caf77" prot="public">
+          <name>SHARD_ROUTING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Shard routing or rebalancing failures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a013c63756a2f65fc76245437207e4985" prot="public">
+          <name>CACHE_DEGRADATION</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Cache miss rate degradation or eviction issues. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a7ae7f2a13f0d5a18b0db91af9c5aef34" prot="public">
+          <name>STORAGE_ERROR</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Storage layer I/O errors or latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a992c0abd10849861ac7a5d6a677de028" prot="public">
+          <name>RPC_ERROR</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Internal RPC communication failures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a02cb15b67dbe22113d6c4ea19bb1b240" prot="public">
+          <name>RESOURCE_PRESSURE</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Memory pressure or resource exhaustion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a9c2fce0daadbfe925304024814096609" prot="public">
+          <name>CONFIG_ERROR</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+<para>Configuration or deployment issues. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+<para>Sentinel: unknown category. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Diagnostic failure category enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Categories are used to classify diagnostic events and route them to appropriate analysis and alerting pipelines. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="85" column="1" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="85" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DiagnosticSeverity</name>
+        <qualifiedname>themis::observability::DiagnosticSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1adc30ec20708ef7b0f641ef78b7880a15" prot="public">
+          <name>DEBUG</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1a32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity level for diagnostic events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to filter and prioritize diagnostic events in observability backend. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="113" column="1" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="113" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::observability::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::observability::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="77" column="1" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1ab17fab7c1b1e58a0341894abdd569ecc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::observability::PII_MASK_FIELDS[]</definition>
+        <argsstring>[]</argsstring>
+        <name>PII_MASK_FIELDS</name>
+        <qualifiedname>themis::observability::PII_MASK_FIELDS</qualifiedname>
+        <initializer>                                            = {
+    &quot;query&quot;,
+    &quot;user_id&quot;,
+    &quot;user_email&quot;,
+    &quot;user_name&quot;,
+    &quot;user_&quot;,
+    &quot;email&quot;,
+    &quot;customer_id&quot;,
+    &quot;api_key&quot;,
+    &quot;token&quot;,
+    &quot;password&quot;,
+    &quot;session_id&quot;,
+    &quot;request_body&quot;,
+    &quot;response_body&quot;,
+    &quot;personal_data&quot;,
+    &quot;pii&quot;
+}</initializer>
+        <briefdescription>
+<para>PII Field Mask List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fields that typically contain PII and should be automatically redacted during diagnostic event sanitization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="303" column="29" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="303" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1observability_1a8677a2ae2392a1a181d9c8e92c0180ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::failureCategoryToString</definition>
+        <argsstring>(DiagnosticFailureCategory cat)</argsstring>
+        <name>failureCategoryToString</name>
+        <qualifiedname>themis::observability::failureCategoryToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07" kindref="member">DiagnosticFailureCategory</ref></type>
+          <declname>cat</declname>
+        </param>
+        <briefdescription>
+<para>String representation of failure category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="124" column="20" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="124" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1aacbc450ff1c097f2a9cdaf87d61e3879" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::severityToString</definition>
+        <argsstring>(DiagnosticSeverity sev)</argsstring>
+        <name>severityToString</name>
+        <qualifiedname>themis::observability::severityToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1" kindref="member">DiagnosticSeverity</ref></type>
+          <declname>sev</declname>
+        </param>
+        <briefdescription>
+<para>String representation of severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="154" column="20" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="154" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1a097887c41c32dcb700e228efb7280318" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::isPIIField</definition>
+        <argsstring>(const std::string &amp;field_name)</argsstring>
+        <name>isPIIField</name>
+        <qualifiedname>themis::observability::isPIIField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if a field name is in the PII mask list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of field to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if field is PII-sensitive </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="327" column="13" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="327" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1a1273d1870f599dc055e355fa7a858453" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &amp;</type>
+        <definition>DiagnosticEvent &amp; themis::observability::sanitizePII</definition>
+        <argsstring>(DiagnosticEvent &amp;event, char mask_char=&apos; *&apos;)</argsstring>
+        <name>sanitizePII</name>
+        <qualifiedname>themis::observability::sanitizePII</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>mask_char</declname>
+          <defval>&apos; *&apos;</defval>
+        </param>
+        <briefdescription>
+<para>Sanitize a diagnostic event by masking PII fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to sanitize (modified in-place) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mask_char</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Character to use for masking (default &apos;*&apos;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to sanitized event </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="343" column="24" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="343" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/field_diagnostics_schema.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

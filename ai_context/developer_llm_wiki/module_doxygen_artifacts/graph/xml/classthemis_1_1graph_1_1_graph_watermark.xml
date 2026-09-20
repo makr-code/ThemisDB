@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_watermark" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphWatermark</compoundname>
+    <includes refid="graph__watermark_8h" local="no">graph_watermark.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_watermark_1a70447c552082fd41599053df65e88355" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphWatermark::graph_watermarking_enabled</definition>
+        <argsstring></argsstring>
+        <name>graph_watermarking_enabled</name>
+        <qualifiedname>themis::graph::GraphWatermark::graph_watermarking_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="51" column="10" bodyfile="include/graph/graph_watermark.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_watermark_1a45db08102938f35dd9e790ffe55dc36d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphWatermark::GraphWatermark</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphWatermark</name>
+        <qualifiedname>themis::graph::GraphWatermark::GraphWatermark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_watermark_1abbb94d03d4b89da95046e2e8c6541579" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_watermarked_snapshot" kindref="compound">WatermarkedSnapshot</ref></type>
+        <definition>WatermarkedSnapshot themis::graph::GraphWatermark::embed</definition>
+        <argsstring>(const GraphSnapshot &amp;snapshot, const std::string &amp;tenant_id, uint64_t seed) const</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::graph::GraphWatermark::embed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_snapshot" kindref="compound">GraphSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Embed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="60" column="25" bodyfile="src/graph/graph_watermark.cpp" bodystart="58" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_watermark_1a862ff7a7aa2bda632d6e2bf1801181be" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graph::GraphWatermark::generateWatermarkIds</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t seed)</argsstring>
+        <name>generateWatermarkIds</name>
+        <qualifiedname>themis::graph::GraphWatermark::generateWatermarkIds</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate Watermark Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>─── <ref refid="classthemis_1_1graph_1_1_graph_watermark" kindref="compound">GraphWatermark</ref> ───────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), push_back(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="72" column="24" bodyfile="src/graph/graph_watermark.cpp" bodystart="29" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_watermark_1a7b65ced805e7e43df3d72aa593e51784" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphWatermark::hasCollision</definition>
+        <argsstring>(const GraphSnapshot &amp;snapshot, const std::vector&lt; std::string &gt; &amp;wm_ids)</argsstring>
+        <name>hasCollision</name>
+        <qualifiedname>themis::graph::GraphWatermark::hasCollision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_snapshot" kindref="compound">GraphSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>wm_ids</declname>
+        </param>
+        <briefdescription>
+<para>Has Collision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wm_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wm_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: existing(), begin(), end(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="82" column="17" bodyfile="src/graph/graph_watermark.cpp" bodystart="48" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_watermark.h" line="47" column="1" bodyfile="include/graph/graph_watermark.h" bodystart="47" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_watermark_1abbb94d03d4b89da95046e2e8c6541579" prot="public" virt="non-virtual"><scope>themis::graph::GraphWatermark</scope><name>embed</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_watermark_1a862ff7a7aa2bda632d6e2bf1801181be" prot="private" virt="non-virtual"><scope>themis::graph::GraphWatermark</scope><name>generateWatermarkIds</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_watermark_1a70447c552082fd41599053df65e88355" prot="public" virt="non-virtual"><scope>themis::graph::GraphWatermark</scope><name>graph_watermarking_enabled</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_watermark_1a45db08102938f35dd9e790ffe55dc36d" prot="public" virt="non-virtual"><scope>themis::graph::GraphWatermark</scope><name>GraphWatermark</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_watermark_1a7b65ced805e7e43df3d72aa593e51784" prot="private" virt="non-virtual"><scope>themis::graph::GraphWatermark</scope><name>hasCollision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_wisc_key_storage" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::WiscKeyStorage</compoundname>
+    <includes refid="wisckey_8h" local="no">wisckey.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_wisc_key_storage_1_1_stats" prot="public">themis::performance::WiscKeyStorage::Stats</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_wisc_key_storage_1a4abc0537bb29b710b44221458f9822f2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WiscKeyStorage::VALUE_SEPARATION_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>VALUE_SEPARATION_THRESHOLD</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::VALUE_SEPARATION_THRESHOLD</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="97" column="29" bodyfile="include/performance/wisckey.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_wisc_key_storage_1afb04378dc3d90afed5ac479334e01306" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1performance_1_1_value_log" kindref="compound">ValueLog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ValueLog&gt; themis::performance::WiscKeyStorage::value_log_</definition>
+        <argsstring></argsstring>
+        <name>value_log_</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::value_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="122" column="21" bodyfile="include/performance/wisckey.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_wisc_key_storage_1a68e3363e6993a778069df1836c1a1acc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::WiscKeyStorage::inline_values_</definition>
+        <argsstring></argsstring>
+        <name>inline_values_</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::inline_values_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="123" column="17" bodyfile="include/performance/wisckey.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_wisc_key_storage_1a963b61933434181143594bba17f294e5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::WiscKeyStorage::separated_values_</definition>
+        <argsstring></argsstring>
+        <name>separated_values_</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::separated_values_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="124" column="17" bodyfile="include/performance/wisckey.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_wisc_key_storage_1afc1ffd223d6aa1621fdb9cf91816a86b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::WiscKeyStorage::WiscKeyStorage</definition>
+        <argsstring>(const std::string &amp;value_log_path)</argsstring>
+        <name>WiscKeyStorage</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::WiscKeyStorage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value_log_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="99" column="5" bodyfile="src/performance/wisckey.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_wisc_key_storage_1ad7bfc0de845ebea5b744aa6b7359bf74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::WiscKeyStorage::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), append(), fetch_add(), encode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="103" column="17" bodyfile="src/performance/wisckey.cpp" bodystart="286" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_wisc_key_storage_1ae21139bbfb884b2ff0702dbdd3194c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::performance::WiscKeyStorage::get</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;encoded_value)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded_value</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_wisc_key_storage_1a8dad46a29989886003f7ab6baab6d58d" kindref="member">is_separated()</ref>, size(), <ref refid="structthemis_1_1performance_1_1_value_address_1afbd979abad9e724ba17397773f80b62f" kindref="member">ValueAddress::decode()</ref>, read(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="106" column="19" bodyfile="src/performance/wisckey.cpp" bodystart="315" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_wisc_key_storage_1ad16c96ea43321e1c3435eb0ea87b51d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_wisc_key_storage_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>WiscKeyStorage::Stats themis::performance::WiscKeyStorage::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="119" column="11" bodyfile="src/performance/wisckey.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_wisc_key_storage_1a8dad46a29989886003f7ab6baab6d58d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::WiscKeyStorage::is_separated</definition>
+        <argsstring>(const std::string &amp;encoded_value)</argsstring>
+        <name>is_separated</name>
+        <qualifiedname>themis::performance::WiscKeyStorage::is_separated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="109" column="17" bodyfile="include/performance/wisckey.h" bodystart="109" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>WiscKey storage engine wrapper Decides whether to store value inline or in value log </para>
+    </detaileddescription>
+    <location file="include/performance/wisckey.h" line="94" column="1" bodyfile="include/performance/wisckey.h" bodystart="94" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1ae21139bbfb884b2ff0702dbdd3194c8b" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>get</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1ad16c96ea43321e1c3435eb0ea87b51d5" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1a68e3363e6993a778069df1836c1a1acc" prot="private" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>inline_values_</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1a8dad46a29989886003f7ab6baab6d58d" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>is_separated</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1ad7bfc0de845ebea5b744aa6b7359bf74" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>put</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1a963b61933434181143594bba17f294e5" prot="private" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>separated_values_</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1afb04378dc3d90afed5ac479334e01306" prot="private" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>value_log_</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1a4abc0537bb29b710b44221458f9822f2" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>VALUE_SEPARATION_THRESHOLD</name></member>
+      <member refid="classthemis_1_1performance_1_1_wisc_key_storage_1afc1ffd223d6aa1621fdb9cf91816a86b" prot="public" virt="non-virtual"><scope>themis::performance::WiscKeyStorage</scope><name>WiscKeyStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

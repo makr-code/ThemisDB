@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__engine__builder_8h" kind="file" language="C++">
+    <compoundname>query_engine_builder.h</compoundname>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">themis/base/interfaces/storage_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/index_interface.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/query_engine_builder.h</label>
+        <link refid="query__engine__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="3">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1_query_engine_builder" prot="public">themis::QueryEngineBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Builder pattern for QueryEngine construction with dependency injection.</para>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+This builder enables flexible construction of QueryEngine instances with various dependency configurations. It supports:<itemizedlist>
+<listitem><para>Fluent API for setting dependencies</para>
+</listitem><listitem><para>Standard factory method for default configuration</para>
+</listitem><listitem><para>Validation of required dependencies before build</para>
+</listitem></itemizedlist>
+</para>
+<para>Failure behavior:<itemizedlist>
+<listitem><para>build() throws std::runtime_error when required dependencies are missing.</para>
+</listitem><listitem><para>storage is optional at build time and may be bound later via QueryEngine APIs; index manager is mandatory.</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>QueryEngineBuilder::standard()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withStorage(my_storage)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withIndexManager(my_index_mgr)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/storage_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/index_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1_query_engine_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1_query_engine_builder_1a4335fd9b6965e3fb30a9b6e59c4c1384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_query_engine_builder_1a4335fd9b6965e3fb30a9b6e59c4c1384" kindref="member">withStorage</ref>(IStorageEnginePtr<sp/>storage)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_<sp/>=<sp/>storage;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1_query_engine_builder_1a43e4d399a85325f18f7e559cf9724a09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_query_engine_builder_1a43e4d399a85325f18f7e559cf9724a09" kindref="member">withIndexManager</ref>(IIndexManagerPtr<sp/>index_manager)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index_manager_<sp/>=<sp/>index_manager;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1_query_engine_builder_1add1e7233ee44e43a9e84fbad7de36463" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;query::QueryEngine&gt;<sp/><ref refid="classthemis_1_1_query_engine_builder_1add1e7233ee44e43a9e84fbad7de36463" kindref="member">build</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!index_manager_)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;QueryEngineBuilder:<sp/>IndexManager<sp/>is<sp/>required&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>storage_<sp/>can<sp/>be<sp/>nullptr<sp/>for<sp/>late<sp/>binding<sp/>via<sp/>setStorage()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;query::QueryEngine&gt;(storage_,<sp/>index_manager_);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1_query_engine_builder_1aaceb8331e339bae60aea908d05fa54da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref><sp/><ref refid="classthemis_1_1_query_engine_builder_1aaceb8331e339bae60aea908d05fa54da" kindref="member">standard</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_engine_builder_1aa690d8f65b1a8f8b2c1288fbcf6b556c" kindref="member">QueryEngineBuilder</ref><sp/>builder<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>builder;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>IStorageEnginePtr<sp/>storage_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>IIndexManagerPtr<sp/>index_manager_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/query_engine_builder.h"/>
+  </compounddef>
+</doxygen>

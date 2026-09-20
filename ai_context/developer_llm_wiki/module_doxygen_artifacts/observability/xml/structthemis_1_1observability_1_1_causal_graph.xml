@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_causal_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::CausalGraph</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_graph_1ae732e0543cf9188e06277fc421347d0a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::CausalGraph::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::observability::CausalGraph::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="132" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_causal_graph_1a749880733b8c41d4c54528190d155556" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_causal_edge" kindref="compound">CausalEdge</ref> &gt;</type>
+        <definition>std::vector&lt;CausalEdge&gt; themis::observability::CausalGraph::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::observability::CausalGraph::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="133" column="18" bodyfile="include/observability/root_cause_analyzer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_causal_graph_1a01122b4a9f850c676ad970fcde37aee1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::CausalGraph::rootNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>rootNodes</name>
+        <qualifiedname>themis::observability::CausalGraph::rootNodes</qualifiedname>
+        <briefdescription>
+<para>Returns the root nodes (nodes with no incoming edges). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="136" column="17" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="78" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_causal_graph_1af46aa3383eedc159ae068cb470f85b38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::CausalGraph::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::CausalGraph::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="138" column="10" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="101" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A directed acyclic graph representing causal relationships between metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="131" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="131" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_causal_graph_1a749880733b8c41d4c54528190d155556" prot="public" virt="non-virtual"><scope>themis::observability::CausalGraph</scope><name>edges</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_graph_1ae732e0543cf9188e06277fc421347d0a" prot="public" virt="non-virtual"><scope>themis::observability::CausalGraph</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_graph_1a01122b4a9f850c676ad970fcde37aee1" prot="public" virt="non-virtual"><scope>themis::observability::CausalGraph</scope><name>rootNodes</name></member>
+      <member refid="structthemis_1_1observability_1_1_causal_graph_1af46aa3383eedc159ae068cb470f85b38" prot="public" virt="non-virtual"><scope>themis::observability::CausalGraph</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

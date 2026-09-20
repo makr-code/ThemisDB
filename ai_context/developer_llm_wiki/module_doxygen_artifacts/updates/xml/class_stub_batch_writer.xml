@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_batch_writer" kind="class" language="C++" prot="public">
+    <compoundname>StubBatchWriter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_batch_writer_1a472133b7152b6297c943ae20a86ff94a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubBatchWriter::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubBatchWriter::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="59" column="24" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_batch_writer_1a8e27b67746171668be29628ad372fbbf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; StubBatchWriter::versions_</definition>
+        <argsstring></argsstring>
+        <name>versions_</name>
+        <qualifiedname>StubBatchWriter::versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="60" column="24" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_batch_writer_1a9fee26f2d624a212c06d7dfcf109939d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBatchWriter::written_</definition>
+        <argsstring></argsstring>
+        <name>written_</name>
+        <qualifiedname>StubBatchWriter::written_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="61" column="17" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_batch_writer_1a0368c183b03ed0e57b71501c530cc8cc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBatchWriter::conflicts_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_</name>
+        <qualifiedname>StubBatchWriter::conflicts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="62" column="17" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_batch_writer_1a4a9f2afe45ab74fb2b26fb45e5c532b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubBatchWriter::StubBatchWriter</definition>
+        <argsstring>()</argsstring>
+        <name>StubBatchWriter</name>
+        <qualifiedname>StubBatchWriter::StubBatchWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="37" column="5" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_batch_writer_1a8fcbf4627fb74b7d038ee0098617a27f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBatchWriter::write</definition>
+        <argsstring>(const std::string &amp;key, int version)</argsstring>
+        <name>write</name>
+        <qualifiedname>StubBatchWriter::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="39" column="10" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="39" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_batch_writer_1ab265187e29eeb8a8a8307a8bd1b7b10a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBatchWriter::written</definition>
+        <argsstring>() const</argsstring>
+        <name>written</name>
+        <qualifiedname>StubBatchWriter::written</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="51" column="14" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_batch_writer_1a5b2898243771581b99b37bbe23896627" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBatchWriter::conflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>conflicts</name>
+        <qualifiedname>StubBatchWriter::conflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="52" column="14" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_batch_writer_1afcadb8b1dafe673e3ba350c7bcd84bd0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubBatchWriter::keyCount</definition>
+        <argsstring>() const</argsstring>
+        <name>keyCount</name>
+        <qualifiedname>StubBatchWriter::keyCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="53" column="17" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub batch writer — models the updates engine write path. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_highcardinality_stress.cpp" line="35" column="1" bodyfile="tests/updates/test_updates_highcardinality_stress.cpp" bodystart="35" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_stub_batch_writer_1a5b2898243771581b99b37bbe23896627" prot="public" virt="non-virtual"><scope>StubBatchWriter</scope><name>conflicts</name></member>
+      <member refid="class_stub_batch_writer_1a0368c183b03ed0e57b71501c530cc8cc" prot="private" virt="non-virtual"><scope>StubBatchWriter</scope><name>conflicts_</name></member>
+      <member refid="class_stub_batch_writer_1afcadb8b1dafe673e3ba350c7bcd84bd0" prot="public" virt="non-virtual"><scope>StubBatchWriter</scope><name>keyCount</name></member>
+      <member refid="class_stub_batch_writer_1a472133b7152b6297c943ae20a86ff94a" prot="private" virt="non-virtual"><scope>StubBatchWriter</scope><name>mu_</name></member>
+      <member refid="class_stub_batch_writer_1a4a9f2afe45ab74fb2b26fb45e5c532b9" prot="public" virt="non-virtual"><scope>StubBatchWriter</scope><name>StubBatchWriter</name></member>
+      <member refid="class_stub_batch_writer_1a8e27b67746171668be29628ad372fbbf" prot="private" virt="non-virtual"><scope>StubBatchWriter</scope><name>versions_</name></member>
+      <member refid="class_stub_batch_writer_1a8fcbf4627fb74b7d038ee0098617a27f" prot="public" virt="non-virtual"><scope>StubBatchWriter</scope><name>write</name></member>
+      <member refid="class_stub_batch_writer_1ab265187e29eeb8a8a8307a8bd1b7b10a" prot="public" virt="non-virtual"><scope>StubBatchWriter</scope><name>written</name></member>
+      <member refid="class_stub_batch_writer_1a9fee26f2d624a212c06d7dfcf109939d" prot="private" virt="non-virtual"><scope>StubBatchWriter</scope><name>written_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

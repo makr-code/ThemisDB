@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_c_d_c_publisher" kind="class" language="C++" prot="public">
+    <compoundname>StressCDCPublisher</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_c_d_c_publisher_1ad43fda8856fafe1c71010da72ced5641" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StressCDCPublisher::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StressCDCPublisher::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="100" column="46" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_c_d_c_publisher_1ae4485b00e14fd62cd34d44a87a76a091" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, uint64_t&gt; StressCDCPublisher::last_seq_</definition>
+        <argsstring></argsstring>
+        <name>last_seq_</name>
+        <qualifiedname>StressCDCPublisher::last_seq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="101" column="26" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_c_d_c_publisher_1ab05ebd4d5e4440a76bef92985d80315e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressCDCPublisher::out_of_order_</definition>
+        <argsstring></argsstring>
+        <name>out_of_order_</name>
+        <qualifiedname>StressCDCPublisher::out_of_order_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="102" column="36" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_c_d_c_publisher_1a96a541daa720bb9856002e403947111b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressCDCPublisher::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>StressCDCPublisher::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="103" column="36" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_c_d_c_publisher_1ab6806d2d53057be09ee1540648f432a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressCDCPublisher::publish</definition>
+        <argsstring>(uint32_t slot_id, uint64_t seq)</argsstring>
+        <name>publish</name>
+        <qualifiedname>StressCDCPublisher::publish</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>slot_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="81" column="10" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_c_d_c_publisher_1a7282df15e0790d1c6f19bd4fcf6bf1db" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressCDCPublisher::outOfOrder</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>outOfOrder</name>
+        <qualifiedname>StressCDCPublisher::outOfOrder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="92" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_c_d_c_publisher_1aa41c89a51a348ef1675d2d6fb023fcfe" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressCDCPublisher::total</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>total</name>
+        <qualifiedname>StressCDCPublisher::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="95" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="79" column="1" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="79" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_stress_c_d_c_publisher_1ae4485b00e14fd62cd34d44a87a76a091" prot="private" virt="non-virtual"><scope>StressCDCPublisher</scope><name>last_seq_</name></member>
+      <member refid="class_stress_c_d_c_publisher_1ad43fda8856fafe1c71010da72ced5641" prot="private" virt="non-virtual"><scope>StressCDCPublisher</scope><name>mu_</name></member>
+      <member refid="class_stress_c_d_c_publisher_1ab05ebd4d5e4440a76bef92985d80315e" prot="private" virt="non-virtual"><scope>StressCDCPublisher</scope><name>out_of_order_</name></member>
+      <member refid="class_stress_c_d_c_publisher_1a7282df15e0790d1c6f19bd4fcf6bf1db" prot="public" virt="non-virtual"><scope>StressCDCPublisher</scope><name>outOfOrder</name></member>
+      <member refid="class_stress_c_d_c_publisher_1ab6806d2d53057be09ee1540648f432a7" prot="public" virt="non-virtual"><scope>StressCDCPublisher</scope><name>publish</name></member>
+      <member refid="class_stress_c_d_c_publisher_1aa41c89a51a348ef1675d2d6fb023fcfe" prot="public" virt="non-virtual"><scope>StressCDCPublisher</scope><name>total</name></member>
+      <member refid="class_stress_c_d_c_publisher_1a96a541daa720bb9856002e403947111b" prot="private" virt="non-virtual"><scope>StressCDCPublisher</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

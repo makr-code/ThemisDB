@@ -1,0 +1,1080 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__interval__tree__index_8cpp" kind="file" language="C++">
+    <compoundname>test_interval_tree_index.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes refid="interval__tree__index_8h" local="yes">temporal/interval_tree_index.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>temporal/interval_tree_index.h</label>
+        <link refid="interval__tree__index_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/temporal/test_interval_tree_index.cpp</label>
+        <link refid="test__interval__tree__index_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>limits</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_interval_tree_index_test" prot="public">IntervalTreeIndexTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Insert_Single_SizeBecomesOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_Single_SizeBecomesOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="28" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a8cb12fda581d56efa3dd78b757373821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Insert_Multiple_SizeIncreases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_Multiple_SizeIncreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="33" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a1892c83a40b0a3400859b9842289eca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryPoint_MatchingEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_MatchingEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="42" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a8c77a1224f4620143f450abf1a34f701" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryPoint_NoMatch_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_NoMatch_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="51" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a16d8d8a8a59d8e7e99ff92c1f568b0c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryPoint_AtStart_ReturnsEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_AtStart_ReturnsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="57" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a850753bbe94732effda382b2fbcbac4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryOverlap_ReturnsAllOverlapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryOverlap_ReturnsAllOverlapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="66" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a04c3bdf20d4b0ab73501a7bde30ebac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryOverlap_NoOverlap_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryOverlap_NoOverlap_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="75" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a60f2aa894d86e627dfe46608cfa5a62c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryOverlap_PartialOverlap)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryOverlap_PartialOverlap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="80" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a00033edddc6ca80b8de0e66986465f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryKey_ReturnsAllVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryKey_ReturnsAllVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="91" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="91" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1affffc425a28fe05f33c20aeb47e626f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryKey_WithRange_FiltersVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryKey_WithRange_FiltersVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="100" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="100" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1aad51475fd065ef47eff0c4e5906ff457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Remove_ExistingEntry_SizeDecreases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_ExistingEntry_SizeDecreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="111" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a24eb41c5f1f4f9452b962c52cfbd5e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, RemoveKey_RemovesAllVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveKey_RemovesAllVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="117" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a736ef2ca795d3ed3b510470630dd66c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Clear_EmptiesTree)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Clear_EmptiesTree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="128" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1ad0f0018cb890b2bae396a97ca731bb0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Stats_TracksCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Stats_TracksCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="139" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="139" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a2ceadf962cee20003da03a6af82bc5b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Name_ReturnsGivenName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Name_ReturnsGivenName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="157" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a814212fc1565d64eb703e8e42610ab10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryOverlap_TouchingBoundary_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryOverlap_TouchingBoundary_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="163" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="163" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a0924eac76dd209505a9074be44bc74c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, Insert_DuplicateKey_DifferentRange_SizeIncreasesByTwo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_DuplicateKey_DifferentRange_SizeIncreasesByTwo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="170" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="170" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a01da0a82f41804d082f4c5757473730a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, QueryPoint_ManyIntervals_ReturnsAllContaining)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_ManyIntervals_ReturnsAllContaining</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="176" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="176" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a408a65c2e150e80608ca38b176d12bdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, AVL_AscendingInsert_HeightIsLogarithmic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>AVL_AscendingInsert_HeightIsLogarithmic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="193" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="193" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a059e8a2f0fb200719c008875da0ba363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, AVL_DescendingInsert_HeightIsLogarithmic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>AVL_DescendingInsert_HeightIsLogarithmic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="206" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="206" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a8a7be26beceaa9ce4cc52721e0d7cf48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, AVL_AfterRemove_HeightStaysLogarithmic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>AVL_AfterRemove_HeightStaysLogarithmic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="218" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="218" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1ada200e33a865be3f1b49f4236d99ca5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, KeyIndex_QueryKey_ReturnsCorrectCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KeyIndex_QueryKey_ReturnsCorrectCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="240" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="240" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a67cdf9c97b8aeb09b431e92c380dc067" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, KeyIndex_QueryKey_WithRange_Filtered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KeyIndex_QueryKey_WithRange_Filtered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="261" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="261" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1ad11cdbc27b0f171b3767836888b97c30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, KeyIndex_AfterRemove_EntryGone)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KeyIndex_AfterRemove_EntryGone</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="272" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="272" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1ac15e5d2dab955b21cd533672691253dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, KeyIndex_AfterRemoveKey_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KeyIndex_AfterRemoveKey_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="283" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1ac67547abfb094903521f217263486c5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, KeyIndex_AfterClear_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>KeyIndex_AfterClear_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="294" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="294" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1af9fc9cc17bf514a011b4ff2c706c0606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IntervalTreeIndexTest, ConcurrentReads_SharedMutex_NoDeadlock)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentReads_SharedMutex_NoDeadlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="308" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="308" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a3278f75183eb63bdcc952ea63a531439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IntervalTreeEraseTest, ITX_ERASE_01_EraseExistingKey_ReturnsCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IntervalTreeEraseTest</type>
+        </param>
+        <param>
+          <type>ITX_ERASE_01_EraseExistingKey_ReturnsCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="342" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="342" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1aac452544dd6af9e9a1bb250418983d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IntervalTreeEraseTest, ITX_ERASE_02_EraseAbsentKey_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IntervalTreeEraseTest</type>
+        </param>
+        <param>
+          <type>ITX_ERASE_02_EraseAbsentKey_ReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="353" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="353" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a3dd20d1b36a46b067d68fe1e711616d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IntervalTreeEraseTest, ITX_ERASE_03_TreeRemainsQueryable_AfterErase)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IntervalTreeEraseTest</type>
+        </param>
+        <param>
+          <type>ITX_ERASE_03_TreeRemainsQueryable_AfterErase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="362" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="362" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="test__interval__tree__index_8cpp_1a1d8b2cb3c522b3e87ae5609242d582a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IntervalTreeEraseTest, ITX_ERASE_04_EraseAll_TreeEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IntervalTreeEraseTest</type>
+        </param>
+        <param>
+          <type>ITX_ERASE_04_EraseAll_TreeEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="374" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="374" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="interval__tree__index_8h" kindref="compound">temporal/interval_tree_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">themisdb::temporal</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="class_interval_tree_index_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref><sp/><ref refid="class_interval_tree_index_test_1a8910c0b5c09e0d64ce21cceee4c8f9ce" kindref="member">tree</ref>{</highlight><highlight class="stringliteral">&quot;test_tree&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref><sp/><ref refid="class_interval_tree_index_test_1ac2fa407087d97f860c02863429149626" kindref="member">makeEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>start,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>end,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{key,<sp/>{start,<sp/>end},<sp/>std::move(payload)};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Insert<sp/>/<sp/>Size<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Insert_Single_SizeBecomesOne)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Insert_Multiple_SizeIncreases)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>300));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>250,<sp/>400));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryPoint<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryPoint_MatchingEntries)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>250));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>400,<sp/>500));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryPoint(200);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryPoint_NoMatch_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryPoint(50).empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryPoint(200).empty());<sp/></highlight><highlight class="comment">//<sp/>half-open:<sp/>[100,200)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryPoint_AtStart_ReturnsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryPoint(100);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].key,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryOverlap<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryOverlap_ReturnsAllOverlapping)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>400));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>500,<sp/>600));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryOverlap(150,<sp/>350);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryOverlap_NoOverlap_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryOverlap(200,<sp/>300).empty());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryOverlap_PartialOverlap)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>180,<sp/>300));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>400,<sp/>500));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryOverlap(150,<sp/>250);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryKey<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryKey_ReturnsAllVersions)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryKey_WithRange_FiltersVersions)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>400));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>{50,<sp/>250});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].range.start,<sp/>100);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>remove<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Remove_ExistingEntry_SizeDecreases)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.remove(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{100,<sp/>200}),<sp/>1u);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>RemoveKey_RemovesAllVersions)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.removeKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>clear<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Clear_EmptiesTree)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>400));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.clear();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryPoint(150).empty());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>stats<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Stats_TracksCounts)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>300));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_entries,<sp/>2u);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.queryPoint(150);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s2.point_queries,<sp/>1u);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.queryOverlap(100,<sp/>250);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s3<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s3.overlap_queries,<sp/>1u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>name<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Name_ReturnsGivenName)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.name(),<sp/></highlight><highlight class="stringliteral">&quot;test_tree&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Additional<sp/>edge-case<sp/>tests<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryOverlap_TouchingBoundary_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[100,200)<sp/>and<sp/>[200,300):<sp/>half-open<sp/>intervals<sp/>—<sp/>they<sp/>touch<sp/>but<sp/>do<sp/>not<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryOverlap(200,<sp/>300);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>Insert_DuplicateKey_DifferentRange_SizeIncreasesByTwo)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>400));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>QueryPoint_ManyIntervals_ReturnsAllContaining)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>non-overlapping<sp/>intervals<sp/>[i*100,<sp/>(i+1)*100)<sp/>for<sp/>i<sp/>in<sp/>0..9</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>100),</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((i<sp/>+<sp/>1)<sp/>*<sp/>100)));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>exactly<sp/>in<sp/>the<sp/>middle<sp/>of<sp/>interval<sp/>#5<sp/>→<sp/>[500,600)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryPoint(550);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].key,<sp/></highlight><highlight class="stringliteral">&quot;k5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>AVL<sp/>balancing<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-AVL-01:<sp/>Inserting<sp/>N<sp/>entries<sp/>in<sp/>ascending<sp/>order<sp/>must<sp/>not<sp/>degenerate<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>a<sp/>linear<sp/>chain.<sp/><sp/>For<sp/>a<sp/>balanced<sp/>BST<sp/>height<sp/>&lt;=<sp/>ceil(1.44<sp/>*<sp/>log2(N+2)).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>AVL_AscendingInsert_HeightIsLogarithmic)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10<sp/>+<sp/>5)));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AVL<sp/>guarantee:<sp/>height<sp/>&lt;=<sp/>1.44<sp/>*<sp/>log2(N+2)<sp/>≈<sp/>15<sp/>for<sp/>N=1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s.height,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(22));<sp/></highlight><highlight class="comment">//<sp/>generous<sp/>upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-AVL-02:<sp/>Inserting<sp/>N<sp/>entries<sp/>in<sp/>descending<sp/>order<sp/>must<sp/>also<sp/>stay<sp/>balanced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>AVL_DescendingInsert_HeightIsLogarithmic)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>N<sp/>-<sp/>1;<sp/>i<sp/>&gt;=<sp/>0;<sp/>--i)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10<sp/>+<sp/>5)));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s.height,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(22));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-AVL-03:<sp/>After<sp/>removing<sp/>half<sp/>the<sp/>entries<sp/>the<sp/>tree<sp/>must<sp/>remain<sp/>balanced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>AVL_AfterRemove_HeightStaysLogarithmic)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10<sp/>+<sp/>5)));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>every<sp/>second<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>i<sp/>+=<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.remove(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10<sp/>+<sp/>5)});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N<sp/>/<sp/>2));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>tree.stats();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s.height,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(22));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Secondary<sp/>key<sp/>index<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-KEY-01:<sp/>queryKey<sp/>returns<sp/>all<sp/>versions<sp/>for<sp/>a<sp/>key<sp/>across<sp/>a<sp/>large<sp/>tree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>iterating<sp/>through<sp/>unrelated<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>KeyIndex_QueryKey_ReturnsCorrectCount)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>NUM_KEYS<sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>VERSIONS<sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>NUM_KEYS;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>0;<sp/>v<sp/>&lt;<sp/>VERSIONS;<sp/>++v)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(k),</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((k<sp/>*<sp/>VERSIONS<sp/>+<sp/>v)<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((k<sp/>*<sp/>VERSIONS<sp/>+<sp/>v)<sp/>*<sp/>10<sp/>+<sp/>9)));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>key<sp/>should<sp/>have<sp/>exactly<sp/>VERSIONS<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>NUM_KEYS;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryKey(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(k));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(VERSIONS))</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>k<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>wrong<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>key<sp/>returns<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryKey(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-KEY-02:<sp/>queryKey<sp/>with<sp/>range<sp/>filter<sp/>uses<sp/>the<sp/>secondary<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>KeyIndex_QueryKey_WithRange_Filtered)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>400));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>500,<sp/>600));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>[100,200)<sp/>and<sp/>[300,400)<sp/>should<sp/>overlap<sp/>[50,350)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>tree.queryKey(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>{50,<sp/>350});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-KEY-03:<sp/>After<sp/>remove()<sp/>the<sp/>secondary<sp/>index<sp/>no<sp/>longer<sp/>contains<sp/>the<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>KeyIndex_AfterRemove_EntryGone)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.remove(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">,<sp/>{100,<sp/>200});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>tree.queryKey(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].range.start,<sp/>200);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-KEY-04:<sp/>After<sp/>removeKey()<sp/>the<sp/>secondary<sp/>index<sp/>is<sp/>fully<sp/>cleared.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>KeyIndex_AfterRemoveKey_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;del&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;del&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">,<sp/>50,<sp/>150));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.removeKey(</highlight><highlight class="stringliteral">&quot;del&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryKey(</highlight><highlight class="stringliteral">&quot;del&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.queryKey(</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-KEY-05:<sp/>After<sp/>clear()<sp/>the<sp/>secondary<sp/>index<sp/>is<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>KeyIndex_AfterClear_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.clear();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryKey(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.queryKey(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Concurrent<sp/>reads<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITI-CONC-01:<sp/>Multiple<sp/>threads<sp/>can<sp/>queryPoint<sp/>simultaneously<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>deadlocking<sp/>or<sp/>corrupting<sp/>results<sp/>(shared_mutex<sp/>allows<sp/>concurrent<sp/>readers).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1aaa9fe5fff91f917eb5b2e1bd97b17c58" kindref="member">TEST_F</ref>(<ref refid="class_interval_tree_index_test" kindref="compound">IntervalTreeIndexTest</ref>,<sp/>ConcurrentReads_SharedMutex_NoDeadlock)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tree.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10<sp/>+<sp/>9)));</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>NUM_THREADS<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>total_hits{0};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>NUM_THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>0;<sp/>q<sp/>&lt;<sp/>50;<sp/>++q)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>a<sp/>point<sp/>inside<sp/>interval<sp/>(t*25<sp/>+<sp/>q),<sp/>always<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>pt<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(((t<sp/>*<sp/>25<sp/>+<sp/>q)<sp/>%<sp/>N)<sp/>*<sp/>10<sp/>+<sp/>4);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree.queryPoint(pt);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_hits.fetch_add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(res.size()),</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>query<sp/>targets<sp/>exactly<sp/>one<sp/>interval<sp/>→<sp/>8*50<sp/>=<sp/>400<sp/>hits<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_hits.load(),<sp/>NUM_THREADS<sp/>*<sp/>50);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>erase()<sp/>STL-alias<sp/>tests<sp/>(ITX-ERASE-01..04)<sp/>───────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1a3278f75183eb63bdcc952ea63a531439" kindref="member">TEST</ref>(IntervalTreeEraseTest,<sp/>ITX_ERASE_01_EraseExistingKey_ReturnsCount)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref><sp/>tree{</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{0,<sp/>10}});</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{20,<sp/>30}});</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{5,<sp/>15}});</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>2u);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1a3278f75183eb63bdcc952ea63a531439" kindref="member">TEST</ref>(IntervalTreeEraseTest,<sp/>ITX_ERASE_02_EraseAbsentKey_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref><sp/>tree{</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{0,<sp/>10}});</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref>(</highlight><highlight class="stringliteral">&quot;no_such_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0u);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1a3278f75183eb63bdcc952ea63a531439" kindref="member">TEST</ref>(IntervalTreeEraseTest,<sp/>ITX_ERASE_03_TreeRemainsQueryable_AfterErase)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref><sp/>tree{</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{0,<sp/>20}});</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{5,<sp/>25}});</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hits<sp/>=<sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" kindref="member">queryPoint</ref>(10);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hits.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hits[0].key,<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="test__interval__tree__index_8cpp_1a3278f75183eb63bdcc952ea63a531439" kindref="member">TEST</ref>(IntervalTreeEraseTest,<sp/>ITX_ERASE_04_EraseAll_TreeEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index" kindref="compound">IntervalTreeIndex</ref><sp/>tree{</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{0,<sp/>5}});</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert</ref>({</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{10,<sp/>15}});</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree.<ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" kindref="member">queryPoint</ref>(2).empty());</highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_interval_tree_index.cpp"/>
+  </compounddef>
+</doxygen>

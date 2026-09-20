@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1whisper_1_1_diarisation_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::whisper::DiarisationSegment</compoundname>
+    <includes refid="whisper__transcriber_8h" local="no">whisper_transcriber.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_segment_1ab663fc691f29cacdcc38380fb1a04012" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationSegment::speaker_id</definition>
+        <argsstring></argsstring>
+        <name>speaker_id</name>
+        <qualifiedname>themis::whisper::DiarisationSegment::speaker_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="29" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_segment_1a1f948e7a492ffe821d2763bc234866bb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::whisper::DiarisationSegment::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::whisper::DiarisationSegment::start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="30" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_segment_1a2b2d546c5e39389dd8c429769ed4f309" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::whisper::DiarisationSegment::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::whisper::DiarisationSegment::end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="31" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_segment_1a9b5e0a0f94b295a329ce1bcb7b7970d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationSegment::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::whisper::DiarisationSegment::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="32" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/whisper/whisper_transcriber.h" line="28" column="1" bodyfile="include/whisper/whisper_transcriber.h" bodystart="28" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a2b2d546c5e39389dd8c429769ed4f309" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationSegment</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1ab663fc691f29cacdcc38380fb1a04012" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationSegment</scope><name>speaker_id</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a1f948e7a492ffe821d2763bc234866bb" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationSegment</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a9b5e0a0f94b295a329ce1bcb7b7970d6" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationSegment</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

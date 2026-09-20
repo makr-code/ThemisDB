@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__updates__cluster__stress__q4_8cpp" kind="file" language="C++">
+    <compoundname>bench_updates_cluster_stress_q4.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="update__state__machine_8h" local="yes">updates/update_state_machine.h</includes>
+    <includes refid="updates__edge__case__handler_8h" local="yes">updates/updates_edge_case_handler.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/updates/bench_updates_cluster_stress_q4.cpp</label>
+        <link refid="bench__updates__cluster__stress__q4_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>updates/updates_edge_case_handler.h</label>
+        <link refid="updates__edge__case__handler_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__updates__cluster__stress__q4_8cpp_1a8736b142f45790c15881637c2e7fad0a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="13" column="27" bodyfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1a9248de71c3c8482dedc19cb55a49de5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_EdgeCaseHandler_Detect_IDLE</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_EdgeCaseHandler_Detect_IDLE</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="23" column="13" bodyfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1a2221ea5a197b9f5d145e8668b61f8736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Repetitions</definition>
+        <argsstring>(5) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <param>
+          <type>5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="33" column="5" declfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" declline="33" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1a97be74850c64bd6cf30a0c7553a190ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_StateMachine_Transition_Rate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_StateMachine_Transition_Rate</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="44" column="13" bodyfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1a457802dad978dced92a999c5498144c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_EdgeCaseHandler_Concurrent_4Threads</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_EdgeCaseHandler_Concurrent_4Threads</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="65" column="13" bodyfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" bodystart="65" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1ad232974956478398dc6cb90420dc14b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Threads</definition>
+        <argsstring>(4) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Threads</name>
+        <param>
+          <type>4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="83" column="5" declfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" declline="83" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__updates__cluster__stress__q4_8cpp_1a3a115b6f389568901d731baa194ffa2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RollbackStats_Tracking</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RollbackStats_Tracking</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" line="97" column="13" bodyfile="benchmarks/updates/bench_updates_cluster_stress_q4.cpp" bodystart="97" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="update__state__machine_8h" kindref="compound">updates/update_state_machine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__edge__case__handler_8h" kindref="compound">updates/updates_edge_case_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_EdgeCaseHandler_Detect_IDLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CSS-01:<sp/>detect()<sp/>on<sp/>an<sp/>IDLE<sp/>state<sp/>machine<sp/>≥<sp/>500k<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>the<sp/>overhead<sp/>of<sp/>a<sp/>single<sp/>detectAndHandle()<sp/>call<sp/>when<sp/>the<sp/>machine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>in<sp/>the<sp/>IDLE<sp/>state<sp/>(no<sp/>edge<sp/>case<sp/>detected<sp/>path<sp/>—<sp/>minimum-overhead<sp/>branch).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_EdgeCaseHandler_Detect_IDLE(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IDLE<sp/>state<sp/>—<sp/>no<sp/>edge<sp/>case<sp/>will<sp/>be<sp/>detected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.handled);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="bench__updates__release__gates_8cpp_1ae6e494a6aafe81127a05fa8435fe1c45" kindref="member">BENCHMARK</ref>(BM_EdgeCaseHandler_Detect_IDLE)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_StateMachine_Transition_Rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CSS-02:<sp/>IDLE→DOWNLOADING<sp/>transition<sp/>rate<sp/>≥<sp/>1M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>iteration<sp/>creates<sp/>a<sp/>fresh<sp/>state<sp/>machine<sp/>in<sp/>IDLE<sp/>and<sp/>performs<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transition.<sp/><sp/>Measures<sp/>raw<sp/>transition<sp/>dispatch<sp/>cost.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_StateMachine_Transition_Rate(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="bench__updates__release__gates_8cpp_1ae6e494a6aafe81127a05fa8435fe1c45" kindref="member">BENCHMARK</ref>(BM_StateMachine_Transition_Rate)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_EdgeCaseHandler_Concurrent_4Threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CSS-03:<sp/>Concurrent<sp/>detection<sp/>across<sp/>4<sp/>threads<sp/>≥<sp/>100k<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Uses<sp/>benchmark::State::threads()<sp/>to<sp/>run<sp/>4<sp/>parallel<sp/>threads.<sp/><sp/>Each<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>operates<sp/>on<sp/>a<sp/>thread-local<sp/>state<sp/>machine<sp/>in<sp/>DOWNLOADING<sp/>state<sp/>and<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detectAndHandle<sp/>with<sp/>&quot;concurrent&quot;<sp/>hint<sp/>(STATE_ALREADY_IN_PROGRESS<sp/>path).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>shared<sp/>handler&apos;s<sp/>stats<sp/>mutex<sp/>is<sp/>exercised<sp/>under<sp/>contention.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_EdgeCaseHandler_Concurrent_4Threads(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>shared<sp/>handler,<sp/>each<sp/>thread<sp/>has<sp/>its<sp/>own<sp/>state<sp/>machine.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>shared_handler;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread-local<sp/>state<sp/>machine<sp/>initialised<sp/>once<sp/>per<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">thread_local</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>tl_sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">thread_local</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>tl_init<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!tl_init)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tl_sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;init&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tl_init<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>shared_handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(tl_sm,<sp/></highlight><highlight class="stringliteral">&quot;concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.handled);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="bench__updates__release__gates_8cpp_1ae6e494a6aafe81127a05fa8435fe1c45" kindref="member">BENCHMARK</ref>(BM_EdgeCaseHandler_Concurrent_4Threads)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(4)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_RollbackStats_Tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-CSS-04:<sp/>Rollback<sp/>stats<sp/>increment<sp/>throughput<sp/>≥<sp/>1M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>iteration<sp/>drives<sp/>detectAndHandle<sp/>on<sp/>a<sp/>ROLLING_BACK<sp/>machine<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;cascade&quot;<sp/>hint,<sp/>producing<sp/>ROLLBACK_CASCADE_DETECTED<sp/>which<sp/>requires_rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>false<sp/>but<sp/>IS<sp/>fatal<sp/>—<sp/>so<sp/>total_fatal<sp/>and<sp/>total_detected<sp/>both<sp/>increment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>the<sp/>stats<sp/>mutex<sp/>acquire/release<sp/>cost<sp/>under<sp/>single-threaded<sp/>load.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RollbackStats_Tracking(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>handler;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" kindref="member">UpdateState::ROLLING_BACK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;cascade&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.error_code);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="bench__updates__release__gates_8cpp_1ae6e494a6aafe81127a05fa8435fe1c45" kindref="member">BENCHMARK</ref>(BM_RollbackStats_Tracking)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/updates/bench_updates_cluster_stress_q4.cpp"/>
+  </compounddef>
+</doxygen>

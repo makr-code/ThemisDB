@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::PipeGuard</compoundname>
+    <includes refid="pipe__guard_8hpp" local="no">pipe_guard.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a93bc36841d4988e2ccb1f2c3f6c58757" prot="private" static="no" mutable="no">
+        <type>std::array&lt; int, 2 &gt;</type>
+        <definition>std::array&lt;int, 2&gt; themis::plugins::user_storage::PipeGuard::fds_</definition>
+        <argsstring></argsstring>
+        <name>fds_</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::fds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="275" column="16" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::PipeGuard::PipeGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>PipeGuard</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::PipeGuard</qualifiedname>
+        <briefdescription>
+<para>Default constructor: creates an invalid (empty) pipe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Call <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">create()</ref> to initialize, or move-assign from another <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kindref="compound">PipeGuard</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="63" column="5" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58423f8120b7b84b046869b2f5448fb5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::PipeGuard::~PipeGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~PipeGuard</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::~PipeGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor: closes all open file descriptors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both read and write ends are closed. If close() fails, errno is set but no exception is thrown.</para>
+<para><simplesect kind="note"><para>noexcept: safe to call from other destructors </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="75" column="5" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a8b4b1ee122ba765219b7f7a2e94da9f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::PipeGuard::PipeGuard</definition>
+        <argsstring>(const PipeGuard &amp;)=delete</argsstring>
+        <name>PipeGuard</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::PipeGuard</qualifiedname>
+        <param>
+          <type>const PipeGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="81" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a7620b53c0d776241a187293e9b6471c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref> &amp;</type>
+        <definition>PipeGuard &amp; themis::plugins::user_storage::PipeGuard::operator=</definition>
+        <argsstring>(const PipeGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="82" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6358faf4ccb74f99ac090a007fc92f8f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::PipeGuard::PipeGuard</definition>
+        <argsstring>(PipeGuard &amp;&amp;other) noexcept</argsstring>
+        <name>PipeGuard</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::PipeGuard</qualifiedname>
+        <param>
+          <type>PipeGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor: takes ownership of another pipe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipe to move from (will be invalidated) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="89" column="5" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac2ae5f1913b4c0082e540efee8f1890a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref> &amp;</type>
+        <definition>PipeGuard &amp; themis::plugins::user_storage::PipeGuard::operator=</definition>
+        <argsstring>(PipeGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment: takes ownership of another pipe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Closes any existing file descriptors before taking ownership.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipe to move from (will be invalidated) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="104" column="15" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ab9ee31f142cce06352918d3d03f0d9ab" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::isValid</qualifiedname>
+        <briefdescription>
+<para>Check if pipe is valid (both fds open). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if read and write ends are both open (fd &gt;= 0) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="140" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a87dbb839db8448fbbc4ac30a5432a16c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::isReadOpen</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isReadOpen</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::isReadOpen</qualifiedname>
+        <briefdescription>
+<para>Check if read end is open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="147" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6dbd4d79e04f5b3ff153f5576791c33a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::isWriteOpen</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isWriteOpen</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::isWriteOpen</qualifiedname>
+        <briefdescription>
+<para>Check if write end is open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="154" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a0eda425f5a94ac4ba1b215a7b8edd923" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::PipeGuard::readFd</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>readFd</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::readFd</qualifiedname>
+        <briefdescription>
+<para>Get read end file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>File descriptor, or -1 if already closed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="163" column="9" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac3f5d05c42053fe021cbeb47a7b4965e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::PipeGuard::writeFd</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>writeFd</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::writeFd</qualifiedname>
+        <briefdescription>
+<para>Get write end file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>File descriptor, or -1 if already closed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="172" column="9" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a896c8525b6fb6716f72b9328fb4ea4b0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::PipeGuard::operator[]</definition>
+        <argsstring>(size_t index) const noexcept</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Access read end by index [0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>File descriptor at index 0 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="181" column="9" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="181" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a90770f047e79a57cfba2027157a57082" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::closeRead</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>closeRead</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::closeRead</qualifiedname>
+        <briefdescription>
+<para>Close the read end (index 0). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If already closed (fd == -1), this is a no-op. If close() fails, errno is set and false is returned.</para>
+<para><simplesect kind="return"><para>true if close succeeded or was already closed, false on close() error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="196" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="196" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a319bb606ee9b72ed4189a5a65fef5a44" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::closeWrite</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>closeWrite</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::closeWrite</qualifiedname>
+        <briefdescription>
+<para>Close the write end (index 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If already closed (fd == -1), this is a no-op. If close() fails, errno is set and false is returned.</para>
+<para><simplesect kind="return"><para>true if close succeeded or was already closed, false on close() error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="213" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a22a14d9be4df695431f2b94a5eaa031a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::PipeGuard::closeAll</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>closeAll</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::closeAll</qualifiedname>
+        <briefdescription>
+<para>Close both ends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Closes both read and write ends. Errors are only reported for the first failed close (others are attempted regardless).</para>
+<para><simplesect kind="return"><para>true if both closes succeeded or were already closed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="230" column="10" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="230" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58a6dec4d08243ee54775905c4eb1156" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::PipeGuard::detach</definition>
+        <argsstring>(size_t index) noexcept</argsstring>
+        <name>detach</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::detach</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Manually detach (release) an end without closing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for passing ownership of a pipe end to another process/owner.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0 for read end, 1 for write end </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>File descriptor at that index, or -1 if already closed</para>
+</simplesect>
+<simplesect kind="note"><para>After calling this, the caller is responsible for closing the fd </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="246" column="9" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="246" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1afa256a83baad52e4305308d2cb91fb12" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::PipeGuard::status</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::status</qualifiedname>
+        <briefdescription>
+<para>Get remaining owner of this pipe (for debug/logging). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Status string like &quot;rw&quot; (both), &quot;r&quot; (read only), &quot;w&quot; (write only), &quot;-&quot; (closed) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="260" column="17" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="260" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref></type>
+        <definition>static PipeGuard themis::plugins::user_storage::PipeGuard::create</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::plugins::user_storage::PipeGuard::create</qualifiedname>
+        <briefdescription>
+<para>Create a new pipe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls pipe() to create a pipe pair. On failure, returns an invalid <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kindref="compound">PipeGuard</ref> (<ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ab9ee31f142cce06352918d3d03f0d9ab" kindref="member">isValid()</ref> returns false) and errno is set.</para>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kindref="compound">PipeGuard</ref> with newly created pipe, or invalid <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kindref="compound">PipeGuard</ref> on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/pipe_guard.hpp" line="123" column="22" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for a pair of file descriptors (pipe). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a standard POSIX pipe pair: [0] = read end, [1] = write end. Automatically closes file descriptors on destruction.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Exception-safe cleanup (noexcept destructor)</para>
+</listitem><listitem><para>Selective closing (close read, keep write, etc.)</para>
+</listitem><listitem><para>Move semantics for ownership transfer</para>
+</listitem><listitem><para>No raw pointers</para>
+</listitem><listitem><para>Error handling via errno and return values</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kindref="member">PipeGuard</ref><sp/>pipe<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">PipeGuard::create</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!pipe.isValid())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error(</highlight><highlight class="stringliteral">&quot;pipe()<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>pipe[0]<sp/>for<sp/>read,<sp/>pipe[1]<sp/>for<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">write(pipe[1],<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/>4);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[256];</highlight></codeline>
+<codeline><highlight class="normal">read(pipe[0],<sp/>buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Auto-closes<sp/>on<sp/>destruction<sp/>(or<sp/>manual:<sp/>pipe.closeRead(),<sp/>pipe.closeWrite())</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Does NOT own the file descriptors initially; only after <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kindref="member">create()</ref> succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Destructor is noexcept; failed closes are logged via errno but don&apos;t throw. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/pipe_guard.hpp" line="56" column="1" bodyfile="include/user_storage_encrypted/pipe_guard.hpp" bodystart="56" bodyend="276"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a22a14d9be4df695431f2b94a5eaa031a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>closeAll</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a90770f047e79a57cfba2027157a57082" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>closeRead</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a319bb606ee9b72ed4189a5a65fef5a44" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>closeWrite</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>create</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58a6dec4d08243ee54775905c4eb1156" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>detach</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a93bc36841d4988e2ccb1f2c3f6c58757" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>fds_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a87dbb839db8448fbbc4ac30a5432a16c" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>isReadOpen</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ab9ee31f142cce06352918d3d03f0d9ab" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6dbd4d79e04f5b3ff153f5576791c33a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>isWriteOpen</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a7620b53c0d776241a187293e9b6471c0" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac2ae5f1913b4c0082e540efee8f1890a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a896c8525b6fb6716f72b9328fb4ea4b0" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>PipeGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a8b4b1ee122ba765219b7f7a2e94da9f1" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>PipeGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6358faf4ccb74f99ac090a007fc92f8f" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>PipeGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a0eda425f5a94ac4ba1b215a7b8edd923" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>readFd</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1afa256a83baad52e4305308d2cb91fb12" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>status</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac3f5d05c42053fe021cbeb47a7b4965e" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>writeFd</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58423f8120b7b84b046869b2f5448fb5" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::PipeGuard</scope><name>~PipeGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

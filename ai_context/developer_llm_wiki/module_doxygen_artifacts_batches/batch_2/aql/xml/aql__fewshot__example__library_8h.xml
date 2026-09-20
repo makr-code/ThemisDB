@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__fewshot__example__library_8h" kind="file" language="C++">
+    <compoundname>aql_fewshot_example_library.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="bench__hybrid__aql__sugar_8cpp" local="yes">benchmarks/aql/bench_hybrid_aql_sugar.cpp</includedby>
+    <includedby refid="llm__aql__embedding__bridge_8h" local="yes">include/aql/llm_aql_embedding_bridge.h</includedby>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="aql__fewshot__example__library_8cpp" local="yes">src/aql/aql_fewshot_example_library.cpp</includedby>
+    <includedby refid="llm__aql__handler_8cpp" local="yes">src/aql/llm_aql_handler.cpp</includedby>
+    <includedby refid="test__aql__fewshot__example__library_8cpp" local="yes">tests/aql/test_aql_fewshot_example_library.cpp</includedby>
+    <includedby refid="test__aql__query__validator_8cpp" local="yes">tests/aql/test_aql_query_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_fewshot_example_library.h</label>
+        <link refid="aql__fewshot__example__library_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/aql/bench_hybrid_aql_sugar.cpp</label>
+        <link refid="bench__hybrid__aql__sugar_8cpp"/>
+      </node>
+      <node id="7">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/aql_fewshot_example_library.h</label>
+        <link refid="aql__fewshot__example__library_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/aql/llm_aql_embedding_bridge.h</label>
+        <link refid="llm__aql__embedding__bridge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/aql/aql_fewshot_example_library.cpp</label>
+        <link refid="aql__fewshot__example__library_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/aql/test_aql_fewshot_example_library.cpp</label>
+        <link refid="test__aql__fewshot__example__library_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_i_embedding_provider" prot="public">themis::aql::IEmbeddingProvider</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" prot="public">themis::aql::AQLFewShotExample</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" prot="public">themis::aql::AQLFewShotExampleLibrary</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Embedding<sp/>provider<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1aql_1_1_i_embedding_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1aql_1_1_i_embedding_provider_1a14f055d29bc8376eb2e46470fe210f7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_embedding_provider_1a14f055d29bc8376eb2e46470fe210f7a" kindref="member">~IEmbeddingProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1aql_1_1_i_embedding_provider_1a27cdbbb637350478c25eacb32837919d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1aql_1_1_i_embedding_provider_1a27cdbbb637350478c25eacb32837919d" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Domain<sp/>enum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ac231fa48df3ee393c92dccac4dba5e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">DOCUMENT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ae27e2917b6444fcd3452d2d87046a487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ae27e2917b6444fcd3452d2d87046a487" kindref="member">GRAPH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a87752381b583740610f1dfeb07fdad7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a87752381b583740610f1dfeb07fdad7e" kindref="member">VECTOR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a1e23e9a76735e87600dc4dd405202575" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a1e23e9a76735e87600dc4dd405202575" kindref="member">GEOSPATIAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a5eb907bdd20f7bdad174e0525e3c4097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40a5eb907bdd20f7bdad174e0525e3c4097" kindref="member">TIMESERIES</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40af4c9f5462147735029052b713da1ce44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40af4c9f5462147735029052b713da1ce44" kindref="member">AGGREGATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ab61773b9b3968a9988d765d728985862" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40ab61773b9b3968a9988d765d728985862" kindref="member">GENERAL</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a2233b088fa05a78a0f249b5262bfc75e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a2233b088fa05a78a0f249b5262bfc75e" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a60092692def4b40ffdec3c18a197e7e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a60092692def4b40ffdec3c18a197e7e4" kindref="member">nl_query</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1ae5cf9ec4c6dc70473d2f8eba84c6240e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1ae5cf9ec4c6dc70473d2f8eba84c6240e" kindref="member">aql_query</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a72a5c8bb845cc1c50fe414b21abdf366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a72a5c8bb845cc1c50fe414b21abdf366" kindref="member">domain</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a4c68224cebc0d891f61d0df07e3a04d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a4c68224cebc0d891f61d0df07e3a04d2" kindref="member">description</ref>;<sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a8ddcab41bcc09d33f5028312ebbff59a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example_1a8ddcab41bcc09d33f5028312ebbff59a" kindref="member">tags</ref>;<sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af09be2bfc433432c4d1e32c0850b60f6" kindref="member">AQLFewShotExampleLibrary</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af09be2bfc433432c4d1e32c0850b60f6" kindref="member">AQLFewShotExampleLibrary</ref>();</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a7bcd9bc34ce9eaabcda454aba5ed6bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a7bcd9bc34ce9eaabcda454aba5ed6bc9" kindref="member">~AQLFewShotExampleLibrary</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a6d580ee3eb21fd49cd5453fcb5175ef5" kindref="member">registerExample</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref>&amp;<sp/>example);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AQLFewShotExample&gt;&amp;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ac26c697b586a161edfc8e3f78d835bd4" kindref="member">all</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLFewShotExample&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a341e23d53bb52c292d9590b70fd0624e" kindref="member">findByDomain</ref>(<ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref><sp/>domain)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLFewShotExample&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af31b5db43b12e6ac3c2ea2f6fcb2b533" kindref="member">findByTag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref>*<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1afb86dfa0e6029b0ec2f4135ac06c037d" kindref="member">findById</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relevance-ranked<sp/>retrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLFewShotExample&gt;<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1adb3fb7272f9538026d421d2defb922a4" kindref="member">findRelevant</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl_query,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>n<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;AQLExampleDomain&gt;<sp/>domain<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prompt<sp/>formatting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1aad28be6973d0e1980184e067457beaf0" kindref="member">formatForPrompt</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AQLFewShotExample&gt;&amp;<sp/>examples</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab0adbd0fc839d5b755947554267e6501" kindref="member">buildPromptSection</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl_query,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>n<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;AQLExampleDomain&gt;<sp/>domain<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Semantic<sp/>ranking<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae6dfdb68aa14a35055e01938adb4eac9" kindref="member">setEmbeddingProvider</ref>(<ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref>*<sp/>provider);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1accfc079c5c97a75f2401573d385abcbf" kindref="member">rebuildEmbeddingIndex</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AQLFewShotExample&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>examples_;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::size_t&gt;<sp/>index_by_id_;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref>*<sp/>embedding_provider_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>embedding_cache_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>registerBuiltins_();</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeRelevance_(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref>&amp;<sp/>example</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeRelevanceSemantic_(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_embedding,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>example_index</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ensureEmbedding_(std::size_t<sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cosineSimilarity_(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_fewshot_example_library.h"/>
+  </compounddef>
+</doxygen>

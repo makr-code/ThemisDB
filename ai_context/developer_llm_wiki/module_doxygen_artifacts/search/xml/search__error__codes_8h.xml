@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="search__error__codes_8h" kind="file" language="C++">
+    <compoundname>search_error_codes.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="distributed__hybrid__search_8h" local="yes">include/search/distributed_hybrid_search.h</includedby>
+    <includedby refid="hybrid__search_8h" local="yes">include/search/hybrid_search.h</includedby>
+    <includedby refid="test__search__distributed__merge__phase2_8cpp" local="yes">tests/search/test_search_distributed_merge_phase2.cpp</includedby>
+    <includedby refid="test__search__distributed__merge__stress_8cpp" local="yes">tests/search/test_search_distributed_merge_stress.cpp</includedby>
+    <includedby refid="test__search__edge__cases__analytics_8cpp" local="yes">tests/search/test_search_edge_cases_analytics.cpp</includedby>
+    <includedby refid="test__search__edge__cases__distributed_8cpp" local="yes">tests/search/test_search_edge_cases_distributed.cpp</includedby>
+    <includedby refid="test__search__edge__cases__fusion_8cpp" local="yes">tests/search/test_search_edge_cases_fusion.cpp</includedby>
+    <includedby refid="test__search__edge__cases__phase3_8cpp" local="yes">tests/search/test_search_edge_cases_phase3.cpp</includedby>
+    <includedby refid="test__search__edge__cases__retrieval_8cpp" local="yes">tests/search/test_search_edge_cases_retrieval.cpp</includedby>
+    <includedby refid="test__search__edge__cases__utility_8cpp" local="yes">tests/search/test_search_edge_cases_utility.cpp</includedby>
+    <includedby refid="test__search__hybrid__degradation__phase2_8cpp" local="yes">tests/search/test_search_hybrid_degradation_phase2.cpp</includedby>
+    <includedby refid="test__search__integration__phase4_8cpp" local="yes">tests/search/test_search_integration_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/search/bench_search_release_gates.cpp</label>
+        <link refid="bench__search__release__gates_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/search/benchmark_distributed_hybrid_search.cpp</label>
+        <link refid="benchmark__distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="12">
+        <label>benchmarks/search/benchmark_hybrid_search.cpp</label>
+        <link refid="benchmark__hybrid__search_8cpp"/>
+      </node>
+      <node id="13">
+        <label>include/search/conversational_search.h</label>
+        <link refid="conversational__search_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/search/distributed_hybrid_search.h</label>
+        <link refid="distributed__hybrid__search_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/search/federated_search.h</label>
+        <link refid="federated__search_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/search/search_result_stream.h</label>
+        <link refid="search__result__stream_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>src/search/conversational_search.cpp</label>
+        <link refid="conversational__search_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/search/distributed_hybrid_search.cpp</label>
+        <link refid="distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/search/federated_search.cpp</label>
+        <link refid="federated__search_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/search/hybrid_search.cpp</label>
+        <link refid="hybrid__search_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/search/search_result_stream.cpp</label>
+        <link refid="search__result__stream_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/search/test_search_distributed_merge_phase2.cpp</label>
+        <link refid="test__search__distributed__merge__phase2_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/search/test_search_distributed_merge_stress.cpp</label>
+        <link refid="test__search__distributed__merge__stress_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/search/test_search_edge_cases_analytics.cpp</label>
+        <link refid="test__search__edge__cases__analytics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/search/test_search_edge_cases_distributed.cpp</label>
+        <link refid="test__search__edge__cases__distributed_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/search/test_search_edge_cases_fusion.cpp</label>
+        <link refid="test__search__edge__cases__fusion_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/search/test_search_edge_cases_phase3.cpp</label>
+        <link refid="test__search__edge__cases__phase3_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/search/test_search_edge_cases_retrieval.cpp</label>
+        <link refid="test__search__edge__cases__retrieval_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/search/test_search_edge_cases_utility.cpp</label>
+        <link refid="test__search__edge__cases__utility_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/search/test_search_future_interfaces.cpp</label>
+        <link refid="test__search__future__interfaces_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/search/test_search_hybrid_degradation_phase2.cpp</label>
+        <link refid="test__search__hybrid__degradation__phase2_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/search/test_search_integration_phase4.cpp</label>
+        <link refid="test__search__integration__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x0000-0x0FFF:<sp/>Retrieval<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref><sp/>=<sp/>0x0000,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" kindref="member">BM25_NO_RESULTS</ref><sp/>=<sp/>0x0001,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafbc25c4084cf2f1950b32ed8aee5bc8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafbc25c4084cf2f1950b32ed8aee5bc8f" kindref="member">VECTOR_NO_RESULTS</ref><sp/>=<sp/>0x0002,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda6dc4aaf4cc5dbca27bfc97bc6b84c1eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda6dc4aaf4cc5dbca27bfc97bc6b84c1eb" kindref="member">BOTH_BACKENDS_EMPTY</ref><sp/>=<sp/>0x0003,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" kindref="member">BM25_BACKEND_UNAVAILABLE</ref><sp/>=<sp/>0x0004,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kindref="member">VECTOR_BACKEND_UNAVAILABLE</ref><sp/>=<sp/>0x0005,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaa188a4c09abb241f50d3507a28d22fca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaa188a4c09abb241f50d3507a28d22fca" kindref="member">BM25_PARTIAL_RESULTS</ref><sp/>=<sp/>0x0006,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae2c8000315dbc4cd37e909957210dccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae2c8000315dbc4cd37e909957210dccd" kindref="member">VECTOR_PARTIAL_RESULTS</ref><sp/>=<sp/>0x0007,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x1000-0x1FFF:<sp/>Fusion<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" kindref="member">RRF_FUSION_FAILED</ref><sp/>=<sp/>0x1001,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda43ae750171f68589114878b8527aa95d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda43ae750171f68589114878b8527aa95d" kindref="member">SCORE_NORMALIZATION_FAILED</ref><sp/>=<sp/>0x1002,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda80e2a1b94e3c92cc33d184ff18eb84e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda80e2a1b94e3c92cc33d184ff18eb84e5" kindref="member">LINEAR_FUSION_FAILED</ref><sp/>=<sp/>0x1003,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1952a953b30c7dbc00aa364d1c15a0b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1952a953b30c7dbc00aa364d1c15a0b0" kindref="member">FUSION_PRODUCED_EMPTY_SET</ref><sp/>=<sp/>0x1004,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae077219d84779101003f401ed461cd18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae077219d84779101003f401ed461cd18" kindref="member">SCORE_NORMALIZATION_FALLBACK</ref><sp/>=<sp/>0x1005,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x2000-0x2FFF:<sp/>Distributed<sp/>Merge<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda85e8cb24e1d413ef772d0ef903955516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda85e8cb24e1d413ef772d0ef903955516" kindref="member">SHARD_TIMEOUT</ref><sp/>=<sp/>0x2001,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda02f4aaba3f2d5d668cb9576c2f999a3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda02f4aaba3f2d5d668cb9576c2f999a3e" kindref="member">SHARD_HTTP_ERROR</ref><sp/>=<sp/>0x2002,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda2c9620f6406996a3ff1bc966bde596d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda2c9620f6406996a3ff1bc966bde596d2" kindref="member">SHARD_UNREACHABLE</ref><sp/>=<sp/>0x2003,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda7dfe93b66d4ba6c2c521c607531c3dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda7dfe93b66d4ba6c2c521c607531c3dfa" kindref="member">ALL_SHARDS_FAILED</ref><sp/>=<sp/>0x2004,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3c9a89be675e3805e283b641217d9eec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3c9a89be675e3805e283b641217d9eec" kindref="member">PARTIAL_SHARD_FAILURE</ref><sp/>=<sp/>0x2005,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda63414df40399e0cac01f313c8e2d246f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda63414df40399e0cac01f313c8e2d246f" kindref="member">MERGE_CANDIDATE_DEFICIT</ref><sp/>=<sp/>0x2006,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab517c2d5b6337808374cd2984a3d12df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab517c2d5b6337808374cd2984a3d12df" kindref="member">HIGH_CARDINALITY_OVERLAP</ref><sp/>=<sp/>0x2007,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda8497857c3cb332712625bbc19e3d44dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda8497857c3cb332712625bbc19e3d44dd" kindref="member">SHARD_RANKING_CONFLICT</ref><sp/>=<sp/>0x2008,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x3000-0x3FFF:<sp/>Utility<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda86c95a19043e6034a30b481911bc4f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda86c95a19043e6034a30b481911bc4f18" kindref="member">EXPANSION_LIMIT_EXCEEDED</ref><sp/>=<sp/>0x3001,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edabd74348469e20543d2cc60db18430e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edabd74348469e20543d2cc60db18430e62" kindref="member">FUZZY_MATCHING_FALLBACK</ref><sp/>=<sp/>0x3002,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaba06e482c857c5ba49421a2a17cca500" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaba06e482c857c5ba49421a2a17cca500" kindref="member">FACET_CARDINALITY_LIMIT</ref><sp/>=<sp/>0x3003,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafe82abf6ce77ff7c7d5e3d2d1bae1836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafe82abf6ce77ff7c7d5e3d2d1bae1836" kindref="member">RERANKER_BACKEND_UNAVAILABLE</ref><sp/>=<sp/>0x3004,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda204f9e75078ba563b2b160267d1d2713" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda204f9e75078ba563b2b160267d1d2713" kindref="member">RERANKER_TIMEOUT</ref><sp/>=<sp/>0x3005,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda006229578129e2d0bfa1aa3c789b3780" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda006229578129e2d0bfa1aa3c789b3780" kindref="member">RERANKER_INVALID_SCORES</ref><sp/>=<sp/>0x3006,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1ae1a6b851cb0e116d1e6faa76bdc310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1ae1a6b851cb0e116d1e6faa76bdc310" kindref="member">QUERY_REWRITER_FAILED</ref><sp/>=<sp/>0x3007,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1b369d4231f9f2e69bd5f6aee4342fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1b369d4231f9f2e69bd5f6aee4342fec" kindref="member">HIGHLIGHTING_PARTIAL_FAILURE</ref><sp/>=<sp/>0x3008,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3a69ec7b88a7af6500d2b6692d8ee080" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3a69ec7b88a7af6500d2b6692d8ee080" kindref="member">STREAM_CURSOR_OUT_OF_BOUNDS</ref><sp/>=<sp/>0x3009,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0x4000-0x4FFF:<sp/>Analytics<sp/>and<sp/>Observability<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda66fd97287f6d3e1d4706a9c5050f7097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda66fd97287f6d3e1d4706a9c5050f7097" kindref="member">ANALYTICS_BUFFER_FULL</ref><sp/>=<sp/>0x4001,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab766cc89750bf2564e229c87477b774d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab766cc89750bf2564e229c87477b774d" kindref="member">ANALYTICS_RECORD_FAILED</ref><sp/>=<sp/>0x4002,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1a8856cac7af9f34286e873cb0dfb163f6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1a8856cac7af9f34286e873cb0dfb163f6" kindref="member">searchErrorCodeToString</ref>(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;uint32_t,<sp/>std::string&gt;<sp/>kErrorMap{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0000,<sp/></highlight><highlight class="stringliteral">&quot;SUCCESS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0001,<sp/></highlight><highlight class="stringliteral">&quot;BM25_NO_RESULTS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0002,<sp/></highlight><highlight class="stringliteral">&quot;VECTOR_NO_RESULTS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0003,<sp/></highlight><highlight class="stringliteral">&quot;BOTH_BACKENDS_EMPTY&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0004,<sp/></highlight><highlight class="stringliteral">&quot;BM25_BACKEND_UNAVAILABLE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0005,<sp/></highlight><highlight class="stringliteral">&quot;VECTOR_BACKEND_UNAVAILABLE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0006,<sp/></highlight><highlight class="stringliteral">&quot;BM25_PARTIAL_RESULTS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x0007,<sp/></highlight><highlight class="stringliteral">&quot;VECTOR_PARTIAL_RESULTS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x1001,<sp/></highlight><highlight class="stringliteral">&quot;RRF_FUSION_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x1002,<sp/></highlight><highlight class="stringliteral">&quot;SCORE_NORMALIZATION_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x1003,<sp/></highlight><highlight class="stringliteral">&quot;LINEAR_FUSION_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x1004,<sp/></highlight><highlight class="stringliteral">&quot;FUSION_PRODUCED_EMPTY_SET&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x1005,<sp/></highlight><highlight class="stringliteral">&quot;SCORE_NORMALIZATION_FALLBACK&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2001,<sp/></highlight><highlight class="stringliteral">&quot;SHARD_TIMEOUT&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2002,<sp/></highlight><highlight class="stringliteral">&quot;SHARD_HTTP_ERROR&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2003,<sp/></highlight><highlight class="stringliteral">&quot;SHARD_UNREACHABLE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2004,<sp/></highlight><highlight class="stringliteral">&quot;ALL_SHARDS_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2005,<sp/></highlight><highlight class="stringliteral">&quot;PARTIAL_SHARD_FAILURE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2006,<sp/></highlight><highlight class="stringliteral">&quot;MERGE_CANDIDATE_DEFICIT&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2007,<sp/></highlight><highlight class="stringliteral">&quot;HIGH_CARDINALITY_OVERLAP&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x2008,<sp/></highlight><highlight class="stringliteral">&quot;SHARD_RANKING_CONFLICT&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3001,<sp/></highlight><highlight class="stringliteral">&quot;EXPANSION_LIMIT_EXCEEDED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3002,<sp/></highlight><highlight class="stringliteral">&quot;FUZZY_MATCHING_FALLBACK&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3003,<sp/></highlight><highlight class="stringliteral">&quot;FACET_CARDINALITY_LIMIT&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3004,<sp/></highlight><highlight class="stringliteral">&quot;RERANKER_BACKEND_UNAVAILABLE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3005,<sp/></highlight><highlight class="stringliteral">&quot;RERANKER_TIMEOUT&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3006,<sp/></highlight><highlight class="stringliteral">&quot;RERANKER_INVALID_SCORES&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3007,<sp/></highlight><highlight class="stringliteral">&quot;QUERY_REWRITER_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3008,<sp/></highlight><highlight class="stringliteral">&quot;HIGHLIGHTING_PARTIAL_FAILURE&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x3009,<sp/></highlight><highlight class="stringliteral">&quot;STREAM_CURSOR_OUT_OF_BOUNDS&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x4001,<sp/></highlight><highlight class="stringliteral">&quot;ANALYTICS_BUFFER_FULL&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0x4002,<sp/></highlight><highlight class="stringliteral">&quot;ANALYTICS_RECORD_FAILED&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>kErrorMap.find(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>kErrorMap.end())<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN_ERROR_0x&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/search_error_codes.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ArrowRecordBatch::ColumnSchema</compoundname>
+    <includes refid="arrow__export_8h" local="no">arrow_export.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1ab8e5fd66fd01897449bdec5db0d3d707" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ArrowRecordBatch::ColumnSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::ColumnSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="35" column="21" bodyfile="include/analytics/arrow_export.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a8340a0fb96c41431d5755e40d992dec2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" kindref="member">DataType</ref></type>
+        <definition>DataType themis::analytics::ArrowRecordBatch::ColumnSchema::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::ColumnSchema::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="36" column="18" bodyfile="include/analytics/arrow_export.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a0a278e8d645ce2945404f668bd19f0bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::ArrowRecordBatch::ColumnSchema::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::ColumnSchema::nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="37" column="14" bodyfile="include/analytics/arrow_export.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/arrow_export.h" line="34" column="5" bodyfile="include/analytics/arrow_export.h" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1ab8e5fd66fd01897449bdec5db0d3d707" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch::ColumnSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a0a278e8d645ce2945404f668bd19f0bc" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch::ColumnSchema</scope><name>nullable</name></member>
+      <member refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a8340a0fb96c41431d5755e40d992dec2" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch::ColumnSchema</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

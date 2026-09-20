@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_schema_field_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::SchemaFieldDescriptor</compoundname>
+    <includes refid="document__schema__evolution_8h" local="no">document_schema_evolution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_schema_field_descriptor_1a4cb7b1176b17a4dbaf0e6948ac6f035c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::SchemaFieldDescriptor::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::document::SchemaFieldDescriptor::name</qualifiedname>
+        <briefdescription>
+<para>JSON key name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="64" column="23" bodyfile="include/document/document_schema_evolution.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_schema_field_descriptor_1a61ec8892961eaea4d7887a903d0a65b7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434" kindref="member">SchemaFieldType</ref></type>
+        <definition>SchemaFieldType themis::document::SchemaFieldDescriptor::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::document::SchemaFieldDescriptor::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1a31ef944bb3b220299c005f502eefb434a8e1bde3c3d303163521522cf1d62f21f" kindref="member">SchemaFieldType::ANY</ref>}</initializer>
+        <briefdescription>
+<para>Expected JSON type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="65" column="23" bodyfile="include/document/document_schema_evolution.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_schema_field_descriptor_1a0e71734493086bd5faac5dffe7c95950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::document::SchemaFieldDescriptor::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::document::SchemaFieldDescriptor::required</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Must be present in every document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="66" column="23" bodyfile="include/document/document_schema_evolution.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_schema_field_descriptor_1aa4ce4f109743dbc75f5da20df0bc9caf" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::SchemaFieldDescriptor::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::document::SchemaFieldDescriptor::default_value</qualifiedname>
+        <briefdescription>
+<para>Suggested default (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="67" column="23" bodyfile="include/document/document_schema_evolution.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_schema_evolution.h" line="63" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_schema_field_descriptor_1aa4ce4f109743dbc75f5da20df0bc9caf" prot="public" virt="non-virtual"><scope>themis::document::SchemaFieldDescriptor</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1document_1_1_schema_field_descriptor_1a4cb7b1176b17a4dbaf0e6948ac6f035c" prot="public" virt="non-virtual"><scope>themis::document::SchemaFieldDescriptor</scope><name>name</name></member>
+      <member refid="structthemis_1_1document_1_1_schema_field_descriptor_1a0e71734493086bd5faac5dffe7c95950" prot="public" virt="non-virtual"><scope>themis::document::SchemaFieldDescriptor</scope><name>required</name></member>
+      <member refid="structthemis_1_1document_1_1_schema_field_descriptor_1a61ec8892961eaea4d7887a903d0a65b7" prot="public" virt="non-virtual"><scope>themis::document::SchemaFieldDescriptor</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

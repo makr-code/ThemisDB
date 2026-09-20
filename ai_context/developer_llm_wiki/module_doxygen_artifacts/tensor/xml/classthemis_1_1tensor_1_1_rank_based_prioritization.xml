@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_rank_based_prioritization" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::RankBasedPrioritization</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" prot="public" virt="non-virtual">themis::tensor::IPrioritizationStrategy</basecompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1a777b10268b3df6dee6efc638015e83f7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RankBasedPrioritization::rank_weight</definition>
+        <argsstring></argsstring>
+        <name>rank_weight</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::rank_weight</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Weight for rank score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="151" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1a500e6303a36f414f3ad834060bb1bb7c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RankBasedPrioritization::freshness_weight</definition>
+        <argsstring></argsstring>
+        <name>freshness_weight</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::freshness_weight</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+<para>Weight for freshness/recency (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="154" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1a204e2791d687350bf9fdb17c18010f6e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RankBasedPrioritization::max_age_hours</definition>
+        <argsstring></argsstring>
+        <name>max_age_hours</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::max_age_hours</qualifiedname>
+        <initializer>= 24.0f</initializer>
+        <briefdescription>
+<para>Max age in hours for full freshness score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="157" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1af4e884865dae93e2834b32f65bf881d4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::RankBasedPrioritization::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa">name</reimplements>
+        <briefdescription>
+<para>Get the name of this prioritization strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="159" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1a2680cf76adebe19ac7faf3bcbd64bf3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::RankBasedPrioritization::prioritize</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries) const override</argsstring>
+        <name>prioritize</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::prioritize</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04">prioritize</reimplements>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Compute priority scores for candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to prioritize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of priority scores (0.0-1.0), same length as summaries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="161" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="67" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_rank_based_prioritization_1ab49d6bc2b7cb99173b590d62f65c9e34" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::RankBasedPrioritization::sort</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries) const override</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::tensor::RankBasedPrioritization::sort</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2">sort</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Sort summaries by priority (highest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of summaries to sort (modified in-place). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if sorting was successful. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="164" column="10" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="93" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prioritization based on candidate rank and recency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Combines ranking score with temporal freshness to prioritize recently updated, highly-ranked candidates. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::IPrioritizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_prioritization_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::RankBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_rank_based_prioritization"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::IPrioritizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_prioritization_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::RankBasedPrioritization</label>
+        <link refid="classthemis_1_1tensor_1_1_rank_based_prioritization"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="148" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="148" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a500e6303a36f414f3ad834060bb1bb7c" prot="public" virt="non-virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>freshness_weight</name></member>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a204e2791d687350bf9fdb17c18010f6e" prot="public" virt="non-virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>max_age_hours</name></member>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1af4e884865dae93e2834b32f65bf881d4" prot="public" virt="virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a2680cf76adebe19ac7faf3bcbd64bf3f" prot="public" virt="virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>prioritize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a777b10268b3df6dee6efc638015e83f7" prot="public" virt="non-virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>rank_weight</name></member>
+      <member refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1ab49d6bc2b7cb99173b590d62f65c9e34" prot="public" virt="virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>sort</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" prot="public" virt="virtual"><scope>themis::tensor::RankBasedPrioritization</scope><name>~IPrioritizationStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

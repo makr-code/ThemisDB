@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_rerank_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RerankScore</compoundname>
+    <includes refid="reranker_8h" local="no">reranker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rerank_score_1a4cf0f18cb60de1977aaf495b37198b3f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RerankScore::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::RerankScore::document_id</qualifiedname>
+        <briefdescription>
+<para>Document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="70" column="17" bodyfile="include/rag/reranker.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rerank_score_1a35b651deee5d0c4a571a48f2b6fb4bc1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::RerankScore::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::RerankScore::relevance_score</qualifiedname>
+        <briefdescription>
+<para>Cross-encoder relevance score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="71" column="12" bodyfile="include/rag/reranker.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rerank_score_1af3e16a0e18c1f72da068d370662c08d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::RerankScore::original_score</definition>
+        <argsstring></argsstring>
+        <name>original_score</name>
+        <qualifiedname>themis::rag::RerankScore::original_score</qualifiedname>
+        <briefdescription>
+<para>Bi-encoder / initial retrieval score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="72" column="12" bodyfile="include/rag/reranker.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rerank_score_1aedaad0ec14c1ceeda909e4e57161a725" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RerankScore::original_rank</definition>
+        <argsstring></argsstring>
+        <name>original_rank</name>
+        <qualifiedname>themis::rag::RerankScore::original_rank</qualifiedname>
+        <briefdescription>
+<para>Rank before re-ranking (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="73" column="12" bodyfile="include/rag/reranker.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rerank_score_1a1e8a39b1165db40ff1f1aeecac2ae333" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RerankScore::reranked_rank</definition>
+        <argsstring></argsstring>
+        <name>reranked_rank</name>
+        <qualifiedname>themis::rag::RerankScore::reranked_rank</qualifiedname>
+        <briefdescription>
+<para>Rank after re-ranking (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/reranker.h" line="74" column="12" bodyfile="include/rag/reranker.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result from re-ranking a single query-document pair. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/reranker.h" line="69" column="1" bodyfile="include/rag/reranker.h" bodystart="69" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_rerank_score_1a4cf0f18cb60de1977aaf495b37198b3f" prot="public" virt="non-virtual"><scope>themis::rag::RerankScore</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_rerank_score_1aedaad0ec14c1ceeda909e4e57161a725" prot="public" virt="non-virtual"><scope>themis::rag::RerankScore</scope><name>original_rank</name></member>
+      <member refid="structthemis_1_1rag_1_1_rerank_score_1af3e16a0e18c1f72da068d370662c08d2" prot="public" virt="non-virtual"><scope>themis::rag::RerankScore</scope><name>original_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_rerank_score_1a35b651deee5d0c4a571a48f2b6fb4bc1" prot="public" virt="non-virtual"><scope>themis::rag::RerankScore</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_rerank_score_1a1e8a39b1165db40ff1f1aeecac2ae333" prot="public" virt="non-virtual"><scope>themis::rag::RerankScore</scope><name>reranked_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

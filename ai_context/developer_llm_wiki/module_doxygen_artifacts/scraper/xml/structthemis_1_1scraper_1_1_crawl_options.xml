@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_crawl_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::CrawlOptions</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1a925afadde0e18596a5173a5fdb1d2814" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::CrawlOptions::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::scraper::CrawlOptions::max_depth</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="63" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1ad51fab7dc15fd7c4d1563b1198c112b9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::CrawlOptions::max_pages</definition>
+        <argsstring></argsstring>
+        <name>max_pages</name>
+        <qualifiedname>themis::scraper::CrawlOptions::max_pages</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="64" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1a2630ddbbdd4f52a2d98c6dbdd861db77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::CrawlOptions::user_agent</definition>
+        <argsstring></argsstring>
+        <name>user_agent</name>
+        <qualifiedname>themis::scraper::CrawlOptions::user_agent</qualifiedname>
+        <initializer>= &quot;ThemisDB-Scraper/1.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="65" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1a8a9920d8b37c26b8d6de99d954f69ea2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::CrawlOptions::respect_robots</definition>
+        <argsstring></argsstring>
+        <name>respect_robots</name>
+        <qualifiedname>themis::scraper::CrawlOptions::respect_robots</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="66" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1abf64fabd63851c1dfa4c6d97dbe5306e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::CrawlOptions::same_domain_only</definition>
+        <argsstring></argsstring>
+        <name>same_domain_only</name>
+        <qualifiedname>themis::scraper::CrawlOptions::same_domain_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="67" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1af4194fd59b06e0fdc4fad0fdd4471e4f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::CrawlOptions::request_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>request_delay_ms</name>
+        <qualifiedname>themis::scraper::CrawlOptions::request_delay_ms</qualifiedname>
+        <initializer>= 250</initializer>
+        <briefdescription>
+<para>Polite delay between requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="68" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1a68313cd1815fc50bef991e666c5000e3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6" kindref="member">ScraperRenderMode</ref></type>
+        <definition>ScraperRenderMode themis::scraper::CrawlOptions::render_mode</definition>
+        <argsstring></argsstring>
+        <name>render_mode</name>
+        <qualifiedname>themis::scraper::CrawlOptions::render_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">ScraperRenderMode::STATIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="69" column="23" bodyfile="include/scraper/scraper_config.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1ad55fdd00dfe0115bcac6c2a22410117d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::CrawlOptions::js_renderer_cmd</definition>
+        <argsstring></argsstring>
+        <name>js_renderer_cmd</name>
+        <qualifiedname>themis::scraper::CrawlOptions::js_renderer_cmd</qualifiedname>
+        <briefdescription>
+<para>Path/command for headless renderer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="70" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_crawl_options_1add0add4d5d1d6005ddf50c26da778d5f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::CrawlOptions::js_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>js_timeout_ms</name>
+        <qualifiedname>themis::scraper::CrawlOptions::js_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Max wait for JS rendering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="71" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="62" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="62" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1ad55fdd00dfe0115bcac6c2a22410117d" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>js_renderer_cmd</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1add0add4d5d1d6005ddf50c26da778d5f" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>js_timeout_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1a925afadde0e18596a5173a5fdb1d2814" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1ad51fab7dc15fd7c4d1563b1198c112b9" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>max_pages</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1a68313cd1815fc50bef991e666c5000e3" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>render_mode</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1af4194fd59b06e0fdc4fad0fdd4471e4f" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>request_delay_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1a8a9920d8b37c26b8d6de99d954f69ea2" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>respect_robots</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1abf64fabd63851c1dfa4c6d97dbe5306e" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>same_domain_only</name></member>
+      <member refid="structthemis_1_1scraper_1_1_crawl_options_1a2630ddbbdd4f52a2d98c6dbdd861db77" prot="public" virt="non-virtual"><scope>themis::scraper::CrawlOptions</scope><name>user_agent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::AdvancedCacheManager::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry_1a0168b98acb5044d8dc9bfd9cdead2965" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AdvancedCacheManager::Entry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::Entry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="247" column="21" bodyfile="include/performance/advanced_cache_manager.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry_1a7bb7ab42ded2b759deb718a19ac39e04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AdvancedCacheManager::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::Entry::value</qualifiedname>
+        <briefdescription>
+<para>raw (or compressed when partition.enable_compression) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="248" column="21" bodyfile="include/performance/advanced_cache_manager.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="246" column="5" bodyfile="include/performance/advanced_cache_manager.h" bodystart="246" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry_1a0168b98acb5044d8dc9bfd9cdead2965" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::Entry</scope><name>key</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry_1a7bb7ab42ded2b759deb718a19ac39e04" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

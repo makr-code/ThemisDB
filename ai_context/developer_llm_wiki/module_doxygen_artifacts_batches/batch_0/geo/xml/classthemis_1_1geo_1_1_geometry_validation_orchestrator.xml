@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geometry_validation_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeometryValidationOrchestrator</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1a341997e172f17088496613aeda20debd" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeometryValidationOrchestrator::validateWgs84Coordinate</definition>
+        <argsstring>(double lon, double lat, const std::string &amp;context) noexcept</argsstring>
+        <name>validateWgs84Coordinate</name>
+        <qualifiedname>themis::geo::GeometryValidationOrchestrator::validateWgs84Coordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Validate a coordinate pair and produce diagnostic on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enforces WGS84 bounds per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> §1(b).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude in decimal degrees </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude in decimal degrees </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation context for error reporting </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid; false if out-of-bounds (error logged) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="192" column="18" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="192" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1ad977b232dfb2c2306cefe08eca3f4d21" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeometryValidationOrchestrator::validateRingClosure</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;lons, const std::vector&lt; double &gt; &amp;lats, std::size_t ring_index) noexcept</argsstring>
+        <name>validateRingClosure</name>
+        <qualifiedname>themis::geo::GeometryValidationOrchestrator::validateRingClosure</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>lons</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>lats</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>ring_index</declname>
+        </param>
+        <briefdescription>
+<para>Validate polygon ring closure and produce diagnostic on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enforces RFC 7946 ring closure per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> §1(c).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ring longitude coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ring latitude coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ring_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index of the ring (0 for exterior, &gt;0 for interior) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if closed; false if open (error logged) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="220" column="18" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1ad7efa9daeb67287cf231d115b16d41df" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeometryValidationOrchestrator::validateVertexCount</definition>
+        <argsstring>(const std::string &amp;geom_type, std::size_t coord_count, std::size_t required_min) noexcept</argsstring>
+        <name>validateVertexCount</name>
+        <qualifiedname>themis::geo::GeometryValidationOrchestrator::validateVertexCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>geom_type</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>coord_count</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>required_min</declname>
+        </param>
+        <briefdescription>
+<para>Validate geometry coordinate count per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> §1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>geom_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Geometry type string (e.g., &quot;LineString&quot;, &quot;Polygon&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coord_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required_min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum required coordinates </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if count &gt;= required_min; false otherwise (error logged) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="241" column="18" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="241" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1a0584338b54a90a4af596ea93005067e2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::GeometryValidationOrchestrator::validateGeometrySize</definition>
+        <argsstring>(std::size_t coord_count) noexcept</argsstring>
+        <name>validateGeometrySize</name>
+        <qualifiedname>themis::geo::GeometryValidationOrchestrator::validateGeometrySize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>coord_count</declname>
+        </param>
+        <briefdescription>
+<para>Validate geometry size does not exceed contract limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Per <ref refid="geo__api__contract_8h" kindref="compound">geo_api_contract.h</ref> §1: geometries exceeding kMaxGeometryCoordinates return GEOMETRY_TOO_LARGE.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coord_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of coordinates in geometry </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within limits; false if too large (error logged) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="263" column="18" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="263" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Geometry validation orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinates validation helpers with structured diagnostic context. Used at geometry entry points to enforce fail-closed behavior and produce actionable error messages for invalid geometries.</para>
+<para>Invariant: All geometry operations must call validate() before proceeding. </para>
+    </detaileddescription>
+    <location file="src/geo/geo_phase2_phase3_integration.cpp" line="180" column="1" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="180" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1a0584338b54a90a4af596ea93005067e2" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationOrchestrator</scope><name>validateGeometrySize</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1ad977b232dfb2c2306cefe08eca3f4d21" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationOrchestrator</scope><name>validateRingClosure</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1ad7efa9daeb67287cf231d115b16d41df" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationOrchestrator</scope><name>validateVertexCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_orchestrator_1a341997e172f17088496613aeda20debd" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationOrchestrator</scope><name>validateWgs84Coordinate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

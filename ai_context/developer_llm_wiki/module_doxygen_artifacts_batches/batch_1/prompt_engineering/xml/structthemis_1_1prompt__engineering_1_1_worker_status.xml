@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_worker_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::WorkerStatus</compoundname>
+    <includes refid="prompt__engineering__integration_8h" local="no">prompt_engineering_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_worker_status_1a6b4eea058c70ce8997b27fca1abf4646" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::WorkerStatus::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="113" column="10" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_worker_status_1acfb87c54439afb17b7c467977788147a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::WorkerStatus::cycles_completed</definition>
+        <argsstring></argsstring>
+        <name>cycles_completed</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::cycles_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="114" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_worker_status_1af6a100f82cbbdbefc549d8fa6068d375" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::WorkerStatus::prompts_optimized</definition>
+        <argsstring></argsstring>
+        <name>prompts_optimized</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::prompts_optimized</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="115" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_worker_status_1af848f2da812b05ba01acb78c34e451ca" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::WorkerStatus::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::last_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="116" column="43" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_worker_status_1a564122fd6a5d2b66e090f771207ebb08" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::WorkerStatus::next_scheduled_run</definition>
+        <argsstring></argsstring>
+        <name>next_scheduled_run</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::next_scheduled_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="117" column="43" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_worker_status_1a5c4755b119b6d76c7c1ae7b4ee83db9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::WorkerStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::WorkerStatus::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="120" column="20" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Worker status. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_integration.h" line="112" column="1" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="112" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1acfb87c54439afb17b7c467977788147a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>cycles_completed</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1af848f2da812b05ba01acb78c34e451ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>last_run</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1a564122fd6a5d2b66e090f771207ebb08" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>next_scheduled_run</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1af6a100f82cbbdbefc549d8fa6068d375" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>prompts_optimized</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1a6b4eea058c70ce8997b27fca1abf4646" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>running</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_worker_status_1a5c4755b119b6d76c7c1ae7b4ee83db9e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::WorkerStatus</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

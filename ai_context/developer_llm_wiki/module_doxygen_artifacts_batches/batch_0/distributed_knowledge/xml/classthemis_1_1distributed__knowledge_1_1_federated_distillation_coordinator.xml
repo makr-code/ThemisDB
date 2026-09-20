@@ -1,0 +1,1092 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FederatedDistillationCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator" prot="public" virt="non-virtual">themis::distributed_knowledge::IFederatedDistillationCoordinator</basecompoundref>
+    <includes refid="federated__distillation__coordinator_8h" local="no">federated_distillation_coordinator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2ce2d2e6e1507a14ed315c3d2a78b193" prot="public" static="no">
+        <type>std::function&lt; bool(uint64_t round, const std::string &amp;teacher_id)&gt;</type>
+        <definition>using themis::distributed_knowledge::FederatedDistillationCoordinator::PolicyGate = 
+std::function&lt;bool(uint64_t round, const std::string&amp; teacher_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PolicyGate</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::PolicyGate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="199" column="5" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a25af35e5adf82ad70649e4bd0b37c18c" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt; &amp;labels, double sigma)&gt;</type>
+        <definition>using themis::distributed_knowledge::FederatedDistillationCoordinator::NoiseGeneratorFn = 
+std::function&lt;void(std::vector&lt;SoftLabel&gt;&amp; labels, double sigma)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NoiseGeneratorFn</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::NoiseGeneratorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="227" column="5" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a031cee0deff6a113df97698887776a7f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref></type>
+        <definition>DistillationConfig themis::distributed_knowledge::FederatedDistillationCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="284" column="24" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aa503c2996330977a46d925e2909ed041" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::distributed_knowledge::FederatedDistillationCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="286" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebafb6c179e647abcd48637d05ef768e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::FederatedDistillationCoordinator::current_round_</definition>
+        <argsstring></argsstring>
+        <name>current_round_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::current_round_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="287" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a7e8991e58099e41e475e931296c941b5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedDistillationCoordinator::total_epsilon_spent_</definition>
+        <argsstring></argsstring>
+        <name>total_epsilon_spent_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::total_epsilon_spent_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="288" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad7a8430dd937518146e39cfb3bb1ba4b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedDistillationCoordinator::broadcast_count_</definition>
+        <argsstring></argsstring>
+        <name>broadcast_count_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::broadcast_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="289" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1f8ada8ca2cca2a674b6d0ada3af6350" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedDistillationCoordinator::rollback_count_</definition>
+        <argsstring></argsstring>
+        <name>rollback_count_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::rollback_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="290" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab31038e8f5fdc3fa1ae49f2c1714455a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedDistillationCoordinator::policy_block_count_</definition>
+        <argsstring></argsstring>
+        <name>policy_block_count_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::policy_block_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="291" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6906c469ce392d825f44acab1f1074c0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedDistillationCoordinator::min_utility_reported_</definition>
+        <argsstring></argsstring>
+        <name>min_utility_reported_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::min_utility_reported_</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="292" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1afa94e13fa2c9e544b67f679a9af1b7fa" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedDistillationCoordinator::max_utility_reported_</definition>
+        <argsstring></argsstring>
+        <name>max_utility_reported_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::max_utility_reported_</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="293" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac62682a1b763f367d8b7582ddae6ebd0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedDistillationCoordinator::any_utility_reported_</definition>
+        <argsstring></argsstring>
+        <name>any_utility_reported_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::any_utility_reported_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="294" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2fc93cf47cf83be68941bd4d71e19a59" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FederatedDistillationCoordinator::pending_teacher_id_</definition>
+        <argsstring></argsstring>
+        <name>pending_teacher_id_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::pending_teacher_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="297" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab97841e2f1e4e31cea3ca144ebb5adc8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt;</type>
+        <definition>std::vector&lt;SoftLabel&gt; themis::distributed_knowledge::FederatedDistillationCoordinator::pending_labels_</definition>
+        <argsstring></argsstring>
+        <name>pending_labels_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::pending_labels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="298" column="37" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac6225efe1e2aa8830c084c598017b4ae" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedDistillationCoordinator::has_pending_</definition>
+        <argsstring></argsstring>
+        <name>has_pending_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::has_pending_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="299" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae4604b8d33e15c2ebe7e76c783328685" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref> &gt;</type>
+        <definition>std::optional&lt;DistillationRound&gt; themis::distributed_knowledge::FederatedDistillationCoordinator::last_round_</definition>
+        <argsstring></argsstring>
+        <name>last_round_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::last_round_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="301" column="29" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a434a15d819ac5c017bd3d54adda7cde9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::function&lt; void(const <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref> &amp;)&gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::function&lt;void(const DistillationRound&amp;)&gt; &gt; &gt; themis::distributed_knowledge::FederatedDistillationCoordinator::students_</definition>
+        <argsstring></argsstring>
+        <name>students_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::students_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="305" column="4" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6f902082da981e9eba46fef94e40de45" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2ce2d2e6e1507a14ed315c3d2a78b193" kindref="member">PolicyGate</ref></type>
+        <definition>PolicyGate themis::distributed_knowledge::FederatedDistillationCoordinator::policy_gate_</definition>
+        <argsstring></argsstring>
+        <name>policy_gate_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::policy_gate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="308" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac2d8682c6113182d532540fe78a9de22" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref></type>
+        <definition>DistillationBoundedPolicy themis::distributed_knowledge::FederatedDistillationCoordinator::bounded_policy_</definition>
+        <argsstring></argsstring>
+        <name>bounded_policy_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::bounded_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="309" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac985cd6d459c55feb8bd70aa40c233d8" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const nlohmann::json &amp;)&gt;</type>
+        <definition>std::function&lt;void(const nlohmann::json&amp;)&gt; themis::distributed_knowledge::FederatedDistillationCoordinator::audit_cb_</definition>
+        <argsstring></argsstring>
+        <name>audit_cb_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::audit_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="310" column="19" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aea6cf84ebfc3188ea4209cc1c8281677" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(uint64_t, double)&gt;</type>
+        <definition>std::function&lt;void(uint64_t, double)&gt; themis::distributed_knowledge::FederatedDistillationCoordinator::rollback_trigger_</definition>
+        <argsstring></argsstring>
+        <name>rollback_trigger_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::rollback_trigger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="311" column="24" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a45d6b3bdeaee45837dbcdf5338e64c1a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a25af35e5adf82ad70649e4bd0b37c18c" kindref="member">NoiseGeneratorFn</ref></type>
+        <definition>NoiseGeneratorFn themis::distributed_knowledge::FederatedDistillationCoordinator::noise_generator_fn_</definition>
+        <argsstring></argsstring>
+        <name>noise_generator_fn_</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::noise_generator_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="312" column="48" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</definition>
+        <argsstring>(DistillationConfig cfg={})</argsstring>
+        <name>FederatedDistillationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="202" column="14" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac359f5a3bfe74b8ca35d76c236a13bcc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::FederatedDistillationCoordinator::~FederatedDistillationCoordinator</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>~FederatedDistillationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::~FederatedDistillationCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="203" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae2d8b828d3e056bab8bc2923dfc5728c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</definition>
+        <argsstring>(const FederatedDistillationCoordinator &amp;)=delete</argsstring>
+        <name>FederatedDistillationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</qualifiedname>
+        <param>
+          <type>const FederatedDistillationCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="205" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2d635b05783b85ecca28c76cf52a7488" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" kindref="member">FederatedDistillationCoordinator</ref> &amp;</type>
+        <definition>FederatedDistillationCoordinator &amp; themis::distributed_knowledge::FederatedDistillationCoordinator::operator=</definition>
+        <argsstring>(const FederatedDistillationCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" kindref="member">FederatedDistillationCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="206" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae381815869006ba2232ab171f0d853e0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</definition>
+        <argsstring>(FederatedDistillationCoordinator &amp;&amp;) noexcept=default</argsstring>
+        <name>FederatedDistillationCoordinator</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::FederatedDistillationCoordinator</qualifiedname>
+        <param>
+          <type>FederatedDistillationCoordinator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a10a73587334c6bdb5550ad18c32a12a4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" kindref="member">FederatedDistillationCoordinator</ref> &amp;</type>
+        <definition>FederatedDistillationCoordinator &amp; themis::distributed_knowledge::FederatedDistillationCoordinator::operator=</definition>
+        <argsstring>(FederatedDistillationCoordinator &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" kindref="member">FederatedDistillationCoordinator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="208" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1a93f22047457ee971bb6bfb51dd5f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::submitSoftLabels</definition>
+        <argsstring>(const std::string &amp;teacher_id, std::vector&lt; SoftLabel &gt; labels) override</argsstring>
+        <name>submitSoftLabels</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::submitSoftLabels</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1ae81ee5416e2989316784ad60c1b49e76">submitSoftLabels</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>teacher_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Submit Soft Labels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">teacher_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the teacher. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), has_value(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="212" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="98" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3c636cb0c7d00db5bb3f79cc4d7ec67f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref></type>
+        <definition>DistillationRound themis::distributed_knowledge::FederatedDistillationCoordinator::broadcastToStudents</definition>
+        <argsstring>() override</argsstring>
+        <name>broadcastToStudents</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::broadcastToStudents</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a449bcdfe6705c6df5a33ee57e6778e35">broadcastToStudents</reimplements>
+        <briefdescription>
+<para>Broadcast To Students. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a97475fb0c3d66bdf26da8de1dd85387b" kindref="member">verifyPrivacyBudget()</ref>, isConstrained(), policy_gate_(), applyDPNoise(), std::move(), size(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="215" column="23" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="143" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebdf6359634dc8d233e9dbc9c72726e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::FederatedDistillationCoordinator::currentRound</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentRound</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::currentRound</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1aeb519b99fb733606c2d5a8730e47a45d">currentRound</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="217" column="38" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="232" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aef32fb29cdbd0a42102b551861a67145" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederatedDistillationCoordinator::submittedCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>submittedCount</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::submittedCount</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a52ec06a4364937829e38a9ab561ead7a">submittedCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="218" column="38" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a5e9ca45bcc3c660222bfd8351340d259" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref> &gt;</type>
+        <definition>std::optional&lt; DistillationRound &gt; themis::distributed_knowledge::FederatedDistillationCoordinator::lastRound</definition>
+        <argsstring>() const override</argsstring>
+        <name>lastRound</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::lastRound</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a15c74ab2977dc94064235d9b266d1503">lastRound</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="219" column="20" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="252" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a974619c3783e7db6c563eedaf8c4a222" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::FederatedDistillationCoordinator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a4c92f6bbe9c1481ce7d32d16d1a18f6f">getStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="220" column="38" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="262" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2e75ba598bcb6c8ff98adc6de855acf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::registerStudent</definition>
+        <argsstring>(const std::string &amp;student_id, std::function&lt; void(const DistillationRound &amp;)&gt; cb) override</argsstring>
+        <name>registerStudent</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::registerStudent</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a283dede84fc773b6f2817440f4f0263a">registerStudent</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>student_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_round" kindref="compound">DistillationRound</ref> &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="222" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="294" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a8f094b7bf146cb296f5a96a375a770c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::setNoiseGeneratorFn</definition>
+        <argsstring>(NoiseGeneratorFn fn)</argsstring>
+        <name>setNoiseGeneratorFn</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::setNoiseGeneratorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a25af35e5adf82ad70649e4bd0b37c18c" kindref="member">NoiseGeneratorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Noise Generator Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="234" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="360" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a537fea9a2cd605857210dc95fa0729ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::setPolicyGate</definition>
+        <argsstring>(PolicyGate gate)</argsstring>
+        <name>setPolicyGate</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::setPolicyGate</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2ce2d2e6e1507a14ed315c3d2a78b193" kindref="member">PolicyGate</ref></type>
+          <declname>gate</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy Gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="240" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="320" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a9de96d351fa0b0c21ab034a5083e5571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::setBoundedPolicy</definition>
+        <argsstring>(DistillationBoundedPolicy policy)</argsstring>
+        <name>setBoundedPolicy</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::setBoundedPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Bounded Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="246" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="330" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a31ce5320abcdab63fb9676e064aa14bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::setAuditCallback</definition>
+        <argsstring>(std::function&lt; void(const nlohmann::json &amp;)&gt; cb)</argsstring>
+        <name>setAuditCallback</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::setAuditCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const nlohmann::json &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="248" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="335" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a86b50378cc0e49117482475b1c1fcfbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::setRollbackTrigger</definition>
+        <argsstring>(std::function&lt; void(uint64_t, double)&gt; cb)</argsstring>
+        <name>setRollbackTrigger</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::setRollbackTrigger</qualifiedname>
+        <param>
+          <type>std::function&lt; void(uint64_t, double)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="250" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="345" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3dabb50734f71ee3e7b20a7e64443fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::reportStudentUtility</definition>
+        <argsstring>(const std::string &amp;student_id, double utility)</argsstring>
+        <name>reportStudentUtility</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::reportStudentUtility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>student_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>utility</declname>
+        </param>
+        <briefdescription>
+<para>── Utility reporting ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Student Utility.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">student_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the student. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">utility</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">utility</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), rollback_trigger_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="258" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="375" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a33fbd7c906f23749414d2eb210bd1af9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederatedDistillationCoordinator::privacyBudgetRemaining</definition>
+        <argsstring>() const</argsstring>
+        <name>privacyBudgetRemaining</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::privacyBudgetRemaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="262" column="13" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="400" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a97475fb0c3d66bdf26da8de1dd85387b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederatedDistillationCoordinator::verifyPrivacyBudget</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyPrivacyBudget</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::verifyPrivacyBudget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="264" column="11" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="407" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aafdab85293cdac6d99b423cf2e4d77ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="269" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="422" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad3ff8160c5b473772e89faec27e4decd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card" kindref="compound">DistillationModelCard</ref></type>
+        <definition>DistillationModelCard themis::distributed_knowledge::FederatedDistillationCoordinator::generateModelCard</definition>
+        <argsstring>(const std::string &amp;coordinator_id=&quot;&quot;) const</argsstring>
+        <name>generateModelCard</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::generateModelCard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="271" column="28" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="476" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a05949f746521394ba5407a7847f64f03" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_config" kindref="compound">DistillationConfig</ref> &amp;</type>
+        <definition>const DistillationConfig &amp; themis::distributed_knowledge::FederatedDistillationCoordinator::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="274" column="31" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac5322f11152b6b4998c52f9307713f9e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_knowledge::FederatedDistillationCoordinator::applyDPNoise</definition>
+        <argsstring>(std::vector&lt; SoftLabel &gt; &amp;labels) const</argsstring>
+        <name>applyDPNoise</name>
+        <qualifiedname>themis::distributed_knowledge::FederatedDistillationCoordinator::applyDPNoise</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>── Implementation ───────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="282" column="10" bodyfile="src/distributed_knowledge/federated_distillation_coordinator.cpp" bodystart="443" bodyend="470"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::distributed_knowledge::FederatedDistillationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IFederatedDistillationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_knowledge::FederatedDistillationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IFederatedDistillationCoordinator</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="197" column="1" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="197" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac62682a1b763f367d8b7582ddae6ebd0" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>any_utility_reported_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac5322f11152b6b4998c52f9307713f9e" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>applyDPNoise</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac985cd6d459c55feb8bd70aa40c233d8" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>audit_cb_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac2d8682c6113182d532540fe78a9de22" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>bounded_policy_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad7a8430dd937518146e39cfb3bb1ba4b" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>broadcast_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3c636cb0c7d00db5bb3f79cc4d7ec67f" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>broadcastToStudents</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a05949f746521394ba5407a7847f64f03" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>config</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a031cee0deff6a113df97698887776a7f" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebafb6c179e647abcd48637d05ef768e" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>current_round_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aebdf6359634dc8d233e9dbc9c72726e4" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>currentRound</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a98b968e84411b1df759ae9d2eec75a73" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>FederatedDistillationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae2d8b828d3e056bab8bc2923dfc5728c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>FederatedDistillationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae381815869006ba2232ab171f0d853e0" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>FederatedDistillationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ad3ff8160c5b473772e89faec27e4decd" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>generateModelCard</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a974619c3783e7db6c563eedaf8c4a222" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac6225efe1e2aa8830c084c598017b4ae" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>has_pending_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ae4604b8d33e15c2ebe7e76c783328685" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>last_round_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a5e9ca45bcc3c660222bfd8351340d259" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>lastRound</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1afa94e13fa2c9e544b67f679a9af1b7fa" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>max_utility_reported_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6906c469ce392d825f44acab1f1074c0" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>min_utility_reported_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aa503c2996330977a46d925e2909ed041" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a45d6b3bdeaee45837dbcdf5338e64c1a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>noise_generator_fn_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a25af35e5adf82ad70649e4bd0b37c18c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>NoiseGeneratorFn</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2d635b05783b85ecca28c76cf52a7488" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a10a73587334c6bdb5550ad18c32a12a4" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab97841e2f1e4e31cea3ca144ebb5adc8" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>pending_labels_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2fc93cf47cf83be68941bd4d71e19a59" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>pending_teacher_id_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ab31038e8f5fdc3fa1ae49f2c1714455a" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>policy_block_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a6f902082da981e9eba46fef94e40de45" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>policy_gate_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2ce2d2e6e1507a14ed315c3d2a78b193" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>PolicyGate</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a33fbd7c906f23749414d2eb210bd1af9" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>privacyBudgetRemaining</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a2e75ba598bcb6c8ff98adc6de855acf9" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>registerStudent</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a3dabb50734f71ee3e7b20a7e64443fbf" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>reportStudentUtility</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aafdab85293cdac6d99b423cf2e4d77ec" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1f8ada8ca2cca2a674b6d0ada3af6350" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>rollback_count_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aea6cf84ebfc3188ea4209cc1c8281677" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>rollback_trigger_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a31ce5320abcdab63fb9676e064aa14bf" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>setAuditCallback</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a9de96d351fa0b0c21ab034a5083e5571" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>setBoundedPolicy</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a8f094b7bf146cb296f5a96a375a770c5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>setNoiseGeneratorFn</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a537fea9a2cd605857210dc95fa0729ba" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>setPolicyGate</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a86b50378cc0e49117482475b1c1fcfbd" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>setRollbackTrigger</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a434a15d819ac5c017bd3d54adda7cde9" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>students_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a1a93f22047457ee971bb6bfb51dd5f57" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>submitSoftLabels</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1aef32fb29cdbd0a42102b551861a67145" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>submittedCount</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a7e8991e58099e41e475e931296c941b5" prot="private" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>total_epsilon_spent_</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1a97475fb0c3d66bdf26da8de1dd85387b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>verifyPrivacyBudget</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_federated_distillation_coordinator_1ac359f5a3bfe74b8ca35d76c236a13bcc" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>~FederatedDistillationCoordinator</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_federated_distillation_coordinator_1a21e7cbf77e1313ebdeaeda336801c605" prot="public" virt="virtual"><scope>themis::distributed_knowledge::FederatedDistillationCoordinator</scope><name>~IFederatedDistillationCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

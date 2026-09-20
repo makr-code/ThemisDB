@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAGraphPath</compoundname>
+    <includes refid="lora__graph_8h" local="no">lora_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a54cf2777390313c4f28f39f6ed360ab9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAGraphPath::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::adapter_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="147" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a15c0d05b4b4c3a5b543911879d652ce6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_edge" kindref="compound">LoRAGraphEdge</ref> &gt;</type>
+        <definition>std::vector&lt;LoRAGraphEdge&gt; themis::llm::lora::LoRAGraphPath::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="148" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a20b8925d62b7fc16fa0eddbf99f0b573" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAGraphPath::getNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodes</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::getNodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="150" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="150" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a21ccf5745b7fd9ac48d676f42c390de9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRAGraphPath::length</definition>
+        <argsstring>() const</argsstring>
+        <name>length</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="162" column="12" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a47dabac4a799ee1dcdff7fa70e7bfde9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAGraphPath::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="166" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="166" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1ad81288c9637e94360ea0218b6bea11e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAGraphPath::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAGraphPath::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="179" column="10" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="179" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_graph.h" line="146" column="1" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="146" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a54cf2777390313c4f28f39f6ed360ab9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a15c0d05b4b4c3a5b543911879d652ce6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>edges</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a20b8925d62b7fc16fa0eddbf99f0b573" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>getNodes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a21ccf5745b7fd9ac48d676f42c390de9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1ad81288c9637e94360ea0218b6bea11e7" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path_1a47dabac4a799ee1dcdff7fa70e7bfde9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAGraphPath</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

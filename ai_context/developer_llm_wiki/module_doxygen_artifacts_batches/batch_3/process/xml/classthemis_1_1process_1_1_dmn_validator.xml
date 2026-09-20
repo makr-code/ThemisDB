@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_dmn_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DmnValidator</compoundname>
+    <includes refid="serializer__hardening_8h" local="no">serializer_hardening.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_validator_1a0793d6d339313341271bbdab898d374a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref></type>
+        <definition>SerializerValidationResult themis::process::DmnValidator::validateDmnConstraints</definition>
+        <argsstring>(std::string_view decision_id, int32_t rule_count)</argsstring>
+        <name>validateDmnConstraints</name>
+        <qualifiedname>themis::process::DmnValidator::validateDmnConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>decision_id</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>rule_count</declname>
+        </param>
+        <briefdescription>
+<para>Validate DMN-specific constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Dmn Constraints.</para>
+<para><itemizedlist>
+<listitem><para>Decision table has at least one rule</para>
+</listitem><listitem><para>Input/output clauses are well-formed</para>
+</listitem><listitem><para>Hit policy is recognized</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decision model ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rule_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of decision rules. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" kindref="member">SerializerValidationResult::failure()</ref>, <ref refid="structthemis_1_1process_1_1_serializer_validation_result_1af17e113bce7b7ebada7dd731bb75bb57" kindref="member">SerializerValidationResult::success()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="277" column="40" bodyfile="src/process/serializer_hardening.cpp" bodystart="496" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validator for dmn. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/serializer_hardening.h" line="264" column="1" bodyfile="include/process/serializer_hardening.h" bodystart="264" bodyend="281"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_dmn_validator_1a0793d6d339313341271bbdab898d374a" prot="public" virt="non-virtual"><scope>themis::process::DmnValidator</scope><name>validateDmnConstraints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

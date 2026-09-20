@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_reserved_fields" kind="namespace" language="C++">
+    <compoundname>themis::ReservedFields</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1af6eb5fafff39b9ee02d8038b0a28a526" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::FROM</definition>
+        <argsstring></argsstring>
+        <name>FROM</name>
+        <qualifiedname>themis::ReservedFields::FROM</qualifiedname>
+        <initializer>= &quot;_from&quot;</initializer>
+        <briefdescription>
+<para>Quellknoten-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="90" column="26" bodyfile="include/index/process_graph.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a9c51af244b22a9f6a326beebc9b9a46c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::TO</definition>
+        <argsstring></argsstring>
+        <name>TO</name>
+        <qualifiedname>themis::ReservedFields::TO</qualifiedname>
+        <initializer>= &quot;_to&quot;</initializer>
+        <briefdescription>
+<para>Zielknoten-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="91" column="26" bodyfile="include/index/process_graph.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a335cb0d7c9d3cf2214ed3f4644dceb32" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::TYPE</definition>
+        <argsstring></argsstring>
+        <name>TYPE</name>
+        <qualifiedname>themis::ReservedFields::TYPE</qualifiedname>
+        <initializer>= &quot;_type&quot;</initializer>
+        <briefdescription>
+<para>Kanten-/Knotentyp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="92" column="26" bodyfile="include/index/process_graph.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1aa525f32eac3983cce05db5a31a3d4336" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::EMBEDDING</definition>
+        <argsstring></argsstring>
+        <name>EMBEDDING</name>
+        <qualifiedname>themis::ReservedFields::EMBEDDING</qualifiedname>
+        <initializer>= &quot;_embedding&quot;</initializer>
+        <briefdescription>
+<para>Embedding-Array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="95" column="26" bodyfile="include/index/process_graph.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1ad4eb5cd8df5fceaa5e2965881f20edf6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::GEOMETRY</definition>
+        <argsstring></argsstring>
+        <name>GEOMETRY</name>
+        <qualifiedname>themis::ReservedFields::GEOMETRY</qualifiedname>
+        <initializer>= &quot;_geometry&quot;</initializer>
+        <briefdescription>
+<para>WKT oder GeoJSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="98" column="26" bodyfile="include/index/process_graph.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a10de21d6eb303baf4809148b3932c9d8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::VALID_FROM</definition>
+        <argsstring></argsstring>
+        <name>VALID_FROM</name>
+        <qualifiedname>themis::ReservedFields::VALID_FROM</qualifiedname>
+        <initializer>= &quot;_valid_from&quot;</initializer>
+        <briefdescription>
+<para>Gültig ab (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="101" column="26" bodyfile="include/index/process_graph.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1adefbe77534bebee3299f7622d5252cf0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::VALID_TO</definition>
+        <argsstring></argsstring>
+        <name>VALID_TO</name>
+        <qualifiedname>themis::ReservedFields::VALID_TO</qualifiedname>
+        <initializer>= &quot;_valid_to&quot;</initializer>
+        <briefdescription>
+<para>Gültig bis (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="102" column="26" bodyfile="include/index/process_graph.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1ae2f2dd3cf208584439f9cda605a262ef" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::STATE</definition>
+        <argsstring></argsstring>
+        <name>STATE</name>
+        <qualifiedname>themis::ReservedFields::STATE</qualifiedname>
+        <initializer>= &quot;_state&quot;</initializer>
+        <briefdescription>
+<para>Ausführungszustand. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="105" column="26" bodyfile="include/index/process_graph.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1ab5706ef06a59337246fa6dfcd09d9545" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::TOKENS</definition>
+        <argsstring></argsstring>
+        <name>TOKENS</name>
+        <qualifiedname>themis::ReservedFields::TOKENS</qualifiedname>
+        <initializer>= &quot;_tokens&quot;</initializer>
+        <briefdescription>
+<para>Aktive Token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="106" column="26" bodyfile="include/index/process_graph.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1ad679825f8033650bf7868bc4baaf5ede" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::VARIABLES</definition>
+        <argsstring></argsstring>
+        <name>VARIABLES</name>
+        <qualifiedname>themis::ReservedFields::VARIABLES</qualifiedname>
+        <initializer>= &quot;_variables&quot;</initializer>
+        <briefdescription>
+<para>Prozess-Variablen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="107" column="26" bodyfile="include/index/process_graph.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a9e981ec49db15ca99398fa11afed5c69" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::PARENT</definition>
+        <argsstring></argsstring>
+        <name>PARENT</name>
+        <qualifiedname>themis::ReservedFields::PARENT</qualifiedname>
+        <initializer>= &quot;_parent&quot;</initializer>
+        <briefdescription>
+<para>Eltern-Instanz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="108" column="26" bodyfile="include/index/process_graph.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a13feeee5badf17e254a2cb877a288111" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::CREATED_AT</definition>
+        <argsstring></argsstring>
+        <name>CREATED_AT</name>
+        <qualifiedname>themis::ReservedFields::CREATED_AT</qualifiedname>
+        <initializer>= &quot;_created_at&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="111" column="26" bodyfile="include/index/process_graph.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1adcb8a93c92c600e30916f907277ffacb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::UPDATED_AT</definition>
+        <argsstring></argsstring>
+        <name>UPDATED_AT</name>
+        <qualifiedname>themis::ReservedFields::UPDATED_AT</qualifiedname>
+        <initializer>= &quot;_updated_at&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="112" column="26" bodyfile="include/index/process_graph.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a384010728c7a5f458bbb5ea537a3a997" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::CREATED_BY</definition>
+        <argsstring></argsstring>
+        <name>CREATED_BY</name>
+        <qualifiedname>themis::ReservedFields::CREATED_BY</qualifiedname>
+        <initializer>= &quot;_created_by&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="113" column="26" bodyfile="include/index/process_graph.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_reserved_fields_1a33ecbf9d6d497df57a32ce4235142e41" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ReservedFields::VERSION</definition>
+        <argsstring></argsstring>
+        <name>VERSION</name>
+        <qualifiedname>themis::ReservedFields::VERSION</qualifiedname>
+        <initializer>= &quot;_version&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="114" column="26" bodyfile="include/index/process_graph.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integrierte Multi-Model Prozess-Architektur für ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="namespacethemis_1_1_reserved_fields_1autotoc_md1_1s1"><sect2 id="namespacethemis_1_1_reserved_fields_1autotoc_md1">
+<title>Design-Philosophie: Vollständige Integration</title><para>Prozesse werden NICHT als separate Entitäten behandelt, sondern als <bold>normale Collections</bold> mit speziellen reservierten Feldern. Dies ermöglicht:</para>
+<para><orderedlist>
+<listitem><para><bold>Einheitliche AQL-Syntax</bold> - Keine neuen Sprachelemente erforderlich</para>
+</listitem><listitem><para><bold>Multi-Model-Kombination</bold> - Graph + Relational + Vektor + Geo in einer Abfrage</para>
+</listitem><listitem><para><bold>Transparente Optimierung</bold> - Query-Optimizer wählt beste Indizes</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemis_1_1_reserved_fields_1autotoc_md2_1s1"><sect2 id="namespacethemis_1_1_reserved_fields_1autotoc_md2">
+<title>Reservierte Felder für Multi-Model</title><para><table rows="11" cols="4"><row>
+<entry thead="yes"><para>Feld  </para>
+</entry><entry thead="yes"><para>Typ  </para>
+</entry><entry thead="yes"><para>Model  </para>
+</entry><entry thead="yes"><para>Beschreibung  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_from</computeroutput>  </para>
+</entry><entry thead="no"><para>string  </para>
+</entry><entry thead="no"><para>Graph  </para>
+</entry><entry thead="no"><para>Quellknoten-ID  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_to</computeroutput>  </para>
+</entry><entry thead="no"><para>string  </para>
+</entry><entry thead="no"><para>Graph  </para>
+</entry><entry thead="no"><para>Zielknoten-ID  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_type</computeroutput>  </para>
+</entry><entry thead="no"><para>string  </para>
+</entry><entry thead="no"><para>Graph/Process  </para>
+</entry><entry thead="no"><para>Kanten-/Knotentyp  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_embedding</computeroutput>  </para>
+</entry><entry thead="no"><para>float[]  </para>
+</entry><entry thead="no"><para>Vector  </para>
+</entry><entry thead="no"><para>Embedding-Array  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_geometry</computeroutput>  </para>
+</entry><entry thead="no"><para>string  </para>
+</entry><entry thead="no"><para>Geo  </para>
+</entry><entry thead="no"><para>WKT oder GeoJSON  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_valid_from</computeroutput>  </para>
+</entry><entry thead="no"><para>int64  </para>
+</entry><entry thead="no"><para>Temporal  </para>
+</entry><entry thead="no"><para>Gültig ab (ms)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_valid_to</computeroutput>  </para>
+</entry><entry thead="no"><para>int64  </para>
+</entry><entry thead="no"><para>Temporal  </para>
+</entry><entry thead="no"><para>Gültig bis (ms)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_state</computeroutput>  </para>
+</entry><entry thead="no"><para>string  </para>
+</entry><entry thead="no"><para>Process  </para>
+</entry><entry thead="no"><para>Ausführungszustand  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_tokens</computeroutput>  </para>
+</entry><entry thead="no"><para>array  </para>
+</entry><entry thead="no"><para>Process  </para>
+</entry><entry thead="no"><para>Aktive Token  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>_variables</computeroutput>  </para>
+</entry><entry thead="no"><para>object  </para>
+</entry><entry thead="no"><para>Process  </para>
+</entry><entry thead="no"><para>Prozess-Variablen  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemis_1_1_reserved_fields_1autotoc_md3_1s1"><sect2 id="namespacethemis_1_1_reserved_fields_1autotoc_md3">
+<title>System-Collections für Prozesse</title><para><itemizedlist>
+<listitem><para><computeroutput>_process_definitions</computeroutput> - Prozess-Modelle (BPMN/EPK)</para>
+</listitem><listitem><para><computeroutput>_process_nodes</computeroutput> - Knoten im Prozess-Modell</para>
+</listitem><listitem><para><computeroutput>_process_edges</computeroutput> - Kanten/Flüsse im Prozess-Modell</para>
+</listitem><listitem><para><computeroutput>_process_instances</computeroutput> - Laufende Prozess-Instanzen</para>
+</listitem><listitem><para><computeroutput>_process_tokens</computeroutput> - Token (Ausführungsposition)</para>
+</listitem><listitem><para><computeroutput>_process_history</computeroutput> - Audit-Log der Ausführung</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemis_1_1_reserved_fields_1autotoc_md4_1s1"><sect2 id="namespacethemis_1_1_reserved_fields_1autotoc_md4">
+<title>Beispiel: Integrierte Multi-Model-Abfrage</title><para><programlisting filename=".aql"><codeline><highlight class="normal">FOR<sp/>task<sp/>IN<sp/>_process_tokens</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FOR<sp/>node<sp/>IN<sp/>_process_nodes</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FILTER<sp/>task.current_node<sp/>==<sp/>node.id</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FILTER<sp/>node._type<sp/>==<sp/>&quot;USER_TASK&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>LET<sp/>customer<sp/>=<sp/>DOCUMENT(&quot;customers&quot;,<sp/>task.variables.customerId)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FILTER<sp/>GEO_DISTANCE(node._geometry,<sp/>customer._geometry)<sp/>&lt;<sp/>50000</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>LET<sp/>similar<sp/>=<sp/>SIMILARITY(task._embedding,<sp/>customer._embedding,<sp/>5)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>RETURN<sp/>{<sp/>task,<sp/>node,<sp/>customer,<sp/>similar<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>Reservierte Feldnamen für Multi-Model-Dokumente</para>
+<para>Diese Felder werden automatisch erkannt und entsprechend indiziert. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="88" column="1"/>
+  </compounddef>
+</doxygen>

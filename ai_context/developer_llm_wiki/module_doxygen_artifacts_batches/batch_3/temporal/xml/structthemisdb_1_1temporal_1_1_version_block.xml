@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_version_block" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::VersionBlock</compoundname>
+    <includes refid="temporal__tier__manager_8h" local="no">temporal_tier_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1af1263bd8a8d535366b96f85cfd157a98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::VersionBlock::doc_key</definition>
+        <argsstring></argsstring>
+        <name>doc_key</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::doc_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="142" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1aecc9f751dfa36183a46a670219755b89" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::VersionBlock::min_start</definition>
+        <argsstring></argsstring>
+        <name>min_start</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::min_start</qualifiedname>
+        <initializer>{kMaxTimestamp}</initializer>
+        <briefdescription>
+<para>Earliest sys_start in block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="143" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1a461aa04e27771ef37dfd4f276b0bd95b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::VersionBlock::max_end</definition>
+        <argsstring></argsstring>
+        <name>max_end</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::max_end</qualifiedname>
+        <initializer>{kMinTimestamp}</initializer>
+        <briefdescription>
+<para>Latest sys_end in block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="144" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1a2baba7097af8199a3ca10280453474d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::VersionBlock::version_count</definition>
+        <argsstring></argsstring>
+        <name>version_count</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::version_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="145" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1ab81b178a2520e4de15bb8d216ddd5f37" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::temporal::VersionBlock::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::entries</qualifiedname>
+        <briefdescription>
+<para>Serialised <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> entries, sorted ascending by sys_start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="148" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1aad1a22f1235b95e5cb4d30e9b51671d2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_bloom_filter" kindref="compound">BloomFilter</ref></type>
+        <definition>BloomFilter themisdb::temporal::VersionBlock::bloom</definition>
+        <argsstring></argsstring>
+        <name>bloom</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::bloom</qualifiedname>
+        <briefdescription>
+<para>Bloom filter over sys_start values — fast miss detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="151" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_version_block_1aede406f50bf2d1027f8639f95f601a11" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::VersionBlock::approx_bytes</definition>
+        <argsstring></argsstring>
+        <name>approx_bytes</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::approx_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Approximate RAM cost of this block (sum of entry string sizes + overhead). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="154" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_version_block_1a389c449e5c01e350176a0d07b2abccb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::VersionBlock::VersionBlock</definition>
+        <argsstring>()</argsstring>
+        <name>VersionBlock</name>
+        <qualifiedname>themisdb::temporal::VersionBlock::VersionBlock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="156" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable block of historical <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> entries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Analogous to an L0 SST file in RocksDB:<itemizedlist>
+<listitem><para>Created by flushing the oldest versions from the hot-tier MemTable.</para>
+</listitem><listitem><para>Immutable once written — never mutated, only read or evicted.</para>
+</listitem><listitem><para>Carries metadata (min_start, max_end) for O(1) range pruning.</para>
+</listitem><listitem><para>Carries a <ref refid="classthemisdb_1_1temporal_1_1_bloom_filter" kindref="compound">BloomFilter</ref> over sys_start timestamps for O(1) miss detection.</para>
+</listitem></itemizedlist>
+</para>
+<para>Entries are stored as JSON strings sorted ascending by sys_start. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::temporal::BloomFilter</label>
+        <link refid="classthemisdb_1_1temporal_1_1_bloom_filter"/>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::VersionBlock</label>
+        <link refid="structthemisdb_1_1temporal_1_1_version_block"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>bloom</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_tier_manager.h" line="141" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="141" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1aede406f50bf2d1027f8639f95f601a11" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>approx_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1aad1a22f1235b95e5cb4d30e9b51671d2" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>bloom</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1af1263bd8a8d535366b96f85cfd157a98" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>doc_key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1ab81b178a2520e4de15bb8d216ddd5f37" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>entries</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1a461aa04e27771ef37dfd4f276b0bd95b" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>max_end</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1aecc9f751dfa36183a46a670219755b89" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>min_start</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1a2baba7097af8199a3ca10280453474d7" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>version_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_version_block_1a389c449e5c01e350176a0d07b2abccb1" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>VersionBlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

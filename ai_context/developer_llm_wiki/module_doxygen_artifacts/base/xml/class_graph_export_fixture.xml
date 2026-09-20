@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_export_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GraphExportFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_graph_export_fixture_1a2a4723aadab5de87cb51c8b08e537110" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PluginDependencyGraph &gt;</type>
+        <definition>std::unique_ptr&lt;PluginDependencyGraph&gt; GraphExportFixture::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>GraphExportFixture::graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_wasm_sandbox.cpp" line="407" column="21" bodyfile="benchmarks/base/bench_base_wasm_sandbox.cpp" bodystart="407" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_export_fixture_1aec48c56eadf5964063879887985e5c93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphExportFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphExportFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_wasm_sandbox.cpp" line="391" column="10" bodyfile="benchmarks/base/bench_base_wasm_sandbox.cpp" bodystart="391" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_export_fixture_1ad01f6cdb5ffadad8a91ee406f55a1ab9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphExportFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphExportFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_wasm_sandbox.cpp" line="403" column="10" bodyfile="benchmarks/base/bench_base_wasm_sandbox.cpp" bodystart="403" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphExportFixture</label>
+        <link refid="class_graph_export_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphExportFixture</label>
+        <link refid="class_graph_export_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_base_wasm_sandbox.cpp" line="389" column="1" bodyfile="benchmarks/base/bench_base_wasm_sandbox.cpp" bodystart="389" bodyend="408"/>
+    <listofallmembers>
+      <member refid="class_graph_export_fixture_1a2a4723aadab5de87cb51c8b08e537110" prot="public" virt="non-virtual"><scope>GraphExportFixture</scope><name>graph</name></member>
+      <member refid="class_graph_export_fixture_1aec48c56eadf5964063879887985e5c93" prot="public" virt="non-virtual"><scope>GraphExportFixture</scope><name>SetUp</name></member>
+      <member refid="class_graph_export_fixture_1ad01f6cdb5ffadad8a91ee406f55a1ab9" prot="public" virt="non-virtual"><scope>GraphExportFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

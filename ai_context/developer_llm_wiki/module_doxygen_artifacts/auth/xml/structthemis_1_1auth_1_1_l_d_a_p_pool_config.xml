@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_l_d_a_p_pool_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::LDAPPoolConfig</compoundname>
+    <includes refid="ldap__connection__pool_8h" local="no">ldap_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1aadb9e41979664b61853e2d8e76a194f4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::min_idle</definition>
+        <argsstring></argsstring>
+        <name>min_idle</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::min_idle</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="35" column="9" bodyfile="include/auth/ldap_connection_pool.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1ae80d1b743cc47a8cc775dc829e51844c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::max_size</qualifiedname>
+        <initializer>{16}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="37" column="9" bodyfile="include/auth/ldap_connection_pool.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a1baada50e033f0ffe3e12ce5ea6541ed" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::checkout_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>checkout_timeout_ms</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::checkout_timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="39" column="9" bodyfile="include/auth/ldap_connection_pool.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a774f8e6c3f51b9432b16b53f26fce967" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPPoolConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="42" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a8c0e5c7be8e69f1ee8dad526e01608b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPPoolConfig::server_url</definition>
+        <argsstring></argsstring>
+        <name>server_url</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::server_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="44" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a30cb88dbb3d29b3114669082d4495fe7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::port</qualifiedname>
+        <initializer>{389}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="45" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a23e25c83f37a7584b606c3f9f561f985" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPPoolConfig::use_tls</definition>
+        <argsstring></argsstring>
+        <name>use_tls</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::use_tls</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="46" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a4c9c86c21235ed665f2a0fe9f069abb3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::connection_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout_seconds</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::connection_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="47" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1af3d91387c8151ab501c49450cbf9b439" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::LDAPPoolConfig::search_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>search_timeout_seconds</name>
+        <qualifiedname>themis::auth::LDAPPoolConfig::search_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="48" column="17" bodyfile="include/auth/ldap_connection_pool.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_connection_pool.h" line="34" column="1" bodyfile="include/auth/ldap_connection_pool.h" bodystart="34" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a1baada50e033f0ffe3e12ce5ea6541ed" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>checkout_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a4c9c86c21235ed665f2a0fe9f069abb3" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>connection_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a774f8e6c3f51b9432b16b53f26fce967" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1ae80d1b743cc47a8cc775dc829e51844c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1aadb9e41979664b61853e2d8e76a194f4" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>min_idle</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a30cb88dbb3d29b3114669082d4495fe7" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1af3d91387c8151ab501c49450cbf9b439" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>search_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a8c0e5c7be8e69f1ee8dad526e01608b1" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>server_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a23e25c83f37a7584b606c3f9f561f985" prot="public" virt="non-virtual"><scope>themis::auth::LDAPPoolConfig</scope><name>use_tls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

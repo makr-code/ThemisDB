@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_vec16f" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::Vec16f</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec16f_1a8f8cd4acb528431ef41a37fb74567bbc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::examples::Vec16f::data[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::examples::Vec16f::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="130" column="11" bodyfile="include/performance/alignment_examples.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1examples_1_1_vec16f_1ad7a05389a06f3e3344a0e02e7ee131e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::Vec16f::Vec16f</definition>
+        <argsstring>()</argsstring>
+        <name>Vec16f</name>
+        <qualifiedname>themis::examples::Vec16f::Vec16f</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="132" column="5" bodyfile="include/performance/alignment_examples.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>16-component float vector for AVX-512 operations </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Required for AVX-512 instructions on modern x86_64 CPUs:<itemizedlist>
+<listitem><para>_mm512_load_ps requires 64-byte alignment</para>
+</listitem><listitem><para>Critical for HPC and AI workloads </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="129" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="129" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_vec16f_1a8f8cd4acb528431ef41a37fb74567bbc" prot="public" virt="non-virtual"><scope>themis::examples::Vec16f</scope><name>data</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec16f_1ad7a05389a06f3e3344a0e02e7ee131e1" prot="public" virt="non-virtual"><scope>themis::examples::Vec16f</scope><name>Vec16f</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

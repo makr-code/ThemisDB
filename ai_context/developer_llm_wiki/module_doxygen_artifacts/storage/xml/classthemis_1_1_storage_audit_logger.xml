@@ -1,0 +1,883 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_storage_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::StorageAuditLogger</compoundname>
+    <includes refid="storage__audit__logger_8h" local="no">storage_audit_logger.h</includes>
+    <innerclass refid="structthemis_1_1_storage_audit_logger_1_1_config" prot="public">themis::StorageAuditLogger::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Event</name>
+        <qualifiedname>themis::StorageAuditLogger::Event</qualifiedname>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Key-value write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a2bbe23c0e8b3f638f0f5aed4b6864513" prot="public">
+          <name>DEL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Key deletion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a0f15e1247e93ddfa95c008106eb0d22f" prot="public">
+          <name>CHECKPOINT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>WAL checkpoint completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a9c90eb3f9201a7df861d94e494aa9b0b" prot="public">
+          <name>RECOVERY</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>WAL replay / crash-recovery completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a8cc9accb36fc96056e2f531049fb31a7" prot="public">
+          <name>COMPACTION</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Compaction pass completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a46b8744c6bc840d2cb241fa165f3e204" prot="public">
+          <name>SNAPSHOT</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Online snapshot created or restored. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Storage event types. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="57" column="5" bodyfile="include/storage/storage_audit_logger.h" bodystart="57" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1a4e10f3de34116ed1e348b3f0164bdfdc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::StorageAuditLogger::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::StorageAuditLogger::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="142" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1add675262fd7a522141202e5d9e580730" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::StorageAuditLogger::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::StorageAuditLogger::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="143" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1aabb4d4b6547a9cb76bcacf2e5adc1251" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::StorageAuditLogger::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::StorageAuditLogger::fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="144" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1a9a46b8447abb39511e72d0ed359a9a81" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::current_segment_</definition>
+        <argsstring></argsstring>
+        <name>current_segment_</name>
+        <qualifiedname>themis::StorageAuditLogger::current_segment_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="145" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1a5fecef1b28f3c6911955082a30e2b069" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::segment_bytes_</definition>
+        <argsstring></argsstring>
+        <name>segment_bytes_</name>
+        <qualifiedname>themis::StorageAuditLogger::segment_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="146" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1a842817b55813ccdcc5bf690771992632" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::next_seq_</definition>
+        <argsstring></argsstring>
+        <name>next_seq_</name>
+        <qualifiedname>themis::StorageAuditLogger::next_seq_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="147" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1a36976917ea35f1eb057e661c4aaffcf6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::last_seq_</definition>
+        <argsstring></argsstring>
+        <name>last_seq_</name>
+        <qualifiedname>themis::StorageAuditLogger::last_seq_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="148" column="24" bodyfile="include/storage/storage_audit_logger.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_audit_logger_1adc6dd01fa3ad637692c1f9aa663f0093" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::StorageAuditLogger::segments_</definition>
+        <argsstring></argsstring>
+        <name>segments_</name>
+        <qualifiedname>themis::StorageAuditLogger::segments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="150" column="17" bodyfile="include/storage/storage_audit_logger.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1_storage_audit_logger_1a2f865d876849065c7cac93178910f4ec" kindref="member">StorageAuditLogger</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; StorageAuditLogger &gt; &gt; themis::StorageAuditLogger::open</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::StorageAuditLogger::open</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Open (or create) an audit log in <computeroutput>config.dir</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Existing segment files are preserved; new entries are appended to a new segment so the previous segments remain immutable.</para>
+<para><simplesect kind="return"><para>Result&lt;unique_ptr&lt;StorageAuditLogger&gt;&gt; on success, Error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="81" column="19" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="183" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::StorageAuditLogger::segmentName</definition>
+        <argsstring>(uint64_t segment_id)</argsstring>
+        <name>segmentName</name>
+        <qualifiedname>themis::StorageAuditLogger::segmentName</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build the segment file name for a given segment ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="126" column="24" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::StorageAuditLogger::eventName</definition>
+        <argsstring>(Event e)</argsstring>
+        <name>eventName</name>
+        <qualifiedname>themis::StorageAuditLogger::eventName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" kindref="member">Event</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" kindref="member">Event</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert an <ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" kindref="member">Event</ref> enum to its string token (e.g. <ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7a3e75383a5992a6d15fb81e872e46e256" kindref="member">Event::PUT</ref> → &quot;PUT&quot;).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements eventName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="129" column="29" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a21f1825ea841ce482dc394815580d9b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageAuditLogger::~StorageAuditLogger</definition>
+        <argsstring>()</argsstring>
+        <name>~StorageAuditLogger</name>
+        <qualifiedname>themis::StorageAuditLogger::~StorageAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="83" column="5" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="171" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a2f865d876849065c7cac93178910f4ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageAuditLogger::StorageAuditLogger</definition>
+        <argsstring>(const StorageAuditLogger &amp;)=delete</argsstring>
+        <name>StorageAuditLogger</name>
+        <qualifiedname>themis::StorageAuditLogger::StorageAuditLogger</qualifiedname>
+        <param>
+          <type>const StorageAuditLogger &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1abce9431e167374fff0a1f8128e7ead99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_storage_audit_logger_1a2f865d876849065c7cac93178910f4ec" kindref="member">StorageAuditLogger</ref> &amp;</type>
+        <definition>StorageAuditLogger &amp; themis::StorageAuditLogger::operator=</definition>
+        <argsstring>(const StorageAuditLogger &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StorageAuditLogger::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_storage_audit_logger_1a2f865d876849065c7cac93178910f4ec" kindref="member">StorageAuditLogger</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="87" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1ae3b098b6a7e56db5ae204604de4af559" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logPut</definition>
+        <argsstring>(std::string_view key, std::string_view extra=&quot;&quot;)</argsstring>
+        <name>logPut</name>
+        <qualifiedname>themis::StorageAuditLogger::logPut</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>extra</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a PUT event. <computeroutput>extra</computeroutput> is an optional detail string (e.g. &quot;bytes=128&quot;).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="92" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a31779af869cec63c1e3a191b9adec4da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logDel</definition>
+        <argsstring>(std::string_view key, std::string_view extra=&quot;&quot;)</argsstring>
+        <name>logDel</name>
+        <qualifiedname>themis::StorageAuditLogger::logDel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>extra</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a DEL event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="95" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="287" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a4166b2bab0e817e541b60caca8521ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logCheckpoint</definition>
+        <argsstring>(std::string_view detail=&quot;&quot;)</argsstring>
+        <name>logCheckpoint</name>
+        <qualifiedname>themis::StorageAuditLogger::logCheckpoint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a CHECKPOINT event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="98" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a0adc38cf24e9f3a67aaa4655e3052386" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logRecovery</definition>
+        <argsstring>(std::string_view detail=&quot;&quot;)</argsstring>
+        <name>logRecovery</name>
+        <qualifiedname>themis::StorageAuditLogger::logRecovery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a RECOVERY event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="101" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="308" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a87b5407ca6de5e18e8ca82034a88fb2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logCompaction</definition>
+        <argsstring>(std::string_view detail=&quot;&quot;)</argsstring>
+        <name>logCompaction</name>
+        <qualifiedname>themis::StorageAuditLogger::logCompaction</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Compaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a COMPACTION event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="104" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="318" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a493b79e0d7860aa75b58c2a3fe9c49c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::logSnapshot</definition>
+        <argsstring>(std::string_view detail=&quot;&quot;)</argsstring>
+        <name>logSnapshot</name>
+        <qualifiedname>themis::StorageAuditLogger::logSnapshot</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a SNAPSHOT event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="107" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="328" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::log</definition>
+        <argsstring>(Event event, std::string_view key, std::string_view extra=&quot;&quot;)</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::StorageAuditLogger::log</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" kindref="member">Event</ref></type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>extra</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generic log: log any event with a key and extra detail.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), writeEntry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="110" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="261" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a629220f9a20254931741612ceac07ef7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::lastSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>lastSequence</name>
+        <qualifiedname>themis::StorageAuditLogger::lastSequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the sequence number of the last logged entry (0 if none). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>deadlock_risk scanner alert: mutex_ is acquired here in <ref refid="classthemis_1_1_storage_audit_logger_1a629220f9a20254931741612ceac07ef7" kindref="member">lastSequence()</ref> and also in <ref refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" kindref="member">log()</ref>, rotate(), and <ref refid="classthemis_1_1_storage_audit_logger_1aeb95caf9eb8f75a4a6bdef647d8d949a" kindref="member">flush()</ref> methods; these are sequential, non-nested acquisitions — no two are held simultaneously — false positive. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="115" column="14" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="433" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a9d40fbd66eb825981d0828b9e9b6ee99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::StorageAuditLogger::segmentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>segmentCount</name>
+        <qualifiedname>themis::StorageAuditLogger::segmentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the number of log segment files currently on disk. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="118" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="443" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1aeb95caf9eb8f75a4a6bdef647d8d949a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::StorageAuditLogger::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush buffered writes to the OS.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), themis_fsync_fd(), ErrVoid(), std::string(), std::strerror(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="121" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="458" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1acae6466bb95a9486f562b7acc0c5ab5c" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageAuditLogger::StorageAuditLogger</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>StorageAuditLogger</name>
+        <qualifiedname>themis::StorageAuditLogger::StorageAuditLogger</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_storage_audit_logger_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="132" column="14" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a02911a356ea9293d71bdbc0aa482259c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::openOrCreate</definition>
+        <argsstring>()</argsstring>
+        <name>openOrCreate</name>
+        <qualifiedname>themis::StorageAuditLogger::openOrCreate</qualifiedname>
+        <briefdescription>
+<para>Open Or Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: seg_re(), fs::directory_iterator(), path(), filename(), string(), std::regex_match(), push_back(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="134" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="216" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a0e62abccdb7fd63973264942f7c7c772" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::rotateIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>rotateIfNeeded</name>
+        <qualifiedname>themis::StorageAuditLogger::rotateIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Rotate If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: OkVoid(), themis_fsync_fd(), themis_close_fd(), back(), push_back(), fs::path(), <ref refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" kindref="member">segmentName()</ref>, string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="135" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="393" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a4662fe7554167dcbdd47989ef863770a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::openNewSegment</definition>
+        <argsstring>()</argsstring>
+        <name>openNewSegment</name>
+        <qualifiedname>themis::StorageAuditLogger::openNewSegment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="136" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a7367519031387419ceea497641413123" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageAuditLogger::writeEntry</definition>
+        <argsstring>(Event event, std::string_view key, std::string_view extra)</argsstring>
+        <name>writeEntry</name>
+        <qualifiedname>themis::StorageAuditLogger::writeEntry</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" kindref="member">Event</ref></type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>extra</declname>
+        </param>
+        <briefdescription>
+<para>Write Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rotateIfNeeded(), has_value(), currentTimestamp(), std::setw(), std::setfill(), <ref refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" kindref="member">eventName()</ref>, empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="137" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="340" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a1844c08e35e2d663c8c1379b1f9c041d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StorageAuditLogger::syncIfRequired</definition>
+        <argsstring>()</argsstring>
+        <name>syncIfRequired</name>
+        <qualifiedname>themis::StorageAuditLogger::syncIfRequired</qualifiedname>
+        <briefdescription>
+<para>Sync If Required. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: themis_fsync_fd(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="138" column="10" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="423" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_audit_logger_1a92920f635b39607cdd754a023eb681f3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::StorageAuditLogger::currentTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>currentTimestamp</name>
+        <qualifiedname>themis::StorageAuditLogger::currentTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="140" column="24" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="152" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Append-only, rotating audit trail for storage-layer events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_storage_audit_logger" kindref="compound">StorageAuditLogger</ref> records every significant storage mutation (PUT, DEL, CHECKPOINT, RECOVERY, COMPACTION, SNAPSHOT) to a text log file so that compliance tools and post-mortem forensics can reconstruct the history of the database.</para>
+<sect1 id="classthemis_1_1_storage_audit_logger_1autotoc_md18_1s1"><sect2 id="classthemis_1_1_storage_audit_logger_1autotoc_md18">
+<title>Log entry format (one line per event)</title><para>&lt;ISO-8601 timestamp&gt; &lt;sequence&gt; &lt;event&gt; &lt;key&gt; [&lt;extra&gt;]<linebreak/>
+ Example:</para>
+<para>2025-11-12T14:03:22Z 000000042 PUT user:42 bytes=128 2025-11-12T14:03:23Z 000000043 DEL user:42 2025-11-12T14:03:24Z 000000044 CHECKPOINT wal_000003.log seq=1024</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_storage_audit_logger_1autotoc_md19_1s1"><sect2 id="classthemis_1_1_storage_audit_logger_1autotoc_md19">
+<title>Log rotation</title><para>When the active log file exceeds <computeroutput><ref refid="structthemis_1_1_storage_audit_logger_1_1_config_1abd7a85402980c038b94c4cb42e294cb8" kindref="member">Config::max_file_bytes</ref></computeroutput>, it is closed and a new segment is opened (audit_000001.log, audit_000002.log, …).</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_storage_audit_logger_1autotoc_md20_1s1"><sect2 id="classthemis_1_1_storage_audit_logger_1autotoc_md20">
+<title>Thread safety</title><para>All public methods are thread-safe. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/storage_audit_logger.h" line="54" column="1" bodyfile="include/storage/storage_audit_logger.h" bodystart="54" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_storage_audit_logger_1a4e10f3de34116ed1e348b3f0164bdfdc" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a9a46b8447abb39511e72d0ed359a9a81" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>current_segment_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a92920f635b39607cdd754a023eb681f3" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>currentTimestamp</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1aeea1081803df967a7b51d90d42bc35a7" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>Event</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a458b6cc7fff71f0b3c6ea7fb758aaa7b" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>eventName</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1aabb4d4b6547a9cb76bcacf2e5adc1251" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1aeb95caf9eb8f75a4a6bdef647d8d949a" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a36976917ea35f1eb057e661c4aaffcf6" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>last_seq_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a629220f9a20254931741612ceac07ef7" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>lastSequence</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a50720050a504165a818b56f4fe0036ab" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a4166b2bab0e817e541b60caca8521ffe" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logCheckpoint</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a87b5407ca6de5e18e8ca82034a88fb2b" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logCompaction</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a31779af869cec63c1e3a191b9adec4da" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logDel</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1ae3b098b6a7e56db5ae204604de4af559" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logPut</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a0adc38cf24e9f3a67aaa4655e3052386" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logRecovery</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a493b79e0d7860aa75b58c2a3fe9c49c7" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>logSnapshot</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1add675262fd7a522141202e5d9e580730" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a842817b55813ccdcc5bf690771992632" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>next_seq_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a036ddce5a78d98efaf73a480b8352ee5" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>open</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a4662fe7554167dcbdd47989ef863770a" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>openNewSegment</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a02911a356ea9293d71bdbc0aa482259c" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>openOrCreate</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1abce9431e167374fff0a1f8128e7ead99" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a0e62abccdb7fd63973264942f7c7c772" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>rotateIfNeeded</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a5fecef1b28f3c6911955082a30e2b069" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>segment_bytes_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a9d40fbd66eb825981d0828b9e9b6ee99" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>segmentCount</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1ae3e63a66431bc29683b605309e091560" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>segmentName</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1adc6dd01fa3ad637692c1f9aa663f0093" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>segments_</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a2f865d876849065c7cac93178910f4ec" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>StorageAuditLogger</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1acae6466bb95a9486f562b7acc0c5ab5c" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>StorageAuditLogger</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a1844c08e35e2d663c8c1379b1f9c041d" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>syncIfRequired</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a7367519031387419ceea497641413123" prot="private" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>writeEntry</name></member>
+      <member refid="classthemis_1_1_storage_audit_logger_1a21f1825ea841ce482dc394815580d9b2" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger</scope><name>~StorageAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

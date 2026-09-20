@@ -1,0 +1,603 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_shader_integrity_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::ShaderIntegrityVerifier</compoundname>
+    <includes refid="shader__integrity_8h" local="no">shader_integrity.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result" prot="public">themis::acceleration::ShaderIntegrityVerifier::VerifyResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1ac9eb0419b9dfe90cea85104ee991f04c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::ShaderIntegrityVerifier::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="153" column="24" bodyfile="include/acceleration/shader_integrity.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1ac75c80ce3b71eb3938913b79c44d005e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::acceleration::ShaderIntegrityVerifier::expectedHashes_</definition>
+        <argsstring></argsstring>
+        <name>expectedHashes_</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::expectedHashes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="154" column="24" bodyfile="include/acceleration/shader_integrity.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1af7c156f067008ac3f11a5ae27cc299fe" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ShaderIntegrityVerifier::strict_</definition>
+        <argsstring></argsstring>
+        <name>strict_</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::strict_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="155" column="10" bodyfile="include/acceleration/shader_integrity.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a86add227a7660120a801894bdd752f7b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aabd7e4885d68e6842d353278bb0d43c9" kindref="member">ShaderIntegrityVerifier</ref> &amp;</type>
+        <definition>ShaderIntegrityVerifier &amp; themis::acceleration::ShaderIntegrityVerifier::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="60" column="36" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7ad520fd87a0b4b9d6a9a917ab4e9cbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::sha256Hex</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::sha256Hex</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), EVP_DigestFinal_ex(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="123" column="24" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="203" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aa70fa0e9fcf52ae2dd68e8b00f06019a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::sha256Hex</definition>
+        <argsstring>(const std::vector&lt; uint32_t &gt; &amp;spvWords)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>spvWords</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spvWords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spvWords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="129" column="24" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aabd7e4885d68e6842d353278bb0d43c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ShaderIntegrityVerifier::ShaderIntegrityVerifier</definition>
+        <argsstring>(const ShaderIntegrityVerifier &amp;)=delete</argsstring>
+        <name>ShaderIntegrityVerifier</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::ShaderIntegrityVerifier</qualifiedname>
+        <param>
+          <type>const ShaderIntegrityVerifier &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a5ce2e1af934aa1f8888b0747c96279e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aabd7e4885d68e6842d353278bb0d43c9" kindref="member">ShaderIntegrityVerifier</ref> &amp;</type>
+        <definition>ShaderIntegrityVerifier &amp; themis::acceleration::ShaderIntegrityVerifier::operator=</definition>
+        <argsstring>(const ShaderIntegrityVerifier &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aabd7e4885d68e6842d353278bb0d43c9" kindref="member">ShaderIntegrityVerifier</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="64" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a3f46db01dacddb31e78fde337ff900a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::ShaderIntegrityVerifier::registerExpectedHash</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;hexHash)</argsstring>
+        <name>registerExpectedHash</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::registerExpectedHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hexHash</declname>
+        </param>
+        <briefdescription>
+<para>Register Expected Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hexHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hexHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="75" column="10" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a61574902545e93c064ad04d99a808b68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ShaderIntegrityVerifier::loadManifest</definition>
+        <argsstring>(const std::string &amp;manifestPath)</argsstring>
+        <name>loadManifest</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::loadManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifestPath</declname>
+        </param>
+        <briefdescription>
+<para>Load Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), is_open(), std::getline(), find(), substr(), empty(), ss(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="82" column="12" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="100" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a9f0228bdcb49856b841cf4e0293c7a90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::ShaderIntegrityVerifier::clearRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>clearRegistry</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::clearRegistry</qualifiedname>
+        <briefdescription>
+<para>Clear Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="87" column="10" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a64ec66b5ddeb8b6ea7bfc272841cd307" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result" kindref="compound">VerifyResult</ref></type>
+        <definition>ShaderIntegrityVerifier::VerifyResult themis::acceleration::ShaderIntegrityVerifier::verify</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; uint32_t &gt; &amp;spvWords) const</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::verify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>spvWords</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spvWords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="99" column="18" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a4583134a6718a76121fc825d54224647" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result" kindref="compound">VerifyResult</ref></type>
+        <definition>ShaderIntegrityVerifier::VerifyResult themis::acceleration::ShaderIntegrityVerifier::verify</definition>
+        <argsstring>(const std::string &amp;name, const uint8_t *data, size_t byteLen) const</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::verify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>byteLen</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">byteLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="109" column="18" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="148" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a6e7e5882b8306d674af25606a1906090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::ShaderIntegrityVerifier::setStrictMode</definition>
+        <argsstring>(bool strict)</argsstring>
+        <name>setStrictMode</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::setStrictMode</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>strict</declname>
+        </param>
+        <briefdescription>
+<para>Set Strict Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="135" column="10" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7a7022d5d5a8a7e9c0be9c3d83049cad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ShaderIntegrityVerifier::strictMode</definition>
+        <argsstring>() const</argsstring>
+        <name>strictMode</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::strictMode</qualifiedname>
+        <briefdescription>
+<para>Strict Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="140" column="10" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="258" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a5bbd8deb9811bc130b6d2a69591d3a79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ShaderIntegrityVerifier::isRegistered</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>isRegistered</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::isRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Is Registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="147" column="10" bodyfile="src/acceleration/shader_integrity.cpp" bodystart="268" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1af39a221b3c9d955c6ff3368cc0f97ce9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ShaderIntegrityVerifier::ShaderIntegrityVerifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>ShaderIntegrityVerifier</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::ShaderIntegrityVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7af25d173b98c15bf5be8cda1c1ca45e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ShaderIntegrityVerifier::~ShaderIntegrityVerifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShaderIntegrityVerifier</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::~ShaderIntegrityVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="151" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/shader_integrity.h" line="40" column="1" bodyfile="include/acceleration/shader_integrity.h" bodystart="40" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a9f0228bdcb49856b841cf4e0293c7a90" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>clearRegistry</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1ac75c80ce3b71eb3938913b79c44d005e" prot="private" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>expectedHashes_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a86add227a7660120a801894bdd752f7b" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>instance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a5bbd8deb9811bc130b6d2a69591d3a79" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>isRegistered</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a61574902545e93c064ad04d99a808b68" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>loadManifest</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1ac9eb0419b9dfe90cea85104ee991f04c" prot="private" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a5ce2e1af934aa1f8888b0747c96279e4" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a3f46db01dacddb31e78fde337ff900a7" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>registerExpectedHash</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a6e7e5882b8306d674af25606a1906090" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>setStrictMode</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7ad520fd87a0b4b9d6a9a917ab4e9cbe" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aa70fa0e9fcf52ae2dd68e8b00f06019a" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1aabd7e4885d68e6842d353278bb0d43c9" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>ShaderIntegrityVerifier</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1af39a221b3c9d955c6ff3368cc0f97ce9" prot="private" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>ShaderIntegrityVerifier</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1af7c156f067008ac3f11a5ae27cc299fe" prot="private" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>strict_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7a7022d5d5a8a7e9c0be9c3d83049cad" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>strictMode</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a64ec66b5ddeb8b6ea7bfc272841cd307" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a4583134a6718a76121fc825d54224647" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_shader_integrity_verifier_1a7af25d173b98c15bf5be8cda1c1ca45e" prot="private" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier</scope><name>~ShaderIntegrityVerifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

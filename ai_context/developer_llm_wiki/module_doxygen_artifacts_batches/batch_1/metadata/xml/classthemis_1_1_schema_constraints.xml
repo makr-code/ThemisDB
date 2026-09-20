@@ -1,0 +1,676 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_schema_constraints" kind="class" language="C++" prot="public">
+    <compoundname>themis::SchemaConstraints</compoundname>
+    <includes refid="schema__constraints_8h" local="no">schema_constraints.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_schema_constraints_1ab015dbd3d6ac620583cbf74b6c798401" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref> &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;ColumnConstraint&gt; &gt; &gt; themis::SchemaConstraints::constraints_</definition>
+        <argsstring></argsstring>
+        <name>constraints_</name>
+        <qualifiedname>themis::SchemaConstraints::constraints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="233" column="14" bodyfile="include/metadata/schema_constraints.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaConstraints::SchemaConstraints</definition>
+        <argsstring>()=default</argsstring>
+        <name>SchemaConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::SchemaConstraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a5aa5667e39dc8c6910b8543359024704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaConstraints::~SchemaConstraints</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::~SchemaConstraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a0d800377c24932ae99f5fe72b3d531b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaConstraints::SchemaConstraints</definition>
+        <argsstring>(const SchemaConstraints &amp;)=delete</argsstring>
+        <name>SchemaConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::SchemaConstraints</qualifiedname>
+        <param>
+          <type>const SchemaConstraints &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a998e451eef91ba61adce094a6e886a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref> &amp;</type>
+        <definition>SchemaConstraints &amp; themis::SchemaConstraints::operator=</definition>
+        <argsstring>(const SchemaConstraints &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SchemaConstraints::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="116" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a925f3767b56f8999c3d4a7206495d3ec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SchemaConstraints::SchemaConstraints</definition>
+        <argsstring>(SchemaConstraints &amp;&amp;) noexcept=default</argsstring>
+        <name>SchemaConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::SchemaConstraints</qualifiedname>
+        <param>
+          <type>SchemaConstraints &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a59575c11ee1ffce0e6c4b98049115e8e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref> &amp;</type>
+        <definition>SchemaConstraints &amp; themis::SchemaConstraints::operator=</definition>
+        <argsstring>(SchemaConstraints &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SchemaConstraints::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="118" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SchemaConstraints::addConstraint</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name, ColumnConstraint constraint)</argsstring>
+        <name>addConstraint</name>
+        <qualifiedname>themis::SchemaConstraints::addConstraint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref></type>
+          <declname>constraint</declname>
+        </param>
+        <briefdescription>
+<para>Add a constraint for a column on a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Constraint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="125" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="200" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a0b3a28a217e867442b79b872ceedc22b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SchemaConstraints::removeColumnConstraints</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name)</argsstring>
+        <name>removeColumnConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::removeColumnConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove all constraints on a specific column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Column Constraints.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="132" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="219" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a1ca77fb3afcbfb2f4327612cf878c657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SchemaConstraints::removeTableConstraints</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>removeTableConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::removeTableConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove all constraints for an entire table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Table Constraints.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="138" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnConstraint &gt; themis::SchemaConstraints::getColumnConstraints</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name) const</argsstring>
+        <name>getColumnConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::getColumnConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all constraints for a column (empty vector if none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="141" column="17" bodyfile="src/metadata/schema_constraints.cpp" bodystart="242" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a5911f34efbfc5a7aafb4ec4ca5a8e099" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnConstraint &gt; themis::SchemaConstraints::getTableConstraints</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>getTableConstraints</name>
+        <qualifiedname>themis::SchemaConstraints::getTableConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all constraints for a table (all columns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="147" column="17" bodyfile="src/metadata/schema_constraints.cpp" bodystart="253" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a53d7bc3e777301f03d347036c0962ea1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt;</type>
+        <definition>std::vector&lt; ConstraintViolation &gt; themis::SchemaConstraints::enforce</definition>
+        <argsstring>(std::string_view table_name, const std::map&lt; std::string, ColumnValue &gt; &amp;row) const</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::SchemaConstraints::enforce</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &gt; &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate a row value map against all registered constraints for a table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table the row belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of column_name -&gt; value (missing key = NULL) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of constraint violations; empty means valid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="159" column="17" bodyfile="src/metadata/schema_constraints.cpp" bodystart="283" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a2fde734ceda6c4292ad606eddfe6eed5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ColumnValue &gt; themis::SchemaConstraints::applyDefaults</definition>
+        <argsstring>(std::string_view table_name, std::map&lt; std::string, ColumnValue &gt; row) const</argsstring>
+        <name>applyDefaults</name>
+        <qualifiedname>themis::SchemaConstraints::applyDefaults</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &gt;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply DEFAULT values for any columns that are missing from the row. Returns a copy of <computeroutput>row</computeroutput> with defaults filled in where applicable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="166" column="14" bodyfile="src/metadata/schema_constraints.cpp" bodystart="347" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1add013df92fe2ab510d30ce95683f90df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaConstraints::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::SchemaConstraints::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise all constraints to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="176" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="383" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SchemaConstraints::persistTo</definition>
+        <argsstring>(RocksDBWrapper &amp;db) const</argsstring>
+        <name>persistTo</name>
+        <qualifiedname>themis::SchemaConstraints::persistTo</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist all constraints to RocksDB under &quot;config:constraints:&lt;table&gt;&quot; keys. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper to write to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all tables were persisted successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="188" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="578" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a4bd1fdc5e445c1d4926f496bfc41e306" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SchemaConstraints::persistTableTo</definition>
+        <argsstring>(RocksDBWrapper &amp;db, std::string_view table_name) const</argsstring>
+        <name>persistTableTo</name>
+        <qualifiedname>themis::SchemaConstraints::persistTableTo</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist constraints for a single table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper to write to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose constraints should be persisted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="193" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="588" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::SchemaConstraints::loadFrom</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>loadFrom</name>
+        <qualifiedname>themis::SchemaConstraints::loadFrom</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Load From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load constraints for all tables whose keys are found in RocksDB under the &quot;config:constraints:&quot; prefix. Replaces existing in-memory state. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper to read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of tables loaded (0 = none found)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), newIterator(), spdlog::warn(), value(), Seek(), Valid(), key(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="200" column="12" bodyfile="src/metadata/schema_constraints.cpp" bodystart="633" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a1358077be81bb903e6eda38685d968c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SchemaConstraints::loadTableFrom</definition>
+        <argsstring>(RocksDBWrapper &amp;db, std::string_view table_name)</argsstring>
+        <name>loadTableFrom</name>
+        <qualifiedname>themis::SchemaConstraints::loadTableFrom</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Load Table From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load constraints for a single table from RocksDB. Merges with existing in-memory constraints for that table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to load </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if constraints were found and loaded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="207" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="678" bodyend="740"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1afbfe622e676ad8d7d64903d93a390612" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref></type>
+        <definition>SchemaConstraints themis::SchemaConstraints::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::SchemaConstraints::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse constraints from a JSON object produced by <ref refid="classthemis_1_1_schema_constraints_1add013df92fe2ab510d30ce95683f90df" kindref="member">toJSON()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: items(), is_object(), is_array(), kindFromString(), value(), std::string(), contains(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="179" column="30" bodyfile="src/metadata/schema_constraints.cpp" bodystart="405" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a5e68595cad3a9616dfb79ef5bd42bc92" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt;</type>
+        <definition>std::optional&lt; ConstraintViolation &gt; themis::SchemaConstraints::checkNotNull</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name, const ColumnConstraint &amp;c, const ColumnValue &amp;value) const</argsstring>
+        <name>checkNotNull</name>
+        <qualifiedname>themis::SchemaConstraints::checkNotNull</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Check a NOT NULL constraint for a single column value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="215" column="19" bodyfile="src/metadata/schema_constraints.cpp" bodystart="454" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_schema_constraints_1a2eb523cdae82eee489ac01dd3b8a5961" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref> &gt;</type>
+        <definition>std::optional&lt; ConstraintViolation &gt; themis::SchemaConstraints::checkCheck</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name, const ColumnConstraint &amp;c, const ColumnValue &amp;value) const</argsstring>
+        <name>checkCheck</name>
+        <qualifiedname>themis::SchemaConstraints::checkCheck</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check a CHECK constraint expression (simple key=value string comparison for the initial implementation; real expression evaluation is a future enhancement). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="225" column="19" bodyfile="src/metadata/schema_constraints.cpp" bodystart="473" bodyend="572"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref> - Constraint definition and enforcement engine</para>
+<para>Stores per-column constraints (NOT NULL, UNIQUE, CHECK, DEFAULT, FK) and provides enforcement methods that validate a proposed row value map against those constraints.</para>
+<para>Constraints are stored in-memory; callers are responsible for persistence (e.g. by serialising via <ref refid="classthemis_1_1_schema_constraints_1add013df92fe2ab510d30ce95683f90df" kindref="member">toJSON()</ref> and saving to RocksDB).</para>
+<para>Thread-safety: NOT thread-safe; external synchronization required when sharing a <ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref> instance across threads.</para>
+<para>Usage: <ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref> sc; sc.addConstraint(&quot;users&quot;, &quot;email&quot;, <ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(&quot;users_email_not_null&quot;)); sc.addConstraint(&quot;users&quot;, &quot;email&quot;, <ref refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" kindref="member">ColumnConstraint::makeUnique</ref>(&quot;users_email_unique&quot;));</para>
+<para>std::map&lt;std::string, ColumnValue&gt; row = {{&quot;email&quot;, std::string(&quot;a@b.c&quot;)}}; auto violations = sc.enforce(&quot;users&quot;, row); if (!violations.empty()) { /* handle *<zwj/>/ } </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_constraints.h" line="109" column="1" bodyfile="include/metadata/schema_constraints.h" bodystart="109" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>addConstraint</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a2fde734ceda6c4292ad606eddfe6eed5" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>applyDefaults</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a2eb523cdae82eee489ac01dd3b8a5961" prot="private" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>checkCheck</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a5e68595cad3a9616dfb79ef5bd42bc92" prot="private" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>checkNotNull</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1ab015dbd3d6ac620583cbf74b6c798401" prot="private" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>constraints_</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a53d7bc3e777301f03d347036c0962ea1" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>enforce</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1afbfe622e676ad8d7d64903d93a390612" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>fromJSON</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>getColumnConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a5911f34efbfc5a7aafb4ec4ca5a8e099" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>getTableConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>loadFrom</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a1358077be81bb903e6eda38685d968c0" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>loadTableFrom</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a998e451eef91ba61adce094a6e886a3d" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a59575c11ee1ffce0e6c4b98049115e8e" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a4bd1fdc5e445c1d4926f496bfc41e306" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>persistTableTo</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>persistTo</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a0b3a28a217e867442b79b872ceedc22b" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>removeColumnConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a1ca77fb3afcbfb2f4327612cf878c657" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>removeTableConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>SchemaConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a0d800377c24932ae99f5fe72b3d531b1" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>SchemaConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a925f3767b56f8999c3d4a7206495d3ec" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>SchemaConstraints</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1add013df92fe2ab510d30ce95683f90df" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1_schema_constraints_1a5aa5667e39dc8c6910b8543359024704" prot="public" virt="non-virtual"><scope>themis::SchemaConstraints</scope><name>~SchemaConstraints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

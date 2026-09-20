@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_d_p_d_k_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::DPDKServer</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config" prot="public">themis::network::DPDKServer::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats" prot="public">themis::network::DPDKServer::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a2def7a447910cb0d2cf6eac4095d8299" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::DPDKServer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::DPDKServer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="359" column="29" bodyfile="include/network/kernel_bypass.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1abdf6a41f5726d720d2cb48e6f9d85c24" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::network::DPDKServer::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::network::DPDKServer::storage_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="360" column="28" bodyfile="include/network/kernel_bypass.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a9d8396fa1c52991edf2298955a5506e7" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::network::DPDKServer::index_mgr_</definition>
+        <argsstring></argsstring>
+        <name>index_mgr_</name>
+        <qualifiedname>themis::network::DPDKServer::index_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="361" column="28" bodyfile="include/network/kernel_bypass.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a52e752b184e6bca2fb5107a12b27ca22" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::network::DPDKServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::network::DPDKServer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="363" column="23" bodyfile="include/network/kernel_bypass.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a5d9739ae706f239c6343480182cbe834" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::DPDKServer::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::network::DPDKServer::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="364" column="29" bodyfile="include/network/kernel_bypass.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a066cd21b83b6cdef651608b88228e394" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::DPDKServer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::network::DPDKServer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="366" column="29" bodyfile="include/network/kernel_bypass.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a54ebba48f5c8bce25105ba9079c0b728" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::network::DPDKServer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::DPDKServer::stats_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="367" column="29" bodyfile="include/network/kernel_bypass.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_d_p_d_k_server_1a953e850787b5f9eed27f7a46fec7ecf7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::network::DPDKServer::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::network::DPDKServer::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="370" column="17" bodyfile="include/network/kernel_bypass.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a8297d164dbb17264eb7021f96f9097bc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::DPDKServer::DPDKServer</definition>
+        <argsstring>(const Config &amp;config, RocksDBWrapper *storage=nullptr, SecondaryIndexManager *index_mgr=nullptr)</argsstring>
+        <name>DPDKServer</name>
+        <qualifiedname>themis::network::DPDKServer::DPDKServer</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>storage</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index_mgr</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1network_1_1_d_p_d_k_server" kindref="compound">DPDKServer</ref> with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not open any ports or allocate huge pages until <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" kindref="member">start()</ref></computeroutput> is called. The <computeroutput>storage</computeroutput> and <computeroutput>index_mgr</computeroutput> pointers are stored but not dereferenced during construction; they may be null for unit tests that never call <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" kindref="member">start()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="306" column="14" bodyfile="src/network/kernel_bypass.cpp" bodystart="413" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a9a7008bc6e82bc7d90b9935004d1becd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::DPDKServer::~DPDKServer</definition>
+        <argsstring>()</argsstring>
+        <name>~DPDKServer</name>
+        <qualifiedname>themis::network::DPDKServer::~DPDKServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="310" column="5" bodyfile="src/network/kernel_bypass.cpp" bodystart="416" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a7b05aab34f374adf06882f193b9cf0f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::DPDKServer::DPDKServer</definition>
+        <argsstring>(const DPDKServer &amp;)=delete</argsstring>
+        <name>DPDKServer</name>
+        <qualifiedname>themis::network::DPDKServer::DPDKServer</qualifiedname>
+        <param>
+          <type>const DPDKServer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="312" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a944e8ae0f61ad1ecc7a2b68f2769369b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1a8297d164dbb17264eb7021f96f9097bc" kindref="member">DPDKServer</ref> &amp;</type>
+        <definition>DPDKServer &amp; themis::network::DPDKServer::operator=</definition>
+        <argsstring>(const DPDKServer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::DPDKServer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1a8297d164dbb17264eb7021f96f9097bc" kindref="member">DPDKServer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="313" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::network::DPDKServer::start</qualifiedname>
+        <briefdescription>
+<para>Initialise DPDK EAL, configure the NIC port, and start the RX/TX poll loop on the configured lcore set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================= <ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" kindref="member">DPDKServer::start</ref> =============================================================================</para>
+<para><simplesect kind="return"><para>true if DPDK was successfully initialised and the poll loop started; false otherwise (check <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1a735b46d4621ac36bddbeb7336502cc42" kindref="member">lastError()</ref></computeroutput>).</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), defined(), push_back(), std::to_string(), std::snprintf(), empty(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="322" column="10" bodyfile="src/network/kernel_bypass.cpp" bodystart="426" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a0de914c72ff6ba3a2f03d8cdc6581eea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::DPDKServer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::network::DPDKServer::stop</qualifiedname>
+        <briefdescription>
+<para>Signal the poll loop to stop and join all lcore threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================= <ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1a0de914c72ff6ba3a2f03d8cdc6581eea" kindref="member">DPDKServer::stop</ref> =============================================================================</para>
+<para>Safe to call if <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" kindref="member">start()</ref></computeroutput> was never called or already returned false.</para>
+<para>Calls: exchange(), timedJoin(), clear(), defined(), rte_eth_dev_stop(), rte_eal_cleanup(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="329" column="10" bodyfile="src/network/kernel_bypass.cpp" bodystart="604" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1aaad2a7b35430d313b84b09f67629d399" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::network::DPDKServer::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true while the poll loop is running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="332" column="10" bodyfile="include/network/kernel_bypass.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1af4e23a7fb5649c9a03882665543af32c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::network::DPDKServer::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::network::DPDKServer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Configuration passed at construction. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="335" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="335" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1ad4dd74fe98ab14eb4e6d5ac9617f5dcd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>DPDKServer::Stats themis::network::DPDKServer::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::network::DPDKServer::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of current statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="338" column="11" bodyfile="src/network/kernel_bypass.cpp" bodystart="675" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a735b46d4621ac36bddbeb7336502cc42" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::network::DPDKServer::lastError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::network::DPDKServer::lastError</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the last error, or empty on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="344" column="23" bodyfile="include/network/kernel_bypass.h" bodystart="344" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a5ee3f2aafb3cafb74acd19d6c478d693" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::isDpdkAvailable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isDpdkAvailable</name>
+        <qualifiedname>themis::network::DPDKServer::isDpdkAvailable</qualifiedname>
+        <briefdescription>
+<para>Whether DPDK support was compiled in. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to checking <computeroutput>THEMIS_ENABLE_DPDK</computeroutput> at the call site. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="351" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="389" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1aafdde4924bd0a49dcce9039e986bbbf2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::network::DPDKServer::coresFromMask</definition>
+        <argsstring>(uint64_t mask) noexcept</argsstring>
+        <name>coresFromMask</name>
+        <qualifiedname>themis::network::DPDKServer::coresFromMask</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Return the set of CPU cores derived from <computeroutput>cpu_core_mask</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="356" column="24" bodyfile="src/network/kernel_bypass.cpp" bodystart="398" bodyend="407"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_d_p_d_k_server_1a6c026ba9c66a9dfefe02db1b3fb60184" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::DPDKServer::pollLoop</definition>
+        <argsstring>(int core_id, int queue_id)</argsstring>
+        <name>pollLoop</name>
+        <qualifiedname>themis::network::DPDKServer::pollLoop</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>core_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>queue_id</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================= DPDKServer::pollLoop ============================================================================= </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">core_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the core. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the queue.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: defined(), rte_get_tsc_cycles(), load(), rte_eth_rx_burst(), lk(), rte_pktmbuf_pkt_len(), rte_pktmbuf_free(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="373" column="10" bodyfile="src/network/kernel_bypass.cpp" bodystart="626" bodyend="669"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DPDK poll-mode server for ultra-high-throughput, low-latency I/O. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The server bypasses the kernel TCP/IP stack entirely. It requires:<itemizedlist>
+<listitem><para>A DPDK-compatible NIC bound to VFIO or UIO.</para>
+</listitem><listitem><para>Huge pages configured on the host (e.g. <computeroutput>vm.nr_hugepages</computeroutput>).</para>
+</listitem><listitem><para>Build flag <computeroutput>THEMIS_ENABLE_DPDK</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para>When <computeroutput>THEMIS_ENABLE_DPDK</computeroutput> is absent the class compiles without change but <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" kindref="member">start()</ref></computeroutput> returns false and <computeroutput><ref refid="classthemis_1_1network_1_1_d_p_d_k_server_1a735b46d4621ac36bddbeb7336502cc42" kindref="member">lastError()</ref></computeroutput> explains why.</para>
+<para>Performance characteristics:<itemizedlist>
+<listitem><para>Latency: 1–10 µs end-to-end</para>
+</listitem><listitem><para>Throughput: up to 100 Gbps on compatible NICs</para>
+</listitem><listitem><para>CPU model: spinning poll loop (no interrupts, no context switches) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="227" column="1" bodyfile="include/network/kernel_bypass.h" bodystart="227" bodyend="374"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1af4e23a7fb5649c9a03882665543af32c" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>config</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a2def7a447910cb0d2cf6eac4095d8299" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1aafdde4924bd0a49dcce9039e986bbbf2" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>coresFromMask</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a8297d164dbb17264eb7021f96f9097bc" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>DPDKServer</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a7b05aab34f374adf06882f193b9cf0f0" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>DPDKServer</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a9d8396fa1c52991edf2298955a5506e7" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>index_mgr_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a5ee3f2aafb3cafb74acd19d6c478d693" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>isDpdkAvailable</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1aaad2a7b35430d313b84b09f67629d399" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a5d9739ae706f239c6343480182cbe834" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a735b46d4621ac36bddbeb7336502cc42" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a944e8ae0f61ad1ecc7a2b68f2769369b" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a6c026ba9c66a9dfefe02db1b3fb60184" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>pollLoop</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a52e752b184e6bca2fb5107a12b27ca22" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad1164f5e9b29cb19bdb391b72fa98c01" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1ad4dd74fe98ab14eb4e6d5ac9617f5dcd" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>stats</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a54ebba48f5c8bce25105ba9079c0b728" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a066cd21b83b6cdef651608b88228e394" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a0de914c72ff6ba3a2f03d8cdc6581eea" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1abdf6a41f5726d720d2cb48e6f9d85c24" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a953e850787b5f9eed27f7a46fec7ecf7" prot="private" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1network_1_1_d_p_d_k_server_1a9a7008bc6e82bc7d90b9935004d1becd" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer</scope><name>~DPDKServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

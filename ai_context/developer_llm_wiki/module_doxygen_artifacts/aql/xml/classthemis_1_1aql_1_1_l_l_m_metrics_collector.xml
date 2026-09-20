@@ -1,0 +1,831 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMMetricsCollector</compoundname>
+    <includes refid="llm__metrics__collector_8h" local="no">llm_metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a318cd7e8776a06b4f0ba30695375b358" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::monitoring::PrometheusExporter &gt;</type>
+        <definition>std::shared_ptr&lt;llm::monitoring::PrometheusExporter&gt; themis::aql::LLMMetricsCollector::exporter_</definition>
+        <argsstring></argsstring>
+        <name>exporter_</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="122" column="21" bodyfile="include/aql/llm_metrics_collector.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a0d300d53794e64cf98a5de18e4038aaf" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::LLMMetricsCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="123" column="16" bodyfile="include/aql/llm_metrics_collector.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a8b6504ce5e732ba714b2ac54455c7af1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMMetricsCollector::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="124" column="10" bodyfile="include/aql/llm_metrics_collector.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1ac62a0f82608c8b2ae857c0d9a5febfea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMMetricsCollector::LLMMetricsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>LLMMetricsCollector</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::LLMMetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="25" column="5" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a9e5ecdc0824045941d3b1cad81e67d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMMetricsCollector::~LLMMetricsCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMMetricsCollector</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::~LLMMetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="26" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a37dc6c9a0d69fbc3c6fdd41422600779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), registerMetrics(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="31" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a212eb5859ef1ace9aae49d64732e518d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordInference</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;lora_id, std::chrono::milliseconds latency, size_t input_tokens, size_t output_tokens, bool success, const std::string &amp;error_code=&quot;&quot;)</argsstring>
+        <name>recordInference</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordInference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>latency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), observeHistogram(), count(), incrementCounter(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="33" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="109" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1aad7492a510e7b8e14fb7eff79f09c7f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordRAG</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;lora_id, std::chrono::milliseconds latency, size_t retrieved_docs, size_t input_tokens, size_t output_tokens, bool success, const std::string &amp;error_code=&quot;&quot;)</argsstring>
+        <name>recordRAG</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordRAG</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>latency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>retrieved_docs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record RAG. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retrieved_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), observeHistogram(), count(), incrementCounter(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="43" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="151" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1acd964f428672224b5fa8e4296dc0a081" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordEmbedding</definition>
+        <argsstring>(const std::string &amp;model_id, std::chrono::milliseconds latency, size_t input_tokens, bool success, const std::string &amp;error_code=&quot;&quot;)</argsstring>
+        <name>recordEmbedding</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>latency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), observeHistogram(), count(), incrementCounter(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="54" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="194" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a5d3649cee5cd0c35a4d39342beff1887" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordAQLValidation</definition>
+        <argsstring>(bool success, std::chrono::milliseconds duration, const std::string &amp;error_reason=&quot;&quot;)</argsstring>
+        <name>recordAQLValidation</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordAQLValidation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record AQLValidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), observeHistogram(), count(), empty(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="62" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="272" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a899b163d1f080d11cd593a7e0bcf4876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordAQLGenerationAttempt</definition>
+        <argsstring>(bool success, int attempt_number, std::chrono::milliseconds duration, const std::string &amp;outcome=&quot;&quot;)</argsstring>
+        <name>recordAQLGenerationAttempt</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordAQLGenerationAttempt</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_number</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outcome</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record AQLGeneration Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), observeHistogram(), count(), std::to_string(), empty(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="68" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="303" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a5f7f6a0832b3f181e25d8ffcf09e81b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordValidationRetry</definition>
+        <argsstring>(bool retry_succeeded, int attempt_number)</argsstring>
+        <name>recordValidationRetry</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordValidationRetry</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>retry_succeeded</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_number</declname>
+        </param>
+        <briefdescription>
+<para>Record Validation Retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_succeeded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_succeeded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), incrementCounter(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="80" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="343" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a163b655c9bed3625243d54cc626fff24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordCacheAccess</definition>
+        <argsstring>(const std::string &amp;cache_type, bool hit)</argsstring>
+        <name>recordCacheAccess</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordCacheAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hit</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="90" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="225" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a4adb40fea075e7b6d881c03f9cc67abc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::updateModelMemory</definition>
+        <argsstring>(const std::string &amp;model_id, size_t memory_bytes)</argsstring>
+        <name>updateModelMemory</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::updateModelMemory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>memory_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update Model Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="100" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="238" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1ad24718b400469df8f195e3ad961ebdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::recordCircuitBreakerState</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;state)</argsstring>
+        <name>recordCircuitBreakerState</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::recordCircuitBreakerState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Record Circuit Breaker State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="110" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="250" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a49076a50ccfb1ca1afdd626e68db095e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1ac62a0f82608c8b2ae857c0d9a5febfea" kindref="member">LLMMetricsCollector</ref> &amp;</type>
+        <definition>LLMMetricsCollector &amp; themis::aql::LLMMetricsCollector::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="119" column="32" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="354" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a634e1eb4a7029bc9d494b0432153aec7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMMetricsCollector::registerMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>registerMetrics</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::registerMetrics</qualifiedname>
+        <briefdescription>
+<para>Register Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: registerMetric(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="129" column="10" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="40" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1aa39eb653e04e50119698fe1f9a2c31a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::aql::LLMMetricsCollector::makeLabels</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;model=&quot;&quot;, const std::string &amp;status=&quot;&quot;)</argsstring>
+        <name>makeLabels</name>
+        <qualifiedname>themis::aql::LLMMetricsCollector::makeLabels</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>status</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="130" column="24" bodyfile="src/aql/llm_metrics_collector.cpp" bodystart="360" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_metrics_collector.h" line="23" column="1" bodyfile="include/aql/llm_metrics_collector.h" bodystart="23" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a318cd7e8776a06b4f0ba30695375b358" prot="private" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>exporter_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a37dc6c9a0d69fbc3c6fdd41422600779" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a8b6504ce5e732ba714b2ac54455c7af1" prot="private" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a49076a50ccfb1ca1afdd626e68db095e" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>instance</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1ac62a0f82608c8b2ae857c0d9a5febfea" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>LLMMetricsCollector</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1aa39eb653e04e50119698fe1f9a2c31a8" prot="private" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>makeLabels</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a0d300d53794e64cf98a5de18e4038aaf" prot="private" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a899b163d1f080d11cd593a7e0bcf4876" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordAQLGenerationAttempt</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a5d3649cee5cd0c35a4d39342beff1887" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordAQLValidation</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a163b655c9bed3625243d54cc626fff24" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordCacheAccess</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1ad24718b400469df8f195e3ad961ebdef" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordCircuitBreakerState</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1acd964f428672224b5fa8e4296dc0a081" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordEmbedding</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a212eb5859ef1ace9aae49d64732e518d" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordInference</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1aad7492a510e7b8e14fb7eff79f09c7f4" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordRAG</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a5f7f6a0832b3f181e25d8ffcf09e81b2" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>recordValidationRetry</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a634e1eb4a7029bc9d494b0432153aec7" prot="private" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>registerMetrics</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a4adb40fea075e7b6d881c03f9cc67abc" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>updateModelMemory</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_metrics_collector_1a9e5ecdc0824045941d3b1cad81e67d4a" prot="public" virt="non-virtual"><scope>themis::aql::LLMMetricsCollector</scope><name>~LLMMetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

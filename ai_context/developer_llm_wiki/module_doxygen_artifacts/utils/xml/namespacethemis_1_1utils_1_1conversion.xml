@@ -1,0 +1,668 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1conversion" kind="namespace" language="C++">
+    <compoundname>themis::utils::conversion</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1ae6dd7d85d35de73b9755d2eb5d4b610d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::utils::conversion::safe_size_to_int32</definition>
+        <argsstring>(size_t value)</argsstring>
+        <name>safe_size_to_int32</name>
+        <qualifiedname>themis::utils::conversion::safe_size_to_int32</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from size_t to int32_t with overflow check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value exceeds int32_t range</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Example</title><para>size_t size = 1000; int32_t count = safe_size_to_int32(size); </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="52" column="20" bodyfile="include/utils/type_conversion.h" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a9ce71350f2a687f21240c91207c6cb10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::utils::conversion::safe_size_to_int</definition>
+        <argsstring>(size_t value)</argsstring>
+        <name>safe_size_to_int</name>
+        <qualifiedname>themis::utils::conversion::safe_size_to_int</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from size_t to int with overflow check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value exceeds int range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="69" column="16" bodyfile="include/utils/type_conversion.h" bodystart="69" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a2c6572a8121e600d0859152b56d3e1a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::utils::conversion::safe_int64_to_int32</definition>
+        <argsstring>(int64_t value)</argsstring>
+        <name>safe_int64_to_int32</name>
+        <qualifiedname>themis::utils::conversion::safe_int64_to_int32</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from int64_t to int32_t with overflow check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value exceeds int32_t range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="86" column="20" bodyfile="include/utils/type_conversion.h" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a726ee141c7690b262063b7d77e003961" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::utils::conversion::safe_uint64_to_int</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>safe_uint64_to_int</name>
+        <qualifiedname>themis::utils::conversion::safe_uint64_to_int</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from uint64_t to int with overflow check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value exceeds int range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="105" column="16" bodyfile="include/utils/type_conversion.h" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a11ec4f2c0715d617d18884e9837ae755" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::utils::conversion::safe_double_to_float</definition>
+        <argsstring>(double value, bool allow_loss=false)</argsstring>
+        <name>safe_double_to_float</name>
+        <qualifiedname>themis::utils::conversion::safe_double_to_float</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_loss</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Safe conversion from double to float with precision loss warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to allow loss of precision </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value exceeds float range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="123" column="18" bodyfile="include/utils/type_conversion.h" bodystart="123" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1ac03cdfd2153e401e4d3e7f3cb35d73d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::conversion::safe_signed_to_unsigned</definition>
+        <argsstring>(int64_t value)</argsstring>
+        <name>safe_signed_to_unsigned</name>
+        <qualifiedname>themis::utils::conversion::safe_signed_to_unsigned</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from signed to unsigned with sign check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value is negative </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="150" column="21" bodyfile="include/utils/type_conversion.h" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1abdab220edd406a3a9f1cd448d70df011" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt; int32_t &gt; themis::utils::conversion::try_size_to_int32</definition>
+        <argsstring>(size_t value) noexcept</argsstring>
+        <name>try_size_to_int32</name>
+        <qualifiedname>themis::utils::conversion::try_size_to_int32</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe size_t to int conversion returning optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value or std::nullopt on overflow </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="167" column="26" bodyfile="include/utils/type_conversion.h" bodystart="167" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1ad5f7e42fb842baa860c0f602aa2edafa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt; int &gt; themis::utils::conversion::try_size_to_int</definition>
+        <argsstring>(size_t value) noexcept</argsstring>
+        <name>try_size_to_int</name>
+        <qualifiedname>themis::utils::conversion::try_size_to_int</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe size_t to int conversion returning optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value or std::nullopt on overflow </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="180" column="26" bodyfile="include/utils/type_conversion.h" bodystart="180" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a331e70e0d7084ef1dedaa7f9652eefe2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt; int32_t &gt; themis::utils::conversion::try_int64_to_int32</definition>
+        <argsstring>(int64_t value) noexcept</argsstring>
+        <name>try_int64_to_int32</name>
+        <qualifiedname>themis::utils::conversion::try_int64_to_int32</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe int64_t to int32_t conversion returning optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value or std::nullopt on overflow </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="193" column="26" bodyfile="include/utils/type_conversion.h" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a94faf9235691b70468bbd56414964bae" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt; float &gt; themis::utils::conversion::try_double_to_float</definition>
+        <argsstring>(double value) noexcept</argsstring>
+        <name>try_double_to_float</name>
+        <qualifiedname>themis::utils::conversion::try_double_to_float</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe double to float conversion returning optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value or std::nullopt on overflow </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="207" column="26" bodyfile="include/utils/type_conversion.h" bodystart="207" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a2f22730546edafce412f02cad707618b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::utils::conversion::clamp_size_to_int32</definition>
+        <argsstring>(size_t value) noexcept</argsstring>
+        <name>clamp_size_to_int32</name>
+        <qualifiedname>themis::utils::conversion::clamp_size_to_int32</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Clamp size_t to int32_t range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped value (max int32_t if exceeds) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="223" column="20" bodyfile="include/utils/type_conversion.h" bodystart="223" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a355c8c3f87b49b27f7103efa3519139c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::utils::conversion::clamp_double_to_float</definition>
+        <argsstring>(double value) noexcept</argsstring>
+        <name>clamp_double_to_float</name>
+        <qualifiedname>themis::utils::conversion::clamp_double_to_float</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Clamp double to float range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped value (saturated to float bounds if exceeds) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="236" column="18" bodyfile="include/utils/type_conversion.h" bodystart="236" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1ad19ea11a29627c066ac71c772d935b68" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::utils::conversion::clamp_int64_to_int32</definition>
+        <argsstring>(int64_t value) noexcept</argsstring>
+        <name>clamp_int64_to_int32</name>
+        <qualifiedname>themis::utils::conversion::clamp_int64_to_int32</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Clamp int64_t to int32_t range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped value (saturated to int32_t bounds if exceeds) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="253" column="20" bodyfile="include/utils/type_conversion.h" bodystart="253" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a6588d5366dbdae2a7263eb2951cc058e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::conversion::safe_int_to_size</definition>
+        <argsstring>(int value)</argsstring>
+        <name>safe_int_to_size</name>
+        <qualifiedname>themis::utils::conversion::safe_int_to_size</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from int to size_t with negative check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value is negative</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Example</title><para>int count = get_count(); size_t size = safe_int_to_size(count); </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="277" column="19" bodyfile="include/utils/type_conversion.h" bodystart="277" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a17e3df7f12bebe376feaafd8aceb4182" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::conversion::safe_int64_to_size</definition>
+        <argsstring>(int64_t value)</argsstring>
+        <name>safe_int64_to_size</name>
+        <qualifiedname>themis::utils::conversion::safe_int64_to_size</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe conversion from int64_t to size_t with negative check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Converted value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if value is negative </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="293" column="19" bodyfile="include/utils/type_conversion.h" bodystart="293" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a40ff1e16099d12575ca7fbb178747bc0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::conversion::is_valid_index</definition>
+        <argsstring>(int index, size_t size) noexcept</argsstring>
+        <name>is_valid_index</name>
+        <qualifiedname>themis::utils::conversion::is_valid_index</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Safe index validation helper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index to validate (can be negative) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Container size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if index is valid (non-negative and within bounds)</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>std::vector&lt;int&gt; vec = {1, 2, 3}; int index = -1; if (is_valid_index(index, vec.size())) { // Safe to access vec[index] } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="316" column="17" bodyfile="include/utils/type_conversion.h" bodystart="316" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1conversion_1a16be2f370a4edf9d1daa5ef53c588e95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::ptrdiff_t</type>
+        <definition>std::ptrdiff_t themis::utils::conversion::safe_diff</definition>
+        <argsstring>(size_t a, size_t b)</argsstring>
+        <name>safe_diff</name>
+        <qualifiedname>themis::utils::conversion::safe_diff</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Safe subtraction of size_t values returning signed result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Signed difference (a - b) </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConversionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if difference exceeds ptrdiff_t range</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Example</title><para>size_t pos1 = 100; size_t pos2 = 50; ptrdiff_t diff = safe_diff(pos1, pos2); // 50 ptrdiff_t neg_diff = safe_diff(pos2, pos1); // -50 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="333" column="27" bodyfile="include/utils/type_conversion.h" bodystart="333" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Safe type conversion utilities with overflow/underflow detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides safe conversions between integer types with proper error handling. All functions check for overflow/underflow and log warnings. </para>
+    </detaileddescription>
+    <location file="include/utils/type_conversion.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

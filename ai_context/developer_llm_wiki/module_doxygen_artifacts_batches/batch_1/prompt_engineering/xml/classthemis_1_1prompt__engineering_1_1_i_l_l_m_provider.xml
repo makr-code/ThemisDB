@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::ILLMProvider</compoundname>
+    <derivedcompoundref refid="class_echo_l_l_m_provider" prot="public" virt="non-virtual">EchoLLMProvider</derivedcompoundref>
+    <includes refid="meta__prompt__generator_8h" local="no">meta_prompt_generator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1acc12aebaa0e13e5bfba2cbd49e451734" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::ILLMProvider::~ILLMProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProvider::~ILLMProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1a634950a81c986e68988e4f73930273e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::ILLMProvider::complete</definition>
+        <argsstring>(const std::string &amp;prompt) const =0</argsstring>
+        <name>complete</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProvider::complete</qualifiedname>
+        <reimplementedby refid="class_echo_l_l_m_provider_1ac5f3c6f91c1f967d8797756c9ee83378">complete</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Send a prompt to the underlying LLM and return its response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The complete prompt text to send </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The LLM-generated response, or an empty string on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="37" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1aa2c30480ce4a219752d6c977355e7668" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::ILLMProvider::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProvider::name</qualifiedname>
+        <reimplementedby refid="class_echo_l_l_m_provider_1a68efdac1421d7f855cda76b4547c4241">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable name of this provider (for logging / metrics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="42" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for pluggable LLM providers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to integrate any LLM (OpenAI, Cohere, local models, etc.) into the <ref refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator" kindref="compound">MetaPromptGenerator</ref> for real prompt auto-optimisation. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>EchoLLMProvider</label>
+        <link refid="class_echo_l_l_m_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::ILLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/meta_prompt_generator.h" line="28" column="1" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="28" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1a634950a81c986e68988e4f73930273e9" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::ILLMProvider</scope><name>complete</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1aa2c30480ce4a219752d6c977355e7668" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::ILLMProvider</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1acc12aebaa0e13e5bfba2cbd49e451734" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProvider</scope><name>~ILLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

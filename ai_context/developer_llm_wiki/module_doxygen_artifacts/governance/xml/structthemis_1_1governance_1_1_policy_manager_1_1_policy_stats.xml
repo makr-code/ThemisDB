@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyManager::PolicyStats</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1a2edbcadb6b967976d76acbe3fe3b5b74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyManager::PolicyStats::total_rules</definition>
+        <argsstring></argsstring>
+        <name>total_rules</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyStats::total_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="236" column="13" bodyfile="include/governance/policy_manager.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1afa5c050b2f3c5026d38dd878b08068ea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyManager::PolicyStats::enabled_rules</definition>
+        <argsstring></argsstring>
+        <name>enabled_rules</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyStats::enabled_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="237" column="13" bodyfile="include/governance/policy_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1a72b8b3e6c13df94bc2c97cb0efcb8469" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyManager::PolicyStats::disabled_rules</definition>
+        <argsstring></argsstring>
+        <name>disabled_rules</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyStats::disabled_rules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="238" column="13" bodyfile="include/governance/policy_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1aba0f8d22789b157104f60f996fb88b27" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::PolicyManager::PolicyStats::rules_by_classification</definition>
+        <argsstring></argsstring>
+        <name>rules_by_classification</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyStats::rules_by_classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="239" column="28" bodyfile="include/governance/policy_manager.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_manager.h" line="235" column="5" bodyfile="include/governance/policy_manager.h" bodystart="235" bodyend="240"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1a72b8b3e6c13df94bc2c97cb0efcb8469" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyStats</scope><name>disabled_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1afa5c050b2f3c5026d38dd878b08068ea" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyStats</scope><name>enabled_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1aba0f8d22789b157104f60f996fb88b27" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyStats</scope><name>rules_by_classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_stats_1a2edbcadb6b967976d76acbe3fe3b5b74" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyStats</scope><name>total_rules</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

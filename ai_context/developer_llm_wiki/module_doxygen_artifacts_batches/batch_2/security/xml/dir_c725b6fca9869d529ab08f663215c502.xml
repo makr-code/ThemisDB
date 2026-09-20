@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c725b6fca9869d529ab08f663215c502" kind="dir">
+    <compoundname>include/security/examples</compoundname>
+    <innerfile refid="intent__classifier__example_8cpp">intent_classifier_example.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/examples/"/>
+  </compounddef>
+</doxygen>

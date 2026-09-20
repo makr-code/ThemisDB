@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_temporal_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::TemporalQueryResult</compoundname>
+    <includes refid="process__telemetry__contract_8h" local="no">process_telemetry_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1a5524eaa4c3421e217c9e4c48f5a09468" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::TemporalQueryResult::model_json</definition>
+        <argsstring></argsstring>
+        <name>model_json</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::model_json</qualifiedname>
+        <briefdescription>
+<para>Reconstructed model (JSON string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="159" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1ac780adffeadb9431855dfe7a949e2b91" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::TemporalQueryResult::query_time</definition>
+        <argsstring></argsstring>
+        <name>query_time</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::query_time</qualifiedname>
+        <briefdescription>
+<para>Reconstruction timestamp (requested time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="162" column="41" bodyfile="include/process/process_telemetry_contract.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1a2197dacdaa6102ea8828e3cf288195bf" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::TemporalQueryResult::actual_time</definition>
+        <argsstring></argsstring>
+        <name>actual_time</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::actual_time</qualifiedname>
+        <briefdescription>
+<para>Actual entry timestamp (may differ slightly from query_time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="165" column="41" bodyfile="include/process/process_telemetry_contract.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1aafb0c5865211e3ac2a46e462234c62c7" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::TemporalQueryResult::deltas_applied</definition>
+        <argsstring></argsstring>
+        <name>deltas_applied</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::deltas_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of deltas applied during reconstruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="168" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1a66aa98e7ef54c641173abef6d1abfd41" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::TemporalQueryResult::reconstruction_ms</definition>
+        <argsstring></argsstring>
+        <name>reconstruction_ms</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::reconstruction_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Reconstruction time (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="171" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_temporal_query_result_1a86e512b2e06be302a76b7fccc5ce338b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::process::TemporalQueryResult::is_accurate</definition>
+        <argsstring></argsstring>
+        <name>is_accurate</name>
+        <qualifiedname>themisdb::process::TemporalQueryResult::is_accurate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Is reconstruction result accurate (or approximated)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="174" column="8" bodyfile="include/process/process_telemetry_contract.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Temporal query result for point-in-time model reconstruction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_contract.h" line="157" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="157" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1a2197dacdaa6102ea8828e3cf288195bf" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>actual_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1aafb0c5865211e3ac2a46e462234c62c7" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>deltas_applied</name></member>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1a86e512b2e06be302a76b7fccc5ce338b" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>is_accurate</name></member>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1a5524eaa4c3421e217c9e4c48f5a09468" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>model_json</name></member>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1ac780adffeadb9431855dfe7a949e2b91" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>query_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_temporal_query_result_1a66aa98e7ef54c641173abef6d1abfd41" prot="public" virt="non-virtual"><scope>themisdb::process::TemporalQueryResult</scope><name>reconstruction_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

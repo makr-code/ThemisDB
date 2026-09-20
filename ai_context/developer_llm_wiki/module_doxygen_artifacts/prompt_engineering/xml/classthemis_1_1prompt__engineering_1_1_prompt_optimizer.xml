@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptOptimizer</compoundname>
+    <includes refid="prompt__optimizer_8h" local="no">prompt_optimizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1afbd0fe4fa7fc744a2b17ffc7e4f8c826" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref></type>
+        <definition>OptimizationConfig themis::prompt_engineering::PromptOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="153" column="24" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aae423934c6f52a6efe5d0732012fa452" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, double&gt; &gt; themis::prompt_engineering::PromptOptimizer::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="154" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a72bbe6fd583e5af652a6768331fc37fc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptOptimizer::PromptOptimizer</definition>
+        <argsstring>(const OptimizationConfig &amp;config=OptimizationConfig{})</argsstring>
+        <name>PromptOptimizer</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::PromptOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optimization configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="88" column="14" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aa6db251aedf456cc2c6482a7f5deb7eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_optimizer_result" kindref="compound">OptimizerResult</ref></type>
+        <definition>OptimizerResult themis::prompt_engineering::PromptOptimizer::optimize</definition>
+        <argsstring>(const std::string &amp;initial_prompt, const std::vector&lt; TestCase &gt; &amp;test_cases, EvaluationFunction eval_fn, ImprovementFunction improve_fn=nullptr)</argsstring>
+        <name>optimize</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::optimize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>initial_prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a57816934201209c26107444f149c499e" kindref="member">EvaluationFunction</ref></type>
+          <declname>eval_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a402103a5be2cbf0dfd7e1241962e7ae5" kindref="member">ImprovementFunction</ref></type>
+          <declname>improve_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Optimize a prompt using test cases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>initial_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting prompt template </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test cases for evaluation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eval_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>improve_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Improvement function (optional, uses default if not provided) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optimization result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">improve_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), eval_fn(), push_back(), shouldContinue(), <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a215ccf3a8c3f3646cfb2a615300d945f" kindref="member">generateFeedback()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="98" column="21" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="35" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a215ccf3a8c3f3646cfb2a615300d945f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptOptimizer::generateFeedback</definition>
+        <argsstring>(const std::string &amp;prompt, double score, const std::vector&lt; TestCase &gt; &amp;test_cases) const</argsstring>
+        <name>generateFeedback</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::generateFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <briefdescription>
+<para>Generate feedback for a prompt based on evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current prompt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test cases </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Feedback string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="112" column="17" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="130" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a930c6601fd5bcd9b7e15c7d79ea09425" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, double &gt; &gt; themis::prompt_engineering::PromptOptimizer::getHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::getHistory</qualifiedname>
+        <briefdescription>
+<para>Get optimization history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of (prompt, score) pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="135" column="17" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a33aa9d3bd1fa5d26b714a33f42f552da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptOptimizer::clearHistory</definition>
+        <argsstring>()</argsstring>
+        <name>clearHistory</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::clearHistory</qualifiedname>
+        <briefdescription>
+<para>Clear optimization history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear History.</para>
+<para>Calls: clear(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="140" column="10" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1ab9c41b71634c604f0b0042fd79c8a4f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref> &amp;</type>
+        <definition>const OptimizationConfig &amp; themis::prompt_engineering::PromptOptimizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="145" column="30" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a43bd784021e08073d04d100af52d007c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptOptimizer::setConfig</definition>
+        <argsstring>(const OptimizationConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="150" column="10" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a2d09ec0acfaed1db6c1d7b3611a15997" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptOptimizer::defaultImprovePrompt</definition>
+        <argsstring>(const std::string &amp;current_prompt, double current_score, const std::string &amp;feedback)</argsstring>
+        <name>defaultImprovePrompt</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::defaultImprovePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_prompt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <briefdescription>
+<para>Default improvement function using meta-prompting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default Improve Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current prompt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feedback about the prompt </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Improved prompt</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateImprovementPrompt(), empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="125" column="24" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="173" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a890746bcb5b5fd341e35043e18159936" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptOptimizer::shouldContinue</definition>
+        <argsstring>(size_t iteration, double current_score, double previous_score) const</argsstring>
+        <name>shouldContinue</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::shouldContinue</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>iteration</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_score</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>previous_score</declname>
+        </param>
+        <briefdescription>
+<para>Check if optimization should continue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="159" column="10" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="231" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1af20a8bac73e6d98fbf36e728709186d4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptOptimizer::validatePrompt</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>validatePrompt</name>
+        <qualifiedname>themis::prompt_engineering::PromptOptimizer::validatePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Validate prompt quality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="164" column="10" bodyfile="src/prompt_engineering/prompt_optimizer.cpp" bodystart="259" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Main prompt optimizer class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements iterative prompt improvement using:<itemizedlist>
+<listitem><para>Feedback-driven refinement</para>
+</listitem><listitem><para>Multi-round optimization</para>
+</listitem><listitem><para>Version control and history tracking </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_optimizer.h" line="82" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="82" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a33aa9d3bd1fa5d26b714a33f42f552da" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>clearHistory</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1afbd0fe4fa7fc744a2b17ffc7e4f8c826" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a2d09ec0acfaed1db6c1d7b3611a15997" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>defaultImprovePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a215ccf3a8c3f3646cfb2a615300d945f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>generateFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1ab9c41b71634c604f0b0042fd79c8a4f2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a930c6601fd5bcd9b7e15c7d79ea09425" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aae423934c6f52a6efe5d0732012fa452" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>history_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aa6db251aedf456cc2c6482a7f5deb7eb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>optimize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a72bbe6fd583e5af652a6768331fc37fc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>PromptOptimizer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a43bd784021e08073d04d100af52d007c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1a890746bcb5b5fd341e35043e18159936" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>shouldContinue</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1af20a8bac73e6d98fbf36e728709186d4" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptOptimizer</scope><name>validatePrompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

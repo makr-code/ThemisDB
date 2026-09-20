@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_build_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::BuildVerificationResult</compoundname>
+    <includes refid="build__verifier_8h" local="no">build_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_build_verification_result_1a1ec132dfbd35d34b1b736c700d017f06" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BuildVerificationResult::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::updates::BuildVerificationResult::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the Ed25519 signature is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/build_verifier.h" line="23" column="10" bodyfile="include/updates/build_verifier.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_build_verification_result_1ad6616d51035e49e415cd390a6dbf9d4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BuildVerificationResult::channel</definition>
+        <argsstring></argsstring>
+        <name>channel</name>
+        <qualifiedname>themis::updates::BuildVerificationResult::channel</qualifiedname>
+        <briefdescription>
+<para>Build channel string from the embedded constant (&quot;official&quot; / &quot;community&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/build_verifier.h" line="26" column="17" bodyfile="include/updates/build_verifier.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_build_verification_result_1a360778bb46ca4cf7d0f026a10392ec23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BuildVerificationResult::build_id</definition>
+        <argsstring></argsstring>
+        <name>build_id</name>
+        <qualifiedname>themis::updates::BuildVerificationResult::build_id</qualifiedname>
+        <briefdescription>
+<para>Short Git SHA from the embedded constant (e.g. &quot;a1b2c3d&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/build_verifier.h" line="29" column="17" bodyfile="include/updates/build_verifier.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_build_verification_result_1aa5b85f3551a879baffe6abf64c0f8ba3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BuildVerificationResult::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::updates::BuildVerificationResult::failure_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason when <computeroutput><ref refid="structthemis_1_1updates_1_1_build_verification_result_1a1ec132dfbd35d34b1b736c700d017f06" kindref="member">verified</ref> == false</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/build_verifier.h" line="32" column="17" bodyfile="include/updates/build_verifier.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a build-signature verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/build_verifier.h" line="21" column="1" bodyfile="include/updates/build_verifier.h" bodystart="21" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_build_verification_result_1a360778bb46ca4cf7d0f026a10392ec23" prot="public" virt="non-virtual"><scope>themis::updates::BuildVerificationResult</scope><name>build_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_build_verification_result_1ad6616d51035e49e415cd390a6dbf9d4a" prot="public" virt="non-virtual"><scope>themis::updates::BuildVerificationResult</scope><name>channel</name></member>
+      <member refid="structthemis_1_1updates_1_1_build_verification_result_1aa5b85f3551a879baffe6abf64c0f8ba3" prot="public" virt="non-virtual"><scope>themis::updates::BuildVerificationResult</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1updates_1_1_build_verification_result_1a1ec132dfbd35d34b1b736c700d017f06" prot="public" virt="non-virtual"><scope>themis::updates::BuildVerificationResult</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

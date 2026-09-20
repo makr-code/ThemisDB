@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_parallel_downloader" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::ParallelDownloader</compoundname>
+    <includes refid="parallel__downloader_8h" local="no">parallel_downloader.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_parallel_downloader_1a3ec56c18c7b8dc370c830cc1084c808b" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;url, const std::string &amp;dest, uint64_t resume_offset, long connect_timeout_s, long transfer_timeout_s, uint64_t *out_bytes, uint64_t *out_total, std::string *out_error)&gt;</type>
+        <definition>using themis::updates::ParallelDownloader::FetchFn = std::function&lt;bool(
+       const std::string&amp; url,
+       const std::string&amp; dest,
+       uint64_t resume_offset,
+       long connect_timeout_s,
+       long transfer_timeout_s,
+       uint64_t* out_bytes,
+       uint64_t* out_total,
+       std::string* out_error)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FetchFn</name>
+        <qualifiedname>themis::updates::ParallelDownloader::FetchFn</qualifiedname>
+        <briefdescription>
+<para>Inject a custom HTTP fetch function (for unit tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: bool fetch(const std::string&amp; url, const std::string&amp; dest_path, uint64_t resume_offset, // 0 = fresh download long connect_timeout_s, long transfer_timeout_s, uint64_t* out_bytes, // bytes written this call uint64_t* out_total, // Content-Length (may be 0) std::string* out_error); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="225" column="5" bodyfile="include/updates/parallel_downloader.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1a38a35bebc4533a276014c08af0bab9cb" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ParallelDownloader::concurrency_</definition>
+        <argsstring></argsstring>
+        <name>concurrency_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::concurrency_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="238" column="16" bodyfile="include/updates/parallel_downloader.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1a298fca5b49df15a88321e8659a5a535b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::ParallelDownloader::bandwidth_limit_bps_</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_limit_bps_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::bandwidth_limit_bps_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = unlimited </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="239" column="16" bodyfile="include/updates/parallel_downloader.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1acea33396fb7df4d7c70158b50ac674f8" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::updates::ParallelDownloader::connect_timeout_s_</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_s_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::connect_timeout_s_</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="240" column="16" bodyfile="include/updates/parallel_downloader.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1a59be8e9717ff256a118354d17d6c715e" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::updates::ParallelDownloader::transfer_timeout_s_</definition>
+        <argsstring></argsstring>
+        <name>transfer_timeout_s_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::transfer_timeout_s_</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="241" column="16" bodyfile="include/updates/parallel_downloader.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1ae7144d3cc31f5e5babfe8d04e6303ab0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_parallel_downloader_1a3ec56c18c7b8dc370c830cc1084c808b" kindref="member">FetchFn</ref></type>
+        <definition>FetchFn themis::updates::ParallelDownloader::fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>fetch_fn_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::fetch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="243" column="16" bodyfile="include/updates/parallel_downloader.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1a785c8c955f034136d524bf12d4a1c996" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(size_t, uint64_t, uint64_t, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(size_t, uint64_t, uint64_t, const std::string&amp;)&gt; themis::updates::ParallelDownloader::progress_cb_</definition>
+        <argsstring></argsstring>
+        <name>progress_cb_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::progress_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="244" column="19" bodyfile="include/updates/parallel_downloader.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1ab5b2e1a2a5b5b9a9fd9ce8490840c223" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1updates_1_1_download_batch_stats" kindref="compound">DownloadBatchStats</ref></type>
+        <definition>DownloadBatchStats themis::updates::ParallelDownloader::last_stats_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::last_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="246" column="32" bodyfile="include/updates/parallel_downloader.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1a19b3f66a459e6b5bb51822c43c8a1ee4" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::updates::ParallelDownloader::token_bucket_</definition>
+        <argsstring></argsstring>
+        <name>token_bucket_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::token_bucket_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="249" column="25" bodyfile="include/updates/parallel_downloader.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_parallel_downloader_1af08ea46b9738e221be815804176e7b0d" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::updates::ParallelDownloader::last_refill_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_ms_</name>
+        <qualifiedname>themis::updates::ParallelDownloader::last_refill_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="250" column="26" bodyfile="include/updates/parallel_downloader.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1aef1bb76f01bdcf2db86403cf86a18961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ParallelDownloader::ParallelDownloader</definition>
+        <argsstring>()</argsstring>
+        <name>ParallelDownloader</name>
+        <qualifiedname>themis::updates::ParallelDownloader::ParallelDownloader</qualifiedname>
+        <briefdescription>
+<para>Construct with sensible defaults (concurrency = hardware_concurrency, no bandwidth cap). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="139" column="5" bodyfile="src/updates/parallel_downloader.cpp" bodystart="130" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a998b186b4c92ac6d9dcc0caa83397e29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ParallelDownloader::~ParallelDownloader</definition>
+        <argsstring>()</argsstring>
+        <name>~ParallelDownloader</name>
+        <qualifiedname>themis::updates::ParallelDownloader::~ParallelDownloader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1ab861602e85cd09f957492b0e76d5d383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setConcurrency</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>setConcurrency</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setConcurrency</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Set the maximum number of simultaneous downloads (≥ 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if n == 0 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="148" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1ab5d8ad5a843b90d3e63ec5f37ce3d65b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ParallelDownloader::getConcurrency</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConcurrency</name>
+        <qualifiedname>themis::updates::ParallelDownloader::getConcurrency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="149" column="12" bodyfile="src/updates/parallel_downloader.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1afc994ce199e58c8945f58d755de179f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setBandwidthLimit</definition>
+        <argsstring>(uint64_t bytes_per_second)</argsstring>
+        <name>setBandwidthLimit</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setBandwidthLimit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Limit aggregate download throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implemented as a token-bucket checked on every byte-consumption call and refilled whenever at least 10 ms have elapsed since the last refill.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0 = unlimited (default) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="159" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a434f64597d8373a36490d42d861274c3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::ParallelDownloader::getBandwidthLimit</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getBandwidthLimit</name>
+        <qualifiedname>themis::updates::ParallelDownloader::getBandwidthLimit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="160" column="14" bodyfile="src/updates/parallel_downloader.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a5d91ad7fd87b97660094e4f051818a01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setConnectTimeoutSeconds</definition>
+        <argsstring>(long seconds)</argsstring>
+        <name>setConnectTimeoutSeconds</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setConnectTimeoutSeconds</qualifiedname>
+        <param>
+          <type>long</type>
+          <declname>seconds</declname>
+        </param>
+        <briefdescription>
+<para>Override the HTTP connect timeout (default: 10 s). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Connect Timeout Seconds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConnectTimeoutSeconds without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="165" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1ab6f7b6ed40075e89a1c8046809c3192c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setTransferTimeoutSeconds</definition>
+        <argsstring>(long seconds)</argsstring>
+        <name>setTransferTimeoutSeconds</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setTransferTimeoutSeconds</qualifiedname>
+        <param>
+          <type>long</type>
+          <declname>seconds</declname>
+        </param>
+        <briefdescription>
+<para>Override the HTTP transfer timeout per chunk (default: 30 s). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Transfer Timeout Seconds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTransferTimeoutSeconds without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="170" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a0105167c3ad592306d1b39e3c569c8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_download_result" kindref="compound">DownloadResult</ref> &gt;</type>
+        <definition>std::vector&lt; DownloadResult &gt; themis::updates::ParallelDownloader::downloadAll</definition>
+        <argsstring>(std::vector&lt; DownloadTask &gt; tasks)</argsstring>
+        <name>downloadAll</name>
+        <qualifiedname>themis::updates::ParallelDownloader::downloadAll</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_download_task" kindref="compound">DownloadTask</ref> &gt;</type>
+          <declname>tasks</declname>
+        </param>
+        <briefdescription>
+<para>Download all tasks, respecting concurrency and bandwidth limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ downloadAll – priority-queue scheduler + thread pool ============================================================================</para>
+<para>Tasks are executed in priority-descending order (highest priority first). The method blocks until all tasks have either completed or exhausted their retry budget.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tasks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of download tasks (order does not matter; sorted internally) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemis_1_1updates_1_1_download_result" kindref="compound">DownloadResult</ref> per input task, in input order</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Results. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="184" column="17" bodyfile="src/updates/parallel_downloader.cpp" bodystart="650" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a4620e38a7355b030801f0e52641610bc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_download_batch_stats" kindref="compound">DownloadBatchStats</ref></type>
+        <definition>DownloadBatchStats themis::updates::ParallelDownloader::lastBatchStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastBatchStats</name>
+        <qualifiedname>themis::updates::ParallelDownloader::lastBatchStats</qualifiedname>
+        <briefdescription>
+<para>Retrieve aggregate statistics from the most recent <ref refid="classthemis_1_1updates_1_1_parallel_downloader_1a0105167c3ad592306d1b39e3c569c8ed" kindref="member">downloadAll()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="189" column="24" bodyfile="src/updates/parallel_downloader.cpp" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a1c2349427439f287f356d7e28437cb77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setProgressCallback</definition>
+        <argsstring>(std::function&lt; void(size_t task_index, uint64_t bytes_so_far, uint64_t total_bytes, const std::string &amp;message)&gt; callback)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setProgressCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(size_t task_index, uint64_t bytes_so_far, uint64_t total_bytes, const std::string &amp;message)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a per-file progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called from worker threads with:<itemizedlist>
+<listitem><para>task_index: position in the original tasks vector</para>
+</listitem><listitem><para>bytes_so_far: bytes written for this file in this session</para>
+</listitem><listitem><para>total_bytes: Content-Length (0 if unknown)</para>
+</listitem><listitem><para>message: human-readable status (e.g. &quot;downloading&quot;, &quot;verifying&quot;, &quot;done&quot;)</para>
+</listitem></itemizedlist>
+</para>
+<para>The callback must be thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="204" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="192" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a179e632fd8b466552ded419d63e6b710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::setFetchFunction</definition>
+        <argsstring>(FetchFn fn)</argsstring>
+        <name>setFetchFunction</name>
+        <qualifiedname>themis::updates::ParallelDownloader::setFetchFunction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_parallel_downloader_1a3ec56c18c7b8dc370c830cc1084c808b" kindref="member">FetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Fetch Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="235" column="10" bodyfile="src/updates/parallel_downloader.cpp" bodystart="203" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a4e614637a7854f769398289994bba119" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_download_result" kindref="compound">DownloadResult</ref></type>
+        <definition>DownloadResult themis::updates::ParallelDownloader::executeTask</definition>
+        <argsstring>(size_t task_index, const DownloadTask &amp;task)</argsstring>
+        <name>executeTask</name>
+        <qualifiedname>themis::updates::ParallelDownloader::executeTask</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>task_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_download_task" kindref="compound">DownloadTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Execute Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Backoff. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="253" column="20" bodyfile="src/updates/parallel_downloader.cpp" bodystart="499" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a48b5981bf0d5a5e050821cf098b38142" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::ParallelDownloader::resumeOffset</definition>
+        <argsstring>(const std::string &amp;dest) const</argsstring>
+        <name>resumeOffset</name>
+        <qualifiedname>themis::updates::ParallelDownloader::resumeOffset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="254" column="20" bodyfile="src/updates/parallel_downloader.cpp" bodystart="284" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1a7ecf8c4410d93f3c5596dbedc0d3dd6a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::consumeBandwidth</definition>
+        <argsstring>(uint64_t bytes) const</argsstring>
+        <name>consumeBandwidth</name>
+        <qualifiedname>themis::updates::ParallelDownloader::consumeBandwidth</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="256" column="12" bodyfile="src/updates/parallel_downloader.cpp" bodystart="250" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1acdccc340dba2d3603206df18e6486282" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ParallelDownloader::refillTokens</definition>
+        <argsstring>(uint64_t bytes_needed) const</argsstring>
+        <name>refillTokens</name>
+        <qualifiedname>themis::updates::ParallelDownloader::refillTokens</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_needed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="257" column="12" bodyfile="src/updates/parallel_downloader.cpp" bodystart="215" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1ae3827a1e7b2768fe9f9454b746d0e146" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ParallelDownloader::computeSha256</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>computeSha256</name>
+        <qualifiedname>themis::updates::ParallelDownloader::computeSha256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Compute Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), is_open(), ctx_guard(), EVP_MD_CTX_new(), get(), EVP_DigestInit_ex(), EVP_sha256(), read(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="259" column="24" bodyfile="src/updates/parallel_downloader.cpp" bodystart="344" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_parallel_downloader_1ab1fedf5d8ecac6e659187720fd1bcbb0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ParallelDownloader::defaultFetch</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;dest, uint64_t resume_offset, long connect_timeout_s, long transfer_timeout_s, uint64_t *out_bytes, uint64_t *out_total, std::string *out_error)</argsstring>
+        <name>defaultFetch</name>
+        <qualifiedname>themis::updates::ParallelDownloader::defaultFetch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>resume_offset</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>connect_timeout_s</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>transfer_timeout_s</declname>
+        </param>
+        <param>
+          <type>uint64_t *</type>
+          <declname>out_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t *</type>
+          <declname>out_total</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>out_error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="260" column="24" bodyfile="src/updates/parallel_downloader.cpp" bodystart="385" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Downloads multiple files concurrently with bandwidth throttling, priority ordering, and per-file resume support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Quick-start</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_parallel_downloader_1aef1bb76f01bdcf2db86403cf86a18961" kindref="member">ParallelDownloader</ref><sp/>dl;</highlight></codeline>
+<codeline><highlight class="normal">dl.setConcurrency(4);</highlight></codeline>
+<codeline><highlight class="normal">dl.setBandwidthLimit(100ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;DownloadTask&gt;<sp/>tasks<sp/>=<sp/>buildTaskList(manifest);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>dl.downloadAll(tasks);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!r.success)<sp/>log_error(r.task.url,<sp/>r.error_message);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Acceptance criteria (Issue #128 / v1.6.0)</heading>
+</para>
+<para><table rows="5" cols="2"><row>
+<entry thead="yes"><para>AC  </para>
+</entry><entry thead="yes"><para>Mechanism  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Configurable concurrency  </para>
+</entry><entry thead="no"><para><computeroutput>setConcurrency(n)</computeroutput> → worker thread pool of size n  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Bandwidth throttling  </para>
+</entry><entry thead="no"><para>Token-bucket at <computeroutput>setBandwidthLimit(bps)</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Priority queue  </para>
+</entry><entry thead="no"><para>Max-heap by <computeroutput><ref refid="structthemis_1_1updates_1_1_download_task_1aec8c2ee8ad2b11571967eea2cbc16070" kindref="member">DownloadTask::priority</ref></computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Resume support per file  </para>
+</entry><entry thead="no"><para>HTTP <computeroutput>Range:</computeroutput> header if partial file exists  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>A single <computeroutput><ref refid="classthemis_1_1updates_1_1_parallel_downloader" kindref="compound">ParallelDownloader</ref></computeroutput> instance must not be called concurrently from multiple threads. Separate instances may run in parallel. </para>
+    </detaileddescription>
+    <location file="include/updates/parallel_downloader.h" line="133" column="1" bodyfile="include/updates/parallel_downloader.h" bodystart="133" bodyend="269"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a298fca5b49df15a88321e8659a5a535b" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>bandwidth_limit_bps_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ae3827a1e7b2768fe9f9454b746d0e146" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>computeSha256</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a38a35bebc4533a276014c08af0bab9cb" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>concurrency_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1acea33396fb7df4d7c70158b50ac674f8" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>connect_timeout_s_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a7ecf8c4410d93f3c5596dbedc0d3dd6a" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>consumeBandwidth</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ab1fedf5d8ecac6e659187720fd1bcbb0" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>defaultFetch</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a0105167c3ad592306d1b39e3c569c8ed" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>downloadAll</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a4e614637a7854f769398289994bba119" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>executeTask</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ae7144d3cc31f5e5babfe8d04e6303ab0" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>fetch_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a3ec56c18c7b8dc370c830cc1084c808b" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>FetchFn</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a434f64597d8373a36490d42d861274c3" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>getBandwidthLimit</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ab5d8ad5a843b90d3e63ec5f37ce3d65b" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>getConcurrency</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1af08ea46b9738e221be815804176e7b0d" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>last_refill_ms_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ab5b2e1a2a5b5b9a9fd9ce8490840c223" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>last_stats_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a4620e38a7355b030801f0e52641610bc" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>lastBatchStats</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1aef1bb76f01bdcf2db86403cf86a18961" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>ParallelDownloader</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a785c8c955f034136d524bf12d4a1c996" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>progress_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1acdccc340dba2d3603206df18e6486282" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>refillTokens</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a48b5981bf0d5a5e050821cf098b38142" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>resumeOffset</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1afc994ce199e58c8945f58d755de179f5" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setBandwidthLimit</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ab861602e85cd09f957492b0e76d5d383" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setConcurrency</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a5d91ad7fd87b97660094e4f051818a01" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setConnectTimeoutSeconds</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a179e632fd8b466552ded419d63e6b710" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setFetchFunction</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a1c2349427439f287f356d7e28437cb77" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1ab6f7b6ed40075e89a1c8046809c3192c" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>setTransferTimeoutSeconds</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a19b3f66a459e6b5bb51822c43c8a1ee4" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>token_bucket_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a59be8e9717ff256a118354d17d6c715e" prot="private" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>transfer_timeout_s_</name></member>
+      <member refid="classthemis_1_1updates_1_1_parallel_downloader_1a998b186b4c92ac6d9dcc0caa83397e29" prot="public" virt="non-virtual"><scope>themis::updates::ParallelDownloader</scope><name>~ParallelDownloader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cuda__wrapper__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_cuda_wrapper_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cuda.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="cuda__raii_8h" local="yes">include/gpu/cuda_raii.h</includes>
+    <includes local="yes">include/gpu/gpu_error.h</includes>
+    <includes local="yes">src/gpu/gpu_kernel_manager.h</includes>
+    <includes local="yes">src/gpu/gpu_memory_allocator.h</includes>
+    <includes local="yes">src/gpu/tensor_buffer.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>include/gpu/cuda_raii.h</label>
+        <link refid="cuda__raii_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/gpu/test_cuda_wrapper_integration.cpp</label>
+        <link refid="test__cuda__wrapper__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cuda.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>include/gpu/gpu_error.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>src/gpu/gpu_kernel_manager.h</label>
+      </node>
+      <node id="12">
+        <label>src/gpu/gpu_memory_allocator.h</label>
+      </node>
+      <node id="13">
+        <label>src/gpu/tensor_buffer.h</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" prot="public">themis::gpu::test::CudaWrapperUnitTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" prot="public">themis::gpu::test::CudaWrapperIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" prot="public">themis::gpu::test::CudaWrapperPerformanceTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" prot="public">themis::gpu::test::CudaAuditTest</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" prot="protected">themis::gpu::test::CudaAuditTest::AuditReport</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1test">themis::gpu::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>test_cuda_wrapper_integration.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CRITICAL<sp/>MODULE:<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>2.1:<sp/>Wrapper<sp/>Adoption<sp/>(AC-1/AC-2/AC-3/AC-5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>CUDA<sp/>Call<sp/>Reduction<sp/>340<sp/>→<sp/>≤170<sp/>with<sp/>RAII<sp/>wrapper<sp/>adoption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Status:<sp/>Implementation<sp/>in<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Effort:<sp/>8<sp/>days<sp/>|<sp/>Target<sp/>Date:<sp/>Sept<sp/>15,<sp/>2026</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>Criteria:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Audit<sp/>Count<sp/>≤<sp/>170:<sp/>Verified<sp/>via<sp/>tools/ci/gpu_cuda_call_audit.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>RAII<sp/>Wrapper<sp/>Adoption:<sp/>All<sp/>new<sp/>calls<sp/>wrapped<sp/>via<sp/>CudaStreamGuard&lt;T&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Audit<sp/>Metadata:<sp/>Each<sp/>remaining<sp/>call<sp/>has<sp/>inline<sp/>comment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Wrapper<sp/>Overhead:<sp/>≤<sp/>5%<sp/>latency<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>(AC-4<sp/>Determinism<sp/>in<sp/>separate<sp/>test<sp/>file)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Categories:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Unit<sp/>(5<sp/>tests):<sp/>CudaResourceGuard,<sp/>error_check()<sp/>function<sp/>coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Integration<sp/>(4<sp/>tests):<sp/>Wrapper<sp/>adoption<sp/>in<sp/>KernelExecutor,<sp/>TensorAllocator,<sp/>MemoryPool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Performance<sp/>(1<sp/>test):<sp/>Wrapper<sp/>overhead<sp/>measurement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Audit<sp/>(1<sp/>test):<sp/>Final<sp/>call<sp/>count<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Evidence:<sp/>src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE_2026-09-15.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cuda.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cuda__raii_8h" kindref="compound">include/gpu/cuda_raii.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;include/gpu/gpu_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;src/gpu/gpu_kernel_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;src/gpu/gpu_memory_allocator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;src/gpu/tensor_buffer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test" kindref="compound">themis::gpu::test</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UNIT<sp/>TESTS<sp/>(5<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test_1a737bce0580c72bdfdf4b81791222d005" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Initialize<sp/>CUDA<sp/>device</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Clear<sp/>any<sp/>previous<sp/>error<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test_1a1a52860a5d88fd7ab76093e3e9a140be" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Cleanup<sp/>CUDA<sp/>device</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>CudaStreamGuard<sp/>RAII<sp/>basic<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref>,<sp/>TestCudaStreamGuardDestructorCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Create<sp/>CudaStreamGuard&lt;cudaStream_t&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Use<sp/>stream<sp/>for<sp/>kernel<sp/>launch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Let<sp/>guard<sp/>go<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>cudaStreamDestroy<sp/>was<sp/>called<sp/>(no<sp/>CUDA_ERROR_INVALID_HANDLE<sp/>on<sp/>reuse)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Verify<sp/>destructor<sp/>ran<sp/>(trace<sp/>or<sp/>verification<sp/>log)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>CudaStreamGuard<sp/>destructor<sp/>verification&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>CudaEventGuard<sp/>RAII<sp/>basic<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperUnitTest,<sp/>TestCudaEventGuardDestructorCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Create<sp/>CudaEventGuard&lt;cudaEvent_t&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Record<sp/>event<sp/>on<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Let<sp/>guard<sp/>go<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>cudaEventDestroy<sp/>was<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Verify<sp/>event<sp/>handle<sp/>invalid<sp/>post-guard<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>CudaEventGuard<sp/>destructor<sp/>verification&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>CudaDeviceMemoryGuard<sp/>RAII<sp/>for<sp/>memory<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperUnitTest,<sp/>TestCudaDeviceMemoryGuardDestructorCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Create<sp/>CudaDeviceMemoryGuard<sp/>with<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Verify<sp/>memory<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Let<sp/>guard<sp/>go<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>cudaFree<sp/>was<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Verify<sp/>memory<sp/>handle<sp/>invalid<sp/>post-cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>CudaDeviceMemoryGuard<sp/>destructor<sp/>verification&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>error_check()<sp/>wrapper<sp/>error<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperUnitTest,<sp/>TestErrorCheckWrapperDetectsErrors)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Call<sp/>error_check()<sp/>with<sp/>invalid<sp/>cudaError_t<sp/>(e.g.,<sp/>CUDA_ERROR_INVALID_DEVICE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Verify<sp/>exception<sp/>or<sp/>error<sp/>code<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Verify<sp/>no<sp/>silent<sp/>failure<sp/>(important<sp/>for<sp/>audit!)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Test<sp/>with<sp/>multiple<sp/>error<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>error_check()<sp/>error<sp/>detection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>Exception<sp/>safety<sp/>with<sp/>nested<sp/>guards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_unit_test" kindref="compound">CudaWrapperUnitTest</ref>,<sp/>TestNestedGuardsExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Nest<sp/>3<sp/>levels<sp/>of<sp/>guards<sp/>(stream<sp/>→<sp/>event<sp/>→<sp/>memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Throw<sp/>exception<sp/>at<sp/>innermost<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Verify<sp/>all<sp/>3<sp/>guards<sp/>destroyed<sp/>(RAII<sp/>guarantee)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>CUDA<sp/>resources<sp/>cleaned<sp/>up<sp/>despite<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>nested<sp/>guard<sp/>exception<sp/>safety&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INTEGRATION<sp/>TESTS<sp/>(4<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;themis::gpu::KernelManager&gt;<sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1add4edd2f4fe7aaa611f7c956bb01f2a1" kindref="member">kernel_manager_</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;themis::gpu::TensorAllocator&gt;<sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1ade28d3baa4320fd5b99a9d3942a73fde" kindref="member">tensor_allocator_</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;themis::gpu::MemoryPool&gt;<sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a214f9fbea210948b3c69554daa2c72ee" kindref="member">memory_pool_</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1aa14e803558e57206172d18d0fc9b0adc" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Initialize<sp/>full<sp/>GPU<sp/>stack</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kernel_manager_<sp/>=<sp/>std::make_unique&lt;KernelManager&gt;();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tensor_allocator_<sp/>=<sp/>std::make_unique&lt;TensorAllocator&gt;();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>memory_pool_<sp/>=<sp/>std::make_unique&lt;MemoryPool&gt;();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a002c88983b9100e989751d36c8edfe34" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Cleanup<sp/>all<sp/>GPU<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Count<sp/>active<sp/>CUDA<sp/>streams<sp/>(should<sp/>decrease<sp/>after<sp/>wrapper<sp/>cleanup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a42e83ce6159823a9530d4a487285c108" kindref="member">GetActiveStreamCount</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Query<sp/>CUDA<sp/>runtime<sp/>or<sp/>custom<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Verify<sp/>no<sp/>CUDA<sp/>error<sp/>state<sp/>left</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a7cff9e98cd16dd7f55aea251bbf6886f" kindref="member">VerifyNoResiduualCUDAErrors</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Check<sp/>cudaGetLastError()<sp/>==<sp/>cudaSuccess</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>KernelExecutor<sp/>uses<sp/>CudaStreamGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kindref="compound">CudaWrapperIntegrationTest</ref>,<sp/>TestKernelExecutorStreamGuardAdoption)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Launch<sp/>kernel<sp/>via<sp/>kernel_manager<sp/>using<sp/>wrapped<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Verify<sp/>kernel<sp/>executes<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Stream<sp/>destroyed<sp/>post-kernel<sp/>(verify<sp/>via<sp/>stream<sp/>count<sp/>decrease)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>No<sp/>CUDA<sp/>errors<sp/>left<sp/>in<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>KernelExecutor<sp/>wrapper<sp/>adoption&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>TensorAllocator<sp/>uses<sp/>CudaDeviceMemoryGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperIntegrationTest,<sp/>TestTensorAllocatorMemoryGuardAdoption)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Allocate<sp/>tensor<sp/>via<sp/>tensor_allocator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Verify<sp/>wrapper<sp/>manages<sp/>memory<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Deallocate<sp/>→<sp/>verify<sp/>cudaFree<sp/>called<sp/>via<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>no<sp/>memory<sp/>leaks<sp/>(track<sp/>allocation/free<sp/>count)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>TensorAllocator<sp/>wrapper<sp/>adoption&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-2:<sp/>MemoryPool<sp/>batched<sp/>operations<sp/>with<sp/>guards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperIntegrationTest,<sp/>TestMemoryPoolGuardCoordination)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Request<sp/>10<sp/>allocations<sp/>from<sp/>memory_pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>All<sp/>guarded<sp/>and<sp/>managed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Release<sp/>all<sp/>10<sp/>→<sp/>verify<sp/>all<sp/>guards<sp/>destroyed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>pool<sp/>state<sp/>clean;<sp/>no<sp/>residual<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>MemoryPool<sp/>guard<sp/>coordination&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-1:<sp/>Audit<sp/>Count<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaWrapperIntegrationTest,<sp/>TestCUDACallAuditCountReduction)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>bridges<sp/>to<sp/>tools/ci/gpu_cuda_call_audit.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Run<sp/>audit<sp/>tool:<sp/>gpu_cuda_call_audit.py<sp/>--verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Parse<sp/>output<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Verify<sp/>unchecked_call_count<sp/>≤<sp/>170</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>all<sp/>new<sp/>calls<sp/>have<sp/>RAII<sp/>wrappers<sp/>or<sp/>inline<sp/>comments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Report<sp/>audit<sp/>metadata<sp/>in<sp/>test<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>audit<sp/>count<sp/>verification&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PERFORMANCE<sp/>TEST<sp/>(1<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" kindref="compound">CudaWrapperPerformanceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1a4100e63c981b62e298a6775f2443a344" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Initialize<sp/>GPU<sp/>device<sp/>+<sp/>warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac5ec23c25c85718cea58f9d09bf59d43" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Measure<sp/>latency<sp/>of<sp/>guard<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac532548131c67e8e002678d06f18ac8f" kindref="member">MeasureGuardOverheadNs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations<sp/>=<sp/>1000)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Time<sp/>wrapper<sp/>creation/destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compare:<sp/>raw<sp/>stream<sp/>operations<sp/>vs<sp/>guarded<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>nanoseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-5:<sp/>Wrapper<sp/>Overhead<sp/>≤<sp/>5%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" kindref="compound">CudaWrapperPerformanceTest</ref>,<sp/>TestWrapperLatencyOverhead)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Baseline:<sp/>Launch<sp/>1000<sp/>kernels<sp/>with<sp/>raw<sp/>CUDA<sp/>streams</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Wrapped:<sp/>Launch<sp/>1000<sp/>kernels<sp/>with<sp/>CudaStreamGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Measure<sp/>latency<sp/>overhead:<sp/>(wrapped<sp/>-<sp/>baseline)<sp/>/<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>overhead<sp/>≤<sp/>5%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Report<sp/>metrics:<sp/>baseline_us,<sp/>wrapped_us,<sp/>overhead_pct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>wrapper<sp/>overhead<sp/>measurement&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDIT<sp/>TEST<sp/>(1<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" kindref="compound">CudaAuditTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a2e3e733d76af67896629f8244b5d9069" kindref="member">audit_report_path_</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a07349d909059f27ad70b49149f21198a" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Set<sp/>path<sp/>to<sp/>audit<sp/>report<sp/>(produced<sp/>by<sp/>gpu_cuda_call_audit.py)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Parse<sp/>audit<sp/>JSON<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" kindref="compound">AuditReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1ad2773d7d0084bbaf16c314504e00c1ac" kindref="member">unchecked_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a6f8dae9a0a8cd1b6a015875a4b70e5c6" kindref="member">wrapped_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1aa3b75e18c7dfaab4303a86e44d1158a7" kindref="member">inline_comment_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report_1a1bf17e5f8b74458dd8a695215af39aa7" kindref="member">findings</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>findings<sp/>from<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" kindref="compound">AuditReport</ref><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1aff1f3c3e4a797f7354e641da24a40bb5" kindref="member">ParseAuditReport</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Parse<sp/>JSON<sp/>from<sp/>tools/ci/gpu_cuda_call_audit.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" kindref="compound">AuditReport</ref>{};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-1/AC-3:<sp/>Final<sp/>audit:<sp/>count<sp/>≤<sp/>170<sp/>+<sp/>all<sp/>have<sp/>comments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(CudaAuditTest,<sp/>TestFinalCUDACallAudit)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Run:<sp/>tools/ci/gpu_cuda_call_audit.py<sp/>--output<sp/>audit_report_final.json</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Parse<sp/>audit<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Verify<sp/>unchecked_count<sp/>≤<sp/>170<sp/>(AC-1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Verify<sp/>all<sp/>170<sp/>have<sp/>inline<sp/>&quot;UNCHECKED:&quot;<sp/>comments<sp/>(AC-3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>Collect<sp/>any<sp/>warnings/findings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>6.<sp/>Report<sp/>in<sp/>test<sp/>output<sp/>for<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>7.<sp/>Assert<sp/>all<sp/>criteria<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TODO:<sp/>Implement<sp/>final<sp/>audit<sp/>verification&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::gpu::test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TEST<sp/>REGISTRATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>tests<sp/>registered<sp/>as<sp/>`release_critical`<sp/>for<sp/>Wave<sp/>A<sp/>Gate<sp/>compliance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Evidence<sp/>collected<sp/>in:<sp/>src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE_2026-09-15.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>tool<sp/>reference:<sp/>tools/ci/gpu_cuda_call_audit.py</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_cuda_wrapper_integration.cpp"/>
+  </compounddef>
+</doxygen>

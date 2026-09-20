@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_capturing_top_k_adapter_candidate_provider" kind="class" language="C++" prot="public">
+    <compoundname>CapturingTopKAdapterCandidateProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider" prot="public" virt="non-virtual">themis::llm::IAdapterCandidateProvider</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_capturing_top_k_adapter_candidate_provider_1af8707e400dc5d1b850aa25bd7591f948" prot="public" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int CapturingTopKAdapterCandidateProvider::last_top_k</definition>
+        <argsstring></argsstring>
+        <name>last_top_k</name>
+        <qualifiedname>CapturingTopKAdapterCandidateProvider::last_top_k</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="121" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_capturing_top_k_adapter_candidate_provider_1aa088159af71b2782ef52f160db5bbbe0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_selection_result" kindref="compound">AdapterSelectionResult</ref></type>
+        <definition>AdapterSelectionResult CapturingTopKAdapterCandidateProvider::selectCandidates</definition>
+        <argsstring>(const AdapterSelectionInput &amp;input) const override</argsstring>
+        <name>selectCandidates</name>
+        <qualifiedname>CapturingTopKAdapterCandidateProvider::selectCandidates</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1af90ef73c2b34eb08950678c14c5c16e1">selectCandidates</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_selection_input" kindref="compound">AdapterSelectionInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="114" column="5" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CapturingTopKAdapterCandidateProvider</label>
+        <link refid="class_capturing_top_k_adapter_candidate_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterCandidateProvider</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CapturingTopKAdapterCandidateProvider</label>
+        <link refid="class_capturing_top_k_adapter_candidate_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterCandidateProvider</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="111" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="111" bodyend="122"/>
+    <listofallmembers>
+      <member refid="class_capturing_top_k_adapter_candidate_provider_1af8707e400dc5d1b850aa25bd7591f948" prot="public" virt="non-virtual"><scope>CapturingTopKAdapterCandidateProvider</scope><name>last_top_k</name></member>
+      <member refid="class_capturing_top_k_adapter_candidate_provider_1aa088159af71b2782ef52f160db5bbbe0" prot="public" virt="virtual"><scope>CapturingTopKAdapterCandidateProvider</scope><name>selectCandidates</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1a17bb0a75fac5be30b8803a53fdeeb821" prot="public" virt="virtual"><scope>CapturingTopKAdapterCandidateProvider</scope><name>~IAdapterCandidateProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

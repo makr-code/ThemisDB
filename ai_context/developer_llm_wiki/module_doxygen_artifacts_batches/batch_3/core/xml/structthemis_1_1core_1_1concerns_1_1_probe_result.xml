@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_probe_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ProbeResult</compoundname>
+    <includes refid="lifecycle_8h" local="no">lifecycle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_probe_result_1afde6f6625d1fb9e6ca74d7bbb4b213fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::ProbeResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::core::concerns::ProbeResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true = healthy / ready </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="20" column="10" bodyfile="include/core/concerns/lifecycle.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_probe_result_1ab7c73bd24833ef375afe7a0644950ced" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ProbeResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::core::concerns::ProbeResult::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable status detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="21" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>static ProbeResult themis::core::concerns::ProbeResult::healthy</definition>
+        <argsstring>(const std::string &amp;msg=&quot;ok&quot;)</argsstring>
+        <name>healthy</name>
+        <qualifiedname>themis::core::concerns::ProbeResult::healthy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;ok&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="23" column="24" bodyfile="include/core/concerns/lifecycle.h" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_probe_result_1a04771183a8c900aa1810d0fc01870fb4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>static ProbeResult themis::core::concerns::ProbeResult::unhealthy</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>unhealthy</name>
+        <qualifiedname>themis::core::concerns::ProbeResult::unhealthy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Unhealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements unhealthy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="33" column="24" bodyfile="include/core/concerns/lifecycle.h" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/lifecycle.h" line="19" column="1" bodyfile="include/core/concerns/lifecycle.h" bodystart="19" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" prot="public" virt="non-virtual"><scope>themis::core::concerns::ProbeResult</scope><name>healthy</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1ab7c73bd24833ef375afe7a0644950ced" prot="public" virt="non-virtual"><scope>themis::core::concerns::ProbeResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1afde6f6625d1fb9e6ca74d7bbb4b213fc" prot="public" virt="non-virtual"><scope>themis::core::concerns::ProbeResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a04771183a8c900aa1810d0fc01870fb4" prot="public" virt="non-virtual"><scope>themis::core::concerns::ProbeResult</scope><name>unhealthy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_boundary_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::BoundaryCheckResult</compoundname>
+    <includes refid="approximation__rules_8h" local="no">approximation_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" kindref="member">GovernanceDecision</ref></type>
+        <definition>GovernanceDecision themis::evaluation::BoundaryCheckResult::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::evaluation::BoundaryCheckResult::decision</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" kindref="member">GovernanceDecision::Allow</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="163" column="24" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_boundary_check_result_1aaf802d539739958ab89590b7cae43165" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" kindref="member">ExactnessViolation</ref></type>
+        <definition>ExactnessViolation themis::evaluation::BoundaryCheckResult::violation</definition>
+        <argsstring></argsstring>
+        <name>violation</name>
+        <qualifiedname>themis::evaluation::BoundaryCheckResult::violation</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">ExactnessViolation::None</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="165" column="24" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_boundary_check_result_1a6bf312bfcca7e0eab6687d7841a80cce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::BoundaryCheckResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::evaluation::BoundaryCheckResult::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="167" column="17" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_boundary_check_result_1ac63079f50d97da205ab2949fef5d1488" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::BoundaryCheckResult::policy_version</definition>
+        <argsstring></argsstring>
+        <name>policy_version</name>
+        <qualifiedname>themis::evaluation::BoundaryCheckResult::policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="169" column="17" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_boundary_check_result_1a5f3a457e27063e97a2e93cddd722a7be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::BoundaryCheckResult::isAllowed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::evaluation::BoundaryCheckResult::isAllowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="171" column="11" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="171" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/approximation_rules.h" line="162" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="162" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" prot="public" virt="non-virtual"><scope>themis::evaluation::BoundaryCheckResult</scope><name>decision</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a6bf312bfcca7e0eab6687d7841a80cce" prot="public" virt="non-virtual"><scope>themis::evaluation::BoundaryCheckResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a5f3a457e27063e97a2e93cddd722a7be" prot="public" virt="non-virtual"><scope>themis::evaluation::BoundaryCheckResult</scope><name>isAllowed</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1ac63079f50d97da205ab2949fef5d1488" prot="public" virt="non-virtual"><scope>themis::evaluation::BoundaryCheckResult</scope><name>policy_version</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1aaf802d539739958ab89590b7cae43165" prot="public" virt="non-virtual"><scope>themis::evaluation::BoundaryCheckResult</scope><name>violation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

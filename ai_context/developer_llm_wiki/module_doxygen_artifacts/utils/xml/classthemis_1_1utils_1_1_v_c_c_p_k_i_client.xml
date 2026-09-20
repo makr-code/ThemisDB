@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::VCCPKIClient</compoundname>
+    <includes refid="pki__client_8h" local="no">pki_client.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a490155d3a16cea0d2bba3363e575cbbe" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref>(const std::vector&lt; uint8_t &gt; &amp;hash_bytes)&gt;</type>
+        <definition>using themis::utils::VCCPKIClient::SignHashFn = std::function&lt;SignatureResult(const std::vector&lt;uint8_t&gt;&amp; hash_bytes)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SignHashFn</name>
+        <qualifiedname>themis::utils::VCCPKIClient::SignHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="67" column="5" bodyfile="include/utils/pki_client.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a98f1fae9a304e5c74b18ca7bf71e2ad9" prot="public" static="no">
+        <type>std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;hash_bytes, const <ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref> &amp;sig)&gt;</type>
+        <definition>using themis::utils::VCCPKIClient::VerifyHashFn = std::function&lt;bool(const std::vector&lt;uint8_t&gt;&amp; hash_bytes, const SignatureResult&amp; sig)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VerifyHashFn</name>
+        <qualifiedname>themis::utils::VCCPKIClient::VerifyHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="68" column="5" bodyfile="include/utils/pki_client.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ada87372aa726321c9e24ee6029b93f22" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_p_k_i_config" kindref="compound">PKIConfig</ref></type>
+        <definition>PKIConfig themis::utils::VCCPKIClient::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::VCCPKIClient::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="144" column="15" bodyfile="include/utils/pki_client.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1aab5561845c3dfab4b62f34f9610c79f0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::VCCPKIClient::cert_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cert_cache_mutex_</name>
+        <qualifiedname>themis::utils::VCCPKIClient::cert_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="148" column="27" bodyfile="include/utils/pki_client.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a3963949edd33046945fcc1764feb7c5b" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::utils::VCCPKIClient::cached_cert_pem_</definition>
+        <argsstring></argsstring>
+        <name>cached_cert_pem_</name>
+        <qualifiedname>themis::utils::VCCPKIClient::cached_cert_pem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="149" column="27" bodyfile="include/utils/pki_client.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1afc56b790d0282a5218cf0478fb2e6ca7" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::utils::VCCPKIClient::cached_cert_serial_</definition>
+        <argsstring></argsstring>
+        <name>cached_cert_serial_</name>
+        <qualifiedname>themis::utils::VCCPKIClient::cached_cert_serial_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="150" column="27" bodyfile="include/utils/pki_client.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a4d605f9635ef78454a419631075789dd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::VCCPKIClient::VCCPKIClient</definition>
+        <argsstring>(PKIConfig cfg)</argsstring>
+        <name>VCCPKIClient</name>
+        <qualifiedname>themis::utils::VCCPKIClient::VCCPKIClient</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_p_k_i_config" kindref="compound">PKIConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="70" column="14" bodyfile="src/utils/pki_client.cpp" bodystart="598" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a81ec93f4d5c7ec158ac14f70302d5a7b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref></type>
+        <definition>SignatureResult themis::utils::VCCPKIClient::signHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash_bytes) const</argsstring>
+        <name>signHash</name>
+        <qualifiedname>themis::utils::VCCPKIClient::signHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="87" column="22" bodyfile="src/utils/pki_client.cpp" bodystart="617" bodyend="856"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ad3044c2f94611e61fe9dadb3f2e37396" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::VCCPKIClient::verifyHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash_bytes, const SignatureResult &amp;sig) const</argsstring>
+        <name>verifyHash</name>
+        <qualifiedname>themis::utils::VCCPKIClient::verifyHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref> &amp;</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="104" column="11" bodyfile="src/utils/pki_client.cpp" bodystart="858" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ab4085668a95e498520a99ff3ccad6edd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1utils_1_1_p_k_i_config" kindref="compound">PKIConfig</ref> &amp;</type>
+        <definition>const PKIConfig &amp; themis::utils::VCCPKIClient::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::utils::VCCPKIClient::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="106" column="21" bodyfile="include/utils/pki_client.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a9614f3f3ba23e29c28ea6c043d0efdbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::VCCPKIClient::getCertSerial</definition>
+        <argsstring>() const</argsstring>
+        <name>getCertSerial</name>
+        <qualifiedname>themis::utils::VCCPKIClient::getCertSerial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="110" column="19" bodyfile="src/utils/pki_client.cpp" bodystart="600" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1af9786e83f0bd028af27cd644f9638c97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::VCCPKIClient::generateCSR</definition>
+        <argsstring>() const</argsstring>
+        <name>generateCSR</name>
+        <qualifiedname>themis::utils::VCCPKIClient::generateCSR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="115" column="17" bodyfile="src/utils/pki_client.cpp" bodystart="613" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a2784340aff0b4de001672c854c7d1e38" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::utils::VCCPKIClient::setSignHashFn</definition>
+        <argsstring>(SignHashFn fn)</argsstring>
+        <name>setSignHashFn</name>
+        <qualifiedname>themis::utils::VCCPKIClient::setSignHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a490155d3a16cea0d2bba3363e575cbbe" kindref="member">SignHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="117" column="17" bodyfile="include/utils/pki_client.h" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ae3cc7d3489304aa025471ab56992dd6a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::utils::VCCPKIClient::setVerifyHashFn</definition>
+        <argsstring>(VerifyHashFn fn)</argsstring>
+        <name>setVerifyHashFn</name>
+        <qualifiedname>themis::utils::VCCPKIClient::setVerifyHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a98f1fae9a304e5c74b18ca7bf71e2ad9" kindref="member">VerifyHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="121" column="17" bodyfile="include/utils/pki_client.h" bodystart="121" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a0d3e69620cfbf27bb7084dfd366de9be" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::utils::VCCPKIClient::signHashFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>signHashFnMutex</name>
+        <qualifiedname>themis::utils::VCCPKIClient::signHashFnMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="127" column="23" bodyfile="include/utils/pki_client.h" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a47c124fa55b0bdebdecbbfb69de46373" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a490155d3a16cea0d2bba3363e575cbbe" kindref="member">SignHashFn</ref> &amp;</type>
+        <definition>static SignHashFn &amp; themis::utils::VCCPKIClient::signHashFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>signHashFnStorage</name>
+        <qualifiedname>themis::utils::VCCPKIClient::signHashFnStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="131" column="23" bodyfile="include/utils/pki_client.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1af642593f05c24f6b8e9dac063081fff3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::utils::VCCPKIClient::verifyHashFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>verifyHashFnMutex</name>
+        <qualifiedname>themis::utils::VCCPKIClient::verifyHashFnMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="135" column="23" bodyfile="include/utils/pki_client.h" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a0a5933a148e02d96d04eaaf8cfcd6fc7" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a98f1fae9a304e5c74b18ca7bf71e2ad9" kindref="member">VerifyHashFn</ref> &amp;</type>
+        <definition>static VerifyHashFn &amp; themis::utils::VCCPKIClient::verifyHashFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>verifyHashFnStorage</name>
+        <qualifiedname>themis::utils::VCCPKIClient::verifyHashFnStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pki_client.h" line="139" column="25" bodyfile="include/utils/pki_client.h" bodystart="139" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub fallback paths are only compiled when THEMIS_TEST_MODE is defined. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pki_client.h" line="65" column="1" bodyfile="include/utils/pki_client.h" bodystart="65" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a3963949edd33046945fcc1764feb7c5b" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>cached_cert_pem_</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1afc56b790d0282a5218cf0478fb2e6ca7" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>cached_cert_serial_</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1aab5561845c3dfab4b62f34f9610c79f0" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>cert_cache_mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ada87372aa726321c9e24ee6029b93f22" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ab4085668a95e498520a99ff3ccad6edd" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>config</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1af9786e83f0bd028af27cd644f9638c97" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>generateCSR</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a9614f3f3ba23e29c28ea6c043d0efdbd" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>getCertSerial</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a2784340aff0b4de001672c854c7d1e38" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>setSignHashFn</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ae3cc7d3489304aa025471ab56992dd6a" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>setVerifyHashFn</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a81ec93f4d5c7ec158ac14f70302d5a7b" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>signHash</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a490155d3a16cea0d2bba3363e575cbbe" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>SignHashFn</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a0d3e69620cfbf27bb7084dfd366de9be" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>signHashFnMutex</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a47c124fa55b0bdebdecbbfb69de46373" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>signHashFnStorage</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a4d605f9635ef78454a419631075789dd" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>VCCPKIClient</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1ad3044c2f94611e61fe9dadb3f2e37396" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>verifyHash</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a98f1fae9a304e5c74b18ca7bf71e2ad9" prot="public" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>VerifyHashFn</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1af642593f05c24f6b8e9dac063081fff3" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>verifyHashFnMutex</name></member>
+      <member refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client_1a0a5933a148e02d96d04eaaf8cfcd6fc7" prot="private" virt="non-virtual"><scope>themis::utils::VCCPKIClient</scope><name>verifyHashFnStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

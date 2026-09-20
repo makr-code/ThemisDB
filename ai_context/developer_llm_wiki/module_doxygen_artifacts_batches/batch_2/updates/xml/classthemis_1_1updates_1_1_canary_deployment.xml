@@ -1,0 +1,1235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_canary_deployment" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryDeployment</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref> &amp;)&gt;</type>
+        <definition>using themis::updates::CanaryDeployment::StageCompleteCallback = 
+std::function&lt;void(const CanaryDeploymentStage&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>StageCompleteCallback</name>
+        <qualifiedname>themis::updates::CanaryDeployment::StageCompleteCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="418" column="5" bodyfile="include/updates/canary_rollout.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>using themis::updates::CanaryDeployment::RollbackCallback = 
+std::function&lt;void(const std::string&amp; )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RollbackCallback</name>
+        <qualifiedname>themis::updates::CanaryDeployment::RollbackCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="420" column="5" bodyfile="include/updates/canary_rollout.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1ae746c7460d9d6f13d33f7ea514e4e28c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::CanaryDeployment::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="599" column="24" bodyfile="include/updates/canary_rollout.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1ad6d90f31ddc5d084099df66fa7763b85" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryDeployment::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="602" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="602" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1ad1ce7913c281b091bde537fda10b0382" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryDeployment::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="603" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1ad644b374bd78a446e9301d633d3d5dd2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref> &gt;</type>
+        <definition>std::vector&lt;CanaryDeploymentStage&gt; themis::updates::CanaryDeployment::stages_</definition>
+        <argsstring></argsstring>
+        <name>stages_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::stages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="604" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a868d992a772043a6ba80bc1866fb5580" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryDeployment::error_rate_threshold_</definition>
+        <argsstring></argsstring>
+        <name>error_rate_threshold_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::error_rate_threshold_</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="605" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="605" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a9fb091608451a8cb3bde48aa79f6d9d7" prot="private" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::updates::CanaryDeployment::latency_threshold_us_</definition>
+        <argsstring></argsstring>
+        <name>latency_threshold_us_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::latency_threshold_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="606" column="31" bodyfile="include/updates/canary_rollout.h" bodystart="606" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1af6a9d24314f050ca9e75e40178b2dd42" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HotReloadEngine&gt; themis::updates::CanaryDeployment::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="607" column="21" bodyfile="include/updates/canary_rollout.h" bodystart="607" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1afd4a9d6eaa0fded49c06a7bca04a35a9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_canary_rollout" kindref="compound">CanaryRollout</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CanaryRollout&gt; themis::updates::CanaryDeployment::rollout_</definition>
+        <argsstring></argsstring>
+        <name>rollout_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::rollout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="610" column="21" bodyfile="include/updates/canary_rollout.h" bodystart="610" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1ae0b30e50c73aafbaa3f89d5c11d73b2f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" kindref="member">StageCompleteCallback</ref></type>
+        <definition>StageCompleteCallback themis::updates::CanaryDeployment::stage_complete_cb_</definition>
+        <argsstring></argsstring>
+        <name>stage_complete_cb_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::stage_complete_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="613" column="27" bodyfile="include/updates/canary_rollout.h" bodystart="613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a17b98356e11af7c9ffec760c6c820b73" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" kindref="member">RollbackCallback</ref></type>
+        <definition>RollbackCallback themis::updates::CanaryDeployment::rollback_cb_</definition>
+        <argsstring></argsstring>
+        <name>rollback_cb_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::rollback_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="614" column="22" bodyfile="include/updates/canary_rollout.h" bodystart="614" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a04fed9b746355d9fb2a9163642a2c903" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; int64_t &gt;</type>
+        <definition>std::deque&lt;int64_t&gt; themis::updates::CanaryDeployment::latency_samples_us_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_us_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::latency_samples_us_</qualifiedname>
+        <briefdescription>
+<para>Bounded circular reservoir (≤ 1000, O(1) push/pop). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="617" column="16" bodyfile="include/updates/canary_rollout.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a965951f6c155ce62ab33a8121651a508" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryDeployment::memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::memory_bytes_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="618" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="618" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a8d0e97b1978b5a6694303484c3a3a105" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryDeployment::cpu_fraction_</definition>
+        <argsstring></argsstring>
+        <name>cpu_fraction_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::cpu_fraction_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="619" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="619" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a88ecdc1972c9ce4a6f0bbe2a6c26aa29" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryDeployment::disk_io_bytes_per_sec_</definition>
+        <argsstring></argsstring>
+        <name>disk_io_bytes_per_sec_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::disk_io_bytes_per_sec_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="620" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="620" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a2d967dcc887505de640dfc9067836bbb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::updates::CanaryDeployment::custom_metrics_</definition>
+        <argsstring></argsstring>
+        <name>custom_metrics_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::custom_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="621" column="24" bodyfile="include/updates/canary_rollout.h" bodystart="621" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a4597173432a4259f35d4c2010a19b7ee" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::ab_testing_enabled_</definition>
+        <argsstring></argsstring>
+        <name>ab_testing_enabled_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::ab_testing_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="624" column="10" bodyfile="include/updates/canary_rollout.h" bodystart="624" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a41c0a4d52c43b84c2aea226995dae90b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref></type>
+        <definition>ABTestConfig themis::updates::CanaryDeployment::ab_config_</definition>
+        <argsstring></argsstring>
+        <name>ab_config_</name>
+        <qualifiedname>themis::updates::CanaryDeployment::ab_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="625" column="18" bodyfile="include/updates/canary_rollout.h" bodystart="625" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_canary_deployment_1a875aab19df57e8e2f8a1d6c04b637a87" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryDeployment::kMaxLatencySamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxLatencySamples</name>
+        <qualifiedname>themis::updates::CanaryDeployment::kMaxLatencySamples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="627" column="29" bodyfile="include/updates/canary_rollout.h" bodystart="627" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CanaryDeployment::CanaryDeployment</definition>
+        <argsstring>()</argsstring>
+        <name>CanaryDeployment</name>
+        <qualifiedname>themis::updates::CanaryDeployment::CanaryDeployment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="423" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a666ef0c19ae78558a279837fd81db470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CanaryDeployment::~CanaryDeployment</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CanaryDeployment</name>
+        <qualifiedname>themis::updates::CanaryDeployment::~CanaryDeployment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="424" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1af48a1c56380e884e0b9fed779cb4e87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CanaryDeployment::CanaryDeployment</definition>
+        <argsstring>(const CanaryDeployment &amp;)=delete</argsstring>
+        <name>CanaryDeployment</name>
+        <qualifiedname>themis::updates::CanaryDeployment::CanaryDeployment</qualifiedname>
+        <param>
+          <type>const CanaryDeployment &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="426" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1af1ad2a9f426d5fda216117b7a1199762" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref> &amp;</type>
+        <definition>CanaryDeployment &amp; themis::updates::CanaryDeployment::operator=</definition>
+        <argsstring>(const CanaryDeployment &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::CanaryDeployment::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="427" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1afdca88191b78f096c552f6e84931049f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CanaryDeployment::CanaryDeployment</definition>
+        <argsstring>(CanaryDeployment &amp;&amp;other) noexcept</argsstring>
+        <name>CanaryDeployment</name>
+        <qualifiedname>themis::updates::CanaryDeployment::CanaryDeployment</qualifiedname>
+        <param>
+          <type>CanaryDeployment &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="428" column="5" bodyfile="src/updates/canary_rollout.cpp" bodystart="422" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a7e67e3d5ce875d4bf8d448e6def9ec69" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref> &amp;</type>
+        <definition>CanaryDeployment &amp; themis::updates::CanaryDeployment::operator=</definition>
+        <argsstring>(CanaryDeployment &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::CanaryDeployment::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="429" column="22" bodyfile="src/updates/canary_rollout.cpp" bodystart="442" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a9438bacb0acfd9bc0249a51eb69b6f8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setVersion</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>setVersion</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Set the version string to deploy (e.g., &quot;1.5.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="436" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="477" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a824575896eba2504e44d52f7b7a20968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setStages</definition>
+        <argsstring>(std::vector&lt; CanaryDeploymentStage &gt; stages)</argsstring>
+        <name>setStages</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setStages</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref> &gt;</type>
+          <declname>stages</declname>
+        </param>
+        <briefdescription>
+<para>Set the rollout stages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Stages.</para>
+<para>stage_number is filled in automatically (0-based). The last stage must have percentage == 100 to guarantee full coverage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="444" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="487" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a5c22e0534fca3dda85771bd4053479ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setErrorRateThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>setErrorRateThreshold</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setErrorRateThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set the error-rate threshold that triggers auto-rollback (0–1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Error Rate Threshold.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="447" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="500" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a064ffcd28579f7077d8d2acf2efbdb49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setLatencyThreshold</definition>
+        <argsstring>(std::chrono::milliseconds p99_limit)</argsstring>
+        <name>setLatencyThreshold</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setLatencyThreshold</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>p99_limit</declname>
+        </param>
+        <briefdescription>
+<para>Set the p99 latency threshold that triggers auto-rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Latency Threshold.</para>
+<para>Checked each time <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8ee3b48dc8f2d6fcf94d46c08dae8f28" kindref="member">reportLatency()</ref> is called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p99_limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="454" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="510" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a3157213cc9a662878dcddd893dae0fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setEngine</definition>
+        <argsstring>(std::shared_ptr&lt; HotReloadEngine &gt; engine)</argsstring>
+        <name>setEngine</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Provide the <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> used to apply / rollback the update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="457" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="521" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a50f24de30f6aac94cc24b30a524dd770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::setNodeId</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>setNodeId</name>
+        <qualifiedname>themis::updates::CanaryDeployment::setNodeId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Set the stable node identifier used for canary-group membership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Node Id.</para>
+<para>If not set, <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8f900212ca7e571b50bfa4d11a2361e8" kindref="member">deploy()</ref> will throw std::invalid_argument.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="464" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="531" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a8f900212ca7e571b50bfa4d11a2361e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref></type>
+        <definition>ReloadResult themis::updates::CanaryDeployment::deploy</definition>
+        <argsstring>()</argsstring>
+        <name>deploy</name>
+        <qualifiedname>themis::updates::CanaryDeployment::deploy</qualifiedname>
+        <briefdescription>
+<para>Start the canary deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deploy.</para>
+<para>Validates configuration, creates an internal <ref refid="classthemis_1_1updates_1_1_canary_rollout" kindref="compound">CanaryRollout</ref>, and calls applyIfIncluded() for this node.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref> from <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref>, or a skipped result when this node is not in the first canary stage.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if version, node_id, engine, or stages are missing / invalid.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), push_back(), setStageCompleteCallback(), size(), cb(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, setRollbackCallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="482" column="18" bodyfile="src/updates/canary_rollout.cpp" bodystart="546" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a0ac53413567c4bb4d5fbee32437d20bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::onStageComplete</definition>
+        <argsstring>(StageCompleteCallback cb)</argsstring>
+        <name>onStageComplete</name>
+        <qualifiedname>themis::updates::CanaryDeployment::onStageComplete</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" kindref="member">StageCompleteCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked when a stage completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Stage Complete.</para>
+<para>The callback receives a copy of the <ref refid="structthemis_1_1updates_1_1_canary_deployment_stage" kindref="compound">CanaryDeploymentStage</ref> that just finished (including the stage_number and percentage).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="494" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="651" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a80e3e2d4c19eedf0027557a2cc2770c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::onRollback</definition>
+        <argsstring>(RollbackCallback cb)</argsstring>
+        <name>onRollback</name>
+        <qualifiedname>themis::updates::CanaryDeployment::onRollback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" kindref="member">RollbackCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked when the rollout is rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the human-readable reason string.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="500" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="661" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1adc2a103a74892d6c479668ac92288e66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>reportSuccess</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportSuccess</qualifiedname>
+        <briefdescription>
+<para>Record one successful operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Success.</para>
+<para>Calls: lock(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="507" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="674" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1acbdc599fc4575af1ee1ecabd90c412e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportError</definition>
+        <argsstring>()</argsstring>
+        <name>reportError</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportError</qualifiedname>
+        <briefdescription>
+<para>Record one failed operation (may trigger auto-rollback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Error.</para>
+<para>Calls: lock(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="510" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="691" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a8ee3b48dc8f2d6fcf94d46c08dae8f28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportLatency</definition>
+        <argsstring>(std::chrono::microseconds latency)</argsstring>
+        <name>reportLatency</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportLatency</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>latency</declname>
+        </param>
+        <briefdescription>
+<para>Feed a latency sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Latency.</para>
+<para>Samples are stored in a bounded reservoir (max 1000 entries). Percentiles are recomputed lazily when <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a2ed45cbd69b3bee13504a68fc74243f8" kindref="member">getMetricsSnapshot()</ref> is called. If the p99 of the current reservoir exceeds the configured latency threshold, rollback is triggered automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), pop_front(), push_back(), count(), checkLatencyThreshold(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="520" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="709" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a9b9a36db16ff87917cfb38a957628145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportMemoryUsage</definition>
+        <argsstring>(double bytes)</argsstring>
+        <name>reportMemoryUsage</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportMemoryUsage</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update the latest memory-usage reading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Memory Usage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="523" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="726" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a5f935f2f064110c11551dc5c218e619a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportCpuUsage</definition>
+        <argsstring>(double fraction)</argsstring>
+        <name>reportCpuUsage</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportCpuUsage</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>fraction</declname>
+        </param>
+        <briefdescription>
+<para>Update the latest CPU-utilisation reading (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Cpu Usage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fraction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="526" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="736" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1afa50302ad6bc11550e4e80686b3d716e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::reportDiskIO</definition>
+        <argsstring>(double bytes_per_sec)</argsstring>
+        <name>reportDiskIO</name>
+        <qualifiedname>themis::updates::CanaryDeployment::reportDiskIO</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>bytes_per_sec</declname>
+        </param>
+        <briefdescription>
+<para>Update the latest disk I/O throughput reading (bytes/s). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Disk IO.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="529" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="746" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a67f4f7019a11753ede92f376b2970a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::recordCustomMetric</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>recordCustomMetric</name>
+        <qualifiedname>themis::updates::CanaryDeployment::recordCustomMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Record (or update) a named custom metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Custom Metric.</para>
+<para>Custom metrics appear in the <ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" kindref="compound">CanaryMetricsSnapshot</ref> and are useful for domain-specific signals like query-error rates or transaction failures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="537" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="757" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a358fa5174fd87231f68baed2dbe63f30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::enableABTesting</definition>
+        <argsstring>(const ABTestConfig &amp;config)</argsstring>
+        <name>enableABTesting</name>
+        <qualifiedname>themis::updates::CanaryDeployment::enableABTesting</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Enable A/B testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> A/B testing and traffic splitting ------------------------------------------------------------------------<mdash/></para>
+<para>Once enabled, <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8b4112b2d8e8015fecb5a8262906e2dd" kindref="member">isCanaryRequest()</ref> / <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a404381d316ebb8a027010b73f7894a2b" kindref="member">isControlRequest()</ref> can be used to deterministically route individual requests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="549" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="768" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a8b4112b2d8e8015fecb5a8262906e2dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::isCanaryRequest</definition>
+        <argsstring>(const std::string &amp;request_id) const</argsstring>
+        <name>isCanaryRequest</name>
+        <qualifiedname>themis::updates::CanaryDeployment::isCanaryRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the given request key should be routed to the canary (new-version) path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a deterministic hash of (request_id + experiment_id) so that the same request always lands in the same bucket.</para>
+<para>Returns false when A/B testing is not enabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="560" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="774" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a404381d316ebb8a027010b73f7894a2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::isControlRequest</definition>
+        <argsstring>(const std::string &amp;request_id) const</argsstring>
+        <name>isControlRequest</name>
+        <qualifiedname>themis::updates::CanaryDeployment::isControlRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the given request key should be routed to the control (old-version) path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="566" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="790" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a1fbd2d9e08426a94f9d5624f7553183f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::isNodeInCanaryGroup</definition>
+        <argsstring>() const</argsstring>
+        <name>isNodeInCanaryGroup</name>
+        <qualifiedname>themis::updates::CanaryDeployment::isNodeInCanaryGroup</qualifiedname>
+        <briefdescription>
+<para>Return true if this node is in the canary group for the current rollout stage (delegates to <ref refid="classthemis_1_1updates_1_1_canary_rollout_1a59e16c2b1c14ad8e283d6b288facb5e7" kindref="member">CanaryRollout::isNodeInCurrentStage</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false before <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a8f900212ca7e571b50bfa4d11a2361e8" kindref="member">deploy()</ref> is called. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="574" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="794" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a2ed45cbd69b3bee13504a68fc74243f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" kindref="compound">CanaryMetricsSnapshot</ref></type>
+        <definition>CanaryMetricsSnapshot themis::updates::CanaryDeployment::getMetricsSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsSnapshot</name>
+        <qualifiedname>themis::updates::CanaryDeployment::getMetricsSnapshot</qualifiedname>
+        <briefdescription>
+<para>Get a snapshot of metrics collected since the last stage advance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="581" column="27" bodyfile="src/updates/canary_rollout.cpp" bodystart="842" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a1c14579be04f3f307d258c0e06bf51e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_canary_status" kindref="compound">CanaryStatus</ref></type>
+        <definition>CanaryStatus themis::updates::CanaryDeployment::status</definition>
+        <argsstring>() const</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::updates::CanaryDeployment::status</qualifiedname>
+        <briefdescription>
+<para>Get a snapshot of the rollout state (delegates to <ref refid="classthemis_1_1updates_1_1_canary_rollout" kindref="compound">CanaryRollout</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="584" column="18" bodyfile="src/updates/canary_rollout.cpp" bodystart="875" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a80b12b2a9208ea5cb90c01eb0958ebbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::advanceStage</definition>
+        <argsstring>()</argsstring>
+        <name>advanceStage</name>
+        <qualifiedname>themis::updates::CanaryDeployment::advanceStage</qualifiedname>
+        <briefdescription>
+<para>Manually advance to the next stage (delegates to <ref refid="classthemis_1_1updates_1_1_canary_rollout" kindref="compound">CanaryRollout</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance Stage.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="587" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="895" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1ae769c62a6226ec58aa189f2559594cf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryDeployment::rollback</definition>
+        <argsstring>(const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::updates::CanaryDeployment::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Manually roll back the deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="590" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="913" bodyend="923"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1ad5bcf4de8b850af52efaf19bf0f150d5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_latency_stats" kindref="compound">LatencyStats</ref></type>
+        <definition>LatencyStats themis::updates::CanaryDeployment::computeLatencyStats</definition>
+        <argsstring>() const</argsstring>
+        <name>computeLatencyStats</name>
+        <qualifiedname>themis::updates::CanaryDeployment::computeLatencyStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="594" column="18" bodyfile="src/updates/canary_rollout.cpp" bodystart="811" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_canary_deployment_1a1c06edb4a43d64be561f919432408676" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CanaryDeployment::checkLatencyThreshold</definition>
+        <argsstring>()</argsstring>
+        <name>checkLatencyThreshold</name>
+        <qualifiedname>themis::updates::CanaryDeployment::checkLatencyThreshold</qualifiedname>
+        <briefdescription>
+<para>Check Latency Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), count(), computeLatencyStats(), <ref refid="classthemis_1_1updates_1_1_canary_deployment_1a1c14579be04f3f307d258c0e06bf51e0" kindref="member">status()</ref>, std::to_string(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, <ref refid="classthemis_1_1updates_1_1_canary_deployment_1ae769c62a6226ec58aa189f2559594cf5" kindref="member">rollback()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="597" column="10" bodyfile="src/updates/canary_rollout.cpp" bodystart="933" bodyend="960"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Higher-level canary deployment controller (Issue #4046). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps <ref refid="classthemis_1_1updates_1_1_canary_rollout" kindref="compound">CanaryRollout</ref> with:<itemizedlist>
+<listitem><para>Builder-pattern configuration API (setVersion, setStages, …)</para>
+</listitem><listitem><para>Latency percentile tracking (p50 / p95 / p99)</para>
+</listitem><listitem><para>Scalar metric collection (memory, CPU, disk I/O)</para>
+</listitem><listitem><para>Custom metric registration</para>
+</listitem><listitem><para>A/B testing and traffic splitting</para>
+</listitem><listitem><para>Automatic rollback on latency-threshold breach</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" kindref="member">CanaryDeployment</ref><sp/>canary;</highlight></codeline>
+<codeline><highlight class="normal">canary.setVersion(</highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">canary.setStages({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.percentage<sp/>=<sp/>1,<sp/><sp/><sp/>.duration<sp/>=<sp/>std::chrono::hours(1)},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.percentage<sp/>=<sp/>5,<sp/><sp/><sp/>.duration<sp/>=<sp/>std::chrono::hours(2)},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.percentage<sp/>=<sp/>25,<sp/><sp/>.duration<sp/>=<sp/>std::chrono::hours(6)},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{.percentage<sp/>=<sp/>100,<sp/>.duration<sp/>=<sp/>std::chrono::hours(0)},</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">canary.setErrorRateThreshold(0.05);</highlight></codeline>
+<codeline><highlight class="normal">canary.setLatencyThreshold(std::chrono::milliseconds(500));</highlight></codeline>
+<codeline><highlight class="normal">canary.setEngine(hot_reload_engine);</highlight></codeline>
+<codeline><highlight class="normal">canary.setNodeId(hostname);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>canary.deploy();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">canary.onStageComplete([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CanaryDeploymentStage&amp;<sp/>stage)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO</ref>(</highlight><highlight class="stringliteral">&quot;Stage<sp/>{}<sp/>complete:<sp/>{}%<sp/>of<sp/>nodes<sp/>updated&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stage.stage_number,<sp/>stage.percentage);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">canary.onRollback([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR</ref>(</highlight><highlight class="stringliteral">&quot;Canary<sp/>deployment<sp/>rolled<sp/>back:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>reason);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="416" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="416" bodyend="628"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a41c0a4d52c43b84c2aea226995dae90b" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>ab_config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a4597173432a4259f35d4c2010a19b7ee" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>ab_testing_enabled_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a80b12b2a9208ea5cb90c01eb0958ebbe" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>advanceStage</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1afe713e8c418cca868aa5e2d571c1f936" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>CanaryDeployment</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1af48a1c56380e884e0b9fed779cb4e87e" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>CanaryDeployment</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1afdca88191b78f096c552f6e84931049f" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>CanaryDeployment</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a1c06edb4a43d64be561f919432408676" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>checkLatencyThreshold</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ad5bcf4de8b850af52efaf19bf0f150d5" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>computeLatencyStats</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a8d0e97b1978b5a6694303484c3a3a105" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>cpu_fraction_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a2d967dcc887505de640dfc9067836bbb" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>custom_metrics_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a8f900212ca7e571b50bfa4d11a2361e8" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>deploy</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a88ecdc1972c9ce4a6f0bbe2a6c26aa29" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>disk_io_bytes_per_sec_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a358fa5174fd87231f68baed2dbe63f30" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>enableABTesting</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1af6a9d24314f050ca9e75e40178b2dd42" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a868d992a772043a6ba80bc1866fb5580" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>error_rate_threshold_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a2ed45cbd69b3bee13504a68fc74243f8" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>getMetricsSnapshot</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a8b4112b2d8e8015fecb5a8262906e2dd" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>isCanaryRequest</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a404381d316ebb8a027010b73f7894a2b" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>isControlRequest</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a1fbd2d9e08426a94f9d5624f7553183f" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>isNodeInCanaryGroup</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a875aab19df57e8e2f8a1d6c04b637a87" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>kMaxLatencySamples</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a04fed9b746355d9fb2a9163642a2c903" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>latency_samples_us_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a9fb091608451a8cb3bde48aa79f6d9d7" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>latency_threshold_us_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a965951f6c155ce62ab33a8121651a508" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>memory_bytes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ae746c7460d9d6f13d33f7ea514e4e28c" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ad1ce7913c281b091bde537fda10b0382" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a80e3e2d4c19eedf0027557a2cc2770c1" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>onRollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a0ac53413567c4bb4d5fbee32437d20bf" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>onStageComplete</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1af1ad2a9f426d5fda216117b7a1199762" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a7e67e3d5ce875d4bf8d448e6def9ec69" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a67f4f7019a11753ede92f376b2970a23" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>recordCustomMetric</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a5f935f2f064110c11551dc5c218e619a" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportCpuUsage</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1afa50302ad6bc11550e4e80686b3d716e" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportDiskIO</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1acbdc599fc4575af1ee1ecabd90c412e6" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportError</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a8ee3b48dc8f2d6fcf94d46c08dae8f28" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportLatency</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a9b9a36db16ff87917cfb38a957628145" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportMemoryUsage</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1adc2a103a74892d6c479668ac92288e66" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>reportSuccess</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ae769c62a6226ec58aa189f2559594cf5" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a17b98356e11af7c9ffec760c6c820b73" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>rollback_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1aaa5f769179530f9ab1b704b93108ec7f" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>RollbackCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1afd4a9d6eaa0fded49c06a7bca04a35a9" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>rollout_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a3157213cc9a662878dcddd893dae0fa2" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setEngine</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a5c22e0534fca3dda85771bd4053479ec" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setErrorRateThreshold</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a064ffcd28579f7077d8d2acf2efbdb49" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setLatencyThreshold</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a50f24de30f6aac94cc24b30a524dd770" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setNodeId</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a824575896eba2504e44d52f7b7a20968" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setStages</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a9438bacb0acfd9bc0249a51eb69b6f8c" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>setVersion</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ae0b30e50c73aafbaa3f89d5c11d73b2f" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>stage_complete_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ab4297b88c97a0b1004b33cd911a6d975" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>StageCompleteCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ad644b374bd78a446e9301d633d3d5dd2" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>stages_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a1c14579be04f3f307d258c0e06bf51e0" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>status</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1ad6d90f31ddc5d084099df66fa7763b85" prot="private" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>version_</name></member>
+      <member refid="classthemis_1_1updates_1_1_canary_deployment_1a666ef0c19ae78558a279837fd81db470" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeployment</scope><name>~CanaryDeployment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

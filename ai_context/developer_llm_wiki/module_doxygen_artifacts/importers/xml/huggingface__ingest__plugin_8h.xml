@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="huggingface__ingest__plugin_8h" kind="file" language="C++">
+    <compoundname>huggingface_ingest_plugin.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="huggingface__ingest__plugin_8cpp" local="yes">src/importers/huggingface_ingest_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/huggingface_ingest_plugin.h</label>
+        <link refid="huggingface__ingest__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/huggingface_ingest_plugin.h</label>
+        <link refid="huggingface__ingest__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/huggingface_ingest_plugin.cpp</label>
+        <link refid="huggingface__ingest__plugin_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_config" prot="public">themis::importers::HuggingFaceIngestConfig</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_import_request" prot="public">themis::importers::HuggingFaceImportRequest</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_update_request" prot="public">themis::importers::HuggingFaceUpdateRequest</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_ingestion_report" prot="public">themis::importers::IngestionReport</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_validation_report" prot="public">themis::importers::ValidationReport</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_ada_lora_export_request" prot="public">themis::importers::AdaLoraExportRequest</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_ada_lora_export_report" prot="public">themis::importers::AdaLoraExportReport</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin" prot="public">themis::importers::HuggingFaceIngestPlugin</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document" prot="private">themis::importers::HuggingFaceIngestPlugin::LegalDocument</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_annotation" prot="private">themis::importers::HuggingFaceIngestPlugin::LegalAnnotation</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_training_example" prot="private">themis::importers::HuggingFaceIngestPlugin::TrainingExample</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_compliance_audit" prot="private">themis::importers::HuggingFaceIngestPlugin::ComplianceAudit</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record" prot="private">themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_process_event" prot="private">themis::importers::HuggingFaceIngestPlugin::ProcessEvent</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_timeseries_metric" prot="private">themis::importers::HuggingFaceIngestPlugin::TimeseriesMetric</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_projection_state" prot="private">themis::importers::HuggingFaceIngestPlugin::ProjectionState</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_normalization_result" prot="private">themis::importers::HuggingFaceIngestPlugin::NormalizationResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>HuggingFace dataset ingestion plugin for legal training data pipelines. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">themis::importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75b" kindref="member">AdaLoraExportFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba52e7f967cf4d218b5c0dbf4b01593dba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba52e7f967cf4d218b5c0dbf4b01593dba" kindref="member">INSTRUCTION_TUNING</ref>,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba0127e4d181f3b09a77c1896b64aee09f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba0127e4d181f3b09a77c1896b64aee09f" kindref="member">PROMPT_RESPONSE</ref></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config" kindref="compound">HuggingFaceIngestConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7d5dc47eacd5bc15cb1f554326b7db5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7d5dc47eacd5bc15cb1f554326b7db5e" kindref="member">dataset_name</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7f84eb44d1845409c0b65b10614ffdfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7f84eb44d1845409c0b65b10614ffdfa" kindref="member">default_split</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a35312085a2a6531cc66d5a0e68d49583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a35312085a2a6531cc66d5a0e68d49583" kindref="member">allowed_licenses</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;cc-by-4.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;mit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apache-2.0&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a898a3ba179915713b29125a6c9b255a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a898a3ba179915713b29125a6c9b255a9" kindref="member">strict_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aeebcb2eee5b594bdfaaf8b64b994f1cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aeebcb2eee5b594bdfaaf8b64b994f1cf" kindref="member">deterministic_export</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a19a4b30c9bf24c834431007a3d4cf84a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a19a4b30c9bf24c834431007a3d4cf84a" kindref="member">min_quality_text_length</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a002e52d4751485e8335a758926726777" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a002e52d4751485e8335a758926726777" kindref="member">checkpoint_every</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a744ea34d193a88f839910cd1e7aa563f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(std::string_view)&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a744ea34d193a88f839910cd1e7aa563f" kindref="member">license_gate_hook</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa26151ce6032e84b43f333dfdf098e42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(std::string_view)&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa26151ce6032e84b43f333dfdf098e42" kindref="member">pii_redaction_hook</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa7249baea8a79220bcbc01e29a748060" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;double(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa7249baea8a79220bcbc01e29a748060" kindref="member">quality_score_hook</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1af661936eeb4ae0fa4945e344bc10a82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1af661936eeb4ae0fa4945e344bc10a82a" kindref="member">near_duplicate_hook</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1afc4568b60661253bb0d604b7eaa482fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(std::string_view,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;)&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1afc4568b60661253bb0d604b7eaa482fe" kindref="member">embedding_sink_hook</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1importers_1_1_hugging_face_import_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request" kindref="compound">HuggingFaceImportRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a80977f676c1776d505a6e23745da4237" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a80977f676c1776d505a6e23745da4237" kindref="member">dataset_name</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a6c352416d20fbaa4568b7088e96d5152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a6c352416d20fbaa4568b7088e96d5152" kindref="member">split</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a9b3f8bd8d4dc13473030830e2efbb3c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a9b3f8bd8d4dc13473030830e2efbb3c9" kindref="member">snapshot_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a3f3a1c58dfb309d3675f4e47d12cdf11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a3f3a1c58dfb309d3675f4e47d12cdf11" kindref="member">seed_rows</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a61e84eeec0ed1ffa51b4131621e8df68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request_1a61e84eeec0ed1ffa51b4131621e8df68" kindref="member">resume_from_checkpoint</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1importers_1_1_hugging_face_update_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request" kindref="compound">HuggingFaceUpdateRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1importers_1_1_hugging_face_update_request_1ae5168f87d059493fe3192f6c622752ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request_1ae5168f87d059493fe3192f6c622752ce" kindref="member">dataset_name</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a98d7775ed9a1ab0bdf7d4d248aa6db9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a98d7775ed9a1ab0bdf7d4d248aa6db9b" kindref="member">split</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a01fa7d4303680f31696d044ab1f9f39a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a01fa7d4303680f31696d044ab1f9f39a" kindref="member">update_token</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a71e4b14560dbef1cc39b1d765879b22a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a71e4b14560dbef1cc39b1d765879b22a" kindref="member">changed_rows</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a3bc402e0c88d7aa3ba4f9d42ce790368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a3bc402e0c88d7aa3ba4f9d42ce790368" kindref="member">resume_from_checkpoint</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1importers_1_1_ingestion_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_ingestion_report" kindref="compound">IngestionReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1importers_1_1_ingestion_report_1a506a51a47362f0cfd4ea557355354400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1a506a51a47362f0cfd4ea557355354400" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1importers_1_1_ingestion_report_1a28ccf1ea5a53ed99b20ac396cbdefbf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1a28ccf1ea5a53ed99b20ac396cbdefbf3" kindref="member">imported_documents</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1importers_1_1_ingestion_report_1ad57885f1e2685c2b00e498706967b545" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1ad57885f1e2685c2b00e498706967b545" kindref="member">failed_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1importers_1_1_ingestion_report_1a9db46d0d34f08e0c9ca5f1471c513192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1a9db46d0d34f08e0c9ca5f1471c513192" kindref="member">dirty_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1importers_1_1_ingestion_report_1a1278d1c888a3c4d2168e1fe8444c8309" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1a1278d1c888a3c4d2168e1fe8444c8309" kindref="member">checkpoint_token</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1importers_1_1_ingestion_report_1a93d64bcde250b73eba1bd0b47c310cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report_1a93d64bcde250b73eba1bd0b47c310cb2" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1importers_1_1_validation_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_validation_report" kindref="compound">ValidationReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1importers_1_1_validation_report_1a123d42ba4afdad3c46114456ed9cb7af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_validation_report_1a123d42ba4afdad3c46114456ed9cb7af" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1importers_1_1_validation_report_1a6e12ca0393cb09e0bd7276057d8ece65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_validation_report_1a6e12ca0393cb09e0bd7276057d8ece65" kindref="member">checked_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1importers_1_1_validation_report_1abfa2013433dcd15e54ef13017a1b67c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_validation_report_1abfa2013433dcd15e54ef13017a1b67c4" kindref="member">failed_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1importers_1_1_validation_report_1abe6c9f3503aa1d8298a7a416cd283dbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_validation_report_1abe6c9f3503aa1d8298a7a416cd283dbe" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1importers_1_1_ada_lora_export_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request" kindref="compound">AdaLoraExportRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a4629d15065c55350efd63b6b082522e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a4629d15065c55350efd63b6b082522e1" kindref="member">output_path</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a68ecd9ad503d1bdfb9e20a169f0c8dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75b" kindref="member">AdaLoraExportFormat</ref><sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a68ecd9ad503d1bdfb9e20a169f0c8dc0" kindref="member">format</ref><sp/>=<sp/><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba52e7f967cf4d218b5c0dbf4b01593dba" kindref="member">AdaLoraExportFormat::INSTRUCTION_TUNING</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1importers_1_1_ada_lora_export_request_1ade6894a766a97e582b297c0ae613b4db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request_1ade6894a766a97e582b297c0ae613b4db" kindref="member">include_system_field</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1importers_1_1_ada_lora_export_request_1adda3dee3a070088ff2a176c8478a3434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request_1adda3dee3a070088ff2a176c8478a3434" kindref="member">system_prompt</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1importers_1_1_ada_lora_export_request_1abd4538979e04f75fb13990ce9f7571d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request_1abd4538979e04f75fb13990ce9f7571d2" kindref="member">deterministic</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1importers_1_1_ada_lora_export_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report" kindref="compound">AdaLoraExportReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1importers_1_1_ada_lora_export_report_1aa828212007b6773584ab02fd92ac010c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report_1aa828212007b6773584ab02fd92ac010c" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a2c0f3df414dba88ee0f0874cf50c2c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a2c0f3df414dba88ee0f0874cf50c2c01" kindref="member">output_path</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a9b2e42b6fb173df3d7ceb07f4f3bc035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a9b2e42b6fb173df3d7ceb07f4f3bc035" kindref="member">exported_examples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a21329d8387e69096d10765673408d456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a21329d8387e69096d10765673408d456" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1adbca6d3b7baa2a28368cb3de7945ad14" kindref="member">HuggingFaceIngestPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1adbca6d3b7baa2a28368cb3de7945ad14" kindref="member">HuggingFaceIngestPlugin</ref>(<ref refid="structthemis_1_1importers_1_1_hugging_face_ingest_config" kindref="compound">HuggingFaceIngestConfig</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1abd0133becd07fe2b84cf3f42d98f2491" kindref="member">init</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1ab3389f0b7e97d062c3a668c2a485cb8a" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report" kindref="compound">IngestionReport</ref><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a1c50c6e314ee15d48eeca3c01e6344df" kindref="member">runFullImport</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_import_request" kindref="compound">HuggingFaceImportRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1importers_1_1_ingestion_report" kindref="compound">IngestionReport</ref><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1ab7d5c533a93bb797e3447c3c2df94529" kindref="member">runIncrementalUpdate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_hugging_face_update_request" kindref="compound">HuggingFaceUpdateRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1importers_1_1_validation_report" kindref="compound">ValidationReport</ref><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a1a851ec280579b5a96614de20c569d20" kindref="member">validateQuality</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_report" kindref="compound">AdaLoraExportReport</ref><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a18bc485c503d9012e2fa870685c52e28" kindref="member">exportAdaLoraJsonl</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_ada_lora_export_request" kindref="compound">AdaLoraExportRequest</ref>&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a650cf120897818ef2e59957470fcd821" kindref="member">canonicalTableNames</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a2910fb34b30ee0ca01d89b1f8b06425b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a2910fb34b30ee0ca01d89b1f8b06425b" kindref="member">isInitialized</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;<sp/>}</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a521a39a830b8e7c70d1bacffb6fde1a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1a521a39a830b8e7c70d1bacffb6fde1a6" kindref="member">deadLetterCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dead_letter_records_.size();<sp/>}</highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1aa5807aeb6f506bd2dc43dc97af9ff732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_hugging_face_ingest_plugin_1aa5807aeb6f506bd2dc43dc97af9ff732" kindref="member">checkpointToken</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checkpoint_token_;<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">LegalDocument<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>id;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>dataset_name;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>split;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>jurisdiction;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>court;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>topic;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>language;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>issued_at;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">LegalAnnotation<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>document_id;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>label_type;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>label_value;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>confidence<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TrainingExample<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>example_id;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>document_id;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>split;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>instruction;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>input;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>system;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>quality_score<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ComplianceAudit<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>document_id;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>license_passed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>redaction_applied<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>notes;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DeadLetterRecord<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>dataset_name;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>reason;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>record;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ProcessEvent<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>event_type;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>document_id;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>details;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TimeseriesMetric<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>bucket_epoch_seconds<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>ingested<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>rejected<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ProjectionState<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::tuple&lt;std::string,<sp/>std::string,<sp/>std::string&gt;&gt;<sp/>graph_edges;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessEvent&gt;<sp/>process_events;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::int64_t,<sp/>TimeseriesMetric&gt;<sp/>timeseries_metrics;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">NormalizationResult<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LegalDocument<sp/>document;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;LegalAnnotation&gt;<sp/>annotations;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ComplianceAudit<sp/>audit;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>error;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/>fetchRawRows(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HuggingFaceImportRequest&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/>fetchRawRows(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HuggingFaceUpdateRequest&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>NormalizationResult<sp/>normalizeLegalRecord(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>row,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>dataset_name,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>split,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>row_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeQualityScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>raw_row,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LegalDocument&amp;<sp/>document)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildLeakageSensitiveSplit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LegalDocument&amp;<sp/>document)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>projectDocument(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LegalDocument&amp;<sp/>document,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LegalAnnotation&gt;&amp;<sp/>annotations);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>upsertCanonical(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NormalizationResult&amp;<sp/>normalized,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">*<sp/>inserted);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateCheckpoint(std::size_t<sp/>processed_records);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isDuplicate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LegalDocument&amp;<sp/>document)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>HuggingFaceIngestConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>checkpoint_token_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint:0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>checkpoint_counter_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>LegalDocument&gt;<sp/>legal_documents_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;LegalAnnotation&gt;&gt;<sp/>legal_annotations_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TrainingExample&gt;<sp/>training_examples_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ComplianceAudit&gt;<sp/>compliance_audits_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>hf_dataset_catalog_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>dirty_record_ids_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeadLetterRecord&gt;<sp/>dead_letter_records_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ProjectionState<sp/>projections_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>text_hash_by_document_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::importers</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/huggingface_ingest_plugin.h"/>
+  </compounddef>
+</doxygen>

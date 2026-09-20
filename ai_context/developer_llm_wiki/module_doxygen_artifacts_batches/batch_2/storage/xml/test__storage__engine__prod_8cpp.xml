@@ -1,0 +1,770 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__engine__prod_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_engine_prod.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="storage__engine_8h" local="yes">storage/storage_engine.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_engine_prod.cpp</label>
+        <link refid="test__storage__engine__prod_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="24">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstddef</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>filesystem</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="5">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="6">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="4">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="23">
+        <label>utility</label>
+      </node>
+      <node id="18">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_storage_engine_prod_test" prot="public">StorageEngineProdTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, OpenAlreadyOpen_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>OpenAlreadyOpen_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="65" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a157b701d6c278a8ed0b3956330c6bc2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, CloseAndReopenSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>CloseAndReopenSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="70" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a114f2ea30c70e6789045c3538eda1507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, PutGetRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>PutGetRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="80" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1abb7dc2135a5677510e44b3243bf9dcf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, Get_MissingKey_ReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>Get_MissingKey_ReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="88" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a4d8e078bf9fd87805a66cd4ad3ae9c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, Del_RemovesKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>Del_RemovesKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="93" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a7837814b808e4af58bc537b8b252e20c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, Put_Overwrite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>Put_Overwrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="101" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1aa63c47c050e24d17d537c7ad3a0715dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanRange_InOrder)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanRange_InOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="114" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="114" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a77ce707549533f873d779d76bbd3997e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanRange_HalfOpen_EndExclusive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanRange_HalfOpen_EndExclusive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="135" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="135" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a5937133d6f325d52b3a424bdc384c7cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanRange_EarlyStop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanRange_EarlyStop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="149" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="149" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1ad5a62cbce41c405bf79a47b00aa5069f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanRange_EmptyResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanRange_EmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="159" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a71e95322ca33ae254abe067ccc7ecc0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanRange_FullKeyspace)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanRange_FullKeyspace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="168" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="168" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a72c6691b30450d1d9f656ad606e91a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanPrefix_FindsMatchingKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanPrefix_FindsMatchingKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="184" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="184" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a63ecc744bdda9905924bf8133ec70cc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanPrefix_NoMatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanPrefix_NoMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="205" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="205" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a6bb39f08843b1aab9cae013489dae432" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ScanPrefix_EarlyStop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ScanPrefix_EarlyStop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="216" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="216" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a2f085546137825c2869f2f82ad9fae1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ClosedEngine_PutFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ClosedEngine_PutFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="232" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="232" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a3eb19ca677946ffe99c2328d7c5cda26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ClosedEngine_GetFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ClosedEngine_GetFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="237" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="237" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a52f8425a4f2de13e00b29a79798b6671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ClosedEngine_DelFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ClosedEngine_DelFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="242" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="242" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__prod_8cpp_1a39634c00768a1e754107d5332e6bfcc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineProdTest, ClosedEngine_ScanRangeFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref></type>
+        </param>
+        <param>
+          <type>ClosedEngine_ScanRangeFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="247" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="247" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Additional<sp/>tests<sp/>for<sp/>the<sp/>StorageEngine<sp/>after<sp/>production-readiness<sp/>improvements:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>open/close<sp/>lifecycle<sp/>backed<sp/>by<sp/>real<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>put<sp/>/<sp/>get<sp/>/<sp/>del<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Key-not-found<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>scanRange<sp/>–<sp/>ordered<sp/>iteration,<sp/>open-ended<sp/>bounds,<sp/>predicate<sp/>early-stop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>scanPrefix<sp/>–<sp/>prefix<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__engine_8h" kindref="compound">storage/storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_storage_engine_prod_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_engine_prod_test_1af4bcfdc83f56defa94db7671dd312a71" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_storage_prod_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref><sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref>-&gt;open(<ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref>).has_value())</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>StorageEngine<sp/>at:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_engine_prod_test_1acc04d7d15d833acaca87a51a990aa5a2" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>sorted<sp/>set<sp/>of<sp/>keys:<sp/>prefix<sp/>+<sp/>2-digit<sp/>suffix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_engine_prod_test_1a66035334d48c17a6d879bab558f8e272" kindref="member">insertRange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>from,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>to)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>from;<sp/>i<sp/>&lt;<sp/>to;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>k<sp/>=<sp/>prefix<sp/>+<sp/>(i<sp/>&lt;<sp/>10<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref>-&gt;put(k,<sp/></highlight><highlight class="stringliteral">&quot;val_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)).has_value());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" kindref="member">db_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;StorageEngine&gt;<sp/><ref refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>OpenAlreadyOpen_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;open(db_path_);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>error<sp/>on<sp/>double-open&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>CloseAndReopenSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;close();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;open(db_path_);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Reopen<sp/>after<sp/>close<sp/>should<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>put<sp/>/<sp/>get<sp/>/<sp/>del</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>PutGetRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;get(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*r,<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>Get_MissingKey_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;get(</highlight><highlight class="stringliteral">&quot;no_such_key_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.has_value());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>Del_RemovesKey)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine_-&gt;del(</highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;get(</highlight><highlight class="stringliteral">&quot;to_delete&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.has_value());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>Put_Overwrite)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*r,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>scanRange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanRange_InOrder)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>insertRange(</highlight><highlight class="stringliteral">&quot;item:&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>5);<sp/></highlight><highlight class="comment">//<sp/>item:00<sp/>..<sp/>item:04</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;scanRange(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;item:00&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;item:05&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](std::string_view<sp/>k,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys.emplace_back(k);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>keys.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keys<sp/>must<sp/>arrive<sp/>in<sp/>sorted<sp/>(ascending)<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(keys[i],<sp/>keys[i<sp/>-<sp/>1]);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanRange_HalfOpen_EndExclusive)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>insertRange(</highlight><highlight class="stringliteral">&quot;x:&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>x:00,<sp/>x:01,<sp/>x:02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanRange(</highlight><highlight class="stringliteral">&quot;x:00&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x:02&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view<sp/>k,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys.emplace_back(k);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>x:02<sp/>must<sp/>NOT<sp/>be<sp/>in<sp/>results<sp/>(exclusive<sp/>upper<sp/>bound).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys.back(),<sp/></highlight><highlight class="stringliteral">&quot;x:01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanRange_EarlyStop)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>insertRange(</highlight><highlight class="stringliteral">&quot;e:&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>10);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanRange(</highlight><highlight class="stringliteral">&quot;e:00&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e:99&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>++count<sp/>&lt;<sp/>3;<sp/></highlight><highlight class="comment">//<sp/>stop<sp/>after<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>callback<sp/>returns<sp/>false<sp/>on<sp/>3rd<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanRange_EmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanRange(</highlight><highlight class="stringliteral">&quot;z:zz&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z:zzz&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(called);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanRange_FullKeyspace)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>insertRange(</highlight><highlight class="stringliteral">&quot;p:&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>5);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanRange(</highlight><highlight class="stringliteral">&quot;p:00&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;p:99&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view<sp/>k,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys.emplace_back(k);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>5<sp/>keys<sp/>in<sp/>the<sp/>p:-namespace<sp/>must<sp/>appear.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>scanPrefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanPrefix_FindsMatchingKeys)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;doc:1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;doc:2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;doc:3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;other:1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;scanPrefix(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc:&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](std::string_view<sp/>k,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys.emplace_back(k);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>k<sp/>:<sp/>keys)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(k.rfind(</highlight><highlight class="stringliteral">&quot;doc:&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Key<sp/>does<sp/>not<sp/>have<sp/>prefix:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>k;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanPrefix_NoMatch)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;abc:1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanPrefix(</highlight><highlight class="stringliteral">&quot;xyz:&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(called);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ScanPrefix_EarlyStop)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;pfx:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;scanPrefix(</highlight><highlight class="stringliteral">&quot;pfx:&quot;</highlight><highlight class="normal">,<sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>++count<sp/>&lt;<sp/>3;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>3);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Closed<sp/>engine<sp/>rejects<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ClosedEngine_PutFails)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;close();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(engine_-&gt;put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ClosedEngine_GetFails)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;close();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(engine_-&gt;get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ClosedEngine_DelFails)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;close();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(engine_-&gt;del(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__storage__engine__prod_8cpp_1a495b70808c9bca038dc88f5514462948" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_prod_test" kindref="compound">StorageEngineProdTest</ref>,<sp/>ClosedEngine_ScanRangeFails)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;close();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine_-&gt;scanRange(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>[](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.has_value());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_engine_prod.cpp"/>
+  </compounddef>
+</doxygen>

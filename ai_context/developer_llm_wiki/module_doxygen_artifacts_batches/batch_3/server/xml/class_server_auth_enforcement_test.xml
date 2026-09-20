@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_server_auth_enforcement_test" kind="class" language="C++" prot="public">
+    <compoundname>ServerAuthEnforcementTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_server_auth_enforcement_test_1a2ce918864e872040220e6413d01b10e3" prot="protected" static="no" mutable="no">
+        <type>ServerFixtureHelper</type>
+        <definition>ServerFixtureHelper ServerAuthEnforcementTest::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ServerAuthEnforcementTest::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="291" column="35" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_auth_enforcement_test_1a35d342f0c6b3d165e6310ed35a59a3ca" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ScopedEnv &gt;</type>
+        <definition>std::unique_ptr&lt;ScopedEnv&gt; ServerAuthEnforcementTest::env_admin_</definition>
+        <argsstring></argsstring>
+        <name>env_admin_</name>
+        <qualifiedname>ServerAuthEnforcementTest::env_admin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="292" column="24" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_server_auth_enforcement_test_1a166d8f204dd6fbe54becec8ffec90117" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerAuthEnforcementTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ServerAuthEnforcementTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="271" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="271" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_auth_enforcement_test_1a6647a822a97202ec0803f73b43a391ea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerAuthEnforcementTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ServerAuthEnforcementTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="278" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="278" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_auth_enforcement_test_1abd9e638751b0b56199402a4da8132e12" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ServerAuthEnforcementTest::get</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>get</name>
+        <qualifiedname>ServerAuthEnforcementTest::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="283" column="20" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_auth_enforcement_test_1a825a2bc78d9994dde1bd5ff8a7323a05" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ServerAuthEnforcementTest::post</definition>
+        <argsstring>(const std::string &amp;path, const json &amp;body, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>post</name>
+        <qualifiedname>ServerAuthEnforcementTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="287" column="20" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="287" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ServerAuthEnforcementTest</label>
+        <link refid="class_server_auth_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ServerAuthEnforcementTest</label>
+        <link refid="class_server_auth_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fixture_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:fixture_</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_integration_complete.cpp" line="269" column="1" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="269" bodyend="293"/>
+    <listofallmembers>
+      <member refid="class_server_auth_enforcement_test_1a35d342f0c6b3d165e6310ed35a59a3ca" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>env_admin_</name></member>
+      <member refid="class_server_auth_enforcement_test_1a2ce918864e872040220e6413d01b10e3" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>fixture_</name></member>
+      <member refid="class_server_auth_enforcement_test_1abd9e638751b0b56199402a4da8132e12" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>get</name></member>
+      <member refid="class_server_auth_enforcement_test_1a825a2bc78d9994dde1bd5ff8a7323a05" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>post</name></member>
+      <member refid="class_server_auth_enforcement_test_1a166d8f204dd6fbe54becec8ffec90117" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>SetUp</name></member>
+      <member refid="class_server_auth_enforcement_test_1a6647a822a97202ec0803f73b43a391ea" prot="protected" virt="non-virtual"><scope>ServerAuthEnforcementTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

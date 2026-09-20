@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_relevance_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RelevanceResult</compoundname>
+    <includes refid="relevance__evaluator_8h" local="no">relevance_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a641e9ec69e615bc40dd8ac27cdbd57e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceResult::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::relevance_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Overall score 0-1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="34" column="12" bodyfile="include/rag/relevance_evaluator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a81597e27e705b838c6e22e6cb8c6ea00" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::RelevanceResult::reverse_questions</definition>
+        <argsstring></argsstring>
+        <name>reverse_questions</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::reverse_questions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="35" column="17" bodyfile="include/rag/relevance_evaluator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a89923b6c6ff174f2303c6c7201822ce8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceResult::question_similarity_score</definition>
+        <argsstring></argsstring>
+        <name>question_similarity_score</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::question_similarity_score</qualifiedname>
+        <briefdescription>
+<para>Similarity to original query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="36" column="12" bodyfile="include/rag/relevance_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a86470fdc7da01dc5bb2a39e1d2b7aa25" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7" kindref="member">QueryIntent</ref></type>
+        <definition>QueryIntent themis::rag::judge::RelevanceResult::detected_intent</definition>
+        <argsstring></argsstring>
+        <name>detected_intent</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::detected_intent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="37" column="17" bodyfile="include/rag/relevance_evaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a3a57abea7aef5bac8e6250eb84fa4e7b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceResult::intent_alignment_score</definition>
+        <argsstring></argsstring>
+        <name>intent_alignment_score</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::intent_alignment_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="38" column="12" bodyfile="include/rag/relevance_evaluator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a7bdb2411974792d00d1f2e917cfecb24" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceResult::noise_ratio</definition>
+        <argsstring></argsstring>
+        <name>noise_ratio</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::noise_ratio</qualifiedname>
+        <briefdescription>
+<para>0-1, lower is better </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="39" column="12" bodyfile="include/rag/relevance_evaluator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a1a83020f4b567bd91209fbf4f8f2faf9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::RelevanceResult::irrelevant_segments</definition>
+        <argsstring></argsstring>
+        <name>irrelevant_segments</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::irrelevant_segments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="40" column="17" bodyfile="include/rag/relevance_evaluator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_result_1af8b5eb2718cc5068befd13f4e9b59b80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RelevanceResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::RelevanceResult::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="41" column="17" bodyfile="include/rag/relevance_evaluator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Relevance evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/relevance_evaluator.h" line="33" column="1" bodyfile="include/rag/relevance_evaluator.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a86470fdc7da01dc5bb2a39e1d2b7aa25" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>detected_intent</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1af8b5eb2718cc5068befd13f4e9b59b80" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a3a57abea7aef5bac8e6250eb84fa4e7b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>intent_alignment_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a1a83020f4b567bd91209fbf4f8f2faf9" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>irrelevant_segments</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a7bdb2411974792d00d1f2e917cfecb24" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>noise_ratio</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a89923b6c6ff174f2303c6c7201822ce8" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>question_similarity_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a641e9ec69e615bc40dd8ac27cdbd57e0" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_result_1a81597e27e705b838c6e22e6cb8c6ea00" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceResult</scope><name>reverse_questions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

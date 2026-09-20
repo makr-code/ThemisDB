@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IToTThoughtGenerator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator" prot="public" virt="non-virtual">themis::prompt_engineering::HeuristicThoughtGenerator</derivedcompoundref>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1a06e3399bb0d5b01bec1dac3dc8977c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IToTThoughtGenerator::~IToTThoughtGenerator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IToTThoughtGenerator</name>
+        <qualifiedname>themis::prompt_engineering::IToTThoughtGenerator::~IToTThoughtGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="96" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1aec9be6ac7bc2373e0e72fbd16bd78c64" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::prompt_engineering::IToTThoughtGenerator::generate</definition>
+        <argsstring>(const std::string &amp;problem, const std::vector&lt; std::string &gt; &amp;path, size_t k)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::prompt_engineering::IToTThoughtGenerator::generate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator_1af3b2bc50e67e7c1a48d6d907b7fab818">generate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Generate candidate thoughts from the current reasoning path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem statement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reasoning steps accumulated so far (root → current node). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidate thoughts to generate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of exactly <computeroutput>k</computeroutput> thought strings (or fewer on failure). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="106" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for generating candidate child thoughts from a parent node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers inject an implementation backed by an LLM to produce <computeroutput>k</computeroutput> diverse next reasoning steps from the accumulated thought path. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::HeuristicThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IToTThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="94" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="94" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1aec9be6ac7bc2373e0e72fbd16bd78c64" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IToTThoughtGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1a06e3399bb0d5b01bec1dac3dc8977c92" prot="public" virt="virtual"><scope>themis::prompt_engineering::IToTThoughtGenerator</scope><name>~IToTThoughtGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

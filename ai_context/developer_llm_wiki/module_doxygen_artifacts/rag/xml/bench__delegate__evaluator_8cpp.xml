@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__delegate__evaluator_8cpp" kind="file" language="C++">
+    <compoundname>bench_delegate_evaluator.cpp</compoundname>
+    <includes refid="delegate__evaluator_8h" local="yes">rag/delegate_evaluator.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/rag/bench_delegate_evaluator.cpp</label>
+        <link refid="bench__delegate__evaluator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/delegate_evaluator.h</label>
+        <link refid="delegate__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a195069b0d2bede136f0505a52eacd953" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DelegateEvaluator_JsonRoundTrip_10k</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DelegateEvaluator_JsonRoundTrip_10k</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="66" column="13" bodyfile="benchmarks/rag/bench_delegate_evaluator.cpp" bodystart="66" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a26f41284607230f950e09c3684da4bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMillisecond) -&gt; Iterations(100)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMillisecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="89" column="5" declfile="benchmarks/rag/bench_delegate_evaluator.cpp" declline="89" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a5f7bb4b4fca76d47a6d7518061bc5a30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DelegateEvaluator_JsonEval_100KB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DelegateEvaluator_JsonEval_100KB</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="99" column="13" bodyfile="benchmarks/rag/bench_delegate_evaluator.cpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a3652fe894ba13f02ac089ccab1fed3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(1000)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="109" column="5" declfile="benchmarks/rag/bench_delegate_evaluator.cpp" declline="109" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a9cad76eee9b564ce2300b09986feff2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DelegateEvaluator_PlainTextEval_100KB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DelegateEvaluator_PlainTextEval_100KB</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="119" column="13" bodyfile="benchmarks/rag/bench_delegate_evaluator.cpp" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a7e74cd42e8846baccf3d1eb9803c53b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DelegateEvaluator_AqlEval_Typical</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DelegateEvaluator_AqlEval_Typical</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="139" column="13" bodyfile="benchmarks/rag/bench_delegate_evaluator.cpp" bodystart="139" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__delegate__evaluator_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rag/bench_delegate_evaluator.cpp" line="157" column="1" declfile="benchmarks/rag/bench_delegate_evaluator.cpp" declline="157" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Google Benchmark targets for the DELEGATE-52 round-trip evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Benchmarks validate the performance guarantee stated in the implementation plan (Phase 5):<itemizedlist>
+<listitem><para>RS calculation &lt; 5 ms for documents up to 100 KB.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref> with 20 interactions on 10 KB JSON &lt; 100 ms (excluding <ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref> latency — identity fn used here).</para>
+</listitem></itemizedlist>
+</para>
+<para>Scientific basis: Laban et al., &quot;LLMs Corrupt Your Documents When You
+Delegate&quot; (arXiv:2604.15597). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="delegate__evaluator_8h" kindref="compound">rag/delegate_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1delegate__eval" kindref="compound">themis::rag::delegate_eval</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">std::string<sp/>makeJsonDoc(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_fields)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>doc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_fields;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc<sp/>+=<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;\&quot;field&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;:\&quot;value&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>doc<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>doc;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">std::string<sp/>makePlainText(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>target_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>chunk<sp/>=</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Pack<sp/>my<sp/>box<sp/>with<sp/>five<sp/>dozen<sp/>liquor<sp/>jugs.<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>doc<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.reserve(target_bytes<sp/>+<sp/>chunk.size());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(doc.size()<sp/>&lt;<sp/>target_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc<sp/>+=<sp/>chunk;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>doc.resize(target_bytes);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>doc;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_DelegateEvaluator_JsonRoundTrip_10k</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures:<sp/>RoundTripSimulator<sp/>with<sp/>10<sp/>round-trips<sp/>(20<sp/>interactions)<sp/>on<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>~10<sp/>KB<sp/>JSON<sp/>document<sp/>(200<sp/>fields<sp/>×<sp/>~50<sp/>bytes<sp/>each).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>&lt;<sp/>100<sp/>ms<sp/>end-to-end<sp/>(identity<sp/>EditFn).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DelegateEvaluator_JsonRoundTrip_10k(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~10<sp/>KB<sp/>JSON:<sp/>200<sp/>fields<sp/>of<sp/>~50<sp/>chars<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>seed_doc<sp/>=<sp/>makeJsonDoc(200);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1a534c8f621d0b1c1dcb084778718df8a5" kindref="member">num_round_trips</ref><sp/>=<sp/>10;<sp/></highlight><highlight class="comment">//<sp/>20<sp/>interactions<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" kindref="compound">JsonDocumentEvaluator</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RoundTripEditPair&gt;<sp/>pairs{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;Add<sp/>a<sp/>field.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Remove<sp/>the<sp/>field<sp/>you<sp/>added.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench_seed&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8bafb1dcfa4a7110c5721a6e9ed2118b124" kindref="member">DomainType::JSON_DOCUMENT</ref>}};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identity<sp/>EditFn<sp/>—<sp/>zero<sp/>latency<sp/>so<sp/>we<sp/>measure<sp/>only<sp/>framework<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref><sp/>identity<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>doc;<sp/>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref><sp/>sim(cfg);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sim.run(seed_doc,<sp/>pairs,<sp/>ev,<sp/>identity);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.scores.rs_per_interaction);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="bench__knowledge__gap__detector__phase2_8cpp_1a7cb1479062e677d68cd430ad68cc2dc9" kindref="member">BENCHMARK</ref>(BM_DelegateEvaluator_JsonRoundTrip_10k)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_DelegateEvaluator_JsonEval_100KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures:<sp/>JsonDocumentEvaluator::evaluate()<sp/>on<sp/>a<sp/>~100<sp/>KB<sp/>document<sp/>(2<sp/>000<sp/>fields).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>&lt;<sp/>5<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DelegateEvaluator_JsonEval_100KB(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>doc<sp/>=<sp/>makeJsonDoc(2000);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" kindref="compound">JsonDocumentEvaluator</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>ev.<ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator_1acd0ffd5716d1529207adb0c78f5a9217" kindref="member">evaluate</ref>(doc,<sp/>doc);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rs);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="bench__knowledge__gap__detector__phase2_8cpp_1a7cb1479062e677d68cd430ad68cc2dc9" kindref="member">BENCHMARK</ref>(BM_DelegateEvaluator_JsonEval_100KB)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_DelegateEvaluator_PlainTextEval_100KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures:<sp/>PlainTextEvaluator::evaluate()<sp/>on<sp/>a<sp/>100<sp/>KB<sp/>text<sp/>document.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>&lt;<sp/>5<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DelegateEvaluator_PlainTextEval_100KB(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>doc<sp/>=<sp/>makePlainText(100<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kindref="compound">PlainTextEvaluator</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>doc<sp/>vs<sp/>doc<sp/>(identity)<sp/>to<sp/>stress<sp/>large-input<sp/>edit-distance<sp/>scoring.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>ev.<ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a28d874d480dc1f06d7292118751e651a" kindref="member">evaluate</ref>(doc,<sp/>doc);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rs);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="bench__knowledge__gap__detector__phase2_8cpp_1a7cb1479062e677d68cd430ad68cc2dc9" kindref="member">BENCHMARK</ref>(BM_DelegateEvaluator_PlainTextEval_100KB)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_DelegateEvaluator_AqlEval_Typical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures:<sp/>AqlQueryEvaluator::evaluate()<sp/>on<sp/>a<sp/>typical<sp/>multi-clause<sp/>AQL<sp/>query.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DelegateEvaluator_AqlEval_Typical(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>aql<sp/>=</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>u.age<sp/>&gt;=<sp/>18<sp/>AND<sp/>u.country<sp/>==<sp/>&apos;DE&apos;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SORT<sp/>u.lastName<sp/>ASC<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LIMIT<sp/>100<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>{<sp/>name:<sp/>u.firstName,<sp/>id:<sp/>u._id<sp/>}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator" kindref="compound">AqlQueryEvaluator</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>ev.<ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_aql_query_evaluator_1ad4cb368a76c2de6009e40124d6937e57" kindref="member">evaluate</ref>(aql,<sp/>aql);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rs);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="bench__knowledge__gap__detector__phase2_8cpp_1a7cb1479062e677d68cd430ad68cc2dc9" kindref="member">BENCHMARK</ref>(BM_DelegateEvaluator_AqlEval_Typical)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="bench__delegate__evaluator_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/rag/bench_delegate_evaluator.cpp"/>
+  </compounddef>
+</doxygen>

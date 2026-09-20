@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1core_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::core::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a7c9c74820e3c69d7fb0882e8470aa6a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>static std::filesystem::path themis::core::test::repoRoot</definition>
+        <argsstring>()</argsstring>
+        <name>repoRoot</name>
+        <qualifiedname>themis::core::test::repoRoot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="73" column="30" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1ae418b8de8f4d7750f23abc576444111f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::core::test::readFile</definition>
+        <argsstring>(const std::filesystem::path &amp;p)</argsstring>
+        <name>readFile</name>
+        <qualifiedname>themis::core::test::readFile</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="75" column="20" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="75" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a4d07f7d0ff66393c6e4ad255060f7651" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, StorageKey_BasicJoin)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>StorageKey_BasicJoin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="86" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="86" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a6a7d8c56d9eee34d36aa6d812d50c814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, StorageKey_EmptyCollectionPrefix)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>StorageKey_EmptyCollectionPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="97" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a52f2bc5e4020baa4ec69315bb869e180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, StorageKey_Injectivity)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>StorageKey_Injectivity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="103" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a203ed66a16a3525b886171ee23703520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, ServiceInstanceFn_RoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>ServiceInstanceFn_RoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="113" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a7644d4d88d5d54ff517ada1149d4bb34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Constructor_ThrowsWhenNoFnAndNoStubs)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Constructor_ThrowsWhenNoFnAndNoStubs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="128" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1aeb6dec217d9d925ccaaf7a22f4930d8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Constructor_ThrowsWhenFnReturnsNullptr)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Constructor_ThrowsWhenFnReturnsNullptr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="141" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="141" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a61fe344f0afc1b9fd6a2ed39174f940e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Constructor_ThrowsWhenFnThrows)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Constructor_ThrowsWhenFnThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="155" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="155" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a9bd6336b7a80a9dd6a6e759b0ef72269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, ServiceInstanceFn_Overwrite)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>ServiceInstanceFn_Overwrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="170" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="170" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a00f86ffca97ff4aa032211150ccbbcec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_StubNoteRemoved)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_StubNoteRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="182" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="182" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a60dbc83c31b77b023045ff2d576e7bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_CRUDHandlersPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_CRUDHandlersPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="197" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a5df30850fedd254e75043e3be8aa8f72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_BatchHandlersPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_BatchHandlersPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="208" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="208" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1ab732fc8d3966fe85f6ce196eac4856eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_TransactionHandlersPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_TransactionHandlersPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="219" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="219" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1aaf9093f01b1fdc219e711086dac1ac62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_AQLHandlersPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_AQLHandlersPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="229" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="229" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1afee5536815122dc4d8ee9a3fbdd1dd8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_ScanCollectionPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_ScanCollectionPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="238" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="238" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a4d814bec57f5590c6e8caed1339b587b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, Source_GetStatusPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>Source_GetStatusPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="249" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="249" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1core_1_1test_1a25bc740a34783bde494a10751c3949a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::test::TEST</definition>
+        <argsstring>(GrpcCoreService, AQLEngineAlias_CompilesAsIQueryEngine)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::core::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcCoreService</type>
+        </param>
+        <param>
+          <type>AQLEngineAlias_CompilesAsIQueryEngine</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_grpc_core_service.cpp" line="260" column="1" bodyfile="tests/server/test_grpc_core_service.cpp" bodystart="260" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_grpc_core_service.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

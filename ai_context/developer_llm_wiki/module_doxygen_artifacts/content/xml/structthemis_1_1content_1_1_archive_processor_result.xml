@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_archive_processor_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveProcessorResult</compoundname>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_result_1ac8c08c59185a3f17f345eb4012b7f83e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessorResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::content::ArchiveProcessorResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="76" column="10" bodyfile="include/content/archive_processor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_result_1a854a9d1b7817a7ed21b7b59566c8e5ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveProcessorResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::ArchiveProcessorResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="77" column="17" bodyfile="include/content/archive_processor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_processor_result_1a2531ac4384e2880712d21804fa25be25" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ArchiveProcessorResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::content::ArchiveProcessorResult::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="78" column="10" bodyfile="include/content/archive_processor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/archive_processor.h" line="75" column="1" bodyfile="include/content/archive_processor.h" bodystart="75" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_archive_processor_result_1a854a9d1b7817a7ed21b7b59566c8e5ce" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_result_1a2531ac4384e2880712d21804fa25be25" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_processor_result_1ac8c08c59185a3f17f345eb4012b7f83e" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessorResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationBenchmark</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_config" prot="public">themisdb::replication::ReplicationBenchmark::BenchmarkConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_result" prot="public">themisdb::replication::ReplicationBenchmark::BenchmarkResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a35e1c3c7c6793539d497bb02cc47914a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::ReplicationBenchmark::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1558" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a94e6218fdb3aba9cad88e49dd9212f7a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_config" kindref="compound">BenchmarkConfig</ref></type>
+        <definition>BenchmarkConfig themisdb::replication::ReplicationBenchmark::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1559" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a41cf06f47f3894d7880dfb3c41e3c638" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationBenchmark::ReplicationBenchmark</definition>
+        <argsstring>(std::shared_ptr&lt; WALManager &gt; wal, const BenchmarkConfig &amp;config)</argsstring>
+        <name>ReplicationBenchmark</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::ReplicationBenchmark</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_config" kindref="compound">BenchmarkConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1547" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6252" bodyend="6258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a095797e3adb288fb9de5d3fab50ca264" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationBenchmark::ReplicationBenchmark</definition>
+        <argsstring>(std::shared_ptr&lt; WALManager &gt; wal)</argsstring>
+        <name>ReplicationBenchmark</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::ReplicationBenchmark</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1549" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6247" bodyend="6250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a15f38d18c66281965070750a6edef0a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref></type>
+        <definition>ReplicationBenchmark::BenchmarkResult themisdb::replication::ReplicationBenchmark::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::run</qualifiedname>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: payload(), std::to_string(), append(), reserve(), std::chrono::high_resolution_clock::now(), push_back(), count(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1552" column="21" bodyfile="src/replication/replication_manager.cpp" bodystart="6265" bodyend="6329"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_benchmark_1a62c1283b37611da826077b3b74a45258" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationBenchmark::format</definition>
+        <argsstring>(const BenchmarkResult &amp;result)</argsstring>
+        <name>format</name>
+        <qualifiedname>themisdb::replication::ReplicationBenchmark::format</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_benchmark_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref> &amp;</type>
+          <declname>result</declname>
+          <defname>r</defname>
+        </param>
+        <briefdescription>
+<para>Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1555" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="6337" bodyend="6349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_benchmark" kindref="compound">ReplicationBenchmark</ref></para>
+<para>Measures replication throughput and latency by submitting synthetic WAL entries through the given <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> and recording timings. Reports writes/sec and p50/p95/p99 latency percentiles. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1527" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1527" bodyend="1560"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a94e6218fdb3aba9cad88e49dd9212f7a" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a62c1283b37611da826077b3b74a45258" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>format</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a41cf06f47f3894d7880dfb3c41e3c638" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>ReplicationBenchmark</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a095797e3adb288fb9de5d3fab50ca264" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>ReplicationBenchmark</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a15f38d18c66281965070750a6edef0a3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>run</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_benchmark_1a35e1c3c7c6793539d497bb02cc47914a" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationBenchmark</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

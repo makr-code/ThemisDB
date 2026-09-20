@@ -1,0 +1,947 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__lora__adapter__application_8cpp" kind="file" language="C++">
+    <compoundname>test_lora_adapter_application.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="multi__lora__manager_8h" local="yes">llm/multi_lora_manager.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_lora_adapter_application.cpp</label>
+        <link refid="test__lora__adapter__application_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>condition_variable</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="28">
+        <label>fstream</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>ostream</label>
+      </node>
+      <node id="10">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="23">
+        <label>regex</label>
+      </node>
+      <node id="25">
+        <label>shared_mutex</label>
+      </node>
+      <node id="29">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="24">
+        <label>unordered_set</label>
+      </node>
+      <node id="18">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_lora_adapter_application_test" prot="public">LoraAdapterApplicationTest</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__lora__adapter__application_8cpp_1af3fc058ff868aee872c83e9b3260408c" prot="public" static="no">
+        <name>THEMIS_TEST_BUILD</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="19" column="9" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadLoRASuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadLoRASuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="80" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="80" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1abcc0d08fea24b8a0dfd7cc384bf5a6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadLoRAFailsWithInvalidPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadLoRAFailsWithInvalidPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="94" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="94" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a045e23d4051f383e356fc3a696ab9791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadMultipleLoRAs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadMultipleLoRAs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="107" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a171825cda32a5bd4d73f1830260823c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadLoRACachesAdapters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadLoRACachesAdapters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="117" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="117" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a5de870bf1202d383150bb52a1b7aa835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, UnloadLoRA)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadLoRA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="132" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="132" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a0b5502894fbb2b7807d81a613ff6f4d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, PinAndUnpinLoRA)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>PinAndUnpinLoRA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="141" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="141" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1aa5f334239197a305a193c1c2a26bdbe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, ApplyLoRAWithNullContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyLoRAWithNullContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="160" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="160" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a519dee0c0dd450de1be3695b47983595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, ApplyLoRAWithNullContextBridgeFailure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyLoRAWithNullContextBridgeFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="172" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="172" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a9789ce4856cd557d1f6435bb734baf8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, ApplyNonexistentLoRA)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>ApplyNonexistentLoRA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="178" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="178" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a8d252250e7e32cca1e5b5f7cc174a96d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, RemoveLoRA)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveLoRA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="186" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="186" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1ad6026fc500373aaf187e808b0c2740e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, GetLoRAInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>GetLoRAInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="197" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a1f74c2467b21d925ad29b6923cdbc31e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, ListLoRAs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>ListLoRAs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="205" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="205" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1ab7352f86a13089934f7f05dbc362851d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, GetMemoryStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>GetMemoryStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="213" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="213" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a8e38edc288d2515a4861fe5bfa517ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, GetCacheStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>GetCacheStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="221" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="221" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1ae16fa4e9213b51f8f2388c69f46d0ce9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, QuantizeLoRAINT8)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>QuantizeLoRAINT8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="234" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="234" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1afc2681a9fdc30fdfd85bbc8c0e4905c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, QuantizeLoRAINT4)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>QuantizeLoRAINT4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="263" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="263" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1ad583289adbeb0529535e11df3c7a4a00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadLoRAWithZeroScale)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadLoRAWithZeroScale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="295" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="295" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1a0a8e1c30cc2f45cae3ac1eca006f0e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, LoadLoRAWithHighScale)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>LoadLoRAWithHighScale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="308" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="308" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__adapter__application_8cpp_1ab04ba08b8f50fc6e9bfdb0289d49641c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoraAdapterApplicationTest, CacheFillAndEviction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref></type>
+        </param>
+        <param>
+          <type>CacheFillAndEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="321" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="321" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive tests for LoRA adapter application (weight fusion). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests <ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref> with proper adapter application and quantization support</para>
+<para>Validates that:<itemizedlist>
+<listitem><para>loadLoRA() correctly loads adapters</para>
+</listitem><listitem><para>applyLoRA() fuses weights with llama.cpp</para>
+</listitem><listitem><para>Adapter application has &lt;10ms overhead per inference</para>
+</listitem><listitem><para>Multiple adapters can be managed concurrently</para>
+</listitem><listitem><para>Quantization reduces memory without losing functionality</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="author"><para>ThemisDB Team </para>
+</simplesect>
+<simplesect kind="date"><para>January 2026 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TEST_BUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TEST_BUILD<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="multi__lora__manager_8h" kindref="compound">llm/multi_lora_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_lora_adapter_application_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lora_adapter_application_test_1a4c4d240783351ebe206259c54d475a1d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_lora_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" kindref="member">createMockAdapter</ref>(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" kindref="member">createMockAdapter</ref>(</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" kindref="member">createMockAdapter</ref>(</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>MultiLoRAManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" kindref="member">max_lora_slots</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" kindref="member">max_lora_vram_mb</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" kindref="member">lora_ttl</ref><sp/>=<sp/>std::chrono::seconds(0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>TTL-based<sp/>eviction<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a23b35e2c179e99454916b40609a196c2" kindref="member">enable_adapter_fusion</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a204ae5bb52e7f66c511b8ae7f0a24486" kindref="member">multi_gpu</ref>.<ref refid="structthemis_1_1llm_1_1_multi_g_p_u_config_1a7791d1edfb0d5451a0971abf45c1fe36" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>GPU<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a800600dd546182c90a3e8d8ea28f5895" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>without<sp/>quantization<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1ae075a9306a565f2167b5e9197c3d1b64" kindref="member">manager_</ref><sp/>=<sp/>std::make_unique&lt;MultiLoRAManager&gt;(config);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lora_adapter_application_test_1a512e3c5e645e0840fd71f9e6476bec05" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1ae075a9306a565f2167b5e9197c3d1b64" kindref="member">manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" kindref="member">createMockAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_path<sp/>=<sp/><ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref><sp/>/<sp/>(adapter_id<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(adapter_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>mock_weights(1024,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.write(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(mock_weights.data()),<sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mock_weights.size()<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lora_adapter_application_test_1abde9ea3f25fd68b629b86ba9fdd15fb8" kindref="member">adapter_paths_</ref>[adapter_id]<sp/>=<sp/>adapter_path.string();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" kindref="member">test_dir_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="class_lora_adapter_application_test_1abde9ea3f25fd68b629b86ba9fdd15fb8" kindref="member">adapter_paths_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MultiLoRAManager&gt;<sp/><ref refid="class_lora_adapter_application_test_1ae075a9306a565f2167b5e9197c3d1b64" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Load<sp/>LoRA<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadLoRASuccess)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>manager_-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test_model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>quantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0f</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadLoRAFailsWithInvalidPath)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>manager_-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;invalid_adapter&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/invalid/path/adapter.bin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test_model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0f</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(loaded);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadMultipleLoRAs)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadLoRACachesAdapters)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>steady_clock::now();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first_load_ms<sp/>=<sp/>duration_cast&lt;milliseconds&gt;(steady_clock::now()<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>load<sp/>(should<sp/>be<sp/>cached)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>start<sp/>=<sp/>steady_clock::now();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cached_load_ms<sp/>=<sp/>duration_cast&lt;milliseconds&gt;(steady_clock::now()<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cached<sp/>load<sp/>should<sp/>be<sp/>equal<sp/>or<sp/>faster<sp/>(in<sp/>mock<sp/>mode<sp/>both<sp/>are<sp/>instant,<sp/>so<sp/>allow<sp/>equality)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cached_load_ms,<sp/>first_load_ms);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>UnloadLoRA)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/>manager_-&gt;unloadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(unloaded);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>PinAndUnpinLoRA)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;pinLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>unload<sp/>pinned<sp/>adapter<sp/>(should<sp/>fail<sp/>without<sp/>force=true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/>manager_-&gt;unloadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(unloaded);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>because<sp/>pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unload<sp/>with<sp/>force</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>unloaded<sp/>=<sp/>manager_-&gt;unloadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(unloaded);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Apply<sp/>LoRA<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>ApplyLoRAWithNullContext)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;setApplyAdapterFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_slot" kindref="compound">LoRASlot</ref>&amp;<sp/>slot)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>slot.<ref refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ab394eb18007474ddb43433623bf7ec48" kindref="member">lora_id</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applied<sp/>=<sp/>manager_-&gt;applyLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(applied);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>slot<sp/>=<sp/>manager_-&gt;getLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(slot,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(slot-&gt;<ref refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a6fb8b45c82486371d3328d04c6193539" kindref="member">is_active</ref>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>ApplyLoRAWithNullContextBridgeFailure)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;setApplyAdapterFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_slot" kindref="compound">LoRASlot</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;applyLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>ApplyNonexistentLoRA)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>mock<sp/>llama<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_context*<sp/>mock_context<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">struct<sp/>llama_context*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x12345678);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applied<sp/>=<sp/>manager_-&gt;applyLoRA(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/>mock_context);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(applied);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>RemoveLoRA)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;setApplyAdapterFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_slot" kindref="compound">LoRASlot</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;setRemoveAdapterFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_slot" kindref="compound">LoRASlot</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applied<sp/>=<sp/>manager_-&gt;applyLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(applied);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>manager_-&gt;removeLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(removed);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>GetLoRAInfo)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>manager_-&gt;getLoRAInfo(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;lora_id,<sp/></highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>ListLoRAs)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loras<sp/>=<sp/>manager_-&gt;listLoRAs();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loras.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>GetMemoryStats)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>manager_-&gt;getMemoryStats();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats[</highlight><highlight class="stringliteral">&quot;vram_used_mb&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;loras_loaded&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>GetCacheStats)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cache_stats<sp/>=<sp/>manager_-&gt;getCacheStats();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache_stats[</highlight><highlight class="stringliteral">&quot;cache_hits&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache_stats[</highlight><highlight class="stringliteral">&quot;cache_misses&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quantization<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>QuantizeLoRAINT8)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref><sp/>quant_config;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" kindref="member">max_lora_slots</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" kindref="member">max_lora_vram_mb</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" kindref="member">lora_ttl</ref><sp/>=<sp/>std::chrono::seconds(3600);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a800600dd546182c90a3e8d8ea28f5895" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1ac941ae8cab036596d0ad17306abe79e4" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9aee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationMode::INT8</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a1996b12e1c8ccf4779b05f8431b15944" kindref="member">per_channel</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quant_manager<sp/>=<sp/>std::make_unique&lt;MultiLoRAManager&gt;(quant_config);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>quant_manager-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter_quant&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>quantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0f</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(quant_manager-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;adapter_quant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quant_stats<sp/>=<sp/>quant_manager-&gt;getQuantizationStats(</highlight><highlight class="stringliteral">&quot;adapter_quant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(quant_stats.has_value());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(quant_stats-&gt;mode,<sp/><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9aee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationMode::INT8</ref>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(quant_stats-&gt;compression_ratio,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>QuantizeLoRAINT4)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref><sp/>quant_config;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" kindref="member">max_lora_slots</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" kindref="member">max_lora_vram_mb</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" kindref="member">lora_ttl</ref><sp/>=<sp/>std::chrono::seconds(3600);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a800600dd546182c90a3e8d8ea28f5895" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1ac941ae8cab036596d0ad17306abe79e4" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9a94635600f8a63640263a5ebc30d79a2a" kindref="member">QuantizationMode::INT4</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>quant_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" kindref="member">quantization</ref>.<ref refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a5f601947f608c7652f4ab5094ac79d9a" kindref="member">group_size</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quant_manager<sp/>=<sp/>std::make_unique&lt;MultiLoRAManager&gt;(quant_config);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>quant_manager-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter_quant&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>quantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0f</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quant_stats<sp/>=<sp/>quant_manager-&gt;getQuantizationStats(</highlight><highlight class="stringliteral">&quot;adapter_quant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(quant_stats.has_value());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(quant_stats-&gt;mode,<sp/><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9a94635600f8a63640263a5ebc30d79a2a" kindref="member">QuantizationMode::INT4</ref>);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(quant_stats-&gt;compression_ratio,<sp/>2.0f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>better<sp/>than<sp/>INT8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadLoRAWithZeroScale)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>manager_-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter_zero&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0f<sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>LoadLoRAWithHighScale)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>manager_-&gt;loadLoRA(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;adapter_high&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100.0f<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>high<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="test__lora__adapter__application_8cpp_1aa958bd17c068586d125da83ee4342bcc" kindref="member">TEST_F</ref>(<ref refid="class_lora_adapter_application_test" kindref="compound">LoraAdapterApplicationTest</ref>,<sp/>CacheFillAndEviction)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref><sp/>limited_config;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>limited_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" kindref="member">max_lora_slots</ref><sp/>=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>limited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>limited_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" kindref="member">max_lora_vram_mb</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>limited_config.<ref refid="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" kindref="member">lora_ttl</ref><sp/>=<sp/>std::chrono::seconds(3600);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>limited_manager<sp/>=<sp/>std::make_unique&lt;MultiLoRAManager&gt;(limited_config);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limited_manager-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter1&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limited_manager-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter2&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>trigger<sp/>LRU<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limited_manager-&gt;loadLoRA(</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">,<sp/>adapter_paths_[</highlight><highlight class="stringliteral">&quot;adapter3&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref>,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>of<sp/>the<sp/>first<sp/>adapters<sp/>should<sp/>be<sp/>evicted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loras<sp/>=<sp/>limited_manager-&gt;listLoRAs();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loras.size(),<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>2<sp/>slots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_lora_adapter_application.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_plugin" kind="struct" language="C++" prot="public">
+    <compoundname>MockPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ILLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_plugin_1ad7d814a70beee3bab907f7476c880693" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_resource_tracker" kindref="compound">ResourceTracker</ref> &amp;</type>
+        <definition>ResourceTracker&amp; MockPlugin::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>MockPlugin::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="107" column="21" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_mock_plugin_1a6421afd36d728ca75382198481a6e69e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockPlugin::MockPlugin</definition>
+        <argsstring>(ResourceTracker &amp;tracker)</argsstring>
+        <name>MockPlugin</name>
+        <qualifiedname>MockPlugin::MockPlugin</qualifiedname>
+        <param>
+          <type><ref refid="struct_resource_tracker" kindref="compound">ResourceTracker</ref> &amp;</type>
+          <declname>tracker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="100" column="14" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_plugin_1a9ac8b04c219174472d66bf1c33b06c98" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockPlugin::~MockPlugin</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~MockPlugin</name>
+        <qualifiedname>MockPlugin::~MockPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="103" column="5" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ILLMPlugin</label>
+      </node>
+      <node id="1">
+        <label>MockPlugin</label>
+        <link refid="struct_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ILLMPlugin</label>
+      </node>
+      <node id="1">
+        <label>MockPlugin</label>
+        <link refid="struct_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tracker_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ResourceTracker</label>
+        <link refid="struct_resource_tracker"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="99" column="1" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="99" bodyend="108"/>
+    <listofallmembers>
+      <member refid="struct_mock_plugin_1a6421afd36d728ca75382198481a6e69e" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>MockPlugin</name></member>
+      <member refid="struct_mock_plugin_1ad7d814a70beee3bab907f7476c880693" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>tracker_</name></member>
+      <member refid="struct_mock_plugin_1a9ac8b04c219174472d66bf1c33b06c98" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>~MockPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

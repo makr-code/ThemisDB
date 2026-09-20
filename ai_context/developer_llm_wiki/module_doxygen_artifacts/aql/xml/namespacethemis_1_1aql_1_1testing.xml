@@ -1,0 +1,1378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::aql::testing</compoundname>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser" prot="public">themis::aql::testing::MockAQLParser</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_call_tracker" prot="public">themis::aql::testing::MockCallTracker</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker" prot="public">themis::aql::testing::MockCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_registry" prot="public">themis::aql::testing::MockCircuitBreakerRegistry</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema" prot="public">themis::aql::testing::MockCollectionSchema</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager" prot="public">themis::aql::testing::MockConversationContextManager</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_embedding_provider" prot="public">themis::aql::testing::MockEmbeddingProvider</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_embed_provider" prot="public">themis::aql::testing::MockEmbedProvider</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_field_def" prot="public">themis::aql::testing::MockFieldDef</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_infer_provider" prot="public">themis::aql::testing::MockInferProvider</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider" prot="public">themis::aql::testing::MockLLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_provider_base" prot="public">themis::aql::testing::MockProviderBase</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" prot="public">themis::aql::testing::MockProviderConfig</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result" prot="public">themis::aql::testing::MockProviderResult</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set" prot="public">themis::aql::testing::MockProviderSet</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_r_a_g_provider" prot="public">themis::aql::testing::MockRAGProvider</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator" prot="public">themis::aql::testing::MockSchemaValidator</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_policy_turn" prot="public">themis::aql::testing::PolicyTurn</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_provider_circuit_breaker" prot="public">themis::aql::testing::ProviderCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder" prot="public">themis::aql::testing::SchemaContextBuilder</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_schema_field" prot="public">themis::aql::testing::SchemaField</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context" prot="public">themis::aql::testing::ThreadSafeConversationContext</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker" prot="public">themis::aql::testing::ThreadSafeMockCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" prot="public">themis::aql::testing::TokenPolicyEngine</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_translation_retry_context" prot="public">themis::aql::testing::TranslationRetryContext</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, EmbeddingFailed_FallbackToKeywords)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>EmbeddingFailed_FallbackToKeywords</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1a: EmbeddingFailed Fallback to Non-Embedding Path</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that embedding provider failures gracefully fall back to keyword matching </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="131" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="131" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a99e1c38a3ae686e21669b1f93407c8ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, BridgeTimeout_RetryOnce)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>BridgeTimeout_RetryOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1b: TimeoutExceeded in Bridge Operation</para>
+</xrefdescription></xrefsect></para>
+<para>Verify timeout handling with retry in bridge operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="164" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="164" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a49932429d3f27b39de4165e14b603ac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, ResourceExhausted_ReduceBatchSize)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>ResourceExhausted_ReduceBatchSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1c: ResourceExhausted and Batch Size Reduction</para>
+</xrefdescription></xrefsect></para>
+<para>Verify graceful degradation when resources are exhausted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="198" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="198" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a6c5f026becf9121b1a82a7c09bc8a782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, ContextBoundExceeded_HistoryTruncation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>ContextBoundExceeded_HistoryTruncation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1d: ContextBoundExceeded and History Truncation</para>
+</xrefdescription></xrefsect></para>
+<para>Verify automatic history eviction when context bound exceeded </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="228" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="228" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a7fe560649f99445dedbe19980c6fe945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, MultipleErrors_Precedence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>MultipleErrors_Precedence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1e: Multiple Errors and Error Precedence</para>
+</xrefdescription></xrefsect></para>
+<para>Verify correct precedence when multiple errors occur </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="272" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="272" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ac4ebb1b1646e0c25e8139c7fa1405be9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, ErrorContext_PreservationAcrossFallback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>ErrorContext_PreservationAcrossFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1f: Error Context Preservation Across Fallback</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that error context is preserved when falling back to degraded path </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="310" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="310" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ab27e43727bee9268b71f4b5977e73980" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLBridgeDegradation, ConversationContext_MultipleEvictions)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLBridgeDegradation</type>
+        </param>
+        <param>
+          <type>ConversationContext_MultipleEvictions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>T4.4.1g: ConversationContext Multiple Evictions</para>
+</xrefdescription></xrefsect></para>
+<para>Verify context manager correctly handles multiple turns and complex eviction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="354" column="1" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="354" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1aa1f9d5c1d61fae3cab02e5ea61993e77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, FailureThresholdTriggersOpen)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>FailureThresholdTriggersOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_FailureThresholdTriggersOpen</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that failure_threshold consecutive failures transition the circuit breaker from CLOSED to OPEN. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="160" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="160" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a407c5266a573d64b2e4db3e5d490152e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, SuccessTransitionsFromHalfOpenToClosed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>SuccessTransitionsFromHalfOpenToClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_SuccessTransitionsFromHalfOpenToClosed</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that a successful request in HALF_OPEN state transitions the circuit breaker back to CLOSED. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="193" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="193" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a245efcd1c0a9d647e363ee84a7625464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, TimeoutTransitionsFromHalfOpenToOpen)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>TimeoutTransitionsFromHalfOpenToOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_TimeoutTransitionsFromHalfOpenToOpen</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that a failing probe in HALF_OPEN state transitions the circuit breaker back to OPEN. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="220" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="220" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a1c443510f07c5505fa6b40720a8b0a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, PerOperationTypeIsolation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>PerOperationTypeIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_PerOperationTypeIsolation</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that circuit breakers for different operation types are independent — failure in one does not affect others. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="254" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="254" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a093011f164f46deb67b8663d46f901d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, HalfOpenAllowsLimitedRequests)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>HalfOpenAllowsLimitedRequests</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_HalfOpenAllowsLimitedRequests</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that in HALF_OPEN state, only half_open_max_requests calls are permitted before the decision is made. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="279" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="279" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1aa1e22e74135c85d73df2f888d7c4ebf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(CircuitBreakerPolicy, ExplicitResetBehavior)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>CircuitBreakerPolicy</type>
+        </param>
+        <param>
+          <type>ExplicitResetBehavior</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>CircuitBreakerPolicy_ExplicitResetBehavior</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that forceReset() transitions any state back to CLOSED and clears failure counters, allowing immediate resumption of traffic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="306" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="306" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a321c5bce9f092092abca787a70884d14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, ParallelContextAccessIsSafe)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>ParallelContextAccessIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_ParallelContextAccessIsSafe</para>
+</xrefdescription></xrefsect></para>
+<para>Multiple threads simultaneously add turns; verify no data races, token count never exceeds limit, and size is consistent. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="170" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="170" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1abc6963214e91c6a7d70a18644938e59c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, ConcurrentCircuitBreakerTransitions)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>ConcurrentCircuitBreakerTransitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_ConcurrentCircuitBreakerTransitions</para>
+</xrefdescription></xrefsect></para>
+<para>Multiple threads drive the circuit breaker simultaneously; verify state transitions are consistent (no invalid states). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="202" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="202" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a12b99e177c04008ae2ad2375f4bf413c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, TokenBudgetExhaustionRaceCondition)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>TokenBudgetExhaustionRaceCondition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_TokenBudgetExhaustionRaceCondition</para>
+</xrefdescription></xrefsect></para>
+<para>Two threads race to exhaust the token budget; verify exactly one wins and the limit is not exceeded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="244" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="244" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ac0800dbce1b5fdbcd348a990a55243f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, ConcurrentContextEviction)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>ConcurrentContextEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_ConcurrentContextEviction</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that concurrent evictions under a tight token budget always maintain structural integrity. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="276" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="276" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1aff082248f3f7a215734ebb86b488effc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, HistoryConsistencyUnderInterleavedAccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>HistoryConsistencyUnderInterleavedAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_HistoryConsistencyUnderInterleavedAccess</para>
+</xrefdescription></xrefsect></para>
+<para>Concurrent readers and writers; verify size() never exceeds what would be structurally valid. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="313" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="313" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ae84070a542fb17f203de4cd10f4a21ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, NoDeadlockInLockOrdering)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>NoDeadlockInLockOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_NoDeadlockInLockOrdering</para>
+</xrefdescription></xrefsect></para>
+<para>Two threads alternately lock two independent contexts in opposite order; verify no deadlock occurs within a bounded time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="361" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="361" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a3080d7a5f59d5518666ff1404c0bec54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, ConcurrentValidationPipelineCalls)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>ConcurrentValidationPipelineCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_ConcurrentValidationPipelineCalls</para>
+</xrefdescription></xrefsect></para>
+<para>Multiple threads create <ref refid="classthemis_1_1aql_1_1_a_q_l_error_context" kindref="compound">AQLErrorContext</ref> objects concurrently; verify no corruption in their independent states. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="397" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="397" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1aa54a6f769956afcc04eda19afa4b7d47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ConversationConcurrency, StressTestConcurrentTurns)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ConversationConcurrency</type>
+        </param>
+        <param>
+          <type>StressTestConcurrentTurns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>ConversationConcurrency_StressTestConcurrentTurns</para>
+</xrefdescription></xrefsect></para>
+<para>High-contention stress test: 16 threads × 50 turns each against a single context with a tight token budget. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="447" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="447" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a694906530c39cf189f19991cf964caf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, InferProviderUnavailableReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>InferProviderUnavailableReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_InferProviderUnavailableReturnsError</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that an unavailable infer provider returns a structured error with ProviderUnavailable category, not a crash or silent failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="74" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="74" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a81b55159677556aeada0e91c201d0fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, RAGProviderTimeoutFallsBack)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>RAGProviderTimeoutFallsBack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_RAGProviderTimeoutFallsBack</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that a RAG provider timeout causes the system to fall back gracefully to zero-shot translation without few-shot context. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="110" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="110" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a0929965a8104a1826ba100e6ed6eab43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, EmbedProviderFailureDegrades)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>EmbedProviderFailureDegrades</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_EmbedProviderFailureDegrades</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that an embedding provider failure causes the system to fall back to keyword-based similarity (Jaccard) without crashing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="146" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="146" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a8c3affd1a67d757947d938e85cfbb920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, MultipleProvidersUnavailableErrorPriority)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>MultipleProvidersUnavailableErrorPriority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_MultipleProvidersUnavailableErrorPriority</para>
+</xrefdescription></xrefsect></para>
+<para>When multiple providers fail simultaneously, verify that the error priority order is: Infer &gt; RAG &gt; Embed (blocking feature first). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="180" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="180" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ac37dcfc9fa03a9bfb61a7f73bfd7d774" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, ProviderRecoveryHandledCorrectly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>ProviderRecoveryHandledCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_ProviderRecoveryHandledCorrectly</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that after N failures the provider correctly reports success again when the underlying service recovers (FailAfterN + reset). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="215" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="215" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1af527b07ba6fd6faf947abbc9c2594248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, CircuitBreakerActivatesUnderSustainedFailures)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>CircuitBreakerActivatesUnderSustainedFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_CircuitBreakerActivatesUnderSustainedFailures</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that sustained provider failures trigger the circuit breaker to open, preventing further calls until reset. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="240" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="240" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a5b030f0fd5318e01a8759bfccb149e5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, FewShotFallbackToTemplateLibrary)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>FewShotFallbackToTemplateLibrary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_FewShotFallbackToTemplateLibrary</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that RAG provider failure correctly falls back to the static template library for few-shot examples. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="284" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="284" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a62babe1f4e4ffcf0f4545421e9aa7ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(ProviderDegradation, DiagnosticAccuracyUserFacingMessages)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>ProviderDegradation</type>
+        </param>
+        <param>
+          <type>DiagnosticAccuracyUserFacingMessages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>ProviderDegradation_DiagnosticAccuracyUserFacingMessages</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that error messages contain accurate, actionable diagnostic information that would help operators triage production issues. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_provider_degradation.cpp" line="324" column="1" bodyfile="tests/aql/test_aql_provider_degradation.cpp" bodystart="324" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a53c25867f49ed45302c0da7bd34977d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, NullSchemaContextIsRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>NullSchemaContextIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_NullSchemaContextIsRejected</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that a null (empty) schema context is explicitly rejected with fail-closed semantics and a structured error category. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="144" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="144" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a6f87e98e10bbcceeb069cfcaddc4df1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, EmptySchemaContextHandledGracefully)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>EmptySchemaContextHandledGracefully</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_EmptySchemaContextHandledGracefully</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that an empty AQL query is also rejected with a clear diagnostic hint. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="169" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="169" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a9911448aa7ae648cdade3bbc67902a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, MissingCollectionMetadataReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>MissingCollectionMetadataReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_MissingCollectionMetadataReturnsError</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that referencing an unregistered collection returns MissingFieldMetadata with the collection name in the error context. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="202" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="202" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a82787b366ac362b17f46ccd4d1c1c7ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, TypeMismatchInFieldDefinitionDetected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>TypeMismatchInFieldDefinitionDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_TypeMismatchInFieldDefinitionDetected</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that type mismatch between a field definition and a filter expression is detected and reported with the TypeMismatch category. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="238" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="238" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a3944c4d7f2f9c98b6a149bbba32f3e34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, LargeSchemaHandledEfficiently)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>LargeSchemaHandledEfficiently</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_LargeSchemaHandledEfficiently</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that schema validation handles a large number of fields without performance degradation (basic wall-clock smoke test). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="274" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="274" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a7bdd20f6e15e343c206de8e2134eb058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLSchemaEdgeCases, ErrorContextContainsDiagnosticHint)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLSchemaEdgeCases</type>
+        </param>
+        <param>
+          <type>ErrorContextContainsDiagnosticHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>SchemaEdgeCases_ErrorContextContainsDiagnosticHint</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that <ref refid="classthemis_1_1aql_1_1_a_q_l_error_context" kindref="compound">AQLErrorContext</ref> produced during schema validation contains actionable diagnostic hints in its formatted log output. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="328" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="328" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a38f89bf82d23ad67fc1658eda024bc9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, BudgetExactlyExhaustedBoundaryCondition)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>BudgetExactlyExhaustedBoundaryCondition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000036"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_BudgetExactlyExhaustedBoundaryCondition</para>
+</xrefdescription></xrefsect></para>
+<para>Verify behavior when a turn exactly fills the remaining token budget: no eviction should occur, the turn must be accepted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="130" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="130" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a0e0606a6fce13250efc4a63ab73c40bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, SingleTurnExceedingBudgetErrors)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>SingleTurnExceedingBudgetErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000037"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_SingleTurnExceedingBudgetErrors</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that a single turn larger than the entire budget is rejected with a ContextBoundExceeded error (fail-closed). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="159" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="159" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a085bf764145d0c1fd7ebed7a7090cb04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, HistoryTruncatedOldestFirst)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>HistoryTruncatedOldestFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000038"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_HistoryTruncatedOldestFirst</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that when token budget is exceeded, the oldest turn is evicted first (FIFO eviction order). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="186" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="186" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a83eb858a0ccd771b7073592aea0b452e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, MaxTurnsLimitEnforced)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>MaxTurnsLimitEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000039"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_MaxTurnsLimitEnforced</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that when max_turns is reached, the oldest turn is evicted even if the token budget is not yet exhausted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="215" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="215" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a23ca57aa9cdf1d6e809be3ebca4d0564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, TokenCountingAccuracy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>TokenCountingAccuracy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000040"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_TokenCountingAccuracy</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that the token counting formula is applied consistently: currentTokens() == sum of individual turn token counts. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="236" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="236" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1aea9ef9a80d1eef5c76aa31d254c624ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(TokenPolicy, PolicyBehaviorAtBoundary)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>TokenPolicy</type>
+        </param>
+        <param>
+          <type>PolicyBehaviorAtBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000041"><xreftitle>Test</xreftitle><xrefdescription><para>TokenPolicy_PolicyBehaviorAtBoundary</para>
+</xrefdescription></xrefsect></para>
+<para>Verify edge conditions: zero budget, single-token budget, empty strings, and one-char strings. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="264" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="264" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a72462fe36e9e5163774be13ccee5d992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, GenerationFailed_RetrySucceeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>GenerationFailed_RetrySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000042"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1a: GenerationFailed with Retry (Success on 2nd Attempt)</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that transient LLM failures are retried and succeed on second attempt </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="167" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a9d8e50a44a62b063165b87a892f0202a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, GenerationFailed_RetryExhausted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>GenerationFailed_RetryExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000043"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1b: GenerationFailed Retry Exhaustion (3 Failures)</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that exhausted retries result in error with diagnostic context </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="182" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="182" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ac5ae1d1b378d8d9e42528c81a539ed41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, TimeoutExceeded_ExponentialBackoff)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>TimeoutExceeded_ExponentialBackoff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000044"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1c: TimeoutExceeded with Exponential Backoff</para>
+</xrefdescription></xrefsect></para>
+<para>Verify timeout detection and backoff timing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="211" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="211" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a810871a6ff935d03a772ed099fac2132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, InvalidResponse_RetryWithFeedback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>InvalidResponse_RetryWithFeedback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000045"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1d: InvalidResponse Retry with Error Feedback in Prompt</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that syntactically invalid LLM responses are retried with error feedback </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="241" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="241" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a7dcd208a1edd0df31e28e61eac8c1892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, ContextOverflow_GracefulDegradation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>ContextOverflow_GracefulDegradation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000046"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1e: ContextOverflow Graceful Degradation</para>
+</xrefdescription></xrefsect></para>
+<para>Verify graceful degradation when context window is exhausted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="273" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="273" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a7d1bc1dd9682ea85f7862b996e045daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, CircuitBreakerOpen_FastFail)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>CircuitBreakerOpen_FastFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000047"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1f: CircuitBreakerOpen Fast-Fail</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that open circuit breaker returns error immediately without provider call </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="301" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="301" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1afc89a96a7cec68890fcc2e48cdfb87fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, ProviderUnavailable_Detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>ProviderUnavailable_Detection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000048"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1g: ProviderUnavailable Detection</para>
+</xrefdescription></xrefsect></para>
+<para>Verify detection and handling of provider unavailability </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="337" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="337" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ae895ee4d2dde7a3526fdad86d9e9dfca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLTranslationRecovery, Backoff_TimingAccuracy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLTranslationRecovery</type>
+        </param>
+        <param>
+          <type>Backoff_TimingAccuracy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000049"><xreftitle>Test</xreftitle><xrefdescription><para>T4.3.1h: Retry Backoff Timing Accuracy</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that retry backoff timing follows exponential pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="371" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="371" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a062941f9d884252520b95d7960af8783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, MalformedAQL_SyntaxError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>MalformedAQL_SyntaxError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000050"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1a: MalformedAQL Detection</para>
+</xrefdescription></xrefsect></para>
+<para>Verify that syntax errors are detected and reported with diagnostic context </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="97" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="97" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a01a1b46fd0812e32e357635220282cb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, InjectionAttempt_SQLInjection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>InjectionAttempt_SQLInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000051"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1b: InjectionAttempt Detection</para>
+</xrefdescription></xrefsect></para>
+<para>Verify security detection of injection patterns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="130" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="130" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a86b4724a9ea7b70d137a521abf73c41a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, SchemaMismatch_FieldNotFound)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>SchemaMismatch_FieldNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000052"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1c: SchemaMismatch Diagnostic</para>
+</xrefdescription></xrefsect></para>
+<para>Verify schema field not found errors with helpful diagnostics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="160" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="160" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a0b5f99d43e26ad5559239f758aa10183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, TypeMismatch_StringComparison)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>TypeMismatch_StringComparison</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000053"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1d: TypeMismatch Detection</para>
+</xrefdescription></xrefsect></para>
+<para>Verify type safety checks for incompatible operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="206" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="206" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a9315ac7a8aad9d619aa8c97835984440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, UnsupportedOperator_RegexMatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>UnsupportedOperator_RegexMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000054"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1e: UnsupportedOperator Handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verify detection of AQL operators not supported in this version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="244" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="244" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a57be08e488a41b1c48cb6988514cb2d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, NullSchemaContext_MissingSchema)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>NullSchemaContext_MissingSchema</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000055"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1f: NullSchemaContext Handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verify graceful handling when schema context is missing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="269" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="269" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1ac3bda57d128c9ee2ca3b6883ffe3c74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, MissingFieldMetadata_IncompleteType)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>MissingFieldMetadata_IncompleteType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000056"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1g: MissingFieldMetadata Handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verify handling of incomplete field metadata </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="297" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="297" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1afc7405a13b7cf4ce48b9eb5ffc7a83bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::TEST</definition>
+        <argsstring>(AQLValidationErrorHandling, ErrorContextFormatting_CompleteContext)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::aql::testing::TEST</qualifiedname>
+        <param>
+          <type>AQLValidationErrorHandling</type>
+        </param>
+        <param>
+          <type>ErrorContextFormatting_CompleteContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000057"><xreftitle>Test</xreftitle><xrefdescription><para>T4.2.1h: Error Context Formatting and Diagnostics</para>
+</xrefdescription></xrefsect></para>
+<para>Verify comprehensive error context formatting for logging/monitoring </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="330" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="330" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1testing_1a76d8ef2aba4b00a0daa5f9e136f3487e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_set" kindref="compound">MockProviderSet</ref></type>
+        <definition>MockProviderSet themis::aql::testing::makeMockProviderSet</definition>
+        <argsstring>(const MockProviderConfig &amp;infer_cfg=MockProviderConfig::AlwaysSucceed(), const MockProviderConfig &amp;rag_cfg=MockProviderConfig::AlwaysSucceed(), const MockProviderConfig &amp;embed_cfg=MockProviderConfig::AlwaysSucceed())</argsstring>
+        <name>makeMockProviderSet</name>
+        <qualifiedname>themis::aql::testing::makeMockProviderSet</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref> &amp;</type>
+          <declname>infer_cfg</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" kindref="member">MockProviderConfig::AlwaysSucceed</ref>()</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref> &amp;</type>
+          <declname>rag_cfg</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" kindref="member">MockProviderConfig::AlwaysSucceed</ref>()</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config" kindref="compound">MockProviderConfig</ref> &amp;</type>
+          <declname>embed_cfg</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_config_1a5405e644f26ee38184d2fd7e8bb8ab2e" kindref="member">MockProviderConfig::AlwaysSucceed</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="277" column="24" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="277" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_bridge_degradation.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

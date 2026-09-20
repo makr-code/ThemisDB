@@ -1,0 +1,1685 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::voice::test</compoundname>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_anti_spoof" prot="public">themis::voice::test::AntiSpoof</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_audit_log" prot="public">themis::voice::test::AuditLog</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1test_1_1_challenge_token" prot="public">themis::voice::test::ChallengeToken</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker" prot="public">themis::voice::test::CircuitBreaker</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1test_1_1_intent_result" prot="public">themis::voice::test::IntentResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1test_1_1_s_t_t_result" prot="public">themis::voice::test::STTResult</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_voice_backend" prot="public">themis::voice::test::VoiceBackend</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_voice_session" prot="public">themis::voice::test::VoiceSession</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" prot="public">themis::voice::test::VoiceSessionChaosTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" prot="public">themis::voice::test::VoiceWaveAChaosTest</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1test_1_1_wake_word_result" prot="public">themis::voice::test::WakeWordResult</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" prot="public">themis::voice::test::WaveANoisyWakeWordTest</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CircuitState</name>
+        <qualifiedname>themis::voice::test::CircuitState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="44" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SessionState</name>
+        <qualifiedname>themis::voice::test::SessionState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50aefe6f7b3b829150eadeba397b45e520a" prot="public">
+          <name>TORN_DOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="46" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendKind</name>
+        <qualifiedname>themis::voice::test::BackendKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3a9d82ed816b6f8b88586b476e7740c977" prot="public">
+          <name>STT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1voice_1_1test_1a443e38e44f9c9b3df7c53abc3eb4dfb3ab8cc08c142bcf05a92faec2d6ed58b05" prot="public">
+          <name>LLM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="48" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1test_1a324960df7fd2d74195b55e95c45c54a3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::test::kChaosTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kChaosTestSeed</name>
+        <qualifiedname>themis::voice::test::kChaosTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Determinism seed required by Wave A chaos conventions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="38" column="20" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a3a3b5c459a53e3b475dfe4de5fc9cd33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::generateLiveAudioSample</definition>
+        <argsstring>(size_t num_samples=16000)</argsstring>
+        <name>generateLiveAudioSample</name>
+        <qualifiedname>themis::voice::test::generateLiveAudioSample</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+          <defval>16000</defval>
+        </param>
+        <briefdescription>
+<para>Generate synthetic live audio sample (PCM 16-bit LE). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates PCM audio with characteristics of live speech:<itemizedlist>
+<listitem><para>Variable amplitude envelope (natural variation)</para>
+</listitem><listitem><para>High crest factor (peaks and troughs)</para>
+</listitem><listitem><para>Low spectral flatness (structured harmonics) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="40" column="13" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="40" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ab75619b71bc8529235b2c27ffa4c28ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::generateReplayAttackSample</definition>
+        <argsstring>(size_t num_samples=16000)</argsstring>
+        <name>generateReplayAttackSample</name>
+        <qualifiedname>themis::voice::test::generateReplayAttackSample</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+          <defval>16000</defval>
+        </param>
+        <briefdescription>
+<para>Generate replay attack audio (pre-recorded/looped). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates PCM audio with characteristics of replayed content:<itemizedlist>
+<listitem><para>Constant or slowly varying amplitude</para>
+</listitem><listitem><para>Low crest factor (few peaks)</para>
+</listitem><listitem><para>Repeated frame similarity (looping)</para>
+</listitem><listitem><para>High spectral flatness </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="80" column="13" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="80" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a734844dde22970539917fd1c76c687e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::generateNoisyLiveAudioSample</definition>
+        <argsstring>(size_t num_samples=16000)</argsstring>
+        <name>generateNoisyLiveAudioSample</name>
+        <qualifiedname>themis::voice::test::generateNoisyLiveAudioSample</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+          <defval>16000</defval>
+        </param>
+        <briefdescription>
+<para>Generate audio with background noise (realistic condition). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates PCM audio simulating real-world conditions:<itemizedlist>
+<listitem><para>Live speech with natural variation</para>
+</listitem><listitem><para>Added background noise (coffee shop, traffic)</para>
+</listitem><listitem><para>Maintains liveness characteristics </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="109" column="13" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="109" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a95a3d191e1c5fbe20282a7bfa44e170e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::generateSpeakerBaseline</definition>
+        <argsstring>()</argsstring>
+        <name>generateSpeakerBaseline</name>
+        <qualifiedname>themis::voice::test::generateSpeakerBaseline</qualifiedname>
+        <briefdescription>
+<para>Generate speaker baseline embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a realistic speaker embedding (32-dimensional vector) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="139" column="13" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a9eada87ce6466be34590d2e6ee8ba3b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::generateMismatchedSpeakerBaseline</definition>
+        <argsstring>()</argsstring>
+        <name>generateMismatchedSpeakerBaseline</name>
+        <qualifiedname>themis::voice::test::generateMismatchedSpeakerBaseline</qualifiedname>
+        <briefdescription>
+<para>Generate mismatched speaker embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a different speaker embedding for mismatch testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="156" column="13" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="156" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a265a9ee9df16d354b62d56df70295ffa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_live_speaker_accepted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_live_speaker_accepted</type>
+        </param>
+        <briefdescription>
+<para>Test: Live speaker acceptance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that audio from a live speaker is accepted with high confidence </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="177" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="177" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1afd6a5dd8630ac03e95388d722cfe0ee9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_replay_attack_detected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_replay_attack_detected</type>
+        </param>
+        <briefdescription>
+<para>Test: Replay attack detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that pre-recorded/replayed audio is detected and rejected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="195" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="195" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a20a0077a2568a5458ec8cbeb6efa9efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_speaker_mismatch_detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_speaker_mismatch_detection</type>
+        </param>
+        <briefdescription>
+<para>Test: Speaker mismatch detection (impersonation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that audio from a different speaker is rejected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="230" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="230" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1adc84166e8289096b0e16fd7add7428b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_noisy_live_audio_accepted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_noisy_live_audio_accepted</type>
+        </param>
+        <briefdescription>
+<para>Test: Noisy live audio accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that live audio with background noise is still accepted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="249" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="249" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a13086b0cccb70ca0895555b8da7ea566" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_compressed_audio_handling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_compressed_audio_handling</type>
+        </param>
+        <briefdescription>
+<para>Test: Compressed audio handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies correct handling of OPUS or AAC compressed audio </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="272" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="272" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1aa5677ed3033125873038a36dde357b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_malformed_audio_rejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_malformed_audio_rejected</type>
+        </param>
+        <briefdescription>
+<para>Test: Malformed audio rejection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that corrupted or malformed audio is rejected fail-closed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="289" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="289" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ad6849cf9f863f01e4309be5376ede8be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_silent_audio_rejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_silent_audio_rejected</type>
+        </param>
+        <briefdescription>
+<para>Test: Silent audio rejection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that silent or dead-air audio is rejected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="313" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="313" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ae36494b47be7cb5e21ed5cc1352ee4b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_clipped_audio_detected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_clipped_audio_detected</type>
+        </param>
+        <briefdescription>
+<para>Test: Clipped audio detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that clipped/saturated waveforms are detected as synthetic </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="342" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="342" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1af6273ba17c49cf838b6fb2b703d427e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_detection_latency_baseline)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_detection_latency_baseline</type>
+        </param>
+        <briefdescription>
+<para>Test: Detection latency baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures detection latency and verifies it&apos;s under acceptable threshold (&lt;100ms) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="373" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="373" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a3c53d038e7728f15609fbd1641d8cea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_concurrent_adversarial_sessions)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_concurrent_adversarial_sessions</type>
+        </param>
+        <briefdescription>
+<para>Test: Concurrent adversarial sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that multiple concurrent sessions maintain isolation under mixed live/replay/mismatch conditions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="404" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="404" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1acf7477c73e79027026f77a7259dedfe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_edge_case_very_short_audio)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_edge_case_very_short_audio</type>
+        </param>
+        <briefdescription>
+<para>Test: Edge case - very short audio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies proper handling of very short audio (&lt;100ms) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="425" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="425" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a0d6825b0f5ed72d74a1aff0f6d690898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceAdversarialAntiSpoof, test_detection_accuracy_metrics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceAdversarialAntiSpoof</type>
+        </param>
+        <param>
+          <type>test_detection_accuracy_metrics</type>
+        </param>
+        <briefdescription>
+<para>Test: Detection accuracy metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that false-positive and false-negative rates are acceptable </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="441" column="1" bodyfile="tests/voice/test_voice_adversarial_anti_spoof.cpp" bodystart="441" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, NormalStreamFlow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>NormalStreamFlow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V1-VOICE-001: Validate normal audio stream flow.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create stream validator with valid session parameters</para>
+</listitem><listitem><para>Submit sequence of valid audio chunks</para>
+</listitem><listitem><para>Mark final chunk</para>
+</listitem><listitem><para>Verify all chunks accepted and stream marked complete </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="64" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="64" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a8f4c83040156087b3124f328ddf22cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectOversizedChunk)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectOversizedChunk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V1-VOICE-002: Reject oversized chunks.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Attempt to submit chunk exceeding MAX_CHUNK_SIZE_BYTES</para>
+</listitem><listitem><para>Verify <ref refid="classthemis_1_1voice_1_1_stream_validation_error" kindref="compound">StreamValidationError</ref> is thrown</para>
+</listitem><listitem><para>Verify stream remains in valid state </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="93" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="93" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a265f1904e5fd6357ba73b49756b082da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectZeroSizedChunk)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectZeroSizedChunk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V1-VOICE-003: Reject zero-sized chunks.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Attempt to submit zero-length chunk</para>
+</listitem><listitem><para>Verify <ref refid="classthemis_1_1voice_1_1_stream_validation_error" kindref="compound">StreamValidationError</ref> is thrown </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="117" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1af3edf6c66a1322921821cd336b74f346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, EnforceSequenceOrdering)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>EnforceSequenceOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V1-VOICE-004: Enforce sequence ordering.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Submit chunk with sequence 0</para>
+</listitem><listitem><para>Attempt to submit chunk with sequence 5 (skipped)</para>
+</listitem><listitem><para>Verify non-sequential error </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="133" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1afb96294f76c7ed743cc2ca6bf9074628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectMalformedAudio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectMalformedAudio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V1-VOICE-005: Reject malformed audio data.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create validator</para>
+</listitem><listitem><para>Attempt to submit malformed chunk (all 0xFF or similar)</para>
+</listitem><listitem><para>Verify malformation is detected and chunk rejected </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="155" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="155" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a5c1e3f69f0f0855738c910859dc6abb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, AcceptLiveSpeech)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>AcceptLiveSpeech</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V2-VOICE-001: Accept live speech chunks.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create liveness checker</para>
+</listitem><listitem><para>Submit valid audio chunk with realistic content</para>
+</listitem><listitem><para>Verify liveness check passes </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="183" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="183" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1aac51b46ed2ed8facf7de32143f3578f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectSilenceAsNotLive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectSilenceAsNotLive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V2-VOICE-002: Reject silence as not live.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create liveness checker</para>
+</listitem><listitem><para>Submit silence (all zeros)</para>
+</listitem><listitem><para>Verify silence is rejected as not live </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="204" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="204" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a8a5578560420d576da69dc4e9d9416cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, DetectReplayAttack)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>DetectReplayAttack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V2-VOICE-003: Detect replay attacks.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Submit a chunk</para>
+</listitem><listitem><para>Submit the same chunk again</para>
+</listitem><listitem><para>Verify replay is detected </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="222" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="222" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1aa246a2c38b7a447993e3f65dc101a9c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectMalformedSpoof)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectMalformedSpoof</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V2-VOICE-004: Reject malformed spoof attempts.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Submit chunk with extreme uniformity (likely TTS)</para>
+</listitem><listitem><para>Verify spoof confidence is elevated </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="246" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="246" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a075ab2d6e40fe9feb15cea443681a9ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, UniformAudioTriggersStrongSpoofPenalty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>UniformAudioTriggersStrongSpoofPenalty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="257" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="257" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a1c1ea932634843eb6605495b58106534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectNullAudio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectNullAudio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V2-VOICE-005: Handle null audio gracefully.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Attempt to check null audio pointer</para>
+</listitem><listitem><para>Verify std::invalid_argument is thrown </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="274" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="274" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ad69e550e73a0cee49cc12d7054d3c561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, MultiSessionIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>MultiSessionIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V3-VOICE-001: Verify multi-session isolation.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create multiple validators for different sessions</para>
+</listitem><listitem><para>Submit chunks to each independently</para>
+</listitem><listitem><para>Verify sessions don&apos;t interfere with each other </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="294" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="294" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a752a1f08b3ddb1f09f94db2e8d3262b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, ConcurrentStreamValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentStreamValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V3-VOICE-002: Thread-safe concurrent stream validation.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Create multiple validators</para>
+</listitem><listitem><para>Submit chunks from concurrent threads</para>
+</listitem><listitem><para>Verify no race conditions or cross-contamination </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="326" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="326" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ab86da06b61c478a1be2504f3caea10da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, SafeTeardownWithPendingChunks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>SafeTeardownWithPendingChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V3-VOICE-003: Safe teardown with pending chunks.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Start session and submit some chunks</para>
+</listitem><listitem><para>Destroy validator while stream is still active</para>
+</listitem><listitem><para>Verify no memory leaks or undefined behavior </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="371" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="371" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a8d12bcf3377b9513cee0914c3995e3f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RejectChunksAfterCompletion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RejectChunksAfterCompletion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V3-VOICE-004: Reject stream after completion.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Mark stream as complete (is_final_chunk=true)</para>
+</listitem><listitem><para>Attempt to submit more chunks</para>
+</listitem><listitem><para>Verify error is thrown </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="396" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="396" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ad102bac7992f740cb2f11a6c93612fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceSessionChaosTest, RapidChunkSubmission)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>RapidChunkSubmission</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>V4-VOICE-001: Rapid sequential chunk submission.</para>
+<para>Scenario:<orderedlist>
+<listitem><para>Submit 100 small chunks rapidly</para>
+</listitem><listitem><para>Verify all are accepted in order</para>
+</listitem><listitem><para>Check no performance degradation </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="424" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="424" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ac149fe54bb775c2bc26b73a8ac54b3ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, ValidChunkAcceptedAndStateUpdated)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>ValidChunkAcceptedAndStateUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="17" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="17" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a1543782e87873a25c9c4469ba2d58f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, EmptyChunkRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>EmptyChunkRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="32" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a18b66f76053f6653b4f2c2bb0ceccf37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, OversizedChunkRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>OversizedChunkRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="41" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a657ee19118345fa0eb449ded0c8c5a66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, NonSequentialChunkRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>NonSequentialChunkRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="52" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a6f3523b87d6a6e1e31a6c289020cac6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, MalformedChunkRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>MalformedChunkRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="63" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a9138184183a7c4343a5d3e405fbb1ec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, ExceededDurationRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>ExceededDurationRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="73" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="73" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ac4e2a871a939533a55e13f9b8478e0e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, FinalChunkMarksStreamComplete)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>FinalChunkMarksStreamComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="85" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="85" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a5f5ecfbb9a1cfbb994ef733abb3245c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST</definition>
+        <argsstring>(VoiceStreamValidation, ConstructorRejectsInvalidConfig)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::voice::test::TEST</qualifiedname>
+        <param>
+          <type>VoiceStreamValidation</type>
+        </param>
+        <param>
+          <type>ConstructorRejectsInvalidConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_stream_validation.cpp" line="97" column="1" bodyfile="tests/voice/test_voice_stream_validation.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a32406af605f04ff5806dc9ed5fc72af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_01_BackendFailure_SessionTeardownClean)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_01_BackendFailure_SessionTeardownClean</type>
+        </param>
+        <briefdescription>
+<para>When the STT backend goes down mid-session the session must transition to ERROR and teardown must complete cleanly (state == TORN_DOWN, teardownCount == 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-01 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="285" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="285" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1aa0bc438167fb395839e03116e3adf2e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_02_SpoofingDetection_BackendFailure_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_02_SpoofingDetection_BackendFailure_Rejected</type>
+        </param>
+        <briefdescription>
+<para>When the STT backend is unavailable, anti-spoof verification must fail-closed regardless of challenge validity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-02 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="315" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="315" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a84861be1f633fd41e7c39fc7b15efa5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_03_CascadingFailure_CircuitBreakerTrips)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_03_CascadingFailure_CircuitBreakerTrips</type>
+        </param>
+        <briefdescription>
+<para>After 5 consecutive backend failures the circuit breaker must open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-03 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="336" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="336" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ab36aedf10354dd3499fb267e59a5d5f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_04_CircuitBreaker_Recovery_OpenHalfOpenClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_04_CircuitBreaker_Recovery_OpenHalfOpenClosed</type>
+        </param>
+        <briefdescription>
+<para>Simulates the full circuit breaker recovery arc without real timers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-04 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="361" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="361" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a4a19c90be5900e794e5c2090f0432b4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_05_ConcurrentTeardowns_NoLeak)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_05_ConcurrentTeardowns_NoLeak</type>
+        </param>
+        <briefdescription>
+<para>Eight sessions are torn down concurrently while the backend is down. No session must be torn down more than once (no double-teardown). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-05 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="392" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="392" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a3a324e1ee18d193482866c56463ea9f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_06_ReplayAttack_DegradedBackend_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_06_ReplayAttack_DegradedBackend_Rejected</type>
+        </param>
+        <briefdescription>
+<para>A token that has already been seen must be rejected even when the backend is available (replay attack prevention). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-06 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="430" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="430" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ac9d10a1129e6e3615192222c8def56ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_07_OversizedChunk_BackendFailure_FailClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_07_OversizedChunk_BackendFailure_FailClosed</type>
+        </param>
+        <briefdescription>
+<para>A stream chunk that exceeds the maximum allowed size must be rejected fail-closed, independent of backend availability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-07 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="458" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="458" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a9c5c994c46886a062e5815334b716c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_08_BackendUnavailable_StaleChallenge_FailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_08_BackendUnavailable_StaleChallenge_FailsClosed</type>
+        </param>
+        <briefdescription>
+<para>A stale challenge token combined with a down backend is doubly-invalid and must fail-closed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-08 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="488" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="488" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a7ebc7dad980204930bff5e67aacff594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_09_MultiBackendCascade_SessionDemotedToError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_09_MultiBackendCascade_SessionDemotedToError</type>
+        </param>
+        <briefdescription>
+<para>When both STT and LLM fail the session must reach ERROR state after the first failing call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-09 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="510" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="510" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1aa7f27797be6a6dc3400edceed603317d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_10_AuditCallback_FiresDuringBackendFailureTeardown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_10_AuditCallback_FiresDuringBackendFailureTeardown</type>
+        </param>
+        <briefdescription>
+<para>An audit callback must be invoked exactly once when a session is torn down after a backend failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-10 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="537" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="537" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a7c78361d30605f37060424991ff5b2fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_11_NewSessionsBlocked_CircuitOpen)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_11_NewSessionsBlocked_CircuitOpen</type>
+        </param>
+        <briefdescription>
+<para>When the STT circuit breaker is OPEN, new session calls must fail immediately (canAttempt() == false), blocking new work from queuing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-11 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="568" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="568" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a607c172314e4cb42907cb936c868da39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(VoiceWaveAChaosTest, CHAOS_12_FullLifecycle_StartFailTeardownReinit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CHAOS_12_FullLifecycle_StartFailTeardownReinit</type>
+        </param>
+        <briefdescription>
+<para>Full round-trip: session starts normally, backend fails, session is torn down, circuit breaker resets, and a fresh session succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>VOICE-CHAOS-12 </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="593" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="593" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a7d5ca5ed9536daac2924fbae329b8cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1test_1_1_wake_word_result" kindref="compound">WakeWordResult</ref></type>
+        <definition>WakeWordResult themis::voice::test::dispatchWakeWord</definition>
+        <argsstring>(float reported_confidence, float snr_degradation, bool throw_exception, float threshold=0.7f, float max_noise=0.8f)</argsstring>
+        <name>dispatchWakeWord</name>
+        <qualifiedname>themis::voice::test::dispatchWakeWord</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>reported_confidence</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>snr_degradation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throw_exception</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.7f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_noise</declname>
+          <defval>0.8f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hardened wake-word dispatcher (Wave-A V1).<itemizedlist>
+<listitem><para>Returns fail-closed on exception.</para>
+</listitem><listitem><para>Rejects confidence below threshold.</para>
+</listitem><listitem><para>Rejects audio whose SNR degradation exceeds kMaxNoiseDegradation. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="63" column="16" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="63" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a9e43980b575414a9bbbbed69d73d7682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1test_1_1_intent_result" kindref="compound">IntentResult</ref></type>
+        <definition>IntentResult themis::voice::test::dispatchIntentRecognition</definition>
+        <argsstring>(const std::string &amp;text, bool throw_exception=false)</argsstring>
+        <name>dispatchIntentRecognition</name>
+        <qualifiedname>themis::voice::test::dispatchIntentRecognition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throw_exception</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hardened intent recognizer (Wave-A V1).<itemizedlist>
+<listitem><para>Returns UNKNOWN/0.0 for empty input or on exception. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="93" column="14" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="93" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a02f056d999e7687804f11b65ce8a1524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::dispatchLLMResponse</definition>
+        <argsstring>(const std::string &amp;prompt, bool simulate_timeout, int64_t timeout_ms=30000)</argsstring>
+        <name>dispatchLLMResponse</name>
+        <qualifiedname>themis::voice::test::dispatchLLMResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>simulate_timeout</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hardened LLM response generator with mock timeout (Wave-A V1).<itemizedlist>
+<listitem><para>Returns safe default string when backend exceeds timeout_ms threshold. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="113" column="13" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="113" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a265e250e4d66b254fdb6351c4b661b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::dispatchCommandExecution</definition>
+        <argsstring>(const std::string &amp;command, bool force_fail=false)</argsstring>
+        <name>dispatchCommandExecution</name>
+        <qualifiedname>themis::voice::test::dispatchCommandExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_fail</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hardened command execution path (Wave-A V1).<itemizedlist>
+<listitem><para>Returns error response string when the command fails. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="138" column="13" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="138" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a81e706d54ab4ee0afe79dc08a3accdd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1test_1_1_s_t_t_result" kindref="compound">STTResult</ref></type>
+        <definition>STTResult themis::voice::test::dispatchSTT</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio, bool throw_exception=false)</argsstring>
+        <name>dispatchSTT</name>
+        <qualifiedname>themis::voice::test::dispatchSTT</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throw_exception</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hardened STT dispatch with backend failure fallback (Wave-A V2).<itemizedlist>
+<listitem><para>Returns empty transcript + &quot;[STT_BACKEND_FAILURE]&quot; marker on exception. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="157" column="11" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="157" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a959da60d0f7c0bdd7c5dbbcfc673500d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, WakeWordBelowConfidenceThresholdNotTriggered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>WakeWordBelowConfidenceThresholdNotTriggered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="200" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="200" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ad62ce4e675b36731b3136bcb13731236" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, WakeWordNotTriggeredByHighNoise)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>WakeWordNotTriggeredByHighNoise</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="217" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="217" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a7df45f1cf1a62abbb78a585717fe22b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, WakeWordTriggeredAtSufficientConfidence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>WakeWordTriggeredAtSufficientConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="236" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="236" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a0a7b85cab28ed946713288fa0e4bc565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, WakeWordFailClosedOnDetectorException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>WakeWordFailClosedOnDetectorException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="254" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="254" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a3771ca8cc462c1999f9c137798f31a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, IntentRecognitionReturnsUnknownForEmptyInput)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>IntentRecognitionReturnsUnknownForEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="273" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="273" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a4d81ce5d11e516f18ae1d9ac47b2dae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, LLMResponseReturnsSafeDefaultOnTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>LLMResponseReturnsSafeDefaultOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="286" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1a978c6bc945bc65cd7c0a6fb23985ebbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, CommandExecutionReturnsErrorResponseOnFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>CommandExecutionReturnsErrorResponseOnFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="304" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="304" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1test_1ac8b664514acb7548177dd57a801a0ce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::TEST_F</definition>
+        <argsstring>(WaveANoisyWakeWordTest, PartialSTTFailureReturnsEmptyTranscriptMarker)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::voice::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kindref="compound">WaveANoisyWakeWordTest</ref></type>
+        </param>
+        <param>
+          <type>PartialSTTFailureReturnsEmptyTranscriptMarker</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="322" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="322" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_adversarial_anti_spoof.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

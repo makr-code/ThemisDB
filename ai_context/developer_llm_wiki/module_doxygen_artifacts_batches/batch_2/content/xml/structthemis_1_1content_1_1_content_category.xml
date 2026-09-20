@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_category" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentCategory</compoundname>
+    <includes refid="content__classifier_8h" local="no">content_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_category_1ab0f123ecfada25e11e5ec1cef4d07361" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentCategory::category_id</definition>
+        <argsstring></argsstring>
+        <name>category_id</name>
+        <qualifiedname>themis::content::ContentCategory::category_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="25" column="17" bodyfile="include/content/content_classifier.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_category_1a46241526f11117aad7fb259ce255d074" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentCategory::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::content::ContentCategory::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label (e.g., &quot;Finance/Banking&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="26" column="17" bodyfile="include/content/content_classifier.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_category_1a824e2339471e61257602c6f012c6de02" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::ContentCategory::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::content::ContentCategory::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Classification confidence [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="27" column="17" bodyfile="include/content/content_classifier.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_category_1a3760f822867007cdd5989841ec6bd3b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentCategory::taxonomy</definition>
+        <argsstring></argsstring>
+        <name>taxonomy</name>
+        <qualifiedname>themis::content::ContentCategory::taxonomy</qualifiedname>
+        <briefdescription>
+<para>Taxonomy identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="28" column="17" bodyfile="include/content/content_classifier.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_classifier.h" line="24" column="1" bodyfile="include/content/content_classifier.h" bodystart="24" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_category_1ab0f123ecfada25e11e5ec1cef4d07361" prot="public" virt="non-virtual"><scope>themis::content::ContentCategory</scope><name>category_id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_category_1a824e2339471e61257602c6f012c6de02" prot="public" virt="non-virtual"><scope>themis::content::ContentCategory</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1content_1_1_content_category_1a46241526f11117aad7fb259ce255d074" prot="public" virt="non-virtual"><scope>themis::content::ContentCategory</scope><name>label</name></member>
+      <member refid="structthemis_1_1content_1_1_content_category_1a3760f822867007cdd5989841ec6bd3b2" prot="public" virt="non-virtual"><scope>themis::content::ContentCategory</scope><name>taxonomy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

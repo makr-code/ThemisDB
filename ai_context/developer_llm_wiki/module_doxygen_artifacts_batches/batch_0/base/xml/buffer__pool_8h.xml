@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="buffer__pool_8h" kind="file" language="C++">
+    <compoundname>buffer_pool.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cassert</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="resource__pool__manager_8h" local="yes">include/base/resource_pool_manager.h</includedby>
+    <includedby refid="buffer__pool_8cpp" local="yes">src/base/buffer_pool.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/base/buffer_pool.h</label>
+        <link refid="buffer__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cassert</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>cstdlib</label>
+      </node>
+      <node id="8">
+        <label>cstring</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/base/buffer_pool.h</label>
+        <link refid="buffer__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/base/resource_pool_manager.h</label>
+        <link refid="resource__pool__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/base/buffer_pool.cpp</label>
+        <link refid="buffer__pool_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/base/resource_pool_manager.cpp</label>
+        <link refid="resource__pool__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1resource_1_1_buffer_handle" prot="public">themis::resource::BufferHandle</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_buffer_pool" prot="public">themis::resource::BufferPool</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" prot="public">themis::resource::BufferPool::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" prot="public">themis::resource::BufferPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_buffer_pool_1_1_slab" prot="private">themis::resource::BufferPool::Slab</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1resource">themis::resource</innernamespace>
+    <briefdescription>
+<para>Phase 3 P3-03-D: Slab-based buffer pool allocator for ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a thread-safe, fixed-size slab allocator over six size classes (128 B, 256 B, 512 B, 1 KB, 2 KB, 4 KB). Allocations from an appropriate slab class are constant-time and do not call into the OS allocator on the hot path; oversized requests fall back to the system allocator.</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>&gt;90 % reuse rate (allocated from slab, not from OS)</para>
+</listitem><listitem><para>Fragmentation-free fixed-size allocation within each class</para>
+</listitem><listitem><para>Thread-safe acquire / release via per-class spin-lock + free-list</para>
+</listitem><listitem><para>Statistics: total allocated, total reused, per-class counts</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Block B P3-03-D delivery </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cassert&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1resource" kindref="compound">themis::resource</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref><sp/>:<sp/>std::size_t<sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a6a0a16ffe39b4bf6f4ec19a24e911005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a6a0a16ffe39b4bf6f4ec19a24e911005" kindref="member">B128</ref><sp/><sp/>=<sp/><sp/><sp/>128,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a769a30dfd2685aec41a88de616034d6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a769a30dfd2685aec41a88de616034d6d" kindref="member">B256</ref><sp/><sp/>=<sp/><sp/><sp/>256,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a340cc5a15bd1d1b2812abd1ef095759e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a340cc5a15bd1d1b2812abd1ef095759e" kindref="member">B512</ref><sp/><sp/>=<sp/><sp/><sp/>512,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a2790b86da27e701033b28bce76bc9268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a2790b86da27e701033b28bce76bc9268" kindref="member">KB1</ref><sp/><sp/><sp/>=<sp/><sp/>1024,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a286baea58683b4d864901a5937e881a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a286baea58683b4d864901a5937e881a0" kindref="member">KB2</ref><sp/><sp/><sp/>=<sp/><sp/>2048,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73aed2f9a0f3018b6b27b6309ffbc7c35c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73aed2f9a0f3018b6b27b6309ffbc7c35c7" kindref="member">KB4</ref><sp/><sp/><sp/>=<sp/><sp/>4096,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1resource_1_1_buffer_handle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1resource_1_1_buffer_handle_1a5f55639035a56a100ced9d91ecdcedd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5f55639035a56a100ced9d91ecdcedd8" kindref="member">BufferHandle</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" kindref="member">data</ref>,<sp/>std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" kindref="member">size</ref>,<sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref><sp/>slab,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref>*<sp/>pool,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>auto_release<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>noexcept</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>data_(<ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" kindref="member">data</ref>),<sp/>size_(<ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" kindref="member">size</ref>),<sp/>slab_(slab),<sp/>pool_(pool),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto_release_(auto_release)<sp/>{}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1resource_1_1_buffer_handle_1a2e90f0531145c0d1ba912168e1e3be41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a2e90f0531145c0d1ba912168e1e3be41" kindref="member">BufferHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1resource_1_1_buffer_handle_1ad1237b1c0af8f0e4d3ec1fa8ac0f3dd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1ad1237b1c0af8f0e4d3ec1fa8ac0f3dd9" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1resource_1_1_buffer_handle_1a123b7794866a79172c80549ae2a33ccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a123b7794866a79172c80549ae2a33ccc" kindref="member">BufferHandle</ref>(<ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;&amp;<sp/>o)<sp/>noexcept</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>data_(o.data_),<sp/>size_(o.size_),<sp/>slab_(o.slab_),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_(o.pool_),<sp/>auto_release_(o.auto_release_)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.data_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.pool_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1resource_1_1_buffer_handle_1ac2a4a467bf53757a35b0859061be1eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1ac2a4a467bf53757a35b0859061be1eb4" kindref="member">operator=</ref>(<ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9f3b6aaa05bdadc03ea8ee909d821666" kindref="member">BufferHandle</ref>&amp;&amp;<sp/>o)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;o)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" kindref="member">release</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>o.data_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>o.size_;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slab_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>o.slab_;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>o.pool_;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto_release_<sp/>=<sp/>o.auto_release_;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.data_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o.pool_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1aef08eb2219912ca5e5428a04dd660f52" kindref="member">~BufferHandle</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>defined<sp/>after<sp/>BufferPool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" kindref="member">data</ref>()<sp/><sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_;<sp/>}</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1resource_1_1_buffer_handle_1a9ea000abaed77a7392c5f0045ce4bee4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a9ea000abaed77a7392c5f0045ce4bee4" kindref="member">data</ref>()<sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_;<sp/>}</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5d3e262ca7201037575e8ee1b45f35a3" kindref="member">size</ref>()<sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size_;<sp/>}</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1resource_1_1_buffer_handle_1a0ea8b29af5dd13971ebf2db2a1fb5dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a0ea8b29af5dd13971ebf2db2a1fb5dcd" kindref="member">valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint8_t*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" kindref="member">bytes</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(data_);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" kindref="member">release</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/>size_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref><sp/><sp/><sp/><sp/>slab_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref>::<ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a6a0a16ffe39b4bf6f4ec19a24e911005" kindref="member">B128</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref>*<sp/><sp/>pool_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto_release_<sp/>=<sp/>true;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1resource_1_1_buffer_pool" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7c8c977b5dbb188b67c4b6f0be86a68c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7c8c977b5dbb188b67c4b6f0be86a68c" kindref="member">total_allocations</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a0c5515931fa156cc532f8dc9be649eae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a0c5515931fa156cc532f8dc9be649eae" kindref="member">slab_hits</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a17e54924aea709b891112eb895bacf7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a17e54924aea709b891112eb895bacf7d" kindref="member">slab_misses</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1ac778900f862b9166089cc84520a2bdb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1ac778900f862b9166089cc84520a2bdb7" kindref="member">os_fallbacks</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a587af3ee95a89791d673ed6097d4fb56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a587af3ee95a89791d673ed6097d4fb56" kindref="member">current_live</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7bc90bcdc51c64a5aa864f7fac696319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::array&lt;std::size_t,<sp/>6&gt;<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7bc90bcdc51c64a5aa864f7fac696319" kindref="member">per_class_allocs</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1ad6b78bed661843a7afebe154e85fe458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1ad6b78bed661843a7afebe154e85fe458" kindref="member">initial_per_class</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1adbe780ac102ac099cc92e47980784b49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config_1adbe780ac102ac099cc92e47980784b49" kindref="member">max_per_class</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1resource_1_1_buffer_pool_1af1e64cf0bfb9cd6b81b22f91ec839415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af1e64cf0bfb9cd6b81b22f91ec839415" kindref="member">BufferPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1resource_1_1_buffer_pool_1a72fa80bd38a34884c1597e8119440f8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a72fa80bd38a34884c1597e8119440f8b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">BufferPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1af4fab9e189734863aedeb42ead263d8e" kindref="member">~BufferPool</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle" kindref="compound">BufferHandle</ref><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a8c7b960bdf326e7b7ba282eb20ad10fb" kindref="member">acquire</ref>(std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" kindref="member">bytes</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" kindref="member">release</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a5cdc98450acfbe94aee0eb546f6a3863" kindref="member">data</ref>,<sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref><sp/>slab)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1ab3ba4f3293090c95fdac8acaf79f1162" kindref="member">statistics</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a561731c6a02749414acda1b56416a31f" kindref="member">shutdown</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1resource_1_1_buffer_pool_1a8eff2bf501c294e4c781f9e5ddfa6385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a8eff2bf501c294e4c781f9e5ddfa6385" kindref="member">is_shutdown</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shutdown_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Class-level<sp/>constants<sp/>(public<sp/>so<sp/>tests<sp/>can<sp/>use<sp/>them)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1resource_1_1_buffer_pool_1a634c8f903d8c134d92bb2c74195d8bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::array&lt;std::size_t,<sp/>6&gt;<sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a634c8f903d8c134d92bb2c74195d8bde" kindref="member">kSlabSizes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128,<sp/>256,<sp/>512,<sp/>1024,<sp/>2048,<sp/>4096</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1resource_1_1_buffer_pool_1a8d07d7ce7277af21f72554e558a2fea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool_1a8d07d7ce7277af21f72554e558a2fea9" kindref="member">kMaxSlabSize</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-slab-class<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Slab<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lock<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/><sp/><sp/><sp/>free_list;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>block_size<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alloc_count<sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>miss_count<sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>the<sp/>slab<sp/>index<sp/>for<sp/>a<sp/>given<sp/>request<sp/>size,<sp/>or<sp/>kNone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kNone<sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>slabIndex(std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a03bf55ac655bc79cf95bb744bd9fc747" kindref="member">bytes</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" kindref="member">SlabClass</ref><sp/>indexToClass(std::size_t<sp/>idx)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>preallocateSlab(Slab&amp;<sp/>s,<sp/>std::size_t<sp/>count);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::array&lt;Slab,<sp/>6&gt;<sp/><sp/><sp/><sp/><sp/>slabs_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>shutdown_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>counters<sp/>(updated<sp/>under<sp/>slab<sp/>locks<sp/>or<sp/>atomically).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>total_allocs_{0};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>os_fallbacks_{0};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>live_handles_{0};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BufferHandle<sp/>inline<sp/>definitions<sp/>(after<sp/>BufferPool<sp/>is<sp/>fully<sp/>declared)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1resource_1_1_buffer_handle_1aef08eb2219912ca5e5428a04dd660f52" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1aef08eb2219912ca5e5428a04dd660f52" kindref="member">BufferHandle::~BufferHandle</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(auto_release_)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" kindref="member">release</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_buffer_handle_1a175795654a480ab5302b3c9617c2fb83" kindref="member">BufferHandle::release</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data_<sp/>&amp;&amp;<sp/>pool_)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_-&gt;release(data_,<sp/>slab_);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data_<sp/>&amp;&amp;<sp/>!pool_)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OS-fallback<sp/>path:<sp/>the<sp/>pool<sp/>pointer<sp/>is<sp/>null<sp/>for<sp/>oversized<sp/>allocations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::free(data_);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::resource</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/base/buffer_pool.h"/>
+  </compounddef>
+</doxygen>

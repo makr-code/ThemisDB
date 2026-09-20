@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_multi_field_boosted_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::MultiFieldBoostedSearch</compoundname>
+    <includes refid="multi__field__search_8h" local="no">multi_field_search.h</includes>
+    <innerclass refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" prot="public">themis::MultiFieldBoostedSearch::FieldConfig</innerclass>
+    <innerclass refid="structthemis_1_1_multi_field_boosted_search_1_1_config" prot="public">themis::MultiFieldBoostedSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_multi_field_boosted_search_1_1_result" prot="public">themis::MultiFieldBoostedSearch::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_multi_field_boosted_search_1a7e9211c4822f6760582aa2a6735a46a2" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::MultiFieldBoostedSearch::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="163" column="27" bodyfile="include/search/multi_field_search.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_multi_field_boosted_search_1ad74b367ad2f3eeb6206464fb5d53d269" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_multi_field_boosted_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::MultiFieldBoostedSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="164" column="12" bodyfile="include/search/multi_field_search.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a0f4c3dfd389d3ed69c3052e1bb20f968" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MultiFieldBoostedSearch::MultiFieldBoostedSearch</definition>
+        <argsstring>(SecondaryIndexManager *index)</argsstring>
+        <name>MultiFieldBoostedSearch</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::MultiFieldBoostedSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. May be null (all searches will return empty results). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="100" column="14" bodyfile="src/search/multi_field_search.cpp" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a6dcec5f324f192a67ae383c99a2fe85d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MultiFieldBoostedSearch::MultiFieldBoostedSearch</definition>
+        <argsstring>(SecondaryIndexManager *index, const Config &amp;config)</argsstring>
+        <name>MultiFieldBoostedSearch</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::MultiFieldBoostedSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. May be null (all searches will return empty results). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="107" column="5" bodyfile="src/search/multi_field_search.cpp" bodystart="28" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a4f33191f64b3cec3e03cb99ed22630bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; MultiFieldBoostedSearch::Result &gt; themis::MultiFieldBoostedSearch::search</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; FieldConfig &gt; &amp;fields) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kindref="compound">FieldConfig</ref> &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Execute a boosted multi-field search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each <computeroutput><ref refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kindref="compound">FieldConfig</ref></computeroutput> in <computeroutput>fields</computeroutput>, runs a BM25 fulltext query, normalizes the scores to [0, 1], multiplies by the field&apos;s boost weight, and accumulates into a per-document combined score. Documents that do not appear in a particular field&apos;s results contribute 0.0 for that field.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text query string. Empty query returns empty results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered list of fields to search with their boost weights. Empty list returns empty results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results sorted by combined score descending, limited to <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_config_1a5b61cb62b3c938a55babd415cab79311" kindref="member">Config::k</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="127" column="17" bodyfile="src/search/multi_field_search.cpp" bodystart="88" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a6dcd2a72b8fa8edc0ee5ed0d115de937" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::MultiFieldBoostedSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="147" column="18" bodyfile="include/search/multi_field_search.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a1b802cd511602ee819922d07ebf1c798" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MultiFieldBoostedSearch::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="148" column="10" bodyfile="include/search/multi_field_search.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1a2e9f956b9512417154e5db137aaf6381" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kindref="compound">FieldConfig</ref> &gt;</type>
+        <definition>std::vector&lt; MultiFieldBoostedSearch::FieldConfig &gt; themis::MultiFieldBoostedSearch::defaultFields</definition>
+        <argsstring>(const std::string &amp;table)</argsstring>
+        <name>defaultFields</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::defaultFields</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Build the default title/body/tags field list for a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns three <ref refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kindref="compound">FieldConfig</ref> entries:<itemizedlist>
+<listitem><para><computeroutput>&lt;table&gt;.title</computeroutput> boost = 3.0</para>
+</listitem><listitem><para><computeroutput>&lt;table&gt;.body</computeroutput> boost = 1.0</para>
+</listitem><listitem><para><computeroutput>&lt;table&gt;.tags</computeroutput> boost = 0.5</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Default field list ordered by descending boost. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="145" column="24" bodyfile="src/search/multi_field_search.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_multi_field_boosted_search_1abe570e544417877443380a919fc65a75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MultiFieldBoostedSearch::normalizeScores</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;scored)</argsstring>
+        <name>normalizeScores</name>
+        <qualifiedname>themis::MultiFieldBoostedSearch::normalizeScores</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;</type>
+          <declname>scored</declname>
+        </param>
+        <briefdescription>
+<para>Normalize a list of (doc_id, raw_score) pairs to [0, 1] in place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When all scores are equal (range == 0):<itemizedlist>
+<listitem><para>score &gt; 0 → all normalized to 1.0</para>
+</listitem><listitem><para>score == 0 → all normalized to 0.0</para>
+</listitem></itemizedlist>
+</para>
+<para>Promoted to public static for direct unit testing (same pattern as <ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">HybridSearch::normalizeScores</ref>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_field_search.h" line="160" column="17" bodyfile="src/search/multi_field_search.cpp" bodystart="44" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-field boosted full-text search with per-field boost weights. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Searches a query across multiple fields (e.g. title, body, tags) using BM25 scoring, applies a configurable boost weight to each field&apos;s scores, and returns documents ranked by their combined weighted score.</para>
+<para>The default boost ordering follows the &quot;title &gt; body &gt; tags&quot; precedence (title_boost=3.0, body_boost=1.0, tags_boost=0.5).</para>
+<para><heading level="3">Score combination</heading>
+</para>
+<para>For each document that appears in one or more field result lists the final score is: <programlisting><codeline><highlight class="normal">score(doc)<sp/>=<sp/>sum_f(<sp/>boost_f<sp/>*<sp/>normalized_bm25_score_f(doc)<sp/>)</highlight></codeline>
+</programlisting> where <computeroutput>normalized_bm25_score_f</computeroutput> is the BM25 score for field <computeroutput>f</computeroutput> linearly rescaled to [0, 1] across all candidates returned for that field.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">MultiFieldBoostedSearch::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.k<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_multi_field_boosted_search_1a0f4c3dfd389d3ed69c3052e1bb20f968" kindref="member">MultiFieldBoostedSearch</ref><sp/>mfs(&amp;sec_index,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fields<sp/>=<sp/><ref refid="classthemis_1_1_multi_field_boosted_search_1a2e9f956b9512417154e5db137aaf6381" kindref="member">MultiFieldBoostedSearch::defaultFields</ref>(</highlight><highlight class="stringliteral">&quot;articles&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>mfs.search(</highlight><highlight class="stringliteral">&quot;database<sp/>engine&quot;</highlight><highlight class="normal">,<sp/>fields);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>r.document_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single instance is NOT thread-safe. Callers that share an instance across threads must provide their own synchronization. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> never throws; all exceptions from the index backend are caught internally and result in an empty or partial result list. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/multi_field_search.h" line="59" column="1" bodyfile="include/search/multi_field_search.h" bodystart="59" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1ad74b367ad2f3eeb6206464fb5d53d269" prot="private" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a2e9f956b9512417154e5db137aaf6381" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>defaultFields</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a6dcd2a72b8fa8edc0ee5ed0d115de937" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a7e9211c4822f6760582aa2a6735a46a2" prot="private" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a0f4c3dfd389d3ed69c3052e1bb20f968" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>MultiFieldBoostedSearch</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a6dcec5f324f192a67ae383c99a2fe85d" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>MultiFieldBoostedSearch</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1abe570e544417877443380a919fc65a75" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>normalizeScores</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a4f33191f64b3cec3e03cb99ed22630bc" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_multi_field_boosted_search_1a1b802cd511602ee819922d07ebf1c798" prot="public" virt="non-virtual"><scope>themis::MultiFieldBoostedSearch</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

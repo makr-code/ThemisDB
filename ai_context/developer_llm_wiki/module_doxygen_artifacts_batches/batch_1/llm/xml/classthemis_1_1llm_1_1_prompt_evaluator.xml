@@ -1,0 +1,682 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_prompt_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PromptEvaluator</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_prompt_evaluator_1a312a948306d3a5191ced1ab53de340df" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref></type>
+        <definition>EvaluatorConfig themis::llm::PromptEvaluator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::PromptEvaluator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="137" column="21" bodyfile="include/llm/prompt_evaluator.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a41b3cf5c87f6f4a9b4256ceb24461baf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptEvaluator::PromptEvaluator</definition>
+        <argsstring>(const EvaluatorConfig &amp;config=EvaluatorConfig{})</argsstring>
+        <name>PromptEvaluator</name>
+        <qualifiedname>themis::llm::PromptEvaluator::PromptEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="53" column="14" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a846a4c37b2ae2299aa3937e30b8143ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_evaluation_metrics" kindref="compound">EvaluationMetrics</ref></type>
+        <definition>EvaluationMetrics themis::llm::PromptEvaluator::evaluateSingle</definition>
+        <argsstring>(const std::string &amp;output, const std::string &amp;expected) const</argsstring>
+        <name>evaluateSingle</name>
+        <qualifiedname>themis::llm::PromptEvaluator::evaluateSingle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Single. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="61" column="23" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="28" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a54364cd4cac6a67eb39e8d2cd658618e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_aggregated_metrics" kindref="compound">AggregatedMetrics</ref></type>
+        <definition>AggregatedMetrics themis::llm::PromptEvaluator::evaluateBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;outputs, const std::vector&lt; std::string &gt; &amp;expected) const</argsstring>
+        <name>evaluateBatch</name>
+        <qualifiedname>themis::llm::PromptEvaluator::evaluateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>outputs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="72" column="23" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="48" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1ae8e920407ab5198b8ac0ebc0bb289fd9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref> &amp;</type>
+        <definition>const EvaluatorConfig &amp; themis::llm::PromptEvaluator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::PromptEvaluator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="127" column="27" bodyfile="include/llm/prompt_evaluator.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a2ad2688edf658d548a22c83ee1ac14ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PromptEvaluator::setConfig</definition>
+        <argsstring>(const EvaluatorConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::PromptEvaluator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="134" column="10" bodyfile="include/llm/prompt_evaluator.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a2e3772e0cd32a27c584665bf6f986776" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PromptEvaluator::computeSemanticSimilarity</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>computeSemanticSimilarity</name>
+        <qualifiedname>themis::llm::PromptEvaluator::computeSemanticSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Semantic Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeString(), tokenize(), empty(), set1(), begin(), end(), set2(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="83" column="19" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="131" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1aa68ac042b324ec667232041dbcfdcdf7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PromptEvaluator::computeExactMatch</definition>
+        <argsstring>(const std::string &amp;output, const std::string &amp;expected)</argsstring>
+        <name>computeExactMatch</name>
+        <qualifiedname>themis::llm::PromptEvaluator::computeExactMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Compute Exact Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="94" column="19" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="174" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1afe414ef386583162ae057caeb29f6ddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PromptEvaluator::computePartialMatch</definition>
+        <argsstring>(const std::string &amp;output, const std::string &amp;expected)</argsstring>
+        <name>computePartialMatch</name>
+        <qualifiedname>themis::llm::PromptEvaluator::computePartialMatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Compute Partial Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeString(), empty(), levenshteinDistance(), std::max(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="105" column="19" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="191" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a4f010c8464e3402eb80a0ef823dfded7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PromptEvaluator::computeRelevance</definition>
+        <argsstring>(const std::string &amp;output, const std::string &amp;expected)</argsstring>
+        <name>computeRelevance</name>
+        <qualifiedname>themis::llm::PromptEvaluator::computeRelevance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Compute Relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tokenize(), normalizeString(), empty(), output_set(), begin(), end(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="116" column="19" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="220" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a652c78e50f33ce6750e732eac2f838b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptEvaluator::isStatisticallySignificant</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;baseline_scores, const std::vector&lt; double &gt; &amp;new_scores, double confidence_level=0.95)</argsstring>
+        <name>isStatisticallySignificant</name>
+        <qualifiedname>themis::llm::PromptEvaluator::isStatisticallySignificant</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>baseline_scores</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>new_scores</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>confidence_level</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+<para>Is Statistically Significant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">baseline_scores</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_scores</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="121" column="17" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="252" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1acb9cef42736c4ca2d32d75eab5ef13d9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PromptEvaluator::computeWeightedScore</definition>
+        <argsstring>(const EvaluationMetrics &amp;metrics) const</argsstring>
+        <name>computeWeightedScore</name>
+        <qualifiedname>themis::llm::PromptEvaluator::computeWeightedScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_evaluation_metrics" kindref="compound">EvaluationMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Compute Weighted Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="144" column="12" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="283" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a15bf0cbf01089617dfbff691f153e56a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PromptEvaluator::normalizeString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>normalizeString</name>
+        <qualifiedname>themis::llm::PromptEvaluator::normalizeString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Normalize String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), length(), empty(), back(), push_back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="151" column="24" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="295" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1a185beba69283264d769b562683a6f615" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::PromptEvaluator::tokenize</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::llm::PromptEvaluator::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="158" column="24" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="328" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_evaluator_1aac879929121c3f9b6a51e954b0d622ce" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PromptEvaluator::levenshteinDistance</definition>
+        <argsstring>(const std::string &amp;s1, const std::string &amp;s2)</argsstring>
+        <name>levenshteinDistance</name>
+        <qualifiedname>themis::llm::PromptEvaluator::levenshteinDistance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <briefdescription>
+<para>Levenshtein Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), dp(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="166" column="19" bodyfile="src/llm/prompt_evaluator.cpp" bodystart="349" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_evaluator.h" line="51" column="1" bodyfile="include/llm/prompt_evaluator.h" bodystart="51" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1aa68ac042b324ec667232041dbcfdcdf7" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>computeExactMatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1afe414ef386583162ae057caeb29f6ddd" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>computePartialMatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a4f010c8464e3402eb80a0ef823dfded7" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>computeRelevance</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a2e3772e0cd32a27c584665bf6f986776" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>computeSemanticSimilarity</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1acb9cef42736c4ca2d32d75eab5ef13d9" prot="private" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>computeWeightedScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a312a948306d3a5191ced1ab53de340df" prot="private" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a54364cd4cac6a67eb39e8d2cd658618e" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>evaluateBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a846a4c37b2ae2299aa3937e30b8143ad" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>evaluateSingle</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1ae8e920407ab5198b8ac0ebc0bb289fd9" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a652c78e50f33ce6750e732eac2f838b4" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>isStatisticallySignificant</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1aac879929121c3f9b6a51e954b0d622ce" prot="private" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>levenshteinDistance</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a15bf0cbf01089617dfbff691f153e56a" prot="private" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>normalizeString</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a41b3cf5c87f6f4a9b4256ceb24461baf" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>PromptEvaluator</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a2ad2688edf658d548a22c83ee1ac14ac" prot="public" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_evaluator_1a185beba69283264d769b562683a6f615" prot="private" virt="non-virtual"><scope>themis::llm::PromptEvaluator</scope><name>tokenize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

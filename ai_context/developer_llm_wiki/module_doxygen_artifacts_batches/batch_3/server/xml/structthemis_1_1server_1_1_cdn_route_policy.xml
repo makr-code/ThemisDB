@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_cdn_route_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::CdnRoutePolicy</compoundname>
+    <includes refid="cdn__cache__middleware_8h" local="no">cdn_cache_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1ac6c2fe497b3965b7ffdbca13ac15c536" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080" kindref="member">CacheDirective</ref></type>
+        <definition>CacheDirective themis::server::CdnRoutePolicy::directive</definition>
+        <argsstring></argsstring>
+        <name>directive</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::directive</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080abc8a5ae4ad0a8629d8a8205e5ed9f43f" kindref="member">CacheDirective::NO_STORE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="35" column="20" bodyfile="include/server/cdn_cache_middleware.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1a1897a170f7629f048c19db9c24fc5ab5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::CdnRoutePolicy::max_age_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_age_seconds</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::max_age_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="37" column="14" bodyfile="include/server/cdn_cache_middleware.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1ada5bf0245b6c5e58228a209544eea303" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::CdnRoutePolicy::cdn_max_age_seconds</definition>
+        <argsstring></argsstring>
+        <name>cdn_max_age_seconds</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::cdn_max_age_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="39" column="14" bodyfile="include/server/cdn_cache_middleware.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1ac61b2805a1030c243973fc5279fba276" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::CdnRoutePolicy::stale_while_revalidate_seconds</definition>
+        <argsstring></argsstring>
+        <name>stale_while_revalidate_seconds</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::stale_while_revalidate_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="41" column="14" bodyfile="include/server/cdn_cache_middleware.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1a857c868e179256e9ed29ab25b795732a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::CdnRoutePolicy::stale_if_error_seconds</definition>
+        <argsstring></argsstring>
+        <name>stale_if_error_seconds</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::stale_if_error_seconds</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="43" column="14" bodyfile="include/server/cdn_cache_middleware.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1a71aad0cd2bb3278f0fc8b8296ab95dfd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::CdnRoutePolicy::surrogate_keys</definition>
+        <argsstring></argsstring>
+        <name>surrogate_keys</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::surrogate_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="45" column="17" bodyfile="include/server/cdn_cache_middleware.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1ad58cb32ce3038d108c040f35f62df7c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CdnRoutePolicy::enable_etag</definition>
+        <argsstring></argsstring>
+        <name>enable_etag</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::enable_etag</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="47" column="10" bodyfile="include/server/cdn_cache_middleware.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1a553e0ed02f6e967c0b78501e81724b7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CdnRoutePolicy::emit_cdn_cache_control</definition>
+        <argsstring></argsstring>
+        <name>emit_cdn_cache_control</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::emit_cdn_cache_control</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="49" column="10" bodyfile="include/server/cdn_cache_middleware.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cdn_route_policy_1ab61bc3c87e9d4dac2840a62b5ba889d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::CdnRoutePolicy::emit_surrogate_control</definition>
+        <argsstring></argsstring>
+        <name>emit_surrogate_control</name>
+        <qualifiedname>themis::server::CdnRoutePolicy::emit_surrogate_control</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="51" column="10" bodyfile="include/server/cdn_cache_middleware.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cdn_cache_middleware.h" line="34" column="1" bodyfile="include/server/cdn_cache_middleware.h" bodystart="34" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1ada5bf0245b6c5e58228a209544eea303" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>cdn_max_age_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1ac6c2fe497b3965b7ffdbca13ac15c536" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>directive</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1a553e0ed02f6e967c0b78501e81724b7b" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>emit_cdn_cache_control</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1ab61bc3c87e9d4dac2840a62b5ba889d1" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>emit_surrogate_control</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1ad58cb32ce3038d108c040f35f62df7c5" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>enable_etag</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1a1897a170f7629f048c19db9c24fc5ab5" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>max_age_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1a857c868e179256e9ed29ab25b795732a" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>stale_if_error_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1ac61b2805a1030c243973fc5279fba276" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>stale_while_revalidate_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_cdn_route_policy_1a71aad0cd2bb3278f0fc8b8296ab95dfd" prot="public" virt="non-virtual"><scope>themis::server::CdnRoutePolicy</scope><name>surrogate_keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_anomaly_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AnomalyEvent</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fada" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::server::AnomalyEvent::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fadaabb4af4d0d34f697088a6f3b838545776" prot="public">
+          <name>ADAPTIVE_THROTTLE_TRIGGERED</name>
+          <briefdescription>
+<para>IP exceeded rejection threshold; penalty applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fadaa45553cd9768f3deab5b1d697f0edf085" prot="public">
+          <name>IP_BLACKLISTED</name>
+          <briefdescription>
+<para>IP was programmatically added to the blacklist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="98" column="5" bodyfile="include/server/rate_limiter.h" bodystart="98" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_anomaly_event_1a4720f3996285281fe7a613ad6bbfdd22" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fada" kindref="member">Type</ref></type>
+        <definition>Type themis::server::AnomalyEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::server::AnomalyEvent::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="102" column="17" bodyfile="include/server/rate_limiter.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_anomaly_event_1a4e079d8f8667604575eff4d81aefb84d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AnomalyEvent::ip</definition>
+        <argsstring></argsstring>
+        <name>ip</name>
+        <qualifiedname>themis::server::AnomalyEvent::ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="103" column="17" bodyfile="include/server/rate_limiter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_anomaly_event_1acfe4960c05d10f0a6c2effe4fa54ad2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AnomalyEvent::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::server::AnomalyEvent::detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="104" column="17" bodyfile="include/server/rate_limiter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_anomaly_event_1a5124829d8616defa9f41909430a0cc4c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::AnomalyEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::server::AnomalyEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="105" column="43" bodyfile="include/server/rate_limiter.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="97" column="1" bodyfile="include/server/rate_limiter.h" bodystart="97" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_anomaly_event_1acfe4960c05d10f0a6c2effe4fa54ad2f" prot="public" virt="non-virtual"><scope>themis::server::AnomalyEvent</scope><name>detail</name></member>
+      <member refid="structthemis_1_1server_1_1_anomaly_event_1a4e079d8f8667604575eff4d81aefb84d" prot="public" virt="non-virtual"><scope>themis::server::AnomalyEvent</scope><name>ip</name></member>
+      <member refid="structthemis_1_1server_1_1_anomaly_event_1a5124829d8616defa9f41909430a0cc4c" prot="public" virt="non-virtual"><scope>themis::server::AnomalyEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1server_1_1_anomaly_event_1aa2a4aeb685a97e8eecd0d1896178fada" prot="public" virt="non-virtual"><scope>themis::server::AnomalyEvent</scope><name>Type</name></member>
+      <member refid="structthemis_1_1server_1_1_anomaly_event_1a4720f3996285281fe7a613ad6bbfdd22" prot="public" virt="non-virtual"><scope>themis::server::AnomalyEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_graph_query_cache_1_1_l1_tier" kind="struct" language="C++" prot="private">
+    <compoundname>GraphQueryCache::L1Tier</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_l1_tier_1ac47908948332146cbff6c1b06d8eef43" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; Entry, LruList::iterator &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;Entry, LruList::iterator&gt; &gt; themis::graph::GraphQueryCache::L1Tier::map</definition>
+        <argsstring></argsstring>
+        <name>map</name>
+        <qualifiedname>GraphQueryCache::L1Tier::map</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="140" column="2" bodyfile="include/graph/graph_query_cache.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_graph_query_cache_1_1_l1_tier_1ae051978a5636eab75c1a6d0999755511" prot="public" static="no" mutable="no">
+        <type>LruList</type>
+        <definition>LruList themis::graph::GraphQueryCache::L1Tier::lru</definition>
+        <argsstring></argsstring>
+        <name>lru</name>
+        <qualifiedname>GraphQueryCache::L1Tier::lru</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Front = MRU, back = LRU victim. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="141" column="17" bodyfile="include/graph/graph_query_cache.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="138" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="138" bodyend="142"/>
+    <listofallmembers>
+      <member refid="struct_graph_query_cache_1_1_l1_tier_1ae051978a5636eab75c1a6d0999755511" prot="public" virt="non-virtual"><scope>GraphQueryCache::L1Tier</scope><name>lru</name></member>
+      <member refid="struct_graph_query_cache_1_1_l1_tier_1ac47908948332146cbff6c1b06d8eef43" prot="public" virt="non-virtual"><scope>GraphQueryCache::L1Tier</scope><name>map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

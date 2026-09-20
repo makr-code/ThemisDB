@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_multi_lo_r_a_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>MultiLoRAManager::Config</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Config::max_lora_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_lora_vram_mb</name>
+        <qualifiedname>MultiLoRAManager::Config::max_lora_vram_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="269" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Config::max_lora_slots</definition>
+        <argsstring></argsstring>
+        <name>max_lora_slots</name>
+        <qualifiedname>MultiLoRAManager::Config::max_lora_slots</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="270" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1af2f493c5d3d23a20b13162af287bf8fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MultiLoRAManager::Config::lora_base_dir</definition>
+        <argsstring></argsstring>
+        <name>lora_base_dir</name>
+        <qualifiedname>MultiLoRAManager::Config::lora_base_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="275" column="21" bodyfile="include/llm/multi_lora_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::MultiLoRAManager::Config::lora_ttl</definition>
+        <argsstring></argsstring>
+        <name>lora_ttl</name>
+        <qualifiedname>MultiLoRAManager::Config::lora_ttl</qualifiedname>
+        <initializer>{1800}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="278" column="30" bodyfile="include/llm/multi_lora_manager.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a10fde3ba8302336bd1f924b093280d19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiLoRAManager::Config::enable_lazy_load</definition>
+        <argsstring></argsstring>
+        <name>enable_lazy_load</name>
+        <qualifiedname>MultiLoRAManager::Config::enable_lazy_load</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="279" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a9b16b70b45b57962baa79163857a5879" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiLoRAManager::Config::enable_multi_lora_batch</definition>
+        <argsstring></argsstring>
+        <name>enable_multi_lora_batch</name>
+        <qualifiedname>MultiLoRAManager::Config::enable_multi_lora_batch</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="282" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1ac1a82d64f78422e72253deb12827ca67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MultiLoRAManager::Config::max_loras_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_loras_per_batch</name>
+        <qualifiedname>MultiLoRAManager::Config::max_loras_per_batch</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="283" column="16" bodyfile="include/llm/multi_lora_manager.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a23b35e2c179e99454916b40609a196c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiLoRAManager::Config::enable_adapter_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_adapter_fusion</name>
+        <qualifiedname>MultiLoRAManager::Config::enable_adapter_fusion</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="286" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" prot="public" static="no" mutable="no">
+        <type>LoRAQuantizationConfig</type>
+        <definition>LoRAQuantizationConfig themis::llm::MultiLoRAManager::Config::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>MultiLoRAManager::Config::quantization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="289" column="32" bodyfile="include/llm/multi_lora_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a204ae5bb52e7f66c511b8ae7f0a24486" prot="public" static="no" mutable="no">
+        <type>MultiGPUConfig</type>
+        <definition>MultiGPUConfig themis::llm::MultiLoRAManager::Config::multi_gpu</definition>
+        <argsstring></argsstring>
+        <name>multi_gpu</name>
+        <qualifiedname>MultiLoRAManager::Config::multi_gpu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="292" column="24" bodyfile="include/llm/multi_lora_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a66d852666b829d46debbe59d874a2383" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; LoRASecurityValidator &gt;</type>
+        <definition>std::shared_ptr&lt;LoRASecurityValidator&gt; themis::llm::MultiLoRAManager::Config::security_validator</definition>
+        <argsstring></argsstring>
+        <name>security_validator</name>
+        <qualifiedname>MultiLoRAManager::Config::security_validator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="297" column="25" bodyfile="include/llm/multi_lora_manager.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_multi_lo_r_a_manager_1_1_config_1a5ab60e175f0497ad9b75c5a1d969c272" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiLoRAManager::Config::enforce_security_validation</definition>
+        <argsstring></argsstring>
+        <name>enforce_security_validation</name>
+        <qualifiedname>MultiLoRAManager::Config::enforce_security_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="298" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiLoRAManager::Config</label>
+        <link refid="struct_multi_lo_r_a_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>multi_gpu</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::LoRAQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::MultiGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_g_p_u_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/multi_lora_manager.h" line="267" column="5" bodyfile="include/llm/multi_lora_manager.h" bodystart="267" bodyend="299"/>
+    <listofallmembers>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a23b35e2c179e99454916b40609a196c2" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>enable_adapter_fusion</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a10fde3ba8302336bd1f924b093280d19" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>enable_lazy_load</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a9b16b70b45b57962baa79163857a5879" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>enable_multi_lora_batch</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a5ab60e175f0497ad9b75c5a1d969c272" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>enforce_security_validation</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1af2f493c5d3d23a20b13162af287bf8fb" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>lora_base_dir</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a183c2465fc5ffb66b7e8eb91d04fa7ef" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>lora_ttl</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a0b3577a2e363278e04d499981e72976e" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>max_lora_slots</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a067da07323a4531bdbc68e2f914e35de" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>max_lora_vram_mb</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1ac1a82d64f78422e72253deb12827ca67" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>max_loras_per_batch</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a204ae5bb52e7f66c511b8ae7f0a24486" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>multi_gpu</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a81f7c7ac1cb56735c83882f31e1e1028" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>quantization</name></member>
+      <member refid="struct_multi_lo_r_a_manager_1_1_config_1a66d852666b829d46debbe59d874a2383" prot="public" virt="non-virtual"><scope>MultiLoRAManager::Config</scope><name>security_validator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

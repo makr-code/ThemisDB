@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ingestion__sinks_8h" kind="file" language="C++">
+    <compoundname>ingestion_sinks.h</compoundname>
+    <includes refid="base__entity_8h" local="yes">ingestion/base_entity.h</includes>
+    <includes refid="extraction__context_8h" local="yes">ingestion/extraction_context.h</includes>
+    <includes local="yes">document/document_store.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includedby refid="builtin__step__factories_8h" local="yes">include/ingestion/builtin_step_factories.h</includedby>
+    <includedby refid="ingestion__sinks_8cpp" local="yes">src/ingestion/ingestion_sinks.cpp</includedby>
+    <includedby refid="tensor__core__bridge__step_8cpp" local="yes">src/ingestion/steps/tensor_core_bridge_step.cpp</includedby>
+    <includedby refid="test__ingestion__assembler__sinks_8cpp" local="yes">tests/ingestion/test_ingestion_assembler_sinks.cpp</includedby>
+    <includedby refid="test__ingestion__legal__domain_8cpp" local="yes">tests/ingestion/test_ingestion_legal_domain.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="9">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/ingestion_sinks.h</label>
+        <link refid="ingestion__sinks_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>document/document_store.h</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>unordered_set</label>
+      </node>
+      <node id="16">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="15">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/ingestion/builtin_step_factories.h</label>
+        <link refid="builtin__step__factories_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/ingestion_sinks.h</label>
+        <link refid="ingestion__sinks_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/ingestion/ingestion_sinks.cpp</label>
+        <link refid="ingestion__sinks_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/ingestion/steps/chunk_embed_step.cpp</label>
+        <link refid="chunk__embed__step_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/steps/chunk_tt_decompose_step.cpp</label>
+        <link refid="chunk__tt__decompose__step_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/ingestion/steps/decompress_step.cpp</label>
+        <link refid="decompress__step_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/ingestion/steps/legal_reference_step.cpp</label>
+        <link refid="legal__reference__step_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/ingestion/steps/llm_extract_step.cpp</label>
+        <link refid="llm__extract__step_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/ingestion/steps/ner_step.cpp</label>
+        <link refid="ner__step_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/ingestion/steps/tensor_core_bridge_step.cpp</label>
+        <link refid="tensor__core__bridge__step_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/ingestion/workflow_engine.cpp</label>
+        <link refid="workflow__engine_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/ingestion/test_ingestion_assembler_sinks.cpp</label>
+        <link refid="test__ingestion__assembler__sinks_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/ingestion/test_ingestion_builtin_steps_v14.cpp</label>
+        <link refid="test__ingestion__builtin__steps__v14_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/ingestion/test_ingestion_legal_domain.cpp</label>
+        <link refid="test__ingestion__legal__domain_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/ingestion/test_ingestion_ner_llm.cpp</label>
+        <link refid="test__ingestion__ner__llm_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_graph_writer" prot="public">themis::ingestion::IGraphWriter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_vector_writer" prot="public">themis::ingestion::IVectorWriter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_doc_writer" prot="public">themis::ingestion::IDocWriter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer" prot="public">themis::ingestion::InMemoryGraphWriter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer" prot="public">themis::ingestion::InMemoryVectorWriter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer" prot="public">themis::ingestion::InMemoryDocWriter</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle" prot="public">themis::ingestion::IngestionSinkBundle</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter" prot="public">themis::ingestion::DocumentStoreSinkAdapter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter" prot="public">themis::ingestion::GraphStoreSinkAdapter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter" prot="public">themis::ingestion::VectorIndexSinkAdapter</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" prot="public">themis::ingestion::ITensorCoreBridge</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" prot="public">themis::ingestion::InMemoryTensorCoreBridge</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.2 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">ingestion/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="extraction__context_8h" kindref="compound">ingestion/extraction_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;document/document_store.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GraphIndexManager;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGraphWriter<sp/>—<sp/>sink<sp/>for<sp/>graph<sp/>nodes<sp/>and<sp/>edges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1ingestion_1_1_i_graph_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer" kindref="compound">IGraphWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a1b76b3a9166495c7cbc56984432008de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a1b76b3a9166495c7cbc56984432008de" kindref="member">~IGraphWriter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1ab446339f0e464bc89a3ca72fe1ad1ec2" kindref="member">writeEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>nodes)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a2875793205ed61ad54fbac71fa094109" kindref="member">writeRelations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EntityRelation&gt;&amp;<sp/>edges)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1aea4042f740ef2c6129ecd654b5b4b3d2" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a54da8a0efa7391ab8c1c9fa204ac0c09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a54da8a0efa7391ab8c1c9fa204ac0c09" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a97c718cab07619b23f08c30e406c9786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer_1a97c718cab07619b23f08c30e406c9786" kindref="member">edgeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IVectorWriter<sp/>—<sp/>sink<sp/>for<sp/>vector<sp/>index<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1ingestion_1_1_i_vector_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" kindref="member">~IVectorWriter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1" kindref="member">writeVectors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;VectorRecord&gt;&amp;<sp/>records)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b" kindref="member">vectorCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91" kindref="member">findByChunkId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IDocWriter<sp/>—<sp/>sink<sp/>for<sp/>raw<sp/>document<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1ingestion_1_1_i_doc_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer" kindref="compound">IDocWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a1b32aa16b450fd4fabb6f0fbc965dbce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a1b32aa16b450fd4fabb6f0fbc965dbce" kindref="member">~IDocWriter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c" kindref="member">writeDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ingested&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a430cc204a7b983824c97feb9aa06238e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a430cc204a7b983824c97feb9aa06238e" kindref="member">documentCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryGraphWriter<sp/>—<sp/>reference<sp/>implementation<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Provide<sp/>a<sp/>fully<sp/>functional<sp/>but<sp/>non-persistent<sp/>IGraphWriter<sp/>for<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>in<sp/>unit<sp/>tests,<sp/>integration<sp/>tests,<sp/>and<sp/>dry-run<sp/>ingestion<sp/>scenarios.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Explicitly<sp/>instantiated<sp/>by<sp/>test<sp/>code<sp/>or<sp/>by<sp/>callers<sp/>that<sp/>do<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>have<sp/>a<sp/>real<sp/>graph<sp/>database<sp/>available<sp/>at<sp/>test<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Data<sp/>exists<sp/>only<sp/>in<sp/>process<sp/>memory<sp/>and<sp/>is<sp/>lost<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>destruction.<sp/><sp/>No<sp/>ACID<sp/>guarantees,<sp/>no<sp/>replication,<sp/>no<sp/>persistence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>retained<sp/>as<sp/>the<sp/>canonical<sp/>test<sp/>double<sp/>and<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>future<sp/>in-memory<sp/>graph<sp/>scenarios<sp/>(e.g.<sp/>ephemeral<sp/>batch<sp/>imports).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer" kindref="compound">InMemoryGraphWriter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer" kindref="compound">IGraphWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ac47372c2424a0bb701c3cac658baa7e5" kindref="member">writeEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ab497752bce9690a888712c26267e0b29" kindref="member">nodes</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ac2a860c96f43c918f415ca06d557177a" kindref="member">writeRelations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EntityRelation&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a86ab8fa837a3ee171e3c42aafd211305" kindref="member">edges</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a8a0416bb1d252bac06a5b71bd5d74fea" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a98b99b3ec1c099e681d24433926aec79" kindref="member">edgeCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ab497752bce9690a888712c26267e0b29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>BaseEntity&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1ab497752bce9690a888712c26267e0b29" kindref="member">nodes</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nodes_;<sp/>}</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a86ab8fa837a3ee171e3c42aafd211305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EntityRelation&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a86ab8fa837a3ee171e3c42aafd211305" kindref="member">edges</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>edges_;<sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_graph_writer_1a9190c25f2461a3c3a1133f549f29fd2a" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtx_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>BaseEntity&gt;<sp/><sp/>nodes_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityRelation&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryVectorWriter<sp/>—<sp/>reference<sp/>implementation<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Provide<sp/>a<sp/>fully<sp/>functional<sp/>but<sp/>non-persistent<sp/>IVectorWriter<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>unit<sp/>tests<sp/>and<sp/>dry-run<sp/>ingestion<sp/>scenarios.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Explicitly<sp/>instantiated<sp/>by<sp/>test<sp/>code<sp/>or<sp/>callers<sp/>without<sp/>a<sp/>real</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>vector<sp/>store<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Data<sp/>exists<sp/>only<sp/>in<sp/>process<sp/>memory<sp/>with<sp/>no<sp/>ANN<sp/>index,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>no<sp/>persistence,<sp/>and<sp/>no<sp/>similarity-search<sp/>capability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>retained<sp/>as<sp/>the<sp/>canonical<sp/>test<sp/>double.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer" kindref="compound">InMemoryVectorWriter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a2ca4aac3407ac47567a3a2d12567c0c5" kindref="member">writeVectors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;VectorRecord&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a43581201d839424b74e980898cfafb7d" kindref="member">records</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1aebf925001729042607251f9555eb456e" kindref="member">vectorCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1ad05821b2e0e48df33e005c2d0760957a" kindref="member">findByChunkId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a43581201d839424b74e980898cfafb7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>VectorRecord&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a43581201d839424b74e980898cfafb7d" kindref="member">records</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>records_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_vector_writer_1a33e8c6f7769f169ba18df4b8a1cf26e1" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtx_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>VectorRecord&gt;<sp/><sp/>records_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryDocWriter<sp/>—<sp/>reference<sp/>implementation<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Provide<sp/>a<sp/>fully<sp/>functional<sp/>but<sp/>non-persistent<sp/>IDocWriter<sp/>for<sp/>unit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>tests<sp/>and<sp/>dry-run<sp/>ingestion<sp/>scenarios;<sp/>also<sp/>used<sp/>by<sp/>DocumentStoreSinkAdapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>tests<sp/>when<sp/>no<sp/>real<sp/>IDocumentStore<sp/>is<sp/>wired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Explicitly<sp/>instantiated<sp/>by<sp/>test<sp/>code<sp/>or<sp/>dry-run<sp/>callers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Data<sp/>exists<sp/>only<sp/>in<sp/>process<sp/>memory,<sp/>serialised<sp/>as<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>snapshots.<sp/><sp/>No<sp/>schema<sp/>evolution,<sp/>no<sp/>versioning,<sp/>no<sp/>encryption<sp/>support.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>retained<sp/>as<sp/>the<sp/>canonical<sp/>test<sp/>double.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Production<sp/>persistence<sp/>is<sp/>provided<sp/>by<sp/>DocumentStoreSinkAdapter<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer" kindref="compound">InMemoryDocWriter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer" kindref="compound">IDocWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1a20410cd0c8aa3783b87b443762001f38" kindref="member">writeDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1a4ff2fa06ebf63aeb3f52bbb36ce0f0b8" kindref="member">documentCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1ac3aac400ce85007397c9a0d25825a70a" kindref="member">getDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1ad6bbbc3c6bdc0b911fb322ad543f840b" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtx_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>docs_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>next_id_{1};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionSinkBundle<sp/>—<sp/>convenience<sp/>wrapper<sp/>for<sp/>all<sp/>three<sp/>sinks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle" kindref="compound">IngestionSinkBundle</ref><sp/>{</highlight></codeline>
+<codeline lineno="289" refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a58ad8995a941f52f37f6e3d80a2bfae5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IGraphWriter&gt;<sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a58ad8995a941f52f37f6e3d80a2bfae5" kindref="member">graph</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290" refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1acc195cfbec8e7a17f88991ccbff8bb02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IVectorWriter&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1acc195cfbec8e7a17f88991ccbff8bb02" kindref="member">vector</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="291" refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a64c5a30e536c83ebcb3d859dfc786425" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IDocWriter&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a64c5a30e536c83ebcb3d859dfc786425" kindref="member">doc</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1aa76856356ec93af4d658b8868d80d0d5" kindref="member">writeAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ingested&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DocumentStoreSinkAdapter<sp/>—<sp/>IDocWriter<sp/>backed<sp/>by<sp/>IDocumentStore<sp/>(Phase<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a1b3e8feb2a0d449df325468b94cf4438" kindref="member">DocumentStoreSinkAdapter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer" kindref="compound">IDocWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a1b3e8feb2a0d449df325468b94cf4438" kindref="member">DocumentStoreSinkAdapter</ref>(</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::document::IDocumentStore&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1af96ef008bae4c20942db4475f7eafe2d" kindref="member">store</ref>);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a2e5a9cded508cad2a753dbc22c154d41" kindref="member">writeDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a63343767da39f012c7d64c4c29028e43" kindref="member">documentCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333" refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1af96ef008bae4c20942db4475f7eafe2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::document::IDocumentStore&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1af96ef008bae4c20942db4475f7eafe2d" kindref="member">store</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*store_;<sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::document::IDocumentStore&gt;<sp/>store_;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtx_;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_{0};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>serialise(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntitySet&amp;<sp/>es);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a4ee8b06a2804ca37b80e4265b243a4d2" kindref="member">GraphStoreSinkAdapter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_graph_writer" kindref="compound">IGraphWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a4ee8b06a2804ca37b80e4265b243a4d2" kindref="member">GraphStoreSinkAdapter</ref>(std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/>db,</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/>graph_index,</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>node_key_prefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ingestion:graph:node:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a8f65dd2409069aa0406413ae2a6e744b" kindref="member">writeEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>nodes)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a3655bcefeb523f478f3e5b23f25ef7ed" kindref="member">writeRelations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EntityRelation&gt;&amp;<sp/>edges)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1a3ee60330347f08c689d64c667fc81c87" kindref="member">nodeCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_graph_store_sink_adapter_1aa7e85e53140aa4046ad656c56e05898f" kindref="member">edgeCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/>db_;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/>graph_index_;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>node_key_prefix_;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mtx_;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>written_node_ids_;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>written_edge_ids_;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373" refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a350f3e9a1121135c73050400090d818e" kindref="member">VectorIndexSinkAdapter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a350f3e9a1121135c73050400090d818e" kindref="member">VectorIndexSinkAdapter</ref>(std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/>vector_index,</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>object_name,</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>dimension,</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>vector_field<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a22a9f95176b7b66e8b0a63ac41f8ba1f" kindref="member">writeVectors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;VectorRecord&gt;&amp;<sp/>records)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a9364359eca7b629f7659cf36f386859e" kindref="member">vectorCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a5c20db6e7d9514da6ea3294a237c5e06" kindref="member">findByChunkId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>ensureInitialized()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>object_name_;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>dimension_;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>vector_field_;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mtx_;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>VectorRecord&gt;<sp/>last_written_records_;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITensorCoreBridge<sp/>—<sp/>bridge<sp/>for<sp/>TT-core<sp/>records<sp/>produced<sp/>by<sp/>chunk_tt_decompose</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417" refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" kindref="compound">ITensorCoreBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="419" refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1ae8ce4f0c77859766bc852357138dca95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1ae8ce4f0c77859766bc852357138dca95" kindref="member">~ITensorCoreBridge</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428" refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa1861fd84e098d789cae8a968176cba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa1861fd84e098d789cae8a968176cba4" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref>&amp;<sp/>record,</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/>tenant_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434" refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa22ca3c5ff2055097ee7b0c157555e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge_1aa22ca3c5ff2055097ee7b0c157555e92" kindref="member">writeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryTensorCoreBridge<sp/>—<sp/>thread-safe<sp/>in-memory<sp/>sink<sp/>for<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB/SIMULATION<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Provide<sp/>a<sp/>fully<sp/>functional<sp/>but<sp/>non-persistent<sp/>ITensorCoreBridge<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>unit<sp/>tests<sp/>and<sp/>development<sp/>environments<sp/>where<sp/>no<sp/>storage<sp/>backend<sp/>is<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Any<sp/>consumer<sp/>that<sp/>injects<sp/>InMemoryTensorCoreBridge<sp/>instead<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TensorCoreStorageBridge<sp/>(the<sp/>production<sp/>RocksDB-backed<sp/>impl).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Data<sp/>is<sp/>NOT<sp/>persisted;<sp/>all<sp/>records<sp/>are<sp/>lost<sp/>on<sp/>process<sp/>exit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Plan:<sp/>Not<sp/>removed<sp/>—<sp/>remains<sp/>the<sp/>no-persistence<sp/>default<sp/>for<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455" refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge" kindref="compound">InMemoryTensorCoreBridge</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_tensor_core_bridge" kindref="compound">ITensorCoreBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1ab0fcce4fc95cb190ec90f5af4afae257" kindref="member">write</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref>&amp;<sp/>record,</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1abd824b7de6d5246ce45552f8c5abc698" kindref="member">writeCount</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>TensorCoreRecord&gt;&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1ab3d05c03119ac2ee680dc545ab765e56" kindref="member">records</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1af342576a14b91b82566cd1f4202698bc" kindref="member">find</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_tensor_core_bridge_1af92610cbd83ab2a32548f4d7e8f47ea9" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mtx_;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TensorCoreRecord&gt;<sp/>records_;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>write_count_{0};</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/ingestion_sinks.h"/>
+  </compounddef>
+</doxygen>

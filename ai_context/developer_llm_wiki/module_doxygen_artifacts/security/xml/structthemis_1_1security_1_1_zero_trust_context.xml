@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_zero_trust_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ZeroTrustContext</compoundname>
+    <includes refid="zero__trust__policy__enforcer_8h" local="no">zero_trust_policy_enforcer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a74cebbe156e63342d0df5eb3e2254b76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::security::ZeroTrustContext::request_id</qualifiedname>
+        <briefdescription>
+<para>Unique request identifier (UUID or similar). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="30" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a63dc3d444201f47f3aea43e7ead75f37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::ZeroTrustContext::user_id</qualifiedname>
+        <briefdescription>
+<para>Claimed identity (from token/certificate). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="31" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a781d98eea884861277e8611d8ab6ac01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::security::ZeroTrustContext::client_ip</qualifiedname>
+        <briefdescription>
+<para>Source IP address (IPv4 or IPv6). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="32" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a4755dc5a93995c00d6d8ff9d662cc112" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::security::ZeroTrustContext::token</qualifiedname>
+        <briefdescription>
+<para>Bearer token, API key, or certificate fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="33" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1adf4d794a031a34b053d87d0573afd950" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::security::ZeroTrustContext::resource</qualifiedname>
+        <briefdescription>
+<para>Resource being accessed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="34" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a07e6486dd81229dfcccd293b501bb3f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustContext::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::security::ZeroTrustContext::action</qualifiedname>
+        <briefdescription>
+<para>Action being performed (read / write / delete …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="35" column="17" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1ad9c295c1721eedefa2ff97defa1f1ea4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::security::ZeroTrustContext::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::security::ZeroTrustContext::device_id</qualifiedname>
+        <briefdescription>
+<para>Optional device identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="36" column="19" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a187ed743bb0bd70af170d11c117d82cf" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::ZeroTrustContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::security::ZeroTrustContext::timestamp</qualifiedname>
+        <initializer>= std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="37" column="43" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a962914370cbc7b9325cab2eb892ddc28" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::ZeroTrustContext::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::security::ZeroTrustContext::attributes</qualifiedname>
+        <briefdescription>
+<para>Extensible context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="38" column="24" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1ac82dd01141e1378a91d241e53cc1a969" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::ZeroTrustContext::last_verified_at</definition>
+        <argsstring></argsstring>
+        <name>last_verified_at</name>
+        <qualifiedname>themis::security::ZeroTrustContext::last_verified_at</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="41" column="43" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_zero_trust_context_1a4ff88621b4cc20417ffc0b5eb750497d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::ZeroTrustContext::session_risk_score</definition>
+        <argsstring></argsstring>
+        <name>session_risk_score</name>
+        <qualifiedname>themis::security::ZeroTrustContext::session_risk_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="43" column="12" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/zero_trust_policy_enforcer.h" line="29" column="1" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="29" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a07e6486dd81229dfcccd293b501bb3f4" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>action</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a962914370cbc7b9325cab2eb892ddc28" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a781d98eea884861277e8611d8ab6ac01" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1ad9c295c1721eedefa2ff97defa1f1ea4" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1ac82dd01141e1378a91d241e53cc1a969" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>last_verified_at</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a74cebbe156e63342d0df5eb3e2254b76" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1adf4d794a031a34b053d87d0573afd950" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>resource</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a4ff88621b4cc20417ffc0b5eb750497d" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>session_risk_score</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a187ed743bb0bd70af170d11c117d82cf" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a4755dc5a93995c00d6d8ff9d662cc112" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>token</name></member>
+      <member refid="structthemis_1_1security_1_1_zero_trust_context_1a63dc3d444201f47f3aea43e7ead75f37" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

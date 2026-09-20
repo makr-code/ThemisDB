@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_prefix_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PrefixCacheEntry</compoundname>
+    <includes refid="llm__prefix__cache_8h" local="no">llm_prefix_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1aeb3983ac8837c888caa7a9b61f983343" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PrefixCacheEntry::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="30" column="17" bodyfile="include/llm/llm_prefix_cache.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1a4a6788b498eb40e67d5c9d7b42b4f2bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::PrefixCacheEntry::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="31" column="17" bodyfile="include/llm/llm_prefix_cache.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1aeabd6a6d659494a9f742fbd5cac6da42" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::PrefixCacheEntry::token_ids</definition>
+        <argsstring></argsstring>
+        <name>token_ids</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::token_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="32" column="17" bodyfile="include/llm/llm_prefix_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1aecc304e4ad896cf40030da31bddca023" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PrefixCacheEntry::usage_count</definition>
+        <argsstring></argsstring>
+        <name>usage_count</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::usage_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="33" column="12" bodyfile="include/llm/llm_prefix_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1af6a1e3c9a49b9b0950ff363f345d3211" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::PrefixCacheEntry::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="34" column="43" bodyfile="include/llm/llm_prefix_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1aaf35722216172decffb85124686bf042" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::PrefixCacheEntry::precomputed_kv</definition>
+        <argsstring></argsstring>
+        <name>precomputed_kv</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::precomputed_kv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="37" column="17" bodyfile="include/llm/llm_prefix_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1a93e58153a78f4917714ecbfdb91ddc52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PrefixCacheEntry::has_precomputed_kv</definition>
+        <argsstring></argsstring>
+        <name>has_precomputed_kv</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::has_precomputed_kv</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="38" column="10" bodyfile="include/llm/llm_prefix_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prefix_cache_entry_1a0986e9027802b3138991f8a3a1061493" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PrefixCacheEntry::generated_text</definition>
+        <argsstring></argsstring>
+        <name>generated_text</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::generated_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="42" column="17" bodyfile="include/llm/llm_prefix_cache.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_prefix_cache_entry_1aee612462ede1af761a174153128287e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::PrefixCacheEntry::~PrefixCacheEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PrefixCacheEntry</name>
+        <qualifiedname>themis::llm::PrefixCacheEntry::~PrefixCacheEntry</qualifiedname>
+        <briefdescription>
+<para>Prefix Cache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_prefix_cache.h" line="29" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_prefix_cache.h" line="24" column="1" bodyfile="include/llm/llm_prefix_cache.h" bodystart="24" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a4a6788b498eb40e67d5c9d7b42b4f2bc" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a0986e9027802b3138991f8a3a1061493" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>generated_text</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a93e58153a78f4917714ecbfdb91ddc52" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>has_precomputed_kv</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1af6a1e3c9a49b9b0950ff363f345d3211" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aaf35722216172decffb85124686bf042" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>precomputed_kv</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeb3983ac8837c888caa7a9b61f983343" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeabd6a6d659494a9f742fbd5cac6da42" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>token_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aecc304e4ad896cf40030da31bddca023" prot="public" virt="non-virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>usage_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aee612462ede1af761a174153128287e1" prot="public" virt="virtual"><scope>themis::llm::PrefixCacheEntry</scope><name>~PrefixCacheEntry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

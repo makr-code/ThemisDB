@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wire__protocol__helpers_8h" kind="file" language="C++">
+    <compoundname>wire_protocol_helpers.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">map</includes>
+    <includedby refid="wire__protocol__helpers_8cpp" local="yes">src/network/wire_protocol_helpers.cpp</includedby>
+    <includedby refid="wire__protocol__server_8cpp" local="yes">src/network/wire_protocol_server.cpp</includedby>
+    <includedby refid="test__wire__protocol__integration_8cpp" local="yes">tests/network/test_wire_protocol_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol_helpers.h</label>
+        <link refid="wire__protocol__helpers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol_helpers.h</label>
+        <link refid="wire__protocol__helpers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/wire_protocol_helpers.cpp</label>
+        <link refid="wire__protocol__helpers_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/network/wire_protocol_server.cpp</label>
+        <link refid="wire__protocol__server_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/network/test_wire_protocol_integration.cpp</label>
+        <link refid="test__wire__protocol__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_protobuf_parser" prot="public">themis::network::ProtobufParser</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_protobuf_serializer" prot="public">themis::network::ProtobufSerializer</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_query_request" prot="public">themis::network::TimeSeriesQueryRequest</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_bucket" prot="public">themis::network::TimeSeriesBucket</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_stats" prot="public">themis::network::TimeSeriesStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_query_response" prot="public">themis::network::TimeSeriesQueryResponse</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Wire<sp/>Protocol<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Manual<sp/>protobuf<sp/>parsing/serialization<sp/>for<sp/>production<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1network_1_1_protobuf_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a390d6e942b6c1a100d6a3d0869e50d20" kindref="member">ProtobufParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1network_1_1_protobuf_parser_1a390d6e942b6c1a100d6a3d0869e50d20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a390d6e942b6c1a100d6a3d0869e50d20" kindref="member">ProtobufParser</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>data_(data),<sp/>pos_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>varint<sp/>(variable-length<sp/>integer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" kindref="member">readVarint</ref>(uint64_t&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>fixed<sp/>64-bit<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1adf474cd53941774b45d70a10de34d2b7" kindref="member">readFixed64</ref>(uint64_t&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>fixed<sp/>32-bit<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a217a1cb57dd163300c38a2562b40ca68" kindref="member">readFixed32</ref>(uint32_t&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>length-delimited<sp/>field<sp/>(string/bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1af2d9742849c50fd3bc51769dda68f302" kindref="member">readLengthDelimited</ref>(std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a3a2932290925af6a4571a9e38d53ac26" kindref="member">readString</ref>(std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>tag<sp/>(field<sp/>number<sp/>+<sp/>wire<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a66087a96d258d7035d00682a42019fe0" kindref="member">readTag</ref>(uint32_t&amp;<sp/>field_number,<sp/>uint32_t&amp;<sp/>wire_type);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>unknown<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1ad139b574bc8c48206ea96aa6162154e5" kindref="member">skipField</ref>(uint32_t<sp/>wire_type);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>at<sp/>end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1network_1_1_protobuf_parser_1a68c7063d641e40f557210b2ae0eea9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a68c7063d641e40f557210b2ae0eea9f1" kindref="member">atEnd</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pos_<sp/>&gt;=<sp/>data_.size();<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1network_1_1_protobuf_parser_1a4a606eccbc4b7a374ed047a60fed0b6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_parser_1a4a606eccbc4b7a374ed047a60fed0b6d" kindref="member">position</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pos_;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos_;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1network_1_1_protobuf_serializer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ae128dc0a82577c4953cc311868dbebc5" kindref="member">ProtobufSerializer</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1network_1_1_protobuf_serializer_1ae128dc0a82577c4953cc311868dbebc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ae128dc0a82577c4953cc311868dbebc5" kindref="member">ProtobufSerializer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>varint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac666b117d1a602b247ebc5c655cccfd2" kindref="member">writeVarint</ref>(uint64_t<sp/>value);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>fixed<sp/>64-bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a878793fdbc545d60bd777c1f38987d7f" kindref="member">writeFixed64</ref>(uint64_t<sp/>value);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>fixed<sp/>32-bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a3fd97d711b998e87bd47226f7221f82e" kindref="member">writeFixed32</ref>(uint32_t<sp/>value);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>length-delimited<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1af5cedd62ce9818e926201bfafe1bf4f3" kindref="member">writeLengthDelimited</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a5496c7873ab0b490935639346d06318c" kindref="member">writeString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>tag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ac6371b877b5be5d846f528e1262b06b6" kindref="member">writeTag</ref>(uint32_t<sp/>field_number,<sp/>uint32_t<sp/>wire_type);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>double<sp/>(as<sp/>fixed64)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a14f44ab3b38aef3b9f4870cc1e416702" kindref="member">writeDouble</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>serialized<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1ad6bd58e05028614723080b7fe925c547" kindref="member">data</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_;<sp/>}</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1network_1_1_protobuf_serializer_1a5b7c5e6bec7b9b8edb16157dd2281729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_protobuf_serializer_1a5b7c5e6bec7b9b8edb16157dd2281729" kindref="member">take</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::move(data_);<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1network_1_1_time_series_query_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1network_1_1_time_series_query_request_1a68efe4d099d76e1af8d9617566ed0177" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1a68efe4d099d76e1af8d9617566ed0177" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1network_1_1_time_series_query_request_1ab575b46f60661789036828e361838095" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1ab575b46f60661789036828e361838095" kindref="member">start_time_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1network_1_1_time_series_query_request_1a23670f3098eaab759691cd0bd8556361" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1a23670f3098eaab759691cd0bd8556361" kindref="member">end_time_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1network_1_1_time_series_query_request_1ab0025c07354c5f2bdd708c029e145ff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1ab0025c07354c5f2bdd708c029e145ff3" kindref="member">aggregation</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0=AVG,<sp/>1=SUM,<sp/>2=MIN,<sp/>3=MAX,<sp/>4=COUNT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1network_1_1_time_series_query_request_1a1bf2b7be51ad0adaa68ac2b369c5f476" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1a1bf2b7be51ad0adaa68ac2b369c5f476" kindref="member">bucket_size_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>from<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request_1a20914996544203e970c712c2d3dc1f22" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1network_1_1_time_series_bucket" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_time_series_bucket" kindref="compound">TimeSeriesBucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1network_1_1_time_series_bucket_1af8281be67f22b039f32d1d0d3f9e7c71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1af8281be67f22b039f32d1d0d3f9e7c71" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1network_1_1_time_series_bucket_1abd5541a4213afa000466292b578319ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1abd5541a4213afa000466292b578319ab" kindref="member">value</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1network_1_1_time_series_bucket_1a48ea2968c83180d3b5ace66e3c605900" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1a48ea2968c83180d3b5ace66e3c605900" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1network_1_1_time_series_bucket_1af9e52fdd975e89cfc11f1100b047dd08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1af9e52fdd975e89cfc11f1100b047dd08" kindref="member">min</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1network_1_1_time_series_bucket_1ad819b1d56eacd1675feb05fbd31e203c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1ad819b1d56eacd1675feb05fbd31e203c" kindref="member">max</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_time_series_bucket_1a1cdf7dae492af4f2fbf92384befc34dc" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1network_1_1_time_series_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1network_1_1_time_series_stats_1ab23389e46afe832347b35eb9b7e6270c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_stats_1ab23389e46afe832347b35eb9b7e6270c" kindref="member">total_data_points</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1network_1_1_time_series_stats_1ae08eb0394c2119aa209fa2f7bbeab29d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_stats_1ae08eb0394c2119aa209fa2f7bbeab29d" kindref="member">buckets_returned</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1network_1_1_time_series_stats_1a8e9c5c58030a4ee994f11e638401829f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_time_series_stats_1a8e9c5c58030a4ee994f11e638401829f" kindref="member">data_density</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_time_series_stats_1a565b270dd411b2d05fd121a376bb1cbe" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1network_1_1_time_series_query_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_time_series_query_response" kindref="compound">TimeSeriesQueryResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1network_1_1_time_series_query_response_1a0d4a317ef7f2598d3c96c183cf81b5bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TimeSeriesBucket&gt;<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_response_1a0d4a317ef7f2598d3c96c183cf81b5bd" kindref="member">buckets</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1network_1_1_time_series_query_response_1a919ac74a000d7993c8be080a16a850a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_response_1a919ac74a000d7993c8be080a16a850a2" kindref="member">query_time_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref><sp/><ref refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>protobuf<sp/>wire<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_time_series_query_response_1afdce166d01dfced192301cef8d090be3" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::network</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/wire_protocol_helpers.h"/>
+  </compounddef>
+</doxygen>

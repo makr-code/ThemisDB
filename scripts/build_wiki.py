@@ -63,6 +63,7 @@ THEMISDB_VERSION = "1.9.0-beta"
 # Source taxonomy and evidence weighting
 # ---------------------------------------------------------------------------
 _SOURCE_CLASS_WEIGHTS: dict[str, int] = {
+    "overview": 120,
     "primary": 100,
     "secondary": 60,
     "metadata": 20,
@@ -83,6 +84,8 @@ def _classify_source(source_rel: str, wiki_name: str) -> tuple[str, int]:
         source_class = "metadata"
     elif rel.startswith("audit/"):
         source_class = "metadata"
+    elif rel.startswith("docs/compendium/"):
+        source_class = "overview"
     elif rel.startswith("src/") and rel.endswith((
         "/ROADMAP.md",
         "/ARCHITECTURE.md",
@@ -397,17 +400,198 @@ def _compute_currency_score(source_path: Path, text: str) -> float:
     return min(100.0, base_score)
 
 
+def _compute_readability_score(text: str) -> float:
+    """Compute a general readability score for markdown sources.
+
+    The score favors documents that are easier to scan for newcomers:
+    short-to-medium paragraphs, clear heading structure, moderate lists,
+    and low code/table density. This is a heuristic, not a language model.
+    """
+    if not text.strip():
+        return 0.0
+
+    plain_text = CODE_BLOCK_RE.sub("\n", text)
+    lines = [line.rstrip() for line in plain_text.splitlines()]
+    non_empty_lines = [line for line in lines if line.strip()]
+    if not non_empty_lines:
+        return 0.0
+
+    heading_lines = 0
+    list_lines = 0
+    table_lines = 0
+    long_lines = 0
+    paragraph_word_counts: list[int] = []
+
+    paragraph_buffer: list[str] = []
+
+    def _flush_paragraph() -> None:
+        nonlocal paragraph_buffer
+        if not paragraph_buffer:
+            return
+        paragraph_text = " ".join(part.strip() for part in paragraph_buffer if part.strip())
+        if paragraph_text:
+            paragraph_word_counts.append(len(paragraph_text.split()))
+        paragraph_buffer = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            _flush_paragraph()
+            continue
+
+        if stripped.startswith("#"):
+            heading_lines += 1
+            _flush_paragraph()
+            continue
+
+        if stripped.startswith("|"):
+            table_lines += 1
+            _flush_paragraph()
+            continue
+
+        if re.match(r"^(-|\*|\+|\d+[.)])\s+", stripped):
+            list_lines += 1
+            _flush_paragraph()
+            continue
+
+        if len(stripped) > 140:
+            long_lines += 1
+
+        paragraph_buffer.append(stripped)
+
+    _flush_paragraph()
+
+    total_lines = len(non_empty_lines)
+    total_words = len(" ".join(non_empty_lines).split())
+    avg_paragraph_words = (
+        sum(paragraph_word_counts) / len(paragraph_word_counts)
+        if paragraph_word_counts
+        else 0.0
+    )
+
+    score = 50.0
+
+    # Structural clarity: headings help newcomers orient quickly.
+    score += min(18.0, heading_lines * 3.0)
+    if heading_lines >= 3:
+        score += 4.0
+
+    # Paragraph comfort: mid-sized paragraphs are easier to skim.
+    if 30 <= avg_paragraph_words <= 120:
+        score += 14.0
+    elif 15 <= avg_paragraph_words < 30:
+        score += 8.0
+    elif avg_paragraph_words > 180:
+        score -= 8.0
+
+    # Lists are good for overview docs; too many lists mean the page is more reference-like.
+    list_ratio = list_lines / total_lines
+    if 0.08 <= list_ratio <= 0.35:
+        score += 10.0
+    elif list_ratio > 0.6:
+        score -= 8.0
+
+    # Tables and long lines reduce readability for onboarding/overview content.
+    table_ratio = table_lines / total_lines
+    score -= min(12.0, table_ratio * 30.0)
+    score -= min(10.0, (long_lines / total_lines) * 20.0)
+
+    # Heavily code-dense pages are harder to use as entry points.
+    code_fences = text.count("```") // 2
+    code_density_penalty = min(18.0, code_fences * 4.0)
+    score -= code_density_penalty
+
+    # Very short pages can still be readable, but they usually offer less context.
+    if total_words < 80:
+        score -= 6.0
+    elif total_words > 6000:
+        score -= 5.0
+
+    # First-line cue: overview-like docs usually start with a heading and a short intro.
+    first_non_empty = next((line.strip() for line in lines if line.strip()), "")
+    if first_non_empty.startswith("#"):
+        score += 4.0
+
+    return max(0.0, min(100.0, score))
+
+
+def _compute_hero_score(source_rel: str, wiki_name: str, text: str, audience: str) -> float:
+    """Compute a reader-oriented score for hero/article placement.
+
+    The score combines readability with audience fit for a specific reader type.
+    This is intentionally heuristic and designed to surface entry points, not to
+    replace source evidence ranking.
+    """
+    rel = source_rel.replace("\\", "/").lower()
+    name = wiki_name.lower()
+    readability = _compute_readability_score(text)
+    source_class, _ = _classify_source(source_rel, wiki_name)
+
+    score = readability * 0.35
+
+    if source_class == "overview":
+        score += 18.0
+    elif source_class == "primary":
+        score += 8.0
+    elif source_class == "secondary":
+        score += 5.0
+    else:
+        score -= 4.0
+
+    if audience == "newcomer":
+        keywords = (
+            "readme", "overview", "quickstart", "introduction", "preface",
+            "guide", "getting-started", "compendium",
+        )
+        if rel.startswith("docs/compendium/") or rel.startswith("docs/") or rel.startswith("research/"):
+            score += 10.0
+        if any(token in name for token in keywords):
+            score += 22.0
+        if any(token in rel for token in ("/readme.md", "/overview", "/guide", "/quickstart", "/preface")):
+            score += 14.0
+    elif audience == "research":
+        keywords = (
+            "research", "paper", "survey", "analysis", "benchmark", "evaluation",
+            "draft", "experiment", "theory", "findings", "study", "report",
+        )
+        if rel.startswith("research/") or rel.startswith("docs/research/"):
+            score += 28.0
+        if rel.startswith("docs/compendium/"):
+            score += 10.0
+        if any(token in name for token in keywords):
+            score += 20.0
+        if any(token in rel for token in ("/papers/", "/experiments/", "/manuscripts/")):
+            score += 12.0
+    elif audience == "audit":
+        keywords = (
+            "audit", "readiness", "maturity", "compliance", "evidence",
+            "assessment", "report", "risk", "gap", "checklist", "bsi",
+        )
+        if rel.startswith("audit/"):
+            score += 30.0
+        if any(token in name for token in keywords):
+            score += 18.0
+        if any(token in rel for token in ("/audit/", "/evidence/", "/reports/", "/checklist")):
+            score += 10.0
+
+    # Small bonus for short titles that are easier to scan in a curated index.
+    if len(wiki_name) <= 28:
+        score += 4.0
+
+    return max(0.0, min(100.0, score))
+
+
 def _sort_entries_by_currency(
     entries: list[tuple[Path, str]],
     repo_root: Path,
-) -> list[tuple[Path, str, float, str, int]]:
-    """Sort entries by document currency (modification date + content freshness).
+) -> list[tuple[Path, str, float, float, str, int]]:
+    """Sort entries by source evidence, readability, and document currency.
     
     Returns list of tuples:
-    (path, wiki_name, currency_score, source_class, source_weight)
-    sorted by source_weight desc, then currency_score desc.
+    (path, wiki_name, currency_score, readability_score, source_class, source_weight)
+    sorted by source_weight desc, then readability_score desc, then currency_score desc.
     """
-    entries_with_scores: list[tuple[Path, str, float, str, int]] = []
+    entries_with_scores: list[tuple[Path, str, float, float, str, int]] = []
     
     for source_path, wiki_name in entries:
         rel_path = str(source_path.relative_to(repo_root))
@@ -415,12 +599,15 @@ def _sort_entries_by_currency(
         try:
             text = source_path.read_text(encoding="utf-8")
             score = _compute_currency_score(source_path, text)
+            readability_score = _compute_readability_score(text)
         except OSError:
             score = 0.0
-        entries_with_scores.append((source_path, wiki_name, score, source_class, source_weight))
+            readability_score = 0.0
+        entries_with_scores.append((source_path, wiki_name, score, readability_score, source_class, source_weight))
     
-    # Evidence-first sorting: primary > secondary > metadata, then freshness.
-    entries_with_scores.sort(key=lambda x: (-x[4], -x[2], x[1]))
+    # Evidence-first sorting: overview/primary > secondary > metadata,
+    # then readability and freshness.
+    entries_with_scores.sort(key=lambda x: (-x[5], -x[3], -x[2], x[1]))
     return entries_with_scores
 
 
@@ -620,6 +807,9 @@ _EXPLICIT_MAPPINGS: dict[str, str] = {
     "docs/aql/AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md": "AQL-LLM-Migration-Guide",
     "docs/aql/API.md": "AQL-API",
     "docs/api/API_REFERENCE.md": "API-Reference",
+    "docs/compendium/README.md": "Compendium-Overview",
+    "docs/compendium/index.md": "Compendium-Index",
+    "docs/compendium/preface.md": "Compendium-Preface",
     "docs/security/INFORMATION_SECURITY_POLICY.md": "Security-Policy",
 }
 
@@ -661,6 +851,16 @@ def _path_to_wiki_name(path: Path, repo_root: Path) -> str | None:
     # docs/governance/
     if rel.startswith("docs/governance/") and rel.endswith(".md"):
         return _wiki_page_name("Governance", path.stem)
+
+    # docs/compendium/docs/
+    if rel.startswith("docs/compendium/docs/") and rel.endswith(".md"):
+        return f"Compendium-{_slug(path.stem)}"
+
+    # docs/compendium root support docs
+    if rel.startswith("docs/compendium/") and rel.endswith(".md"):
+        stem = path.stem.upper()
+        if stem in {"README", "INDEX", "PREFACE"}:
+            return _EXPLICIT_MAPPINGS.get(rel)
 
     # src module docs
     parts = path.parts
@@ -796,6 +996,41 @@ def _collect_entries(repo_root: Path) -> list[tuple[Path, str]]:
     ]
     for filename, wiki_name in _ROOT_DOCS:
         _add(repo_root / filename, wiki_name)
+
+    # ---- Compendium chapters and companion sources ---------------------------
+
+    compendium_root = repo_root / "docs" / "compendium"
+    if compendium_root.is_dir():
+        for f in sorted((compendium_root / "docs").glob("*.md")) if (compendium_root / "docs").is_dir() else []:
+            _add(f, f"Compendium-{_slug(f.stem)}")
+
+        for rel, wiki_name in {
+            "README.md": "Compendium-Overview",
+            "index.md": "Compendium-Index",
+            "preface.md": "Compendium-Preface",
+        }.items():
+            _add(compendium_root / rel, wiki_name)
+
+    # ---- Research (curated entry points for high-level reading) --------------
+
+    research_dir = repo_root / "research"
+    if research_dir.is_dir():
+        _RESEARCH_KEEP: dict[str, str] = {
+            "README.md": "Research-Overview",
+            "RESEARCH_GUIDE.md": "Research-Guide",
+            "REVIEW_SUMMARY.md": "Research-Review-Summary",
+            "IMPROVEMENTS_SUMMARY.md": "Research-Improvement-Summary",
+            "IMPLEMENTATION_SUMMARY.md": "Research-Implementation-Summary",
+            "RESEARCH_PAPER.md": "Research-Paper",
+            "RESEARCH_LANDSCAPE_BASELINE_AND_SEARCH_PLAN_2026-08-12.md": "Research-Landscape-Search-Plan",
+            "LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md": "Research-Foundations",
+            "HYBRID_SEARCH_OPTIMIZATION.md": "Research-Hybrid-Search-Optimization",
+            "GPU_VECTOR_INDEXING_RESEARCH.md": "Research-GPU-Vector-Indexing",
+            "RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md": "Research-Distributed-Inference",
+            "THEMISDB_CAPABILITIES_COMPREHENSIVE_ANALYSIS.md": "Research-Capabilities-Analysis",
+        }
+        for rel, wiki_name in _RESEARCH_KEEP.items():
+            _add(research_dir / rel, wiki_name)
 
     # ---- Client SDKs ----------------------------------------------------------
 
@@ -942,9 +1177,13 @@ def _collect_entries(repo_root: Path) -> list[tuple[Path, str]]:
     audit_dir = repo_root / "audit"
     if audit_dir.is_dir():
         _AUDIT_KEEP = {
+            "README.md": "Audit-Overview",
+            "AUDIT.md": "Audit-Index",
+            "AUDIT_SUMMARY_2026-08-18.md": "Audit-Summary",
             "MATURITY_REPORT_2026-08.md":           "Audit-Maturity-Report",
             "PRODUCTION_READINESS_ASSESSMENT_2026-08-18.md": "Audit-Production-Readiness",
             "BSI_C5_2026_THEMISDB_AUDIT.md":        "Audit-BSI-C5",
+            "IMPLEMENTATION_AUDIT_2026-09-14.md":    "Audit-Implementation-2026-09-14",
         }
         for fname, wiki_name in _AUDIT_KEEP.items():
             _add(audit_dir / fname, wiki_name)
@@ -1330,6 +1569,11 @@ def _build_home_page(repo_root: Path, all_wiki_names: set[str]) -> str:
         parts.append(gs_snippet + "\n\n")
         parts.append("➡️ Full guide: [[Demo-Quickstart]] · [[Training-Pres-04-installation-und-setup]]\n\n")
 
+    # Hero Articles
+    parts.append("## Hero Articles\n\n")
+    parts.append("Curated entry points for newcomers, research readers, and audit/compliance readers.\n\n")
+    parts.append("➡️ Explore: [[Hero-Index]]\n\n")
+
     # Architecture
     parts.append("## Architecture Overview\n\n")
     arch_links = [
@@ -1419,6 +1663,73 @@ def _build_module_index(repo_root: Path, wiki_names_set: set[str]) -> str:
     return "".join(lines)
 
 
+def _build_hero_index(entries: list[tuple[Path, str]], repo_root: Path, all_wiki_names: set[str]) -> str:
+    """Generate a curated hero-article index for different reader groups."""
+
+    def _is_available(wiki_name: str) -> bool:
+        return wiki_name in all_wiki_names
+
+    def _source_link(path: Path, wiki_name: str) -> str:
+        if _is_available(wiki_name):
+            return f"[[{_sidebar_label(wiki_name)}|{wiki_name}]]"
+        rel = path.relative_to(repo_root).as_posix()
+        return f"[{_sidebar_label(wiki_name)}](https://github.com/makr-code/ThemisDB/blob/develop/{rel})"
+
+    def _hero_items(audience: str, limit: int, filter_fn) -> list[tuple[float, Path, str, str]]:
+        scored: list[tuple[float, Path, str, str]] = []
+        for source_path, wiki_name in entries:
+            rel_path = str(source_path.relative_to(repo_root))
+            if not filter_fn(rel_path, wiki_name):
+                continue
+            try:
+                text = source_path.read_text(encoding="utf-8")
+            except OSError:
+                continue
+            score = _compute_hero_score(rel_path, wiki_name, text, audience)
+            scored.append((score, source_path, wiki_name, _sidebar_label(wiki_name)))
+        scored.sort(key=lambda item: (-item[0], item[3]))
+        return scored[:limit]
+
+    newcomer = _hero_items(
+        "newcomer",
+        8,
+        lambda rel, wiki: any(token in wiki.lower() for token in ("overview", "guide", "quickstart", "preface", "home"))
+        or rel.startswith("docs/compendium/")
+        or rel.startswith("docs/")
+        or rel.startswith("research/"),
+    )
+    research = _hero_items(
+        "research",
+        8,
+        lambda rel, wiki: rel.startswith("research/")
+        or rel.startswith("docs/compendium/")
+        or wiki.startswith("Research-"),
+    )
+    audit = _hero_items(
+        "audit",
+        8,
+        lambda rel, wiki: rel.startswith("audit/") or wiki.startswith("Audit-"),
+    )
+
+    lines: list[str] = [
+        "# Hero Articles\n\n",
+        "Curated entry points for different reader groups. The list favors readability, overview value, and audience fit over raw source proximity.\n\n",
+        "## For Newcomers\n\n",
+    ]
+    for score, source_path, wiki_name, label in newcomer:
+        lines.append(f"- {_source_link(source_path, wiki_name)} — readable entry point ({score:.1f})\n")
+
+    lines.append("\n## For Research Readers\n\n")
+    for score, source_path, wiki_name, label in research:
+        lines.append(f"- {_source_link(source_path, wiki_name)} — research-oriented deep dive ({score:.1f})\n")
+
+    lines.append("\n## For Audit / Compliance Readers\n\n")
+    for score, source_path, wiki_name, label in audit:
+        lines.append(f"- {_source_link(source_path, wiki_name)} — audit / evidence / readiness focus ({score:.1f})\n")
+
+    return "".join(lines)
+
+
 # ---------------------------------------------------------------------------
 # Sidebar builder (audience-first)
 # ---------------------------------------------------------------------------
@@ -1431,6 +1742,7 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
     # 1. Overview — single entry point; everything else links from here
     ("🏠 Overview", [
         "Home",
+        "Hero-Index",
         "Wiki-Index",
         "FAQ",
         "Edition-Comparison",
@@ -1439,7 +1751,9 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "Root-Roadmap",
         "Versioning",
     ]),
-    # 2. Getting Started — first steps for new users
+    # 2. Compendium — handbook-style chapters with many diagrams
+    ("📚 Compendium", []),       # populated dynamically from Compendium-* pages
+    # 3. Getting Started — first steps for new users
     ("🚀 Getting Started", [
         "Quick-Reference",
         "Quickstart",
@@ -1449,9 +1763,9 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "Demo-Overview",
         "Demo-Quickstart",
     ]),
-    # 3. Tutorials — hands-on walkthroughs (broad → narrow)
+    # 4. Tutorials — hands-on walkthroughs (broad → narrow)
     ("📖 Tutorials", []),       # populated dynamically from Tutorial-* pages
-    # 4. User Guide — reference material users need day-to-day
+    # 5. User Guide — reference material users need day-to-day
     ("📗 User Guide", [
         "AQL-Reference",
         "AQL-Examples",
@@ -1469,7 +1783,7 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "Client-Overview",
         "SDK-Overview",
     ]),
-    # 5. Operations & Security — running ThemisDB in production
+    # 6. Operations & Security — running ThemisDB in production
     ("⚙️ Operations & Security", [
         "Operations",
         "Ops-Overview",
@@ -1497,13 +1811,13 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "Ops-Access-Model-Dashboard",
         "Ops-Maturity-Automation",
     ]),
-    # 5b. Ops Runbooks — sub-section for operational runbooks (dynamic)
+    # 6b. Ops Runbooks — sub-section for operational runbooks (dynamic)
     ("📟 Ops Runbooks", []),     # populated dynamically from Ops-LLM-*, Ops-DR-*, Ops-IR-*, Ops-Logging-*, Ops-Access-*
-    # 6. Architecture — system design (after users understand what it does)
+    # 7. Architecture — system design (after users understand what it does)
     ("🏗️ Architecture", []),    # populated dynamically from Architecture-* pages (curated subset)
-    # 7. ADRs — architecture decision records (linked from Architecture)
+    # 8. ADRs — architecture decision records (linked from Architecture)
     ("📐 ADRs", []),             # populated dynamically from ADR-* pages
-    # 8. Contributing / Developer — internal orientation
+    # 9. Contributing / Developer — internal orientation
     ("🔧 Contributing", [
         "Contributing",
         "Root-Contributing",
@@ -1518,27 +1832,27 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "Branching-Strategy",
         "Release-Strategy",
     ]),
-    # 9. Governance — policy, compliance, release gates
+    # 10. Governance — policy, compliance, release gates
     ("📋 Governance", []),       # populated dynamically from Governance-* pages
-    # 10. Audit — baseline maturity & compliance reports
+    # 11. Audit — baseline maturity & compliance reports
     ("🔍 Audit", [
         "Audit-Maturity-Report",
         "Audit-Production-Readiness",
         "Audit-BSI-C5",
     ]),
-    # 11. Plugins — extension points
+    # 12. Plugins — extension points
     ("🧩 Plugins", []),          # populated dynamically from Plugin-* pages
-    # 12. Adapters — integration adapters
+    # 13. Adapters — integration adapters
     ("🔌 Adapters", []),         # populated dynamically from Adapter-* pages
-    # 13. Examples — runnable application examples
+    # 14. Examples — runnable application examples
     ("💡 Examples", []),         # populated dynamically from Example-* pages
-    # 14. Client SDKs
+    # 15. Client SDKs
     ("📦 Client SDKs", []),      # populated dynamically from Client-* + SDK-* pages
-    # 15. Training / Schulung — training materials
+    # 16. Training / Schulung — training materials
     ("🎓 Training", []),         # populated dynamically from Training-* pages
-    # 16. Tools — developer tooling
+    # 17. Tools — developer tooling
     ("🛠️ Tools", []),            # populated dynamically from Tool-* pages
-    # 17. Developer LLM Wiki — AI-context artifacts (most internal)
+    # 18. Developer LLM Wiki — AI-context artifacts (most internal)
     ("🤖 Developer LLM Wiki", []),    # populated dynamically from Developer-* pages
 ]
 
@@ -1572,6 +1886,7 @@ def _sidebar_label(wiki_name: str) -> str:
     # Explicit overrides for pages whose auto-label is ambiguous or ugly
     _OVERRIDES: dict[str, str] = {
         "Home": "Home",
+        "Hero-Index": "Hero Articles",
         "Wiki-Index": "All Wiki Pages",
         "Repository-README": "Repository README",
         "FAQ": "FAQ",
@@ -1675,7 +1990,7 @@ def _sidebar_label(wiki_name: str) -> str:
         name = name[len("Plugin-"):-len("-Roadmap")]
     else:
         for prefix in (
-            "Tutorial-", "Guide-", "ADR-", "Architecture-",
+            "Tutorial-", "Compendium-", "Guide-", "ADR-", "Architecture-",
             "Governance-", "Developer-", "Module-",
             "Client-", "SDK-", "Example-", "Adapter-",
             "Tool-", "Deploy-", "Docker-", "Helm-", "Packaging-",
@@ -1709,6 +2024,7 @@ def _sidebar_label(wiki_name: str) -> str:
 # Sections not in this map are either curated (Architecture) or use explicit lists.
 _SECTION_DYNAMIC_PREFIX: dict[str, str] = {
     "📖 Tutorials":          "Tutorial-",
+    "📚 Compendium":         "Compendium-",
     "📐 ADRs":               "ADR-",
     "📋 Governance":         "Governance-",
     "🧩 Plugins":            "Plugin-",
@@ -1721,66 +2037,68 @@ _SECTION_DYNAMIC_PREFIX: dict[str, str] = {
 }
 
 
-def _build_wiki_index(all_wiki_names: set[str]) -> str:
-    """Generate Wiki-Index.md — a full directory of all wiki pages, grouped by section.
+def _build_wiki_index_pages(all_wiki_names: set[str]) -> dict[str, str]:
+    """Generate an A-Z paginated Wiki-Index landing page and letter pages."""
+    internal = {"_Sidebar", "_Footer", "Wiki-Index"}
+    pages = sorted(page for page in all_wiki_names if page not in internal)
 
-    Every section from _SIDEBAR_SECTIONS is represented.  Pages are sorted
-    alphabetically within each section.  Pages that belong to no section are
-    listed in a final "Other" group.
-    """
-    lines: list[str] = [
+    def _bucket_for_page(page_name: str) -> str:
+        label = _sidebar_label(page_name).strip()
+        for character in label:
+            if character.isalnum():
+                if character.isdigit():
+                    return "0-9"
+                return character.upper()
+        return "Other"
+
+    buckets: dict[str, list[str]] = {}
+    for page_name in pages:
+        bucket = _bucket_for_page(page_name)
+        buckets.setdefault(bucket, []).append(page_name)
+
+    bucket_order = [*(chr(codepoint) for codepoint in range(ord("A"), ord("Z") + 1)), "0-9", "Other"]
+    active_buckets = [bucket for bucket in bucket_order if bucket in buckets]
+
+    landing_lines: list[str] = [
         "# ThemisDB Wiki — All Pages\n\n",
-        f"This page lists all **{len(all_wiki_names)}** pages in the wiki, "
-        "grouped by section.\n\n",
+        f"This page lists all **{len(pages)}** wiki pages. The directory is split into A-Z pages so GitHub can render it reliably.\n\n",
+        "## Page Navigation\n\n",
     ]
 
-    # Build section → page mapping using the same logic as _build_sidebar
-    assigned: set[str] = set()
-    section_entries: list[tuple[str, list[str]]] = []
+    pages_by_name: dict[str, str] = {}
 
-    for section_title, explicit_pages in _SIDEBAR_SECTIONS:
-        if section_title == "🏠 Overview":
-            pages = [p for p in explicit_pages if p in all_wiki_names]
-        elif explicit_pages:
-            pages = [p for p in explicit_pages if p in all_wiki_names]
-        else:
-            prefix = _SECTION_DYNAMIC_PREFIX.get(section_title)
-            if prefix:
-                pages = sorted(p for p in all_wiki_names if p.startswith(prefix))
-            elif section_title == "📟 Ops Runbooks":
-                _OPS_RUNBOOK_PREFIXES = ("Ops-LLM-", "Ops-DR-", "Ops-IR-", "Ops-Access-", "Ops-Logging-")
-                pages = sorted(p for p in all_wiki_names if any(p.startswith(pfx) for pfx in _OPS_RUNBOOK_PREFIXES))
-            elif section_title == "🏗️ Architecture":
-                pages = sorted(p for p in _ARCH_CURATED if p in all_wiki_names)
-            else:
-                pages = []
+    if not active_buckets:
+        landing_lines.append("- No wiki pages available.\n")
+        pages_by_name["Wiki-Index"] = "".join(landing_lines)
+        return pages_by_name
 
-        section_entries.append((section_title, pages))
-        assigned.update(pages)
+    for index, bucket in enumerate(active_buckets):
+        bucket_name = f"Wiki-Index-{bucket}"
+        landing_lines.append(f"- [[{bucket_name}]]\n")
 
-    # Collect pages not assigned to any section
-    internal = {"_Sidebar", "_Footer", "Wiki-Index"}
-    unassigned = sorted(
-        p for p in all_wiki_names
-        if p not in assigned and p not in internal
-    )
+        prev_name = f"Wiki-Index-{active_buckets[index - 1]}" if index > 0 else None
+        next_name = f"Wiki-Index-{active_buckets[index + 1]}" if index < len(active_buckets) - 1 else None
 
-    # Render sections
-    for section_title, pages in section_entries:
-        if not pages:
-            continue
-        lines.append(f"\n## {section_title}\n\n")
-        for page in sorted(pages):
-            label = _sidebar_label(page)
-            lines.append(f"- [[{label}|{page}]]\n")
+        bucket_pages = buckets[bucket]
+        chunk_lines: list[str] = [
+            f"# ThemisDB Wiki — {bucket}\n\n",
+            f"_This page covers **{len(bucket_pages)}** wiki pages starting with {bucket}._\n\n",
+            "## Navigation\n\n",
+        ]
+        if prev_name:
+            chunk_lines.append(f"- [[Previous|{prev_name}]]\n")
+        chunk_lines.append("- [[Wiki-Index]]\n")
+        if next_name:
+            chunk_lines.append(f"- [[Next|{next_name}]]\n")
+        chunk_lines.append("\n## Pages\n\n")
 
-    if unassigned:
-        lines.append("\n## Other\n\n")
-        for page in unassigned:
-            label = _sidebar_label(page)
-            lines.append(f"- [[{label}|{page}]]\n")
+        for page in bucket_pages:
+            chunk_lines.append(f"- [[{_sidebar_label(page)}|{page}]]\n")
 
-    return "".join(lines)
+        pages_by_name[bucket_name] = "".join(chunk_lines)
+
+    pages_by_name["Wiki-Index"] = "".join(landing_lines)
+    return pages_by_name
 
 
 def _build_sidebar(
@@ -1920,10 +2238,10 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             + "- [[Operations]]\n"
             + "- [[Governance]]\n\n"
             + "## Source-backed references\n\n"
-            + "- [README.md](README.md)\n"
-            + "- [ROADMAP.md](ROADMAP.md)\n"
-            + "- [ARCHITECTURE.md](ARCHITECTURE.md)\n"
-            + "- [CHANGELOG.md](CHANGELOG.md)\n\n"
+            + "- [[Repository-README]]\n"
+            + "- [[Root-Roadmap]]\n"
+            + "- [[Root-Architecture]]\n"
+            + "- [[Root-Changelog]]\n\n"
         )
 
     if page_slug == "Getting-Started":
@@ -1932,9 +2250,9 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             "# Getting Started\n\n"
             + f"{quick or 'Use the repository README, QUICKSTART.md, and SETUP.md to install dependencies and bring up the project locally.'}\n\n"
             + "## Recommended order\n\n"
-            + "1. Read [README.md](README.md) and confirm the edition target.\n"
-            + "2. Follow [QUICKSTART.md](QUICKSTART.md) for the fastest working setup path.\n"
-            + "3. Use [SETUP.md](SETUP.md) for the full developer toolchain.\n"
+            + "1. Read [[Repository-README]] and confirm the edition target.\n"
+            + "2. Follow [[Quickstart]] for the fastest working setup path.\n"
+            + "3. Use [[Setup]] for the full developer toolchain.\n"
             + "4. Validate with the build/test workflow before extending the codebase.\n\n"
             + "## Related pages\n\n"
             + "- [[Home]]\n"
@@ -1956,7 +2274,7 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             + "- [[Modules]]\n"
             + "- [[APIs-and-Contracts]]\n"
             + "- [[Operations]]\n"
-            + "- [ARCHITECTURE.md](ARCHITECTURE.md)\n\n"
+            + "- [[Root-Architecture]]\n\n"
         )
 
     if page_slug == "Modules":
@@ -2006,8 +2324,8 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             + "## Key references\n\n"
             + "- [[Troubleshooting]]\n"
             + "- [[Governance]]\n"
-            + "- [SUPPORT.md](SUPPORT.md)\n"
-            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n\n"
+            + "- [[Support]]\n"
+            + "- [[Release-Strategy]]\n\n"
         )
 
     if page_slug == "Governance":
@@ -2016,13 +2334,13 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             + _summary("Governance", governance or readme)
             + "## Governance model\n\n"
             + "- Branch and release governance follows the canonical edition and routing model described in the repository strategy documents.\n"
-            + "- Documentation precedence is tracked in DOCUMENTATION_GOVERNANCE.md and enforced in wiki generation and publishing workflows.\n"
+            + "- Documentation precedence is tracked in [DOCUMENTATION_GOVERNANCE.md](https://github.com/makr-code/ThemisDB/blob/develop/DOCUMENTATION_GOVERNANCE.md) and enforced in wiki generation and publishing workflows.\n"
             + "- Release, validation, and quality gates are captured in ROADMAP.md, RELEASE_STRATEGY.md, and the QA/CI guidance documents.\n\n"
             + "## Key references\n\n"
-            + "- [ROADMAP.md](ROADMAP.md)\n"
-            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n"
-            + "- [GOVERNANCE.md](GOVERNANCE.md)\n"
-            + "- [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md)\n\n"
+            + "- [[Root-Roadmap]]\n"
+            + "- [[Release-Strategy]]\n"
+            + "- [[Root-Governance]]\n"
+            + "- Documentation governance policy\n\n"
         )
 
     if page_slug == "Troubleshooting":
@@ -2041,7 +2359,7 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             + "4. Escalate through support and governance paths when production impact is involved.\n\n"
             + "- [[Operations]]\n"
             + "- [[Getting-Started]]\n"
-            + "- [SUPPORT.md](SUPPORT.md)\n\n"
+            + "- [[Support]]\n\n"
         )
 
     if page_slug == "Release-Notes":
@@ -2050,14 +2368,11 @@ def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -
             "# Release Notes\n\n"
             + f"{chute or 'This page summarizes the active changelog and release-gate evidence for the repository.'}\n\n"
             + "## Reference sources\n\n"
-            + "- [CHANGELOG.md](CHANGELOG.md)\n"
-            + "- [ROADMAP.md](ROADMAP.md)\n"
-            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n"
-            + "- [VERSIONING.md](VERSIONING.md)\n\n"
+            + "- [[Root-Changelog]]\n"
+            + "- [[Root-Roadmap]]\n"
+            + "- [[Release-Strategy]]\n"
+            + "- [[Versioning]]\n\n"
         )
-
-    return f"# {page_slug}\n\n{_extract_title_and_first_paragraph(readme or architecture or roadmap or changelog, 240)}\n\n"
-
 
 def _ensure_required_layout(output_dir: Path, source_branch: str, repo_root: Path | None = None) -> list[str]:
     """Create missing canonical pages required by the wiki layout contract."""
@@ -2173,6 +2488,7 @@ def main(argv: list[str] | None = None) -> int:
     skipped_details: list[dict[str, str]] = []
     entry_manifest: list[dict[str, str | bool]] = []
     source_class_totals: dict[str, int] = {
+        "overview": 0,
         "primary": 0,
         "secondary": 0,
         "metadata": 0,
@@ -2195,10 +2511,10 @@ def main(argv: list[str] | None = None) -> int:
     # Sort entries if requested
     if args.sort_by != "none":
         entries_scored = _sort_entries_by_currency(entries, repo_root)
-        entries = [(p, w) for p, w, _, _, _ in entries_scored]
+        entries = [(p, w) for p, w, _, _, _, _ in entries_scored]
         if not args.dry_run and args.sort_by == "currency":
             print(
-                f"📊 Documents sorted by source evidence weight + {args.sort_by}",
+                "📊 Documents sorted by source evidence weight + readability + currency",
                 file=sys.stderr,
             )
 
@@ -2213,6 +2529,7 @@ def main(argv: list[str] | None = None) -> int:
         rel_path = str(source_path.relative_to(repo_root))
         source_class, source_weight = _classify_source(rel_path, wiki_name)
         source_class_totals[source_class] += 1
+        readability_score = _compute_readability_score(text)
 
         if _contains_private(rel_path, text):
             skipped.append(rel_path)
@@ -2232,6 +2549,7 @@ def main(argv: list[str] | None = None) -> int:
                 "blocked_private": True,
                 "source_class": source_class,
                 "source_weight": source_weight,
+                "readability_score": readability_score,
             })
             continue
 
@@ -2280,6 +2598,7 @@ def main(argv: list[str] | None = None) -> int:
                 "blocked_private": False,
                 "source_class": source_class,
                 "source_weight": source_weight,
+                "readability_score": readability_score,
             })
         else:
             dest.write_text(final_content, encoding="utf-8")
@@ -2291,6 +2610,7 @@ def main(argv: list[str] | None = None) -> int:
                 "blocked_private": False,
                 "source_class": source_class,
                 "source_weight": source_weight,
+                "readability_score": readability_score,
             })
 
     # Generate Home.md (aggregated wiki start page — overrides docs/en/Home.md)
@@ -2324,10 +2644,24 @@ def main(argv: list[str] | None = None) -> int:
         written.append("Module-Index.md")
     all_wiki_names.add("Module-Index")
 
-    # Generate Wiki-Index.md (all pages directory)
+    # Generate Hero-Index.md (reader-oriented curated entry points)
+    hero_index_content = (
+        _page_header("generated:Hero-Index", "Hero-Index")
+        + _build_hero_index(entries, repo_root, all_wiki_names)
+        + _page_footer("Hero-Index")
+    )
+    if args.dry_run:
+        print("DRY-RUN: <generated> → Hero-Index.md")
+    else:
+        (output_dir / "Hero-Index.md").write_text(hero_index_content, encoding="utf-8")
+        written.append("Hero-Index.md")
+    all_wiki_names.add("Hero-Index")
+
+    # Generate Wiki-Index.md and paginated sub-pages (all pages directory)
+    wiki_index_pages = _build_wiki_index_pages(all_wiki_names)
     wiki_index_content = (
         _page_header("generated:Wiki-Index", "Wiki-Index")
-        + _build_wiki_index(all_wiki_names)
+        + wiki_index_pages["Wiki-Index"]
         + _page_footer("Wiki-Index")
     )
     if args.dry_run:
@@ -2336,6 +2670,19 @@ def main(argv: list[str] | None = None) -> int:
         (output_dir / "Wiki-Index.md").write_text(wiki_index_content, encoding="utf-8")
         written.append("Wiki-Index.md")
     all_wiki_names.add("Wiki-Index")
+
+    for page_name, page_content in wiki_index_pages.items():
+        if page_name == "Wiki-Index":
+            continue
+        if args.dry_run:
+            print(f"DRY-RUN: <generated> → {page_name}.md")
+        else:
+            (output_dir / f"{page_name}.md").write_text(
+                _page_header(f"generated:{page_name}", page_name) + page_content + _page_footer(page_name),
+                encoding="utf-8",
+            )
+            written.append(f"{page_name}.md")
+        all_wiki_names.add(page_name)
 
     # Generate _Sidebar.md
     sidebar_content = _build_sidebar(all_wiki_names, {})
@@ -2370,6 +2717,11 @@ def main(argv: list[str] | None = None) -> int:
             "entries_total": len(entries),
             "pages_written": len(written),
             "blocked_private": len(skipped),
+            "average_readability": round(
+                sum(entry.get("readability_score", 0.0) for entry in entry_manifest) / len(entry_manifest)
+                if entry_manifest else 0.0,
+                2,
+            ),
             "source_class_totals": source_class_totals,
         },
     }

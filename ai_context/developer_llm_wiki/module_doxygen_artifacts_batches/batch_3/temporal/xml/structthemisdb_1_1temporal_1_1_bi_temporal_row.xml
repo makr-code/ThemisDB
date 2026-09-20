@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_bi_temporal_row" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalRow</compoundname>
+    <includes refid="bitemporal__join_8h" local="no">bitemporal_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::BiTemporalRow::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::temporal::BiTemporalRow::key</qualifiedname>
+        <briefdescription>
+<para>Logical row key (join key). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="29" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a80c43905af1311550f2e370bf4e0028d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::BiTemporalRow::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themisdb::temporal::BiTemporalRow::payload</qualifiedname>
+        <briefdescription>
+<para>Row payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="30" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a95cb728caa6131b22319f52743153465" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::BiTemporalRow::sys_time</definition>
+        <argsstring></argsstring>
+        <name>sys_time</name>
+        <qualifiedname>themisdb::temporal::BiTemporalRow::sys_time</qualifiedname>
+        <briefdescription>
+<para>System-time period (when stored). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="31" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a01cee45284cd45532d9e49d336d235ce" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::BiTemporalRow::valid_time</definition>
+        <argsstring></argsstring>
+        <name>valid_time</name>
+        <qualifiedname>themisdb::temporal::BiTemporalRow::valid_time</qualifiedname>
+        <briefdescription>
+<para>Application valid-time period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="32" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single versioned row with both temporal axes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::BiTemporalRow</label>
+        <link refid="structthemisdb_1_1temporal_1_1_bi_temporal_row"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sys_time</edgelabel>
+          <edgelabel>valid_time</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::TimeRange</label>
+        <link refid="structthemisdb_1_1temporal_1_1_time_range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/bitemporal_join.h" line="28" column="1" bodyfile="include/temporal/bitemporal_join.h" bodystart="28" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalRow</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a80c43905af1311550f2e370bf4e0028d" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalRow</scope><name>payload</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a95cb728caa6131b22319f52743153465" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalRow</scope><name>sys_time</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a01cee45284cd45532d9e49d336d235ce" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalRow</scope><name>valid_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

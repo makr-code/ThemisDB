@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adjacency_list_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>AdjacencyListSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" prot="protected" static="no">
+        <type>themis::graph::AdjacencyList</type>
+        <definition>using AdjacencyListSafeIteratorTest::AL = themis::graph::AdjacencyList</definition>
+        <argsstring></argsstring>
+        <name>AL</name>
+        <qualifiedname>AdjacencyListSafeIteratorTest::AL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="462" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" prot="protected" static="no">
+        <type>themis::graph::Edge</type>
+        <definition>using AdjacencyListSafeIteratorTest::Edge = themis::graph::Edge</definition>
+        <argsstring></argsstring>
+        <name>Edge</name>
+        <qualifiedname>AdjacencyListSafeIteratorTest::Edge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="463" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_adjacency_list_safe_iterator_test_1a1ecf2bd3deb46ffa67558efe7e0c5274" prot="protected" static="no">
+        <type>themis::graph::VertexId</type>
+        <definition>using AdjacencyListSafeIteratorTest::VtxId = themis::graph::VertexId</definition>
+        <argsstring></argsstring>
+        <name>VtxId</name>
+        <qualifiedname>AdjacencyListSafeIteratorTest::VtxId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="464" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adjacency_list_safe_iterator_test_1a5ebd9b4c4c6b270da1f9575c9c092ac3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" kindref="member">AL</ref></type>
+        <definition>AL AdjacencyListSafeIteratorTest::make_graph_triangle</definition>
+        <argsstring>()</argsstring>
+        <name>make_graph_triangle</name>
+        <qualifiedname>AdjacencyListSafeIteratorTest::make_graph_triangle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="466" column="8" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdjacencyListSafeIteratorTest</label>
+        <link refid="class_adjacency_list_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdjacencyListSafeIteratorTest</label>
+        <link refid="class_adjacency_list_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="460" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="460" bodyend="476"/>
+    <listofallmembers>
+      <member refid="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" prot="protected" virt="non-virtual"><scope>AdjacencyListSafeIteratorTest</scope><name>AL</name></member>
+      <member refid="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" prot="protected" virt="non-virtual"><scope>AdjacencyListSafeIteratorTest</scope><name>Edge</name></member>
+      <member refid="class_adjacency_list_safe_iterator_test_1a5ebd9b4c4c6b270da1f9575c9c092ac3" prot="protected" virt="non-virtual"><scope>AdjacencyListSafeIteratorTest</scope><name>make_graph_triangle</name></member>
+      <member refid="class_adjacency_list_safe_iterator_test_1a1ecf2bd3deb46ffa67558efe7e0c5274" prot="protected" virt="non-virtual"><scope>AdjacencyListSafeIteratorTest</scope><name>VtxId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

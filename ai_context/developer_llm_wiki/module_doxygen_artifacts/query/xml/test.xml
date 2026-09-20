@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a4f1b79d51127e6a6ee68e2db62668b34" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, ConcurrentCounterUpdates_HighContention_CountersAccurate)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>ConcurrentCounterUpdates_HighContention_CountersAccurate  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a4093386569cd3a544f296a9153fbd270" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, ConcurrentPutAndGet_MixedWorkload_NoCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>ConcurrentPutAndGet_MixedWorkload_NoCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ae7e530a3b955065805e033c01fc8d5a2" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, PlanCacheGet_DeadlineExceeded_FailsFast)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>PlanCacheGet_DeadlineExceeded_FailsFast  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ac932004014d905d8d41e3379fad428ac" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, PlanCachePut_DeadlineExceeded_SkipsCache)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>PlanCachePut_DeadlineExceeded_SkipsCache  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ac8ff2b4389af5469ddeb0c7cc0b915d5" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, PlanCacheGet_DeadlineInFuture_Succeeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>PlanCacheGet_DeadlineInFuture_Succeeds  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1aa582496a1414aff8f3bc303b25af1ccc" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, ConcurrentCacheOperations_Stress_NoDeadlock)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>ConcurrentCacheOperations_Stress_NoDeadlock  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a1bff5b6f538db9245379cbf6caeb8e24" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, StatsDriftDetection_ConcurrentUpdates_Accurate)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>StatsDriftDetection_ConcurrentUpdates_Accurate  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1afbb13ed417e3babe29e418c850013878" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref>, CacheMemoryTracking_ConcurrentPutEvict_Consistent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>CacheMemoryTracking_ConcurrentPutEvict_Consistent  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1afb8081b2750885cc6464ad69527afdea" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateSimpleQuery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>ValidateSimpleQuery: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> accepts valid simple FOR/RETURN </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a413d7d2a930ab38d0854f8bfde1048db" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateSimpleQueryWithFilter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ValidateSimpleQueryWithFilter: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> accepts FOR/FILTER/RETURN </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a1be5b3a9e93202e1e50b7179908b9fb7" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateUpdateMutation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ValidateUpdateMutation: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> accepts UPDATE when mutations enabled </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1ac9a98ff45a04455b8dc8794e8eb44824" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, MalformedQueryReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>MalformedQueryReturnsError: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> rejects invalid syntax </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a7641aeca8b9329ba87e4002c835a26bf" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, MalformedQueryHasLocationInfo)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>MalformedQueryHasLocationInfo: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> returns line:column info </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a85a5b865430be655cd87d5bf7d200086" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ParserDiagnosticsIncludeSuggestions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>ParserDiagnosticsIncludeSuggestions: Error message may include suggestions </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a6289a4bcc205c54ad5946977c4de758a" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, MultilineQueryParsing)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>MultilineQueryParsing: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles multiline AQL </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a5c0197e68f191bd6a6330b8368db6fae" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, QueryWithComplexExpression)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>QueryWithComplexExpression: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> validates complex expressions </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a7cb2e13207707bbdd0d5e79147401d70" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, DDLDisabled)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>DDLDisabled: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> rejects DDL when disabled </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a225e19fd4effcf8757f1bbc90b1d4645" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, JoinQuery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>JoinQuery: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> supports complex join patterns </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a0d440d85eba071169863542a512865e8" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateLETVariable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>ValidateLETVariable: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles LET bindings </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a81dad251da52cdf9b58b05181a8bef47" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateCOLLECT)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>ValidateCOLLECT: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles COLLECT aggregation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a667d1c8e4af9c4184b65b5521613b41f" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateSORT)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>ValidateSORT: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles ordering </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a3debdbbfc26eb8c186984a0006084fca" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateLIMIT)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>ValidateLIMIT: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles pagination </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a28877812067c0f9246d25d35a0f79d79" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ErrorCategoryPopulated)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>ErrorCategoryPopulated: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> provides error categorization </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a3864b60092145aaccc08410d75fbc1a5" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ParserVersion)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>ParserVersion: Verify parser service version </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a9266a301b0521249a27e7e08d9d81031" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kindref="compound">LLMAQLValidationTest</ref>, ValidateFeatureSupport)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>ValidateFeatureSupport: <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> feature availability </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1acd9844fc3821a3d6efece2b22a6aa3e7" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, SimpleQueryValidationSLA)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>SimpleQueryValidationSLA: Simple queries validate in &lt; 100ms </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1affcfa87120cfc2868f4902a24c9fdc9b" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, MediumQueryValidationSLA)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>MediumQueryValidationSLA: Medium-complexity queries validate in &lt; 300ms </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1af0339c5872d87eff3190be4a9bea0bbe" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, ComplexQueryValidationSLA)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>ComplexQueryValidationSLA: Complex queries validate in ≤ 500ms </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a4dac85376cd057d0bdf857aa640909b8" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, ValidationThroughput)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>ValidationThroughput: <ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref> handles ≥ 100 validations/second </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1aed70633c86ed106b082c116f37990537" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, ErrorEnrichmentOverhead)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>ErrorEnrichmentOverhead: Parse error diagnostics add &lt; 50ms overhead </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a01ec7feb2661480efa45cf4501d5f8d3" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, LocationInfoGeneration)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>LocationInfoGeneration: Error location computation is fast </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1af7c977ee6a77c71bf8b6877ff6188263" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kindref="compound">AQLValidationPerformanceTest</ref>, BatchValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>BatchValidation: Validating multiple queries in sequence </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1ae6adff31b1b312cc9baa9d3352a76d6b" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, AQLParserMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>QueryMoveSemanticsSafetyTest::AQLParserMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a744fa4e3ba387eccc20c7956ff3217c9" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, AQLParserMoveAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>QueryMoveSemanticsSafetyTest::AQLParserMoveAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a3a4e9b17c7f9d74b50bc8482da0ea6c7" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, AQLParserSelfAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>QueryMoveSemanticsSafetyTest::AQLParserSelfAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1aafef4a30e204e5ba78a209b1b8bd9c31" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, AQLParserMovedFromStateValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>QueryMoveSemanticsSafetyTest::AQLParserMovedFromStateValid  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a5dd3186cc170286cb74e350d4f95b0ec" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, ResultStreamMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>QueryMoveSemanticsSafetyTest::ResultStreamMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a61818463c1b886e2cfb3467cff933106" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, ResultStreamMoveAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>QueryMoveSemanticsSafetyTest::ResultStreamMoveAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a19afe65792e064bc58f36af7a9258dad" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, QueryCacheManagerMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>QueryMoveSemanticsSafetyTest::QueryCacheManagerMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a19e95de3a08915a6a45e05520f0d6977" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, ApproximateAggregatorMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>QueryMoveSemanticsSafetyTest::ApproximateAggregatorMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1ae4ee25f9dee0b230e665e05f12209991" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, SemanticCacheMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>QueryMoveSemanticsSafetyTest::SemanticCacheMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a25d7882bc403f19157d9b99df054ced5" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, StdVectorOfMovableResources)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>QueryMoveSemanticsSafetyTest::StdVectorOfMovableResources  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a0970f812dcd77ca1b982d45ac6e47d2f" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, UniquePtr_MoveSemantics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>QueryMoveSemanticsSafetyTest::UniquePtr_MoveSemantics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1aa32cdba417a183fcd1c9340425109ef5" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, ManyMoves_NoLeaks)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>QueryMoveSemanticsSafetyTest::ManyMoves_NoLeaks  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1ac34dd728ecdd7e935645b5128210f0af" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, ChainedMoves_NoUseAfterFree)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>QueryMoveSemanticsSafetyTest::ChainedMoves_NoUseAfterFree  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a4d5f5df75d6f7017eb4cf8e61d0ebc98" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, RuleOfFive_Destructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>QueryMoveSemanticsSafetyTest::RuleOfFive_Destructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1a862df0ba9920cc35b42c291c94a6a1e5" kindref="member">themis::query::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1_query_move_semantics_safety_test" kindref="compound">QueryMoveSemanticsSafetyTest</ref>, RuleOfFive_CopyDeleted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>QueryMoveSemanticsSafetyTest::RuleOfFive_CopyDeleted </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

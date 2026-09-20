@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__policy__evaluation_8cpp" kind="file" language="C++">
+    <compoundname>bench_policy_evaluation.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/governance/bench_policy_evaluation.cpp</label>
+        <link refid="bench__policy__evaluation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_policy_engine" prot="public">PolicyEngine</innerclass>
+    <innerclass refid="struct_policy_engine_1_1_rule" prot="public">PolicyEngine::Rule</innerclass>
+    <innerclass refid="struct_policy_engine_1_1_policy" prot="public">PolicyEngine::Policy</innerclass>
+    <innerclass refid="struct_policy_engine_1_1_evaluation_context" prot="public">PolicyEngine::EvaluationContext</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref></type>
+        <definition>PolicyEngine::Policy create_simple_rbac_policy</definition>
+        <argsstring>()</argsstring>
+        <name>create_simple_rbac_policy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="90" column="22" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="90" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a097fb94ecaa64110da34a41fad2d9170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref></type>
+        <definition>PolicyEngine::Policy create_complex_abac_policy</definition>
+        <argsstring>()</argsstring>
+        <name>create_complex_abac_policy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="108" column="22" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="108" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1aa8dd4a409e340fdd63cb5d8ebeb3005a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_SimpleRuleEvaluation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SimpleRuleEvaluation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="131" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="131" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_SimpleRuleEvaluation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_SimpleRuleEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="146" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="146" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1af1f11da0d88ac594bb2ba644ea6148e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ComplexRuleEvaluation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ComplexRuleEvaluation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="149" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="149" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a9aef435ae8a7184d1e45dc8008385d26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ComplexRuleEvaluation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ComplexRuleEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="166" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="166" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1ab93b9a3be467b287a027c41ebbf765a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicySetEvaluation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicySetEvaluation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="169" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="169" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a72af6d4edae546c768aa2989a67db703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicySetEvaluation) -&gt; Arg(10) -&gt;Arg(100) -&gt;Arg(1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicySetEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="189" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="189" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a38bb42ee6cdb9b39c1cf5d714a7ce246" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CachingImpact</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CachingImpact</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="192" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="192" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1ae133a460d103d8c18b81824ea3bc849b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_CachingImpact) -&gt; Arg(0) -&gt;Arg(1)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_CachingImpact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="212" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="212" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a283e83b314919799b17eb422d483e398" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_RBACvsABAC</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RBACvsABAC</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="215" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="215" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1afc45288f0428fb0f2c7afddf7d59990b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_RBACvsABAC) -&gt; Arg(1) -&gt;Arg(0)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_RBACvsABAC</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="237" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="237" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1acd2757bfcd5809d928c30f634f0db259" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConflictDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConflictDetection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="240" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="240" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a2974793363b4cd8a1623a28ab33795b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConflictDetection) -&gt; Arg(10) -&gt;Arg(50) -&gt;Arg(100)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConflictDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="258" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="258" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1adfa9b42043fadf07908cd7712864d76c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_EvaluationThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_EvaluationThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="261" column="13" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="261" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1ab38d330f6fd79bbcb6f3cf0253cfa9a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_EvaluationThroughput)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_EvaluationThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="280" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="280" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__policy__evaluation_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="282" column="1" declfile="benchmarks/governance/bench_policy_evaluation.cpp" declline="282" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Benchmark:<sp/>Policy<sp/>Rule<sp/>Evaluation<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>evaluation<sp/>of<sp/>simple<sp/>rules,<sp/>complex<sp/>nested<sp/>rules,<sp/>and<sp/>large<sp/>policy<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>policy<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="class_policy_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/>{<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">ALLOW</ref>,<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a264ecc6e6542b05976cd28ae19093d0a" kindref="member">DENY</ref><sp/>};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9" kindref="member">PolicyType</ref><sp/>{<sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9afad878b0757bccd8aab5fd94e81ff694" kindref="member">RBAC</ref>,<sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9aabdc72442c6c3a7927a42ccd38932a24" kindref="member">ABAC</ref><sp/>};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="17" refid="struct_policy_engine_1_1_rule" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_policy_engine_1_1_rule" kindref="compound">Rule</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_policy_engine_1_1_rule_1aa09c07b8d33c7db9277ed93d809e8812" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;)&gt;<sp/><ref refid="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" kindref="member">condition</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/><ref refid="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" kindref="member">effect</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="struct_policy_engine_1_1_policy" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_policy_engine_1_1_policy" kindref="compound">Policy</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_policy_engine_1_1_policy_1a3e3004e903ebb8ca6184dc3a28a1b2f2" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Rule&gt;<sp/><ref refid="struct_policy_engine_1_1_policy_1a1e34a237a787a9febb2cc82cfa4f17dd" kindref="member">rules</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9" kindref="member">PolicyType</ref><sp/><ref refid="struct_policy_engine_1_1_policy_1a00004d665a816fad7de0466f0c9d69cb" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="struct_policy_engine_1_1_evaluation_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_policy_engine_1_1_evaluation_context_1a436f51ae1177ab74d2b4697694064cf1" kindref="member">user</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_policy_engine_1_1_evaluation_context_1aeda48e2641cc9b7139e5fdd377c0ac14" kindref="member">resource</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_policy_engine_1_1_evaluation_context_1a8b36e7e6662f69c125e79017ed480418" kindref="member">action</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/><ref refid="class_policy_engine_1a8fa3befbed6204e167cf158d48bde085" kindref="member">evaluate_rule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_rule" kindref="compound">Rule</ref>&amp;<sp/>rule,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref>&amp;<sp/>ctx)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rule.<ref refid="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" kindref="member">condition</ref>(ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" kindref="member">effect</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a264ecc6e6542b05976cd28ae19093d0a" kindref="member">Effect::DENY</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/><ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">Policy</ref>&amp;<sp/>policy,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref>&amp;<sp/>ctx)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>rule<sp/>:<sp/>policy.rules)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_policy_engine_1a8fa3befbed6204e167cf158d48bde085" kindref="member">evaluate_rule</ref>(rule,<sp/>ctx)<sp/>==<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">Effect::ALLOW</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">Effect::ALLOW</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a264ecc6e6542b05976cd28ae19093d0a" kindref="member">Effect::DENY</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/><ref refid="class_policy_engine_1a9626a1a359faa5e49495284a13dc042d" kindref="member">evaluate_policy_set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Policy&gt;&amp;<sp/>policies,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref>&amp;<sp/>ctx)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>policy<sp/>:<sp/>policies)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx)<sp/>==<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">Effect::ALLOW</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">Effect::ALLOW</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a264ecc6e6542b05976cd28ae19093d0a" kindref="member">Effect::DENY</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a701e31ff98f658f77ee5e69326d7e579" kindref="member">has_conflict</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Policy&gt;&amp;<sp/>policies,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref>&amp;<sp/>ctx)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>allow_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>deny_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>policy<sp/>:<sp/>policies)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref><sp/>effect<sp/>=<sp/><ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(effect<sp/>==<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">Effect::ALLOW</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allow_count++;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>deny_count++;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>allow_count<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>deny_count<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1af3f4623000cee534b8aef6b050c1fcc4" kindref="member">add_policy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">Policy</ref>&amp;<sp/>policy)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policies_.push_back(policy);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1a117c7862e51dd15638b93598961d1997" kindref="member">enable_cache</ref>()<sp/>{<sp/>cache_enabled_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_policy_engine_1aaec1f84cb67b5411d467dafe58487f9b" kindref="member">disable_cache</ref>()<sp/>{<sp/>cache_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Policy&gt;<sp/>policies_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cache_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>Effect&gt;<sp/>cache_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>simple<sp/>RBAC<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/><ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a3e3004e903ebb8ca6184dc3a28a1b2f2" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;simple_rbac&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a00004d665a816fad7de0466f0c9d69cb" kindref="member">type</ref><sp/>=<sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9afad878b0757bccd8aab5fd94e81ff694" kindref="member">PolicyEngine::PolicyType::RBAC</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_rule" kindref="compound">PolicyEngine::Rule</ref><sp/>rule;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1aa09c07b8d33c7db9277ed93d809e8812" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin_all_access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" kindref="member">condition</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>attrs)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>attrs.find(</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it<sp/>!=<sp/>attrs.end()<sp/>&amp;&amp;<sp/>it-&gt;second<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" kindref="member">effect</ref><sp/>=<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">PolicyEngine::Effect::ALLOW</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a1e34a237a787a9febb2cc82cfa4f17dd" kindref="member">rules</ref>.push_back(rule);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>complex<sp/>nested<sp/>ABAC<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/><ref refid="bench__policy__evaluation_8cpp_1a097fb94ecaa64110da34a41fad2d9170" kindref="member">create_complex_abac_policy</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a3e3004e903ebb8ca6184dc3a28a1b2f2" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;complex_abac&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a00004d665a816fad7de0466f0c9d69cb" kindref="member">type</ref><sp/>=<sp/><ref refid="class_policy_engine_1a512a3ff280415260f8f82fac1f68c7f9aabdc72442c6c3a7927a42ccd38932a24" kindref="member">PolicyEngine::PolicyType::ABAC</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_rule" kindref="compound">PolicyEngine::Rule</ref><sp/>rule;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1aa09c07b8d33c7db9277ed93d809e8812" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;multi_condition_access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" kindref="member">condition</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>attrs)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>role<sp/>=<sp/>attrs.find(</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dept<sp/>=<sp/>attrs.find(</highlight><highlight class="stringliteral">&quot;department&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time<sp/>=<sp/>attrs.find(</highlight><highlight class="stringliteral">&quot;time_of_day&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role<sp/>!=<sp/>attrs.end()<sp/>&amp;&amp;<sp/>role-&gt;second<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;manager&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dept<sp/>!=<sp/>attrs.end()<sp/>&amp;&amp;<sp/>dept-&gt;second<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>time<sp/>!=<sp/>attrs.end()<sp/>&amp;&amp;<sp/>time-&gt;second<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;business_hours&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>rule.<ref refid="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" kindref="member">effect</ref><sp/>=<sp/><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74a40908e0f79c647b844c42f5babdc3feb" kindref="member">PolicyEngine::Effect::ALLOW</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="struct_policy_engine_1_1_policy_1a1e34a237a787a9febb2cc82cfa4f17dd" kindref="member">rules</ref>.push_back(rule);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Simple<sp/>rule<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SimpleRuleEvaluation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy<sp/>=<sp/><ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a436f51ae1177ab74d2b4697694064cf1" kindref="member">user</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1aeda48e2641cc9b7139e5fdd377c0ac14" kindref="member">resource</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a8b36e7e6662f69c125e79017ed480418" kindref="member">action</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_SimpleRuleEvaluation);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Complex<sp/>nested<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ComplexRuleEvaluation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy<sp/>=<sp/><ref refid="bench__policy__evaluation_8cpp_1a097fb94ecaa64110da34a41fad2d9170" kindref="member">create_complex_abac_policy</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a436f51ae1177ab74d2b4697694064cf1" kindref="member">user</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1aeda48e2641cc9b7139e5fdd377c0ac14" kindref="member">resource</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/sensitive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a8b36e7e6662f69c125e79017ed480418" kindref="member">action</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;manager&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;department&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;time_of_day&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;business_hours&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_ComplexRuleEvaluation);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Policy<sp/>set<sp/>evaluation<sp/>(varying<sp/>number<sp/>of<sp/>policies)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicySetEvaluation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_policies<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.range(0);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyEngine::Policy&gt;<sp/>policies;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_policies;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policies.push_back(<ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a436f51ae1177ab74d2b4697694064cf1" kindref="member">user</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a9626a1a359faa5e49495284a13dc042d" kindref="member">evaluate_policy_set</ref>(policies,<sp/>ctx);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;policies&quot;</highlight><highlight class="normal">]<sp/>=<sp/>num_policies;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_PolicySetEvaluation)-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Rule<sp/>caching<sp/>impact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CachingImpact(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_cache<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.range(0);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(use_cache)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>engine.<ref refid="class_policy_engine_1a117c7862e51dd15638b93598961d1997" kindref="member">enable_cache</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>engine.<ref refid="class_policy_engine_1aaec1f84cb67b5411d467dafe58487f9b" kindref="member">disable_cache</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy<sp/>=<sp/><ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.SetLabel(use_cache<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;with_cache&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;no_cache&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_CachingImpact)-&gt;Arg(0)-&gt;Arg(1);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>RBAC<sp/>vs<sp/>ABAC<sp/>comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_RBACvsABAC(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_rbac<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.range(0);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy<sp/>=<sp/>use_rbac<sp/>?<sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>()<sp/>:<sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__policy__evaluation_8cpp_1a097fb94ecaa64110da34a41fad2d9170" kindref="member">create_complex_abac_policy</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/>use_rbac<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;manager&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!use_rbac)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;department&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;time_of_day&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;business_hours&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.SetLabel(use_rbac<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;RBAC&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;ABAC&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_RBACvsABAC)-&gt;Arg(1)-&gt;Arg(0);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Policy<sp/>conflict<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConflictDetection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_policies<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.range(0);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PolicyEngine::Policy&gt;<sp/>policies<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_policies;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policies.push_back(<ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>conflict<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a701e31ff98f658f77ee5e69326d7e579" kindref="member">has_conflict</ref>(policies,<sp/>ctx);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(conflict);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_ConflictDetection)-&gt;Arg(10)-&gt;Arg(50)-&gt;Arg(100);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Evaluation<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_EvaluationThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_policy" kindref="compound">PolicyEngine::Policy</ref><sp/>policy<sp/>=<sp/><ref refid="bench__policy__evaluation_8cpp_1a10597c1994f3aaebf3b1c575a4f72d50" kindref="member">create_simple_rbac_policy</ref>();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_policy_engine_1_1_evaluation_context" kindref="compound">PolicyEngine::EvaluationContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="struct_policy_engine_1_1_evaluation_context_1a7923e5b1f9ccc6122dc8d0fed7ea5bbd" kindref="member">attributes</ref>[</highlight><highlight class="stringliteral">&quot;role&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>evaluations<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>effect<sp/>=<sp/>engine.<ref refid="class_policy_engine_1a3e136d80390af44b99c262d2a9f5ab62" kindref="member">evaluate_policy</ref>(policy,<sp/>ctx);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(effect);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evaluations++;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;evaluations/sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evaluations,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::Counter::kIsRate</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a6e226d944b79d4da987a9f127edcef08" kindref="member">BENCHMARK</ref>(BM_EvaluationThroughput);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="bench__policy__evaluation_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/governance/bench_policy_evaluation.cpp"/>
+  </compounddef>
+</doxygen>

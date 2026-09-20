@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_e_i_d_auth_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EIDAuthResult</compoundname>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <innerclass refid="classthemis_1_1auth_1_1_e_i_d_auth_result_1_1_identity_result" prot="public">themis::auth::EIDAuthResult::IdentityResult</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1aa319f79881a7bbfa4dff8a6066b7fda4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::EIDAuthResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::auth::EIDAuthResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="239" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1a4964bdcad2edd98e045389c59773a8e2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dc" kindref="member">EIDAuthErrorCode</ref></type>
+        <definition>EIDAuthErrorCode themis::auth::EIDAuthResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::auth::EIDAuthResult::error_code</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcab50339a10e1de285ac99d4c3990b8693" kindref="member">EIDAuthErrorCode::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="240" column="22" bodyfile="include/auth/eid_authenticator.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1aeccfe9a2621ca9052ccbda39831c2141" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::auth::EIDAuthResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="241" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1a636dbe42f9ab952b5768481393f26f99" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_e_i_d_auth_result_1_1_identity_result" kindref="compound">IdentityResult</ref></type>
+        <definition>IdentityResult themis::auth::EIDAuthResult::identity</definition>
+        <argsstring></argsstring>
+        <name>identity</name>
+        <qualifiedname>themis::auth::EIDAuthResult::identity</qualifiedname>
+        <briefdescription>
+<para>Populated on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="242" column="20" bodyfile="include/auth/eid_authenticator.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1a846e367d8a5d40d3a6b88bffd98500c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::EIDAuthResult::has_value</definition>
+        <argsstring>() const</argsstring>
+        <name>has_value</name>
+        <qualifiedname>themis::auth::EIDAuthResult::has_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="245" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="245" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1ae22ddfe64f1096ba0b9af45a9dd33071" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref> *</type>
+        <definition>const EIDIdentity * themis::auth::EIDAuthResult::operator-&gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::auth::EIDAuthResult::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="249" column="23" bodyfile="include/auth/eid_authenticator.h" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1afeab3303596b9cd32dd691388c253981" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref> *</type>
+        <definition>EIDIdentity * themis::auth::EIDAuthResult::operator-&gt;</definition>
+        <argsstring>()</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::auth::EIDAuthResult::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="253" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="253" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1a37655fd448894ce4f12d439e772aa3a1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_result" kindref="compound">EIDAuthResult</ref></type>
+        <definition>static EIDAuthResult themis::auth::EIDAuthResult::Success</definition>
+        <argsstring>(EIDIdentity id)</argsstring>
+        <name>Success</name>
+        <qualifiedname>themis::auth::EIDAuthResult::Success</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_e_i_d_identity" kindref="compound">EIDIdentity</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="263" column="26" bodyfile="include/auth/eid_authenticator.h" bodystart="263" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_e_i_d_auth_result_1a3041420cb4adb81bf97946b87d05bc16" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_e_i_d_auth_result" kindref="compound">EIDAuthResult</ref></type>
+        <definition>static EIDAuthResult themis::auth::EIDAuthResult::Failure</definition>
+        <argsstring>(EIDAuthErrorCode code, std::string msg)</argsstring>
+        <name>Failure</name>
+        <qualifiedname>themis::auth::EIDAuthResult::Failure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dc" kindref="member">EIDAuthErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="277" column="26" bodyfile="include/auth/eid_authenticator.h" bodystart="277" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::EIDAuthResult</label>
+        <link refid="structthemis_1_1auth_1_1_e_i_d_auth_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>identity</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::EIDAuthResult::IdentityResult</label>
+        <link refid="classthemis_1_1auth_1_1_e_i_d_auth_result_1_1_identity_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/eid_authenticator.h" line="191" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="191" bodyend="284"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1a4964bdcad2edd98e045389c59773a8e2" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1aeccfe9a2621ca9052ccbda39831c2141" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1a3041420cb4adb81bf97946b87d05bc16" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>Failure</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1a846e367d8a5d40d3a6b88bffd98500c3" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>has_value</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1a636dbe42f9ab952b5768481393f26f99" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>identity</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1ae22ddfe64f1096ba0b9af45a9dd33071" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>operator-&gt;</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1afeab3303596b9cd32dd691388c253981" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>operator-&gt;</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1a37655fd448894ce4f12d439e772aa3a1" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>Success</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_result_1aa319f79881a7bbfa4dff8a6066b7fda4" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

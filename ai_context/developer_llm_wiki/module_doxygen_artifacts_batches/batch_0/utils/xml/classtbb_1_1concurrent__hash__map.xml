@@ -1,0 +1,605 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classtbb_1_1concurrent__hash__map" kind="class" language="C++" prot="public">
+    <compoundname>tbb::concurrent_hash_map</compoundname>
+    <includes refid="tbb__compat_8h" local="no">tbb_compat.h</includes>
+    <innerclass refid="classtbb_1_1concurrent__hash__map_1_1accessor" prot="public">tbb::concurrent_hash_map::accessor</innerclass>
+    <innerclass refid="classtbb_1_1concurrent__hash__map_1_1const__accessor" prot="public">tbb::concurrent_hash_map::const_accessor</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classtbb_1_1concurrent__hash__map_1a7b5ba84c705927b01e6e1675c57f6935" prot="public" static="no">
+        <type>Key</type>
+        <definition>using tbb::concurrent_hash_map&lt; Key, Value &gt;::key_type = Key</definition>
+        <argsstring></argsstring>
+        <name>key_type</name>
+        <qualifiedname>tbb::concurrent_hash_map::key_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="21" column="5" bodyfile="include/utils/tbb_compat.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtbb_1_1concurrent__hash__map_1a7a8075e885407190c91a41b6c312f5eb" prot="public" static="no">
+        <type>Value</type>
+        <definition>using tbb::concurrent_hash_map&lt; Key, Value &gt;::mapped_type = Value</definition>
+        <argsstring></argsstring>
+        <name>mapped_type</name>
+        <qualifiedname>tbb::concurrent_hash_map::mapped_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="22" column="5" bodyfile="include/utils/tbb_compat.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" prot="public" static="no">
+        <type>std::pair&lt; const Key, Value &gt;</type>
+        <definition>using tbb::concurrent_hash_map&lt; Key, Value &gt;::value_type = std::pair&lt;const Key, Value&gt;</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>tbb::concurrent_hash_map::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="23" column="5" bodyfile="include/utils/tbb_compat.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtbb_1_1concurrent__hash__map_1a950de0f9411fc66c374ffe9eeb3b2419" prot="public" static="no">
+        <type>typename std::unordered_map&lt; Key, Value &gt;::iterator</type>
+        <definition>using tbb::concurrent_hash_map&lt; Key, Value &gt;::iterator = typename std::unordered_map&lt;Key, Value&gt;::iterator</definition>
+        <argsstring></argsstring>
+        <name>iterator</name>
+        <qualifiedname>tbb::concurrent_hash_map::iterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="24" column="5" bodyfile="include/utils/tbb_compat.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" prot="public" static="no">
+        <type>typename std::unordered_map&lt; Key, Value &gt;::const_iterator</type>
+        <definition>using tbb::concurrent_hash_map&lt; Key, Value &gt;::const_iterator = typename std::unordered_map&lt;Key, Value&gt;::const_iterator</definition>
+        <argsstring></argsstring>
+        <name>const_iterator</name>
+        <qualifiedname>tbb::concurrent_hash_map::const_iterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="25" column="5" bodyfile="include/utils/tbb_compat.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtbb_1_1concurrent__hash__map_1adc23c9a6481cbbaa02c2943d98e23098" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex tbb::concurrent_hash_map&lt; Key, Value &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>tbb::concurrent_hash_map::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="280" column="24" bodyfile="include/utils/tbb_compat.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtbb_1_1concurrent__hash__map_1ad75f22dbde82aaeefff12fc796c52506" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; Key, Value &gt;</type>
+        <definition>std::unordered_map&lt;Key, Value&gt; tbb::concurrent_hash_map&lt; Key, Value &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>tbb::concurrent_hash_map::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="281" column="24" bodyfile="include/utils/tbb_compat.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a432e31353092090f18b62b5b4cc7b47e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tbb::concurrent_hash_map&lt; Key, Value &gt;::concurrent_hash_map</definition>
+        <argsstring>()=default</argsstring>
+        <name>concurrent_hash_map</name>
+        <qualifiedname>tbb::concurrent_hash_map::concurrent_hash_map</qualifiedname>
+        <briefdescription>
+<para>Constructs an empty compatibility map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a1a9df5c18eebb1cd3e253d1ffad1f4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tbb::concurrent_hash_map&lt; Key, Value &gt;::~concurrent_hash_map</definition>
+        <argsstring>()=default</argsstring>
+        <name>~concurrent_hash_map</name>
+        <qualifiedname>tbb::concurrent_hash_map::~concurrent_hash_map</qualifiedname>
+        <briefdescription>
+<para>Destroys the compatibility map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a8058236887e00aa990c7f0c366f9e27c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename AccessorT</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool tbb::concurrent_hash_map&lt; Key, Value &gt;::find</definition>
+        <argsstring>(AccessorT &amp;acc, const Key &amp;key)</argsstring>
+        <name>find</name>
+        <qualifiedname>tbb::concurrent_hash_map::find</qualifiedname>
+        <param>
+          <type>AccessorT &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Finds an entry by key and binds an accessor when found. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>AccessorT</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accessor type (<computeroutput><ref refid="classtbb_1_1concurrent__hash__map_1_1accessor" kindref="compound">accessor</ref></computeroutput> or <computeroutput><ref refid="classtbb_1_1concurrent__hash__map_1_1const__accessor" kindref="compound">const_accessor</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accessor updated to reference the found entry. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to search for. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the key exists, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="142" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="142" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a80b659a5caae9a309bf90ce751942a43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool tbb::concurrent_hash_map&lt; Key, Value &gt;::erase</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>tbb::concurrent_hash_map::erase</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Erases an entry by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to erase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when an entry was erased, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="158" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a8d4966848b2ba9b69112febdf2ea12f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool tbb::concurrent_hash_map&lt; Key, Value &gt;::erase</definition>
+        <argsstring>(accessor &amp;acc)</argsstring>
+        <name>erase</name>
+        <qualifiedname>tbb::concurrent_hash_map::erase</qualifiedname>
+        <param>
+          <type><ref refid="classtbb_1_1concurrent__hash__map_1_1accessor" kindref="compound">accessor</ref> &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <briefdescription>
+<para>Erases an entry referenced by accessor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accessor bound to the entry to erase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when an entry was erased, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="168" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a854ac57f4ca3b4babe8fdfeae9063b20" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool tbb::concurrent_hash_map&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(accessor &amp;acc, const value_type &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>tbb::concurrent_hash_map::insert</qualifiedname>
+        <param>
+          <type><ref refid="classtbb_1_1concurrent__hash__map_1_1accessor" kindref="compound">accessor</ref> &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" kindref="member">value_type</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts an entry and binds accessor to the inserted element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accessor that receives the inserted entry on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/value pair to insert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when insertion happened, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="185" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1ac5e422cce166bf15222c4afd59ca5a7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool tbb::concurrent_hash_map&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(accessor &amp;acc, value_type &amp;&amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>tbb::concurrent_hash_map::insert</qualifiedname>
+        <param>
+          <type><ref refid="classtbb_1_1concurrent__hash__map_1_1accessor" kindref="compound">accessor</ref> &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <param>
+          <type><ref refid="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" kindref="member">value_type</ref> &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Move-inserts an entry and binds accessor to the inserted element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accessor that receives the inserted entry on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/value pair to insert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when insertion happened, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="202" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="202" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a4958c9f8257a3f0f5b0e2fdda73aea56" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void tbb::concurrent_hash_map&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const value_type &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>tbb::concurrent_hash_map::insert</qualifiedname>
+        <param>
+          <type>const <ref refid="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" kindref="member">value_type</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts an entry without exposing an accessor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/value pair to insert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="217" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="217" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1ab6d4af88c49910d9c3cab21a4a947d08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void tbb::concurrent_hash_map&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(value_type &amp;&amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>tbb::concurrent_hash_map::insert</qualifiedname>
+        <param>
+          <type><ref refid="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" kindref="member">value_type</ref> &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Move-inserts an entry without exposing an accessor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/value pair to insert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="226" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a1161385598d51019e7f66355cffe2c35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t tbb::concurrent_hash_map&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>tbb::concurrent_hash_map::size</qualifiedname>
+        <briefdescription>
+<para>Returns the number of stored entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Entry count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="235" column="12" bodyfile="include/utils/tbb_compat.h" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a560ae2698513f56c7e26a94d04112018" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void tbb::concurrent_hash_map&lt; Key, Value &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>tbb::concurrent_hash_map::clear</qualifiedname>
+        <briefdescription>
+<para>Removes all entries from the map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="243" column="10" bodyfile="include/utils/tbb_compat.h" bodystart="243" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a9ff362c1b175ccbf55b68cfce4147b2a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1a950de0f9411fc66c374ffe9eeb3b2419" kindref="member">iterator</ref></type>
+        <definition>iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>tbb::concurrent_hash_map::begin</qualifiedname>
+        <briefdescription>
+<para>Returns iterator to the first element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="252" column="14" bodyfile="include/utils/tbb_compat.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a3ce37762132242d6528e5a32f10c21d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1a950de0f9411fc66c374ffe9eeb3b2419" kindref="member">iterator</ref></type>
+        <definition>iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>tbb::concurrent_hash_map::end</qualifiedname>
+        <briefdescription>
+<para>Returns iterator to one-past-last element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable end iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="257" column="14" bodyfile="include/utils/tbb_compat.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a12992ee471127e42131b1d007d84ec3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>tbb::concurrent_hash_map::begin</qualifiedname>
+        <briefdescription>
+<para>Returns const iterator to the first element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="262" column="20" bodyfile="include/utils/tbb_compat.h" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a78fbc727208e2ac1f3ea76b90f08a2ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>tbb::concurrent_hash_map::end</qualifiedname>
+        <briefdescription>
+<para>Returns const iterator to one-past-last element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const end iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="267" column="20" bodyfile="include/utils/tbb_compat.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1ad849b149160d71aff762420dea7351f7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::cbegin</definition>
+        <argsstring>() const</argsstring>
+        <name>cbegin</name>
+        <qualifiedname>tbb::concurrent_hash_map::cbegin</qualifiedname>
+        <briefdescription>
+<para>Returns const iterator to the first element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="272" column="20" bodyfile="include/utils/tbb_compat.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classtbb_1_1concurrent__hash__map_1a13a6bb5f9e526e95d8655df33d449091" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator tbb::concurrent_hash_map&lt; Key, Value &gt;::cend</definition>
+        <argsstring>() const</argsstring>
+        <name>cend</name>
+        <qualifiedname>tbb::concurrent_hash_map::cend</qualifiedname>
+        <briefdescription>
+<para>Returns const iterator to one-past-last element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const end iterator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tbb_compat.h" line="277" column="20" bodyfile="include/utils/tbb_compat.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mutex-backed compatibility replacement for <computeroutput><ref refid="classtbb_1_1concurrent__hash__map" kindref="compound">tbb::concurrent_hash_map</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key type used for map lookup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type stored in the map. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/tbb_compat.h" line="19" column="1" bodyfile="include/utils/tbb_compat.h" bodystart="19" bodyend="282"/>
+    <listofallmembers>
+      <member refid="classtbb_1_1concurrent__hash__map_1a9ff362c1b175ccbf55b68cfce4147b2a" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>begin</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a12992ee471127e42131b1d007d84ec3a" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>begin</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1ad849b149160d71aff762420dea7351f7" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>cbegin</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a13a6bb5f9e526e95d8655df33d449091" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>cend</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a560ae2698513f56c7e26a94d04112018" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>clear</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a432e31353092090f18b62b5b4cc7b47e" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>concurrent_hash_map</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1adfa921bf13163dd6a9ac9682183d19ac" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>const_iterator</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a3ce37762132242d6528e5a32f10c21d8" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>end</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a78fbc727208e2ac1f3ea76b90f08a2ba" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>end</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a80b659a5caae9a309bf90ce751942a43" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>erase</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a8d4966848b2ba9b69112febdf2ea12f8" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>erase</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a8058236887e00aa990c7f0c366f9e27c" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>find</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a854ac57f4ca3b4babe8fdfeae9063b20" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>insert</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1ac5e422cce166bf15222c4afd59ca5a7b" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>insert</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a4958c9f8257a3f0f5b0e2fdda73aea56" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>insert</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1ab6d4af88c49910d9c3cab21a4a947d08" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>insert</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a950de0f9411fc66c374ffe9eeb3b2419" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>iterator</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a7b5ba84c705927b01e6e1675c57f6935" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>key_type</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1ad75f22dbde82aaeefff12fc796c52506" prot="private" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>map_</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a7a8075e885407190c91a41b6c312f5eb" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>mapped_type</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1adc23c9a6481cbbaa02c2943d98e23098" prot="private" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>mutex_</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a1161385598d51019e7f66355cffe2c35" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>size</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a3608dccb6c0eaf4096c81eafee1fbe03" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>value_type</name></member>
+      <member refid="classtbb_1_1concurrent__hash__map_1a1a9df5c18eebb1cd3e253d1ffad1f4e5" prot="public" virt="non-virtual"><scope>tbb::concurrent_hash_map</scope><name>~concurrent_hash_map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

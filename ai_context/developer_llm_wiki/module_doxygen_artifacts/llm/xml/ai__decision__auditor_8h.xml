@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ai__decision__auditor_8h" kind="file" language="C++">
+    <compoundname>ai_decision_auditor.h</compoundname>
+    <includes refid="llm__interaction__store_8h" local="yes">llm/llm_interaction_store.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="moral__analyzer_8h" local="yes">include/llm/moral_analyzer.h</includedby>
+    <includedby refid="ai__decision__auditor_8cpp" local="yes">src/llm/ai_decision_auditor.cpp</includedby>
+    <includedby refid="test__llm__p1__observability_8cpp" local="yes">tests/llm/test_llm_p1_observability.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/ai_decision_auditor.h</label>
+        <link refid="ai__decision__auditor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/llm_interaction_store.h</label>
+        <link refid="llm__interaction__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/ai_decision_auditor.h</label>
+        <link refid="ai__decision__auditor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/ai_decision_auditor.cpp</label>
+        <link refid="ai__decision__auditor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_llm_p1_observability.cpp</label>
+        <link refid="test__llm__p1__observability_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_decision_audit" prot="public">themis::llm::AIDecisionAudit</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_a_i_decision_auditor" prot="public">themis::llm::AIDecisionAuditor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" prot="public">themis::llm::AIDecisionAuditor::QueryFilter</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" prot="public">themis::llm::AIDecisionAuditor::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__interaction__store_8h" kindref="compound">llm/llm_interaction_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VCCPKIClient;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="struct_a_i_decision_audit" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a43f372841f5965809b96247c70a4bc7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a43f372841f5965809b96247c70a4bc7b" kindref="member">~AIDecisionAudit</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" kindref="member">decision_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>decision<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a7f0ebb630aa32183cef4ebaffbdb9118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a7f0ebb630aa32183cef4ebaffbdb9118" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>who<sp/>triggered<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a29af61defa52e678079df3aa0d6c7789" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a29af61defa52e678079df3aa0d6c7789" kindref="member">session_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Session<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac23f0b8f66bbe9485c85cfbc21725184" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac23f0b8f66bbe9485c85cfbc21725184" kindref="member">timestamp</ref>;<sp/></highlight><highlight class="comment">//<sp/>When<sp/>decision<sp/>was<sp/>made</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P1.3<sp/>—<sp/>End-to-End<sp/>Observability:<sp/>W3C<sp/>traceparent<sp/>correlation<sp/>fields.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>fields<sp/>are<sp/>propagated<sp/>from<sp/>the<sp/>originating<sp/>HTTP<sp/>request<sp/>through</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>retrieval<sp/>→<sp/>prompt-build<sp/>→<sp/>inference<sp/>→<sp/>audit<sp/>so<sp/>that<sp/>all<sp/>log<sp/>records</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>a<sp/>single<sp/>user<sp/>request<sp/>share<sp/>the<sp/>same<sp/>trace_id.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>trace_id<sp/>—<sp/>32<sp/>lower-case<sp/>hex<sp/>chars<sp/>(128-bit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>span_id<sp/><sp/>—<sp/>16<sp/>lower-case<sp/>hex<sp/>chars<sp/>(64-bit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>empty<sp/>string<sp/>means<sp/>the<sp/>field<sp/>was<sp/>not<sp/>provided<sp/>by<sp/>the<sp/>caller.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>Context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>user<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a52a365fbd98d060df47b832cec31c06e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a52a365fbd98d060df47b832cec31c06e" kindref="member">context</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>context<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>Information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a41afe4e7b2e4946bc3f3aa77dbb5e188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a41afe4e7b2e4946bc3f3aa77dbb5e188" kindref="member">model_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;gpt-4&quot;,<sp/>&quot;llama-2&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a222390b3aa24d278d445449be7cca5df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a222390b3aa24d278d445449be7cca5df" kindref="member">model_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa1de38a906a835ba731db7fd928e3498" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa1de38a906a835ba731db7fd928e3498" kindref="member">model_params</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Temperature,<sp/>top_p,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" kindref="member">response</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AI-generated<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aaa07116caf51570e1906b93cd702735c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aaa07116caf51570e1906b93cd702735c" kindref="member">confidence_score</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>(0.0-1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ab4410b21cb36f18186d34223c9293022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ab4410b21cb36f18186d34223c9293022" kindref="member">alternatives</ref>;<sp/></highlight><highlight class="comment">//<sp/>Alternative<sp/>responses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explainability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ade78a7c57a03878991e1e865eaf145fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ade78a7c57a03878991e1e865eaf145fd" kindref="member">explanation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>explanation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a77260d4a7c6b4849e3d14271815e63c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a77260d4a7c6b4849e3d14271815e63c5" kindref="member">reasoning_steps</ref>;<sp/></highlight><highlight class="comment">//<sp/>Step-by-step<sp/>reasoning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aed8c981ffa9095389d6af46bf6c5e7e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aed8c981ffa9095389d6af46bf6c5e7e8" kindref="member">key_factors</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factors<sp/>influencing<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>Trail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a932977996b107c2282c8bf957a7e9bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a932977996b107c2282c8bf957a7e9bc1" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptographic<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ae4ee3c7f73b04d77284704735501bebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ae4ee3c7f73b04d77284704735501bebe" kindref="member">requires_human_review</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Flag<sp/>for<sp/>low<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a96d890ca7c57ca2804acd6c7b95681a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a96d890ca7c57ca2804acd6c7b95681a2" kindref="member">human_override</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>details<sp/>(if<sp/>any)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a38b4ac11f0a9887f1a4acfc5486233a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a38b4ac11f0a9887f1a4acfc5486233a9" kindref="member">reviewer_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human<sp/>reviewer<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a18ef5a5fd75c2483c5192c51b5aa70ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a18ef5a5fd75c2483c5192c51b5aa70ed" kindref="member">latency_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decision<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a29341cca7662f105ba97b02356957291" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a29341cca7662f105ba97b02356957291" kindref="member">token_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1llm_1_1_a_i_decision_auditor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aad1a48f9a73a85fd1dc376e4e6cd2361" kindref="member">AIDecisionAuditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kindref="compound">QueryFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a039b4c57532f427dd77a7cd47537e513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a039b4c57532f427dd77a7cd47537e513" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a5e949cb3d711bdaca9ee3360f6803ac4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a5e949cb3d711bdaca9ee3360f6803ac4" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a80c7ebf03d8921674d24dd24532c36a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a80c7ebf03d8921674d24dd24532c36a8" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a07646740eae06920c4ab5f72692d0768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a07646740eae06920c4ab5f72692d0768" kindref="member">min_confidence</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a0663b0d6a33d33616b6893d9ebae0eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a0663b0d6a33d33616b6893d9ebae0eb4" kindref="member">max_confidence</ref>;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a217912e56a18d52c6626e173369a6431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1a217912e56a18d52c6626e173369a6431" kindref="member">requires_review</ref>;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1abf4665969604e81959cd29c05a3b702d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter_1abf4665969604e81959cd29c05a3b702d" kindref="member">limit</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aad1a48f9a73a85fd1dc376e4e6cd2361" kindref="member">AIDecisionAuditor</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VCCPKIClient&gt;<sp/>pki_client<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a2d3f03269630c755fdb93c3ac18a755e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a2d3f03269630c755fdb93c3ac18a755e" kindref="member">~AIDecisionAuditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a9f198110968c2b5419357f3eb31f9be6" kindref="member">logDecision</ref>(<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/>audit);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1ae1dc615446150f7fbd14fc0df68a9825" kindref="member">generateExplanation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AIDecisionAudit&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a672514ac9c756c082a754ba927d82c4a" kindref="member">queryAuditLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kindref="compound">QueryFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a324b01170f0525d2fdcaa388d5801c98" kindref="member">flagForReview</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1aadffc24f4ef9463b286c7343c1bebd6f" kindref="member">recordOverride</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>override_reason,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reviewer_id</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AIDecisionAudit&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a84ebdb9c9b68fe7fed89c0c7b27a46aa" kindref="member">getDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a4d8f4462a5e5e0ac8b12e4e94f5e6375" kindref="member">verifyIntegrity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1addecf26c437938be00155d4703f2bffc" kindref="member">exportForCompliance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_query_filter" kindref="compound">QueryFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a4002042a1e97b36fc9cfa349e2812cc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a4002042a1e97b36fc9cfa349e2812cc4" kindref="member">total_decisions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a8c99eaf96be3f51b47c8e2cb625806fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1a8c99eaf96be3f51b47c8e2cb625806fa" kindref="member">flagged_for_review</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ab34fdcbfa048f324dbcba7e182495ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ab34fdcbfa048f324dbcba7e182495ea8" kindref="member">human_overrides</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ac66aa9b78437cc4b3cd975b6d1ddd941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ac66aa9b78437cc4b3cd975b6d1ddd941" kindref="member">avg_confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ad3d96f1e9c3226dd0e3548e4b5cf5ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats_1ad3d96f1e9c3226dd0e3548e4b5cf5ba4" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_auditor_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_a_i_decision_auditor_1a709e520fcd6d84dc272e017d5ba55c5d" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VCCPKIClient&gt;<sp/>pki_client_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>KEY_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ai_decision:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>signDecision(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref>&amp;<sp/>audit);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref>&amp;<sp/>audit)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/ai_decision_auditor.h"/>
+  </compounddef>
+</doxygen>

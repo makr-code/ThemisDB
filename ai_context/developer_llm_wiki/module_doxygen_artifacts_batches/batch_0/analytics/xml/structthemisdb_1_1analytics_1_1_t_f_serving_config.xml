@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_t_f_serving_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TFServingConfig</compoundname>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a386d066a59146fa2d117e2c8dc85cc36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TFServingConfig::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>themisdb::analytics::TFServingConfig::base_url</qualifiedname>
+        <initializer>= &quot;https://localhost:8501&quot;</initializer>
+        <briefdescription>
+<para>TF Serving REST API base URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="174" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_config_1ab16723021559b6a6dd01643b4372d632" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::TFServingConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themisdb::analytics::TFServingConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>HTTP request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="175" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a949730641517c1e246cb0bdf94b09f2d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::TFServingConfig::verify_ssl</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl</name>
+        <qualifiedname>themisdb::analytics::TFServingConfig::verify_ssl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify TLS certificates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="176" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a968d0bd38fab584c45fc3b04999b8b06" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::TFServingConfig::allow_insecure_transport</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure_transport</name>
+        <qualifiedname>themisdb::analytics::TFServingConfig::allow_insecure_transport</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allow plaintext HTTP when explicitly enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="177" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a0c5f2d4f65aeef01c2292f57963b2735" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TFServingConfig::api_key</definition>
+        <argsstring></argsstring>
+        <name>api_key</name>
+        <qualifiedname>themisdb::analytics::TFServingConfig::api_key</qualifiedname>
+        <briefdescription>
+<para>Optional bearer token / API key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="178" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/ml_serving.h" line="173" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="173" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a968d0bd38fab584c45fc3b04999b8b06" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingConfig</scope><name>allow_insecure_transport</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a0c5f2d4f65aeef01c2292f57963b2735" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingConfig</scope><name>api_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a386d066a59146fa2d117e2c8dc85cc36" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingConfig</scope><name>base_url</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1ab16723021559b6a6dd01643b4372d632" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a949730641517c1e246cb0bdf94b09f2d" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingConfig</scope><name>verify_ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

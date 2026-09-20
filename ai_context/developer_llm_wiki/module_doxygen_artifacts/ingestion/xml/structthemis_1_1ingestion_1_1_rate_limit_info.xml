@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_rate_limit_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::RateLimitInfo</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1a5fc3051a4bb17f5205d76bf54a0ea78e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::RateLimitInfo::is_rate_limited</definition>
+        <argsstring></argsstring>
+        <name>is_rate_limited</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::is_rate_limited</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if rate-limited </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="46" column="10" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1a1f48c26b36b056af8d77ced35724cb2a" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::RateLimitInfo::limit_per_window</definition>
+        <argsstring></argsstring>
+        <name>limit_per_window</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::limit_per_window</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests allowed per window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="47" column="19" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1a9b8db3f6d9a6ed6e9add05d1c36d8b81" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::RateLimitInfo::remaining_in_window</definition>
+        <argsstring></argsstring>
+        <name>remaining_in_window</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::remaining_in_window</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests still available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="48" column="19" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1a605434f6be5c4763ad56dbd03de83ade" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::RateLimitInfo::reset_timestamp</definition>
+        <argsstring></argsstring>
+        <name>reset_timestamp</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::reset_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp when limit resets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="49" column="19" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1a6715c9d36326ba1b154846718c50897c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::ingestion::RateLimitInfo::retry_after</definition>
+        <argsstring></argsstring>
+        <name>retry_after</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::retry_after</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Time to wait before retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="50" column="26" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_rate_limit_info_1aae9f4a2d4207c056f6c249c3fd027969" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::RateLimitInfo::header_source</definition>
+        <argsstring></argsstring>
+        <name>header_source</name>
+        <qualifiedname>themis::ingestion::RateLimitInfo::header_source</qualifiedname>
+        <briefdescription>
+<para>Which header was parsed (for debugging). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="51" column="17" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed rate limit information from HTTP response headers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extracted from common rate limit headers:<itemizedlist>
+<listitem><para>RateLimit-Limit: total request limit</para>
+</listitem><listitem><para>RateLimit-Remaining: requests remaining in current window</para>
+</listitem><listitem><para>RateLimit-Reset: Unix timestamp when limit resets</para>
+</listitem><listitem><para>Retry-After: seconds to wait before retrying</para>
+</listitem><listitem><para>X-RateLimit-* variants (GitHub, other APIs) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/ingestion/adaptive_rate_limiter.h" line="45" column="1" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="45" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1aae9f4a2d4207c056f6c249c3fd027969" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>header_source</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a5fc3051a4bb17f5205d76bf54a0ea78e" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>is_rate_limited</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a1f48c26b36b056af8d77ced35724cb2a" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>limit_per_window</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a9b8db3f6d9a6ed6e9add05d1c36d8b81" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>remaining_in_window</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a605434f6be5c4763ad56dbd03de83ade" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>reset_timestamp</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a6715c9d36326ba1b154846718c50897c" prot="public" virt="non-virtual"><scope>themis::ingestion::RateLimitInfo</scope><name>retry_after</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

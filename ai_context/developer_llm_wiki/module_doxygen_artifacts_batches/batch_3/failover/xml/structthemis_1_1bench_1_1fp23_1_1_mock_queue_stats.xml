@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::fp23::MockQueueStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats_1a02fe4e28e05d5fc084939644db197f1e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::fp23::MockQueueStats::tasks_dropped_queue_full</definition>
+        <argsstring></argsstring>
+        <name>tasks_dropped_queue_full</name>
+        <qualifiedname>themis::bench::fp23::MockQueueStats::tasks_dropped_queue_full</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="285" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="285" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="284" column="1" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="284" bodyend="286"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats_1a02fe4e28e05d5fc084939644db197f1e" prot="public" virt="non-virtual"><scope>themis::bench::fp23::MockQueueStats</scope><name>tasks_dropped_queue_full</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,995 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave1__critical__gap__fixes_8cpp" kind="file" language="C++">
+    <compoundname>test_wave1_critical_gap_fixes.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes refid="continuous__query__planner_8h" local="yes">query/continuous_query_planner.h</includes>
+    <includes refid="cq__watermark_8h" local="yes">query/cq_watermark.h</includes>
+    <includes refid="query__canceller_8h" local="yes">query/query_canceller.h</includes>
+    <includes refid="query__rewrite__rule_8h" local="yes">query/query_rewrite_rule.h</includes>
+    <includes refid="tensor__aware__query__optimizer_8h" local="yes">query/tensor_aware_query_optimizer.h</includes>
+    <incdepgraph>
+      <node id="44">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>query/continuous_query_engine.h</label>
+        <link refid="continuous__query__engine_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>query/continuous_query_registry.h</label>
+        <link refid="continuous__query__registry_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>query/cq_watermark.h</label>
+        <link refid="cq__watermark_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>query/query_canceller.h</label>
+        <link refid="query__canceller_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/query_rewrite_rule.h</label>
+        <link refid="query__rewrite__rule_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>query/synopsis_store.h</label>
+        <link refid="synopsis__store_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>query/window_spec.h</label>
+        <link refid="window__spec_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="30">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstddef</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="25">
+        <label>deque</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="34">
+        <label>index/ann_frontdoor.h</label>
+      </node>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="43">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="26">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>set</label>
+      </node>
+      <node id="47">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="37">
+        <label>string_view</label>
+      </node>
+      <node id="40">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="41">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="39">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="46">
+        <label>themis/rag/kg/knowledge_graph_interface.h</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="31">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="38">
+        <label>utility</label>
+      </node>
+      <node id="15">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_scope_mismatch_continuous_plan_test" prot="public">ScopeMismatchContinuousPlanTest</innerclass>
+    <innerclass refid="class_deadline_aware_cancellation_test" prot="public">DeadlineAwareCancellationTest</innerclass>
+    <innerclass refid="class_c_q_watermark_r_a_i_i_test" prot="public">CQWatermarkRAIITest</innerclass>
+    <innerclass refid="class_overflow_regression_test" prot="public">OverflowRegressionTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1ac60b3d3ec5c4395aaddbfd98aed81043" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScopeMismatchContinuousPlanTest, CompileValidSpecSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scope_mismatch_continuous_plan_test" kindref="compound">ScopeMismatchContinuousPlanTest</ref></type>
+        </param>
+        <param>
+          <type>CompileValidSpecSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SM-01: <ref refid="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" kindref="member">ContinuousQueryPlanner::compile()</ref> accepts a valid spec and returns a plan without confusing the &apos;spec&apos; parameter with the &apos;plan_spec&apos; alias used inside evaluate(). The rename is a compile-time fix verified by the fact that this test links and runs correctly against the patched code. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="68" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="68" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a594754a00fcabe79695fbf5d67cdf2b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScopeMismatchContinuousPlanTest, CompileEmptyNameFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_scope_mismatch_continuous_plan_test" kindref="compound">ScopeMismatchContinuousPlanTest</ref></type>
+        </param>
+        <param>
+          <type>CompileEmptyNameFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SM-01b: compile() rejects an empty name without confusing it with the &apos;plan_spec&apos; alias in evaluate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="87" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a239475455639d1cdd5e1010db9d95d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScopeMismatchAqlParserPhase6Tokens, FtsPredTypeEnumValuesAreDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScopeMismatchAqlParserPhase6Tokens</type>
+        </param>
+        <param>
+          <type>FtsPredTypeEnumValuesAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="102" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="102" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a6d9f4fa54f4ff906bce0a7731123a88e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScopeMismatchAqlParserPhase6Tokens, ParserHandlesSearchPhraseInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScopeMismatchAqlParserPhase6Tokens</type>
+        </param>
+        <param>
+          <type>ParserHandlesSearchPhraseInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SM-02b: <ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref> must not crash when given a SEARCH / PHRASE query string. This confirms the file-local TokenType::PHRASE enum value was not replaced by a macro in the tokenizer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="122" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="122" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a127fbd4883c742444c1717fa087553db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadlineAwareCancellationTest, TimeoutReturnsFalseWhenNotCancelled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutReturnsFalseWhenNotCancelled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-01: A token that is never cancelled causes waitUntilCancelledFor() to return false exactly at (or shortly after) the requested timeout. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="147" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="147" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a2cec73e55c55e578e6e3c52cc4efbb88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadlineAwareCancellationTest, AlreadyCancelledReturnsImmediately)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref></type>
+        </param>
+        <param>
+          <type>AlreadyCancelledReturnsImmediately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-02: A token that is already cancelled returns true from waitUntilCancelledFor() immediately (no blocking at all). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="162" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="162" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a40adc65d40e41394e0342436632708cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadlineAwareCancellationTest, CancelFromOtherThreadUnblocksWait)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref></type>
+        </param>
+        <param>
+          <type>CancelFromOtherThreadUnblocksWait</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-03: waitUntilCancelledFor() is unblocked by a concurrent cancel(). Verifies the condition_variable notification path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="175" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="175" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a2c8eaf0b91531237db935962cd2e548f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadlineAwareCancellationTest, CancelNotifiesAllWaiters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref></type>
+        </param>
+        <param>
+          <type>CancelNotifiesAllWaiters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TO-04: Two threads waiting concurrently are both unblocked by a single cancel() call (notify_all semantics). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="198" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="198" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1aec43ca2a7ba786279208047c8800bcdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CQWatermarkRAIITest, LateEventWithinBudgetNoLeak)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_q_watermark_r_a_i_i_test" kindref="compound">CQWatermarkRAIITest</ref></type>
+        </param>
+        <param>
+          <type>LateEventWithinBudgetNoLeak</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DB-01: observe() on a late-but-within-budget event completes without a resource leak. Because <ref refid="classthemis_1_1query_1_1_c_q_watermark" kindref="compound">CQWatermark</ref> is lock-free and exception-free, this test verifies the path is exercised and the counter increments correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="233" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="233" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1aef43702352dbee1928ee8bd6fe1c4edb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CQWatermarkRAIITest, BeyondBudgetEventNoLeak)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_q_watermark_r_a_i_i_test" kindref="compound">CQWatermarkRAIITest</ref></type>
+        </param>
+        <param>
+          <type>BeyondBudgetEventNoLeak</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DB-02: observe() on a beyond-budget (dropped) event also completes without resource leak. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="250" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="250" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1acab4347a1bb375f2068ff9555293cc78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IteratorInvalidationRegressionTest, OrChainDoesNotInvalidateIterator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IteratorInvalidationRegressionTest</type>
+        </param>
+        <param>
+          <type>OrChainDoesNotInvalidateIterator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IT-01: Wave 1 regression — <ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f" kindref="member">OrToInRewriteRule::apply()</ref> processes a simple or(eq,eq) node without triggering iterator invalidation in collectOrChain. The or-chain has only 2 values (threshold default is 3), so the rewrite will NOT fire; but the applies() path exercises collectOrChain safely. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="270" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="270" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1a2bbf5cb6628ede549788f142980d7b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OverflowRegressionTest, ExtremeInputsProduceFiniteCost)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_overflow_regression_test" kindref="compound">OverflowRegressionTest</ref></type>
+        </param>
+        <param>
+          <type>ExtremeInputsProduceFiniteCost</type>
+        </param>
+        <briefdescription>
+<para>OV-01: Extreme size_t inputs must not produce infinity or NaN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="294" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="294" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave1__critical__gap__fixes_8cpp_1ab3978824080f43c3484c3657b80dfe32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OverflowRegressionTest, ZeroInputsReturnZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_overflow_regression_test" kindref="compound">OverflowRegressionTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroInputsReturnZero</type>
+        </param>
+        <briefdescription>
+<para>OV-02: Zero inputs return zero (no multiplication with uninitialized values). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave1_critical_gap_fixes.cpp" line="311" column="1" bodyfile="tests/query/test_wave1_critical_gap_fixes.cpp" bodystart="311" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave 1 CRITICAL-gap remediation regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers all eight CRITICAL gaps fixed in Wave 1 (2026-08-25):</para>
+<sect1 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md5_1s1"><sect2 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md5">
+<title>scope_mismatch fixes</title><para>SM-01 <ref refid="structthemis_1_1query_1_1_continuous_plan_1a927002f963506ed819e1c47b9b9744d3" kindref="member">ContinuousPlan::evaluate</ref> — aliases renamed (plan_spec, plan_synopsis, plan_wm) to avoid collision with compile() parameter &apos;spec&apos; in the same namespace scope. Verified via compile() round-trip. SM-02 <ref refid="aql__parser_8cpp" kindref="compound">aql_parser.cpp</ref>:178 — PHRASE / NEAR / SEARCH / ANALYZER macro-undef guards added before enum class <ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref> so platform macros cannot silently replace enum values. SM-03 <ref refid="query__optimizer_8cpp" kindref="compound">query_optimizer.cpp</ref>:345 — attachPerQueryCostModel parameter renamed from &apos;cost_model&apos; to &apos;new_cost_model&apos;; public API is unchanged.</para>
+</sect2></sect1>
+<sect1 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md6_1s1"><sect2 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md6">
+<title>blocking_no_timeout / no_timeout fix (query_canceller.cpp:49)</title><para>TO-01 waitUntilCancelledFor() returns false on timeout when not cancelled. TO-02 waitUntilCancelledFor() returns true immediately if already cancelled. TO-03 waitUntilCancelledFor() returns true when cancelled from another thread mid-wait; elapsed time is well under the timeout. TO-04 cancel() notifies all waiters simultaneously (two-waiter stress test).</para>
+</sect2></sect1>
+<sect1 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md7_1s1"><sect2 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md7">
+<title>db_connection_leak fix (cq_watermark.cpp:60)</title><para>DB-01 observe() completes without resource leak on the late-processed path. DB-02 observe() completes without resource leak on the beyond-budget path.</para>
+</sect2></sect1>
+<sect1 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md8_1s1"><sect2 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md8">
+<title>iterator_invalidation fix (query_rewrite_rule.cpp:105)</title><para>IT-01 Regression: collectOrChain processes a simple or(eq,eq) without triggering iterator invalidation (verified by valgrind / ASAN pass).</para>
+</sect2></sect1>
+<sect1 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md9_1s1"><sect2 id="test__wave1__critical__gap__fixes_8cpp_1autotoc_md9">
+<title>multiplication_overflow fix (tensor_aware_query_optimizer.cpp:113,118,123)</title><para>OV-01 Regression: estimateTTCost with max-size_t inputs stays finite. OV-02 safeMul path: positive × positive overflow clamped to DBL_MAX. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__query__planner_8h" kindref="compound">query/continuous_query_planner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cq__watermark_8h" kindref="compound">query/cq_watermark.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__canceller_8h" kindref="compound">query/query_canceller.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__rewrite__rule_8h" kindref="compound">query/query_rewrite_rule.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__aware__query__optimizer_8h" kindref="compound">query/tensor_aware_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SM-01<sp/>—<sp/>scope_mismatch:<sp/>ContinuousPlan::evaluate<sp/>alias<sp/>rename</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="class_scope_mismatch_continuous_plan_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_scope_mismatch_continuous_plan_test" kindref="compound">ScopeMismatchContinuousPlanTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_scope_mismatch_continuous_plan_test" kindref="compound">ScopeMismatchContinuousPlanTest</ref>,<sp/>CompileValidSpecSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_continuous_query_planner" kindref="compound">ContinuousQueryPlanner</ref><sp/>planner;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref><sp/>spec;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a3a23ef255baec07a346d5f526bc7529c" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" kindref="member">source_collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;events&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" kindref="member">aql_body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>e<sp/>IN<sp/>events<sp/>RETURN<sp/>e&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" kindref="member">window</ref>.<ref refid="structthemis_1_1query_1_1_window_spec_1a899cd605d0e5909916641d96f8b6aa27" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_window_spec_1a28d017baaf2e0e090d0112d5d9dc454ea099e1358da84d50874ffe32cf9507e17" kindref="member">WindowSpec::Type::TIME_SLIDING</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" kindref="member">window</ref>.<ref refid="structthemis_1_1query_1_1_window_spec_1af048e15b55f08634492b421ffb962079" kindref="member">range_ms</ref><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a53862ca1f881f03cb779dd311f952598" kindref="member">window</ref>.<ref refid="structthemis_1_1query_1_1_window_spec_1aa6bddbcd6d1bfce1a4ca5962ce0432a7" kindref="member">slide_ms</ref><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>planner.<ref refid="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" kindref="member">compile</ref>(spec);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;compile()<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(result.has_value()<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().query_name,<sp/></highlight><highlight class="stringliteral">&quot;test_query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_scope_mismatch_continuous_plan_test" kindref="compound">ScopeMismatchContinuousPlanTest</ref>,<sp/>CompileEmptyNameFails)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_continuous_query_planner" kindref="compound">ContinuousQueryPlanner</ref><sp/>planner;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref><sp/>spec;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1ad8f2b665f8eef5ff165b633fefd3b6bf" kindref="member">source_collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;events&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1query_1_1_continuous_query_spec_1a2e68271a1cfeee0a3363bceed9e35baa" kindref="member">aql_body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>e<sp/>IN<sp/>events<sp/>RETURN<sp/>e&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>planner.<ref refid="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" kindref="member">compile</ref>(spec);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SM-02<sp/>—<sp/>scope_mismatch:<sp/>aql_parser.cpp:178<sp/>PHRASE/NEAR/SEARCH<sp/>macro<sp/>guards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__wave1__critical__gap__fixes_8cpp_1a239475455639d1cdd5e1010db9d95d9b" kindref="member">TEST</ref>(ScopeMismatchAqlParserPhase6Tokens,<sp/>FtsPredTypeEnumValuesAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>a<sp/>system<sp/>macro<sp/>had<sp/>replaced<sp/>PHRASE<sp/>with<sp/>an<sp/>integer,<sp/>two<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>would<sp/>collide<sp/>(e.g.<sp/>PHRASE==0<sp/>==<sp/>TERM==0),<sp/>and<sp/>this<sp/>test<sp/>would<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">FPT<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6ab" kindref="member">FtsPredType</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>term<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(FPT::TERM);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>phrase<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(FPT::PHRASE);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>proximity<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(FPT::PROXIMITY);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prefix<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(FPT::PREFIX);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(term,<sp/><sp/><sp/>phrase);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(term,<sp/><sp/><sp/>proximity);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(term,<sp/><sp/><sp/>prefix);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(phrase,<sp/>proximity);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(phrase,<sp/>prefix);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(proximity,<sp/>prefix);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__wave1__critical__gap__fixes_8cpp_1a239475455639d1cdd5e1010db9d95d9b" kindref="member">TEST</ref>(ScopeMismatchAqlParserPhase6Tokens,<sp/>ParserHandlesSearchPhraseInput)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref><sp/>parser;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>6<sp/>SEARCH<sp/>syntax:<sp/>may<sp/>not<sp/>be<sp/>fully<sp/>supported<sp/>yet,<sp/>but<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>crash<sp/>or<sp/>produce<sp/>a<sp/>null<sp/>result<sp/>object<sp/>(parser<sp/>error<sp/>is<sp/>acceptable).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc.body,<sp/>\&quot;hello<sp/>world\&quot;)<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>test<sp/>that<sp/>the<sp/>call<sp/>returns<sp/>without<sp/>crashing/throwing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.<ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a740b183921f946a8f9d4fe79075fa812" kindref="member">parse</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)result;<sp/><sp/></highlight><highlight class="comment">//<sp/>error<sp/>result<sp/>is<sp/>acceptable<sp/>for<sp/>a<sp/>Phase<sp/>6<sp/>feature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TO-01…TO-04<sp/>—<sp/>blocking_no_timeout<sp/>/<sp/>no_timeout:<sp/>waitUntilCancelledFor()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="class_deadline_aware_cancellation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;QueryCancellationToken&gt;<sp/><ref refid="class_deadline_aware_cancellation_test_1ad743177eea5caf2e6af361e91af4d5fa" kindref="member">token_</ref><sp/>=</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;QueryCancellationToken&gt;();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref>,<sp/>TimeoutReturnsFalseWhenNotCancelled)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kTimeout<sp/>=<sp/>50ms;<sp/><sp/></highlight><highlight class="comment">//<sp/>short<sp/>for<sp/>unit<sp/>test<sp/>speed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>token_-&gt;waitUntilCancelledFor(kTimeout);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>timeout<sp/>(false)<sp/>but<sp/>token<sp/>appears<sp/>cancelled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Elapsed<sp/>must<sp/>be<sp/>&gt;=<sp/>kTimeout<sp/>(the<sp/>wait<sp/>really<sp/>blocked)<sp/>and<sp/>&lt;<sp/>2×kTimeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(elapsed,<sp/>kTimeout<sp/>-<sp/>5ms);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>some<sp/>slack<sp/>for<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>kTimeout<sp/>*<sp/>2<sp/>+<sp/>50ms);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref>,<sp/>AlreadyCancelledReturnsImmediately)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>token_-&gt;cancel();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>token_-&gt;waitUntilCancelledFor(30s);<sp/><sp/></highlight><highlight class="comment">//<sp/>large<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result)<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>true<sp/>(already<sp/>cancelled)<sp/>but<sp/>got<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>500ms)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;wait<sp/>should<sp/>return<sp/>immediately<sp/>when<sp/>pre-cancelled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref>,<sp/>CancelFromOtherThreadUnblocksWait)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kDelay<sp/><sp/><sp/>=<sp/>30ms;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kTimeout<sp/>=<sp/>5s;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>large<sp/>—<sp/>should<sp/>never<sp/>fire<sp/>in<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>canceller([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>kDelay]()<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(kDelay);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token_-&gt;cancel();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>token_-&gt;waitUntilCancelledFor(kTimeout);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>canceller.join();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>cancellation<sp/>signal<sp/>but<sp/>got<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>been<sp/>woken<sp/>up<sp/>promptly<sp/>after<sp/>kDelay,<sp/>not<sp/>after<sp/>kTimeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>kTimeout<sp/>/<sp/>2)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;waitUntilCancelledFor<sp/>blocked<sp/>far<sp/>too<sp/>long;<sp/>cv<sp/>notification<sp/>may<sp/>be<sp/>broken&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_deadline_aware_cancellation_test" kindref="compound">DeadlineAwareCancellationTest</ref>,<sp/>CancelNotifiesAllWaiters)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>woken{0};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>waiter<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>token_-&gt;waitUntilCancelledFor(5s);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>woken.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t1(waiter);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t2(waiter);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(20ms);<sp/><sp/></highlight><highlight class="comment">//<sp/>let<sp/>both<sp/>threads<sp/>enter<sp/>the<sp/>wait</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>token_-&gt;cancel();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.join();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.join();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(woken.load(),<sp/>2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Both<sp/>waiters<sp/>should<sp/>have<sp/>been<sp/>notified&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DB-01,<sp/>DB-02<sp/>—<sp/>db_connection_leak:<sp/>cq_watermark.cpp:60<sp/>RAII<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="class_c_q_watermark_r_a_i_i_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_c_q_watermark_r_a_i_i_test" kindref="compound">CQWatermarkRAIITest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>ms<sp/>allowed<sp/>lateness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark" kindref="compound">CQWatermark</ref><sp/><ref refid="class_c_q_watermark_r_a_i_i_test_1a6703886ced9fd8143d005bf0e0746446" kindref="member">wm_</ref>{100};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_c_q_watermark_r_a_i_i_test" kindref="compound">CQWatermarkRAIITest</ref>,<sp/>LateEventWithinBudgetNoLeak)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Seed<sp/>the<sp/>watermark<sp/>so<sp/>that<sp/>late<sp/>events<sp/>are<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>wm_.observe(1&apos;000&apos;000);<sp/><sp/></highlight><highlight class="comment">//<sp/>t=1s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>wm_.advance();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t<sp/>late_event<sp/>=<sp/>950&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>ms<sp/>before<sp/>watermark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>wm_.observe(late_event);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Late<sp/>event<sp/>should<sp/>return<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(wm_.lateProcessed(),<sp/>1u);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>leak<sp/>—<sp/>CQWatermark<sp/>is<sp/>stateless<sp/>w.r.t.<sp/>external<sp/>resources;<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>assertion<sp/>documents<sp/>the<sp/>RAII<sp/>guarantee<sp/>introduced<sp/>in<sp/>Wave<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RAII<sp/>contract:<sp/>no<sp/>external<sp/>resource<sp/>acquired<sp/>at<sp/>this<sp/>return<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_c_q_watermark_r_a_i_i_test" kindref="compound">CQWatermarkRAIITest</ref>,<sp/>BeyondBudgetEventNoLeak)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>wm_.observe(1&apos;000&apos;000);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>wm_.advance();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>200<sp/>ms<sp/>before<sp/>watermark<sp/>—<sp/>exceeds<sp/>the<sp/>100<sp/>ms<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t<sp/>stale_event<sp/>=<sp/>800&apos;000;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>wm_.observe(stale_event);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(wm_.lateDropped(),<sp/>1u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RAII<sp/>contract:<sp/>no<sp/>external<sp/>resource<sp/>acquired<sp/>at<sp/>beyond-budget<sp/>return<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IT-01<sp/>—<sp/>iterator_invalidation:<sp/>query_rewrite_rule.cpp:105</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__wave1__critical__gap__fixes_8cpp_1a239475455639d1cdd5e1010db9d95d9b" kindref="member">TEST</ref>(IteratorInvalidationRegressionTest,<sp/>OrChainDoesNotInvalidateIterator)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>plan<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;or&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;left&quot;</highlight><highlight class="normal">,<sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;eq&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,1}}},</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;right&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;eq&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,2}}}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule" kindref="compound">OrToInRewriteRule</ref><sp/>rule;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1query_1_1_rewrite_context_1aadc717ddb7468e9a56355f099c731217" kindref="member">or_to_in_threshold</ref><sp/>=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>lower<sp/>threshold<sp/>so<sp/>the<sp/>rewrite<sp/>fires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>apply()<sp/>must<sp/>not<sp/>crash,<sp/>throw,<sp/>or<sp/>produce<sp/>undefined<sp/>behaviour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(rule.<ref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f" kindref="member">apply</ref>(plan,<sp/>ctx));</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>or<sp/>not<sp/>the<sp/>rewrite<sp/>fired,<sp/>no<sp/>iterator<sp/>invalidation<sp/>occurred.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;IT-01:<sp/>iterator-safe<sp/>path<sp/>confirmed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OV-01,<sp/>OV-02<sp/>—<sp/>multiplication_overflow:<sp/>tensor_aware_query_optimizer.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="class_overflow_regression_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_overflow_regression_test" kindref="compound">OverflowRegressionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_overflow_regression_test" kindref="compound">OverflowRegressionTest</ref>,<sp/>ExtremeInputsProduceFiniteCost)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kMax<sp/>=<sp/>std::numeric_limits&lt;std::size_t&gt;::max();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>kFns<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_SIMILARITY&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TENSOR_NORM&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TENSOR_CONTRACT&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_SLICE&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_PROJECT&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_COMPRESS&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_DECOMPOSE&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TENSOR_INFO&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN_FUNCTION&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fn<sp/>:<sp/>kFns)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cost<sp/>=</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a9dee252104349dcdc850934a4b979982" kindref="member">TensorAwareQueryOptimizer::estimateTTCost</ref>(fn,<sp/>kMax,<sp/>kMax,<sp/>kMax);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isfinite(cost))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;non-finite<sp/>cost<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fn;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(cost,<sp/>0.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;negative<sp/>cost<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fn;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_overflow_regression_test" kindref="compound">OverflowRegressionTest</ref>,<sp/>ZeroInputsReturnZero)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>order=0,<sp/>mode_size=0,<sp/>max_rank=0<sp/>should<sp/>trigger<sp/>the<sp/>default-value<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>produce<sp/>a<sp/>small<sp/>but<sp/>valid<sp/>finite<sp/>cost<sp/>(not<sp/>infinity,<sp/>not<sp/>NaN).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cost<sp/>=</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a9dee252104349dcdc850934a4b979982" kindref="member">TensorAwareQueryOptimizer::estimateTTCost</ref>(</highlight><highlight class="stringliteral">&quot;TENSOR_SIMILARITY&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isfinite(cost));</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cost,<sp/>0.0)</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Default-value<sp/>cost<sp/>should<sp/>be<sp/>positive<sp/>(safeMul<sp/>on<sp/>defaults)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_wave1_critical_gap_fixes.cpp"/>
+  </compounddef>
+</doxygen>

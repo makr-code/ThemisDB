@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_user_registration_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::UserRegistrationData</compoundname>
+    <includes refid="user__registration__plugin_8h" local="no">user_registration_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1af67c733bb0f3f24bfca7d104cb813abe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::UserRegistrationData::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::UserRegistrationData::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="29" column="17" bodyfile="include/security/user_registration_plugin.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1aa5324860aa437839084ffcda6553482b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::UserRegistrationData::password_hash</definition>
+        <argsstring></argsstring>
+        <name>password_hash</name>
+        <qualifiedname>themis::security::UserRegistrationData::password_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="30" column="17" bodyfile="include/security/user_registration_plugin.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1a582feb47aa8c2c949e0311416be638d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::UserRegistrationData::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::security::UserRegistrationData::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="31" column="17" bodyfile="include/security/user_registration_plugin.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1a23014301fb823701fe0ab490a7102dac" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::UserRegistrationData::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::security::UserRegistrationData::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="32" column="24" bodyfile="include/security/user_registration_plugin.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1ac272e9cf79c63dd16d630e387ae32890" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::UserRegistrationData::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::security::UserRegistrationData::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="35" column="17" bodyfile="include/security/user_registration_plugin.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_user_registration_data_1acf8838c7d54a708792114130cab7db6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::UserRegistrationData::source_uri</definition>
+        <argsstring></argsstring>
+        <name>source_uri</name>
+        <qualifiedname>themis::security::UserRegistrationData::source_uri</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="36" column="17" bodyfile="include/security/user_registration_plugin.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> Registration Data. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Data structure for user registration information that can be provided by external plugins (Apache Arrow, WebDAV, etc.) </para>
+    </detaileddescription>
+    <location file="include/security/user_registration_plugin.h" line="28" column="1" bodyfile="include/security/user_registration_plugin.h" bodystart="28" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1a23014301fb823701fe0ab490a7102dac" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1aa5324860aa437839084ffcda6553482b" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>password_hash</name></member>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1a582feb47aa8c2c949e0311416be638d9" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>roles</name></member>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1ac272e9cf79c63dd16d630e387ae32890" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>source</name></member>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1acf8838c7d54a708792114130cab7db6e" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>source_uri</name></member>
+      <member refid="structthemis_1_1security_1_1_user_registration_data_1af67c733bb0f3f24bfca7d104cb813abe" prot="public" virt="non-virtual"><scope>themis::security::UserRegistrationData</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
